@@ -25,8 +25,22 @@ def get_embedding(text, model="bge-m3"):
     """
     Verilen metin için Ollama kullanarak vektör (embedding) üretir.
     """
-    response = ollama.embeddings(model=model, prompt=text)
-    return response['embedding']
+    response = ollama.embed(model=model, input=text)
+    return response.embeddings[0]
+
+def get_embeddings(texts, model="bge-m3", batch_size=16):
+    """
+    Verilen metin listesi için Ollama kullanarak toplu vektör (embedding) üretir.
+    """
+    if not texts:
+        return []
+    
+    embeddings = []
+    for i in range(0, len(texts), batch_size):
+        batch = texts[i:i + batch_size]
+        response = ollama.embed(model=model, input=batch)
+        embeddings.extend(response.embeddings)
+    return embeddings
 
 def rerank(query, documents, model_name='BAAI/bge-reranker-v2-m3'):
     """
