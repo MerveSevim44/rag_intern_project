@@ -64,4 +64,4 @@ def rerank(query, documents, model_name='BAAI/bge-reranker-v2-m3'):
     # Skorları ve dokümanları eşleştirip azalan sırada sırala
     results = list(zip(scores, documents))
     results.sort(key=lambda x: x[0], reverse=True)
-    return results
+    return results
