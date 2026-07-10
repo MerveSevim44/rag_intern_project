@@ -335,7 +335,7 @@ if question := st.chat_input("Sorunuzu yazın…"):
     # Kullanıcı mesajını geçmişe ekle ve göster
     st.session_state.messages.append({"role": "user", "content": question})
     st.markdown(
-        f'<div class="chat-user">🧑 {question}</div>',
+        f'<div class="chat-user">👩 {question}</div>',
         unsafe_allow_html=True,
     )
 
