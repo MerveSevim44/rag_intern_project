@@ -81,6 +81,109 @@ def extract_chunks_from_docx(file_path: Path) -> list[str]:
 
     return chunks
 
+def ingest_single_file(file_path, db_path=DB_PATH, model=EMBED_MODEL, batch_size=BATCH_SIZE):
+    """
+    Ingests a single file into the SQLite database.
+    If the file was previously ingested, its old chunks are replaced.
+
+    Args:
+        file_path: Path to the file (str or Path).
+        db_path: Path to the SQLite database.
+        model: Embedding model name.
+        batch_size: Batch size for embedding generation.
+
+    Returns:
+        int: Number of chunks ingested.
+
+    Raises:
+        ValueError: If file type is not supported or no text could be extracted.
+        Exception: If embedding generation or DB insertion fails.
+    """
+    init_db(db_path)
+    file_path = Path(file_path)
+
+    if not file_path.exists():
+        raise ValueError(f"File not found: {file_path}")
+
+    ext = file_path.suffix.lower()
+    if ext not in {".txt", ".pdf", ".docx"}:
+        raise ValueError(f"Unsupported file type: {ext}. Supported: .txt, .pdf, .docx")
+
+    # Extract chunks based on file type
+    if ext == ".txt":
+        chunks = extract_chunks_from_txt(file_path)
+    elif ext == ".pdf":
+        chunks = extract_chunks_from_pdf(file_path)
+    elif ext == ".docx":
+        chunks = extract_chunks_from_docx(file_path)
+
+    if not chunks:
+        raise ValueError(f"No text could be extracted from {file_path.name}")
+
+    source_name = f"data/{file_path.name}"
+
+    with sqlite3.connect(db_path) as conn:
+        cursor = conn.cursor()
+
+        # Delete old chunks for this source (re-ingest)
+        cursor.execute("DELETE FROM chunks WHERE source = ?", (source_name,))
+        deleted = cursor.rowcount
+        if deleted > 0:
+            print(f"Deleted {deleted} old chunks for {source_name}.")
+
+        # Generate embeddings
+        embeddings = get_embeddings(chunks, model=model, batch_size=batch_size)
+
+        # Insert new chunks
+        data_to_insert = []
+        for chunk, embedding in zip(chunks, embeddings):
+            embedding_json = json.dumps(embedding)
+            data_to_insert.append((source_name, chunk, embedding_json))
+
+        cursor.executemany(
+            "INSERT INTO chunks (source, content, embedding) VALUES (?, ?, ?)",
+            data_to_insert
+        )
+
+    return len(chunks)
+
+
+def list_ingested_sources(db_path=DB_PATH):
+    """
+    Returns a list of ingested document sources with chunk counts.
+
+    Returns:
+        list[dict]: Each dict has 'source' (str) and 'chunk_count' (int).
+    """
+    try:
+        with sqlite3.connect(db_path) as conn:
+            cursor = conn.cursor()
+            cursor.execute(
+                "SELECT source, COUNT(*) as cnt FROM chunks GROUP BY source ORDER BY source"
+            )
+            rows = cursor.fetchall()
+        return [{"source": row[0], "chunk_count": row[1]} for row in rows]
+    except Exception:
+        return []
+
+
+def delete_source(source_name, db_path=DB_PATH):
+    """
+    Deletes all chunks for a given source from the database.
+
+    Args:
+        source_name: The source identifier (e.g., 'data/test1.txt').
+        db_path: Path to the SQLite database.
+
+    Returns:
+        int: Number of chunks deleted.
+    """
+    with sqlite3.connect(db_path) as conn:
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM chunks WHERE source = ?", (source_name,))
+        return cursor.rowcount
+
+
 def ingest_files(data_dir=DATA_DIR, db_path=DB_PATH, model=EMBED_MODEL, batch_size=BATCH_SIZE):
     """
     Ingests all supported files in data_dir into the SQLite database.

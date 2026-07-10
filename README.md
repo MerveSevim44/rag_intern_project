@@ -13,3 +13,19 @@ FoundryLocalManager.initialize(config)                             # 2) Singleto
 manager = FoundryLocalManager.instance 
 
 : önce Configuration → initialize → catalog'dan modeli çek → indir → yükle → chat client al.
+
+embedder.py     → Araç kutusu (kimseyi çağırmaz, herkes onu çağırır)
+llm_client.py   → Araç kutusu (kimseyi çağırmaz, herkes onu çağırır)
+
+ingest.py       → embedder.py'yi çağırır (embed etmek için)
+                  SQLite'a yazar
+                  SADECE BİR KEZ çalışır
+
+retrieval.py    → embedder.py'yi çağırır (soruyu embed etmek için)
+                  SQLite'tan okur
+                  Her soru geldiğinde çalışır
+
+app.py          → HEPSİNİ birleştirir
+                  retrieval.py'yi çağırır (chunk bul)
+                  llm_client.py'yi çağırır (cevap üret)
+                  Kullanıcıyla konuşur

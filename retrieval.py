@@ -40,7 +40,12 @@ def retrieve(query: str, db_path=DB_PATH, model=EMBED_MODEL,
     # ── ADIM 1: Soruyu vektöre çevir ──────────────────────────────
     # Aynı modeli kullanıyoruz (bge-m3), böylece soru vektörü ile
     # chunk vektörleri aynı uzayda oluyor → karşılaştırma anlamlı olur.
-    query_embedding = get_embedding(query, model=model)
+    try:
+        query_embedding = get_embedding(query, model=model)
+    except Exception as e:
+        raise ConnectionError(
+            f"Embedding oluşturulamadı (Ollama çalışıyor mu? '{model}' modeli yüklü mü?): {e}"
+        ) from e
 
     # ── ADIM 2: Veritabanından tüm chunk'ları çek ────────────────
     # Her chunk'ın source (dosya adı), content (metin) ve
@@ -101,6 +106,10 @@ def retrieve(query: str, db_path=DB_PATH, model=EMBED_MODEL,
     return top_candidates[:rerank_top_n]
 
 
+# Alias for compatibility with app.py imports
+get_top_chunks = retrieve
+
+
 # ─── Test: Doğrudan çalıştırılırsa örnek sorgu yap ───────────────
 if __name__ == "__main__":
     test_query = "Bağlamdan bağımsız dilbilgisi nedir?"
@@ -109,11 +118,11 @@ if __name__ == "__main__":
     results = retrieve(test_query)
 
     if not results:
-        print("Sonuç bulunamadı.")
+        print("Sonuc bulunamadi.")
     else:
         for i, r in enumerate(results, 1):
-            print(f"─── Sonuç {i} (skor: {r['score']:.4f}) ───")
+            print(f"--- Sonuc {i} (skor: {r['score']:.4f}) ---")
             print(f"Kaynak: {r['source']}")
-            # İçeriğin ilk 200 karakterini göster
-            print(f"İçerik: {r['content'][:200]}...")
+            # Icerik ilk 200 karakterini goster
+            print(f"Icerik: {r['content'][:200]}...")
             print()
