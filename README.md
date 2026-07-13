@@ -82,3 +82,10 @@ Projenin geliştirilmesi aşamasında elde edilen önemli bulgular ve tecrübele
 *   **Foundry Local Başlatma:** SDK'nın güncel sürümlerinde doğrudan `FoundryLocalManager(alias)` şeklinde model adı verilmesi desteklenmemektedir. Bunun yerine önce bir `Configuration` nesnesi tanımlanmalı, `FoundryLocalManager.initialize(config)` ile singleton başlatılmalı ve `FoundryLocalManager.instance` üzerinden erişim sağlanmalıdır.
 *   **Vektör Depolama:** Küçük/orta ölçekli doküman setlerinde SQLite kullanımı oldukça pratik ve hızlıdır. Vektörler veritabanında JSON string (vektör listesi) olarak saklanır ve arama esnasında cosine similarity hesabı Python katmanında hızlıca gerçekleştirilir.
 *   **Reranker Katkısı:** Cosine similarity hızlı bir ilk eleme yaparken, Cross-Encoder reranker (`BAAI/bge-reranker-v2-m3`) soru ve doküman çiftlerini daha hassas değerlendirerek en doğru bilgilerin üst sıralara çıkmasını sağlar.
+
+---
+
+## 📄 Lisans
+
+Bu proje [MIT Lisansı](file:///c:/Users/merve/Desktop/microsoft_intership_project/license) altında lisanslanmıştır. Detaylar için lisans dosyasına göz atabilirsiniz.
+
