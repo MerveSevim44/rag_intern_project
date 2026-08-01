@@ -3,7 +3,6 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-
 # Data directory
 data/
 # C extensions
@@ -127,7 +126,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
-microsoft_intership_project/
+rag_project/
 
 
 
@@ -161,3 +160,5 @@ Thumbs.db
 
 # Project database / local sqlite files
 rag.db
+rag.db-shm
+rag.db-wal

@@ -11,7 +11,7 @@ Akış:
 
 import json
 import sqlite3
-from embedder import get_embedding, cosine_similarity, rerank
+from embedder import get_embedding, cosine_similarity, rerank_indices
 
 # ─── Varsayılan ayarlar ───
 DB_PATH = "rag.db"
@@ -50,9 +50,10 @@ def retrieve(query: str, db_path=DB_PATH, model=EMBED_MODEL,
     # ── ADIM 2: Veritabanından tüm chunk'ları çek ────────────────
     # Her chunk'ın source (dosya adı), content (metin) ve
     # embedding (JSON string olarak saklanan vektör) bilgisini alıyoruz.
-    with sqlite3.connect(db_path) as conn:
+    # timeout: ingest sırasında yazma kilidi varsa hemen hata vermek yerine bekle.
+    with sqlite3.connect(db_path, timeout=30.0) as conn:
         cursor = conn.cursor()
-        cursor.execute("SELECT source, content, embedding FROM chunks")
+        cursor.execute("SELECT id, source, content, embedding, page_info FROM chunks")
         rows = cursor.fetchall()
 
     if not rows:
@@ -63,7 +64,7 @@ def retrieve(query: str, db_path=DB_PATH, model=EMBED_MODEL,
     # Her chunk'ın embedding'ini sorunun embedding'i ile karşılaştır.
     # Skor 1.0'a ne kadar yakınsa, chunk o kadar alakalıdır.
     scored_chunks = []
-    for source, content, embedding_json in rows:
+    for chunk_id, source, content, embedding_json, page_info in rows:
         # Embedding veritabanında JSON string olarak saklanıyor → listeye çevir
         chunk_embedding = json.loads(embedding_json)
 
@@ -71,8 +72,10 @@ def retrieve(query: str, db_path=DB_PATH, model=EMBED_MODEL,
         score = cosine_similarity(query_embedding, chunk_embedding)
 
         scored_chunks.append({
+            "id": chunk_id,
             "source": source,
             "content": content,
+            "page_info": page_info,
             "score": float(score)
         })
 
@@ -87,18 +90,21 @@ def retrieve(query: str, db_path=DB_PATH, model=EMBED_MODEL,
     # en iyi rerank_top_n tanesini seçiyoruz.
     if use_reranker and top_candidates:
         documents = [c["content"] for c in top_candidates]
-        reranked = rerank(query, documents)
 
-        # Reranker sonuçlarını orijinal metadata ile eşleştir
-        # rerank() → [(skor, doküman), ...] döndürüyor
-        content_to_source = {c["content"]: c["source"] for c in top_candidates}
+        # rerank_indices() → [(skor, indeks), ...] döndürür.
+        # Metin yerine indeks üzerinden eşleştiriyoruz: iki chunk'ın metni
+        # birebir aynı olsa bile her sonuç kendi kaynağını/sayfasını korur.
+        reranked = rerank_indices(query, documents)
 
         final_results = []
-        for score, doc in reranked[:rerank_top_n]:
+        for score, idx in reranked[:rerank_top_n]:
+            chunk = top_candidates[idx]
             final_results.append({
-                "source": content_to_source.get(doc, "unknown"),
-                "content": doc,
-                "score": float(score)
+                "id": chunk["id"],
+                "source": chunk["source"],
+                "content": chunk["content"],
+                "score": float(score),
+                "page_info": chunk["page_info"],
             })
         return final_results
 
@@ -112,6 +118,14 @@ get_top_chunks = retrieve
 
 # ─── Test: Doğrudan çalıştırılırsa örnek sorgu yap ───────────────
 if __name__ == "__main__":
+    # Windows konsolu varsayılan olarak cp1254 kullanır ve dokümanlardaki
+    # Yunanca/matematik karakterlerinde UnicodeEncodeError verir.
+    import sys
+    try:
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    except AttributeError:
+        pass
+
     test_query = "Bağlamdan bağımsız dilbilgisi nedir?"
     print(f"Sorgu: {test_query}\n")
 
@@ -122,7 +136,7 @@ if __name__ == "__main__":
     else:
         for i, r in enumerate(results, 1):
             print(f"--- Sonuc {i} (skor: {r['score']:.4f}) ---")
-            print(f"Kaynak: {r['source']}")
+            print(f"Kaynak: {r['source']} ({r['page_info']})")
             # Icerik ilk 200 karakterini goster
             print(f"Icerik: {r['content'][:200]}...")
             print()

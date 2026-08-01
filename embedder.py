@@ -42,6 +42,29 @@ def get_embeddings(texts, model="bge-m3", batch_size=16):
         embeddings.extend(response.embeddings)
     return embeddings
 
+def rerank_indices(query, documents, model_name='BAAI/bge-reranker-v2-m3'):
+    """
+    rerank() ile aynı işi yapar ama doküman metni yerine dokümanın
+    `documents` listesindeki indeksini döndürür.
+
+    İki chunk'ın metni birebir aynı olduğunda metne göre eşleştirme
+    yapmak yanlış kaynak/sayfa bilgisine yol açar; indeks bu belirsizliği
+    tamamen ortadan kaldırır.
+
+    Returns:
+        list of tuple: (skor, indeks) şeklinde azalan sırada liste.
+    """
+    if not documents:
+        return []
+
+    model = get_reranker_model(model_name)
+    pairs = [[query, doc] for doc in documents]
+    scores = model.predict(pairs)
+
+    results = list(zip(scores, range(len(documents))))
+    results.sort(key=lambda x: x[0], reverse=True)
+    return results
+
 def rerank(query, documents, model_name='BAAI/bge-reranker-v2-m3'):
     """
     Cross-Encoder kullanarak dokümanları sorguya göre yeniden sıralar.
