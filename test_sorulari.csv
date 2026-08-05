@@ -1,4 +1,31 @@
 id,zorluk,soru,beklenen_kaynak,dokumanda_var_mi
-1,Kolay,Baglamdan bagimsiz dilbilgisi nedir?,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet
-2,Zor,Kuantum bilgisayarlar nasil calisir?,-,Hayir
-3,Orta,Summer School programinin fazlari nelerdir?,Summer School Foundry Local Plan.docx,Evet
+1,Kolay,Bağlamdan bağımsız dilbilgisi kaç elemanlı bir yapıdır?,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet
+2,Kolay,Bağlamdan bağımsız dilbilgisinde VN neyi ifade eder?,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet
+3,Orta,Soldan türetme nedir?,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet
+4,Orta,Belirgin olmayan dil ne demektir?,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet
+5,Orta,Yararsız değişken nedir?,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet
+6,Zor,Bir değişkenin yararlı olabilmesi için hangi iki koşul sağlanmalıdır?,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet
+7,Zor,Türetme ağacında kökün etiketi ne olmalıdır?,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet
+8,Kolay,Fourier dönüşümünün ileri yönü hangi işlemi yapar?,lsarSist-H8_FourierTransform.pdf,Evet
+9,Orta,Zamanda kaydırma Fourier dönüşümünün genliğini nasıl etkiler?,lsarSist-H8_FourierTransform.pdf,Evet
+10,Orta,Ölçekleme özelliğine göre zaman ekseni daralırsa frekans ekseni ne olur?,lsarSist-H8_FourierTransform.pdf,Evet
+11,Orta,Dualite özelliği neyi ifade eder?,lsarSist-H8_FourierTransform.pdf,Evet
+12,Zor,Bir sinyalin Fourier dönüşümünün var olması için hangi koşullar sağlanmalıdır?,lsarSist-H8_FourierTransform.pdf,Evet
+13,Zor,Nedensel üstel işaretin Fourier dönüşümü nedir?,lsarSist-H8_FourierTransform.pdf,Evet
+14,Orta,Sinüzoidal genlik modülasyonunda demodülasyon nasıl yapılır?,lsarSist-H8_FourierTransform.pdf,Evet
+15,Zor,Kuantum bilgisayarlar nasıl çalışır?,-,Hayir
+16,Zor,Python'da liste ile tuple arasındaki fark nedir?,-,Hayir
+17,Zor,Osmanlı İmparatorluğu ne zaman kuruldu?,-,Hayir
+18,Zor,Blockchain teknolojisi nedir?,-,Hayir
+19,Kolay,Gümüş Yaprak kütüphanesinde çalışan genç çırağın adı nedir?,test1.txt,Evet
+20,Kolay,Kütüphanenin en alt katındaki yasak bölgenin adı nedir?,test1.txt,Evet
+21,Orta,Alis'in akıl hocası olan baş yöneticinin adı nedir?,test1.txt,Evet
+22,Kolay,Anlatıcının kiraladığı dairenin numarası kaçtır?,test2.txt,Evet
+23,Orta,Günlükte çözülen ilk kelime nedir?,test2.txt,Evet
+24,Orta,Korev kimdir?,test2.txt,Evet
+25,Kolay,Summer School programı kaç haftalıktır?,Summer School Foundry Local Plan.docx,Evet
+26,Orta,Summer School programının fazları nelerdir?,Summer School Foundry Local Plan.docx,Evet
+27,Orta,Programın birinci fazında öğrenciler ne öğrenir?,Summer School Foundry Local Plan.docx,Evet
+28,Zor,Programda hangi vektör veritabanı teknolojisi kullanılır?,Summer School Foundry Local Plan.docx,Evet
+29,Zor,Alis hangi programlama dilini kullanarak Fourier dönüşümü hesapladı?,-,Hayir
+30,Zor,Oda No: 304 hikayesinde bağlamdan bağımsız dilbilgisi nasıl anlatılıyor?,-,Hayir

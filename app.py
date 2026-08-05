@@ -17,13 +17,20 @@ from pathlib import Path
 
 import streamlit as st
 
-from llm_client import load_model, ask
+from llm_client import load_model, ask, truncate_chunk_text, truncate_context
 from retrieval import get_top_chunks, RERANK_TOP_N
 from ingest import ingest_single_file, list_ingested_sources, delete_source, DATA_DIR, init_db
 
-# Foundry Local katalogunda gerçekten bulunan alias'lar.
-# phi-3-mini ve llama3.2-3b katalogda yok (catalog.get_model None dönüyor), kaldırıldı.
-MODEL_ALIASES = ["qwen3-0.6b", "qwen2.5-7b"]
+# Kullanıcıya gösterilen ad -> Foundry Local'in tam model ID'si.
+# Kısa alias ("phi-4-mini") KULLANILMIYOR: katalog onu CPU varyantına çözüyor
+# ve GPU hiç devreye girmiyor. Tam ID ile CUDA varyantı garanti altına alınır.
+#
+# Listede yalnızca indirilmiş ve çalıştığı doğrulanmış modeller var.
+# Varsayılan (ilk sıra): qwen2.5-7b — Türkçe cevap kalitesi daha iyi.
+MODEL_OPTIONS = {
+    "qwen2.5-7b (GPU)": "qwen2.5-7b-instruct-cuda-gpu:4",
+    "phi-4-mini (GPU)": "Phi-4-mini-instruct-cuda-gpu:5",
+}
 PREVIEW_CHARS = 200
 
 # ─── Sayfa Yapılandırması ────────────────────────────────────────────────────
@@ -389,8 +396,12 @@ def build_context(chunks: list[dict]) -> str:
         source = Path(chunk["source"]).name
         page_info = chunk.get("page_info", "")
         score = chunk.get("score", 0.0)
-        parts.append(f"[{i}] Kaynak: {source}, {page_info} (skor: {score:.3f})\n{chunk['content']}")
-    return "\n\n".join(parts)
+        # Uzun chunk'lar prompt'u şişirip GPU belleğini taşırıyor (bkz.
+        # llm_client.MAX_CHUNK_CHARS). Kaynak kartlarında tam metin gösterilmeye
+        # devam eder; sadece LLM'e giden kopya kırpılır.
+        content = truncate_chunk_text(chunk["content"])
+        parts.append(f"[{i}] Kaynak: {source}, {page_info} (skor: {score:.3f})\n{content}")
+    return truncate_context("\n\n".join(parts))
 
 
 def render_source_card(chunk: dict, index: int, card_key: str):
@@ -684,12 +695,15 @@ with st.sidebar:
 
     # Model seçimi, yükleme butonu ve durum rozeti tek kart içinde.
     with st.container(border=True):
-        model_alias = st.selectbox(
+        # Kullanıcı okunur adı görür; arka planda tam model ID'si kullanılır.
+        model_label = st.selectbox(
             "Model",
-            MODEL_ALIASES,
+            list(MODEL_OPTIONS.keys()),
             index=0,
-            help="Foundry Local katalogundaki model alias'ı",
+            help="Foundry Local'de indirilmiş, GPU (CUDA) üzerinde çalışan model",
         )
+        model_alias = MODEL_OPTIONS[model_label]
+        st.caption(f"Model ID: `{model_alias}`")
 
         if st.button("🚀 Modeli Yükle / Değiştir", use_container_width=True):
             load_llm(model_alias)
