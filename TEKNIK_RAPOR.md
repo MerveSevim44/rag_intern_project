@@ -29,7 +29,7 @@ Bu proje, kullanıcıların kendi dokümanları (PDF, DOCX, TXT) üzerinde Türk
 ```
 Doküman (.pdf/.docx/.txt)
     │
-    ├─ PDF: pypdf → sayfa sayfa metin çıkarımı → \\n\\n ile chunk'lama
+    ├─ PDF: pdfplumber → sayfa sayfa metin çıkarımı → \\n\\n ile chunk'lama
     ├─ DOCX: python-docx → paragraf bazlı chunk'lama
     └─ TXT: \\n\\n ile paragraf bazlı chunk'lama
     │
@@ -323,3 +323,31 @@ python run_tests.py
 Geliştirilen RAG sistemi, tüm başarı ölçütlerini karşılamaktadır. Sistem 6 dokümanı başarıyla indeksleyebilmekte, otomatik metin çıkarımı ve chunking yapabilmekte, her soru için 3 alakalı kaynak getirmekte, cevaplarda kaynak göstermekte, ve negatif testlerin büyük çoğunluğunda (%83.3) doğru şekilde "bilgi bulunamadı" cevabı vermektedir. 30 soruluk test setinde genel doğruluk %86.7 olarak ölçülmüştür. Hallucination oranı %3.3 ile düşük seviyededir.
 
 Proje tamamen yerelde çalışarak veri gizliliğini garanti altına almakta ve Streamlit tabanlı kullanıcı arayüzü ile kolay erişim sağlamaktadır.
+
+
+## 10 . Geliştirlmesi gerekenler NOT:
+
+4 Aşamalı Filtreleme Sistemi:
+Modelin her seferinde tüm veritabanını (örneğin 10.000 chunk) taraması yerine, adayları 4 aşamalı bir " Eleme Süreci" ile filtreledik:
+
+1. Aşama (Keyword - BM25):
+
+Çok hızlı çalışır. Sorgudaki anahtar kelimeleri (örn: "SQLite", "VN") harfi harfine arar. Anlamsal değil, tam eşleşmeye bakar.
+2. Aşama (Vector - Embedding): 
+
+Anlamsal benzerliğe bakar. "Bitcoin nedir?" sorusunda "Kripto para" içeren paragrafı bulur.
+3. Aşama (Fusion - RRF): 
+
+İlk iki aşamanın sonuçlarını birleştirir. Her iki listede de üst sıralarda olan dokümanları öne çıkarır. İşte sizin "Sinc" kelimesini bulduğunuz yer tam olarak burası. BM25 "Sinc"i buldu, Vektör de "Sinc"in geçtiği bağlamı anladı ve RRF bunları birleştirdi.
+4. Aşama (Rerank - Cross-Encoder): 
+
+Son filtre. Yukarıdakilerden gelen 15-20 adayı alıp en akıllı modelle tekrar puanlar. Bu aşama sayesinde alakasız ama anahtar kelime içeren dokümanlar elenir.
+
+BM25 Katkısı: Sorgu içerisinde geçen "VN", "SQLite", "Sinc" gibi nadir kelimeleri harfiyen içeren dokümanlar BM25 tarafında çok üst sıralara tırmanır.
+
+Dense Katkısı: Anlamsal benzerliğe sahip dokümanlar Vektör tarafında üst sıralara çıkar.
+RRF Katkısı: Hem anlamsal hem kelimesi kelimesine tutarlı olan dokümanlar her iki listede de üstte olacağı için RRF skoru tavan yapar ve ilk sıraya yerleşir.
+
+Reranker Katkısı: RRF ile filtrelenen adaylar son olarak Cross-Encoder modeline girerek gürültülü/alakasız parçalardan tamamen temizlenir.
+
+free_gpu_memory() ekle app.py faydalı olur mu araştır 

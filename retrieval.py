@@ -12,9 +12,11 @@ Akış:
 import json
 import sqlite3
 from embedder import get_embedding, cosine_similarity, rerank_indices
+#import re
+#from rank_bm25 import BM25Okapi  # BM25 için kütüphane
 
 # ─── Varsayılan ayarlar ───
-DB_PATH = "rag.db"
+DB_PATH = "rag.db"#
 EMBED_MODEL = "bge-m3"
 TOP_K = 5            # Cosine similarity ile kaç aday çekelim
 RERANK_TOP_N = 3     # Reranker'dan sonra kaç sonuç döndürelim
@@ -70,13 +72,15 @@ def retrieve(query: str, db_path=DB_PATH, model=EMBED_MODEL,
 
         # İki vektör arasındaki benzerliği hesapla (0..1 arası)
         score = cosine_similarity(query_embedding, chunk_embedding)
-
+        #
         scored_chunks.append({
             "id": chunk_id,
             "source": source,
             "content": content,
             "page_info": page_info,
             "score": float(score)
+            #"dense_score": dense_score
+
         })
 
     # Skora göre büyükten küçüğe sırala, ilk top_k tanesini al

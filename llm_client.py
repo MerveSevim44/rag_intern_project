@@ -110,6 +110,8 @@ def _discover_endpoint():
     Asıl servis (Inference.Service.Agent) ayrı bir portta çalışıyor ve CUDA
     varyantını o servis barındırıyor. Bu yüzden çalışan servisi kendimiz buluruz.
     """
+
+    #eğer daha önce endpoint bulunduysa onu kullan (cache)
     global _endpoint_cache
     if _endpoint_cache is not None:
         return _endpoint_cache

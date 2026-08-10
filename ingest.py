@@ -11,7 +11,9 @@ import docx
 DB_PATH = "rag.db"
 DATA_DIR = "data"
 EMBED_MODEL = "bge-m3"
-BATCH_SIZE = 16
+BATCH_SIZE = 16 #metinlerden embeding oluştururken modelin tek seferde 
+                #kaç adet metni işleyeceğini belirtir. GPU belleği arttıkça
+                #burası artırılabilir. GPU'su olmayanlar 4-8'de tutabilir.
 
 # Expected schema for the chunks table: column name -> declared type.
 # ensure_schema() reconciles the live table against this map, so adding a new
