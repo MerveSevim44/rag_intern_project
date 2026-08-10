@@ -4,7 +4,8 @@ import sqlite3
 import argparse
 from pathlib import Path
 from embedder import get_embeddings
-import pypdf
+# pyrefly: ignore [missing-import]
+import pdfplumber
 import docx
 
 DB_PATH = "rag.db"
@@ -129,15 +130,15 @@ def extract_chunks_from_pdf(file_path: Path) -> list[tuple[str, str]]:
     Returns list of (chunk_text, page_info) tuples.
     """
     chunks = []
-    reader = pypdf.PdfReader(file_path)
-    for page_num, page in enumerate(reader.pages, start=1):
-        page_text = page.extract_text()
-        if page_text:
-            paragraphs = page_text.split("\n\n")
-            for p in paragraphs:
-                cleaned = p.strip()
-                if cleaned:
-                    chunks.append((cleaned, f"sayfa {page_num}"))
+    with pdfplumber.open(file_path) as pdf:
+        for page_num, page in enumerate(pdf.pages, start=1):
+            page_text = page.extract_text()
+            if page_text:
+                paragraphs = page_text.split("\n\n")
+                for p in paragraphs:
+                    cleaned = p.strip()
+                    if cleaned:
+                        chunks.append((cleaned, f"sayfa {page_num}"))
     return chunks
 
 def extract_chunks_from_docx(file_path: Path) -> list[tuple[str, str]]:

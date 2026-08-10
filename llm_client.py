@@ -318,6 +318,9 @@ def ask(llm, context, question):
     """
     Belirli bir bağlam (context) ve soru (question) ile LLM'e soru sorar.
     Sadece verilen bağlama dayanarak yanıt üretir.
+
+    "Sadece sorguda belirtilen dokümana ait bilgiyi kullan.
+    Farklı kaynaklardaki bilgileri birbirine karıştırma veya harmanlama."
     """
     prompt = ChatPromptTemplate.from_messages([
         ("system",
