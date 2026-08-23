@@ -143,6 +143,75 @@ def extract_chunks_from_pdf(file_path: Path) -> list[tuple[str, str]]:
                         chunks.append((cleaned, f"sayfa {page_num}"))
     return chunks
 
+def _flatten_json(value, path="$"):
+    """
+    Walks a JSON value and yields (text, path) leaves.
+
+    Dicts/lists are descended into so each leaf keeps a JSONPath-like trail
+    ($.users[0].name), which becomes the chunk's page_info and lets an answer
+    point back at the exact field it came from.
+    """
+    if isinstance(value, dict):
+        for key, sub in value.items():
+            yield from _flatten_json(sub, f"{path}.{key}")
+    elif isinstance(value, list):
+        for i, sub in enumerate(value):
+            yield from _flatten_json(sub, f"{path}[{i}]")
+    else:
+        if value is None:
+            return
+        text = str(value).strip()
+        if text:
+            yield text, path
+
+
+def extract_chunks_from_json(file_path: Path) -> list[tuple[str, str]]:
+    """
+    Reads a .json (or .jsonl) file and turns it into (chunk_text, path_info).
+
+    Records (dicts / list items) are kept together as one chunk when they are
+    small enough to read as a unit, so related fields stay in the same
+    embedding instead of being scattered across one-line chunks.
+    """
+    raw = file_path.read_text(encoding="utf-8")
+
+    if file_path.suffix.lower() == ".jsonl":
+        records = []
+        for line_num, line in enumerate(raw.splitlines(), start=1):
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                records.append((json.loads(line), f"satır {line_num}"))
+            except json.JSONDecodeError:
+                continue
+        roots = records
+    else:
+        try:
+            data = json.loads(raw)
+        except json.JSONDecodeError as e:
+            raise ValueError(f"Invalid JSON in {file_path.name}: {e}")
+        if isinstance(data, list):
+            roots = [(item, f"$[{i}]") for i, item in enumerate(data)]
+        else:
+            roots = [(data, "$")]
+
+    chunks = []
+    for root, root_path in roots:
+        leaves = list(_flatten_json(root, root_path))
+        if not leaves:
+            continue
+        # Render the whole record as one chunk if it is compact; otherwise fall
+        # back to one chunk per leaf so no single chunk dwarfs the others.
+        record_text = "\n".join(f"{p}: {t}" for t, p in leaves)
+        if len(record_text) <= 1500:
+            chunks.append((record_text, root_path))
+        else:
+            for text, leaf_path in leaves:
+                chunks.append((f"{leaf_path}: {text}", leaf_path))
+    return chunks
+
+
 def extract_chunks_from_docx(file_path: Path) -> list[tuple[str, str]]:
     document = docx.Document(file_path)
     chunks = []
@@ -191,8 +260,8 @@ def ingest_single_file(file_path, db_path=DB_PATH, model=EMBED_MODEL, batch_size
         raise ValueError(f"File not found: {file_path}")
 
     ext = file_path.suffix.lower()
-    if ext not in {".txt", ".pdf", ".docx"}:
-        raise ValueError(f"Unsupported file type: {ext}. Supported: .txt, .pdf, .docx")
+    if ext not in {".txt", ".pdf", ".docx", ".json", ".jsonl"}:
+        raise ValueError(f"Unsupported file type: {ext}. Supported: .txt, .pdf, .docx, .json, .jsonl")
 
     # Extract chunks based on file type
     if ext == ".txt":
@@ -201,6 +270,8 @@ def ingest_single_file(file_path, db_path=DB_PATH, model=EMBED_MODEL, batch_size
         chunks = extract_chunks_from_pdf(file_path)
     elif ext == ".docx":
         chunks = extract_chunks_from_docx(file_path)
+    elif ext in {".json", ".jsonl"}:
+        chunks = extract_chunks_from_json(file_path)
 
     if not chunks:
         raise ValueError(f"No text could be extracted from {file_path.name}")
@@ -296,11 +367,11 @@ def ingest_files(data_dir=DATA_DIR, db_path=DB_PATH, model=EMBED_MODEL,
         return
 
     # Find supported files
-    supported_extensions = {".txt", ".pdf", ".docx"}
+    supported_extensions = {".txt", ".pdf", ".docx", ".json", ".jsonl"}
     files = [f for f in data_path.iterdir() if f.is_file() and f.suffix.lower() in supported_extensions]
 
     if not files:
-        print(f"No supported files (.txt, .pdf, .docx) found in {data_dir}.")
+        print(f"No supported files (.txt, .pdf, .docx, .json, .jsonl) found in {data_dir}.")
         return
 
     print(f"Found {len(files)} files to check for ingestion.")
@@ -320,6 +391,8 @@ def ingest_files(data_dir=DATA_DIR, db_path=DB_PATH, model=EMBED_MODEL,
                     chunks = extract_chunks_from_pdf(file_path)
                 elif file_path.suffix.lower() == ".docx":
                     chunks = extract_chunks_from_docx(file_path)
+                elif file_path.suffix.lower() in {".json", ".jsonl"}:
+                    chunks = extract_chunks_from_json(file_path)
                 else:
                     continue
 
@@ -368,7 +441,7 @@ def ingest_files(data_dir=DATA_DIR, db_path=DB_PATH, model=EMBED_MODEL,
     print("\nIngestion process finished.")
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Ingest TXT and PDF documents with vector embeddings into SQLite.")
+    parser = argparse.ArgumentParser(description="Ingest TXT, PDF, DOCX and JSON documents with vector embeddings into SQLite.")
     parser.add_argument("--data_dir", type=str, default=DATA_DIR, help="Directory containing documents.")
     parser.add_argument("--db_path", type=str, default=DB_PATH, help="Path to SQLite database.")
     parser.add_argument("--model", type=str, default=EMBED_MODEL, help="Embedding model name.")

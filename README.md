@@ -1,6 +1,6 @@
 # RAG Soru-Cevap
 
-Kendi dokümanlarınız (`.txt`, `.pdf`, `.docx`) üzerinde Türkçe soru-cevap yapan,
+Kendi dokümanlarınız (`.txt`, `.pdf`, `.docx`, `.json`, `.jsonl`) üzerinde Türkçe soru-cevap yapan,
 tamamen **yerelde** çalışan bir RAG (Retrieval-Augmented Generation) uygulaması.
 
 Hiçbir veri dışarı çıkmaz: embedding **Ollama** ile, cevap üretimi **Foundry Local**

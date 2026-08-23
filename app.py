@@ -339,11 +339,13 @@ def is_meaningful_question(text: str) -> bool:
 
 
 def file_icon(name: str) -> str:
-    """Dosya uzantısına göre ikon döndürür (.pdf → 📕, .docx → 📘, .txt → 📄)."""
+    """Dosya uzantısına göre ikon döndürür (.pdf → 📕, .docx → 📘, .json → 🗂️)."""
     return {
         ".pdf": "📕",
         ".docx": "📘",
         ".txt": "📄",
+        ".json": "🗂️",
+        ".jsonl": "🗂️",
     }.get(Path(name).suffix.lower(), "📄")
 
 
@@ -728,8 +730,8 @@ with st.sidebar:
     # ── Doküman Yükleme ──────────────────────────────────────────────
     st.markdown("### 📄 Doküman Yükle")
     uploaded_files = st.file_uploader(
-        "Dosya seçin (.txt, .pdf, .docx)",
-        type=["txt", "pdf", "docx"],
+        "Dosya seçin (.txt, .pdf, .docx, .json, .jsonl)",
+        type=["txt", "pdf", "docx", "json", "jsonl"],
         accept_multiple_files=True,
         help="Birden fazla dosya seçebilirsiniz; hepsi sırayla indekslenir.",
     )
@@ -899,7 +901,7 @@ if not ingested:
     empty_state(
         "📂",
         "Henüz doküman yok",
-        "Başlamak için sol panelden bir doküman yükleyin (.txt, .pdf, .docx). "
+        "Başlamak için sol panelden bir doküman yükleyin (.txt, .pdf, .docx, .json). "
         "Yüklenen dosyalar otomatik olarak parçalanıp indekslenir.",
     )
     st.stop()
