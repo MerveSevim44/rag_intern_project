@@ -11,13 +11,14 @@ Akış:
 
 import json
 import sqlite3
-from embedder import get_embedding, cosine_similarity, rerank_indices
+from contextlib import closing
+from embedder import get_embedding, cosine_similarity, rerank_indices, EMBED_MODEL
 #import re
 #from rank_bm25 import BM25Okapi  # BM25 için kütüphane
 
 # ─── Varsayılan ayarlar ───
 DB_PATH = "rag.db"#
-EMBED_MODEL = "bge-m3"
+
 TOP_K = 5            # Cosine similarity ile kaç aday çekelim
 RERANK_TOP_N = 3     # Reranker'dan sonra kaç sonuç döndürelim
 
@@ -53,7 +54,11 @@ def retrieve(query: str, db_path=DB_PATH, model=EMBED_MODEL,
     # Her chunk'ın source (dosya adı), content (metin) ve
     # embedding (JSON string olarak saklanan vektör) bilgisini alıyoruz.
     # timeout: ingest sırasında yazma kilidi varsa hemen hata vermek yerine bekle.
-    with sqlite3.connect(db_path, timeout=30.0) as conn:
+    # closing(): `with sqlite3.connect(...)` sadece commit/rollback yapar, bağlantıyı
+    # KAPATMAZ. Streamlit her yeniden çalıştırmada burayı çağırdığı için kapatılmayan
+    # bağlantılar birikir ve WAL dosyası hiç checkpoint edilemez.
+    with closing(sqlite3.connect(db_path, timeout=30.0)) as conn:
+        conn.execute("PRAGMA busy_timeout=30000")
         cursor = conn.cursor()
         cursor.execute("SELECT id, source, content, embedding, page_info FROM chunks")
         rows = cursor.fetchall()
@@ -65,6 +70,16 @@ def retrieve(query: str, db_path=DB_PATH, model=EMBED_MODEL,
     # ── ADIM 3: Cosine similarity hesapla ─────────────────────────
     # Her chunk'ın embedding'ini sorunun embedding'i ile karşılaştır.
     # Skor 1.0'a ne kadar yakınsa, chunk o kadar alakalıdır.
+    # Boyut kontrolü: DB başka bir embedding modeliyle doldurulmuşsa
+    # cosine_similarity anlaşılmaz bir "shapes not aligned" hatası verir.
+    db_dim = len(json.loads(rows[0][3]))
+    if db_dim != len(query_embedding):
+        raise ValueError(
+            f"Embedding boyutu uyuşmuyor: sorgu {len(query_embedding)} ('{model}'), "
+            f"veritabanı {db_dim}. Veritabanı farklı bir modelle oluşturulmuş; "
+            f"'{model}' ile yeniden ingest edin (ingest.py)."
+        )
+
     scored_chunks = []
     for chunk_id, source, content, embedding_json, page_info in rows:
         # Embedding veritabanında JSON string olarak saklanıyor → listeye çevir

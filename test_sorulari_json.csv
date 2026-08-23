@@ -1,0 +1,14 @@
+id,zorluk,soru,beklenen_kaynak,dokumanda_var_mi
+1,Kolay,Veri setindeki toplam profil sayısı kaçtır?,728_profiles.json,Evet
+2,Kolay,Veri setinde kaç farklı sektör bulunmaktadır?,728_profiles.json,Evet
+3,Kolay,"""profileCode"" alanı ne için kullanılır?",728_profiles.json,Evet
+4,Kolay,Bir profildeki hizmet modları (serviceModes) hangi üç değerden birini alabilir?,728_profiles.json,Evet
+5,Kolay,"""publicContact"" alanında telefon ve e-posta neden görünür değildir?",728_profiles.json,Evet
+6,Orta,Veri setinde kaç farklı meslek (occupation) bulunmaktadır?,728_profiles.json,Evet
+7,Orta,"""Sağlık"" sektöründe kaç profil bulunmaktadır?",728_profiles.json,Evet
+8,Orta,appointmentSettings içindeki autoApproveRequests alanı true olan profil sayısı kaçtır?,728_profiles.json,Evet
+9,Orta,weeklyAvailability yapısında bir günün aktif olup olmadığı hangi alanla belirtilir?,728_profiles.json,Evet
+10,Orta,Veri setindeki profillerde toplam kaç farklı şehir yer almaktadır?,728_profiles.json,Evet
+11,Zor,Veri setinin "synthetic" (sentetik) olduğu hangi alanlarla açıkça belirtilmiştir?,728_profiles.json,Evet
+12,Zor,Profillerdeki mesleki deneyim (experience.years) alanının minimum ve maksimum değerleri nedir?,728_profiles.json,Evet
+13,Zor,"""safetyAndDataQuality"" bölümüne göre veri setinin gerçek kişi/işletme doğrulaması iddia edilmekte midir?",728_profiles.json,Evet

@@ -2,6 +2,12 @@ import numpy as np
 import ollama
 from sentence_transformers import CrossEncoder
 
+# Projedeki TEK embedding modeli kaynağı.
+# ingest ve retrieval bu sabiti kullanmalı: farklı modeller farklı vektör
+# boyutu üretir (bge-m3=1024, nomic-embed-text=768) ve cosine similarity
+# "shapes not aligned" hatası verir.
+EMBED_MODEL = "bge-m3"
+
 # Cache for CrossEncoder models to avoid reloading on every function call
 _reranker_cache = {}
 
@@ -21,14 +27,14 @@ def cosine_similarity(v1, v2):
     v2 = np.array(v2)
     return np.dot(v1, v2) / (np.linalg.norm(v1) * np.linalg.norm(v2))
 
-def get_embedding(text, model="bge-m3"):
+def get_embedding(text, model=EMBED_MODEL):
     """
     Verilen metin için Ollama kullanarak vektör (embedding) üretir.
     """
     response = ollama.embed(model=model, input=text)
     return response.embeddings[0]
 
-def get_embeddings(texts, model="bge-m3", batch_size=16):
+def get_embeddings(texts, model=EMBED_MODEL, batch_size=16):
     """
     Verilen metin listesi için Ollama kullanarak toplu vektör (embedding) üretir.
     """

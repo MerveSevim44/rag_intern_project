@@ -2,16 +2,17 @@ import os
 import json
 import sqlite3
 import argparse
+from contextlib import closing
 from pathlib import Path
-from embedder import get_embeddings
+from embedder import get_embeddings, EMBED_MODEL
 # pyrefly: ignore [missing-import]
 import pdfplumber
 import docx
 
 DB_PATH = "rag.db"
 DATA_DIR = "data"
-EMBED_MODEL = "bge-m3"
-BATCH_SIZE = 16 #metinlerden embeding oluştururken modelin tek seferde 
+
+BATCH_SIZE = 64 #metinlerden embeding oluştururken modelin tek seferde 
                 #kaç adet metni işleyeceğini belirtir. GPU belleği arttıkça
                 #burası artırılabilir. GPU'su olmayanlar 4-8'de tutabilir.
 
@@ -109,7 +110,7 @@ def init_db(db_path=DB_PATH):
     """
     Initializes the database, creating or migrating the chunks table as needed.
     """
-    with connect(db_path) as conn:
+    with closing(connect(db_path)) as conn:
         ensure_schema(conn)
     print(f"Database initialized: {db_path}")
 
@@ -165,6 +166,40 @@ def _flatten_json(value, path="$"):
             yield text, path
 
 
+# A record rendered up to this many characters stays a single chunk; larger
+# records fall back to one chunk per leaf field.
+MAX_RECORD_CHARS = 3000
+
+
+def _roots_from_object(data: dict) -> list[tuple[object, str]]:
+    """
+    Turns a top-level JSON object into (record, path) roots.
+
+    Datasets often wrap their records in a container object, e.g.
+    {"datasetName": ..., "profiles": [ ... 728 records ... ]}. In that case the
+    items of the dominant list become the records, so each profile is one chunk
+    instead of the whole file collapsing into a single oversized record. The
+    remaining metadata fields are kept as one extra record.
+    """
+    best_key, best_len = None, 0
+    for key, value in data.items():
+        if isinstance(value, list) and len(value) > best_len and all(
+            isinstance(item, (dict, list)) for item in value
+        ):
+            best_key, best_len = key, len(value)
+
+    if best_key is None or best_len < 2:
+        return [(data, "$")]
+
+    roots = [
+        (item, f"$.{best_key}[{i}]") for i, item in enumerate(data[best_key])
+    ]
+    meta = {k: v for k, v in data.items() if k != best_key}
+    if meta:
+        roots.append((meta, "$"))
+    return roots
+
+
 def extract_chunks_from_json(file_path: Path) -> list[tuple[str, str]]:
     """
     Reads a .json (or .jsonl) file and turns it into (chunk_text, path_info).
@@ -194,7 +229,7 @@ def extract_chunks_from_json(file_path: Path) -> list[tuple[str, str]]:
         if isinstance(data, list):
             roots = [(item, f"$[{i}]") for i, item in enumerate(data)]
         else:
-            roots = [(data, "$")]
+            roots = _roots_from_object(data)
 
     chunks = []
     for root, root_path in roots:
@@ -203,8 +238,11 @@ def extract_chunks_from_json(file_path: Path) -> list[tuple[str, str]]:
             continue
         # Render the whole record as one chunk if it is compact; otherwise fall
         # back to one chunk per leaf so no single chunk dwarfs the others.
-        record_text = "\n".join(f"{p}: {t}" for t, p in leaves)
-        if len(record_text) <= 1500:
+        # Field paths are rendered relative to the record so the repeated root
+        # prefix does not dominate the chunk text (or its size budget).
+        prefix = len(root_path) + 1
+        record_text = "\n".join(f"{p[prefix:] or p}: {t}" for t, p in leaves)
+        if len(record_text) <= MAX_RECORD_CHARS:
             chunks.append((record_text, root_path))
         else:
             for text, leaf_path in leaves:
@@ -282,23 +320,26 @@ def ingest_single_file(file_path, db_path=DB_PATH, model=EMBED_MODEL, batch_size
     texts = [c[0] for c in chunks]
     page_infos = [c[1] for c in chunks]
 
-    with connect(db_path) as conn:
+    # Embeddings are generated BEFORE the database is touched. Embedding a large
+    # file takes tens of seconds; doing it inside the write transaction would hold
+    # SQLite's write lock that whole time and make every other query fail with
+    # "database is locked".
+    embeddings = get_embeddings(texts, model=model, batch_size=batch_size)
+
+    data_to_insert = [
+        (source_name, text, json.dumps(embedding), page_info)
+        for text, page_info, embedding in zip(texts, page_infos, embeddings)
+    ]
+
+    with closing(connect(db_path)) as conn:
         cursor = conn.cursor()
 
-        # Delete old chunks for this source (re-ingest)
+        # Delete old chunks for this source (re-ingest), then insert the new ones
+        # in the same short transaction.
         cursor.execute("DELETE FROM chunks WHERE source = ?", (source_name,))
         deleted = cursor.rowcount
         if deleted > 0:
             print(f"Deleted {deleted} old chunks for {source_name}.")
-
-        # Generate embeddings
-        embeddings = get_embeddings(texts, model=model, batch_size=batch_size)
-
-        # Insert new chunks
-        data_to_insert = []
-        for text, page_info, embedding in zip(texts, page_infos, embeddings):
-            embedding_json = json.dumps(embedding)
-            data_to_insert.append((source_name, text, embedding_json, page_info))
 
         cursor.executemany(
             "INSERT INTO chunks (source, content, embedding, page_info) VALUES (?, ?, ?, ?)",
@@ -317,7 +358,7 @@ def list_ingested_sources(db_path=DB_PATH):
         list[dict]: Each dict has 'source' (str) and 'chunk_count' (int).
     """
     try:
-        with connect(db_path) as conn:
+        with closing(connect(db_path)) as conn:
             cursor = conn.cursor()
             cursor.execute(
                 "SELECT source, COUNT(*) as cnt FROM chunks GROUP BY source ORDER BY source"
@@ -339,7 +380,7 @@ def delete_source(source_name, db_path=DB_PATH):
     Returns:
         int: Number of chunks deleted.
     """
-    with connect(db_path) as conn:
+    with closing(connect(db_path)) as conn:
         cursor = conn.cursor()
         cursor.execute("DELETE FROM chunks WHERE source = ?", (source_name,))
         deleted = cursor.rowcount
@@ -376,7 +417,7 @@ def ingest_files(data_dir=DATA_DIR, db_path=DB_PATH, model=EMBED_MODEL,
 
     print(f"Found {len(files)} files to check for ingestion.")
 
-    with sqlite3.connect(db_path) as conn:
+    with closing(connect(db_path)) as conn:
         cursor = conn.cursor()
 
         for file_path in files:
@@ -404,12 +445,10 @@ def ingest_files(data_dir=DATA_DIR, db_path=DB_PATH, model=EMBED_MODEL,
 
                 # Check if already ingested
                 cursor.execute("SELECT 1 FROM chunks WHERE source = ? LIMIT 1", (source_name,))
-                if cursor.fetchone():
-                    if not force:
-                        print(f"Already ingested. Skipping (use --force to re-ingest).")
-                        continue
-                    cursor.execute("DELETE FROM chunks WHERE source = ?", (source_name,))
-                    print(f"Re-ingesting: removed {cursor.rowcount} old chunks.")
+                already_ingested = cursor.fetchone() is not None
+                if already_ingested and not force:
+                    print(f"Already ingested. Skipping (use --force to re-ingest).")
+                    continue
 
                 # chunks artık [(text, page_info), ...] formatında
                 texts = [c[0] for c in chunks]
@@ -425,7 +464,13 @@ def ingest_files(data_dir=DATA_DIR, db_path=DB_PATH, model=EMBED_MODEL,
                     embedding_json = json.dumps(embedding)
                     data_to_insert.append((source_name, text, embedding_json, page_info))
 
-                # 5. Batch insert
+                # 5. Delete + insert in one short transaction. The DELETE is kept
+                #    here (not before the embedding step) so the write lock is
+                #    held for milliseconds instead of the whole embedding run.
+                if already_ingested:
+                    cursor.execute("DELETE FROM chunks WHERE source = ?", (source_name,))
+                    print(f"Re-ingesting: removed {cursor.rowcount} old chunks.")
+
                 cursor.executemany(
                     "INSERT INTO chunks (source, content, embedding, page_info) VALUES (?, ?, ?, ?)",
                     data_to_insert
