@@ -21,7 +21,8 @@ from collections import Counter, defaultdict
 import pandas as pd
 
 # Varsayılan veri dizini
-DATA_DIR = Path("data")
+ROOT_DIR = Path(__file__).resolve().parent.parent
+DATA_DIR = ROOT_DIR / "data" if (ROOT_DIR / "data").exists() else Path("data")
 
 
 def _tr_normalize(text: str) -> str:

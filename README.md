@@ -101,47 +101,93 @@ indeksleyebilirsiniz — `data/` klasörünü kullanmak zorunlu değil.
 ### Sadece arama (arayüzsüz)
 
 ```bash
-python retrieval.py
+python -c "from src.retrieval import retrieve; print(retrieve('Fourier dönüşümü'))"
 ```
 
-### Test setini çalıştır
+### Test setini çalıştır ve otomatik skorla
 
 `test_sorulari.csv` içindeki soruları uçtan uca çalıştırır; cevabı, bulunan kaynakları ve
 süreyi `test_sonuclari.csv` dosyasına yazar:
 
 ```bash
+# 1. Test setini çalıştır
 python run_tests.py
+
+# 2. Çıktıları otomatik skorla (Exact Match / F1) ve grafikleri üret
+python benchmark_eval.py test_sonuclari.csv ground_truth.json --output-dir report
+```
+
+### Birim ve Entegrasyon Testlerini Çalıştır
+
+```bash
+python -m pytest tests
 ```
 
 ---
 
-## Proje yapısı
+## Proje Dizin Yapısı
 
-| Dosya | Görevi |
+```text
+rag_project/
+├── data/                                # Ham dokümanlar (PDF, JSON, DOCX, TXT)
+├── src/                                 # Çekirdek Motorlar ve Kaynak Kodlar
+│   ├── app.py                           # Streamlit arayüzü ve ana sohbet motoru
+│   ├── ingest.py                        # Doküman okuma, chunk'lama ve SQLite indeksleme
+│   ├── embedder.py                      # Ollama bge-m3 vektörleştirme & reranker
+│   ├── retrieval.py                     # Hibrit arama (Vektör + BM25 + RRF rerank)
+│   ├── router.py                        # 3 kademeli soru yönlendirici (Rule / Sandbox / RAG)
+│   ├── llm_client.py                    # Foundry Local LLM istemcisi & prompt şablonları
+│   ├── data_engine.py                   # Yapısal veri analitiği & Pandas motoru
+│   ├── sandbox.py                       # Güvenli Python çalışma alanı (AST denetimi)
+│   ├── code_interpreter.py              # LLM kod üretici & otomatik retry döngüsü
+│   └── visualizer.py                    # Analitik grafik ve görselleştirme motoru (Plotly/Altair)
+├── tests/                               # Birim ve Entegrasyon Testleri
+│   ├── test_sandbox_step1.py            # Sandbox güvenlik ve izolasyon testleri
+│   ├── test_code_interpreter_step2.py   # Kod yorumlayıcı ve prompt testleri
+│   ├── test_retry_mechanism.py          # Hata düzeltme & retry mekanizması testleri
+│   ├── test_sandbox_and_datasets.py     # Veri setleri ve sandbox entegrasyonu testleri
+│   └── test_visualization.py            # Grafik üretimi ve Altair/Plotly testleri
+├── evaluation/                          # Benchmark, Skorlama ve Değerlendirme Araçları
+│   ├── benchmark_eval.py                # Otomatik skorlama (EM, F1, Latency) & grafik üretimi
+│   ├── eval_retrieval.py                # Retrieval ve router başarım testi
+│   ├── run_tests.py                     # Otomatik test seti koşucusu
+│   ├── ground_truth.json                # 30 soruluk standart referans cevap veri seti
+│   └── datasets/                        # Test soru setleri ve çıktı CSV'leri
+├── report/                              # Haftalık Raporlar ve Benchmark Çıktıları
+├── docs/                                # Kapsamlı Dokümantasyon ve Teknik Planlar
+│   ├── TEKNIK_RAPOR.md                  # Proje Kapsamlı Teknik Raporu
+│   └── ...
+├── app.py                               # Kök dizin Streamlit çalıştırıcı
+├── ingest.py                            # Kök dizin indeksleme çalıştırıcı
+├── benchmark_eval.py                    # Kök dizin benchmark çalıştırıcı
+├── run_tests.py                         # Kök dizin test çalıştırıcı
+└── rag.db                               # SQLite veritabanı
+```
+
+| Dizin / Dosya | Görevi |
 |---|---|
-| [ingest.py](ingest.py) | Doküman okuma, chunk'lama, embedding, SQLite şeması ve migrasyonu |
-| [embedder.py](embedder.py) | Ollama embedding'leri, cosine similarity, Cross-Encoder reranker |
-| [retrieval.py](retrieval.py) | Soruya en alakalı chunk'ları bulma (arama + reranking) |
-| [llm_client.py](llm_client.py) | Foundry Local endpoint keşfi, model yükleme, prompt ve bağlam kırpma |
-| [app.py](app.py) | Streamlit arayüzü |
-| [run_tests.py](run_tests.py) | Toplu test koşucusu |
-| [TEKNIK_RAPOR.md](TEKNIK_RAPOR.md) | Tasarım kararları ve değerlendirme sonuçları |
+| [`src/`](file:///c:/Users/merve/Desktop/rag_project/src) | Tüm çekirdek motorlar, RAG arama, veri analitiği, sandbox ve arayüz |
+| [`tests/`](file:///c:/Users/merve/Desktop/rag_project/tests) | İzolasyon, güvenlik, retry mekanizması ve görselleştirme birim testleri |
+| [`evaluation/`](file:///c:/Users/merve/Desktop/rag_project/evaluation) | Otomatik skorlama motoru, retrieval başarım testleri ve ground truth veri setleri |
+| [`docs/`](file:///c:/Users/merve/Desktop/rag_project/docs) | Teknik raporlar, sistem mimarisi ve geliştirme planları |
+| [`data/`](file:///c:/Users/merve/Desktop/rag_project/data) | İndekslenecek ham veri ve dokümanlar |
+| [`report/`](file:///c:/Users/merve/Desktop/rag_project/report) | Benchmark grafik çıktıları, skorlu CSV ve haftalık raporlar |
 
 ---
 
 ## Ayarlar
 
-Sık değiştirilen sabitler ilgili dosyaların başında duruyor:
+Sık değiştirilen sabitler ilgili dosyaların başında yer alır:
 
 | Dosya | Sabit | Varsayılan |
 |---|---|---|
-| `retrieval.py` | `TOP_K` — cosine ile çekilen aday sayısı | `5` |
-| `retrieval.py` | `RERANK_TOP_N` — reranker sonrası nihai sonuç sayısı | `3` |
-| `ingest.py` | `EMBED_MODEL` / `BATCH_SIZE` | `bge-m3` / `16` |
-| `ingest.py` | `DB_PATH` / `DATA_DIR` | `rag.db` / `data` |
-| `llm_client.py` | `DEFAULT_MODEL_ID` | `qwen2.5-7b-instruct-cuda-gpu:4` |
-| `llm_client.py` | `MAX_ANSWER_TOKENS` | `600` |
-| `llm_client.py` | `MAX_CHUNK_CHARS` / `MAX_CONTEXT_CHARS` | `1500` / `6000` |
+| `src/retrieval.py` | `TOP_K` — cosine ile çekilen aday sayısı | `8` |
+| `src/retrieval.py` | `RERANK_TOP_N` — reranker sonrası nihai sonuç sayısı | `3` |
+| `src/ingest.py` | `EMBED_MODEL` / `BATCH_SIZE` | `bge-m3` / `64` |
+| `src/ingest.py` | `DB_PATH` / `DATA_DIR` | `rag.db` / `data` |
+| `src/llm_client.py` | `DEFAULT_MODEL_ID` | `qwen2.5-7b-instruct-cuda-gpu:4` |
+| `src/llm_client.py` | `MAX_ANSWER_TOKENS` | `600` |
+| `src/llm_client.py` | `MAX_CHUNK_CHARS` / `MAX_CONTEXT_CHARS` | `1500` / `6000` |
 
 ---
 

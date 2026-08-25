@@ -9,6 +9,15 @@ Bu test:
 """
 
 import sys
+from pathlib import Path
+
+# Add src and root to sys.path for direct script runs
+_root = Path(__file__).resolve().parent.parent
+_src = _root / "src"
+for _p in [str(_src), str(_root)]:
+    if _p not in sys.path:
+        sys.path.insert(0, _p)
+
 try:
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 except AttributeError:
@@ -17,11 +26,19 @@ except AttributeError:
 import json
 import time
 import pandas as pd
-from llm_client import load_model
-from router import route_query, RouteTarget
-from sandbox import safe_execute
-from code_interpreter import code_interpreter_with_retry, result_to_natural_language
-from data_engine import get_data_engine, query_tabular_data
+
+try:
+    from src.llm_client import load_model
+    from src.router import route_query, RouteTarget
+    from src.sandbox import safe_execute
+    from src.code_interpreter import code_interpreter_with_retry, result_to_natural_language
+    from src.data_engine import get_data_engine, query_tabular_data
+except ImportError:
+    from llm_client import load_model
+    from router import route_query, RouteTarget
+    from sandbox import safe_execute
+    from code_interpreter import code_interpreter_with_retry, result_to_natural_language
+    from data_engine import get_data_engine, query_tabular_data
 
 
 def test_full_pipeline():

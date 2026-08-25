@@ -1,11 +1,23 @@
 import sys
+from pathlib import Path
+
+# Add src and root to sys.path for direct script runs
+_root = Path(__file__).resolve().parent.parent
+_src = _root / "src"
+for _p in [str(_src), str(_root)]:
+    if _p not in sys.path:
+        sys.path.insert(0, _p)
+
 try:
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 except AttributeError:
     pass
 
 import pandas as pd
-from sandbox import safe_execute
+try:
+    from src.sandbox import safe_execute
+except ImportError:
+    from sandbox import safe_execute
 
 def test_sandbox():
     df = pd.DataFrame({

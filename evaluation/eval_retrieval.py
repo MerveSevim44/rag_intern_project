@@ -6,13 +6,48 @@ ve veri motoru hesaplama kesinliğini otomatik olarak test eder ve raporlar.
 """
 
 import csv
+import sys
 import time
 from pathlib import Path
-from retrieval import retrieve
-from router import classify_query
+
+# Add src and root to sys.path
+_eval_dir = Path(__file__).resolve().parent
+_root_dir = _eval_dir.parent
+_src_dir = _root_dir / "src"
+
+for _p in [str(_src_dir), str(_eval_dir), str(_root_dir)]:
+    if _p not in sys.path:
+        sys.path.insert(0, _p)
+
+try:
+    from src.retrieval import retrieve
+    from src.router import classify_query
+except ImportError:
+    from retrieval import retrieve
+    from router import classify_query
+
+
+def _resolve_file(file_path: str) -> Path:
+    """Verilen dosya yolunu yerel, datasets ve root dizinlerinde arayarak çözer."""
+    p = Path(file_path)
+    if p.exists():
+        return p
+    candidates = [
+        _eval_dir / file_path,
+        _root_dir / file_path,
+        _eval_dir / "datasets" / file_path,
+        _eval_dir / "datasets" / p.name,
+        _eval_dir / p.name,
+        _root_dir / p.name,
+    ]
+    for c in candidates:
+        if c.exists():
+            return c
+    return p
+
 
 def evaluate_questions(csv_path: str = "test_sorulari_json.csv"):
-    path = Path(csv_path)
+    path = _resolve_file(csv_path)
     if not path.exists():
         print(f"Hata: {csv_path} bulunamadı.")
         return
@@ -41,7 +76,8 @@ def evaluate_questions(csv_path: str = "test_sorulari_json.csv"):
         
         # 1. Router tahmini
         route_info = classify_query(question)
-        intent = route_info["intent"].value
+        raw_intent = route_info.get("intent", route_info.get("target", "SEMANTIC_RAG"))
+        intent = raw_intent.value if hasattr(raw_intent, "value") else str(raw_intent)
 
         # 2. Retrieval çalıştırma
         retrieved_chunks = retrieve(question, top_k=5, use_reranker=True)

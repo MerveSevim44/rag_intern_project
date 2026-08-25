@@ -18,12 +18,19 @@ from typing import List, Dict, Any, Optional
 import numpy as np
 from rank_bm25 import BM25Okapi
 
-from embedder import get_embedding, cosine_similarity, rerank_indices, EMBED_MODEL
-from router import classify_query, QueryIntent
-from data_engine import query_tabular_data
+try:
+    from src.embedder import get_embedding, cosine_similarity, rerank_indices, EMBED_MODEL
+    from src.router import classify_query, QueryIntent
+    from src.data_engine import query_tabular_data
+except ImportError:
+    from embedder import get_embedding, cosine_similarity, rerank_indices, EMBED_MODEL
+    from router import classify_query, QueryIntent
+    from data_engine import query_tabular_data
 
 # ─── Varsayılan Ayarlar ───
-DB_PATH = "rag.db"
+from pathlib import Path
+ROOT_DIR = Path(__file__).resolve().parent.parent
+DB_PATH = str(ROOT_DIR / "rag.db") if (ROOT_DIR / "rag.db").exists() else "rag.db"
 TOP_K = 8             # Hibrit arama ile seçilecek aday chunk sayısı
 RERANK_TOP_N = 3      # Reranker sonrası döndürülecek nihai sonuç sayısı
 BM25_WEIGHT = 0.35    # Hibrit skorda BM25 ağırlığı (0.0 = Sadece Vektör, 1.0 = Sadece BM25)

@@ -9,6 +9,15 @@ Bu test dosyası:
 """
 
 import sys
+from pathlib import Path
+
+# Add src and root to sys.path for direct script runs
+_root = Path(__file__).resolve().parent.parent
+_src = _root / "src"
+for _p in [str(_src), str(_root)]:
+    if _p not in sys.path:
+        sys.path.insert(0, _p)
+
 import pandas as pd
 import numpy as np
 
@@ -18,12 +27,20 @@ try:
 except AttributeError:
     pass
 
-from visualizer import (
-    extract_chart_data,
-    create_plotly_figure,
-    create_altair_chart
-)
-from data_engine import TabularDataEngine
+try:
+    from src.visualizer import (
+        extract_chart_data,
+        create_plotly_figure,
+        create_altair_chart
+    )
+    from src.data_engine import TabularDataEngine
+except ImportError:
+    from visualizer import (
+        extract_chart_data,
+        create_plotly_figure,
+        create_altair_chart
+    )
+    from data_engine import TabularDataEngine
 
 
 def test_dict_extraction():

@@ -15,7 +15,10 @@ from typing import Any, Dict, Optional, Union
 import pandas as pd
 import numpy as np
 
-from sandbox import safe_execute, clean_python_code
+try:
+    from src.sandbox import safe_execute, clean_python_code
+except ImportError:
+    from sandbox import safe_execute, clean_python_code
 
 
 def build_code_gen_prompt(question: str, df: pd.DataFrame) -> str:

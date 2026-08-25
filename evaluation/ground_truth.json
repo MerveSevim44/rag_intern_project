@@ -1,0 +1,343 @@
+{
+  "1": {
+    "soru": "Bağlamdan bağımsız dilbilgisi kaç elemanlı bir yapıdır?",
+    "zorluk": "Kolay",
+    "beklenen_kaynak": "8-Baglamdan_bagimsiz_dilbilgisi.pdf",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Dörtlü",
+      "4",
+      "Dört",
+      "4 elemanlı",
+      "Dört elemanlı",
+      "VN, VT, S ve P olmak üzere 4 elemanlı bir yapıdır."
+    ],
+    "anahtar_kelimeler": ["dört", "4", "dörtlü"]
+  },
+  "2": {
+    "soru": "Bağlamdan bağımsız dilbilgisinde VN neyi ifade eder?",
+    "zorluk": "Kolay",
+    "beklenen_kaynak": "8-Baglamdan_bagimsiz_dilbilgisi.pdf",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Sözdizimde değişkenler kümesi",
+      "Değişkenler kümesi",
+      "Sözdizimsel değişkenler kümesi"
+    ],
+    "anahtar_kelimeler": ["değişkenler kümesi", "sözdizim"]
+  },
+  "3": {
+    "soru": "Soldan türetme nedir?",
+    "zorluk": "Orta",
+    "beklenen_kaynak": "8-Baglamdan_bagimsiz_dilbilgisi.pdf",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Eğer bir tümce türetilirken, her adımda en soldaki değişkene bir türetme uygulanıyorsa, yapılan türetmeye soldan türetme (leftmost derivation) denir.",
+      "Her adımda en soldaki değişkene türetme uygulanması işlemidir."
+    ],
+    "anahtar_kelimeler": ["en soldaki", "türetme", "değişkene"]
+  },
+  "4": {
+    "soru": "Belirgin olmayan dil ne demektir?",
+    "zorluk": "Orta",
+    "beklenen_kaynak": "8-Baglamdan_bagimsiz_dilbilgisi.pdf",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Bir dilde en az bir tümce için birden fazla türetme ağacı veya soldan türetme oluşturulabiliyorsa bu dilbilgisine/dile belirgin olmayan (ambiguous) dil denir.",
+      "Birden fazla anlamlı türetme ağacı oluşturabilecek dildir."
+    ],
+    "anahtar_kelimeler": ["birden fazla", "türetme ağacı", "belirgin olmayan"]
+  },
+  "5": {
+    "soru": "Yararsız değişken nedir?",
+    "zorluk": "Orta",
+    "beklenen_kaynak": "8-Baglamdan_bagimsiz_dilbilgisi.pdf",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Dilbilgisindeki bir değişkenin herhangi bir tümcenin türetilmesinde kullanılmaması, hiçbir uçsimge dizisi üretememesi veya başlangıç değişkeninden ulaşılamaması durumundaki değişkendir.",
+      "Türetmelerde işe yaramayan ve kuralların uygulanmasında kullanılmayan değişkendir."
+    ],
+    "anahtar_kelimeler": ["türetilmesinde kullanılmayan", "işe yaramayan", "yararsız"]
+  },
+  "6": {
+    "soru": "Bir değişkenin yararlı olabilmesi için hangi iki koşul sağlanmalıdır?",
+    "zorluk": "Zor",
+    "beklenen_kaynak": "8-Baglamdan_bagimsiz_dilbilgisi.pdf",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "1. Başlangıç değişkeninden türetilebilmeli (ulaşılabilir olmalı) 2. En az bir uçsimge dizisi türetebilmeli (üretken olmalı).",
+      "Başlangıç simgesinden ulaşılabilirlik ve uçsimge üretebilme koşulları."
+    ],
+    "anahtar_kelimeler": ["başlangıç", "uçsimge", "ulaşılabilir", "üretken"]
+  },
+  "7": {
+    "soru": "Türetme ağacında kökün etiketi ne olmalıdır?",
+    "zorluk": "Zor",
+    "beklenen_kaynak": "8-Baglamdan_bagimsiz_dilbilgisi.pdf",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "S",
+      "S'dir",
+      "Başlangıç simgesi S",
+      "Başlangıç değişkeni (S)"
+    ],
+    "anahtar_kelimeler": ["s", "başlangıç"]
+  },
+  "8": {
+    "soru": "Fourier dönüşümünün ileri yönü hangi işlemi yapar?",
+    "zorluk": "Kolay",
+    "beklenen_kaynak": "lsarSist-H8_FourierTransform.pdf",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Sürekli zamanlı sinyal x(t) üzerinden spektral bilgiyi çıkarır, zaman domenindeki işareti frekans domenine dönüştürür.",
+      "x(t) sinyalinden spektral bilgiyi çıkarır."
+    ],
+    "anahtar_kelimeler": ["spektral", "frekans", "x(t)"]
+  },
+  "9": {
+    "soru": "Zamanda kaydırma Fourier dönüşümünün genliğini nasıl etkiler?",
+    "zorluk": "Orta",
+    "beklenen_kaynak": "lsarSist-H8_FourierTransform.pdf",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Genlik spektrumunu etkilemez (genlik değişmez), sadece faz spektrumuna doğrusal bir faz kayması ekler.",
+      "Genliği değiştirmez, sadece fazı etkiler."
+    ],
+    "anahtar_kelimeler": ["etkilemez", "değişmez", "faz"]
+  },
+  "10": {
+    "soru": "Ölçekleme özelliğine göre zaman ekseni daralırsa frekans ekseni ne olur?",
+    "zorluk": "Orta",
+    "beklenen_kaynak": "lsarSist-H8_FourierTransform.pdf",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Frekans ekseni genişler.",
+      "Genişler."
+    ],
+    "anahtar_kelimeler": ["genişler"]
+  },
+  "11": {
+    "soru": "Dualite özelliği neyi ifade eder?",
+    "zorluk": "Orta",
+    "beklenen_kaynak": "lsarSist-H8_FourierTransform.pdf",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Dualite özelliği, bir fonksiyonun zaman domenindeki formu ile frekans domenindeki formu arasındaki simetriyi ifade eder.",
+      "Zaman domonundaki formunu frekans domonunda simetrik bir fonksiyona dönüştürür."
+    ],
+    "anahtar_kelimeler": ["simetri", "zaman", "frekans", "dualite"]
+  },
+  "12": {
+    "soru": "Bir sinyalin Fourier dönüşümünün var olması için hangi koşullar sağlanmalıdır?",
+    "zorluk": "Zor",
+    "beklenen_kaynak": "lsarSist-H8_FourierTransform.pdf",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Dirichlet koşulları: 1) Sinyal mutlak olarak integrallenebilir olmalıdır. 2) Herhangi bir sınırlı zaman aralığında sınırlı sayıda maksimum ve minimuma sahip olmalıdır. 3) Sonlu sayıda süreksizlik içermelidir.",
+      "Mutlak integrallenebilirlik, sınırlı sayıda ekstremum ve sonlu sayıda kesinti (Dirichlet koşulları)."
+    ],
+    "anahtar_kelimeler": ["mutlak", "integrallenebilir", "maksimum", "minimum", "süreksizlik"]
+  },
+  "13": {
+    "soru": "Nedensel üstel işaretin Fourier dönüşümü nedir?",
+    "zorluk": "Zor",
+    "beklenen_kaynak": "lsarSist-H8_FourierTransform.pdf",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "X(jω) = 1 / (a + jω)",
+      "1 / (a + jω)",
+      "Nedensel üstel işaretin Fourier dönüşümü X(jω) = 1 / (a + jω) dir (Re{a} > 0)."
+    ],
+    "anahtar_kelimeler": ["1 / (a + jω)", "1/(a+jω)", "a + jω"]
+  },
+  "14": {
+    "soru": "Sinüzoidal genlik modülasyonunda demodülasyon nasıl yapılır?",
+    "zorluk": "Orta",
+    "beklenen_kaynak": "lsarSist-H8_FourierTransform.pdf",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Modüleli sinyal, modülasyonda kullanılan taşıyıcı sinüs/kosinüs frekansına eşit bir sinyalle çarpılır ve ardından alçak geçiren filtre uygulanır.",
+      "Orijinal frekansın eşit bir sinüs/kosinüs sinyaliyle çarpılarak ve filtreleme işlemiyle gerçekleştirilir."
+    ],
+    "anahtar_kelimeler": ["çarp", "sinüs", "filtre", "demodülasyon"]
+  },
+  "15": {
+    "soru": "Kuantum bilgisayarlar nasıl çalışır?",
+    "zorluk": "Zor",
+    "beklenen_kaynak": "-",
+    "dokumanda_var_mi": "Hayir",
+    "referans_cevaplar": [
+      "Bu bilgi dokümanlarda bulunamadı."
+    ],
+    "anahtar_kelimeler": ["bulunamadı", "dokümanlarda bulunamadı"]
+  },
+  "16": {
+    "soru": "Python'da liste ile tuple arasındaki fark nedir?",
+    "zorluk": "Zor",
+    "beklenen_kaynak": "-",
+    "dokumanda_var_mi": "Hayir",
+    "referans_cevaplar": [
+      "Bu bilgi dokümanlarda bulunamadı."
+    ],
+    "anahtar_kelimeler": ["bulunamadı", "dokümanlarda bulunamadı"]
+  },
+  "17": {
+    "soru": "Osmanlı İmparatorluğu ne zaman kuruldu?",
+    "zorluk": "Zor",
+    "beklenen_kaynak": "-",
+    "dokumanda_var_mi": "Hayir",
+    "referans_cevaplar": [
+      "Bu bilgi dokümanlarda bulunamadı."
+    ],
+    "anahtar_kelimeler": ["bulunamadı", "dokümanlarda bulunamadı"]
+  },
+  "18": {
+    "soru": "Blockchain teknolojisi nedir?",
+    "zorluk": "Zor",
+    "beklenen_kaynak": "-",
+    "dokumanda_var_mi": "Hayir",
+    "referans_cevaplar": [
+      "Bu bilgi dokümanlarda bulunamadı."
+    ],
+    "anahtar_kelimeler": ["bulunamadı", "dokümanlarda bulunamadı"]
+  },
+  "19": {
+    "soru": "Gümüş Yaprak kütüphanesinde çalışan genç çırağın adı nedir?",
+    "zorluk": "Kolay",
+    "beklenen_kaynak": "test1.txt",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Alis",
+      "Çırağın adı Alis'tir.",
+      "Alis."
+    ],
+    "anahtar_kelimeler": ["alis"]
+  },
+  "20": {
+    "soru": "Kütüphanenin en alt katındaki yasak bölgenin adı nedir?",
+    "zorluk": "Kolay",
+    "beklenen_kaynak": "test1.txt",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Yasaklı Kanat",
+      "Yasaklı Kanat.",
+      "Yasaklı Kanat olarak bilinir."
+    ],
+    "anahtar_kelimeler": ["yasaklı kanat"]
+  },
+  "21": {
+    "soru": "Alis'in akıl hocası olan baş yöneticinin adı nedir?",
+    "zorluk": "Orta",
+    "beklenen_kaynak": "test1.txt",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Usta Magnus",
+      "Magnus",
+      "Usta Magnus'tur."
+    ],
+    "anahtar_kelimeler": ["magnus", "usta magnus"]
+  },
+  "22": {
+    "soru": "Anlatıcının kiraladığı dairenin numarası kaçtır?",
+    "zorluk": "Kolay",
+    "beklenen_kaynak": "test2.txt",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Oda No: 304",
+      "304",
+      "Oda No 304",
+      "304 numaralı daire"
+    ],
+    "anahtar_kelimeler": ["304", "oda no: 304", "oda no 304"]
+  },
+  "23": {
+    "soru": "Günlükte çözülen ilk kelime nedir?",
+    "zorluk": "Orta",
+    "beklenen_kaynak": "test2.txt",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Korev",
+      "Korev'dir.",
+      "İlk kelime 'Korev'dir."
+    ],
+    "anahtar_kelimeler": ["korev"]
+  },
+  "24": {
+    "soru": "Korev kimdir?",
+    "zorluk": "Orta",
+    "beklenen_kaynak": "test2.txt",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Korev bir insan değil, Galata'daki devasa çınar ağacının arkasındaki bir antikacının adıdır.",
+      "Bir antikacının adıdır."
+    ],
+    "anahtar_kelimeler": ["antikacı", "antikacının"]
+  },
+  "25": {
+    "soru": "Summer School programı kaç haftalıktır?",
+    "zorluk": "Kolay",
+    "beklenen_kaynak": "Summer School Foundry Local Plan.docx",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "5 hafta",
+      "Beş hafta",
+      "Beş haftalıktır",
+      "5 haftalıktır."
+    ],
+    "anahtar_kelimeler": ["5", "beş", "hafta"]
+  },
+  "26": {
+    "soru": "Summer School programının fazları nelerdir?",
+    "zorluk": "Orta",
+    "beklenen_kaynak": "Summer School Foundry Local Plan.docx",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Başlangıç Öğrenmesi Fazı, Proje Uygulaması, Test ve Dokümantasyon",
+      "1. Başlangıç Öğrenmesi Fazı 2. Proje Uygulaması 3. Test ve Dokümantasyon",
+      "Phase 1: Foundation, Phase 2: Project Implementation, Phase 3: Testing & Documentation"
+    ],
+    "anahtar_kelimeler": ["başlangıç", "proje", "test", "öğrenme", "dokümantasyon"]
+  },
+  "27": {
+    "soru": "Programın birinci fazında öğrenciler ne öğrenir?",
+    "zorluk": "Orta",
+    "beklenen_kaynak": "Summer School Foundry Local Plan.docx",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "RAG kavramları, Foundry Local, gömülü vektör arama, SQLite ve metin düzenleme/doğrulama temellerini öğrenir.",
+      "RAG temelleri, Foundry Local kurulumu, vektör arama ve SQLite."
+    ],
+    "anahtar_kelimeler": ["rag", "foundry local", "sqlite", "vektör"]
+  },
+  "28": {
+    "soru": "Programda hangi vektör veritabanı teknolojisi kullanılır?",
+    "zorluk": "Zor",
+    "beklenen_kaynak": "Summer School Foundry Local Plan.docx",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "SQLite",
+      "SQLite veritabanı"
+    ],
+    "anahtar_kelimeler": ["sqlite"]
+  },
+  "29": {
+    "soru": "Alis hangi programlama dilini kullanarak Fourier dönüşümü hesapladı?",
+    "zorluk": "Zor",
+    "beklenen_kaynak": "-",
+    "dokumanda_var_mi": "Hayir",
+    "referans_cevaplar": [
+      "Bu bilgi dokümanlarda bulunamadı."
+    ],
+    "anahtar_kelimeler": ["bulunamadı", "dokümanlarda bulunamadı"]
+  },
+  "30": {
+    "soru": "Oda No: 304 hikayesinde bağlamdan bağımsız dilbilgisi nasıl anlatılıyor?",
+    "zorluk": "Zor",
+    "beklenen_kaynak": "-",
+    "dokumanda_var_mi": "Hayir",
+    "referans_cevaplar": [
+      "Bu bilgi dokümanlarda bulunamadı."
+    ],
+    "anahtar_kelimeler": ["bulunamadı", "dokümanlarda bulunamadı"]
+  }
+}

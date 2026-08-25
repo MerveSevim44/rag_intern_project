@@ -1,12 +1,25 @@
 import sys
+from pathlib import Path
+
+# Add src and root to sys.path for direct script runs
+_root = Path(__file__).resolve().parent.parent
+_src = _root / "src"
+for _p in [str(_src), str(_root)]:
+    if _p not in sys.path:
+        sys.path.insert(0, _p)
+
 try:
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 except AttributeError:
     pass
 
 import pandas as pd
-from llm_client import load_model
-from code_interpreter import code_interpreter_with_retry, result_to_natural_language
+try:
+    from src.llm_client import load_model
+    from src.code_interpreter import code_interpreter_with_retry, result_to_natural_language
+except ImportError:
+    from llm_client import load_model
+    from code_interpreter import code_interpreter_with_retry, result_to_natural_language
 
 def test_code_interpreter():
     print("=== LLM YÜKLENİYOR ===")
