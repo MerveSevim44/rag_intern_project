@@ -957,6 +957,7 @@ if question:
                 question,
                 top_k=top_k,
                 use_reranker=use_reranker,
+                llm=st.session_state.llm,
             )
         except Exception as e:
             st.error(f"Arama hatası: {e}")

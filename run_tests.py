@@ -85,7 +85,7 @@ def run_single_test(llm, question, top_k=5, use_reranker=True, retries=1):
     """
     t0 = time.perf_counter()
 
-    chunks = get_top_chunks(question, top_k=top_k, use_reranker=use_reranker)
+    chunks = get_top_chunks(question, top_k=top_k, use_reranker=use_reranker, llm=llm)
     context = build_context(chunks)
 
     for attempt in range(retries + 1):

@@ -37,39 +37,40 @@ def _tokenize(text: str) -> List[str]:
 def retrieve(query: str, db_path: str = DB_PATH, model: str = EMBED_MODEL,
              top_k: int = TOP_K, use_reranker: bool = True,
              rerank_top_n: int = RERANK_TOP_N,
-             bm25_weight: float = BM25_WEIGHT) -> List[Dict[str, Any]]:
+             bm25_weight: float = BM25_WEIGHT,
+             llm: Optional[Any] = None) -> List[Dict[str, Any]]:
     """
-    Kullanıcı sorusuna en alakalı yanıt/chunk'ları akıllı rota ve hibrit arama ile bulur.
+    Kullanıcı sorusuna en alakalı yanıt/chunk'ları 3 kademeli akıllı rota ve hibrit arama ile bulur.
 
-    Args:
-        query:         Kullanıcının sorduğu soru.
-        db_path:       SQLite veritabanı yolu.
-        model:         Embedding modeli adı (Ollama).
-        top_k:         Aday chunk havuzu büyüklüğü.
-        use_reranker:  Cross-Encoder ile tekrar sıralama yapılsın mı?
-        rerank_top_n:  Döndürülecek nihai sonuç sayısı.
-        bm25_weight:   BM25 skorunun hibrit ağırlığı (0..1 arası).
-
-    Returns:
-        list[dict]: [{"id", "source", "content", "page_info", "score", "intent"}]
+    Akış:
+    1. Router (rule_engine -> code_interpreter -> semantic_rag)
+    2. Tabular/Sandbox çalıştırması (rule_engine veya code_interpreter)
+    3. Semantik arama (Vektör + BM25 + Reranker)
     """
-    # ── ADIM 1: Soru Niyetini Analiz Et (Routing) ──
-    route_info = classify_query(query)
-    intent = route_info["intent"]
+    from router import route_query, RouteTarget
 
-    # ── ADIM 2: AGGREGATION İse Doğrudan Veri Motorunu Çalıştır ──
-    if intent == QueryIntent.AGGREGATION:
-        agg_result = query_tabular_data(query)
+    # ── ADIM 1: Soru Rotalama (3 Kademeli Router) ──
+    route = route_query(query)
+
+    # ── ADIM 2: RULE_ENGINE veya CODE_INTERPRETER İse Veri Motorunu / Sandbox'ı Çalıştır ──
+    if route in (RouteTarget.RULE_ENGINE.value, RouteTarget.CODE_INTERPRETER.value):
+        agg_result = query_tabular_data(query, llm=llm)
         if agg_result:
+            source_file = agg_result.get("source_file", "728_profiles.json")
+            if not source_file.startswith("data/"):
+                source_file = f"data/{source_file}"
             return [{
                 "id": 0,
-                "source": "data/728_profiles.json",
-                "page_info": f"$.statistics ({agg_result['operation']})",
-                "content": f"[KESİN İSTATİSTİK SONUCU]\n{agg_result['summary']}",
+                "source": source_file,
+                "page_info": f"{agg_result.get('route', 'data_engine')} ({agg_result['operation']})",
+                "content": f"[KESİN HESAPLAMA SONUCU]\n{agg_result['summary']}",
                 "score": 1.0,
-                "intent": intent.value,
+                "intent": agg_result.get("route", "code_interpreter").upper(),
+                "code": agg_result.get("code", ""),
+                "raw_result": agg_result.get("result", None),
             }]
-        # Eğer hesaplanamazsa aşağıya (Semantik Fallback) devam eder.
+        # Eğer hesaplanamazsa veya hata alınırsa aşağıya (Semantik RAG Fallback) devam eder.
+
 
     # ── ADIM 3: Veritabanından Chunk'ları Yükle ──
     with closing(sqlite3.connect(db_path, timeout=30.0)) as conn:
@@ -116,10 +117,9 @@ def retrieve(query: str, db_path: str = DB_PATH, model: str = EMBED_MODEL,
         hybrid_score = (1.0 - bm25_weight) * dense_score + bm25_weight * sparse_score
 
         # ŞEMA SORGUSU İSE: fieldGuide, safetyAndDataQuality, statistics bölümlerini öne çıkar
-        if intent == QueryIntent.SCHEMA:
-            page_str = (page_info or "").lower()
-            if any(k in page_str for k in ["fieldguide", "safetyanddataquality", "statistics", "metadata"]):
-                hybrid_score += 0.35  # Şema chunk'larına belirgin öncelik ver
+        page_str = (page_info or "").lower()
+        if any(k in page_str for k in ["fieldguide", "safetyanddataquality", "statistics", "metadata"]):
+            hybrid_score += 0.35  # Şema chunk'larına belirgin öncelik ver
 
         scored_chunks.append({
             "id": chunk_id,
@@ -129,8 +129,9 @@ def retrieve(query: str, db_path: str = DB_PATH, model: str = EMBED_MODEL,
             "score": hybrid_score,
             "dense_score": dense_score,
             "bm25_score": sparse_score,
-            "intent": intent.value,
+            "intent": route.upper(),
         })
+
 
     # Skora göre sırala ve ilk top_k adayı al
     scored_chunks.sort(key=lambda x: x["score"], reverse=True)

@@ -78,6 +78,34 @@ class TabularDataEngine:
             except Exception as e:
                 print(f"[data_engine] '{file_path.name}' yüklenirken hata: {e}")
 
+    def get_best_dataframe(self, query: str = "", filename: Optional[str] = None) -> Tuple[Optional[pd.DataFrame], str]:
+        """Sorgu içeriğine veya dosya adına göre en uygun DataFrame'i ve dosya adını döner."""
+        if not self._cache:
+            self._load_datasets()
+        if not self._cache:
+            return None, ""
+
+        if filename and filename in self._cache:
+            return self._cache[filename][0], filename
+
+        q_lower = query.lower()
+        # 1. Havaalanı veri seti ipuçları
+        if any(k in q_lower for k in ["airport", "havaalan", "havaliman", "enlem", "boylam", "lat", "lon", "iata", "icao"]):
+            if "airports.json" in self._cache:
+                return self._cache["airports.json"][0], "airports.json"
+
+        # 2. Profil veri seti ipuçları
+        if any(k in q_lower for k in ["profil", "sektör", "sektor", "meslek", "occupation", "hizmet", "servicemodes", "experience", "autoapprove"]):
+            if "728_profiles.json" in self._cache:
+                return self._cache["728_profiles.json"][0], "728_profiles.json"
+
+        # 3. Varsayılan: İlk dolu DataFrame'i dön
+        for name, (df, recs, meta) in self._cache.items():
+            if not df.empty:
+                return df, name
+
+        return None, ""
+
     def get_dataframe(self, filename: Optional[str] = None) -> Optional[pd.DataFrame]:
         """İlgili dosyanın DataFrame'ini döner."""
         if not self._cache:
@@ -600,6 +628,48 @@ class TabularDataEngine:
                 "data_points": sector_dist
             }
 
+    def execute_smart_query(self, query: str, llm: Optional[Any] = None, filename: Optional[str] = None) -> Optional[Dict[str, Any]]:
+        """
+        3 Kademeli Akıllı Yönlendirme (Router) ile sorguyu çalıştırır:
+        1. rule_engine: Hızlı regex/kural motoru ile anında hesaplar.
+        2. code_interpreter: Karmaşık/çoklu koşullu sorgularda güvenli sandbox & LLM retry döngüsü ile çalıştırır.
+        3. Başarısızlık / Semantik sorularda None döner (Semantic RAG'e fallback).
+        """
+        from router import route_query, RouteTarget
+
+        df, source_name = self.get_best_dataframe(query=query, filename=filename)
+        df_schema = {str(c): str(t) for c, t in df.dtypes.items()} if df is not None else {}
+        route = route_query(query, df_schema=df_schema)
+
+        # ── 1. KADEME: Basit Kural Motoru (Rule Engine) ──
+        if route == RouteTarget.RULE_ENGINE.value:
+            rule_res = self.execute_query(query)
+            if rule_res:
+                rule_res["source_file"] = source_name
+                rule_res["route"] = "rule_engine"
+                return rule_res
+
+        # ── 2. KADEME: Dinamik Text-to-Pandas Sandbox (Code Interpreter) ──
+        # Eğer rota code_interpreter ise VEYA kural motoru bir sonuç üretemediyse ve df mevcutsa
+        if df is not None and not df.empty and (route == RouteTarget.CODE_INTERPRETER.value or route == RouteTarget.RULE_ENGINE.value):
+            if llm is not None:
+                from code_interpreter import code_interpreter_with_retry, result_to_natural_language
+                exec_info = code_interpreter_with_retry(query, df, llm, max_retries=3)
+                if exec_info.get("success"):
+                    raw_res = exec_info["raw_result"]
+                    natural_summary = result_to_natural_language(query, raw_res, llm)
+                    return {
+                        "operation": "code_interpreter_sandbox",
+                        "result": raw_res,
+                        "summary": natural_summary,
+                        "code": exec_info.get("code", ""),
+                        "attempts": exec_info.get("attempts", 1),
+                        "source_file": source_name,
+                        "route": "code_interpreter",
+                        "data_points": raw_res
+                    }
+
+        # ── 3. KADEME: Semantik RAG Fallback ──
         return None
 
 
@@ -611,10 +681,11 @@ def get_data_engine() -> TabularDataEngine:
         _global_engine = TabularDataEngine()
     return _global_engine
 
-def query_tabular_data(query: str) -> Optional[Dict[str, Any]]:
-    """Dışarıdan doğrudan çağrılabilen hızlı fonksiyon."""
+def query_tabular_data(query: str, llm: Optional[Any] = None, filename: Optional[str] = None) -> Optional[Dict[str, Any]]:
+    """Dışarıdan doğrudan çağrılabilen akıllı veri motoru fonksiyonu."""
     engine = get_data_engine()
-    return engine.execute_query(query)
+    return engine.execute_smart_query(query, llm=llm, filename=filename)
+
 
 
 if __name__ == "__main__":
