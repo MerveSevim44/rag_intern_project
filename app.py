@@ -20,6 +20,7 @@ import streamlit as st
 from llm_client import load_model, ask, truncate_chunk_text, truncate_context
 from retrieval import get_top_chunks, RERANK_TOP_N
 from ingest import ingest_single_file, list_ingested_sources, delete_source, DATA_DIR, init_db
+from visualizer import extract_chart_data, render_chart_block
 
 # Kullanıcıya gösterilen ad -> Foundry Local'in tam model ID'si.
 # Kısa alias ("phi-4-mini") KULLANILMIYOR: katalog onu CPU varyantına çözüyor
@@ -278,6 +279,43 @@ st.markdown("""
     padding: 0.8rem;
     text-align: center;
 }
+[data-testid="stMetric"] {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+    padding: 0.55rem 0.85rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+[data-testid="stMetricLabel"] {
+    color: var(--txt-soft) !important;
+    font-size: 0.8rem !important;
+    font-weight: 600 !important;
+}
+[data-testid="stMetricValue"] {
+    color: var(--txt-strong) !important;
+    font-size: 1.25rem !important;
+    font-weight: 700 !important;
+}
+
+/* Sekmeler (Tabs) */
+.stTabs [data-baseweb="tab-list"] {
+    gap: 0.4rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    margin-top: 0.4rem;
+}
+.stTabs [data-baseweb="tab"] {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px 8px 0 0;
+    color: var(--txt-mid);
+    padding: 0.35rem 0.75rem;
+    font-size: 0.84rem;
+}
+.stTabs [aria-selected="true"] {
+    background: rgba(139, 92, 246, 0.25) !important;
+    border-color: rgba(139, 92, 246, 0.5) !important;
+    color: #ffffff !important;
+}
 
 /* Input alanı */
 [data-testid="stChatInput"] textarea {
@@ -489,7 +527,7 @@ def render_sources(sources: list[dict], msg_key: str):
 
 def render_assistant_message(msg: dict, msg_key: str):
     """
-    Asistan mesajını balon + model etiketi + kaynaklar + süre olarak çizer.
+    Asistan mesajını balon + görsel analiz grafiği (Plotly/Altair) + kod bloğu + model etiketi + kaynaklar + süre olarak çizer.
 
     Model etiketi mesajın kendi "model" alanından okunur (o an yüklü olandan
     değil): sohbet geçmişi model değişiminde korunduğu için eski cevaplar
@@ -499,6 +537,16 @@ def render_assistant_message(msg: dict, msg_key: str):
         f'<div class="chat-bot">🤖 {msg["content"]}</div>',
         unsafe_allow_html=True,
     )
+    
+    # ── Görsel Analiz & Grafik Kartı (Plotly / Altair / Veri Tablosu) ──
+    if msg.get("chart_data"):
+        render_chart_block(msg["chart_data"], block_key=f"viz_{msg_key}")
+
+    # ── Çalıştırılan Kod Bloğu (Python / Pandas) ──
+    if msg.get("code"):
+        with st.expander("💻 Çalıştırılan Analiz Kodu (Python / Pandas)", expanded=False):
+            st.code(msg["code"], language="python")
+
     if msg.get("model"):
         st.markdown(
             f'<div class="msg-model">🧠 {html.escape(str(msg["model"]))} ile yanıtlandı</div>',
@@ -524,17 +572,26 @@ def empty_state(icon: str, title: str, text: str):
 
 def suggested_questions(docs: list[dict], limit: int = 4) -> list[str]:
     """
-    İndekslenmiş dokümanların DOSYA ADINDAN örnek sorular türetir.
-
-    İçerik analizi yapmaz (bu ek bir LLM çağrısı gerektirirdi); dosya adını
-    okunabilir bir konu başlığına çevirip soru kalıbına oturtur:
-        "8-Baglamdan_bagimsiz_dilbilgisi.pdf" → "Bağlamdan bağımsız dilbilgisi nedir?"
-
-    Her dokümandan en fazla bir soru, toplam `limit` taneyle sınırlı.
+    İndekslenmiş dokümanların DOSYA ADINDAN ve içerik tipinden örnek sorular türetir.
+    JSON/tablo veri setleri varsa analitik grafik soruları da ekler.
     """
     questions = []
-    for doc in docs[:limit]:
+    has_profiles = any("728_profiles" in str(d.get("source", "")) for d in docs)
+    has_airports = any("airports" in str(d.get("source", "")) for d in docs)
+
+    if has_profiles:
+        questions.append("📊 Veri setindeki sektör dağılımı nasıldır?")
+        questions.append("📍 En çok profile sahip ilk 5 şehir hangileridir?")
+
+    if has_airports:
+        questions.append("✈️ Hangi ülkede kaç havaalanı bulunmaktadır?")
+
+    for doc in docs:
+        if len(questions) >= limit:
+            break
         stem = Path(doc["source"]).stem
+        if "728_profiles" in stem or "airports" in stem:
+            continue
         # Baştaki sıra numarası ("8-", "H8_", "04 ") at
         topic = re.sub(r"^[\dIVX]+[\s._-]+", "", stem)
         # Ayraçları boşluğa çevir, camelCase'i ayır, fazla boşlukları sadeleştir
@@ -545,7 +602,7 @@ def suggested_questions(docs: list[dict], limit: int = 4) -> list[str]:
             continue
         topic = topic[0].upper() + topic[1:]
         questions.append(f"{topic} nedir, özetler misin?")
-    return questions
+    return questions[:limit]
 
 
 def queue_question(text: str):
@@ -982,12 +1039,42 @@ if question:
                 answer = f"Yanıt üretilemedi: {e}"
             elapsed = time.perf_counter() - t0
 
+        # Görselleştirme verisi (Chart Data) ve Kod Çıkarımı
+        chart_data = None
+        code = None
+        operation = None
+
+        first_chunk = chunks[0] if chunks else {}
+        raw_data = first_chunk.get("data_points") if first_chunk.get("data_points") is not None else first_chunk.get("raw_result")
+        operation = first_chunk.get("operation", "")
+        code = first_chunk.get("code", None)
+
+        if raw_data is not None:
+            chart_data = extract_chart_data(
+                raw_data,
+                query=question,
+                summary=first_chunk.get("content", ""),
+                operation=operation,
+            )
+
+        # Eğer chunk ham verisinden çıkarılamadıysa LLM cevabındaki dağılımı dene
+        if not chart_data and answer:
+            chart_data = extract_chart_data(
+                None,
+                query=question,
+                summary=answer,
+                operation=operation or "",
+            )
+
         assistant_msg = {
             "role": "assistant",
             "content": answer,
             "sources": chunks,
             "elapsed": elapsed,
             "model": st.session_state.model_alias,
+            "chart_data": chart_data,
+            "code": code,
+            "operation": operation,
         }
 
         # İstatistikleri güncelle

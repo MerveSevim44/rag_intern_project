@@ -68,6 +68,8 @@ def retrieve(query: str, db_path: str = DB_PATH, model: str = EMBED_MODEL,
                 "intent": agg_result.get("route", "code_interpreter").upper(),
                 "code": agg_result.get("code", ""),
                 "raw_result": agg_result.get("result", None),
+                "data_points": agg_result.get("data_points", agg_result.get("result", None)),
+                "operation": agg_result.get("operation", ""),
             }]
         # Eğer hesaplanamazsa veya hata alınırsa aşağıya (Semantik RAG Fallback) devam eder.
 

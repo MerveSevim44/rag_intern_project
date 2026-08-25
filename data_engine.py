@@ -243,8 +243,8 @@ class TabularDataEngine:
 
         # ── 1B. HİZMET SÜRESİ VE SEKTÖR KARŞILAŞTIRMASI (örn: Psikoloji vs Diş, duration >= 45 dk yüzdesi) ──
         if (("hizmet" in q_norm or "services" in q_norm or "seans" in q_norm) 
-            and ("durationminutes" in q_norm or "sure" in q_norm or "dakika" in q_norm)
-            and ("karsilastir" in q_norm or "hangisinde daha yuksek" in q_norm or "yuzdesel oran" in q_norm or ("psikoloji" in q_norm and "agiz" in q_norm))):
+            and ("durationminutes" in q_norm or "sure" in q_norm or "dakika" in q_norm or "dk" in q_norm)
+            and ("karsilastir" in q_norm or "hangisinde daha yuksek" in q_norm or "oran" in q_norm or ("psikoloji" in q_norm and "agiz" in q_norm))):
             
             target_sectors = []
             for sec in df["sector"].dropna().unique():
@@ -519,9 +519,33 @@ class TabularDataEngine:
                     "data_points": dist_dict
                 }
 
-        # ── 2H. KAÇ FARKLI SEKTÖR / MESLEK / ŞEHİR (NUNIQUE) + Top-N ──
-        if "kac farkli" in q_norm or "farkli" in q_norm:
-            if "sektor" in q_norm:
+        # ── 2H. KAÇ FARKLI SEKTÖR / MESLEK / ŞEHİR (NUNIQUE) + Top-N / ŞEHİR DAĞILIMI ──
+        if "sehir" in q_norm or "city" in q_norm or " il " in f" {q_norm} " or "iller" in q_norm or "kac farkli" in q_norm or "farkli" in q_norm:
+            if "sehir" in q_norm or "city" in q_norm or " il " in f" {q_norm} " or "iller" in q_norm:
+                city_col = next((col for col in df.columns if "city" in col.lower()), None)
+                if city_col:
+                    unique_count = int(df[city_col].nunique())
+                    top_n_match = re.search(r"ilk (\d+)|en (?:cok|fazla).*?(\d+)|top\s*(\d+)", q_norm)
+                    top_n = int(top_n_match.group(1) or top_n_match.group(2) or top_n_match.group(3)) if top_n_match else None
+                    top_cities = df[city_col].value_counts()
+                    if top_n:
+                        top_cities = top_cities.head(top_n)
+                    elif "en cok" in q_norm or "en fazla" in q_norm or "ilk" in q_norm or "yogun" in q_norm or "dagilim" in q_norm:
+                        top_cities = top_cities.head(5)
+                    else:
+                        top_cities = top_cities.head(3)
+                    top_dict = {str(k): int(v) for k, v in top_cities.items()}
+                    top_parts = [f"{k} ({v})" for k, v in top_dict.items()]
+                    summary = f"Veri setindeki profillerde toplam {unique_count} farklı şehir yer almaktadır."
+                    if top_n_match or "en cok" in q_norm or "en fazla" in q_norm or "ilk" in q_norm or "yogun" in q_norm or "dagilim" in q_norm:
+                        summary += f" En çok profile sahip ilk {len(top_dict)} şehir: {', '.join(top_parts)}."
+                    return {
+                        "operation": "nunique_city_topn",
+                        "result": {"unique_count": unique_count, "top_cities": top_dict},
+                        "summary": summary,
+                        "data_points": top_dict
+                    }
+            elif "sektor" in q_norm:
                 if "sector" in df.columns:
                     unique_count = int(df["sector"].nunique())
                     return {
@@ -538,28 +562,6 @@ class TabularDataEngine:
                         "result": unique_count,
                         "summary": f"Veri setinde toplam {unique_count} farklı meslek (occupation) bulunmaktadır.",
                         "data_points": {"unique_occupations": unique_count}
-                    }
-            elif "sehir" in q_norm or "city" in q_norm or "il" in q_norm:
-                city_col = next((col for col in df.columns if "city" in col.lower()), None)
-                if city_col:
-                    unique_count = int(df[city_col].nunique())
-                    top_n_match = re.search(r"ilk (\d+)|en (?:cok|fazla).*(\d+)", q_norm)
-                    top_n = int(top_n_match.group(1) or top_n_match.group(2)) if top_n_match else None
-                    top_cities = df[city_col].value_counts()
-                    if top_n:
-                        top_cities = top_cities.head(top_n)
-                    else:
-                        top_cities = top_cities.head(3)
-                    top_dict = {str(k): int(v) for k, v in top_cities.items()}
-                    top_parts = [f"{k} ({v})" for k, v in top_dict.items()]
-                    summary = f"Veri setindeki profillerde toplam {unique_count} farklı şehir yer almaktadır."
-                    if top_n_match or "en cok" in q_norm or "en fazla" in q_norm or "ilk" in q_norm:
-                        summary += f" En çok profile sahip ilk {len(top_dict)} şehir: {', '.join(top_parts)}."
-                    return {
-                        "operation": "nunique_city_topn",
-                        "result": {"unique_count": unique_count, "top_cities": top_dict},
-                        "summary": summary,
-                        "data_points": {"unique_cities": unique_count, "top_cities": top_dict}
                     }
 
         # ── 2I. GENEL TOPLAM KAYIT / PROFİL SAYISI ──
