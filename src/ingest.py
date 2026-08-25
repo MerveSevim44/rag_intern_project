@@ -3,6 +3,7 @@ import json
 import sqlite3
 import argparse
 from contextlib import closing
+from pathlib import Path
 try:
     from src.embedder import get_embeddings, EMBED_MODEL
 except ImportError:
@@ -363,6 +364,13 @@ def ingest_single_file(file_path, db_path=DB_PATH, model=EMBED_MODEL, batch_size
         )
         conn.commit()
 
+    # Retrieval cache'ini temizle — yeni chunk'lar bir sonraki sorguda görünsün.
+    try:
+        from src.retrieval import invalidate_cache
+    except ImportError:
+        from retrieval import invalidate_cache
+    invalidate_cache()
+
     return len(texts)
 
 
@@ -401,7 +409,15 @@ def delete_source(source_name, db_path=DB_PATH):
         cursor.execute("DELETE FROM chunks WHERE source = ?", (source_name,))
         deleted = cursor.rowcount
         conn.commit()
-        return deleted
+
+    # Retrieval cache'ini temizle — silinen chunk'lar arama sonuçlarında kalmasın.
+    try:
+        from src.retrieval import invalidate_cache
+    except ImportError:
+        from retrieval import invalidate_cache
+    invalidate_cache()
+
+    return deleted
 
 
 def ingest_files(data_dir=DATA_DIR, db_path=DB_PATH, model=EMBED_MODEL,

@@ -27,6 +27,36 @@ def cosine_similarity(v1, v2):
     v2 = np.array(v2)
     return np.dot(v1, v2) / (np.linalg.norm(v1) * np.linalg.norm(v2))
 
+
+def cosine_similarity_batch(query_vec, embedding_matrix, norms=None):
+    """
+    Tek bir sorgu vektörü ile embedding matrisindeki TÜM satırlar arasındaki
+    kosinüs benzerliğini vektörize şekilde hesaplar.
+
+    Döngü yerine numpy matris çarpımı kullanır → N chunk için ~5-10× hızlı.
+
+    Args:
+        query_vec: 1-D numpy array (sorgu embedding'i).
+        embedding_matrix: 2-D numpy array (N×D), her satır bir chunk embedding'i.
+        norms: Önceden hesaplanmış satır normları (cache için). None ise hesaplanır.
+
+    Returns:
+        1-D numpy array: Her chunk için kosinüs benzerlik skoru.
+    """
+    query_vec = np.asarray(query_vec, dtype=np.float32)
+    query_norm = np.linalg.norm(query_vec)
+    if query_norm == 0:
+        return np.zeros(len(embedding_matrix), dtype=np.float32)
+
+    if norms is None:
+        norms = np.linalg.norm(embedding_matrix, axis=1)
+
+    # Sıfır normlu satırları koru (bölme hatasını engelle)
+    safe_norms = np.where(norms == 0, 1.0, norms)
+
+    scores = embedding_matrix @ query_vec / (safe_norms * query_norm)
+    return scores
+
 def get_embedding(text, model=EMBED_MODEL):
     """
     Verilen metin için Ollama kullanarak vektör (embedding) üretir.
