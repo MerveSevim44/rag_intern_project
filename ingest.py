@@ -178,8 +178,10 @@ def _roots_from_object(data: dict) -> list[tuple[object, str]]:
     Datasets often wrap their records in a container object, e.g.
     {"datasetName": ..., "profiles": [ ... 728 records ... ]}. In that case the
     items of the dominant list become the records, so each profile is one chunk
-    instead of the whole file collapsing into a single oversized record. The
-    remaining metadata fields are kept as one extra record.
+    instead of the whole file collapsing into a single oversized record.
+    
+    Metadata sections like 'fieldGuide', 'safetyAndDataQuality', 'statistics'
+    are kept as individual coherent meta-records rather than being fragmented.
     """
     best_key, best_len = None, 0
     for key, value in data.items():
@@ -194,9 +196,20 @@ def _roots_from_object(data: dict) -> list[tuple[object, str]]:
     roots = [
         (item, f"$.{best_key}[{i}]") for i, item in enumerate(data[best_key])
     ]
-    meta = {k: v for k, v in data.items() if k != best_key}
-    if meta:
-        roots.append((meta, "$"))
+    
+    # Meta bölümlerini mantıksal ve bütünsel kökler olarak ekle
+    remaining = {}
+    for k, v in data.items():
+        if k == best_key:
+            continue
+        if isinstance(v, (dict, list)):
+            roots.append((v, f"$.{k}"))
+        else:
+            remaining[k] = v
+
+    if remaining:
+        roots.append((remaining, "$.metadata"))
+
     return roots
 
 

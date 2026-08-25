@@ -1,62 +1,77 @@
 """
-retrieval.py — Soru gelince SQLite'tan doğru chunk'ları bulur.
+retrieval.py — Hibrit (BM25 + Vektör) Arama ve Akıllı Yönlendirme Modülü
 
 Akış:
-  1. Kullanıcının sorusunu embed et  (bge-m3 → vektör)
-  2. Veritabanındaki tüm chunk embedding'lerini çek
-  3. Cosine similarity ile en yakın chunk'ları bul (top_k)
-  4. (Opsiyonel) Reranker ile sonuçları tekrar sırala
-  5. En alakalı chunk'ları döndür
+  1. Router ile sorunun niyetini belirle (AGGREGATION, SCHEMA, SEMANTIC)
+  2. AGGREGATION ise: Doğrudan data_engine (Pandas) ile kesin matematiksel sonucu üret
+  3. SCHEMA ise: Şema ve meta chunk'larına (fieldGuide, safetyAndDataQuality) öncelik ver
+  4. SEMANTIC ise: BM25 (anahtar kelime) + BGE-M3 (vektör benzerliği) ile hibrit adayları bul
+  5. Cross-Encoder Reranker ile en alakalı nihai chunk'ları sıralayıp döndür
 """
 
 import json
+import re
 import sqlite3
 from contextlib import closing
+from typing import List, Dict, Any, Optional
+
+import numpy as np
+from rank_bm25 import BM25Okapi
+
 from embedder import get_embedding, cosine_similarity, rerank_indices, EMBED_MODEL
-#import re
-#from rank_bm25 import BM25Okapi  # BM25 için kütüphane
+from router import classify_query, QueryIntent
+from data_engine import query_tabular_data
 
-# ─── Varsayılan ayarlar ───
-DB_PATH = "rag.db"#
+# ─── Varsayılan Ayarlar ───
+DB_PATH = "rag.db"
+TOP_K = 8             # Hibrit arama ile seçilecek aday chunk sayısı
+RERANK_TOP_N = 3      # Reranker sonrası döndürülecek nihai sonuç sayısı
+BM25_WEIGHT = 0.35    # Hibrit skorda BM25 ağırlığı (0.0 = Sadece Vektör, 1.0 = Sadece BM25)
 
-TOP_K = 5            # Cosine similarity ile kaç aday çekelim
-RERANK_TOP_N = 3     # Reranker'dan sonra kaç sonuç döndürelim
+
+def _tokenize(text: str) -> List[str]:
+    """Metni küçük harfe çevirip kelimelerine ayırır (Türkçe uyumlu)."""
+    return re.findall(r"\w+", text.lower())
 
 
-def retrieve(query: str, db_path=DB_PATH, model=EMBED_MODEL,
-             top_k=TOP_K, use_reranker=True, rerank_top_n=RERANK_TOP_N) -> list[dict]:
+def retrieve(query: str, db_path: str = DB_PATH, model: str = EMBED_MODEL,
+             top_k: int = TOP_K, use_reranker: bool = True,
+             rerank_top_n: int = RERANK_TOP_N,
+             bm25_weight: float = BM25_WEIGHT) -> List[Dict[str, Any]]:
     """
-    Kullanıcı sorusuna en alakalı chunk'ları veritabanından bulur.
+    Kullanıcı sorusuna en alakalı yanıt/chunk'ları akıllı rota ve hibrit arama ile bulur.
 
     Args:
-        query:         Kullanıcının sorduğu soru (str).
+        query:         Kullanıcının sorduğu soru.
         db_path:       SQLite veritabanı yolu.
-        model:         Embedding modeli adı (Ollama'da yüklü olmalı).
-        top_k:         Cosine similarity ile kaç aday chunk seçilecek.
-        use_reranker:  True ise sonuçlar Cross-Encoder ile tekrar sıralanır.
-        rerank_top_n:  Reranker sonrası döndürülecek nihai sonuç sayısı.
+        model:         Embedding modeli adı (Ollama).
+        top_k:         Aday chunk havuzu büyüklüğü.
+        use_reranker:  Cross-Encoder ile tekrar sıralama yapılsın mı?
+        rerank_top_n:  Döndürülecek nihai sonuç sayısı.
+        bm25_weight:   BM25 skorunun hibrit ağırlığı (0..1 arası).
 
     Returns:
-        list[dict]: Her biri {"source", "content", "score"} içeren sözlük listesi.
+        list[dict]: [{"id", "source", "content", "page_info", "score", "intent"}]
     """
+    # ── ADIM 1: Soru Niyetini Analiz Et (Routing) ──
+    route_info = classify_query(query)
+    intent = route_info["intent"]
 
-    # ── ADIM 1: Soruyu vektöre çevir ──────────────────────────────
-    # Aynı modeli kullanıyoruz (bge-m3), böylece soru vektörü ile
-    # chunk vektörleri aynı uzayda oluyor → karşılaştırma anlamlı olur.
-    try:
-        query_embedding = get_embedding(query, model=model)
-    except Exception as e:
-        raise ConnectionError(
-            f"Embedding oluşturulamadı (Ollama çalışıyor mu? '{model}' modeli yüklü mü?): {e}"
-        ) from e
+    # ── ADIM 2: AGGREGATION İse Doğrudan Veri Motorunu Çalıştır ──
+    if intent == QueryIntent.AGGREGATION:
+        agg_result = query_tabular_data(query)
+        if agg_result:
+            return [{
+                "id": 0,
+                "source": "data/728_profiles.json",
+                "page_info": f"$.statistics ({agg_result['operation']})",
+                "content": f"[KESİN İSTATİSTİK SONUCU]\n{agg_result['summary']}",
+                "score": 1.0,
+                "intent": intent.value,
+            }]
+        # Eğer hesaplanamazsa aşağıya (Semantik Fallback) devam eder.
 
-    # ── ADIM 2: Veritabanından tüm chunk'ları çek ────────────────
-    # Her chunk'ın source (dosya adı), content (metin) ve
-    # embedding (JSON string olarak saklanan vektör) bilgisini alıyoruz.
-    # timeout: ingest sırasında yazma kilidi varsa hemen hata vermek yerine bekle.
-    # closing(): `with sqlite3.connect(...)` sadece commit/rollback yapar, bağlantıyı
-    # KAPATMAZ. Streamlit her yeniden çalıştırmada burayı çağırdığı için kapatılmayan
-    # bağlantılar birikir ve WAL dosyası hiç checkpoint edilemez.
+    # ── ADIM 3: Veritabanından Chunk'ları Yükle ──
     with closing(sqlite3.connect(db_path, timeout=30.0)) as conn:
         conn.execute("PRAGMA busy_timeout=30000")
         cursor = conn.cursor()
@@ -64,98 +79,106 @@ def retrieve(query: str, db_path=DB_PATH, model=EMBED_MODEL,
         rows = cursor.fetchall()
 
     if not rows:
-        print("Veritabanında hiç chunk bulunamadı. Önce ingest.py çalıştırın.")
+        print("[retrieval] Veritabanında hiç chunk bulunamadı.")
         return []
 
-    # ── ADIM 3: Cosine similarity hesapla ─────────────────────────
-    # Her chunk'ın embedding'ini sorunun embedding'i ile karşılaştır.
-    # Skor 1.0'a ne kadar yakınsa, chunk o kadar alakalıdır.
-    # Boyut kontrolü: DB başka bir embedding modeliyle doldurulmuşsa
-    # cosine_similarity anlaşılmaz bir "shapes not aligned" hatası verir.
-    db_dim = len(json.loads(rows[0][3]))
-    if db_dim != len(query_embedding):
+    # ── ADIM 4: Dense (Vektör) Embedding ve Kosinüs Benzerliği ──
+    try:
+        query_embedding = get_embedding(query, model=model)
+    except Exception as e:
+        raise ConnectionError(f"Embedding oluşturulamadı: {e}") from e
+
+    # Embedding boyutu kontrolü
+    sample_dim = len(json.loads(rows[0][3]))
+    if sample_dim != len(query_embedding):
         raise ValueError(
-            f"Embedding boyutu uyuşmuyor: sorgu {len(query_embedding)} ('{model}'), "
-            f"veritabanı {db_dim}. Veritabanı farklı bir modelle oluşturulmuş; "
-            f"'{model}' ile yeniden ingest edin (ingest.py)."
+            f"Embedding boyutu uyuşmuyor: DB={sample_dim}, Model={len(query_embedding)}."
         )
 
-    scored_chunks = []
-    for chunk_id, source, content, embedding_json, page_info in rows:
-        # Embedding veritabanında JSON string olarak saklanıyor → listeye çevir
-        chunk_embedding = json.loads(embedding_json)
+    # ── ADIM 5: BM25 (Anahtar Kelime Eşleştirme) İndeksi ──
+    corpus_tokens = [_tokenize(row[2]) for row in rows]
+    bm25 = BM25Okapi(corpus_tokens)
+    query_tokens = _tokenize(query)
+    bm25_scores = bm25.get_scores(query_tokens)
 
-        # İki vektör arasındaki benzerliği hesapla (0..1 arası)
-        score = cosine_similarity(query_embedding, chunk_embedding)
-        #
+    # BM25 skorlarını [0..1] aralığına normalize et
+    max_bm25 = max(bm25_scores) if len(bm25_scores) > 0 and max(bm25_scores) > 0 else 1.0
+    bm25_norm = [s / max_bm25 for s in bm25_scores]
+
+    # ── ADIM 6: Hibrit Skorlama ve Şema Önceliklendirme ──
+    scored_chunks = []
+    for idx, (chunk_id, source, content, embedding_json, page_info) in enumerate(rows):
+        chunk_embedding = json.loads(embedding_json)
+        dense_score = float(cosine_similarity(query_embedding, chunk_embedding))
+        sparse_score = float(bm25_norm[idx])
+
+        # Hibrit skor formülü
+        hybrid_score = (1.0 - bm25_weight) * dense_score + bm25_weight * sparse_score
+
+        # ŞEMA SORGUSU İSE: fieldGuide, safetyAndDataQuality, statistics bölümlerini öne çıkar
+        if intent == QueryIntent.SCHEMA:
+            page_str = (page_info or "").lower()
+            if any(k in page_str for k in ["fieldguide", "safetyanddataquality", "statistics", "metadata"]):
+                hybrid_score += 0.35  # Şema chunk'larına belirgin öncelik ver
+
         scored_chunks.append({
             "id": chunk_id,
             "source": source,
             "content": content,
             "page_info": page_info,
-            "score": float(score)
-            #"dense_score": dense_score
-
+            "score": hybrid_score,
+            "dense_score": dense_score,
+            "bm25_score": sparse_score,
+            "intent": intent.value,
         })
 
-    # Skora göre büyükten küçüğe sırala, ilk top_k tanesini al
+    # Skora göre sırala ve ilk top_k adayı al
     scored_chunks.sort(key=lambda x: x["score"], reverse=True)
     top_candidates = scored_chunks[:top_k]
 
-    # ── ADIM 4 (Opsiyonel): Reranker ile tekrar sırala ───────────
-    # Cosine similarity hızlı ama kaba bir filtredir.
-    # Reranker (Cross-Encoder), soru-cevap çiftini birlikte değerlendirip
-    # daha hassas bir skor verir. Bu yüzden top_k adayı reranker'a gönderip
-    # en iyi rerank_top_n tanesini seçiyoruz.
+    # ── ADIM 7 (Opsiyonel): Cross-Encoder Reranker ile Sırala ──
     if use_reranker and top_candidates:
         documents = [c["content"] for c in top_candidates]
-
-        # rerank_indices() → [(skor, indeks), ...] döndürür.
-        # Metin yerine indeks üzerinden eşleştiriyoruz: iki chunk'ın metni
-        # birebir aynı olsa bile her sonuç kendi kaynağını/sayfasını korur.
         reranked = rerank_indices(query, documents)
 
         final_results = []
-        for score, idx in reranked[:rerank_top_n]:
-            chunk = top_candidates[idx]
-            final_results.append({
-                "id": chunk["id"],
-                "source": chunk["source"],
-                "content": chunk["content"],
-                "score": float(score),
-                "page_info": chunk["page_info"],
-            })
+        for score, original_idx in reranked[:rerank_top_n]:
+            chunk = top_candidates[original_idx]
+            chunk_copy = dict(chunk)
+            chunk_copy["rerank_score"] = float(score)
+            final_results.append(chunk_copy)
         return final_results
 
-    # Reranker kullanılmıyorsa, cosine similarity sonuçlarını döndür
     return top_candidates[:rerank_top_n]
 
 
-# Alias for compatibility with app.py imports
+# Geriye dönük uyumluluk için alias
 get_top_chunks = retrieve
 
 
-# ─── Test: Doğrudan çalıştırılırsa örnek sorgu yap ───────────────
 if __name__ == "__main__":
-    # Windows konsolu varsayılan olarak cp1254 kullanır ve dokümanlardaki
-    # Yunanca/matematik karakterlerinde UnicodeEncodeError verir.
     import sys
     try:
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     except AttributeError:
         pass
 
-    test_query = "Bağlamdan bağımsız dilbilgisi nedir?"
-    print(f"Sorgu: {test_query}\n")
+    print("=" * 70)
+    print("HİBRİT ARAMA VE AKILLI RETRIEVAL TESTİ")
+    print("=" * 70)
 
-    results = retrieve(test_query)
+    test_queries = [
+        "Veri setindeki toplam profil sayısı kaçtır?",
+        '"profileCode" alanı ne için kullanılır?',
+        "Bir profildeki hizmet modları (serviceModes) hangi üç değerden birini alabilir?",
+        '"Sağlık" sektöründe kaç profil bulunmaktadır?',
+        "Bağlamdan bağımsız dilbilgisi kaç elemanlı bir yapıdır?",
+        "Summer School programı kaç haftalıktır?",
+    ]
 
-    if not results:
-        print("Sonuc bulunamadi.")
-    else:
+    for q in test_queries:
+        print(f"\nSorgu: {q}")
+        results = retrieve(q)
         for i, r in enumerate(results, 1):
-            print(f"--- Sonuc {i} (skor: {r['score']:.4f}) ---")
-            print(f"Kaynak: {r['source']} ({r['page_info']})")
-            # Icerik ilk 200 karakterini goster
-            print(f"Icerik: {r['content'][:200]}...")
-            print()
+            print(f"  [{i}] Kaynak: {r['source']} ({r['page_info']}) | Skor: {r['score']:.4f} | Rota: {r.get('intent')}")
+            print(f"      İçerik: {r['content'][:140]}...")

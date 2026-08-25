@@ -8,9 +8,13 @@ Her soru için:
   4. Sonucu (soru, cevap, kaynaklar, süre) kaydeder
 
 Kullanım:
-  python run_tests.py
+  python run_tests.py                          # test_sorulari.csv
+  python run_tests.py test_sorulari_json.csv   # başka bir soru seti
+  python run_tests.py test_sorulari_json.csv sonuc.csv
 """
+import argparse
 import csv
+import sys
 import gc
 import time
 from retrieval import get_top_chunks
@@ -111,19 +115,70 @@ def run_single_test(llm, question, top_k=5, use_reranker=True, retries=1):
     }
 
 
-def main():
+def default_output_path(input_path):
+    """test_sorulari_json.csv -> test_sonuclari_json.csv (girdi setine göre isim üret)."""
+    p = Path(input_path)
+    name = p.name
+    if name.startswith("test_sorulari_json"):
+        name = "test_sonuclari_json" + name[len("test_sorulari_json"):]
+    else:
+        name = p.stem + "_sonuclari" + p.suffix
+    return str(p.with_name(name))
+
+
+def parse_args(argv=None):
+    parser = argparse.ArgumentParser(description="RAG test setini çalıştırır.")
+    parser.add_argument(
+        "sorular",
+        nargs="?",
+        default="test_sorulari_json.csv",
+        help="Soru CSV dosyası (varsayılan: test_sorulari_json.csv)",
+    )
+    parser.add_argument(
+        "cikti",
+        nargs="?",
+        default=None,
+        help="Sonuç CSV dosyası (varsayılan: girdi adından türetilir)",
+    )
+    args = parser.parse_args(argv)
+    if args.cikti is None:
+        args.cikti = default_output_path(args.sorular)
+    return args
+
+
+def main(argv=None):
+    import sys as _sys
+    try:
+        _sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    except AttributeError:
+        pass
+
+    args = parse_args(argv)
+
+    if not Path(args.sorular).exists():
+        sys.exit(f"Soru dosyası bulunamadı: {args.sorular}")
+
     print("Model yükleniyor...")
     llm = load_model()  # varsayılan: qwen2.5-7b-instruct-cuda-gpu:4 (GPU/CUDA)
     print("Model hazır.\n")
 
     # Soruları CSV'den oku
-    with open("test_sorulari.csv", "r", encoding="utf-8") as f:
+    print(f"Soru seti: {args.sorular}")
+    with open(args.sorular, "r", encoding="utf-8-sig") as f:
         reader = csv.DictReader(f)
         sorular = list(reader)
 
+    if not sorular:
+        sys.exit(f"Soru dosyası boş: {args.sorular}")
+    if "soru" not in sorular[0]:
+        sys.exit(
+            f"'{args.sorular}' içinde 'soru' sütunu yok. "
+            f"Bulunan sütunlar: {', '.join(sorular[0].keys())}"
+        )
+
     sonuclar = []
     for soru_row in sorular:
-        print(f"[{soru_row['id']}] Soruluyor: {soru_row['soru']}")
+        print(f"[{soru_row.get('id', '?')}] Soruluyor: {soru_row['soru']}")
         try:
             sonuc = run_single_test(llm, soru_row["soru"])
         except Exception as e:
@@ -141,13 +196,13 @@ def main():
 
     # Sonuçları CSV'ye yaz
     fieldnames = list(sorular[0].keys()) + ["cevap", "bulunan_kaynaklar", "sure_sn"]
-    with open("test_sonuclari.csv", "w", encoding="utf-8", newline="") as f:
+    with open(args.cikti, "w", encoding="utf-8", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
         writer.writerows(sonuclar)
 
     print(f"\nTamamlandı. {len(sonuclar)} soru test edildi.")
-    print("Sonuçlar: test_sonuclari.csv")
+    print(f"Sonuçlar: {args.cikti}")
 
 
 if __name__ == "__main__":

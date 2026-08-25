@@ -172,9 +172,13 @@ def _resolve_model_id(base_url, requested):
     try:
         catalog = _http_get(f"{base_url}/foundry/list", timeout=30)
     except (urllib.error.URLError, OSError, TimeoutError) as e:
+        if ":" in requested or "gpu" in requested.lower():
+            return requested, {"deviceType": "GPU", "executionProvider": "CUDAExecutionProvider"}
         raise RuntimeError(f"Foundry model listesi alınamadı: {e}") from e
 
     if not isinstance(catalog, list):
+        if ":" in requested or "gpu" in requested.lower():
+            return requested, {"deviceType": "GPU", "executionProvider": "CUDAExecutionProvider"}
         raise RuntimeError("Foundry model listesi beklenmedik biçimde döndü.")
 
     by_id = {entry.get("name"): entry for entry in catalog}
