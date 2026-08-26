@@ -40,6 +40,8 @@ class TabularDataEngine:
     def __init__(self, data_dir: Path = DATA_DIR):
         self.data_dir = Path(data_dir)
         self._cache: Dict[str, Tuple[pd.DataFrame, list, dict]] = {}
+        # Dataset seçimi için kategorik değer sözlüğü (lazy, dataset başına bir kez hesaplanır)
+        self._value_vocab_cache: Dict[str, Dict[str, str]] = {}
         self._load_datasets()
 
     def _load_datasets(self):
@@ -79,33 +81,177 @@ class TabularDataEngine:
             except Exception as e:
                 print(f"[data_engine] '{file_path.name}' yüklenirken hata: {e}")
 
-    def get_best_dataframe(self, query: str = "", filename: Optional[str] = None) -> Tuple[Optional[pd.DataFrame], str]:
-        """Sorgu içeriğine veya dosya adına göre en uygun DataFrame'i ve dosya adını döner."""
+    # ─── Dataset Seçimi (Dataset-Bağımsız Skorlama) ──────────────────────────
+    # Eskiden burada "airport ise airports.json, profil ise 728_profiles.json,
+    # yoksa ilk dolu df" şeklinde hardcode bir zincir vardı. Yeni bir dataset
+    # (ör. mock-transactions.json) eklendiğinde hiçbir dala uymadığı için
+    # varsayılana — glob sırasında ilk gelen 728_profiles.json'a — düşüyor ve
+    # code_interpreter alakasız kolonlarla çalışıyordu. Artık seçim, sorunun
+    # her dataset'in GERÇEK kolon adları ve kategorik değerleriyle örtüşmesine
+    # göre puanlanır (router.detect_schema_matches / COLUMN_TR_ALIASES ile aynı
+    # eşleştirme mantığı).
+
+    _VALUE_VOCAB_MAX_CARDINALITY = 60   # Bu eşiğin üstündeki kolonlar "kategorik" sayılmaz
+    _VALUE_VOCAB_MIN_LEN = 4            # Çok kısa değerler gürültü üretir
+    _SCORE_FILENAME = 3.0               # Dosya adı token'ı soruda geçiyorsa
+    _SCORE_PER_COLUMN = 1.0             # Eşleşen kolon başına
+    _SCORE_PER_VALUE = 2.0              # Eşleşen kategorik değer başına
+    _MAX_COLUMN_POINTS = 8.0
+    _MAX_VALUE_POINTS = 8.0
+
+    def _value_vocabulary(self, name: str) -> Dict[str, str]:
+        """
+        Bir dataset'in düşük kardinaliteli (kategorik) kolonlarındaki değerleri
+        {normalize_edilmiş_değer: kolon_adı} olarak döner. Önbelleklenir.
+
+        'entertainment', 'refund', 'credit', 'debit', 'ACC-123' gibi değerler
+        sorunun hangi dataset'e ait olduğunu kolon adlarından daha güçlü belirtir.
+        """
+        if name in self._value_vocab_cache:
+            return self._value_vocab_cache[name]
+
+        vocab: Dict[str, str] = {}
+        df = self._cache.get(name, (pd.DataFrame(), [], {}))[0]
+        if df is not None and not df.empty:
+            for col in df.columns:
+                try:
+                    series = df[col]
+                    if series.dtype != object:
+                        continue
+                    uniques = series.dropna().unique()
+                    if len(uniques) == 0 or len(uniques) > self._VALUE_VOCAB_MAX_CARDINALITY:
+                        continue
+                    for val in uniques:
+                        if not isinstance(val, str):
+                            continue
+                        norm = _tr_normalize(val.strip())
+                        if len(norm) >= self._VALUE_VOCAB_MIN_LEN:
+                            vocab.setdefault(norm, str(col))
+                except Exception:
+                    continue
+
+        self._value_vocab_cache[name] = vocab
+        return vocab
+
+    def get_schemas(self) -> Dict[str, Dict[str, str]]:
+        """Yüklü tüm dataset'lerin {dosya_adı: {kolon: dtype}} şemasını döner (router'a beslenir)."""
+        if not self._cache:
+            self._load_datasets()
+        return {
+            name: {str(c): str(t) for c, t in df.dtypes.items()}
+            for name, (df, _recs, _meta) in self._cache.items()
+            if df is not None and not df.empty
+        }
+
+    def score_datasets(self, query: str) -> List[Dict[str, Any]]:
+        """
+        Soruyu her dataset ile eşleştirip puanlar. Puanı yüksekten düşüğe sıralı liste döner.
+        Her öğe: {dataset, score, matched_columns, matched_values, filename_hit, rows, cols}
+        """
+        try:
+            from router import detect_schema_matches, _normalize as _router_normalize
+        except ImportError:
+            from src.router import detect_schema_matches, _normalize as _router_normalize
+
+        q_norm = _router_normalize(query)
+        scored: List[Dict[str, Any]] = []
+
+        for name, (df, _recs, _meta) in self._cache.items():
+            if df is None or df.empty:
+                continue
+
+            columns = [str(c) for c in df.columns]
+            matched_columns = detect_schema_matches(query, columns)
+
+            matched_values: List[str] = []
+            for value_norm, col in self._value_vocabulary(name).items():
+                if value_norm and value_norm in q_norm:
+                    matched_values.append(f"{col}={value_norm}")
+                    if len(matched_values) >= 12:
+                        break
+
+            # Dosya adı token'ları ("transactions", "airports", "profiles") — hem doğrudan
+            # hem de Türkçe karşılıklarıyla ("transactions" -> "işlem") aranır. Dosya adı
+            # çoğu zaman kolonlarda geçmeyen konu bilgisini taşır.
+            stem_tokens = [t for t in re.split(r"[^A-Za-z0-9]+", Path(name).stem) if len(t) >= 4]
+            filename_hit = bool(stem_tokens) and bool(detect_schema_matches(query, stem_tokens))
+
+            score = (
+                min(len(matched_columns) * self._SCORE_PER_COLUMN, self._MAX_COLUMN_POINTS)
+                + min(len(matched_values) * self._SCORE_PER_VALUE, self._MAX_VALUE_POINTS)
+                + (self._SCORE_FILENAME if filename_hit else 0.0)
+            )
+
+            scored.append({
+                "dataset": name,
+                "score": round(score, 2),
+                "matched_columns": matched_columns,
+                "matched_values": matched_values,
+                "filename_hit": filename_hit,
+                "rows": int(len(df)),
+                "cols": len(columns),
+            })
+
+        scored.sort(key=lambda d: (d["score"], d["rows"]), reverse=True)
+        return scored
+
+    def select_dataset(self, query: str = "", filename: Optional[str] = None) -> Dict[str, Any]:
+        """
+        Sorguya en uygun dataset'i seçer ve NEDEN seçildiğini açıklayan debug bilgisini döner.
+
+        Returns:
+            {selected_dataset, match_score, reason, ambiguous, candidates}
+        """
         if not self._cache:
             self._load_datasets()
         if not self._cache:
-            return None, ""
+            return {"selected_dataset": "", "match_score": 0.0, "reason": "no_datasets_loaded",
+                    "ambiguous": False, "candidates": []}
 
         if filename and filename in self._cache:
-            return self._cache[filename][0], filename
+            return {"selected_dataset": filename, "match_score": float("inf"),
+                    "reason": "explicit_filename", "ambiguous": False, "candidates": []}
 
-        q_lower = query.lower()
-        # 1. Havaalanı veri seti ipuçları
-        if any(k in q_lower for k in ["airport", "havaalan", "havaliman", "enlem", "boylam", "lat", "lon", "iata", "icao"]):
-            if "airports.json" in self._cache:
-                return self._cache["airports.json"][0], "airports.json"
+        candidates = self.score_datasets(query)
+        if not candidates:
+            return {"selected_dataset": "", "match_score": 0.0, "reason": "no_non_empty_dataframe",
+                    "ambiguous": False, "candidates": []}
 
-        # 2. Profil veri seti ipuçları
-        if any(k in q_lower for k in ["profil", "sektör", "sektor", "meslek", "occupation", "hizmet", "servicemodes", "experience", "autoapprove"]):
-            if "728_profiles.json" in self._cache:
-                return self._cache["728_profiles.json"][0], "728_profiles.json"
+        best = candidates[0]
+        runner_up = candidates[1] if len(candidates) > 1 else None
 
-        # 3. Varsayılan: İlk dolu DataFrame'i dön
-        for name, (df, recs, meta) in self._cache.items():
-            if not df.empty:
-                return df, name
+        if best["score"] <= 0:
+            # Hiçbir dataset soruyla örtüşmüyor → varsayılana düşülür ama bu AÇIKÇA işaretlenir.
+            return {"selected_dataset": best["dataset"], "match_score": 0.0,
+                    "reason": "fallback_no_signal", "ambiguous": True, "candidates": candidates}
 
-        return None, ""
+        # Rakibiyle arasındaki fark küçükse "belirsiz" olarak işaretle (log'da görünsün).
+        ambiguous = bool(runner_up and runner_up["score"] > 0
+                         and (best["score"] - runner_up["score"]) < 1.0)
+
+        return {"selected_dataset": best["dataset"], "match_score": best["score"],
+                "reason": "ambiguous_best_score" if ambiguous else "best_score",
+                "ambiguous": ambiguous, "candidates": candidates}
+
+    def get_best_dataframe(self, query: str = "", filename: Optional[str] = None,
+                           debug: bool = False):
+        """
+        Sorgu içeriğine göre en uygun DataFrame'i ve dosya adını döner.
+
+        Seçim, sabit anahtar kelime listeleri yerine dataset'in gerçek kolon adları
+        ve kategorik değerleriyle yapılan skorlamaya dayanır; böylece yeni bir JSON
+        eklendiğinde bu fonksiyonu değiştirmek gerekmez.
+
+        Args:
+            debug: True ise (df, name, selection_info) üçlüsü döner.
+        """
+        info = self.select_dataset(query=query, filename=filename)
+        name = info["selected_dataset"]
+        df = self._cache[name][0] if name in self._cache else None
+
+        if debug:
+            return df, name, info
+        return df, name
 
     def get_dataframe(self, filename: Optional[str] = None) -> Optional[pd.DataFrame]:
         """İlgili dosyanın DataFrame'ini döner."""
@@ -638,11 +784,40 @@ class TabularDataEngine:
         2. code_interpreter: Karmaşık/çoklu koşullu sorgularda güvenli sandbox & LLM retry döngüsü ile çalıştırır.
         3. Başarısızlık / Semantik sorularda None döner (Semantic RAG'e fallback).
         """
-        from router import route_query, RouteTarget
+        try:
+            from router import route_query, RouteTarget, META_QUERY_INSTRUCTION
+        except ImportError:
+            from src.router import route_query, RouteTarget, META_QUERY_INSTRUCTION
 
-        df, source_name = self.get_best_dataframe(query=query, filename=filename)
-        df_schema = {str(c): str(t) for c, t in df.dtypes.items()} if df is not None else {}
-        route = route_query(query, df_schema=df_schema)
+        # ── ADIM 0: Sorguya en uygun dataset'i seç (skorlama + gerekçe) ──
+        df, source_name, selection = self.get_best_dataframe(query=query, filename=filename, debug=True)
+
+        # Router'a TÜM dataset şemalarını ver (tek bir dataset'e kilitlenmemek için);
+        # seçilen dataset'in kolonları da bu birleşik şemanın içinde yer alır.
+        df_schema = self.get_schemas()
+        route_info = route_query(query, df_schema=df_schema, debug=True)
+        route = route_info["target"]
+
+        print(f"[data_engine] route={route} ({route_info['reason']}) | "
+              f"dataset={selection['selected_dataset']} (score={selection['match_score']}, "
+              f"{selection['reason']}, ambiguous={selection['ambiguous']}) | "
+              f"schema_cols={route_info['matched_schema_columns'][:6]}")
+
+        # ── META_QUERY: Hesaplama/kural motoru DEĞİL, semantik RAG + çıkarım talimatı ──
+        # Sandbox'ı çalıştırmadan None döneriz; retrieval.py bu rotayı yakalayıp
+        # synthesizer'a META_QUERY_INSTRUCTION'ı enjekte eder.
+        if route == RouteTarget.META_QUERY.value:
+            return {
+                "route": RouteTarget.META_QUERY.value,
+                "meta_query": True,
+                "synthesizer_instruction": META_QUERY_INSTRUCTION,
+                "source_file": selection["selected_dataset"],
+                "selection_debug": selection,
+                "route_debug": route_info,
+                "result": None,
+                "summary": None,
+                "operation": "meta_query",
+            }
 
         # ── 1. KADEME: Basit Kural Motoru (Rule Engine) ──
         if route == RouteTarget.RULE_ENGINE.value:
@@ -669,7 +844,12 @@ class TabularDataEngine:
                         "attempts": exec_info.get("attempts", 1),
                         "source_file": source_name,
                         "route": "code_interpreter",
-                        "data_points": raw_res
+                        "data_points": raw_res,
+                        # "Neden bu dataset / neden bu rota" sorusu loglardan cevaplanabilsin diye
+                        "selected_dataset": selection["selected_dataset"],
+                        "match_score": selection["match_score"],
+                        "selection_debug": selection,
+                        "route_debug": route_info,
                     }
 
         # ── 3. KADEME: Semantik RAG Fallback ──

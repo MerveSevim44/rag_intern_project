@@ -11,6 +11,7 @@ LLM tarafından üretilen Python/Pandas kodlarını kısıtlı ve güvenli bir o
 """
 
 import ast
+import math
 import re
 import threading
 from typing import Any, Dict, Optional, Union
@@ -46,6 +47,17 @@ SAFE_BUILTINS = {
     "all": all,
     "any": any,
     "isinstance": isinstance,
+    # Çok adımlı/matematiksel kodun ihtiyaç duyduğu, yan etkisiz yerleşikler.
+    # Bunlar olmadan model map/filter/reversed kullanan tamamen masum kod
+    # ürettiğinde NameError alıp retry döngüsünü boşa harcıyordu.
+    "map": map,
+    "filter": filter,
+    "reversed": reversed,
+    "divmod": divmod,
+    "pow": pow,
+    "format": format,
+    "repr": repr,
+    "type": type,
     "print": lambda *args, **kwargs: None,  # print çağrılarını yut
     "None": None,
     "True": True,
@@ -61,6 +73,58 @@ FORBIDDEN_CALLS = {
 
 FORBIDDEN_NAMES = {
     "os", "sys", "subprocess", "shutil", "socket", "requests", "urllib", "pty", "posix"
+}
+
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# STANDART YARDIMCI FONKSIYON KUTUPHANESI (dataset-agnostik)
+#
+# Neden gerekli: prompt'a "su formulu aynen tanimla ve kullan" demek kucuk
+# modellerde guvenilir degil — model formulu CAGIRIYOR ama TANIMLAMAYI atliyor
+# ve NameError aliyor. Formulu ortamin kendisine koymak bu sinifi hatalari
+# tamamen ortadan kaldirir: dogru formul her zaman tek bir yerde tanimlidir,
+# model onu yeniden turetmez, sadece cagirir.
+#
+# Buraya eklenen her sey saf, yan etkisiz ve veri setinden bagimsiz olmalidir.
+# ─────────────────────────────────────────────────────────────────────────────
+
+EARTH_RADIUS_KM = 6371.0
+
+
+def haversine(lat1, lon1, lat2, lon2, radius=EARTH_RADIUS_KM):
+    """
+    Iki koordinat arasindaki buyuk daire (great-circle) mesafesini km cinsinden
+    doner. Skaler ve pandas Series/numpy dizisi girdileriyle vektorel calisir.
+    """
+    p1 = np.radians(np.asarray(lat1, dtype=float))
+    p2 = np.radians(np.asarray(lat2, dtype=float))
+    dphi = p2 - p1
+    dlmb = np.radians(np.asarray(lon2, dtype=float) - np.asarray(lon1, dtype=float))
+    a = np.sin(dphi / 2.0) ** 2 + np.cos(p1) * np.cos(p2) * np.sin(dlmb / 2.0) ** 2
+    dist = 2.0 * radius * np.arcsin(np.sqrt(np.clip(a, 0.0, 1.0)))
+    # Series girdisinde Series don ki .assign / kolon atamasi dogal calissin.
+    if isinstance(lat2, pd.Series):
+        return pd.Series(dist, index=lat2.index)
+    if isinstance(lat1, pd.Series):
+        return pd.Series(dist, index=lat1.index)
+    return float(dist) if np.ndim(dist) == 0 else dist
+
+
+def percent_change(old, new):
+    """Yuzde degisim: (new - old) / old * 100. old = 0 ise NaN doner."""
+    old_arr = np.asarray(old, dtype=float)
+    new_arr = np.asarray(new, dtype=float)
+    with np.errstate(divide="ignore", invalid="ignore"):
+        out = np.where(old_arr == 0, np.nan, (new_arr - old_arr) / old_arr * 100.0)
+    return float(out) if np.ndim(out) == 0 else out
+
+
+# Sandbox namespace'ine hazir olarak enjekte edilen isimler.
+SAFE_HELPERS = {
+    "haversine": haversine,
+    "percent_change": percent_change,
+    "EARTH_RADIUS_KM": EARTH_RADIUS_KM,
 }
 
 
@@ -124,21 +188,45 @@ def check_code_safety(code: str) -> Optional[str]:
 
 
 def _execute_in_sandbox(code: str, df: pd.DataFrame) -> Any:
-    """Kısıtlı namespace içinde kodu çalıştırır ve 'result' değişkenini döner."""
-    safe_globals = {"__builtins__": SAFE_BUILTINS}
-    safe_locals = {
+    """
+    Kısıtlı ve TEK bir namespace içinde kodu çalıştırır, 'result' değişkenini döner.
+
+    NEDEN TEK NAMESPACE: Daha önce exec(code, safe_globals, safe_locals) şeklinde
+    ayrı globals/locals sözlükleri veriliyordu. Python'da bir fonksiyon/lambda/
+    comprehension gövdesi, kendisini çevreleyen exec'in LOCALS sözlüğünü GÖREMEZ;
+    yalnızca globals'a bakar. Bu yüzden model şu tamamen doğru kodu ürettiğinde:
+
+        def haversine(lat1, lon1, lat2, lon2):
+            return 2 * 6371 * np.arcsin(...)      # -> NameError: 'np'
+
+        distances = df.apply(lambda r: f(r, result), axis=1)  # -> NameError: 'result'
+
+    sandbox "np/df/result tanımlı değil" hatası veriyordu. Yani hata modelin
+    değil ortamın hatasıydı; retry döngüsü de düzeltilemez bir hatayı düzeltmeye
+    çalışıp 3 denemeyi harcıyordu. Yardımcı fonksiyon tanımlamak çok adımlı
+    (haversine, mesafe matrisi, özel skor) soruların DOĞAL çözüm biçimi olduğu
+    için bu, veri setinden bağımsız yapısal bir kısıttı.
+    """
+    namespace: Dict[str, Any] = {
+        "__builtins__": SAFE_BUILTINS,
         "df": df.copy(),
         "pd": pd,
         "np": np,
+        "math": math,
         "result": None,
     }
-    
-    exec(code, safe_globals, safe_locals)
-    
-    if "result" not in safe_locals or safe_locals["result"] is None:
+    # Standart formul kutuphanesi (haversine vb.) hazir tanimli gelir; boylece
+    # model dogru formulu yeniden yazmak zorunda kalmaz.
+    namespace.update(SAFE_HELPERS)
+
+    # Tek sözlük verilince exec bunu hem globals hem locals olarak kullanır;
+    # böylece iç kapsamlar (fonksiyon/lambda) tüm isimleri görür.
+    exec(code, namespace)
+
+    if namespace.get("result") is None:
         raise ValueError("Kod çalıştırıldı ancak 'result' değişkenine bir değer atanmadı. Lütfen sonucu 'result = ...' şeklinde atayın.")
-        
-    return safe_locals.get("result")
+
+    return namespace.get("result")
 
 
 def safe_execute(code: str, df: pd.DataFrame, timeout_seconds: int = 5) -> Union[Any, Dict[str, str]]:

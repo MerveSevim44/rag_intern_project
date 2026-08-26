@@ -206,6 +206,52 @@ CUSTOM_CSS = """
 }
 .chip-count { color: var(--txt-soft); flex: 0 0 auto; }
 
+/* Kaynak filtresi aktifken seçili dokümanın rozeti */
+.chip-active {
+    background: rgba(167,139,250,0.30);
+    border-color: rgba(167,139,250,0.85);
+    color: var(--txt-strong);
+    box-shadow: 0 0 0 1px rgba(167,139,250,0.30), 0 4px 14px rgba(167,139,250,0.20);
+}
+
+/* "🎯 Filtre: dosya.pdf" rozeti — cevabın hemen altında */
+.filter-badge-wrap { margin: -0.35rem 0 0.6rem 0.35rem; }
+.filter-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.22rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #ddd6fe;
+    background: rgba(167,139,250,0.16);
+    border: 1px solid rgba(167,139,250,0.45);
+    backdrop-filter: blur(6px);
+}
+.filter-badge-name { color: var(--txt-strong); font-weight: 700; }
+
+/* Doküman seçici (st.pills) — cam tema ile uyumlu hâle getirilir */
+div[data-testid="stButtonGroup"] button {
+    border-radius: 999px !important;
+    border: 1px solid rgba(255,255,255,0.16) !important;
+    background: rgba(255,255,255,0.05) !important;
+    color: var(--txt-mid) !important;
+    font-size: 0.8rem !important;
+    font-weight: 600 !important;
+}
+div[data-testid="stButtonGroup"] button:hover {
+    border-color: rgba(167,139,250,0.55) !important;
+    color: var(--txt-strong) !important;
+}
+div[data-testid="stButtonGroup"] button[aria-pressed="true"],
+div[data-testid="stButtonGroup"] button[kind="pillsActive"] {
+    background: rgba(167,139,250,0.28) !important;
+    border-color: rgba(167,139,250,0.85) !important;
+    color: #f5f3ff !important;
+    box-shadow: 0 4px 14px rgba(167,139,250,0.22) !important;
+}
+
 /* "Nasıl çalışır" mini akışı */
 .howto {
     display: flex;

@@ -172,6 +172,16 @@ def render_sources(sources: list[dict], msg_key: str):
 
 # ─── Mesaj Bileşenleri ───────────────────────────────────────────────────────
 
+def filter_badge_html(source_filter: str) -> str:
+    """'🎯 Filtre: dosya.pdf' rozetinin HTML'ini üretir (glass tema ile uyumlu)."""
+    name = html.escape(Path(str(source_filter)).name)
+    return (
+        f'<div class="filter-badge-wrap"><span class="filter-badge">'
+        f'🎯 Filtre: <span class="filter-badge-name">{name}</span>'
+        f'</span></div>'
+    )
+
+
 def render_assistant_message(msg: dict, msg_key: str):
     """
     Asistan mesajını balon + görsel analiz grafiği (Plotly/Altair) + kod bloğu + model etiketi + kaynaklar + süre olarak çizer.
@@ -184,6 +194,10 @@ def render_assistant_message(msg: dict, msg_key: str):
         f'<div class="chat-bot">🤖 {msg["content"]}</div>',
         unsafe_allow_html=True,
     )
+
+    # Cevap tek bir doküman üzerinden üretildiyse hangi kaynağın filtrelendiğini göster.
+    if msg.get("source_filter"):
+        st.markdown(filter_badge_html(msg["source_filter"]), unsafe_allow_html=True)
     
     # ── Görsel Analiz & Grafik Kartı (Plotly / Altair / Veri Tablosu) ──
     if msg.get("chart_data"):
@@ -219,10 +233,28 @@ def empty_state(icon: str, title: str, text: str):
     )
 
 
+def doc_topic(source: str) -> str:
+    """Dosya adından okunabilir bir konu başlığı çıkarır ("H8_FourierTransform" → "Fourier Transform")."""
+    stem = Path(source).stem
+    # Baştaki sıra numarası ("8-", "H8_", "04 ") at
+    topic = re.sub(r"^[\dIVX]+[\s._-]+", "", stem)
+    # Ayraçları boşluğa çevir, camelCase'i ayır, fazla boşlukları sadeleştir
+    topic = re.sub(r"[_\-.]+", " ", topic)
+    topic = re.sub(r"(?<=[a-zçğıöşü])(?=[A-ZÇĞİÖŞÜ])", " ", topic)
+    topic = re.sub(r"\s+", " ", topic).strip()
+    if not topic:
+        return ""
+    return topic[0].upper() + topic[1:]
+
+
 def suggested_questions(docs: list[dict], limit: int = 4) -> list[str]:
     """
     İndekslenmiş dokümanların DOSYA ADINDAN ve içerik tipinden örnek sorular türetir.
     JSON/tablo veri setleri varsa analitik grafik soruları da ekler.
+
+    Tek bir doküman verildiğinde (kaynak filtresi aktifken) öneriler yalnızca
+    o dokümana göre üretilir; liste kısa kalırsa dosya türüne uygun genel
+    sorularla tamamlanır.
     """
     questions = []
     has_profiles = any("728_profiles" in str(d.get("source", "")) for d in docs)
@@ -241,16 +273,36 @@ def suggested_questions(docs: list[dict], limit: int = 4) -> list[str]:
         stem = Path(doc["source"]).stem
         if "728_profiles" in stem or "airports" in stem:
             continue
-        # Baştaki sıra numarası ("8-", "H8_", "04 ") at
-        topic = re.sub(r"^[\dIVX]+[\s._-]+", "", stem)
-        # Ayraçları boşluğa çevir, camelCase'i ayır, fazla boşlukları sadeleştir
-        topic = re.sub(r"[_\-.]+", " ", topic)
-        topic = re.sub(r"(?<=[a-zçğıöşü])(?=[A-ZÇĞİÖŞÜ])", " ", topic)
-        topic = re.sub(r"\s+", " ", topic).strip()
+        topic = doc_topic(doc["source"])
         if not topic:
             continue
-        topic = topic[0].upper() + topic[1:]
         questions.append(f"{topic} nedir, özetler misin?")
+
+    # Tek doküman seçiliyken 1-2 öneri yeterince yol göstermiyor; o dokümana
+    # özel birkaç soru daha ekleyip listeyi doldururuz.
+    if len(docs) == 1 and len(questions) < limit:
+        name = Path(docs[0]["source"]).name
+        topic = doc_topic(name) or name
+        is_table = Path(name).suffix.lower() in (".json", ".jsonl", ".csv")
+        extras = (
+            [
+                f"📊 {topic} verisindeki kayıt sayısı kaçtır?",
+                f"🧭 {topic} veri setinde hangi alanlar (kolonlar) bulunuyor?",
+                f"📈 {topic} içindeki en sık görülen değerler nelerdir?",
+            ]
+            if is_table
+            else [
+                f"📝 {topic} dokümanının ana başlıkları nelerdir?",
+                f"🔑 {topic} içinde geçen temel kavramları açıklar mısın?",
+                f"📌 {topic} dokümanındaki en önemli 3 çıkarım nedir?",
+            ]
+        )
+        for q in extras:
+            if len(questions) >= limit:
+                break
+            if q not in questions:
+                questions.append(q)
+
     return questions[:limit]
 
 
@@ -265,22 +317,36 @@ def queue_question(text: str):
     st.session_state.pending_question = text
 
 
-def render_ready_state(docs: list[dict]):
+def render_ready_state(docs: list[dict], source_filter: str | None = None):
     """
     "Sormaya hazırsınız" boş durumu: kompakt şerit + doküman rozetleri +
     tek tıkla denenebilen örnek sorular + mini "nasıl çalışır" akışı.
+
+    source_filter verildiğinde o dokümanın rozeti vurgulanır ve örnek sorular
+    yalnızca seçili dokümandan türetilir.
     """
     chunk_total = sum(d["chunk_count"] for d in docs)
+    active_name = Path(source_filter).name.lower() if source_filter else None
+    focus_docs = [d for d in docs if Path(d["source"]).name.lower() == active_name] if active_name else docs
+    focus_docs = focus_docs or docs
 
     chips = []
     for d in docs:
         name = Path(d["source"]).name
         safe = html.escape(name)
+        cls = "chip chip-active" if active_name and name.lower() == active_name else "chip"
         chips.append(
-            f'<span class="chip">{file_icon(name)}'
+            f'<span class="{cls}">{file_icon(name)}'
             f'<span class="chip-name" title="{safe}">{safe}</span>'
             f'<span class="chip-count">· {d["chunk_count"]}</span></span>'
         )
+
+    hint_text = (
+        f"Arama <b>{html.escape(Path(source_filter).name)}</b> dokümanıyla sınırlı — "
+        "aşağıdaki örnek sorulardan birine tıklayın ya da kendi sorunuzu yazın."
+        if source_filter else
+        "Aşağıdaki örnek sorulardan birine tıklayın ya da kendi sorunuzu yazın."
+    )
 
     st.markdown(
         f"""<div class="empty-state">
@@ -291,7 +357,7 @@ def render_ready_state(docs: list[dict]):
             </div>
             <div class="chip-wrap">{''.join(chips)}</div>
             <div class="empty-text">
-                Aşağıdaki örnek sorulardan birine tıklayın ya da kendi sorunuzu yazın.
+                {hint_text}
             </div>
             <div class="howto">
                 <span class="howto-step"><span class="howto-num">1</span>Soru sor</span>
@@ -306,7 +372,7 @@ def render_ready_state(docs: list[dict]):
 
     # Örnek soru butonları: on_click ile pending_question'a yazar, Streamlit
     # callback sonrası rerun eder, soru giriş bloğunda işlenir.
-    examples = suggested_questions(docs)
+    examples = suggested_questions(focus_docs)
     if examples:
         st.caption("💡 Örnek sorular")
         for row_start in range(0, len(examples), 2):
@@ -318,7 +384,7 @@ def render_ready_state(docs: list[dict]):
                 with col:
                     st.button(
                         examples[idx],
-                        key=f"ex_{idx}",
+                        key=f"ex_{active_name or 'all'}_{idx}",
                         use_container_width=True,
                         on_click=queue_question,
                         args=(examples[idx],),

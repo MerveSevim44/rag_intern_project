@@ -320,36 +320,121 @@ def _trim_after_not_found(answer):
     return " ".join(kept).strip()
 
 
-def ask(llm, context, question):
+# Modelin uydurmaya en yatkın olduğu para birimi ifadeleri.
+_CURRENCY_HALLUCINATIONS = [
+    (r"(?<!\w)[Tt][Ll](?=$|[^\wçğıöşü])", "TL"),
+    (r"(?<!\w)₺", "₺"),
+    (r"(?<!\w)(?:Türk\s+)?[Ll]iras[ıi](?!\w)", "lira"),
+    (r"(?<!\w)[Ll]ira(?!\w)", "lira"),
+    (r"(?<!\w)[Dd]olar(?!\w)", "dolar"),
+    (r"(?<!\d)\s?\$(?!\w)", "$"),
+]
+
+# Bağlamda geçebilecek gerçek para birimi kodları
+_CURRENCY_CODES = ["USD", "EUR", "GBP", "TRY", "JPY", "CHF", "CAD", "AUD"]
+
+
+def _fix_currency_hallucination(answer, context):
+    """
+    Cevapta veri setinde BULUNMAYAN bir para birimi geçiyorsa, bağlamda fiilen
+    geçen birim koduyla değiştirir; bağlamda hiç birim yoksa uydurulan birimi siler.
+
+    Prompt kuralı tek başına yetmiyordu: küçük model 'currency': 'USD' sonucunu
+    görmesine rağmen cevabı "1 TL" diye yazabiliyor. Bu yüzden deterministik
+    bir son kontrol katmanı gerekiyor.
+    """
+    if not answer:
+        return answer
+
+    present = [code for code in _CURRENCY_CODES
+               if re.search(rf"(?<!\w){code}(?!\w)", context or "", re.IGNORECASE)]
+    # Bağlamda birden fazla birim varsa hangisinin doğru olduğuna karar veremeyiz — dokunma.
+    if len(present) > 1:
+        return answer
+    replacement = present[0] if present else ""
+
+    for pattern, literal in _CURRENCY_HALLUCINATIONS:
+        # Bağlamda gerçekten geçen bir ifadeyse hallüsinasyon değildir.
+        if re.search(pattern, context or ""):
+            continue
+        if re.search(pattern, answer):
+            answer = re.sub(pattern, (f" {replacement}" if replacement else ""), answer)
+            print(f"[llm_client] Para birimi duzeltildi: '{literal}' -> "
+                  f"'{replacement or '(kaldirildi)'}'")
+
+    # Birim silindiginde geride kalan artiklari topla: " 'dir." -> "dir.",
+    # noktalama oncesi bosluk, cift bosluk.
+    answer = re.sub(r"\s+(?='(?:dir|dır|dur|dür|tir|tır|tur|tür)\b)", "", answer)
+    answer = re.sub(r"\s+([.,;:!?])", r"\1", answer)
+    return re.sub(r"\s{2,}", " ", answer).strip()
+
+
+def ask(llm, context, question, extra_instruction=None, debug=False):
     """
     Belirli bir bağlam (context) ve soru (question) ile LLM'e soru sorar.
     Sadece verilen bağlama dayanarak yanıt üretir.
 
     "Sadece sorguda belirtilen dokümana ait bilgiyi kullan.
     Farklı kaynaklardaki bilgileri birbirine karıştırma veya harmanlama."
+
+    Args:
+        extra_instruction: Rota-özel ek sistem talimatı. META_QUERY rotasında
+            router.META_QUERY_INSTRUCTION buraya geçirilir; base prompt'un
+            "bilgi yoksa tek cümle söyle ve sus" kuralının ARDINDAN eklenir ve
+            o kuralı bu rota için gevşetir (çıkarım yapılabilir, ama etiketlenir).
+        debug: True ise synthesizer'a giden nihai prompt stdout'a basılır.
     """
-    prompt = ChatPromptTemplate.from_messages([
-        ("system",
+    base_instruction = (
         "Aşağıdaki bağlamı kullanarak soruyu cevapla. "
         "Kullanıcı hangi dilde sorarsa sorsun, cevabını HER ZAMAN TÜRKÇE ver; "
         "bağlam başka bir dilde olsa bile cevabın Türkçe olmalı. "
         "Bağlamda soruyla ilgili bilgi varsa (kısmen ilgili olsa bile) bu bilgiyi "
         "kullanarak cevap ver ve kaynağını belirt. "
-        "Bağlamda soruyla İLGİLİ HİÇBİR bilgi yoksa, cevabın TAMAMI tek bir "
-        f"cümleden ibaret olmalı: '{NOT_FOUND_ANSWER}' "
-        "Bu cümleyi yazdıktan sonra ÜRETİMİ BİTİR. Tek kelime bile ekleme: "
-        "açıklama yapma, konuyu tanıtma, genel/ansiklopedik bilgi verme, "
-        "kendi bilginle tamamlama yapma, öneride bulunma, soruyu yorumlama. "
-        "Konuyu biliyor olsan bile anlatma — bağlamda yoksa susmalısın. "
-        f"O durumda vereceğin çıktı harfi harfine şudur: {NOT_FOUND_ANSWER}"),
-        ("user", "Bağlam:\n{context}\n\nSoru: {question}\n\nCevap:")
-        ])
-    
+    )
+
+    if extra_instruction:
+        # META_QUERY gibi çıkarım rotaları: sert "bilgi yoksa sus" kuralı buraya
+        # KONULMAZ. Aksi hâlde model, bağlamda doğrudan cevap bulamadığı için
+        # soruyu hiç değerlendirmeden NOT_FOUND_ANSWER'a düşer — oysa bu rotada
+        # istenen şey tam olarak "doğrudan yazmıyor, ama şu çıkarım yapılabilir".
+        system_parts = [
+            base_instruction,
+            "\n\n--- BU SORUYA ÖZEL TALİMAT (genel kurallardan ÖNCELİKLİDİR) ---\n",
+            # Süslü parantezler ChatPromptTemplate tarafından değişken sanılmasın
+            extra_instruction.strip().replace("{", "{{").replace("}", "}}"),
+            "\n\nBu soruyu MUTLAKA cevapla; 'bulunamadı' deyip geçme.",
+        ]
+    else:
+        system_parts = [
+            base_instruction,
+            "Bağlamda soruyla İLGİLİ HİÇBİR bilgi yoksa, cevabın TAMAMI tek bir "
+            f"cümleden ibaret olmalı: '{NOT_FOUND_ANSWER}' "
+            "Bu cümleyi yazdıktan sonra ÜRETİMİ BİTİR. Tek kelime bile ekleme: "
+            "açıklama yapma, konuyu tanıtma, genel/ansiklopedik bilgi verme, "
+            "kendi bilginle tamamlama yapma, öneride bulunma, soruyu yorumlama. "
+            "Konuyu biliyor olsan bile anlatma — bağlamda yoksa susmalısın. "
+            f"O durumda vereceğin çıktı harfi harfine şudur: {NOT_FOUND_ANSWER}",
+        ]
+
     if not question or not question.strip():
         raise ValueError("Soru boş olamaz.")
 
     # Çağıran taraf kırpmayı atlamış olabilir; burası son savunma hattı.
     context = truncate_context(context)
+
+    system_text = "".join(system_parts)
+    prompt = ChatPromptTemplate.from_messages([
+        ("system", system_text),
+        ("user", "Bağlam:\n{context}\n\nSoru: {question}\n\nCevap:")
+    ])
+
+    if debug:
+        rendered = prompt.format(context=context, question=question)
+        print("=" * 78)
+        print("[llm_client] SYNTHESIZER'A GİDEN NİHAİ PROMPT")
+        print("=" * 78)
+        print(rendered)
+        print("=" * 78)
 
     chain = prompt | llm
     try:
@@ -362,5 +447,9 @@ def ask(llm, context, question):
 
     # Model prompt'a tam uymayıp "bulunamadı" dedikten sonra devam ederse
     # o kuyruğu burada keseriz.
-    return _trim_after_not_found(response.content)
+    # Çıkarım rotalarında (META_QUERY) cevap bilinçli olarak "doğrudan belirtilmemiştir"
+    # gibi ifadeler içerir; NOT_FOUND kırpması bu cevabı ortasından kesebilir.
+    if extra_instruction:
+        return _fix_currency_hallucination(response.content.strip(), context)
+    return _fix_currency_hallucination(_trim_after_not_found(response.content), context)
 

@@ -43,6 +43,17 @@ META_QUERY_INSTRUCTION = (
     "'bu bir çıkarımdır, dokümanda doğrudan belirtilmemiştir' ifadesini kullan."
 )
 
+# Yukarıdaki talimatın synthesizer'da uygulanabilir hâle gelmesi için eklenen biçim
+# iskeleti. META_QUERY_INSTRUCTION sözleşme metni olarak sabit kalsın diye ayrı tutulur.
+META_QUERY_SYNTH_SUFFIX = (
+    "\n\nCevabını iki bölüm hâlinde ver:\n"
+    "1) DOKÜMANDA AÇIKÇA OLAN: bağlamda birebir yazan ilgili alan/değerler.\n"
+    "2) ÇIKARIM: bunlardan ne türetilebilir, türetilemiyorsa neden. Çıkarım kısmında "
+    "'bu bir çıkarımdır, dokümanda doğrudan belirtilmemiştir' ifadesini aynen kullan.\n"
+    "Sorunun cevabı 'hayır/belirlenemez' ise bunu da gerekçesiyle açıkça yaz — "
+    "veri setinde o bilgiyi taşıyan bir alanın BULUNMAMASI da geçerli bir cevaptır."
+)
+
 
 # ─── 1. Şema ve Doküman Tanım Kalıpları (Kavramsal Soru İşaretleri) ───
 SCHEMA_DEFINITION_PATTERNS = [
@@ -228,8 +239,18 @@ def _contains_token(haystack_norm: str, needle: str) -> bool:
         return False
     if not re.search(r"\w", needle_norm):          # "%" gibi semboller
         return needle_norm in haystack_norm
-    # Sondaki Türkçe ekleri serbest bırak (tutar -> tutarı), baştan tam kelime eşleşmesi iste.
-    return re.search(r"(?<!\w)" + re.escape(needle_norm) + r"\w*", haystack_norm) is not None
+
+    # Baştan tam kelime eşleşmesi iste; sondaki Türkçe ekleri kelime uzunluğuna
+    # göre serbest bırak. Kısa alias'lar ("ay", "il") aksi hâlde "aynı", "ilgili"
+    # gibi alakasız kelimelerde yanlış pozitif üretir.
+    n = len(needle_norm)
+    if n <= 2:
+        suffix = r""          # yalnızca tam kelime
+    elif n <= 4:
+        suffix = r"\w{0,3}"   # gün -> günlük, fark -> farkı/farklı
+    else:
+        suffix = r"\w*"       # tutar -> tutarındaki
+    return re.search(r"(?<!\w)" + re.escape(needle_norm) + suffix + r"(?!\w)", haystack_norm) is not None
 
 
 def _iter_schema_columns(df_schema: Any) -> List[str]:

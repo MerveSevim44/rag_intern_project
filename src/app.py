@@ -33,6 +33,7 @@ try:
     from src.components import (
         is_meaningful_question, render_doc_card,
         render_assistant_message, empty_state, render_ready_state,
+        file_icon,
     )
 except ImportError:
     from llm_client import load_model, ask, truncate_chunk_text, truncate_context
@@ -43,6 +44,7 @@ except ImportError:
     from components import (
         is_meaningful_question, render_doc_card,
         render_assistant_message, empty_state, render_ready_state,
+        file_icon,
     )
 
 # Kullanıcıya gösterilen ad -> Foundry Local'in tam model ID'si.
@@ -87,6 +89,7 @@ def init_session():
         "open_fulltext": set(),   # tam metni açılmış kaynak kartlarının anahtarları
         "ingest_report": [],      # son yükleme turunun dosya bazlı sonucu
         "pending_question": None, # örnek soru butonundan gelen, işlenmeyi bekleyen soru
+        "source_filter": None,    # aramanın sınırlandığı doküman (None = tüm dokümanlar)
     }
     for key, val in defaults.items():
         if key not in st.session_state:
@@ -401,6 +404,55 @@ if not ingested:
     )
     st.stop()
 
+# ── Kaynak Filtresi (Metadata Filtering) ────────────────────────────────────
+# Seçili doküman aramayı yalnızca o kaynağın chunk'larıyla sınırlar: retrieval
+# daha hızlı çalışır, alakasız parçalar hiç aday olmaz.
+ALL_DOCS_LABEL = "🌐 Tüm Dokümanlar (Genel Arama)"
+
+def _filter_label(doc: dict) -> str:
+    name = Path(doc["source"]).name
+    short = name if len(name) <= 28 else name[:25] + "…"
+    return f"{file_icon(name)} {short} · {doc['chunk_count']}"
+
+_label_to_source = {ALL_DOCS_LABEL: None}
+for _doc in ingested:
+    _label_to_source[_filter_label(_doc)] = _doc["source"]
+
+# Silinen doküman seçili kalmışsın diye seçim her turda doğrulanır.
+_valid_sources = {d["source"] for d in ingested}
+if st.session_state.source_filter not in _valid_sources:
+    st.session_state.source_filter = None
+
+_current_label = next(
+    (lbl for lbl, src in _label_to_source.items() if src == st.session_state.source_filter),
+    ALL_DOCS_LABEL,
+)
+_labels = list(_label_to_source.keys())
+
+st.caption("🎯 Arama kapsamı")
+_picked = st.pills(
+    "Arama kapsamı",
+    options=_labels,
+    default=_current_label,
+    selection_mode="single",
+    key="source_filter_pills",
+    label_visibility="collapsed",
+)
+# Pills'te seçili öğeye tekrar tıklanınca seçim boşalır → genel aramaya döneriz
+# ve "Tüm Dokümanlar" rozetini görsel olarak seçili hâle getiririz.
+if not _picked:
+    st.session_state.source_filter_pills = ALL_DOCS_LABEL
+    st.session_state.source_filter = None
+    st.rerun()
+
+_picked_source = _label_to_source.get(_picked)
+if _picked_source != st.session_state.source_filter:
+    st.session_state.source_filter = _picked_source
+    st.rerun()
+
+source_filter = st.session_state.source_filter
+
+
 # ── Sohbet geçmişini göster ──────────────────────────────────────────────────
 for msg_index, msg in enumerate(st.session_state.messages):
     if msg["role"] == "user":
@@ -415,7 +467,7 @@ for msg_index, msg in enumerate(st.session_state.messages):
 # Bekleyen bir örnek soru varsa çizme: aksi halde bu turda hem boş durum
 # hem de üretilen cevap alt alta görünürdü.
 if not st.session_state.messages and not st.session_state.pending_question:
-    render_ready_state(ingested)
+    render_ready_state(ingested, source_filter=source_filter)
 
 # ── Kullanıcı girişi ─────────────────────────────────────────────────────────
 raw_question = st.chat_input("Sorunuzu yazın…")
@@ -453,6 +505,7 @@ if question:
                 top_k=top_k,
                 use_reranker=use_reranker,
                 llm=st.session_state.llm,
+                source_filter=source_filter,
             )
         except Exception as e:
             st.error(f"Arama hatası: {e}")
@@ -461,10 +514,16 @@ if question:
     if not chunks:
         assistant_msg = {
             "role": "assistant",
-            "content": "Veritabanında bu soruyla eşleşen bir içerik bulunamadı.",
+            "content": (
+                f"**{Path(source_filter).name}** dokümanında bu soruyla eşleşen bir içerik "
+                "bulunamadı. Arama kapsamını “🌐 Tüm Dokümanlar” yapıp tekrar deneyebilirsiniz."
+                if source_filter else
+                "Veritabanında bu soruyla eşleşen bir içerik bulunamadı."
+            ),
             "sources": [],
             "elapsed": None,
             "model": None,   # LLM çağrılmadı → model etiketi gösterilmez
+            "source_filter": source_filter,
         }
     else:
         context = build_context(chunks)
@@ -472,7 +531,15 @@ if question:
         # LLM yanıtı
         with st.spinner(f"{len(chunks)} parça bulundu, yanıt oluşturuluyor…"):
             try:
-                answer = ask(st.session_state.llm, context, question)
+                # META_QUERY rotasında retrieval, chunk'lara "açık bilgi vs. çıkarım"
+                # talimatını iliştirir; burada synthesizer prompt'una enjekte edilir.
+                extra_instruction = next(
+                    (c.get("synthesizer_instruction") for c in chunks
+                     if c.get("synthesizer_instruction")),
+                    None,
+                )
+                answer = ask(st.session_state.llm, context, question,
+                             extra_instruction=extra_instruction)
             except Exception as e:
                 answer = f"Yanıt üretilemedi: {e}"
             elapsed = time.perf_counter() - t0
@@ -513,6 +580,7 @@ if question:
             "chart_data": chart_data,
             "code": code,
             "operation": operation,
+            "source_filter": source_filter,
         }
 
         # İstatistikleri güncelle
