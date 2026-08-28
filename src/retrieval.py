@@ -27,10 +27,12 @@ try:
     from src.embedder import get_embedding, cosine_similarity, cosine_similarity_batch, rerank_indices, EMBED_MODEL
     from src.router import classify_query, QueryIntent
     from src.data_engine import query_tabular_data
+    from src.memory_profiler import MemoryProfiler
 except ImportError:
     from embedder import get_embedding, cosine_similarity, cosine_similarity_batch, rerank_indices, EMBED_MODEL
     from router import classify_query, QueryIntent
     from data_engine import query_tabular_data
+    from memory_profiler import MemoryProfiler
 
 # ─── Varsayılan Ayarlar ───
 from pathlib import Path
@@ -368,9 +370,18 @@ def retrieve(query: str, db_path: str = DB_PATH, model: str = EMBED_MODEL,
         if debug:
             print(f"[retrieval] source_filter='{source_filter}' -> {len(active_indices)}/{len(rows)} chunk")
 
+    # ── Bellek Profiling (debug modunda) ──
+    profiler = MemoryProfiler() if debug else None
+
     # ── ADIM 4: Dense (Vektör) Embedding — Sorgu Vektörü ──
     try:
-        query_embedding = get_embedding(query, model=model)
+        if profiler:
+            # verify="ollama": adım sonunda `ollama ps` ile keep_alive="0"
+            # ayarının modeli gerçekten unload ettiği doğrulanır.
+            with profiler.measure("embedding", verify="ollama"):
+                query_embedding = get_embedding(query, model=model)
+        else:
+            query_embedding = get_embedding(query, model=model)
     except Exception as e:
         raise ConnectionError(f"Embedding olusturulamadi: {e}") from e
 
@@ -446,7 +457,11 @@ def retrieve(query: str, db_path: str = DB_PATH, model: str = EMBED_MODEL,
     # ── ADIM 8 (Opsiyonel): Cross-Encoder Reranker ile Sırala ──
     if use_reranker and top_candidates:
         documents = [c["content"] for c in top_candidates]
-        reranked = rerank_indices(query, documents)
+        if profiler:
+            with profiler.measure("reranking"):
+                reranked = rerank_indices(query, documents)
+        else:
+            reranked = rerank_indices(query, documents)
 
         final_results = []
         for score, original_idx in reranked[:rerank_top_n]:
@@ -454,8 +469,13 @@ def retrieve(query: str, db_path: str = DB_PATH, model: str = EMBED_MODEL,
             chunk_copy = dict(chunk)
             chunk_copy["rerank_score"] = float(score)
             final_results.append(chunk_copy)
+
+        if profiler:
+            profiler.print_report()
         return final_results
 
+    if profiler:
+        profiler.print_report()
     return top_candidates[:rerank_top_n]
 
 

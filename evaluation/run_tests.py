@@ -149,14 +149,16 @@ def run_single_test(llm, question, top_k=5, use_reranker=True, retries=1):
 
 
 def default_output_path(input_path):
-    """test_sorulari_json.csv -> test_sonuclari_json.csv (girdi setine göre isim üret)."""
+    """test.csv -> test_sonuclari.csv veya girdi setine göre isim üret."""
     p = Path(input_path)
     name = p.name
     if name.startswith("test_sorulari_json"):
         name = "test_sonuclari_json" + name[len("test_sorulari_json"):]
+    elif name == "test.csv":
+        name = "test_sonuclari.csv"
     else:
         name = p.stem + "_sonuclari" + p.suffix
-    return str(p.with_name(name))
+    return str(name)
 
 
 def parse_args(argv=None):
@@ -164,14 +166,14 @@ def parse_args(argv=None):
     parser.add_argument(
         "sorular",
         nargs="?",
-        default="test_sorulari_json.csv",
-        help="Soru CSV dosyası (varsayılan: test_sorulari_json.csv)",
+        default="test.csv",
+        help="Soru CSV dosyası (varsayılan: test.csv)",
     )
     parser.add_argument(
         "cikti",
         nargs="?",
         default=None,
-        help="Sonuç CSV dosyası (varsayılan: girdi adından türetilir)",
+        help="Sonuç CSV dosyası (varsayılan: girdi adından türetilir, örn: test_sonuclari.csv)",
     )
     args = parser.parse_args(argv)
     if args.cikti is None:

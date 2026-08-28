@@ -1,0 +1,32 @@
+id,zorluk,soru,beklenen_kaynak,dokumanda_var_mi
+1,Kolay,G4.1 dilbilgisinde VT kümesinin elemanları nelerdir?,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet
+2,Kolay,Bağlamdan bağımsız dilbilgisinde P harfi neyi temsil eder?,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet
+3,Kolay,Başlangıç değişkeni hangi sembolle gösterilir ve hangi kümenin elemanıdır?,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet
+4,Kolay,VN ve VT kümeleri arasındaki ilişki nedir (ayrık mıdır kesişir mi)?,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet
+5,Kolay,Bir türetme ağacının kökünün etiketi ne olmalıdır?,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet
+6,Kolay,G4.2 dilbilgisinin uç simgeler (VT) kümesi nelerdir?,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet
+7,Orta,"G4.1 dilbilgisinde S=>S*S=>S*(S)=>S*(S-S)=>v*(S-S)=>v*(v-S)=>v*(v-c) türetmesi sonunda hangi tümce elde edilmiştir?",8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet
+8,Orta,"L(G4.2) dili nasıl tanımlanmıştır; n, m, p, k parametreleri arasındaki koşullar nelerdir?",8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet
+9,Orta,G4.3 dilbilgisi tarafından türetilen L(G4.3) dilinin küme tanımını yazınız.,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet
+10,Orta,Soldan türetme ile sağdan türetme arasındaki temel fark nedir?,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet
+11,Orta,Bir dilin belirgin (unambiguous) olması ne anlama gelir?,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet
+12,Orta,Belirgin olmayan (ambiguous) dillerin uygulamada neden değeri olmadığı belirtilmiştir?,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet
+13,Orta,Türetme ağacında bir düğümün etiketi λ ise bu düğümle ilgili hangi koşullar sağlanmalıdır?,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet
+14,Orta,Bir A değişkeninin yararlı (useful) bir değişken olabilmesi için sağlaması gereken iki koşul nedir?,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet
+15,Orta,Yararsız simge (useless symbol) kavramı nasıl tanımlanmıştır?,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet
+16,Orta,Yararsız kural (useless rule) ne demektir?,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet
+17,Orta,Algoritma 4.5 hangi amaçla kullanılır ve sonucunda hangi küme elde edilir?,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet
+18,Orta,Algoritma 4.6 hangi amaçla kullanılır ve sonucunda hangi küme elde edilir?,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet
+19,Orta,G4.7 dilbilgisinde uç simge dizgisi türeten değişkenler kümesi (TD) nedir ve hangi değişkenler yararsız bulunur?,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet
+20,Orta,G'4.7 dilbilgisinde başlangıç değişkeninden ulaşılabilen değişkenler kümesi (TU) nedir?,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet
+21,Orta,G4.7'nin yalınlaştırılmış son hali olan G''4.7 dilbilgisinin kuralları nelerdir?,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet
+22,Orta,Dilbilgisinin yalınlaştırılması (yararsız öğelerin atılması) kaç adımda gerçekleştirilir ve bu adımlarda ne yapılır?,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet
+23,Orta,w1=(v+c)*(v-c) tümcesinin soldan türetilmesindeki ilk üç adımı yazınız.,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet
+24,Orta,G_S.4.2 dilbilgisinde L_S.4.2 dilinin küme tanımı nedir?,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet
+25,Orta,Örnek 6'daki G_S.4.6.1 dilbilgisinin türettiği dilin (L_S.4.6.1) küme tanımı nedir?,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet
+26,Orta,"Örnek 5'teki G_4.5.1 dilbilgisinin kuralları, L_4.5.1={a^2k b^n c^2n d^k | k≥1, n≥1} dilini nasıl üretir?",8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet
+27,Zor,"G4.4 dilbilgisi tarafından türetilen L(G4.4) dili uv(v')^R u^R biçiminde tanımlanmıştır; u ve v üzerindeki kısıtlar nelerdir ve bu gösterim ne anlama gelir?",8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet
+28,Zor,"G_S.4.7.2 dilbilgisi L_S.4.7.2={a^n b^m c^k | n>0, m>0, k=2n+m} dilini nasıl üretir; S=>aAcc kuralının bu eşitlikteki rolü nedir?",8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet
+29,Zor,"Örnek 8'deki G_S.4.8.1 dilbilgisinin türettiği L_S.4.8.1 dilinde üs olarak neden 2k+1 kullanılmıştır; B=>bbBdd|C kuralı bunu nasıl sağlar?",8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet
+30,Zor,"G4.3 dilbilgisinde X=>aXbb|aZbb|abb ve Z=>Zb|Xb kuralları birlikte çalışarak L(G4.3)={a^n b^m c^k | n≥1, k≥1, m≥2n} koşulunu nasıl sağlar?",8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet
+

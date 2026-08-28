@@ -1,0 +1,31 @@
+id,zorluk,soru,beklenen_kaynak,dokumanda_var_mi
+61,Kolay,Fourier dönüşümünün ileri yöndeki (forward) tanımı X(jω) hangi integral ile verilir?,lsarSist-H8_FourierTransform.pdf,Evet
+62,Kolay,Ters Fourier dönüşümü (inverse direction) formülünde 1/2π çarpanı nerede yer alır?,lsarSist-H8_FourierTransform.pdf,Evet
+63,Kolay,x(t)=e^{-at}u(t) nedensel üstel işaretinin Fourier dönüşümü hangi koşul altında (Re{a}>0) X(jω)=1/(a+jω) olarak bulunur?,lsarSist-H8_FourierTransform.pdf,Evet
+64,Kolay,Analiz (analysis) ve sentez (synthesis) işlemleri Fourier dönüşümü bağlamında nasıl tanımlanmıştır?,lsarSist-H8_FourierTransform.pdf,Evet
+65,Kolay,F{1}=2πδ(ω) eşitliği hangi özellikten (Dirac delta'nın sifting property'si) yararlanılarak elde edilmiştir?,lsarSist-H8_FourierTransform.pdf,Evet
+66,Kolay,Bir x(t) işaretinin Fourier dönüşümünün var olabilmesi için gerekli üç koşuldan biri olan "mutlak integrallenebilirlik" ne anlama gelir?,lsarSist-H8_FourierTransform.pdf,Evet
+67,Kolay,"cos(t), sin(t) ve u(t) işaretleri neden klasik Fourier dönüşüm koşullarını sağlamaz?",lsarSist-H8_FourierTransform.pdf,Evet
+68,Orta,"x(t) işaretinin Fourier dönüşümünün var olması için gereken üç koşulu (single-valued, piecewise continuous, absolutely integrable) birlikte açıklayınız.",lsarSist-H8_FourierTransform.pdf,Evet
+69,Orta,rect(t/τ) işaretinin Fourier dönüşümünün sinc fonksiyonu ile ifade edilme süreci nasıl gerçekleşir?,lsarSist-H8_FourierTransform.pdf,Evet
+70,Orta,cos(ω0t) işaretinin Fourier dönüşümünün π[δ(ω-ω0)+δ(ω+ω0)] biçiminde elde edilme adımları nelerdir?,lsarSist-H8_FourierTransform.pdf,Evet
+71,Orta,Nedensel üstel işaretin Fourier dönüşümü türetilirken lim(t→∞) e^{-at}e^{-jωt} teriminin sıfıra gitmesi neden Re{a}>0 koşuluna bağlıdır?,lsarSist-H8_FourierTransform.pdf,Evet
+72,Orta,X(jω)=1/(a+jω) ifadesinin genlik-faz (magnitude-phase) formu nasıl elde edilir?,lsarSist-H8_FourierTransform.pdf,Evet
+73,Orta,Nedensel üstel işaretin Fourier dönüşümünün faz açısı ∠X(jω) hangi ifade ile hesaplanır?,lsarSist-H8_FourierTransform.pdf,Evet
+74,Orta,"Fourier dönüşümünün ""memoryless"", ""causal"" ve ""linear"" sistem özellikleriyle ilişkisi nasıl açıklanmıştır?",lsarSist-H8_FourierTransform.pdf,Evet
+75,Orta,Fourier dönüşümünün bir işaret hakkında ne söylediği ve ne söylemediği (frekans içeriği vs. zaman bilgisi) nasıl özetlenmiştir?,lsarSist-H8_FourierTransform.pdf,Evet
+76,Orta,Duallik (duality) özelliği ileri ve ters dönüşümlerin benzerliğinden nasıl yararlanmaktadır?,lsarSist-H8_FourierTransform.pdf,Evet
+77,Orta,rect(t/τ)↔τsinc(ωτ/2) dönüşüm çiftine duallik uygulandığında hangi yeni dönüşüm çifti elde edilir?,lsarSist-H8_FourierTransform.pdf,Evet
+78,Orta,Ölçekleme (scaling) özelliğine göre |a|>1 olduğunda zaman ve frekans eksenlerinde ne tür bir değişim meydana gelir?,lsarSist-H8_FourierTransform.pdf,Evet
+79,Orta,Zaman ekseninde genişleme ile frekans ekseninde daralma (bant genişliği) arasındaki ters orantı nasıl açıklanmıştır?,lsarSist-H8_FourierTransform.pdf,Evet
+80,Orta,Zamanda kaydırma (shifting in time) özelliğine göre bir işaretin gecikmesi Fourier dönüşümünün genliğini mi yoksa fazını mı etkiler?,lsarSist-H8_FourierTransform.pdf,Evet
+81,Orta,Zamanda kaydırma özelliğinin ispatında u=t-t0 değişken dönüşümü nasıl kullanılmıştır?,lsarSist-H8_FourierTransform.pdf,Evet
+82,Orta,Zamanda çarpımın frekansta konvolüsyona karşılık geldiği özellik hangi türetme ile gösterilmiştir?,lsarSist-H8_FourierTransform.pdf,Evet
+83,Orta,Sinüzoidal genlik modülasyonunda (y(t)=f(t)cos(ω0t)) elde edilen Y(ω) ifadesi F(ω) cinsinden nasıl yazılır?,lsarSist-H8_FourierTransform.pdf,Evet
+84,Orta,Sinüzoidal genlik modülasyonunda demodülasyon (f(t)'nin geri kazanılması) hangi iki adımdan oluşur?,lsarSist-H8_FourierTransform.pdf,Evet
+85,Orta,Frekans-kaydırma özelliğine göre e^{jω0t}f(t) işaretinin Fourier dönüşümü F(ω) cinsinden nasıl ifade edilir?,lsarSist-H8_FourierTransform.pdf,Evet
+86,Orta,cos(ω0t)f(t) işaretinin frekans-kaydırma özelliği kullanılarak elde edilen Fourier dönüşümü hangi iki terimin toplamı şeklindedir?,lsarSist-H8_FourierTransform.pdf,Evet
+87,Zor,"Nedensel üstel işaretin genlik yanıtı |X(jω)|=1/√(Re{a}²+(ω+Im{a})²) ifadesinde Re{a} ve Im{a} terimleri fiziksel olarak neyi temsil eder ve a=1 için genlik-faz grafiklerinin şekli nasıl yorumlanır?",lsarSist-H8_FourierTransform.pdf,Evet
+88,Zor,"F{1}=2πδ(ω) sonucunun elde edilme sürecinde ters Fourier dönüşümü tanımı ile sifting property arasındaki matematiksel bağlantı adım adım nasıl kurulmuştur?",lsarSist-H8_FourierTransform.pdf,Evet
+89,Zor,"Sinüzoidal genlik modülasyonu örneğinde ω1<<ω0 varsayımının demodülasyon sürecinde alçak geçiren filtreleme adımı için neden gerekli olduğunu, Y(ω) spektrumundaki F(ω-ω0) ve F(ω+ω0) bileşenlerinin konumu üzerinden açıklayınız.",lsarSist-H8_FourierTransform.pdf,Evet
+90,Zor,"Zamanda kaydırma özelliğinin türetmesinde elde edilen e^{-jωt0}F(ω) ifadesi ile frekans-kaydırma özelliğindeki e^{jω0t}f(t)↔F(ω-ω0) ifadesi arasındaki dualite ilişkisini, her iki türetmenin matematiksel adımlarını karşılaştırarak açıklayınız.",lsarSist-H8_FourierTransform.pdf,Evet

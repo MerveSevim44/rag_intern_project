@@ -341,7 +341,7 @@ def ingest_single_file(file_path, db_path=DB_PATH, model=EMBED_MODEL, batch_size
     # file takes tens of seconds; doing it inside the write transaction would hold
     # SQLite's write lock that whole time and make every other query fail with
     # "database is locked".
-    embeddings = get_embeddings(texts, model=model, batch_size=batch_size)
+    embeddings = get_embeddings(texts, model=model, batch_size=batch_size, keep_alive="5m")
 
     data_to_insert = [
         (source_name, text, json.dumps(embedding), page_info)
@@ -370,6 +370,15 @@ def ingest_single_file(file_path, db_path=DB_PATH, model=EMBED_MODEL, batch_size
     except ImportError:
         from retrieval import invalidate_cache
     invalidate_cache()
+
+    # İngest tamamlandı — embedding modelini bellekten manuel olarak kaldır.
+    # Batch'ler sırasında keep_alive="5m" ile sıcak tutuluyordu; artık gerek yok.
+    try:
+        import ollama as _ollama
+        _ollama.embed(model=model, input="", keep_alive="0")
+        print(f"Embedding modeli ({model}) bellekten kaldırıldı.")
+    except Exception as e:
+        print(f"Model unload uyarısı: {e}")
 
     return len(texts)
 
@@ -488,7 +497,7 @@ def ingest_files(data_dir=DATA_DIR, db_path=DB_PATH, model=EMBED_MODEL,
 
                 # 3. Generate embeddings in batches
                 print(f"Generating embeddings for {len(texts)} chunks (batch size: {batch_size})...")
-                embeddings = get_embeddings(texts, model=model, batch_size=batch_size)
+                embeddings = get_embeddings(texts, model=model, batch_size=batch_size, keep_alive="5m")
 
                 # 4. Prepare data for batch insertion
                 data_to_insert = []
@@ -514,6 +523,14 @@ def ingest_files(data_dir=DATA_DIR, db_path=DB_PATH, model=EMBED_MODEL,
             except Exception as e:
                 print(f"Error processing {file_path.name}: {e}")
                 conn.rollback()
+
+    # Tüm dosyalar işlendi — embedding modelini bellekten manuel olarak kaldır.
+    try:
+        import ollama as _ollama
+        _ollama.embed(model=model, input="", keep_alive="0")
+        print(f"\nEmbedding modeli ({model}) bellekten kaldırıldı.")
+    except Exception as e:
+        print(f"\nModel unload uyarısı: {e}")
 
     print("\nIngestion process finished.")
 

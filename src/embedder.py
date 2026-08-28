@@ -1,6 +1,6 @@
+import gc
 import numpy as np
 import ollama
-from sentence_transformers import CrossEncoder
 
 # Projedeki TEK embedding modeli kaynağı.
 # ingest ve retrieval bu sabiti kullanmalı: farklı modeller farklı vektör
@@ -8,16 +8,58 @@ from sentence_transformers import CrossEncoder
 # "shapes not aligned" hatası verir.
 EMBED_MODEL = "bge-m3"
 
-# Cache for CrossEncoder models to avoid reloading on every function call
-_reranker_cache = {}
+# ─── Ollama keep_alive Ayarı ─────────────────────────────────────────────────
+# Varsayılan "5m" (5 dakika) modeli bellekte tutar ve 16GB RAM'de diğer
+# modellerle çakışır. "0" her çağrıdan sonra otomatik unload eder.
+# İngest sırasında batch'ler art arda gittiği için model zaten sıcak kalır;
+# sorgu zamanında ~2-3 sn ek yükleme maliyeti getirir ama bellek tasarrufu
+# 16GB ortamda çok daha kritiktir.
+OLLAMA_KEEP_ALIVE = "0"
 
-def get_reranker_model(model_name='BAAI/bge-reranker-v2-m3'):
+# ─── Reranker Ayarları ───────────────────────────────────────────────────────
+# Reranker artık CPU'da çalışıyor: VRAM tamamen LLM'e ayrılır.
+# Her çağrıda yüklenir ve sonrasında bellekten temizlenir (lazy-load + cleanup).
+RERANKER_DEVICE = "cpu"
+RERANKER_BATCH_SIZE = 4  # Büyük aday listelerinde parçalı işleme
+
+
+def _load_reranker(model_name='BAAI/bge-reranker-v2-m3'):
     """
-    Reranker modelini önbellekten alır, yoksa yükler.
+    Reranker modelini CPU'da yükler.
+
+    Her çağrıda taze yüklenir — modül seviyesinde cache tutulmaz.
+    Bu sayede model kullanılmadığında bellekte yer kaplamaz.
     """
-    if model_name not in _reranker_cache:
-        _reranker_cache[model_name] = CrossEncoder(model_name)
-    return _reranker_cache[model_name]
+    from sentence_transformers import CrossEncoder
+    return CrossEncoder(model_name, device=RERANKER_DEVICE)
+
+
+def _cleanup_reranker():
+    """
+    Reranker modelini bellekten temizler.
+
+    ÖNEMLİ: Bu fonksiyon modeli PARAMETRE OLARAK ALMAZ. Aldığı sürüm
+    (`def _cleanup_reranker(model): del model`) etkisizdi — `del` yalnızca
+    fonksiyonun kendi yerel adını siler; çağıranın `model` değişkeni gc.collect()
+    çalışırken hâlâ modele referans tuttuğu için model toplanamazdı.
+    Doğru kullanım, çağıranın kendi referansını bırakmasıdır:
+
+        finally:
+            model = None
+            _cleanup_reranker()
+
+    gc.collect() Python tarafındaki (döngüsel referanslar dahil) nesneleri
+    toplar. torch.cuda.empty_cache() GPU cache'ini boşaltır (CPU modelde
+    etkisiz ama gelecekte device değişirse güvenlik ağı olarak kalır).
+    """
+    gc.collect()
+    try:
+        import torch
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
+    except ImportError:
+        pass
+
 
 def cosine_similarity(v1, v2):
     """
@@ -57,16 +99,31 @@ def cosine_similarity_batch(query_vec, embedding_matrix, norms=None):
     scores = embedding_matrix @ query_vec / (safe_norms * query_norm)
     return scores
 
-def get_embedding(text, model=EMBED_MODEL):
+def get_embedding(text, model=EMBED_MODEL, keep_alive=OLLAMA_KEEP_ALIVE):
     """
     Verilen metin için Ollama kullanarak vektör (embedding) üretir.
+
+    Args:
+        text: Embedding üretilecek metin.
+        model: Kullanılacak embedding modeli.
+        keep_alive: Model bellekte kalma süresi. Varsayılan "0" her çağrıdan
+                    sonra unload eder. İngest sırasında "5m" geçilerek model
+                    batch'ler arasında sıcak tutulur.
     """
-    response = ollama.embed(model=model, input=text)
+    response = ollama.embed(model=model, input=text, keep_alive=keep_alive)
     return response.embeddings[0]
 
-def get_embeddings(texts, model=EMBED_MODEL, batch_size=16):
+def get_embeddings(texts, model=EMBED_MODEL, batch_size=16, keep_alive=OLLAMA_KEEP_ALIVE):
     """
     Verilen metin listesi için Ollama kullanarak toplu vektör (embedding) üretir.
+
+    Args:
+        texts: Embedding üretilecek metin listesi.
+        model: Kullanılacak embedding modeli.
+        batch_size: Tek seferde işlenecek metin sayısı.
+        keep_alive: Model bellekte kalma süresi. Varsayılan "0" her çağrıdan
+                    sonra unload eder. İngest sırasında "5m" geçilerek model
+                    batch'ler arasında sıcak tutulur.
     """
     if not texts:
         return []
@@ -74,11 +131,12 @@ def get_embeddings(texts, model=EMBED_MODEL, batch_size=16):
     embeddings = []
     for i in range(0, len(texts), batch_size):
         batch = texts[i:i + batch_size]
-        response = ollama.embed(model=model, input=batch)
+        response = ollama.embed(model=model, input=batch, keep_alive=keep_alive)
         embeddings.extend(response.embeddings)
     return embeddings
 
-def rerank_indices(query, documents, model_name='BAAI/bge-reranker-v2-m3'):
+def rerank_indices(query, documents, model_name='BAAI/bge-reranker-v2-m3',
+                   batch_size=RERANKER_BATCH_SIZE):
     """
     rerank() ile aynı işi yapar ama doküman metni yerine dokümanın
     `documents` listesindeki indeksini döndürür.
@@ -87,28 +145,52 @@ def rerank_indices(query, documents, model_name='BAAI/bge-reranker-v2-m3'):
     yapmak yanlış kaynak/sayfa bilgisine yol açar; indeks bu belirsizliği
     tamamen ortadan kaldırır.
 
+    Model her çağrıda CPU'ya yüklenir ve işlem bitince bellekten temizlenir.
+    Büyük aday listeleri batch_size parçalarla işlenir.
+
     Returns:
         list of tuple: (skor, indeks) şeklinde azalan sırada liste.
     """
     if not documents:
         return []
 
-    model = get_reranker_model(model_name)
-    pairs = [[query, doc] for doc in documents]
-    scores = model.predict(pairs)
+    model = _load_reranker(model_name)
+    try:
+        pairs = [[query, doc] for doc in documents]
 
-    results = list(zip(scores, range(len(documents))))
-    results.sort(key=lambda x: x[0], reverse=True)
-    return results
+        # Büyük aday listelerini parçalı işle
+        if len(pairs) <= batch_size:
+            scores = model.predict(pairs)
+        else:
+            import numpy as _np
+            all_scores = []
+            for i in range(0, len(pairs), batch_size):
+                batch = pairs[i:i + batch_size]
+                all_scores.extend(model.predict(batch))
+            scores = _np.array(all_scores)
 
-def rerank(query, documents, model_name='BAAI/bge-reranker-v2-m3'):
+        results = list(zip(scores, range(len(documents))))
+        results.sort(key=lambda x: x[0], reverse=True)
+        return results
+    finally:
+        # Çağıranın referansını da bırak — aksi halde gc.collect() modeli
+        # toplayamaz (bkz. _cleanup_reranker docstring).
+        model = None
+        _cleanup_reranker()
+
+def rerank(query, documents, model_name='BAAI/bge-reranker-v2-m3',
+           batch_size=RERANKER_BATCH_SIZE):
     """
     Cross-Encoder kullanarak dokümanları sorguya göre yeniden sıralar.
     
+    Model her çağrıda CPU'ya yüklenir ve işlem bitince bellekten temizlenir.
+    Büyük aday listeleri batch_size parçalarla işlenir.
+
     Args:
         query (str): Arama sorgusu.
         documents (list of str): Sıralanacak dokümanlar.
         model_name (str): Kullanılacak Cross-Encoder modeli.
+        batch_size (int): Reranker'a tek seferde gönderilecek çift sayısı.
         
     Returns:
         list of tuple: (skor, doküman) şeklinde sıralanmış liste (büyükten küçüğe).
@@ -116,11 +198,27 @@ def rerank(query, documents, model_name='BAAI/bge-reranker-v2-m3'):
     if not documents:
         return []
         
-    model = get_reranker_model(model_name)
-    pairs = [[query, doc] for doc in documents]
-    scores = model.predict(pairs)
-    
-    # Skorları ve dokümanları eşleştirip azalan sırada sırala
-    results = list(zip(scores, documents))
-    results.sort(key=lambda x: x[0], reverse=True)
-    return results
+    model = _load_reranker(model_name)
+    try:
+        pairs = [[query, doc] for doc in documents]
+
+        # Büyük aday listelerini parçalı işle
+        if len(pairs) <= batch_size:
+            scores = model.predict(pairs)
+        else:
+            import numpy as _np
+            all_scores = []
+            for i in range(0, len(pairs), batch_size):
+                batch = pairs[i:i + batch_size]
+                all_scores.extend(model.predict(batch))
+            scores = _np.array(all_scores)
+        
+        # Skorları ve dokümanları eşleştirip azalan sırada sırala
+        results = list(zip(scores, documents))
+        results.sort(key=lambda x: x[0], reverse=True)
+        return results
+    finally:
+        # Çağıranın referansını da bırak — aksi halde gc.collect() modeli
+        # toplayamaz (bkz. _cleanup_reranker docstring).
+        model = None
+        _cleanup_reranker()

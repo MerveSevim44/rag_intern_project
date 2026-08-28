@@ -74,6 +74,13 @@ def truncate_context(context, max_chars=MAX_CONTEXT_CHARS):
 # için normalde otomatik bulunur; gerekirse bu ortam değişkeniyle sabitlenir.
 ENDPOINT_ENV_VAR = "FOUNDRY_LOCAL_ENDPOINT"
 
+# ─── Foundry Local Model TTL (Idle Timeout) ──────────────────────────────────
+# Model yüklendikten sonra bu süre (saniye) boyunca kullanılmazsa otomatik
+# olarak bellekten/VRAM'den kaldırılır. 16GB RAM ortamında LLM'in boşta
+# VRAM işgal etmesini önler.
+# 0 = otomatik unload kapalı (varsayılan Foundry davranışı).
+FOUNDRY_MODEL_TTL = 120  # 2 dakika idle timeout
+
 # Servisi barındıran süreçlerin adları (psutil ile port taraması için).
 _SERVICE_PROCESS_HINTS = ("inference.service.agent", "foundry")
 
@@ -224,8 +231,13 @@ def load_model(alias=DEFAULT_MODEL_ID, unload_previous=True):
     model_id, runtime = _resolve_model_id(base_url, alias)
 
     # Modeli belleğe yükle. Zaten yüklüyse bu çağrı hızlıca döner.
+    # TTL parametresi ile model belirli bir süre kullanılmazsa otomatik unload olur.
+    ttl_param = f"&ttl={FOUNDRY_MODEL_TTL}" if FOUNDRY_MODEL_TTL > 0 else ""
     try:
-        _http_get(f"{base_url}/openai/load/{urllib.parse.quote(model_id)}", timeout=600)
+        _http_get(
+            f"{base_url}/openai/load/{urllib.parse.quote(model_id)}?unload=true{ttl_param}",
+            timeout=600,
+        )
     except (urllib.error.URLError, OSError, TimeoutError) as e:
         raise RuntimeError(f"Model ({model_id}) yüklenemedi: {e}") from e
 
@@ -263,6 +275,37 @@ def load_model(alias=DEFAULT_MODEL_ID, unload_previous=True):
         extra_body={"enable_thinking": False}
     )
     return llm
+
+
+def unload_model(model_id=None, alias=DEFAULT_MODEL_ID):
+    """
+    Foundry Local'dan modeli bellekten/VRAM'den kaldırır.
+
+    16GB RAM ortamında pipeline'ın belirli aşamalarında (ör. ingest sırasında)
+    LLM'e ihtiyaç yoksa bu fonksiyonla VRAM serbest bırakılabilir.
+
+    Args:
+        model_id: Tam model ID'si. None ise alias'tan çözülür.
+        alias: model_id verilmezse kullanılacak kısa ad.
+    """
+    try:
+        base_url = _discover_endpoint()
+    except RuntimeError:
+        print("[Foundry] Servis bulunamadı — unload atlanıyor.")
+        return
+
+    if model_id is None:
+        model_id, _ = _resolve_model_id(base_url, alias)
+
+    try:
+        # TTL=1 ile modeli hemen unload etmeye zorla
+        _http_get(
+            f"{base_url}/openai/load/{urllib.parse.quote(model_id)}?unload=true&ttl=1",
+            timeout=30,
+        )
+        print(f"[Foundry] Model unload istendi: {model_id}")
+    except (urllib.error.URLError, OSError, TimeoutError) as e:
+        print(f"[Foundry] Unload başarısız: {e}")
 
 
 # Bağlamda cevap yoksa modelin vermesi gereken TEK cümle.

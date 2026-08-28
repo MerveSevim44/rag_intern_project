@@ -15,7 +15,6 @@ Bu modül, test_sonuclari.csv dosyalarını otomatik olarak değerlendirir:
 import argparse
 import csv
 import json
-import os
 import re
 import string
 from collections import Counter
@@ -145,6 +144,17 @@ def check_is_not_found(text: str) -> bool:
     return any(p in norm for p in patterns)
 
 
+def _is_negative_flag(value: str) -> bool:
+    """'dokumanda_var_mi' sütununu Türkçe karakter farklarına dayanıklı okur.
+
+    CSV'lerde bu alan 'Hayır', 'Hayir', 'hayır', 'no' gibi farklı biçimlerde
+    yazılabiliyor; düz '== "Hayir"' karşılaştırması negatif soruların tamamını
+    pozitif sayıp TN/FP matrisini bozuyordu.
+    """
+    norm = turkish_lower((value or "").strip())
+    return norm in {"hayir", "hayır", "hayÄ±r", "no", "yok", "0", "false"}
+
+
 def _resolve_file(file_path: str) -> Path:
     """Verilen dosya yolunu yerel, datasets ve root dizinlerinde arayarak çözer."""
     p = Path(file_path)
@@ -187,9 +197,18 @@ def evaluate_dataset(
     charts_dir.mkdir(parents=True, exist_ok=True)
 
     if not csv_file.exists():
-        raise FileNotFoundError(f"Sonuç dosyası bulunamadı: {csv_path}")
+        raise FileNotFoundError(
+            f"Sonuç dosyası bulunamadı: '{csv_path}'.\n"
+            f"Benchmark skorlamasını yapabilmek için önce test sorularını LLM ile çalıştırıp sonuç dosyasını üretmelisiniz:\n"
+            f"  → python run_tests.py evaluation/datasets/test.csv test_sonuclari.csv\n"
+            f"Veya hazır bir sonuç CSV dosyanız varsa yolunu parametre olarak verin:\n"
+            f"  → python benchmark_eval.py dosya_yolu.csv"
+        )
     if not gt_file.exists():
-        raise FileNotFoundError(f"Ground truth dosyası bulunamadı: {ground_truth_path}")
+        raise FileNotFoundError(
+            f"Ground truth dosyası bulunamadı: '{ground_truth_path}'.\n"
+            f"Referans cevapların bulunduğu ground_truth.json dosyasının varlığından emin olun."
+        )
 
     with open(gt_file, "r", encoding="utf-8") as f:
         ground_truths = json.load(f)
@@ -200,10 +219,10 @@ def evaluate_dataset(
 
     scored_records = []
     category_stats = {
-        "Kolay": {"total": 0, "em": 0, "f1_sum": 0.0, "p_sum": 0.0, "r_sum": 0.0, "retrieval_ok": 0, "latencies": []},
-        "Orta": {"total": 0, "em": 0, "f1_sum": 0.0, "p_sum": 0.0, "r_sum": 0.0, "retrieval_ok": 0, "latencies": []},
-        "Zor": {"total": 0, "em": 0, "f1_sum": 0.0, "p_sum": 0.0, "r_sum": 0.0, "retrieval_ok": 0, "latencies": []},
-        "Negatif": {"total": 0, "em": 0, "f1_sum": 0.0, "p_sum": 0.0, "r_sum": 0.0, "retrieval_ok": 0, "latencies": []},
+        "Kolay": {"total": 0, "scored": 0, "em": 0, "f1_sum": 0.0, "p_sum": 0.0, "r_sum": 0.0, "retrieval_ok": 0, "latencies": []},
+        "Orta": {"total": 0, "scored": 0, "em": 0, "f1_sum": 0.0, "p_sum": 0.0, "r_sum": 0.0, "retrieval_ok": 0, "latencies": []},
+        "Zor": {"total": 0, "scored": 0, "em": 0, "f1_sum": 0.0, "p_sum": 0.0, "r_sum": 0.0, "retrieval_ok": 0, "latencies": []},
+        "Negatif": {"total": 0, "scored": 0, "em": 0, "f1_sum": 0.0, "p_sum": 0.0, "r_sum": 0.0, "retrieval_ok": 0, "latencies": []},
     }
 
     confusion = {"TP": 0, "TN": 0, "FP": 0, "FN": 0}
@@ -213,7 +232,8 @@ def evaluate_dataset(
         difficulty = row.get("zorluk", "Orta").capitalize()
         question = row.get("soru", "")
         expected_src = row.get("beklenen_kaynak", "").strip()
-        doc_exists = row.get("dokumanda_var_mi", "Evet").strip()
+        doc_exists = (row.get("dokumanda_var_mi") or "Evet").strip()
+        doc_is_negative = _is_negative_flag(doc_exists)
         prediction = row.get("cevap", "")
         found_src = row.get("bulunan_kaynaklar", "")
         try:
@@ -223,11 +243,12 @@ def evaluate_dataset(
 
         gt_info = ground_truths.get(q_id, {})
         ref_answers = gt_info.get("referans_cevaplar", [])
-        if not ref_answers:
-            # Fallback
-            ref_answers = ["Bu bilgi dokümanlarda bulunamadı."] if doc_exists == "Hayir" else [prediction]
+        # Referans cevabı olmayan sorular EM/F1 ortalamasına KATILMAZ. Eskiden
+        # tahminin kendisi referans kabul ediliyordu; bu her soruya EM=1.0
+        # vererek skorları yapay olarak şişiriyordu.
+        has_reference = bool(ref_answers)
 
-        is_negative = (doc_exists == "Hayir") or (expected_src == "-")
+        is_negative = doc_is_negative or (expected_src == "-")
         pred_is_not_found = check_is_not_found(prediction)
 
         # Retrieval kontrolü
@@ -238,7 +259,9 @@ def evaluate_dataset(
             retrieval_match = (expected_src in found_src) if expected_src else False
 
         # Exact Match & F1
-        if is_negative:
+        if not has_reference and not is_negative:
+            em_score = f1_score = prec_score = rec_score = 0.0
+        elif is_negative:
             # Negatif soruda başarı: modelin bulunamadı demesi
             em_score = 1.0 if pred_is_not_found else 0.0
             f1_score = 1.0 if pred_is_not_found else 0.0
@@ -269,8 +292,12 @@ def evaluate_dataset(
         if cat_key not in category_stats:
             cat_key = "Orta"
 
+        scored_for_accuracy = has_reference or is_negative
+
         stats = category_stats[cat_key]
         stats["total"] += 1
+        if scored_for_accuracy:
+            stats["scored"] += 1
         stats["em"] += em_score
         stats["f1_sum"] += f1_score
         stats["p_sum"] += prec_score
@@ -294,28 +321,38 @@ def evaluate_dataset(
             "recall": round(rec_score * 100, 1),
             "retrieval_match": "Evet" if retrieval_match else "Hayır",
             "siniflandirma": status,
+            "referans_var_mi": "Evet" if (has_reference or is_negative) else "Hayır",
             "sure_sn": latency,
         })
 
     # Genel Özet Hesaplama
     total_q = len(results)
-    overall_em = sum(r["em_score"] for r in scored_records) / total_q if total_q else 0.0
-    overall_f1 = sum(r["f1_score"] for r in scored_records) / total_q if total_q else 0.0
-    overall_prec = sum(r["precision"] for r in scored_records) / total_q if total_q else 0.0
-    overall_rec = sum(r["recall"] for r in scored_records) / total_q if total_q else 0.0
+    if not scored_records:
+        raise ValueError(f"Sonuç dosyası boş veya okunamadı: {csv_file}")
+
+    # EM/F1 yalnızca referans cevabı olan (veya negatif) sorular üzerinden
+    # ortalanır; referanssız sorular paydaya girerse skor yapay olarak düşer.
+    accuracy_pool = [r for r in scored_records if r["referans_var_mi"] == "Evet"]
+    n_acc = len(accuracy_pool)
+    overall_em = sum(r["em_score"] for r in accuracy_pool) / n_acc if n_acc else 0.0
+    overall_f1 = sum(r["f1_score"] for r in accuracy_pool) / n_acc if n_acc else 0.0
+    overall_prec = sum(r["precision"] for r in accuracy_pool) / n_acc if n_acc else 0.0
+    overall_rec = sum(r["recall"] for r in accuracy_pool) / n_acc if n_acc else 0.0
     overall_retrieval = sum(1 for r in scored_records if r["retrieval_match"] == "Evet") / total_q * 100 if total_q else 0.0
     all_latencies = [r["sure_sn"] for r in scored_records]
 
     category_summary = {}
     for cat, data in category_stats.items():
         cnt = data["total"]
+        acc_cnt = data["scored"] or cnt
         if cnt > 0:
             category_summary[cat] = {
                 "toplam_soru": cnt,
-                "exact_match_yuzde": round((data["em"] / cnt) * 100, 2),
-                "f1_skor_yuzde": round((data["f1_sum"] / cnt) * 100, 2),
-                "precision_yuzde": round((data["p_sum"] / cnt) * 100, 2),
-                "recall_yuzde": round((data["r_sum"] / cnt) * 100, 2),
+                "referansli_soru": data["scored"],
+                "exact_match_yuzde": round((data["em"] / acc_cnt) * 100, 2),
+                "f1_skor_yuzde": round((data["f1_sum"] / acc_cnt) * 100, 2),
+                "precision_yuzde": round((data["p_sum"] / acc_cnt) * 100, 2),
+                "recall_yuzde": round((data["r_sum"] / acc_cnt) * 100, 2),
                 "retrieval_dogruluk_yuzde": round((data["retrieval_ok"] / cnt) * 100, 2),
                 "ortalama_sure_sn": round(np.mean(data["latencies"]), 2) if data["latencies"] else 0.0,
                 "medyan_sure_sn": round(float(np.median(data["latencies"])), 2) if data["latencies"] else 0.0,
@@ -325,6 +362,8 @@ def evaluate_dataset(
 
     summary = {
         "toplam_soru": total_q,
+        "referansli_soru": n_acc,
+        "referanssiz_soru": total_q - n_acc,
         "genel_metrikler": {
             "exact_match_yuzde": round(overall_em, 2),
             "f1_skor_yuzde": round(overall_f1, 2),
@@ -364,7 +403,10 @@ def evaluate_dataset(
     print(f"Genel Token F1 Skoru        : %{summary['genel_metrikler']['f1_skor_yuzde']:.1f}")
     print(f"Retrieval Kaynak Doğruluğu  : %{summary['genel_metrikler']['retrieval_dogruluk_yuzde']:.1f}")
     print(f"Ortalama Yanıt Süresi       : {summary['genel_metrikler']['ortalama_sure_sn']:.2f} sn")
-    print(f"Halüsinasyon (FP) Oranı     : {confusion['FP']} / {total_q} (%{(confusion['FP']/total_q)*100:.1f})")
+    print(f"Halüsinasyon (FP) Oranı     : {confusion['FP']} / {total_q} (%{(confusion['FP'] / total_q) * 100 if total_q else 0.0:.1f})")
+    if total_q - n_acc:
+        print(f"⚠️  Referans cevabı olmayan {total_q - n_acc} soru EM/F1 ortalamasına dahil edilmedi "
+              f"(ground_truth.json'a ekleyin).")
     print("-" * 80)
     print("📊 Kategori Bazlı Dağılım:")
     for cat, m in category_summary.items():
@@ -479,12 +521,12 @@ def generate_benchmark_charts(summary: dict, scored_records: list[dict], output_
     ax1.set_ylabel("Süre (Saniye)", fontsize=10, fontweight="bold", color="#1E293B")
     ax1.set_xticks(x_idx)
     ax1.set_xticklabels(cat_names, fontsize=9.5, fontweight="bold", color="#334155")
-    ax1.set_ylim(0, max(avg_times + med_times) * 1.25)
+    ax1.set_ylim(0, (max(avg_times + med_times) or 1.0) * 1.25)
     ax1.grid(axis="y", linestyle="--", alpha=0.5, zorder=0, color="#CBD5E1")
     ax1.legend(frameon=True, facecolor="#FFFFFF", edgecolor="#E2E8F0", loc="upper left", fontsize=8.5)
 
     # Süre dağılımı (Histogram / Boxplot)
-    all_lat = [r["sure_sn"] for r in scored_records]
+    all_lat = [r["sure_sn"] for r in scored_records] or [0.0]
     ax2.hist(all_lat, bins=8, color="#0EA5E9", edgecolor="#0284C7", alpha=0.85, zorder=3)
     ax2.axvline(np.mean(all_lat), color="#DC2626", linestyle="--", linewidth=1.5, label=f"Ortalama: {np.mean(all_lat):.1f}s", zorder=4)
     ax2.axvline(float(np.median(all_lat)), color="#16A34A", linestyle=":", linewidth=2, label=f"Medyan: {np.median(all_lat):.1f}s", zorder=4)
@@ -515,6 +557,9 @@ def generate_benchmark_charts(summary: dict, scored_records: list[dict], output_
     colors = ["#10B981", "#3B82F6", "#F59E0B", "#EF4444"]
     explode = (0.03, 0.03, 0.05, 0.08)
 
+    if sum(sizes) == 0:
+        sizes = [1, 0, 0, 0]
+
     wedges, texts, autotexts = ax_donut.pie(
         sizes,
         explode=explode,
@@ -539,8 +584,8 @@ def generate_benchmark_charts(summary: dict, scored_records: list[dict], output_
         ("Exact Match (EM)", f"%{summary['genel_metrikler']['exact_match_yuzde']:.1f}", "#3B82F6"),
         ("Token F1 Skoru", f"%{summary['genel_metrikler']['f1_skor_yuzde']:.1f}", "#10B981"),
         ("Retrieval Başarısı", f"%{summary['genel_metrikler']['retrieval_dogruluk_yuzde']:.1f}", "#F59E0B"),
-        ("Negatif Test Başarısı", f"%{(conf['TN'] / (conf['TN'] + conf['FP']))*100:.1f}", "#8B5CF6"),
-        ("Halüsinasyon Oranı", f"%{(conf['FP'] / summary['toplam_soru'])*100:.1f}", "#EF4444"),
+        ("Negatif Test Başarısı", f"%{(conf['TN'] / (conf['TN'] + conf['FP'])) * 100 if (conf['TN'] + conf['FP']) else 0.0:.1f}", "#8B5CF6"),
+        ("Halüsinasyon Oranı", f"%{(conf['FP'] / summary['toplam_soru']) * 100 if summary['toplam_soru'] else 0.0:.1f}", "#EF4444"),
         ("Ortalama Yanıt Süresi", f"{summary['genel_metrikler']['ortalama_sure_sn']:.2f} sn", "#6366F1"),
     ]
 
@@ -573,4 +618,9 @@ if __name__ == "__main__":
     parser.add_argument("--output-dir", default="report", help="Rapor ve grafiklerin kaydedileceği dizin")
 
     args = parser.parse_args()
-    evaluate_dataset(args.sonuclar_csv, args.ground_truth, args.output_dir)
+    try:
+        evaluate_dataset(args.sonuclar_csv, args.ground_truth, args.output_dir)
+    except FileNotFoundError as e:
+        sys.exit(f"\n[HATA] {e}\n")
+    except Exception as e:
+        sys.exit(f"\n[HATA] Değerlendirme sırasında bir hata oluştu: {e}\n")
