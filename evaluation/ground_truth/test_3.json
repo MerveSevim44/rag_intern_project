@@ -1,0 +1,492 @@
+{
+  "61": {
+    "soru": "Fourier dönüşümünün ileri yöndeki (forward) tanımı X(jω) hangi integral ile verilir?",
+    "zorluk": "Kolay",
+    "beklenen_kaynak": "lsarSist-H8_FourierTransform.pdf",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "X(jω) = ∫ x(t) e^{-jωt} dt (-∞ ile +∞ aralığında)",
+      "X(jω) = ∫_{-\\infty}^{\\infty} x(t) e^{-j\\omega t} dt",
+      "X(jω) = integral(-inf, inf) x(t) e^(-jωt) dt"
+    ],
+    "anahtar_kelimeler": [
+      "∫ x(t) e^{-jωt} dt",
+      "e^{-jωt}",
+      "x(t)"
+    ]
+  },
+  "62": {
+    "soru": "Ters Fourier dönüşümü (inverse direction) formülünde 1/2π çarpanı nerede yer alır?",
+    "zorluk": "Kolay",
+    "beklenen_kaynak": "lsarSist-H8_FourierTransform.pdf",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Ters dönüşüm integralinin başında (x(t) = (1/2π) ∫ X(jω) e^{jωt} dω) yer alır.",
+      "İntegralin önünde çarpan olarak yer alır: 1/(2π).",
+      "Ters Fourier dönüşümünde integralin önündedir."
+    ],
+    "anahtar_kelimeler": [
+      "1/2π",
+      "integralin başında",
+      "ters dönüşüm"
+    ]
+  },
+  "63": {
+    "soru": "x(t)=e^{-at}u(t) nedensel üstel işaretinin Fourier dönüşümü hangi koşul altında (Re{a}>0) X(jω)=1/(a+jω) olarak bulunur?",
+    "zorluk": "Kolay",
+    "beklenen_kaynak": "lsarSist-H8_FourierTransform.pdf",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Re{a} > 0 koşulu altında",
+      "Re{a} > 0",
+      "Re(a) > 0 olduğunda",
+      "a'nın reel kısmı sıfırdan büyük olduğunda (Re{a} > 0)."
+    ],
+    "anahtar_kelimeler": [
+      "Re{a} > 0",
+      "Re{a}>0",
+      "Re(a) > 0"
+    ]
+  },
+  "64": {
+    "soru": "Analiz (analysis) ve sentez (synthesis) işlemleri Fourier dönüşümü bağlamında nasıl tanımlanmıştır?",
+    "zorluk": "Kolay",
+    "beklenen_kaynak": "lsarSist-H8_FourierTransform.pdf",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Analiz (Analysis), x(t) işaretinden spektrum bilgisini çıkarır; Sentez (Synthesis) ise spektral bilgiden zaman bölgesi işaretini x(t) yeniden oluşturur.",
+      "Analiz: frekans spektrumunu çıkarır; Sentez: spektrumdan zaman işaretini oluşturur."
+    ],
+    "anahtar_kelimeler": [
+      "analiz",
+      "sentez",
+      "spektrum",
+      "zaman bölgesi",
+      "analysis",
+      "synthesis"
+    ]
+  },
+  "65": {
+    "soru": "F{1}=2πδ(ω) eşitliği hangi özellikten (Dirac delta'nın sifting property'si) yararlanılarak elde edilmiştir?",
+    "zorluk": "Kolay",
+    "beklenen_kaynak": "lsarSist-H8_FourierTransform.pdf",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Dirac delta'nın sifting (eleme/süzme) özelliği ve ters Fourier dönüşümünün doğrusallığından (linearity) yararlanılarak elde edilmiştir.",
+      "Sifting property ve doğrusallık (linearity) özelliklerinden."
+    ],
+    "anahtar_kelimeler": [
+      "sifting",
+      "Dirac delta",
+      "doğrusallık",
+      "linearity"
+    ]
+  },
+  "66": {
+    "soru": "Bir x(t) işaretinin Fourier dönüşümünün var olabilmesi için gerekli üç koşuldan biri olan \"mutlak integrallenebilirlik\" ne anlama gelir?",
+    "zorluk": "Kolay",
+    "beklenen_kaynak": "lsarSist-H8_FourierTransform.pdf",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "∫ |x(t)| dt < ∞ olması (işaretin -∞ ile +∞ arasındaki mutlak alanının sonlu olması) anlamına gelir.",
+      "İşaretin mutlak değerinin integralinin sonlu olmasıdır: ∫|x(t)|dt < ∞."
+    ],
+    "anahtar_kelimeler": [
+      "∫ |x(t)| dt < ∞",
+      "sonlu",
+      "mutlak integrallenebilir"
+    ]
+  },
+  "67": {
+    "soru": "cos(t), sin(t) ve u(t) işaretleri neden klasik Fourier dönüşüm koşullarını sağlamaz?",
+    "zorluk": "Kolay",
+    "beklenen_kaynak": "lsarSist-H8_FourierTransform.pdf",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Mutlak integrallenebilir olmadıkları (integralleri sonlu olmadığı, ∫|x(t)|dt = ∞ olduğu) için klasik Fourier dönüşüm koşullarını sağlamazlar.",
+      "Mutlak integrallenebilirlik koşulunu sağlamazlar (alanları sonsuzdur)."
+    ],
+    "anahtar_kelimeler": [
+      "mutlak integrallenebilir değil",
+      "sonlu değil",
+      "sonsuz"
+    ]
+  },
+  "68": {
+    "soru": "x(t) işaretinin Fourier dönüşümünün var olması için gereken üç koşulu (single-valued, piecewise continuous, absolutely integrable) birlikte açıklayınız.",
+    "zorluk": "Orta",
+    "beklenen_kaynak": "lsarSist-H8_FourierTransform.pdf",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "1. Tek değerli (single-valued) olması ve sonlu maksimum/minimuma sahip olması, 2. Parçalı sürekli (piecewise continuous, sonlu sayıda süreksizliğe sahip) olması, 3. Mutlak integrallenebilir (∫ |x(t)| dt < ∞) olmasıdır.",
+      "Tek değerli olma, parçalı sürekli olma ve mutlak integrallenebilir olma koşullarıdır."
+    ],
+    "anahtar_kelimeler": [
+      "single-valued",
+      "piecewise continuous",
+      "absolutely integrable",
+      "tek değerli",
+      "parçalı sürekli",
+      "mutlak integrallenebilir"
+    ]
+  },
+  "69": {
+    "soru": "rect(t/τ) işaretinin Fourier dönüşümünün sinc fonksiyonu ile ifade edilme süreci nasıl gerçekleşir?",
+    "zorluk": "Orta",
+    "beklenen_kaynak": "lsarSist-H8_FourierTransform.pdf",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "-τ/2 ile τ/2 arasında e^{-jωt} integralinin alınmasıyla (2/ω)sin(ωτ/2) elde edilir ve bu terim τ sinc(ωτ / 2π) veya τ sinc(ωτ/2) biçiminde yazılır.",
+      "İntegral sınırları -τ/2 ile τ/2 alınarak çözülür ve τ sinc(ωτ/2) elde edilir."
+    ],
+    "anahtar_kelimeler": [
+      "-τ/2",
+      "τ/2",
+      "sinc",
+      "τ sinc(ωτ/2)",
+      "sin(ωτ/2)"
+    ]
+  },
+  "70": {
+    "soru": "cos(ω0t) işaretinin Fourier dönüşümünün π[δ(ω-ω0)+δ(ω+ω0)] biçiminde elde edilme adımları nelerdir?",
+    "zorluk": "Orta",
+    "beklenen_kaynak": "lsarSist-H8_FourierTransform.pdf",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "cos(ω0t) = (1/2)(e^{jω0t} + e^{-jω0t}) Euler açılımı yapılır; her iki üstel terime Fourier dönüşümü (2π δ(ω±ω0)) uygulanarak π[δ(ω-ω0) + δ(ω+ω0)] elde edilir.",
+      "Euler formülü ile (e^{jω0t}+e^{-jω0t})/2 şeklinde açılır ve Dirac delta çiftleri uygulanır."
+    ],
+    "anahtar_kelimeler": [
+      "Euler",
+      "e^{jω0t}",
+      "π[δ(ω-ω0) + δ(ω+ω0)]",
+      "Dirac delta"
+    ]
+  },
+  "71": {
+    "soru": "Nedensel üstel işaretin Fourier dönüşümü türetilirken lim(t→∞) e^{-at}e^{-jωt} teriminin sıfıra gitmesi neden Re{a}>0 koşuluna bağlıdır?",
+    "zorluk": "Orta",
+    "beklenen_kaynak": "lsarSist-H8_FourierTransform.pdf",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "e^{-at} ifadesinin genliği e^{-Re{a}t} terimine bağlıdır; t sonsuza giderken bu terimin sıfıra sönümlenmesi (decay) yalnızca Re{a} > 0 olduğunda gerçekleşir.",
+      "Re{a} > 0 olduğunda e^{-Re{a}t} terimi t sonsuza giderken sıfıra yakınsar."
+    ],
+    "anahtar_kelimeler": [
+      "Re{a} > 0",
+      "sönümlenme",
+      "decay",
+      "sıfıra",
+      "e^{-Re{a}t}"
+    ]
+  },
+  "72": {
+    "soru": "X(jω)=1/(a+jω) ifadesinin genlik-faz (magnitude-phase) formu nasıl elde edilir?",
+    "zorluk": "Orta",
+    "beklenen_kaynak": "lsarSist-H8_FourierTransform.pdf",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Genlik |X(jω)| = 1 / √(Re{a}² + (ω+Im{a})²), Faz ∠X(jω) = -tan^{-1}((ω+Im{a}) / Re{a}) olarak elde edilir.",
+      "|X(jω)| = 1/√(Re{a}^2 + (ω+Im{a})^2) ve ∠X(jω) = -arctan((ω+Im{a})/Re{a})."
+    ],
+    "anahtar_kelimeler": [
+      "|X(jω)| = 1 / √(Re{a}² + (ω+Im{a})²)",
+      "-tan^{-1}",
+      "arctan",
+      "genlik",
+      "faz"
+    ]
+  },
+  "73": {
+    "soru": "Nedensel üstel işaretin Fourier dönüşümünün faz açısı ∠X(jω) hangi ifade ile hesaplanır?",
+    "zorluk": "Orta",
+    "beklenen_kaynak": "lsarSist-H8_FourierTransform.pdf",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "∠X(jω) = -tan^{-1}((ω + Im{a}) / Re{a}) (veya a reel ve 1 ise -tan^{-1}(ω))",
+      "-tan^{-1}((ω+Im{a})/Re{a})",
+      "-arctan(ω/a)"
+    ],
+    "anahtar_kelimeler": [
+      "-tan^{-1}",
+      "-arctan",
+      "(ω+Im{a})/Re{a}",
+      "-tan^{-1}(ω)"
+    ]
+  },
+  "74": {
+    "soru": "Fourier dönüşümünün \"memoryless\", \"causal\" ve \"linear\" sistem özellikleriyle ilişkisi nasıl açıklanmıştır?",
+    "zorluk": "Orta",
+    "beklenen_kaynak": "lsarSist-H8_FourierTransform.pdf",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Doğrusaldır (Linear: Evet), ancak belleksiz değildir (Memoryless: Hayır, sonsuz bellek gerektirir) ve nedensel değildir (Causal: Hayır).",
+      "Linear (Doğrusal) özelliğini sağlar; Memoryless ve Causal özelliklerini sağlamaz."
+    ],
+    "anahtar_kelimeler": [
+      "Linear",
+      "Memoryless",
+      "Causal",
+      "Doğrusal",
+      "sonsuz bellek"
+    ]
+  },
+  "75": {
+    "soru": "Fourier dönüşümünün bir işaret hakkında ne söylediği ve ne söylemediği (frekans içeriği vs. zaman bilgisi) nasıl özetlenmiştir?",
+    "zorluk": "Orta",
+    "beklenen_kaynak": "lsarSist-H8_FourierTransform.pdf",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "İşaretin hangi frekans bileşenlerini (frekans içeriğini) içerdiğini söyler; ancak bu frekansların zaman ekseninde tam olarak ne zaman meydana geldiğini söylemez.",
+      "Frekans içeriğini söyler, frekansların hangi zamanda gerçekleştiğini söylemez."
+    ],
+    "anahtar_kelimeler": [
+      "frekans içeriği",
+      "zaman bilgisi",
+      "frequency content",
+      "ne zaman"
+    ]
+  },
+  "76": {
+    "soru": "Duallik (duality) özelliği ileri ve ters dönüşümlerin benzerliğinden nasıl yararlanmaktadır?",
+    "zorluk": "Orta",
+    "beklenen_kaynak": "lsarSist-H8_FourierTransform.pdf",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "İleri ve ters dönüşüm integrallerinin form benzerliğinden yararlanarak f(t) ↔ F(ω) ise F(t) ↔ 2π f(-ω) ilişkisini kurar.",
+      "f(t) ↔ F(ω) ise F(t) ↔ 2π f(-ω) çiftini oluşturur."
+    ],
+    "anahtar_kelimeler": [
+      "F(t) ↔ 2π f(-ω)",
+      "duality",
+      "ileri ve ters dönüşüm"
+    ]
+  },
+  "77": {
+    "soru": "rect(t/τ)↔τsinc(ωτ/2) dönüşüm çiftine duallik uygulandığında hangi yeni dönüşüm çifti elde edilir?",
+    "zorluk": "Orta",
+    "beklenen_kaynak": "lsarSist-H8_FourierTransform.pdf",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "τ sinc(tτ/2) ↔ 2π rect(ω/τ)",
+      "τ sinc(tτ/2) ↔ 2π rect(-ω/τ) = 2π rect(ω/τ)"
+    ],
+    "anahtar_kelimeler": [
+      "τ sinc(tτ/2)",
+      "2π rect(ω/τ)",
+      "2π rect(-ω/τ)"
+    ]
+  },
+  "78": {
+    "soru": "Ölçekleme (scaling) özelliğine göre |a|>1 olduğunda zaman ve frekans eksenlerinde ne tür bir değişim meydana gelir?",
+    "zorluk": "Orta",
+    "beklenen_kaynak": "lsarSist-H8_FourierTransform.pdf",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Zaman ekseni sıkışır/daralır (compress), frekans ekseni ise genişler (expand).",
+      "Zaman ekseninde daralma, frekans ekseninde genişleme meydana gelir."
+    ],
+    "anahtar_kelimeler": [
+      "zaman ekseni sıkışır",
+      "frekans ekseni genişler",
+      "compress time",
+      "expand frequency"
+    ]
+  },
+  "79": {
+    "soru": "Zaman ekseninde genişleme ile frekans ekseninde daralma (bant genişliği) arasındaki ters orantı nasıl açıklanmıştır?",
+    "zorluk": "Orta",
+    "beklenen_kaynak": "lsarSist-H8_FourierTransform.pdf",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Zaman bölgesindeki süre ile frekans bölgesindeki bant genişliği ters orantılıdır: İşaret zamanda genişledikçe spektrumu daralır, zamanda daraldıkça spektrumu genişler.",
+      "f(t) genişledikçe spektrum daralır; f(t) daraldıkça spektrum genişler."
+    ],
+    "anahtar_kelimeler": [
+      "ters orantılı",
+      "zamanda genişleme",
+      "spektrum daralır",
+      "bant genişliği"
+    ]
+  },
+  "80": {
+    "soru": "Zamanda kaydırma (shifting in time) özelliğine göre bir işaretin gecikmesi Fourier dönüşümünün genliğini mi yoksa fazını mı etkiler?",
+    "zorluk": "Orta",
+    "beklenen_kaynak": "lsarSist-H8_FourierTransform.pdf",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Genliği etkilemez (değiştirmez), yalnızca fazını -ωt0 kadar kaydırarak fazı etkiler.",
+      "Yalnızca fazını etkiler (-ωt0 eğimli doğrusal faz ekler), genlik değişmez."
+    ],
+    "anahtar_kelimeler": [
+      "yalnızca fazını",
+      "genliği etkilemez",
+      "fazını etkiler",
+      "-ωt0"
+    ]
+  },
+  "81": {
+    "soru": "Zamanda kaydırma özelliğinin ispatında u=t-t0 değişken dönüşümü nasıl kullanılmıştır?",
+    "zorluk": "Orta",
+    "beklenen_kaynak": "lsarSist-H8_FourierTransform.pdf",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "u = t - t0 (t = u + t0, dt = du) dönüşümü uygulanarak e^{-jω(u+t0)} çarpanı e^{-jωt0} e^{-jωu} şeklinde ayrılır ve sabit e^{-jωt0} integralin dışına alınır.",
+      "u=t-t0 ve dt=du alınarak e^{-jωt0} çarpanı integral dışına çıkarılır."
+    ],
+    "anahtar_kelimeler": [
+      "u = t - t0",
+      "e^{-jωt0}",
+      "dt = du",
+      "u+t0"
+    ]
+  },
+  "82": {
+    "soru": "Zamanda çarpımın frekansta konvolüsyona karşılık geldiği özellik hangi türetme ile gösterilmiştir?",
+    "zorluk": "Orta",
+    "beklenen_kaynak": "lsarSist-H8_FourierTransform.pdf",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "y(t) = f(t)cos(ω0t) işaretinin Fourier dönüşümünde Y(ω) = (1/2π) [F(ω) * (πδ(ω+ω0) + πδ(ω-ω0))] konvolüsyon integrali ve Dirac delta kaydırma özelliği ile gösterilmiştir.",
+      "Y(ω) = (1/2π) F(ω) * F{cos(ω0t)} frekans konvolüsyonu türetimiyle gösterilmiştir."
+    ],
+    "anahtar_kelimeler": [
+      "konvolüsyon",
+      "Y(ω) = (1/2π) F(ω) * ...",
+      "Dirac delta",
+      "f(t)cos(ω0t)"
+    ]
+  },
+  "83": {
+    "soru": "Sinüzoidal genlik modülasyonunda (y(t)=f(t)cos(ω0t)) elde edilen Y(ω) ifadesi F(ω) cinsinden nasıl yazılır?",
+    "zorluk": "Orta",
+    "beklenen_kaynak": "lsarSist-H8_FourierTransform.pdf",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Y(ω) = (1/2) F(ω+ω0) + (1/2) F(ω-ω0)",
+      "Y(ω) = 0.5 * F(ω+ω0) + 0.5 * F(ω-ω0)",
+      "(1/2) F(ω+ω0) + (1/2) F(ω-ω0)"
+    ],
+    "anahtar_kelimeler": [
+      "(1/2) F(ω+ω0) + (1/2) F(ω-ω0)",
+      "F(ω+ω0)",
+      "F(ω-ω0)",
+      "1/2"
+    ]
+  },
+  "84": {
+    "soru": "Sinüzoidal genlik modülasyonunda demodülasyon (f(t)'nin geri kazanılması) hangi iki adımdan oluşur?",
+    "zorluk": "Orta",
+    "beklenen_kaynak": "lsarSist-H8_FourierTransform.pdf",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Modülasyon (cos(ω0t) ile yeniden çarpma) ve ardından alçak geçiren filtreleme (lowpass filtering) adımlarından oluşur.",
+      "Modülasyon ve alçak geçiren filtreleme (lowpass filtering)."
+    ],
+    "anahtar_kelimeler": [
+      "modülasyon",
+      "alçak geçiren filtreleme",
+      "lowpass filtering"
+    ]
+  },
+  "85": {
+    "soru": "Frekans-kaydırma özelliğine göre e^{jω0t}f(t) işaretinin Fourier dönüşümü F(ω) cinsinden nasıl ifade edilir?",
+    "zorluk": "Orta",
+    "beklenen_kaynak": "lsarSist-H8_FourierTransform.pdf",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "F(ω - ω0)",
+      "2π F(ω - ω0)",
+      "F(ω - ω0) şeklinde frekansta sağa ötelenmiş olarak ifade edilir."
+    ],
+    "anahtar_kelimeler": [
+      "F(ω - ω0)",
+      "F(ω-ω0)"
+    ]
+  },
+  "86": {
+    "soru": "cos(ω0t)f(t) işaretinin frekans-kaydırma özelliği kullanılarak elde edilen Fourier dönüşümü hangi iki terimin toplamı şeklindedir?",
+    "zorluk": "Orta",
+    "beklenen_kaynak": "lsarSist-H8_FourierTransform.pdf",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "(1/2) F(ω+ω0) ve (1/2) F(ω-ω0)",
+      "0.5*F(ω+ω0) + 0.5*F(ω-ω0)",
+      "(1/2)F(ω+ω0) ile (1/2)F(ω-ω0) terimlerinin toplamıdır."
+    ],
+    "anahtar_kelimeler": [
+      "(1/2) F(ω+ω0)",
+      "(1/2) F(ω-ω0)",
+      "1/2 F(ω+ω0) + 1/2 F(ω-ω0)"
+    ]
+  },
+  "87": {
+    "soru": "Nedensel üstel işaretin genlik yanıtı |X(jω)|=1/√(Re{a}²+(ω+Im{a})²) ifadesinde Re{a} ve Im{a} terimleri fiziksel olarak neyi temsil eder ve a=1 için genlik-faz grafiklerinin şekli nasıl yorumlanır?",
+    "zorluk": "Zor",
+    "beklenen_kaynak": "lsarSist-H8_FourierTransform.pdf",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Re{a} sönümlenme (decay) hızını, Im{a} salınım (oscillation) frekansını temsil eder. a=1 için genlik sıfır frekansta 1 olup frekans arttıkça alçak geçiren filtre şeklinde azalır; faz ise 0'dan -90 dereceye (-π/2) doğru iner.",
+      "Re{a} sönümlenmeyi, Im{a} salınımı temsil eder; a=1 iken genlik yanıtı alçak geçiren eğri oluşturur."
+    ],
+    "anahtar_kelimeler": [
+      "sönümlenme",
+      "decay",
+      "salınım",
+      "oscillation",
+      "alçak geçiren",
+      "a=1"
+    ]
+  },
+  "88": {
+    "soru": "F{1}=2πδ(ω) sonucunun elde edilme sürecinde ters Fourier dönüşümü tanımı ile sifting property arasındaki matematiksel bağlantı adım adım nasıl kurulmuştur?",
+    "zorluk": "Zor",
+    "beklenen_kaynak": "lsarSist-H8_FourierTransform.pdf",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "F^{-1}{δ(ω)} = (1/2π) ∫ δ(ω) e^{jωt} dω integraline sifting property uygulanarak (1/2π) e^0 = 1/2π bulunur; doğrusallık (linearity) ile her iki taraf 2π ile çarpıldığında F{1} = 2π δ(ω) elde edilir.",
+      "Ters dönüşümde Dirac delta sifting özelliğiyle 1/(2π) bulunur ve doğrusallıkla 2πδ(ω) eşitliğine ulaşılır."
+    ],
+    "anahtar_kelimeler": [
+      "F^{-1}{δ(ω)}",
+      "1/(2π)",
+      "sifting",
+      "doğrusallık",
+      "2πδ(ω)"
+    ]
+  },
+  "89": {
+    "soru": "Sinüzoidal genlik modülasyonu örneğinde ω1<<ω0 varsayımının demodülasyon sürecinde alçak geçiren filtreleme adımı için neden gerekli olduğunu, Y(ω) spektrumundaki F(ω-ω0) ve F(ω+ω0) bileşenlerinin konumu üzerinden açıklayınız.",
+    "zorluk": "Zor",
+    "beklenen_kaynak": "lsarSist-H8_FourierTransform.pdf",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "ω1 << ω0 olduğunda ±ω0 etrafındaki spektrum bileşenleri örtüşmez (aliasing olmaz); demodülasyon sonrasında temel banttaki (merkezdeki) mesaj sinyali ile ±2ω0'daki yüksek frekanslı bileşenler alçak geçiren filtre ile birbirinden kolayca ayrıştırılabilir.",
+      "Spektral örtüşmeyi önlemek ve alçak geçiren filtrenin yüksek frekans bileşenlerini kesebilmesini sağlamak için gereklidir."
+    ],
+    "anahtar_kelimeler": [
+      "örtüşmeme",
+      "alçak geçiren filtre",
+      "±2ω0",
+      "±ω0",
+      "spektrum"
+    ]
+  },
+  "90": {
+    "soru": "Zamanda kaydırma özelliğinin türetmesinde elde edilen e^{-jωt0}F(ω) ifadesi ile frekans-kaydırma özelliğindeki e^{jω0t}f(t)↔F(ω-ω0) ifadesi arasındaki dualite ilişkisini, her iki türetmenin matematiksel adımlarını karşılaştırarak açıklayınız.",
+    "zorluk": "Zor",
+    "beklenen_kaynak": "lsarSist-H8_FourierTransform.pdf",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Zamanda kaydırma f(t-t0) frekansta e^{-jωt0} ile çarpıma yol açarken, zamanda e^{jω0t} ile çarpım frekansta F(ω-ω0) ötelemesine yol açar; zaman ve frekans bölgelerindeki bu simetrik öteleme-çarpma eşleşmesi dualite özelliğini gösterir.",
+      "Zamanda öteleme frekansta faz çarpımına, zamanda modülasyon ise frekansta ötelemeye karşılık gelir (dualite)."
+    ],
+    "anahtar_kelimeler": [
+      "dualite",
+      "zamanda kaydırma",
+      "frekans kaydırma",
+      "e^{-jωt0}",
+      "e^{jω0t}"
+    ]
+  }
+}

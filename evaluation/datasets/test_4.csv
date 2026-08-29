@@ -1,3 +1,4 @@
+id,zorluk,soru,beklenen_kaynak,dokumanda_var_mi
 91,Kolay,"Alis'in çalıştığı kütüphanenin adı nedir?",test1.txt,Evet
 92,Kolay,"Anlatıcının Oda No: 304'ü kiraladığı şehir ve mevsim hangisidir?",test2.txt,Evet
 93,Kolay,"Defterin sayfalarında beliren cümlede 'gardiyan' olarak kim gösterilmektedir?",test1.txt,Evet

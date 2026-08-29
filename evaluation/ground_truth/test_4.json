@@ -1,0 +1,172 @@
+{
+  "91": {
+    "soru": "Alis'in çalıştığı kütüphanenin adı nedir?",
+    "zorluk": "Kolay",
+    "beklenen_kaynak": "test1.txt",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Gümüş Yaprak",
+      "Gümüş Yaprak Kütüphanesi",
+      "Gümüş Yaprak'tır."
+    ],
+    "anahtar_kelimeler": [
+      "Gümüş Yaprak"
+    ]
+  },
+  "92": {
+    "soru": "Anlatıcının Oda No: 304'ü kiraladığı şehir ve mevsim hangisidir?",
+    "zorluk": "Kolay",
+    "beklenen_kaynak": "test2.txt",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "İstanbul, Kasım (Sonbahar)",
+      "İstanbul, Sonbahar",
+      "İstanbul ve sonbahar (kasım ayı)",
+      "İstanbul, yağmurlu bir kasım sabahı"
+    ],
+    "anahtar_kelimeler": [
+      "İstanbul",
+      "Kasım",
+      "Sonbahar"
+    ]
+  },
+  "93": {
+    "soru": "Defterin sayfalarında beliren cümlede 'gardiyan' olarak kim gösterilmektedir?",
+    "zorluk": "Kolay",
+    "beklenen_kaynak": "test1.txt",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Kütüphaneci",
+      "Kütüphanecinin ta kendisi",
+      "Kütüphaneci (Usta Magnus)",
+      "Kütüphanecinin kendisidir."
+    ],
+    "anahtar_kelimeler": [
+      "kütüphaneci",
+      "kütüphanecinin ta kendisidir"
+    ]
+  },
+  "94": {
+    "soru": "Alis'in Yasaklı Kanat'a girme kararını tetikleyen olaylar zincirini (ay ışığının yansıması, kapının aralık olması, kalp atışları) sırasıyla açıklayınız.",
+    "zorluk": "Orta",
+    "beklenen_kaynak": "test1.txt",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "1. Ay ışığının mermer zeminde pusula iğnesi gibi kapıyı işaret etmesi, 2. Yıllardır kilitli olan kapının bir parmak aralık kaldığını fark etmesi, 3. Kalbinin çarpıntısını dinleyerek içeri adım atması.",
+      "Ay ışığının kapıyı işaret etmesi, kapının aralık olması ve merak/kalp atışlarıyla içeri süzülmesidir."
+    ],
+    "anahtar_kelimeler": [
+      "ay ışığı",
+      "pusula",
+      "aralık",
+      "kalp atışları",
+      "merak"
+    ]
+  },
+  "95": {
+    "soru": "Antikacının verdiği pirinç anahtarın hikâyedeki işlevi ile günlükte bahsedilen tıkırtı sesi arasındaki bağlantı nasıl kurulmuştur?",
+    "zorluk": "Orta",
+    "beklenen_kaynak": "test2.txt",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Antikacı Korev'in verdiği pirinç anahtar evdeki kilitlere uymaz; günlük yazarı her gece 03.14'te tıkırtının geldiği şömine duvarındaki gizli bölmeyi/kilidi açmak için anahtarı kullanacağını belirtir.",
+      "Pirinç anahtar evdeki kilitlere uymaz, tıkırtının geldiği şömindeki gizli bölmeyi açmak için tasarlanmıştır."
+    ],
+    "anahtar_kelimeler": [
+      "pirinç anahtar",
+      "kilitlere uymuyor",
+      "tıkırtı",
+      "şömine",
+      "03.14",
+      "Korev"
+    ]
+  },
+  "96": {
+    "soru": "Defterde Alis'in isminin belirmesinden hemen sonra ortaya çıkan illüstrasyonun içeriği, hikâyenin gerilimini nasıl artırmaktadır?",
+    "zorluk": "Orta",
+    "beklenen_kaynak": "test1.txt",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "İllüstrasyonda yarının tarihi ve kütüphanenin büyük bir yangınla kül olacağını gösteren hareketli bir sahne yer alır; felaketin çok yakın olduğunu ve zamanın azaldığını göstererek gerilimi artırır.",
+      "Kütüphanenin yarın büyük bir yangınla kül olacağını gösteren hareketli bir görsel belirir ve gerilimi zirveye taşır."
+    ],
+    "anahtar_kelimeler": [
+      "yarının tarihi",
+      "yangın",
+      "büyük bir yangınla kül",
+      "hareketli illüstrasyon"
+    ]
+  },
+  "97": {
+    "soru": "Günlükteki 12 Mart ve 28 Mart tarihli kayıtlar arasında bilgi açısından ne gibi bir ilerleme (fısıltıdan koda, kodan antikacıya) yaşanmıştır?",
+    "zorluk": "Orta",
+    "beklenen_kaynak": "test2.txt",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "12 Mart'ta duvardaki fısıltının bir tıkırtı kodu olduğu ve ilk kelimenin 'Korev' olduğu çözülmüş; 28 Mart'ta ise Korev'in Galata'daki bir antikacı olduğu anlaşılıp dükkana gidilmiş ve pirinç anahtar alınmıştır.",
+      "Fısıltının tıkırtı koduna ve 'Korev' kelimesine, ardından Korev'in Galata'daki antikacı olduğuna ve pirinç anahtara ulaşılmasıyla ilerlemiştir."
+    ],
+    "anahtar_kelimeler": [
+      "12 Mart",
+      "28 Mart",
+      "Korev",
+      "fısıltı",
+      "kod",
+      "antikacı",
+      "pirinç anahtar"
+    ]
+  },
+  "98": {
+    "soru": "Anlatıcının saatin 03.13'e gelmesini fark etmesi ile önceki günlük kayıtlarında belirtilen 03.14 tıkırtısı arasındaki zamansal gerilim nasıl kurgulanmıştır?",
+    "zorluk": "Orta",
+    "beklenen_kaynak": "test2.txt",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Günlükte tıkırtının her gece tam 03.14'te başladığı belirtilmişken, anlatıcının saatin tam 03.13 olduğunu fark etmesi ve tam bir dakika sonra şömineden tıkırtının gelmesiyle son saniye gerilimi yaratılmıştır.",
+      "03.13'te anlatıcının zamanı fark edip 1 dakika sonra 03.14'te tıkırtıyı duymasıyla anlık ve yoğun bir gerilim kurgulanmıştır."
+    ],
+    "anahtar_kelimeler": [
+      "03.13",
+      "03.14",
+      "bir dakika sonra",
+      "tıkırtı",
+      "şömine"
+    ]
+  },
+  "99": {
+    "soru": "'Geleceği görmek bir lütuf değil, bir hapishanedir' cümlesinin, Usta Magnus'un kimliğine dair ipuçlarıyla birlikte hikâyenin genel gizem yapısına nasıl bir anlam kattığını değerlendiriniz.",
+    "zorluk": "Zor",
+    "beklenen_kaynak": "test1.txt",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Cümlenin Usta Magnus'un el yazısıyla olması ve kütüphaneciyi gardiyan ilan etmesi; Magnus'un geleceği bildiği halde değiştirememenin getirdiği bir mahkumiyet yaşadığını ve kütüphanenin koruyuculuğunun altında gizli bir kader hapishanesi olduğunu düşündürür.",
+      "Magnus'un geleceği görüp değiştiremediği bir hapis hayatı yaşadığını ve akıl hocası kimliğinin arkasında gizli bir sır olduğunu gösterir."
+    ],
+    "anahtar_kelimeler": [
+      "Usta Magnus",
+      "gardiyan",
+      "hapishane",
+      "geleceği görmek",
+      "yangın",
+      "kader"
+    ]
+  },
+  "100": {
+    "soru": "Günlükteki koparılmış yirmi sayfa ile arka kapaktaki kroki/koordinat arasındaki anlatısal boşluk, okuyucuda nasıl bir belirsizlik ve merak etkisi yaratacak şekilde kurgulanmıştır?",
+    "zorluk": "Zor",
+    "beklenen_kaynak": "test2.txt",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Koparılmış 20 sayfa, önceki kiracının başına ne geldiği ve duvarı kazınca ne bulduğu bilgisini sansürleyerek merak uyandırır; arka kapaktaki kroki ve şömine koordinatı ise gizemin fiziksel olarak odaya taşınmasını sağlar.",
+      "Kayıp sayfalar yazarın akıbetini gizlerken, kroki ve şöminedeki çarpı işareti doğrudan gizemin merkezine yönlendirir."
+    ],
+    "anahtar_kelimeler": [
+      "koparılmış sayfalar",
+      "kroki",
+      "şömine",
+      "çarpı işareti",
+      "merak",
+      "belirsizlik"
+    ]
+  }
+}

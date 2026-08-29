@@ -167,6 +167,8 @@ def _resolve_file(file_path: str) -> Path:
         root_dir / file_path,
         eval_dir / "datasets" / file_path,
         eval_dir / "datasets" / p.name,
+        eval_dir / "ground_truth" / file_path,
+        eval_dir / "ground_truth" / p.name,
         eval_dir / p.name,
         root_dir / p.name,
     ]
@@ -176,16 +178,43 @@ def _resolve_file(file_path: str) -> Path:
     return p
 
 
+# Test setleri ve bunlara ait sonuc/GT dosyalarinin varsayilan adlandirmasi.
+TEST_SETS = ["test_1", "test_2", "test_3", "test_4"]
+
+
+def _set_name_of(path: Path) -> str:
+    """'test_2_sonuclari.csv' -> 'test_2'. Taninmayan adlarda stem doner."""
+    stem = path.stem
+    for suffix in ("_sonuclari", "_results"):
+        if stem.endswith(suffix):
+            stem = stem[: -len(suffix)]
+    return stem
+
+
+def _default_gt_for(csv_file: Path) -> str:
+    """Sonuc CSV'sine karsilik gelen test bazli ground truth dosyasini secer."""
+    name = _set_name_of(csv_file)
+    candidate = Path(__file__).resolve().parent / "ground_truth" / f"{name}.json"
+    if candidate.exists():
+        return str(candidate)
+    # Geriye donuk uyumluluk: test bazli dosya yoksa eski tekil GT'ye dus.
+    return "ground_truth.json"
+
+
 def evaluate_dataset(
     csv_path: str = "test_sonuclari.csv",
-    ground_truth_path: str = "ground_truth.json",
+    ground_truth_path: str | None = None,
     output_dir: str = "report",
-) -> dict:
+    return_records: bool = False,
+):
     """
     Sonuç CSV dosyasını okuyup ground_truth ile eşleştirerek tüm metrikleri hesaplar.
     """
     csv_file = _resolve_file(csv_path)
+    if ground_truth_path is None:
+        ground_truth_path = _default_gt_for(csv_file)
     gt_file = _resolve_file(ground_truth_path)
+    set_name = _set_name_of(csv_file)
     
     out_dir = Path(output_dir)
     if not out_dir.is_absolute():
@@ -193,7 +222,7 @@ def evaluate_dataset(
         out_dir = root_dir / output_dir
 
     out_dir.mkdir(parents=True, exist_ok=True)
-    charts_dir = out_dir / "benchmark_charts"
+    charts_dir = out_dir / "benchmark_charts" / set_name
     charts_dir.mkdir(parents=True, exist_ok=True)
 
     if not csv_file.exists():
@@ -361,6 +390,9 @@ def evaluate_dataset(
             }
 
     summary = {
+        "test_seti": set_name,
+        "sonuc_dosyasi": str(csv_file),
+        "ground_truth_dosyasi": str(gt_file),
         "toplam_soru": total_q,
         "referansli_soru": n_acc,
         "referanssiz_soru": total_q - n_acc,
@@ -380,7 +412,7 @@ def evaluate_dataset(
     }
 
     # CSV Dışa Aktarım
-    scored_csv_path = out_dir / "test_sonuclari_scored.csv"
+    scored_csv_path = out_dir / f"{set_name}_scored.csv"
     fieldnames = list(scored_records[0].keys())
     with open(scored_csv_path, "w", encoding="utf-8-sig", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
@@ -388,7 +420,7 @@ def evaluate_dataset(
         writer.writerows(scored_records)
 
     # JSON Dışa Aktarım
-    summary_json_path = out_dir / "benchmark_summary.json"
+    summary_json_path = out_dir / f"{set_name}_summary.json"
     with open(summary_json_path, "w", encoding="utf-8") as f:
         json.dump(summary, f, ensure_ascii=False, indent=2)
 
@@ -396,7 +428,7 @@ def evaluate_dataset(
     generate_benchmark_charts(summary, scored_records, charts_dir)
 
     print("\n" + "=" * 80)
-    print("🎯 OTOMATİK SKORLAMA & BENCHMARK SONUÇLARI")
+    print(f"🎯 OTOMATİK SKORLAMA & BENCHMARK SONUÇLARI — {set_name}")
     print("=" * 80)
     print(f"Toplam Değerlendirilen Soru : {total_q}")
     print(f"Genel Exact Match (EM)      : %{summary['genel_metrikler']['exact_match_yuzde']:.1f}")
@@ -406,7 +438,7 @@ def evaluate_dataset(
     print(f"Halüsinasyon (FP) Oranı     : {confusion['FP']} / {total_q} (%{(confusion['FP'] / total_q) * 100 if total_q else 0.0:.1f})")
     if total_q - n_acc:
         print(f"⚠️  Referans cevabı olmayan {total_q - n_acc} soru EM/F1 ortalamasına dahil edilmedi "
-              f"(ground_truth.json'a ekleyin).")
+              f"(doldurmak icin: python evaluation/make_ground_truth.py --status).")
     print("-" * 80)
     print("📊 Kategori Bazlı Dağılım:")
     for cat, m in category_summary.items():
@@ -417,6 +449,8 @@ def evaluate_dataset(
     print(f"  - Summary JSON : {summary_json_path}")
     print(f"  - Grafikler    : {charts_dir}")
 
+    if return_records:
+        return summary, scored_records
     return summary
 
 
@@ -575,7 +609,7 @@ def generate_benchmark_charts(summary: dict, scored_records: list[dict], output_
         at.set_fontsize(8.5)
         at.set_fontweight("bold")
 
-    ax_donut.set_title("Test Sınıflandırma Dağılımı\n(Toplam 30 Soru)", fontsize=11.5, fontweight="bold", pad=10, color="#0F172A")
+    ax_donut.set_title(f"Test Sınıflandırma Dağılımı\n(Toplam {summary['toplam_soru']} Soru)", fontsize=11.5, fontweight="bold", pad=10, color="#0F172A")
     ax_donut.legend(wedges, labels, loc="lower center", bbox_to_anchor=(0.5, -0.15), ncol=2, fontsize=8, frameon=False)
 
     # KPI Kartları
@@ -605,6 +639,172 @@ def generate_benchmark_charts(summary: dict, scored_records: list[dict], output_
     plt.close()
 
 
+
+def _summary_from_records(records: list[dict], label: str) -> dict:
+    """
+    scored_records listesinden (tek set ya da birden fazla setin birleşimi)
+    özet metrikleri hesaplar. evaluate_dataset ile aynı tanımları kullanır:
+    EM/F1 yalnızca referansı olan (veya negatif) sorular üzerinden ortalanır.
+    """
+    total_q = len(records)
+    confusion = {"TP": 0, "TN": 0, "FP": 0, "FN": 0}
+    for r in records:
+        confusion[r["siniflandirma"]] = confusion.get(r["siniflandirma"], 0) + 1
+
+    acc_pool = [r for r in records if r["referans_var_mi"] == "Evet"]
+    n_acc = len(acc_pool)
+
+    def mean(key, pool):
+        return (sum(x[key] for x in pool) / len(pool)) if pool else 0.0
+
+    lats = [r["sure_sn"] for r in records]
+
+    cats = {}
+    for r in records:
+        cats.setdefault(r["kategori"], []).append(r)
+
+    kategori_bazli = {}
+    for cat, rows in cats.items():
+        pool = [x for x in rows if x["referans_var_mi"] == "Evet"]
+        cl = [x["sure_sn"] for x in rows]
+        kategori_bazli[cat] = {
+            "toplam_soru": len(rows),
+            "referansli_soru": len(pool),
+            "exact_match_yuzde": round(mean("em_score", pool), 2),
+            "f1_skor_yuzde": round(mean("f1_score", pool), 2),
+            "precision_yuzde": round(mean("precision", pool), 2),
+            "recall_yuzde": round(mean("recall", pool), 2),
+            "retrieval_dogruluk_yuzde": round(
+                sum(1 for x in rows if x["retrieval_match"] == "Evet") / len(rows) * 100, 2),
+            "ortalama_sure_sn": round(float(np.mean(cl)), 2) if cl else 0.0,
+            "medyan_sure_sn": round(float(np.median(cl)), 2) if cl else 0.0,
+            "min_sure_sn": round(min(cl), 2) if cl else 0.0,
+            "max_sure_sn": round(max(cl), 2) if cl else 0.0,
+        }
+
+    return {
+        "test_seti": label,
+        "toplam_soru": total_q,
+        "referansli_soru": n_acc,
+        "referanssiz_soru": total_q - n_acc,
+        "genel_metrikler": {
+            "exact_match_yuzde": round(mean("em_score", acc_pool), 2),
+            "f1_skor_yuzde": round(mean("f1_score", acc_pool), 2),
+            "precision_yuzde": round(mean("precision", acc_pool), 2),
+            "recall_yuzde": round(mean("recall", acc_pool), 2),
+            "retrieval_dogruluk_yuzde": round(
+                sum(1 for r in records if r["retrieval_match"] == "Evet") / total_q * 100, 2) if total_q else 0.0,
+            "ortalama_sure_sn": round(float(np.mean(lats)), 2) if lats else 0.0,
+            "medyan_sure_sn": round(float(np.median(lats)), 2) if lats else 0.0,
+            "min_sure_sn": round(min(lats), 2) if lats else 0.0,
+            "max_sure_sn": round(max(lats), 2) if lats else 0.0,
+        },
+        "siniflandirma_matrisi": confusion,
+        "kategori_bazli": kategori_bazli,
+    }
+
+
+def evaluate_all(sets=None, output_dir: str = "report", results_dir: str = ".") -> dict:
+    """
+    test_1..test_4 sonuçlarını tek tek skorlar, ardından HEPSİNİN BİRLEŞİMİ
+    üzerinden genel bir değerlendirme üretir.
+
+    Beklenen sonuç dosyaları: <set>_sonuclari.csv (run_tests.py bunu üretir).
+    """
+    sets = list(sets or TEST_SETS)
+    out_dir = Path(output_dir)
+    if not out_dir.is_absolute():
+        out_dir = Path(__file__).resolve().parent.parent / output_dir
+    out_dir.mkdir(parents=True, exist_ok=True)
+
+    per_set, all_records, missing = {}, [], []
+    for name in sets:
+        csv_candidate = _resolve_file(f"{name}_sonuclari.csv")
+        if not csv_candidate.exists():
+            csv_candidate = _resolve_file(str(Path(results_dir) / f"{name}_sonuclari.csv"))
+        if not csv_candidate.exists():
+            missing.append(name)
+            continue
+        summary, records = evaluate_dataset(str(csv_candidate), None, output_dir, return_records=True)
+        per_set[name] = summary
+        for r in records:
+            row = dict(r)
+            row["test_seti"] = name
+            all_records.append(row)
+
+    if not all_records:
+        raise FileNotFoundError(
+            "Hicbir sonuc dosyasi bulunamadi. Once testleri calistirin:\n"
+            "  -> python evaluation/run_all.py            (4 seti sirayla calistirir)\n"
+            "veya tek tek:\n"
+            "  -> python run_tests.py evaluation/datasets/test_1.csv test_1_sonuclari.csv"
+        )
+
+    overall = _summary_from_records(all_records, "GENEL (tum setler)")
+    overall["dahil_edilen_setler"] = list(per_set.keys())
+    overall["eksik_setler"] = missing
+    overall["set_bazli"] = {
+        name: {
+            "toplam_soru": sm["toplam_soru"],
+            "referansli_soru": sm["referansli_soru"],
+            **sm["genel_metrikler"],
+            "siniflandirma_matrisi": sm["siniflandirma_matrisi"],
+        }
+        for name, sm in per_set.items()
+    }
+
+    scored_path = out_dir / "genel_scored.csv"
+    fieldnames = ["test_seti"] + [k for k in all_records[0].keys() if k != "test_seti"]
+    with open(scored_path, "w", encoding="utf-8-sig", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=fieldnames)
+        w.writeheader()
+        w.writerows(all_records)
+
+    summary_path = out_dir / "genel_summary.json"
+    with open(summary_path, "w", encoding="utf-8") as f:
+        json.dump(overall, f, ensure_ascii=False, indent=2)
+
+    charts_dir = out_dir / "benchmark_charts" / "genel"
+    charts_dir.mkdir(parents=True, exist_ok=True)
+    generate_benchmark_charts(overall, all_records, charts_dir)
+
+    g = overall["genel_metrikler"]
+    conf = overall["siniflandirma_matrisi"]
+    print("\n" + "=" * 96)
+    print("GENEL DEĞERLENDİRME — TÜM TEST SETLERİNİN TOPLAMI")
+    print("=" * 96)
+    print(f"{'Set':<10}{'Soru':>6}{'Ref':>6}{'EM%':>8}{'F1%':>8}{'Retr%':>8}"
+          f"{'TP':>5}{'TN':>5}{'FP':>5}{'FN':>5}{'Sure(s)':>10}")
+    print("-" * 96)
+    for name, m in overall["set_bazli"].items():
+        c = m["siniflandirma_matrisi"]
+        print(f"{name:<10}{m['toplam_soru']:>6}{m['referansli_soru']:>6}"
+              f"{m['exact_match_yuzde']:>8.1f}{m['f1_skor_yuzde']:>8.1f}"
+              f"{m['retrieval_dogruluk_yuzde']:>8.1f}"
+              f"{c['TP']:>5}{c['TN']:>5}{c['FP']:>5}{c['FN']:>5}{m['ortalama_sure_sn']:>10.2f}")
+    print("-" * 96)
+    print(f"{'GENEL':<10}{overall['toplam_soru']:>6}{overall['referansli_soru']:>6}"
+          f"{g['exact_match_yuzde']:>8.1f}{g['f1_skor_yuzde']:>8.1f}"
+          f"{g['retrieval_dogruluk_yuzde']:>8.1f}"
+          f"{conf['TP']:>5}{conf['TN']:>5}{conf['FP']:>5}{conf['FN']:>5}{g['ortalama_sure_sn']:>10.2f}")
+    print("=" * 96)
+    tq = overall["toplam_soru"]
+    neg_total = conf["TN"] + conf["FP"]
+    print(f"Halusinasyon (FP) orani     : {conf['FP']}/{tq} (%{conf['FP'] / tq * 100:.1f})")
+    if neg_total:
+        print(f"Negatif test basarisi (TN)  : {conf['TN']}/{neg_total} (%{conf['TN'] / neg_total * 100:.1f})")
+    print(f"Cevapsiz kalma (FN) orani   : {conf['FN']}/{tq} (%{conf['FN'] / tq * 100:.1f})")
+    if overall["referanssiz_soru"]:
+        print(f"UYARI: {overall['referanssiz_soru']} soruda referans cevap yok - EM/F1 ortalamasina girmedi. "
+              f"Durum icin: python evaluation/make_ground_truth.py --status")
+    if missing:
+        print(f"UYARI: Sonuc dosyasi bulunamayan setler: {', '.join(missing)}")
+    print(f"Birlesik CSV  : {scored_path}")
+    print(f"Genel ozet    : {summary_path}")
+    print(f"Genel grafik  : {charts_dir}")
+    return overall
+
+
 if __name__ == "__main__":
     import sys
     try:
@@ -613,13 +813,22 @@ if __name__ == "__main__":
         pass
 
     parser = argparse.ArgumentParser(description="RAG test sonuçlarını otomatik skorlar ve benchmark grafikleri üretir.")
-    parser.add_argument("sonuclar_csv", nargs="?", default="test_sonuclari.csv", help="Skorlanacak sonuç CSV dosyası")
-    parser.add_argument("ground_truth", nargs="?", default="ground_truth.json", help="Ground Truth referans JSON dosyası")
+    parser.add_argument("sonuclar_csv", nargs="?", default=None,
+                        help="Skorlanacak sonuç CSV dosyası (örn: test_2_sonuclari.csv)")
+    parser.add_argument("ground_truth", nargs="?", default=None,
+                        help="Ground Truth JSON (verilmezse evaluation/ground_truth/<set>.json seçilir)")
     parser.add_argument("--output-dir", default="report", help="Rapor ve grafiklerin kaydedileceği dizin")
+    parser.add_argument("--all", action="store_true",
+                        help="test_1..test_4 sonuçlarını tek tek skorlar ve GENEL değerlendirme üretir")
+    parser.add_argument("--sets", nargs="+", default=None,
+                        help="--all ile: değerlendirilecek setler (varsayılan: test_1 test_2 test_3 test_4)")
 
     args = parser.parse_args()
     try:
-        evaluate_dataset(args.sonuclar_csv, args.ground_truth, args.output_dir)
+        if args.all or args.sonuclar_csv is None:
+            evaluate_all(args.sets, args.output_dir)
+        else:
+            evaluate_dataset(args.sonuclar_csv, args.ground_truth, args.output_dir)
     except FileNotFoundError as e:
         sys.exit(f"\n[HATA] {e}\n")
     except Exception as e:
