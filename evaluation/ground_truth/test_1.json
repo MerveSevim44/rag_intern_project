@@ -5,12 +5,16 @@
     "beklenen_kaynak": "8-Baglamdan_bagimsiz_dilbilgisi.pdf",
     "dokumanda_var_mi": "Evet",
     "referans_cevaplar": [
+      "G4.1'de VT = {+, -, *, /, (, ), v, c} kümesidir.",
+      "VT = {+, -, *, /, (, ), v, c}",
       "{+, -, *, /, (, ), v, c}",
       "+, -, *, /, (, ), v, c",
       "{+, -, *, /, (, ), v, c} kümesidir.",
       "Artı, eksi, çarpı, bölü, parantezler, v ve c simgeleridir."
     ],
     "anahtar_kelimeler": [
+      "VT",
+      "{+, -, *, /, (, ), v, c}",
       "+",
       "-",
       "*",
@@ -27,15 +31,18 @@
     "beklenen_kaynak": "8-Baglamdan_bagimsiz_dilbilgisi.pdf",
     "dokumanda_var_mi": "Evet",
     "referans_cevaplar": [
+      "P, dilbilgisinin yeniden yazma (türetme) kurallarını temsil eder.",
       "Yeniden yazma ya da türetme kuralları",
       "Türetme kuralları",
       "Yeniden yazma kuralları",
       "Yeniden yazma veya türetme kurallarını temsil eder."
     ],
     "anahtar_kelimeler": [
+      "P",
       "yeniden yazma",
       "türetme",
-      "kuralları"
+      "kuralları",
+      "dilbilgisi"
     ]
   },
   "3": {
@@ -44,14 +51,16 @@
     "beklenen_kaynak": "8-Baglamdan_bagimsiz_dilbilgisi.pdf",
     "dokumanda_var_mi": "Evet",
     "referans_cevaplar": [
+      "Başlangıç değişkeni S sembolüyle gösterilir ve S ∈ VN'dir (sözdizim değişkenleri kümesinin elemanıdır).",
       "S sembolü ile gösterilir ve VN (sözdizim değişkenleri) kümesinin elemanıdır.",
       "S sembolüyle gösterilir, VN kümesinin elemanıdır.",
-      "S, VN elemanıdır",
+      "S, VN elemanıdır (S ∈ VN).",
       "S sembolü, VN (değişkenler kümesi)"
     ],
     "anahtar_kelimeler": [
       "S",
       "VN",
+      "S ∈ VN",
       "başlangıç değişkeni",
       "sözdizim değişkenleri"
     ]
@@ -62,6 +71,7 @@
     "beklenen_kaynak": "8-Baglamdan_bagimsiz_dilbilgisi.pdf",
     "dokumanda_var_mi": "Evet",
     "referans_cevaplar": [
+      "VN ve VT ayrık kümelerdir; kesişimleri boş kümedir (VN ∩ VT = Ø).",
       "Ayrık kümelerdir (kesişimleri boştur, VN ∩ VT = ∅).",
       "VN ve VT ayrık kümelerdir.",
       "Ayrıktır, kesişimleri boştur.",
@@ -71,7 +81,8 @@
       "ayrık",
       "kesişimleri boş",
       "ayrık kümelerdir",
-      "VN ∩ VT = Ø"
+      "VN ∩ VT = Ø",
+      "boş küme"
     ]
   },
   "5": {
@@ -80,6 +91,7 @@
     "beklenen_kaynak": "8-Baglamdan_bagimsiz_dilbilgisi.pdf",
     "dokumanda_var_mi": "Evet",
     "referans_cevaplar": [
+      "Türetme ağacının kökünün etiketi S'dir.",
       "S",
       "S'dir",
       "Ağacın kökünün etiketi S (başlangıç değişkeni) olmalıdır.",
@@ -87,7 +99,9 @@
     ],
     "anahtar_kelimeler": [
       "S",
-      "başlangıç değişkeni"
+      "kökünün etiketi",
+      "başlangıç değişkeni",
+      "türetme ağacı"
     ]
   },
   "6": {
@@ -96,12 +110,16 @@
     "beklenen_kaynak": "8-Baglamdan_bagimsiz_dilbilgisi.pdf",
     "dokumanda_var_mi": "Evet",
     "referans_cevaplar": [
+      "G4.2'de VT = {a, b, c, d} kümesidir.",
+      "VT = {a, b, c, d}",
       "{a, b, c, d}",
       "a, b, c, d",
       "{a, b, c, d} kümesidir.",
       "a, b, c ve d simgeleridir."
     ],
     "anahtar_kelimeler": [
+      "VT",
+      "{a, b, c, d}",
       "a",
       "b",
       "c",
@@ -114,12 +132,16 @@
     "beklenen_kaynak": "8-Baglamdan_bagimsiz_dilbilgisi.pdf",
     "dokumanda_var_mi": "Evet",
     "referans_cevaplar": [
+      "Bu türetme sonunda w = v*(v-c) tümcesi elde edilmiştir.",
       "v*(v-c)",
+      "w = v*(v-c)",
       "v*(v-c) tümcesi elde edilmiştir.",
       "v*(v-c) tümcesidir."
     ],
     "anahtar_kelimeler": [
-      "v*(v-c)"
+      "v*(v-c)",
+      "w = v*(v-c)",
+      "tümce"
     ]
   },
   "8": {
@@ -128,17 +150,21 @@
     "beklenen_kaynak": "8-Baglamdan_bagimsiz_dilbilgisi.pdf",
     "dokumanda_var_mi": "Evet",
     "referans_cevaplar": [
+      "L(G4.2) = {aⁿbᵐcᵏdᵖ | n,m,p,k ≥ 1, p > n, k > m} biçiminde tanımlanır — yani a sayısı n, b sayısı m, c sayısı k, d sayısı p olmak üzere, d sayısı a sayısından fazla (p>n) ve c sayısı b sayısından fazla (k>m) olmalıdır.",
       "L(G4.2) = { a^n b^m c^k d^p | n,m,p,k ≥ 1, p>n, k>m }",
+      "{aⁿbᵐcᵏdᵖ | n,m,p,k ≥ 1, p > n, k > m}",
       "{a^n b^m c^k d^p | n,m,p,k >= 1, p > n, k > m}",
       "n, m, p, k ≥ 1 olmak üzere p > n ve k > m koşulları sağlanmalıdır."
     ],
     "anahtar_kelimeler": [
+      "L(G4.2)",
+      "aⁿbᵐcᵏdᵖ",
+      "a^n b^m c^k d^p",
+      "p > n",
       "p>n",
+      "k > m",
       "k>m",
-      "a^n",
-      "b^m",
-      "c^k",
-      "d^p"
+      "n,m,p,k ≥ 1"
     ]
   },
   "9": {
@@ -147,17 +173,20 @@
     "beklenen_kaynak": "8-Baglamdan_bagimsiz_dilbilgisi.pdf",
     "dokumanda_var_mi": "Evet",
     "referans_cevaplar": [
+      "L(G4.3) = {aⁿbᵐcᵏ | n≥1, k≥1, m≥2n}",
       "L(G4.3) = { a^n b^m c^k | n ≥ 1, k ≥ 1, m ≥ 2n }",
+      "{aⁿbᵐcᵏ | n≥1, k≥1, m≥2n}",
       "{a^n b^m c^k | n>=1, k>=1, m>=2n}",
       "a^n b^m c^k kümesidir, burada n>=1, k>=1 ve m>=2n koşulu vardır."
     ],
     "anahtar_kelimeler": [
+      "L(G4.3)",
+      "aⁿbᵐcᵏ",
+      "a^n b^m c^k",
       "m≥2n",
+      "m ≥ 2n",
       "n≥1",
-      "k≥1",
-      "a^n",
-      "b^m",
-      "c^k"
+      "k≥1"
     ]
   },
   "10": {
@@ -166,13 +195,16 @@
     "beklenen_kaynak": "8-Baglamdan_bagimsiz_dilbilgisi.pdf",
     "dokumanda_var_mi": "Evet",
     "referans_cevaplar": [
+      "Soldan türetmede her adımda en soldaki değişkene kural uygulanır; sağdan türetmede ise her adımda en sağdaki değişkene kural uygulanır.",
       "Soldan türetmede her adımda en soldaki değişkene, sağdan türetmede ise her adımda en sağdaki değişkene türetme uygulanır.",
-      "Soldan türetme en soldaki değişkene, sağdan türetme ise en sağdaki değişkene öncelik verir."
+      "Soldan türetme en soldaki değişkene, sağdan türetme ise en sağdaki değişkene öncelik verir/kural uygular."
     ],
     "anahtar_kelimeler": [
+      "soldan türetme",
+      "sağdan türetme",
       "en soldaki",
       "en sağdaki",
-      "türetme",
+      "kural uygulanır",
       "değişkene"
     ]
   },
@@ -182,14 +214,16 @@
     "beklenen_kaynak": "8-Baglamdan_bagimsiz_dilbilgisi.pdf",
     "dokumanda_var_mi": "Evet",
     "referans_cevaplar": [
+      "Bir dilin belirgin (unambiguous) olması, dilin her tümcesine yalnızca bir tane türetme ağacı karşılık gelmesi demektir.",
       "Dilin her tümcesine yalnızca tek bir türetme ağacı karşı gelmesi anlamına gelir.",
       "Her tümce için yalnızca bir tek türetme ağacının veya soldan türetmenin bulunmasıdır."
     ],
     "anahtar_kelimeler": [
-      "tek bir türetme ağacı",
-      "bir türetme ağacı",
       "belirgin",
-      "unambiguous"
+      "unambiguous",
+      "yalnızca bir tane türetme ağacı",
+      "tek bir türetme ağacı",
+      "her tümcesine"
     ]
   },
   "12": {
@@ -198,13 +232,17 @@
     "beklenen_kaynak": "8-Baglamdan_bagimsiz_dilbilgisi.pdf",
     "dokumanda_var_mi": "Evet",
     "referans_cevaplar": [
+      "Tümceleri birden çok anlam taşıyan (yani birden fazla türetme ağacına sahip olan) belirgin olmayan dillerin uygulamada hiçbir değeri olmadığı belirtilmiştir; bu yüzden kullanılan dillerin belirginlik özelliğini sağladığı varsayılır.",
       "Tümceleri birden çok anlam taşıdığı için (birden çok türetme ağacı oluştuğu için) uygulamada hiçbir değeri yoktur.",
       "Tümcelerin birden çok anlam taşıması nedeniyle uygulamada değeri yoktur."
     ],
     "anahtar_kelimeler": [
       "birden çok anlam",
-      "anlam karmaşası",
-      "değeri yoktur"
+      "birden fazla türetme ağacı",
+      "değeri olmadığı",
+      "değeri yoktur",
+      "belirgin olmayan",
+      "ambiguous"
     ]
   },
   "13": {
@@ -213,13 +251,16 @@
     "beklenen_kaynak": "8-Baglamdan_bagimsiz_dilbilgisi.pdf",
     "dokumanda_var_mi": "Evet",
     "referans_cevaplar": [
+      "Etiketi λ olan düğüm bir uç düğüm (yaprak) olmalıdır ve bu düğümün kardeşi (yan dalı) bulunmamalıdır.",
       "Bu düğüm bir uç düğüm (yaprak) olmalı ve hiçbir kardeşi bulunmamalıdır.",
       "Uç düğüm (yaprak) olmalı ve kardeşi bulunmamalıdır."
     ],
     "anahtar_kelimeler": [
+      "λ",
       "uç düğüm",
       "yaprak",
-      "kardeşi bulunmamalıdır"
+      "kardeşi bulunmamalıdır",
+      "yan dalı"
     ]
   },
   "14": {
@@ -228,14 +269,18 @@
     "beklenen_kaynak": "8-Baglamdan_bagimsiz_dilbilgisi.pdf",
     "dokumanda_var_mi": "Evet",
     "referans_cevaplar": [
-      "1. Bu değişkenden başlanarak en az bir uç simge dizisinin türetilebilmesi (A=>u), 2. Başlangıç değişkeninden (S) bu değişkene ulaşmanın mümkün olması (S=>α1 A α2).",
-      "Uç simge dizisi türetebilmesi ve başlangıç değişkeninden ulaşılabilir olmasıdır."
+      "Bir A değişkeninin yararlı olabilmesi için:\n- Bu değişkenden başlanarak en az bir uç simge dizisi türetilebilmeli (A =>* u, u∈VT*),\n- Başlangıç değişkeninden bu değişkene ulaşılabilmelidir (S => α₁Aα₂).",
+      "1. Bu değişkenden başlanarak en az bir uç simge dizisinin türetilebilmesi (A=>u, u∈VT*), 2. Başlangıç değişkeninden (S) bu değişkene ulaşmanın mümkün olması (S=>α1 A α2).",
+      "Uç simge dizisi türetebilmesi (A =>* u) ve başlangıç değişkeninden ulaşılabilir olmasıdır (S => α₁Aα₂)."
     ],
     "anahtar_kelimeler": [
       "uç simge dizisi",
+      "A =>* u",
+      "u∈VT*",
       "başlangıç değişkeninden",
-      "ulaşılabilmesi",
-      "türetebilmesi"
+      "S => α₁Aα₂",
+      "ulaşılabilmelidir",
+      "yararlı"
     ]
   },
   "15": {
@@ -244,14 +289,16 @@
     "beklenen_kaynak": "8-Baglamdan_bagimsiz_dilbilgisi.pdf",
     "dokumanda_var_mi": "Evet",
     "referans_cevaplar": [
+      "Bir dilbilgisinin uç simgelerinden biri, o dilbilgisi tarafından türetilen tümcelerin hiçbirinde yer almıyorsa, bu simgeye yararsız simge denir.",
       "Dilbilgisi tarafından türetilen tümcelerden hiçbirinde yer almayan uç simgedir.",
       "Türetilen hiçbir tümcede yer almayan uç simgeye yararsız simge (useless symbol) denir."
     ],
     "anahtar_kelimeler": [
-      "tümcelerden hiçbirinde",
-      "yer almayan",
+      "tümcelerin hiçbirinde",
+      "yer almıyorsa",
       "uç simge",
-      "yararsız simge"
+      "yararsız simge",
+      "useless symbol"
     ]
   },
   "16": {
@@ -260,13 +307,17 @@
     "beklenen_kaynak": "8-Baglamdan_bagimsiz_dilbilgisi.pdf",
     "dokumanda_var_mi": "Evet",
     "referans_cevaplar": [
+      "Bir yeniden yazma kuralı (A=>β) hiçbir tümcenin türetilmesinde kullanılmıyorsa, bu kurala yararsız kural denir.",
       "Hiçbir tümcenin türetilmesinde kullanılmayan kurallardır.",
-      "Tümce türetimi sırasında hiçbir zaman kullanılmayan yeniden yazma kurallarıdır."
+      "Tümce türetimi sırasında hiçbir zaman kullanılmayan yeniden yazma kurallarıdır (A=>β)."
     ],
     "anahtar_kelimeler": [
+      "yeniden yazma kuralı",
+      "A=>β",
       "hiçbir tümcenin",
-      "türetilmesinde kullanılmayan",
-      "yararsız kurallar"
+      "türetilmesinde kullanılmıyorsa",
+      "yararsız kural",
+      "useless rule"
     ]
   },
   "17": {
@@ -275,12 +326,15 @@
     "beklenen_kaynak": "8-Baglamdan_bagimsiz_dilbilgisi.pdf",
     "dokumanda_var_mi": "Evet",
     "referans_cevaplar": [
+      "Algoritma 4.5, uç simge dizgisi türeten değişkenler kümesini (TD) bulmak için kullanılır. Bu kümede yer almayan değişkenler yararsız değişkenlerdir.",
       "Uç simge dizgisi türeten değişkenler kümesini (TD) bulmak amacıyla kullanılır.",
-      "Uç simge dizisi türeten değişkenler kümesini bulmak için kullanılır, TD kümesi elde edilir."
+      "Uç simge dizisi türeten değişkenler kümesini bulmak için kullanılır, TD kümesi elde edilir (bu kümede yer almayanlar yararsızdır)."
     ],
     "anahtar_kelimeler": [
+      "Algoritma 4.5",
       "uç simge dizgisi türeten",
       "TD",
+      "yararsız değişkenler",
       "değişkenler kümesi"
     ]
   },
@@ -290,13 +344,16 @@
     "beklenen_kaynak": "8-Baglamdan_bagimsiz_dilbilgisi.pdf",
     "dokumanda_var_mi": "Evet",
     "referans_cevaplar": [
+      "Algoritma 4.6, başlangıç değişkeninden ulaşılabilen değişkenler kümesini (TU) bulmak için kullanılır. Bu kümede yer almayan değişkenler de yararsız değişkenlerdir.",
       "Başlangıç değişkeninden (S) ulaşılabilen değişkenler kümesini (TU) bulmak amacıyla kullanılır.",
-      "Başlangıç değişkeninden ulaşılabilen değişkenleri bulmak için kullanılır, TU kümesi elde edilir."
+      "Başlangıç değişkeninden ulaşılabilen değişkenleri bulmak için kullanılır, TU kümesi elde edilir (ulaşılamayanlar yararsızdır)."
     ],
     "anahtar_kelimeler": [
+      "Algoritma 4.6",
       "başlangıç değişkeninden",
       "ulaşılabilen",
       "TU",
+      "yararsız değişkenler",
       "değişkenler kümesi"
     ]
   },
@@ -306,13 +363,16 @@
     "beklenen_kaynak": "8-Baglamdan_bagimsiz_dilbilgisi.pdf",
     "dokumanda_var_mi": "Evet",
     "referans_cevaplar": [
+      "G4.7'de TD = {S, A, B, E, F}; bu kümede yer almayan C ve D değişkenleri yararsız bulunur.",
       "TD = { S, A, B, E, F } kümesidir; bu kümede yer almayan C ve D değişkenleri yararsız bulunur.",
       "TD = {S, A, B, E, F}, yararsız değişkenler C ve D'dir."
     ],
     "anahtar_kelimeler": [
-      "TD = { S, A, B, E, F }",
+      "G4.7",
+      "TD = {S, A, B, E, F}",
+      "{S, A, B, E, F}",
       "C ve D",
-      "{S, A, B, E, F}"
+      "yararsız"
     ]
   },
   "20": {
@@ -321,13 +381,18 @@
     "beklenen_kaynak": "8-Baglamdan_bagimsiz_dilbilgisi.pdf",
     "dokumanda_var_mi": "Evet",
     "referans_cevaplar": [
-      "TU = { S, B }",
-      "{S, B}",
+      "G'4.7'de TU = {S, B}; bu kümede yer almayan A, E ve F değişkenleri yararsız bulunur (ve bunlarla birlikte a simgesi de yararsız hale gelir).",
+      "TU = { S, B }; A, E ve F değişkenleri yararsızdır.",
+      "TU = {S, B}",
       "TU = {S, B} kümesidir."
     ],
     "anahtar_kelimeler": [
-      "TU = { S, B }",
-      "{S, B}"
+      "G'4.7",
+      "TU = {S, B}",
+      "{S, B}",
+      "A, E ve F",
+      "a simgesi",
+      "yararsız"
     ]
   },
   "21": {
@@ -336,15 +401,19 @@
     "beklenen_kaynak": "8-Baglamdan_bagimsiz_dilbilgisi.pdf",
     "dokumanda_var_mi": "Evet",
     "referans_cevaplar": [
+      "G''4.7 = <VN, VT, P, S>:\nVN = {S, B}, VT = {b}\nP: S => B | BS\nB => b",
+      "G''4.7 = <VN, VT, P, S>: VN = {S, B}, VT = {b}, P: S => B | BS, B => b",
       "S => B | BS ve B => b",
       "P: S=> B | BS, B=> b",
       "S => B | BS, B => b (VN={S, B}, VT={b})"
     ],
     "anahtar_kelimeler": [
-      "S=> B |BS",
-      "B=>b",
+      "G''4.7",
+      "VN = {S, B}",
+      "VT = {b}",
       "S => B | BS",
-      "B => b"
+      "B => b",
+      "P:"
     ]
   },
   "22": {
@@ -353,16 +422,20 @@
     "beklenen_kaynak": "8-Baglamdan_bagimsiz_dilbilgisi.pdf",
     "dokumanda_var_mi": "Evet",
     "referans_cevaplar": [
+      "İki adımda gerçekleştirilir: 1. adımda Algoritma 4.5 ile uç simge dizgisi türetmeyen (yararsız) değişkenler ve bunların kuralları çıkarılır (G' elde edilir). 2. adımda Algoritma 4.6 ile G''de başlangıç değişkeninden ulaşılamayan değişkenler ve kuralları çıkarılır (G'' elde edilir).",
       "İki adımda gerçekleştirilir: 1. Adımda uç simge dizisi türeten değişkenler (TD) bulunur ve diğerleri atılır. 2. Adımda başlangıç değişkeninden ulaşılabilen değişkenler (TU) bulunur ve ulaşılamayanlar atılır.",
       "2 adımda yapılır: Önce uç simge türeten değişkenler (Algoritma 4.5), sonra başlangıçtan ulaşılabilen değişkenler (Algoritma 4.6) belirlenip elenir."
     ],
     "anahtar_kelimeler": [
       "iki adımda",
       "2 adımda",
-      "uç simge",
-      "ulaşılabilen",
       "Algoritma 4.5",
-      "Algoritma 4.6"
+      "Algoritma 4.6",
+      "uç simge dizgisi türetmeyen",
+      "başlangıç değişkeninden ulaşılamayan",
+      "G'",
+      "G''",
+      "yalınlaştırılması"
     ]
   },
   "23": {
@@ -373,12 +446,14 @@
     "referans_cevaplar": [
       "S => S*S => (S)*S => (S+S)*S",
       "S => S*S, S*S => (S)*S, (S)*S => (S+S)*S",
+      "1. S => S*S, 2. (S)*S, 3. (S+S)*S",
       "S=>S*S => (S)*S => (S+S)*S"
     ],
     "anahtar_kelimeler": [
-      "S*S",
+      "S => S*S",
       "(S)*S",
-      "(S+S)*S"
+      "(S+S)*S",
+      "S => S*S => (S)*S => (S+S)*S"
     ]
   },
   "24": {
@@ -387,13 +462,15 @@
     "beklenen_kaynak": "8-Baglamdan_bagimsiz_dilbilgisi.pdf",
     "dokumanda_var_mi": "Evet",
     "referans_cevaplar": [
+      "L_S.4.2 = {(aa)ⁿ(cc)ᵐbᵏcbᵏ | n≥1, m≥0, k≥1}",
       "L_S.4.2 = { (aa)^n (cc)^m b^k c b^k | n ≥ 1, m ≥ 0, k ≥ 1 }",
+      "{(aa)ⁿ(cc)ᵐbᵏcbᵏ | n≥1, m≥0, k≥1}",
       "{(aa)^n (cc)^m b^k c b^k | n>=1, m>=0, k>=1}"
     ],
     "anahtar_kelimeler": [
-      "(aa)^n",
-      "(cc)^m",
-      "b^k c b^k",
+      "L_S.4.2",
+      "(aa)ⁿ(cc)ᵐbᵏcbᵏ",
+      "(aa)^n (cc)^m b^k c b^k",
       "n≥1",
       "m≥0",
       "k≥1"
@@ -405,13 +482,19 @@
     "beklenen_kaynak": "8-Baglamdan_bagimsiz_dilbilgisi.pdf",
     "dokumanda_var_mi": "Evet",
     "referans_cevaplar": [
+      "L_S.4.6.1 = {aⁿbaᵐbaᵏ | n>1, m>0, k>1}",
       "L_S.4.6.1 = { a^n b a^m b a^k | n>1, m>0, k>1 }",
+      "{aⁿbaᵐbaᵏ | n>1, m>0, k>1}",
       "{a^n b a^m b a^k | n>1, m>0, k>1}",
       "{a^n b a^m b a^k | n>=1, m>=0, k>=1}"
     ],
     "anahtar_kelimeler": [
+      "L_S.4.6.1",
+      "aⁿbaᵐbaᵏ",
       "a^n b a^m b a^k",
-      "L_S.4.6.1"
+      "n>1",
+      "m>0",
+      "k>1"
     ]
   },
   "26": {
@@ -420,14 +503,20 @@
     "beklenen_kaynak": "8-Baglamdan_bagimsiz_dilbilgisi.pdf",
     "dokumanda_var_mi": "Evet",
     "referans_cevaplar": [
+      "S => aaSd kuralı her uygulandığında hem başta iki tane a hem sonda bir d eklenir (bu k kez tekrarlanır), S => aaAd ile A'ya geçilince A => bAcc | bcc kuralları devreye girer: A her uygulanışında bir b öne, iki c sona eklenir (n kez), böylece toplamda a²ᵏ bⁿ c²ⁿ dᵏ elde edilir.",
       "S => aaSd | aaAd ve A => bAcc | bcc kuralları ile üretir. S kuralı her adımda 2 'a' ve 1 'd' (a^2k, d^k) üretirken, A kuralı 1 'b' ve 2 'c' (b^n, c^2n) üreterek dili oluşturur.",
-      "S => aaSd | aaAd ve A => bAcc | bcc kuralları kullanılır."
+      "S => aaSd ile 2 'a' ve 1 'd' (k kez), S => aaAd ile A'ya geçiş; A => bAcc | bcc ile 1 'b' ve 2 'c' (n kez) üretilerek a^2k b^n c^2n d^k elde edilir."
     ],
     "anahtar_kelimeler": [
-      "S => aaSd | aaAd",
+      "S => aaSd",
+      "S => aaAd",
       "A => bAcc | bcc",
-      "aaSd",
-      "bAcc"
+      "a²ᵏ bⁿ c²ⁿ dᵏ",
+      "a^2k b^n c^2n d^k",
+      "iki a",
+      "bir d",
+      "bir b",
+      "iki c"
     ]
   },
   "27": {
@@ -436,16 +525,23 @@
     "beklenen_kaynak": "8-Baglamdan_bagimsiz_dilbilgisi.pdf",
     "dokumanda_var_mi": "Evet",
     "referans_cevaplar": [
-      "u, v ∈ (0+1)*, |u| ≥ 1, |v| ≥ 1 kısıtları vardır. u^R u'nun tersi, (v')^R ise v'nin bit düzeyinde tümleyeninin tersi anlamına gelir.",
+      "L(G4.4) = {uv(v')ᴿuᴿ | u,v ∈ (0+1)*, |u|≥1, |v|≥1}: burada u ve v en az uzunluk 1 olan 0-1 dizileridir; u'nun tersi (uᴿ) tümcenin sonunda, v'nin tümleyeninin (v') tersi ((v')ᴿ) ise ortada yer alır — yani tümce başta u, ortada v'nin bit-tümleyeninin tersi, sonda u'nun tersi olacak şekilde simetrik bir yapı oluşturur.",
+      "u, v ∈ (0+1)*, |u| ≥ 1, |v| ≥ 1 kısıtları vardır. u^R u'nun tersi, (v')^R ise v'nin bit düzeyinde tümleyeninin tersi anlamına gelir; tümce başta u, ortada v'nin bit-tümleyeninin tersi, sonda u'nun tersi olacak şekilde simetrik bir yapı oluşturur.",
       "u, v ε (0+1)*, |u|>=1, |v|>=1; u^R u dizisinin tersini, (v')^R ise v'nin tümleyeninin tersini ifade eder."
     ],
     "anahtar_kelimeler": [
+      "uv(v')ᴿuᴿ",
+      "uv(v')^R u^R",
       "|u|≥1",
       "|v|≥1",
+      "u,v ∈ (0+1)*",
+      "uᴿ",
       "u^R",
+      "(v')ᴿ",
       "(v')^R",
       "tersi",
-      "tümleyen"
+      "tümleyen",
+      "simetrik"
     ]
   },
   "28": {
@@ -454,14 +550,20 @@
     "beklenen_kaynak": "8-Baglamdan_bagimsiz_dilbilgisi.pdf",
     "dokumanda_var_mi": "Evet",
     "referans_cevaplar": [
+      "S=>aAcc kuralı başta bir a ve sonda iki c ekler (n kez tekrarlanabilir, S=>aAcc çağrısı n defa a ekler). A=>aAcc|bBc kuralları ile hem daha fazla a-cc çifti (m kez) hem de B'ye geçiş (bir b ve bir c) eklenir; B=>bBc|λ ile k kez daha b ve c eklenir. Sonuçta a sayısı n, b sayısı m, c sayısı ise her a için 2 c ve her b için 1 c geldiğinden k=2n+m olur.",
       "S => aAcc kuralı türetilen her 1 'a' için 2 'c' üretilmesini (2n) garanti eder; devamındaki A/B kuralları da her 1 'b' için 1 'c' (m) üreterek k = 2n + m koşulunu sağlar.",
-      "Her 1 'a' için 2 'c' ekleyerek k=2n+m eşitliğindeki 2n bileşenini oluşturur."
+      "S=>aAcc kuralı başta bir a ve sonda iki c ekler (her 1 'a' için 2 'c'); B kuralları her 'b' için bir 'c' ekleyerek k=2n+m eşitliğini oluşturur."
     ],
     "anahtar_kelimeler": [
+      "S=>aAcc",
       "S => aAcc",
-      "her 'a' için 2 'c'",
-      "2n",
-      "k = 2n + m"
+      "A=>aAcc|bBc",
+      "B=>bBc|λ",
+      "k=2n+m",
+      "k = 2n + m",
+      "her a için 2 c",
+      "her b için 1 c",
+      "2n"
     ]
   },
   "29": {
@@ -470,15 +572,19 @@
     "beklenen_kaynak": "8-Baglamdan_bagimsiz_dilbilgisi.pdf",
     "dokumanda_var_mi": "Evet",
     "referans_cevaplar": [
+      "B=>bbBdd|C kuralı her uygulandığında 2 tane b ve 2 tane d ekler (k kez tekrarlanır), bu nedenle üs 2k olur; C=>bd temel kuralı ile bir b ve bir d daha eklenerek toplam üs 2k+1'e çıkar — böylece b ve d sayıları eşit ve tek sayı (2k+1) olarak eşleşir.",
       "B => bbBdd kuralı her adımda çift sayıda (2 'b' ve 2 'd', yani 2k) ekler; sonlandırıcı C => bd kuralı ise 1 adet 'b' ve 'd' ekleyerek üssün tek sayı (2k+1) olmasını sağlar.",
-      "bbBdd kuralı 2k kadar çift eklerken, C=>bd kuralı +1 ekleyerek 2k+1 yapar."
+      "bbBdd kuralı 2k kadar çift eklerken, C=>bd kuralı +1 ekleyerek 2k+1 yapar; böylece b ve d sayıları eşit ve tek sayı olur."
     ],
     "anahtar_kelimeler": [
-      "bbBdd",
+      "B=>bbBdd|C",
+      "B => bbBdd",
+      "C=>bd",
       "C => bd",
       "2k+1",
-      "çift",
-      "tek"
+      "2k",
+      "tek sayı",
+      "çift"
     ]
   },
   "30": {
@@ -487,15 +593,20 @@
     "beklenen_kaynak": "8-Baglamdan_bagimsiz_dilbilgisi.pdf",
     "dokumanda_var_mi": "Evet",
     "referans_cevaplar": [
-      "X => aXbb kuralı her 'a' için en az 2 'b' (2n) üretilmesini zorunlu kılar; Z => Zb kuralları ise araya fazladan 'b' simgeleri ekleyerek b sayısının 2n'e eşit veya 2n'den büyük (m ≥ 2n) olmasını sağlar.",
-      "X kuralları her 'a' için en az 2 'b' üretirken, Z kuralları fazladan 'b' ekleyerek m >= 2n olmasını sağlar."
+      "X=>aXbb|aZbb|abb kuralları her uygulandığında bir a öne, iki b sona ekler; ancak Z=>Zb|Xb sayesinde araya fazladan tek b'ler eklenebilir. X, n kez a üretirken (n≥1), her a için normalde 2b gelir ama Z aracılığıyla ekstra b'ler eklenince toplam b sayısı 2n'den büyük olabilir (m≥2n koşulu böyle sağlanır); Y=>cY|c ise en az 1 tane c üretir (k≥1).",
+      "X => aXbb kuralı her 'a' için en az 2 'b' (2n) üretilmesini zorunlu kılar; Z => Zb kuralları ise araya fazladan 'b' simgeleri ekleyerek b sayısının 2n'e eşit veya 2n'den büyük (m ≥ 2n) olmasını sağlar; Y kuralları da en az 1 c (k ≥ 1) üretir.",
+      "X kuralları her 'a' için 2 'b' üretirken, Z kuralları fazladan 'b' ekleyerek m >= 2n olmasını sağlar; Y=>cY|c en az 1 c üretir."
     ],
     "anahtar_kelimeler": [
-      "en az 2 'b'",
-      "fazladan 'b'",
+      "X=>aXbb|aZbb|abb",
+      "Z=>Zb|Xb",
+      "Y=>cY|c",
+      "m≥2n",
       "m ≥ 2n",
-      "aXbb",
-      "Zb"
+      "k≥1",
+      "fazladan",
+      "ekstra b",
+      "2b"
     ]
   }
 }

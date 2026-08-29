@@ -34,6 +34,10 @@ TR_LOWER_MAP = {
 }
 
 
+# F1/EM hesabında silinmemesi gereken anlamlı semboller (tek karakterlik olanlar).
+MATH_SYMBOLS = ["∈", "∉", "∩", "∪", "⊆", "⊂", "∅", "Ø", "λ", "→", "=", "+", "-", "*", "/", "{", "}"]
+
+
 def turkish_lower(text: str) -> str:
     """Türkçe karakterleri güvenli şekilde küçük harfe çevirir."""
     if not text:
@@ -62,7 +66,16 @@ def normalize_text_tr(text: str) -> str:
     text = re.sub(r"cevap\s*:\s*", "", text)
 
     # Noktalama işaretlerini kaldır
-    punct_pattern = re.compile(f"[{re.escape(string.punctuation)}'\"’“”«»–—\n\r\t]")
+    # Matematiksel/kümesel semboller ANLAM TAŞIR (VT = {+, -, *, /}, VN ∩ VT = Ø).
+    # Bunlar tamamen silinince sembolik cevaplarda ortak token kalmıyor ve F1
+    # haksız yere 0 çıkıyordu. Önce ayrı token'a açılır, kalan noktalama silinir.
+    for sym in MATH_SYMBOLS:
+        text = text.replace(sym, f" {sym} ")
+
+    _drop = "".join(
+        c for c in (string.punctuation + "'\"’“”«»–—\n\r\t") if c not in set(MATH_SYMBOLS)
+    )
+    punct_pattern = re.compile(f"[{re.escape(_drop)}]")
     text = punct_pattern.sub(" ", text)
 
     # Tekrarlayan boşlukları teke indir
@@ -91,6 +104,58 @@ def compute_exact_match(prediction: str, ground_truths: list[str]) -> float:
             # Eğer yanıt içinde doğrudan hedef net cevap geçiyorsa tam eşleşme kabul edilir
             return 1.0
     return 0.0
+
+
+def compute_soft_match(prediction: str, ground_truths: list[str]) -> float:
+    """
+    Yumuşak Eşleşme (Soft EM / Containment).
+
+    Katı EM, uzun referanslarda pratikte hiç 1.0 vermiyor: model doğru cevabı
+    kendi cümlesiyle söylediğinde bile 0 alıyor (Orta/Zor kategorilerinde
+    EM'in %0 çıkmasının sebebi budur). Soft EM, referansın kısa çekirdeğinin
+    tahminin içinde geçip geçmediğine bakar:
+      - normalize referans, tahminin alt dizgisi ise, VEYA
+      - kısa (<= 12 token) bir referansın TÜM token'ları tahminde geçiyorsa.
+    """
+    norm_pred = normalize_text_tr(prediction)
+    if not norm_pred:
+        return 0.0
+    pred_tokens = set(norm_pred.split())
+
+    for gt in ground_truths:
+        norm_gt = normalize_text_tr(gt)
+        if not norm_gt:
+            continue
+        if norm_gt == norm_pred or norm_gt in norm_pred:
+            return 1.0
+        gt_tokens = norm_gt.split()
+        if 0 < len(gt_tokens) <= 12 and set(gt_tokens).issubset(pred_tokens):
+            return 1.0
+    return 0.0
+
+
+def parse_sources(found_src: str) -> list[str]:
+    """'a.pdf (sayfa 3); b.json ($.x)' -> ['a.pdf', 'b.json'] (sıra korunur)."""
+    out = []
+    for part in (found_src or "").split(";"):
+        name = re.sub(r"\s*\(.*?\)\s*$", "", part.strip()).strip()
+        if name and name not in out:
+            out.append(name)
+    return out
+
+
+def compute_retrieval_rank(expected_src: str, found_src: str) -> int:
+    """Beklenen kaynağın getirilen listedeki 1-tabanlı sırası; yoksa 0.
+
+    İkili 'var/yok' ölçümü, doğru dokümanı 1. sırada getiren bir sistemle
+    5. sırada getireni aynı sayıyor. Sıra bilgisi MRR için gerekli.
+    """
+    if not expected_src:
+        return 0
+    for i, name in enumerate(parse_sources(found_src), start=1):
+        if expected_src in name or name in expected_src:
+            return i
+    return 0
 
 
 def compute_token_f1(prediction: str, ground_truths: list[str]) -> tuple[float, float, float]:
@@ -179,7 +244,7 @@ def _resolve_file(file_path: str) -> Path:
 
 
 # Test setleri ve bunlara ait sonuc/GT dosyalarinin varsayilan adlandirmasi.
-TEST_SETS = ["test_1", "test_2", "test_3", "test_4"]
+TEST_SETS = ["test_1", "test_2", "test_3", "test_4", "test_5"]
 
 
 def _set_name_of(path: Path) -> str:
@@ -248,13 +313,17 @@ def evaluate_dataset(
 
     scored_records = []
     category_stats = {
-        "Kolay": {"total": 0, "scored": 0, "em": 0, "f1_sum": 0.0, "p_sum": 0.0, "r_sum": 0.0, "retrieval_ok": 0, "latencies": []},
-        "Orta": {"total": 0, "scored": 0, "em": 0, "f1_sum": 0.0, "p_sum": 0.0, "r_sum": 0.0, "retrieval_ok": 0, "latencies": []},
-        "Zor": {"total": 0, "scored": 0, "em": 0, "f1_sum": 0.0, "p_sum": 0.0, "r_sum": 0.0, "retrieval_ok": 0, "latencies": []},
-        "Negatif": {"total": 0, "scored": 0, "em": 0, "f1_sum": 0.0, "p_sum": 0.0, "r_sum": 0.0, "retrieval_ok": 0, "latencies": []},
+        "Kolay": {"total": 0, "scored": 0, "em": 0, "em_soft": 0, "f1_sum": 0.0, "p_sum": 0.0, "r_sum": 0.0, "retrieval_ok": 0, "latencies": []},
+        "Orta": {"total": 0, "scored": 0, "em": 0, "em_soft": 0, "f1_sum": 0.0, "p_sum": 0.0, "r_sum": 0.0, "retrieval_ok": 0, "latencies": []},
+        "Zor": {"total": 0, "scored": 0, "em": 0, "em_soft": 0, "f1_sum": 0.0, "p_sum": 0.0, "r_sum": 0.0, "retrieval_ok": 0, "latencies": []},
+        "Negatif": {"total": 0, "scored": 0, "em": 0, "em_soft": 0, "f1_sum": 0.0, "p_sum": 0.0, "r_sum": 0.0, "retrieval_ok": 0, "latencies": []},
     }
 
     confusion = {"TP": 0, "TN": 0, "FP": 0, "FN": 0}
+    # FN'lerin kırılımı: sorun retrieval'da mı yoksa üretimde mi?
+    fn_breakdown = {"retrieval_kacirdi": 0, "dogru_kaynak_ama_cevap_yok": 0}
+    conflicts: list[str] = []        # etiketi çelişkili satırlar (bkz. negatiflik kuralı)
+    retrieval_ranks: list[int] = []  # pozitif sorularda beklenen kaynağın sırası (0 = yok)
 
     for row in results:
         q_id = str(row.get("id", "")).strip()
@@ -277,27 +346,42 @@ def evaluate_dataset(
         # vererek skorları yapay olarak şişiriyordu.
         has_reference = bool(ref_answers)
 
-        is_negative = doc_is_negative or (expected_src == "-")
+        # NEGATİFLİK KURALI (düzeltildi).
+        # Eskiden yalnızca 'dokumanda_var_mi' sütununa bakılıyordu. test_2.csv'de
+        # 23 satır 'Hayır' işaretliyken hem 'beklenen_kaynak' dolu hem de
+        # ground truth'ta referans cevap vardı; sistem bu soruları doğru
+        # yanıtladığı halde 13'ü "halüsinasyon (FP)" sayıldı. Bir soru ancak
+        # gerçekten cevapsız olduğunda negatiftir: beklenen kaynak "-" ise,
+        # ya da bayrak 'Hayır' VE referans cevap yoksa.
+        label_conflict = doc_is_negative and expected_src not in ("", "-") and has_reference
+        is_negative = (expected_src == "-") or (doc_is_negative and not has_reference)
+        if label_conflict:
+            conflicts.append(q_id)
         pred_is_not_found = check_is_not_found(prediction)
 
-        # Retrieval kontrolü
+        # Retrieval kontrolü (sıra bilgisiyle -> MRR)
         if is_negative:
             # Negatif sorularda kaynak aranmaz
             retrieval_match = True
+            retrieval_rank = 0
         else:
-            retrieval_match = (expected_src in found_src) if expected_src else False
+            retrieval_rank = compute_retrieval_rank(expected_src, found_src)
+            retrieval_match = retrieval_rank > 0
+            retrieval_ranks.append(retrieval_rank)
 
         # Exact Match & F1
         if not has_reference and not is_negative:
-            em_score = f1_score = prec_score = rec_score = 0.0
+            em_score = soft_em_score = f1_score = prec_score = rec_score = 0.0
         elif is_negative:
             # Negatif soruda başarı: modelin bulunamadı demesi
             em_score = 1.0 if pred_is_not_found else 0.0
+            soft_em_score = em_score
             f1_score = 1.0 if pred_is_not_found else 0.0
             prec_score = 1.0 if pred_is_not_found else 0.0
             rec_score = 1.0 if pred_is_not_found else 0.0
         else:
             em_score = compute_exact_match(prediction, ref_answers)
+            soft_em_score = max(em_score, compute_soft_match(prediction, ref_answers))
             f1_score, prec_score, rec_score = compute_token_f1(prediction, ref_answers)
 
         # Sınıflandırma Mantığı (TP, TN, FP, FN)
@@ -305,6 +389,13 @@ def evaluate_dataset(
             if pred_is_not_found:
                 status = "FN"  # Yanlış Negatif (Dokümanda vardı ama bulamadı)
                 confusion["FN"] += 1
+                # Aksiyon alınabilir kırılım: doğru chunk geldiği halde model
+                # "bulunamadı" diyorsa sorun retriever'da değil, üretim/prompt
+                # tarafındadır (ör. PDF'ten bozuk çıkan alt-indisli semboller).
+                if retrieval_match:
+                    fn_breakdown["dogru_kaynak_ama_cevap_yok"] += 1
+                else:
+                    fn_breakdown["retrieval_kacirdi"] += 1
             else:
                 status = "TP"  # Doğru Pozitif (Dokümanda vardı ve yanıt üretti)
                 confusion["TP"] += 1
@@ -328,6 +419,7 @@ def evaluate_dataset(
         if scored_for_accuracy:
             stats["scored"] += 1
         stats["em"] += em_score
+        stats["em_soft"] += soft_em_score
         stats["f1_sum"] += f1_score
         stats["p_sum"] += prec_score
         stats["r_sum"] += rec_score
@@ -345,10 +437,12 @@ def evaluate_dataset(
             "cevap": prediction,
             "referans_cevaplar": " | ".join(ref_answers),
             "em_score": round(em_score * 100, 1),
+            "em_soft_score": round(soft_em_score * 100, 1),
             "f1_score": round(f1_score * 100, 1),
             "precision": round(prec_score * 100, 1),
             "recall": round(rec_score * 100, 1),
             "retrieval_match": "Evet" if retrieval_match else "Hayır",
+            "retrieval_sira": retrieval_rank,
             "siniflandirma": status,
             "referans_var_mi": "Evet" if (has_reference or is_negative) else "Hayır",
             "sure_sn": latency,
@@ -364,10 +458,14 @@ def evaluate_dataset(
     accuracy_pool = [r for r in scored_records if r["referans_var_mi"] == "Evet"]
     n_acc = len(accuracy_pool)
     overall_em = sum(r["em_score"] for r in accuracy_pool) / n_acc if n_acc else 0.0
+    overall_em_soft = sum(r["em_soft_score"] for r in accuracy_pool) / n_acc if n_acc else 0.0
     overall_f1 = sum(r["f1_score"] for r in accuracy_pool) / n_acc if n_acc else 0.0
     overall_prec = sum(r["precision"] for r in accuracy_pool) / n_acc if n_acc else 0.0
     overall_rec = sum(r["recall"] for r in accuracy_pool) / n_acc if n_acc else 0.0
     overall_retrieval = sum(1 for r in scored_records if r["retrieval_match"] == "Evet") / total_q * 100 if total_q else 0.0
+    # Sıralama duyarlı retrieval metrikleri (yalnız pozitif sorular üzerinden).
+    mrr = (sum(1.0 / r for r in retrieval_ranks if r > 0) / len(retrieval_ranks) * 100) if retrieval_ranks else 0.0
+    recall_at_1 = (sum(1 for r in retrieval_ranks if r == 1) / len(retrieval_ranks) * 100) if retrieval_ranks else 0.0
     all_latencies = [r["sure_sn"] for r in scored_records]
 
     category_summary = {}
@@ -379,6 +477,7 @@ def evaluate_dataset(
                 "toplam_soru": cnt,
                 "referansli_soru": data["scored"],
                 "exact_match_yuzde": round((data["em"] / acc_cnt) * 100, 2),
+                "soft_match_yuzde": round((data["em_soft"] / acc_cnt) * 100, 2),
                 "f1_skor_yuzde": round((data["f1_sum"] / acc_cnt) * 100, 2),
                 "precision_yuzde": round((data["p_sum"] / acc_cnt) * 100, 2),
                 "recall_yuzde": round((data["r_sum"] / acc_cnt) * 100, 2),
@@ -398,16 +497,21 @@ def evaluate_dataset(
         "referanssiz_soru": total_q - n_acc,
         "genel_metrikler": {
             "exact_match_yuzde": round(overall_em, 2),
+            "soft_match_yuzde": round(overall_em_soft, 2),
             "f1_skor_yuzde": round(overall_f1, 2),
             "precision_yuzde": round(overall_prec, 2),
             "recall_yuzde": round(overall_rec, 2),
             "retrieval_dogruluk_yuzde": round(overall_retrieval, 2),
+            "retrieval_mrr_yuzde": round(mrr, 2),
+            "retrieval_recall_at_1_yuzde": round(recall_at_1, 2),
             "ortalama_sure_sn": round(float(np.mean(all_latencies)), 2) if all_latencies else 0.0,
             "medyan_sure_sn": round(float(np.median(all_latencies)), 2) if all_latencies else 0.0,
             "min_sure_sn": round(min(all_latencies), 2) if all_latencies else 0.0,
             "max_sure_sn": round(max(all_latencies), 2) if all_latencies else 0.0,
         },
         "siniflandirma_matrisi": confusion,
+        "fn_kirilimi": fn_breakdown,
+        "etiket_celiskisi_olan_sorular": conflicts,
         "kategori_bazli": category_summary,
     }
 
@@ -433,16 +537,33 @@ def evaluate_dataset(
     print(f"Toplam Değerlendirilen Soru : {total_q}")
     print(f"Genel Exact Match (EM)      : %{summary['genel_metrikler']['exact_match_yuzde']:.1f}")
     print(f"Genel Token F1 Skoru        : %{summary['genel_metrikler']['f1_skor_yuzde']:.1f}")
-    print(f"Retrieval Kaynak Doğruluğu  : %{summary['genel_metrikler']['retrieval_dogruluk_yuzde']:.1f}")
+    print(f"Genel Soft Match (Soft EM)  : %{summary['genel_metrikler']['soft_match_yuzde']:.1f}")
+    # MRR/Recall@1 yalnızca pozitif sorularda tanımlıdır. Sadece negatif soru
+    # içeren bir sette (test_5) bunları basmak "Kaynak %100 ama MRR %0" gibi
+    # yanıltıcı bir satır üretiyordu.
+    if retrieval_ranks:
+        print(f"Retrieval Kaynak Doğruluğu  : %{summary['genel_metrikler']['retrieval_dogruluk_yuzde']:.1f}"
+              f"  (MRR %{summary['genel_metrikler']['retrieval_mrr_yuzde']:.1f} | "
+              f"Recall@1 %{summary['genel_metrikler']['retrieval_recall_at_1_yuzde']:.1f})")
+    else:
+        print("Retrieval Kaynak Doğruluğu  : — (set yalnızca negatif soru içeriyor)")
     print(f"Ortalama Yanıt Süresi       : {summary['genel_metrikler']['ortalama_sure_sn']:.2f} sn")
     print(f"Halüsinasyon (FP) Oranı     : {confusion['FP']} / {total_q} (%{(confusion['FP'] / total_q) * 100 if total_q else 0.0:.1f})")
+    if confusion["FN"]:
+        print(f"Cevapsız (FN) kırılımı      : retrieval kaçırdı {fn_breakdown['retrieval_kacirdi']} | "
+              f"doğru kaynak geldi ama cevap yok {fn_breakdown['dogru_kaynak_ama_cevap_yok']}")
+    if conflicts:
+        print(f"⚠️  ETİKET ÇELİŞKİSİ: {len(conflicts)} soruda 'dokumanda_var_mi=Hayır' olduğu halde "
+              f"beklenen_kaynak dolu ve referans cevap var. Bunlar POZİTİF sayıldı "
+              f"(id: {', '.join(conflicts[:10])}{'...' if len(conflicts) > 10 else ''}). "
+              f"Gerçek negatif soruda 'beklenen_kaynak' sütunu '-' olmalıdır.")
     if total_q - n_acc:
         print(f"⚠️  Referans cevabı olmayan {total_q - n_acc} soru EM/F1 ortalamasına dahil edilmedi "
               f"(doldurmak icin: python evaluation/make_ground_truth.py --status).")
     print("-" * 80)
     print("📊 Kategori Bazlı Dağılım:")
     for cat, m in category_summary.items():
-        print(f"  [{cat:8s}] EM: %{m['exact_match_yuzde']:5.1f} | F1: %{m['f1_skor_yuzde']:5.1f} | Kaynak: %{m['retrieval_dogruluk_yuzde']:5.1f} | Süre: {m['ortalama_sure_sn']:4.1f}s")
+        print(f"  [{cat:8s}] EM: %{m['exact_match_yuzde']:5.1f} | Soft: %{m['soft_match_yuzde']:5.1f} | F1: %{m['f1_skor_yuzde']:5.1f} | Kaynak: %{m['retrieval_dogruluk_yuzde']:5.1f} | Süre: {m['ortalama_sure_sn']:4.1f}s")
     print("=" * 80)
     print(f"📁 Kaydedilen Dosyalar:")
     print(f"  - Scored CSV   : {scored_csv_path}")
@@ -658,6 +779,9 @@ def _summary_from_records(records: list[dict], label: str) -> dict:
         return (sum(x[key] for x in pool) / len(pool)) if pool else 0.0
 
     lats = [r["sure_sn"] for r in records]
+    ranks = [r["retrieval_sira"] for r in records if r["kategori"] != "Negatif"]
+    mrr = (sum(1.0 / x for x in ranks if x > 0) / len(ranks) * 100) if ranks else 0.0
+    r_at_1 = (sum(1 for x in ranks if x == 1) / len(ranks) * 100) if ranks else 0.0
 
     cats = {}
     for r in records:
@@ -671,6 +795,7 @@ def _summary_from_records(records: list[dict], label: str) -> dict:
             "toplam_soru": len(rows),
             "referansli_soru": len(pool),
             "exact_match_yuzde": round(mean("em_score", pool), 2),
+            "soft_match_yuzde": round(mean("em_soft_score", pool), 2),
             "f1_skor_yuzde": round(mean("f1_score", pool), 2),
             "precision_yuzde": round(mean("precision", pool), 2),
             "recall_yuzde": round(mean("recall", pool), 2),
@@ -689,11 +814,14 @@ def _summary_from_records(records: list[dict], label: str) -> dict:
         "referanssiz_soru": total_q - n_acc,
         "genel_metrikler": {
             "exact_match_yuzde": round(mean("em_score", acc_pool), 2),
+            "soft_match_yuzde": round(mean("em_soft_score", acc_pool), 2),
             "f1_skor_yuzde": round(mean("f1_score", acc_pool), 2),
             "precision_yuzde": round(mean("precision", acc_pool), 2),
             "recall_yuzde": round(mean("recall", acc_pool), 2),
             "retrieval_dogruluk_yuzde": round(
                 sum(1 for r in records if r["retrieval_match"] == "Evet") / total_q * 100, 2) if total_q else 0.0,
+            "retrieval_mrr_yuzde": round(mrr, 2),
+            "retrieval_recall_at_1_yuzde": round(r_at_1, 2),
             "ortalama_sure_sn": round(float(np.mean(lats)), 2) if lats else 0.0,
             "medyan_sure_sn": round(float(np.median(lats)), 2) if lats else 0.0,
             "min_sure_sn": round(min(lats), 2) if lats else 0.0,
@@ -772,22 +900,22 @@ def evaluate_all(sets=None, output_dir: str = "report", results_dir: str = ".") 
     conf = overall["siniflandirma_matrisi"]
     print("\n" + "=" * 96)
     print("GENEL DEĞERLENDİRME — TÜM TEST SETLERİNİN TOPLAMI")
-    print("=" * 96)
-    print(f"{'Set':<10}{'Soru':>6}{'Ref':>6}{'EM%':>8}{'F1%':>8}{'Retr%':>8}"
+    print("=" * 112)
+    print(f"{'Set':<10}{'Soru':>6}{'Ref':>6}{'EM%':>8}{'Soft%':>8}{'F1%':>8}{'Retr%':>8}{'MRR%':>8}"
           f"{'TP':>5}{'TN':>5}{'FP':>5}{'FN':>5}{'Sure(s)':>10}")
-    print("-" * 96)
+    print("-" * 112)
     for name, m in overall["set_bazli"].items():
         c = m["siniflandirma_matrisi"]
         print(f"{name:<10}{m['toplam_soru']:>6}{m['referansli_soru']:>6}"
-              f"{m['exact_match_yuzde']:>8.1f}{m['f1_skor_yuzde']:>8.1f}"
-              f"{m['retrieval_dogruluk_yuzde']:>8.1f}"
+              f"{m['exact_match_yuzde']:>8.1f}{m.get('soft_match_yuzde', 0.0):>8.1f}{m['f1_skor_yuzde']:>8.1f}"
+              f"{m['retrieval_dogruluk_yuzde']:>8.1f}{m.get('retrieval_mrr_yuzde', 0.0):>8.1f}"
               f"{c['TP']:>5}{c['TN']:>5}{c['FP']:>5}{c['FN']:>5}{m['ortalama_sure_sn']:>10.2f}")
-    print("-" * 96)
+    print("-" * 112)
     print(f"{'GENEL':<10}{overall['toplam_soru']:>6}{overall['referansli_soru']:>6}"
-          f"{g['exact_match_yuzde']:>8.1f}{g['f1_skor_yuzde']:>8.1f}"
-          f"{g['retrieval_dogruluk_yuzde']:>8.1f}"
+          f"{g['exact_match_yuzde']:>8.1f}{g['soft_match_yuzde']:>8.1f}{g['f1_skor_yuzde']:>8.1f}"
+          f"{g['retrieval_dogruluk_yuzde']:>8.1f}{g['retrieval_mrr_yuzde']:>8.1f}"
           f"{conf['TP']:>5}{conf['TN']:>5}{conf['FP']:>5}{conf['FN']:>5}{g['ortalama_sure_sn']:>10.2f}")
-    print("=" * 96)
+    print("=" * 112)
     tq = overall["toplam_soru"]
     neg_total = conf["TN"] + conf["FP"]
     print(f"Halusinasyon (FP) orani     : {conf['FP']}/{tq} (%{conf['FP'] / tq * 100:.1f})")

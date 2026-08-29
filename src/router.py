@@ -94,8 +94,12 @@ META_QUERY_PATTERNS = [
 ]
 
 # ─── 4. Karmaşıklık / Analitik Hesaplama Sinyalleri (Code Interpreter) ───
+# DİKKAT: Buraya yalnızca GERÇEKTEN analitik/hesaplamalı sinyaller girer.
+# Jenerik Türkçe bağlaç ve edatlar ("ve", "arasında", "koşul", "büyük"...)
+# burada listelenince içinde o kelime geçen HER soru pandas sandbox'ına
+# yönleniyordu; benchmark'ta 100 sorunun 39'u bu yüzden yanlış rotaya gidip
+# alakasız bir JSON dataset'inden cevaplanmıştı (bkz. report/baseline).
 COMPLEXITY_SIGNALS = [
-    "ve",
     "göre dağılım",
     "göre dagilim",
     "dağılım",
@@ -107,12 +111,10 @@ COMPLEXITY_SIGNALS = [
     "oran",
     "oranı",
     "toplam",
-    "büyük",
-    "buyuk",
-    "küçük",
-    "kucuk",
-    "arasında",
-    "arasinda",
+    "en büyük",
+    "en buyuk",
+    "en küçük",
+    "en kucuk",
     "karşılaştır",
     "karsilastir",
     "en sık",
@@ -145,7 +147,6 @@ COMPLEXITY_SIGNALS = [
     "minimum",
     "maksimum",
     "filtre",
-    "koşul",
     "olanlar",
     "bulunanlar",
     "içeren",
@@ -383,12 +384,15 @@ def _analyze(question: str, df_schema: Any = None) -> Dict[str, Any]:
         target, reason = RouteTarget.META_QUERY.value, "meta_query_pattern"
     elif matched_schema:
         target, reason = RouteTarget.SEMANTIC_RAG.value, "schema_or_doc_conceptual"
-    elif has_complexity:
-        # Complexity sinyali TEK BAŞINA yeterlidir: hangi dataset'ten bahsedildiği belirsiz
-        # olsa bile hesaplama soruları RAG'a değil code_interpreter'a gider. RAG'ın
-        # "yanlış ama kendinden emin" cevabı, sandbox'ın "veri bulunamadı"sından daha kötüdür.
+    elif has_complexity and has_dataset_signal:
+        # Complexity sinyali TEK BAŞINA YETMEZ; yanında bir dataset sinyali de
+        # gerekir. Eski varsayım "sandbox en kötü 'veri bulunamadı' der, bu
+        # RAG'ın yanlış cevabından iyidir" idi — benchmark bunu çürüttü:
+        # dataset belirsiz olduğunda sandbox alakasız bir dosya seçip (Fourier
+        # sorusuna 728_profiles.json ile) KENDİNDEN EMİN UYDURMA cevap üretiyor.
+        # Dataset sinyali yoksa doğru yer semantik RAG'dir.
         target = RouteTarget.CODE_INTERPRETER.value
-        reason = "complexity_signal" + ("+dataset_signal" if has_dataset_signal else "_only")
+        reason = "complexity_signal+dataset_signal"
     elif has_dataset_signal and any(
         _contains_token(q_norm, w) for w in ["kaç", "hangisi", "hangileri", "oran", "yüzde", "en"]
     ):

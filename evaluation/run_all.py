@@ -29,7 +29,7 @@ for _p in [str(_root_dir), str(_root_dir / "src"), str(_eval_dir)]:
     if _p not in sys.path:
         sys.path.insert(0, _p)
 
-TEST_SETS = ["test_1", "test_2", "test_3", "test_4"]
+TEST_SETS = ["test_1", "test_2", "test_3", "test_4", "test_5"]
 
 
 def result_path(set_name: str, results_dir: Path) -> Path:

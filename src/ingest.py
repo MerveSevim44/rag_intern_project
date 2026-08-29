@@ -2,6 +2,7 @@ import os
 import json
 import sqlite3
 import argparse
+import statistics
 from contextlib import closing
 from pathlib import Path
 try:
@@ -10,6 +11,7 @@ except ImportError:
     from embedder import get_embeddings, EMBED_MODEL
 # pyrefly: ignore [missing-import]
 import pdfplumber
+from pdfplumber.utils import extract_text as pdfplumber_extract_text
 import docx
 
 ROOT_DIR = Path(__file__).resolve().parent.parent
@@ -131,6 +133,46 @@ def extract_chunks_from_txt(file_path: Path) -> list[tuple[str, str]]:
             result.append((cleaned, f"paragraf {para_num}"))
     return result
 
+def _page_text_with_subscripts(page) -> str:
+    """
+    Extracts page text with sub/superscripts reattached to their own line.
+
+    pdfplumber groups characters into lines by their vertical position. In
+    PowerPoint-exported PDFs a subscript sits on its own baseline, so the
+    default extract_text() flings it to the end of the block: "VN = {S}"
+    comes out as "V = { S }" on one line and a lone "N" on the next. The
+    symbol the question actually asks about ("VT", "G4.1") then exists
+    nowhere in the chunk, and the model answers "bulunamadı" even though it
+    was handed the right page.
+
+    Fix: any character noticeably smaller than the page's body font and
+    sitting slightly below a normal line is snapped back onto that line, so
+    the default left-to-right ordering restores "VN"/"VT"/"G4.1".
+    """
+    chars = [dict(c) for c in page.chars]
+    if not chars:
+        return page.extract_text() or ""
+
+    base = statistics.median(c["size"] for c in chars)
+    if not base:
+        return page.extract_text() or ""
+
+    main_lines = sorted({round(c["top"], 1) for c in chars if c["size"] >= 0.85 * base})
+    for c in chars:
+        if c["size"] >= 0.85 * base:
+            continue
+        # Kendi satırından biraz AŞAĞIDA duran küçük karakter = alt indis adayı.
+        candidates = [t for t in main_lines if -0.1 * base <= c["top"] - t <= 0.75 * base]
+        if not candidates:
+            continue
+        shift = min(candidates, key=lambda t: abs(c["top"] - t)) - c["top"]
+        c["top"] += shift
+        c["bottom"] += shift
+        c["doctop"] += shift
+
+    return pdfplumber_extract_text(chars) or ""
+
+
 def extract_chunks_from_pdf(file_path: Path) -> list[tuple[str, str]]:
     """
     Reads a PDF file, extracts text page by page, and splits by double newline.
@@ -139,7 +181,7 @@ def extract_chunks_from_pdf(file_path: Path) -> list[tuple[str, str]]:
     chunks = []
     with pdfplumber.open(file_path) as pdf:
         for page_num, page in enumerate(pdf.pages, start=1):
-            page_text = page.extract_text()
+            page_text = _page_text_with_subscripts(page)
             if page_text:
                 paragraphs = page_text.split("\n\n")
                 for p in paragraphs:
@@ -462,7 +504,12 @@ def ingest_files(data_dir=DATA_DIR, db_path=DB_PATH, model=EMBED_MODEL,
         cursor = conn.cursor()
 
         for file_path in files:
-            source_name = f"{data_dir}/{file_path.name}"
+            # ingest_single_file (satır 376) ile AYNI biçim kullanılmalı.
+            # Burası eskiden `f"{data_dir}/..."` yazıyordu; DATA_DIR mutlak
+            # yola çözüldüğü için kayıtlar "C:\...\data/x.pdf" adıyla giriyor,
+            # aşağıdaki DELETE ise eski "data/x.pdf" satırlarını bulamıyordu.
+            # Sonuç: her tam re-ingest veritabanını ikiye katlıyordu.
+            source_name = f"data/{file_path.name}"
             print(f"\n--- Processing: {file_path.name} ---")
 
             try:

@@ -46,7 +46,7 @@ def _resolve_file(file_path: str) -> Path:
     return p
 
 
-TEST_SETS = ["test_1", "test_2", "test_3", "test_4"]
+TEST_SETS = ["test_1", "test_2", "test_3", "test_4", "test_5"]
 
 
 def evaluate_questions(csv_path: str = "test_1.csv", output_csv: str | None = None,

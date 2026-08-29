@@ -1,0 +1,122 @@
+{
+  "101": {
+    "soru": "Bağlamdan bağımsız dilbilgisini Chomsky normal formuna dönüştürme algoritması hangi adımlardan oluşur?",
+    "zorluk": "Kolay",
+    "beklenen_kaynak": "-",
+    "dokumanda_var_mi": "Hayır",
+    "referans_cevaplar": [],
+    "anahtar_kelimeler": []
+  },
+  "102": {
+    "soru": "Bağlamdan bağımsız dilleri tanıyan yığın otomatı (pushdown automaton) nasıl tanımlanır?",
+    "zorluk": "Kolay",
+    "beklenen_kaynak": "-",
+    "dokumanda_var_mi": "Hayır",
+    "referans_cevaplar": [],
+    "anahtar_kelimeler": []
+  },
+  "103": {
+    "soru": "Bağlamdan bağımsız dilbilgisi için pompalama (pumping) lemması nasıl ifade edilir?",
+    "zorluk": "Orta",
+    "beklenen_kaynak": "-",
+    "dokumanda_var_mi": "Hayır",
+    "referans_cevaplar": [],
+    "anahtar_kelimeler": []
+  },
+  "104": {
+    "soru": "Fourier dönüşümünde Nyquist örnekleme teoremi hangi koşulu gerektirir?",
+    "zorluk": "Kolay",
+    "beklenen_kaynak": "-",
+    "dokumanda_var_mi": "Hayır",
+    "referans_cevaplar": [],
+    "anahtar_kelimeler": []
+  },
+  "105": {
+    "soru": "Dalgacık (wavelet) dönüşümü ile Fourier dönüşümü arasındaki fark dokümanda nasıl açıklanmıştır?",
+    "zorluk": "Orta",
+    "beklenen_kaynak": "-",
+    "dokumanda_var_mi": "Hayır",
+    "referans_cevaplar": [],
+    "anahtar_kelimeler": []
+  },
+  "106": {
+    "soru": "Hızlı Fourier Dönüşümü (FFT) algoritmasının hesaplama karmaşıklığı kaçtır?",
+    "zorluk": "Zor",
+    "beklenen_kaynak": "-",
+    "dokumanda_var_mi": "Hayır",
+    "referans_cevaplar": [],
+    "anahtar_kelimeler": []
+  },
+  "107": {
+    "soru": "728_profiles.json veri setinde profillerin ortalama randevu ücreti kaç TL'dir?",
+    "zorluk": "Kolay",
+    "beklenen_kaynak": "-",
+    "dokumanda_var_mi": "Hayır",
+    "referans_cevaplar": [],
+    "anahtar_kelimeler": []
+  },
+  "108": {
+    "soru": "728_profiles.json veri setinde profillerin cinsiyet dağılımı nedir?",
+    "zorluk": "Kolay",
+    "beklenen_kaynak": "-",
+    "dokumanda_var_mi": "Hayır",
+    "referans_cevaplar": [],
+    "anahtar_kelimeler": []
+  },
+  "109": {
+    "soru": "728_profiles.json veri setindeki profillerin müşteri memnuniyet puanı ortalaması kaçtır?",
+    "zorluk": "Orta",
+    "beklenen_kaynak": "-",
+    "dokumanda_var_mi": "Hayır",
+    "referans_cevaplar": [],
+    "anahtar_kelimeler": []
+  },
+  "110": {
+    "soru": "mock-transactions.json dosyasında işlemlerin kredi kartı numaraları hangi alanda tutulmaktadır?",
+    "zorluk": "Orta",
+    "beklenen_kaynak": "-",
+    "dokumanda_var_mi": "Hayır",
+    "referans_cevaplar": [],
+    "anahtar_kelimeler": []
+  },
+  "111": {
+    "soru": "728_profiles.json veri setinde profillerin IBAN bilgileri hangi şema alanında saklanır?",
+    "zorluk": "Zor",
+    "beklenen_kaynak": "-",
+    "dokumanda_var_mi": "Hayır",
+    "referans_cevaplar": [],
+    "anahtar_kelimeler": []
+  },
+  "112": {
+    "soru": "Summer School Foundry Local planında Kubernetes kurulumu hangi adımda anlatılır?",
+    "zorluk": "Kolay",
+    "beklenen_kaynak": "-",
+    "dokumanda_var_mi": "Hayır",
+    "referans_cevaplar": [],
+    "anahtar_kelimeler": []
+  },
+  "113": {
+    "soru": "Summer School Foundry Local planında projenin Kanban panosu hangi araçla yönetilmektedir?",
+    "zorluk": "Orta",
+    "beklenen_kaynak": "-",
+    "dokumanda_var_mi": "Hayır",
+    "referans_cevaplar": [],
+    "anahtar_kelimeler": []
+  },
+  "114": {
+    "soru": "Unutulmuş Parşömen hikayesinde Alis'in ailesi hangi şehirde yaşamaktadır?",
+    "zorluk": "Zor",
+    "beklenen_kaynak": "-",
+    "dokumanda_var_mi": "Hayır",
+    "referans_cevaplar": [],
+    "anahtar_kelimeler": []
+  },
+  "115": {
+    "soru": "Oda No: 304 hikayesinde anlatıcının mesleği nedir?",
+    "zorluk": "Orta",
+    "beklenen_kaynak": "-",
+    "dokumanda_var_mi": "Hayır",
+    "referans_cevaplar": [],
+    "anahtar_kelimeler": []
+  }
+}

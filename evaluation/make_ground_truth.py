@@ -26,7 +26,7 @@ EVAL_DIR = Path(__file__).resolve().parent
 DATASET_DIR = EVAL_DIR / "datasets"
 GT_DIR = EVAL_DIR / "ground_truth"
 
-DEFAULT_SETS = ["test_1", "test_2", "test_3", "test_4"]
+DEFAULT_SETS = ["test_1", "test_2", "test_3", "test_4", "test_5"]
 
 
 def dataset_path(name: str) -> Path:

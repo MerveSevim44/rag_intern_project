@@ -1,31 +1,31 @@
-id,zorluk,soru,beklenen_kaynak,dokumanda_var_mi
-31,Kolay,"728_profiles.json dosyasındaki schemaVersion değeri nedir ve datasetName alanı veri setini nasıl tanımlıyor?",728_profiles.json,Hayır
-32,Kolay,"statistics bölümüne göre veri setinde toplam kaç profil (profileCount), kaç sektör (sectorCount) ve kaç meslek (occupationCount) bulunmaktadır?",728_profiles.json,Hayır
-33,Kolay,"safetyAndDataQuality bölümünde realPhoneNumbersIncluded ve realEmailsIncluded alanları hangi değeri taşımaktadır ve bu ne anlama gelir?",728_profiles.json,Hayır
-34,Kolay,"Örnek profil olan Özge Taş'ın sector ve occupation alanları nedir?",728_profiles.json,Hayır
-35,Kolay,"publicContact alanı altında phoneVisible ve emailVisible değerleri örnek profillerde genellikle nasıl ayarlanmıştır?",728_profiles.json,Hayır
-36,Kolay,"weeklyAvailability dizisinde her gün nesnesi hangi alanları (day, active, start, end) içermektedir?",728_profiles.json,Hayır
-37,Orta,"sectorDistribution içindeki 22 sektörün profil sayılarını bir çubuk grafikle karşılaştırdığınızda hangi üç sektör diğerlerinden (32 profil) daha fazla temsil edilmektedir?",728_profiles.json,Evet
-38,Orta,"Mert Keskin profilinde appointmentSettings.autoApproveRequests neden false olarak ayarlanmış olabilir; Özge Taş'ın aynı alanla farkı nedir?",728_profiles.json,Hayır
-39,Orta,"Umut Aslan profilinde services dizisindeki hizmetlerden hangileri Online, hangileri Yüz yüze modda sunulmaktadır?",728_profiles.json,Hayır
-40,Orta,"location.serviceArea alanı bazı profillerde 'district, city' formatındayken bazılarında 'district / online' formatında görünmektedir; bu farkın nedeni serviceModes alanıyla nasıl ilişkilidir?",728_profiles.json,Hayır
-41,Orta,"searchKeywords dizisi bir profildeki hangi diğer alanlardan (sector, occupation, services, location) türetilmiş görünmektedir?",728_profiles.json,Hayır
-42,Orta,"Emre Korkmaz ve Umut Aslan profillerinin minimumNoticeHours ve cancellationNoticeHours değerlerini bir çubuk grafikle karşılaştırdığınızda nasıl bir fark ortaya çıkar?",728_profiles.json,Evet
-43,Orta,"experience.credentialSummary alanı occupation türüne göre nasıl değişmektedir; Aile Hekimliği Uzmanı ile Yetenek Yönetimi Uzmanı örnekleri üzerinden karşılaştırın.",728_profiles.json,Hayır
-44,Orta,"appointmentSettings içindeki minimumNoticeHours ile cancellationNoticeHours kavramsal olarak birbirinden nasıl ayrılmaktadır?",728_profiles.json,Hayır
-45,Orta,"slug alanı displayName ve profileCode alanlarından nasıl bir kurala göre oluşturulmuş görünmektedir? Örnek profil üzerinden gösterin.",728_profiles.json,Hayır
-46,Orta,"sourceReference.note alanı bu veri setinin gerçek kişi/işletme doğrulaması iddia edip etmediği konusunda ne söylemektedir?",728_profiles.json,Hayır
-47,Orta,"fieldGuide bölümündeki 'publicContact' açıklaması ile örnek profillerdeki publicContact nesnesinin (phone:null, email:null) içeriği birbiriyle tutarlı mıdır?",728_profiles.json,Hayır
-48,Orta,"defaultDurationMinutes alanı ile services dizisindeki bireysel durationMinutes değerleri her zaman birebir eşleşmekte midir, yoksa profil bazında farklılaşabilmekte midir?",728_profiles.json,Hayır
-49,Orta,"intendedUse listesinde belirtilen 'demo', 'test', 'seed data', 'UI population' kullanım amaçları syntheticOnly=true ayarıyla nasıl bir tutarlılık göstermektedir?",728_profiles.json,Hayır
-50,Orta,"weeklyAvailability dizisinde örnek profillerde yalnızca Pazartesi-Cuma günleri mi aktif görünmektedir, hafta sonu çalışan profil örneği var mıdır?",728_profiles.json,Hayır
-51,Zor,"sectorDistribution içindeki 22 sektörün profil sayılarını gösteren bir grafik oluşturduğunuzda toplamın statistics.profileCount değeri olan 728'e eşit olup olmadığı nasıl doğrulanır?",728_profiles.json,Evet
+﻿id,zorluk,soru,beklenen_kaynak,dokumanda_var_mi
+31,Kolay,728_profiles.json dosyasındaki schemaVersion değeri nedir ve datasetName alanı veri setini nasıl tanımlıyor?,728_profiles.json,Evet
+32,Kolay,"statistics bölümüne göre veri setinde toplam kaç profil (profileCount), kaç sektör (sectorCount) ve kaç meslek (occupationCount) bulunmaktadır?",728_profiles.json,Evet
+33,Kolay,safetyAndDataQuality bölümünde realPhoneNumbersIncluded ve realEmailsIncluded alanları hangi değeri taşımaktadır ve bu ne anlama gelir?,728_profiles.json,Evet
+34,Kolay,Örnek profil olan Özge Taş'ın sector ve occupation alanları nedir?,728_profiles.json,Evet
+35,Kolay,publicContact alanı altında phoneVisible ve emailVisible değerleri örnek profillerde genellikle nasıl ayarlanmıştır?,728_profiles.json,Evet
+36,Kolay,"weeklyAvailability dizisinde her gün nesnesi hangi alanları (day, active, start, end) içermektedir?",728_profiles.json,Evet
+37,Orta,sectorDistribution içindeki 22 sektörün profil sayılarını bir çubuk grafikle karşılaştırdığınızda hangi üç sektör diğerlerinden (32 profil) daha fazla temsil edilmektedir?,728_profiles.json,Evet
+38,Orta,Mert Keskin profilinde appointmentSettings.autoApproveRequests neden false olarak ayarlanmış olabilir; Özge Taş'ın aynı alanla farkı nedir?,728_profiles.json,Evet
+39,Orta,"Umut Aslan profilinde services dizisindeki hizmetlerden hangileri Online, hangileri Yüz yüze modda sunulmaktadır?",728_profiles.json,Evet
+40,Orta,"location.serviceArea alanı bazı profillerde 'district, city' formatındayken bazılarında 'district / online' formatında görünmektedir; bu farkın nedeni serviceModes alanıyla nasıl ilişkilidir?",728_profiles.json,Evet
+41,Orta,"searchKeywords dizisi bir profildeki hangi diğer alanlardan (sector, occupation, services, location) türetilmiş görünmektedir?",728_profiles.json,Evet
+42,Orta,Emre Korkmaz ve Umut Aslan profillerinin minimumNoticeHours ve cancellationNoticeHours değerlerini bir çubuk grafikle karşılaştırdığınızda nasıl bir fark ortaya çıkar?,728_profiles.json,Evet
+43,Orta,experience.credentialSummary alanı occupation türüne göre nasıl değişmektedir; Aile Hekimliği Uzmanı ile Yetenek Yönetimi Uzmanı örnekleri üzerinden karşılaştırın.,728_profiles.json,Evet
+44,Orta,appointmentSettings içindeki minimumNoticeHours ile cancellationNoticeHours kavramsal olarak birbirinden nasıl ayrılmaktadır?,728_profiles.json,Evet
+45,Orta,slug alanı displayName ve profileCode alanlarından nasıl bir kurala göre oluşturulmuş görünmektedir? Örnek profil üzerinden gösterin.,728_profiles.json,Evet
+46,Orta,sourceReference.note alanı bu veri setinin gerçek kişi/işletme doğrulaması iddia edip etmediği konusunda ne söylemektedir?,728_profiles.json,Evet
+47,Orta,"fieldGuide bölümündeki 'publicContact' açıklaması ile örnek profillerdeki publicContact nesnesinin (phone:null, email:null) içeriği birbiriyle tutarlı mıdır?",728_profiles.json,Evet
+48,Orta,"defaultDurationMinutes alanı ile services dizisindeki bireysel durationMinutes değerleri her zaman birebir eşleşmekte midir, yoksa profil bazında farklılaşabilmekte midir?",728_profiles.json,Evet
+49,Orta,"intendedUse listesinde belirtilen 'demo', 'test', 'seed data', 'UI population' kullanım amaçları syntheticOnly=true ayarıyla nasıl bir tutarlılık göstermektedir?",728_profiles.json,Evet
+50,Orta,"weeklyAvailability dizisinde örnek profillerde yalnızca Pazartesi-Cuma günleri mi aktif görünmektedir, hafta sonu çalışan profil örneği var mıdır?",728_profiles.json,Evet
+51,Zor,sectorDistribution içindeki 22 sektörün profil sayılarını gösteren bir grafik oluşturduğunuzda toplamın statistics.profileCount değeri olan 728'e eşit olup olmadığı nasıl doğrulanır?,728_profiles.json,Evet
 52,Zor,"22 sektörden 3 tanesinin (Sağlık, Spor ve Fitness, Eğitim ve Özel Ders) 40 profille diğerlerinden fazla temsil edilmesini bir dağılım grafiğinde görselleştirdiğinizde, bu dengesizliğin veri setinin sektörel analizine olası etkisi nedir?",728_profiles.json,Evet
 53,Zor,"Aynı occupation'a (Yetenek Yönetimi Uzmanı) sahip Sinem Arslan, Umut Aslan ve Emre Korkmaz profillerinin appointmentSettings değerlerini (minimumNoticeHours, cancellationNoticeHours, autoApproveRequests) gruplu bir çubuk grafikle karşılaştırdığınızda ortaya çıkan varyasyon veri setinin gerçekçilik tasarımına nasıl katkı sağlamaktadır?",728_profiles.json,Evet
-54,Zor,"profileCode alanının 'DB-' önekli 8 karakterlik alfanümerik yapısı ile slug alanındaki kod parçası arasındaki ilişki nasıl kurulmaktadır; bu iki alan birlikte profilin benzersizliğini nasıl garanti eder?",728_profiles.json,Hayır
-55,Zor,"Aynı occupation (örneğin 'Aile Hekimliği Uzmanı') farklı şehirlerdeki profillerde (Özge Taş - Adana, Mert Keskin - Antalya) hangi alanlar (experience.years, appointmentSettings, weeklyAvailability saatleri) profil bazında farklılaştırılmıştır?",728_profiles.json,Hayır
-56,Zor,"schemaVersion 1.1 olarak belirtilmiş olması, veri setinin ileride hangi alanlarda versiyon değişikliğine gidebileceğine dair ne tür bir çıkarım yapılmasına imkan tanır?",728_profiles.json,Hayır
+54,Zor,profileCode alanının 'DB-' önekli 8 karakterlik alfanümerik yapısı ile slug alanındaki kod parçası arasındaki ilişki nasıl kurulmaktadır; bu iki alan birlikte profilin benzersizliğini nasıl garanti eder?,728_profiles.json,Evet
+55,Zor,"Aynı occupation (örneğin 'Aile Hekimliği Uzmanı') farklı şehirlerdeki profillerde (Özge Taş - Adana, Mert Keskin - Antalya) hangi alanlar (experience.years, appointmentSettings, weeklyAvailability saatleri) profil bazında farklılaştırılmıştır?",728_profiles.json,Evet
+56,Zor,"schemaVersion 1.1 olarak belirtilmiş olması, veri setinin ileride hangi alanlarda versiyon değişikliğine gidebileceğine dair ne tür bir çıkarım yapılmasına imkan tanır?",728_profiles.json,Evet
 57,Zor,"728 profil içinde her sektördeki ortalama meslek (occupation) sayısını bir grafikle gösterdiğinizde, occupationCount/sectorCount oranı sektörler arasında nasıl bir dağılım gösterir?",728_profiles.json,Evet
-58,Zor,"about metin şablonunun ('...olarak X yıllık mesleki deneyimle Y bölgesinde randevulu hizmet veriyorum...') farklı profillerde tekrarlanan yapısı, veri setinin sentetik (template tabanlı) üretim yöntemine dair ne gibi ipuçları vermektedir?",728_profiles.json,Hayır
-59,Zor,"exactAddressPublic:false ayarı ile serviceArea alanındaki genel bölge bilgisi (ör. 'Yüreğir, Adana') arasındaki tasarım kararı, gizlilik (privacy-by-design) ilkesini nasıl yansıtmaktadır?",728_profiles.json,Hayır
-60,Zor,"Profillerin deneyim yıllarını (experience.years) bir histogramla görselleştirdiğinizde veri setindeki deneyim dağılımı nasıl bir eğilim göstermektedir?",728_profiles.json,Evet
+58,Zor,"about metin şablonunun ('...olarak X yıllık mesleki deneyimle Y bölgesinde randevulu hizmet veriyorum...') farklı profillerde tekrarlanan yapısı, veri setinin sentetik (template tabanlı) üretim yöntemine dair ne gibi ipuçları vermektedir?",728_profiles.json,Evet
+59,Zor,"exactAddressPublic:false ayarı ile serviceArea alanındaki genel bölge bilgisi (ör. 'Yüreğir, Adana') arasındaki tasarım kararı, gizlilik (privacy-by-design) ilkesini nasıl yansıtmaktadır?",728_profiles.json,Evet
+60,Zor,Profillerin deneyim yıllarını (experience.years) bir histogramla görselleştirdiğinizde veri setindeki deneyim dağılımı nasıl bir eğilim göstermektedir?,728_profiles.json,Evet

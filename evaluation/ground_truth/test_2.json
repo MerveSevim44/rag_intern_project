@@ -3,49 +3,121 @@
     "soru": "728_profiles.json dosyasındaki schemaVersion değeri nedir ve datasetName alanı veri setini nasıl tanımlıyor?",
     "zorluk": "Kolay",
     "beklenen_kaynak": "728_profiles.json",
-    "dokumanda_var_mi": "Hayır",
-    "referans_cevaplar": [],
-    "anahtar_kelimeler": []
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "schemaVersion '1.1'dir. datasetName alanı 'DateBind Realistic Synthetic Appointment Provider Profiles' olup, DateBind uygulaması için gerçekçi görünümlü sentetik randevu sağlayıcı profillerinden oluşan bir demo/test veri seti olduğunu tanımlar.",
+      "schemaVersion: \"1.1\", datasetName: \"DateBind Realistic Synthetic Appointment Provider Profiles\". DateBind uygulaması için gerçekçi görünümlü, sentetik randevu sağlayıcı profillerinden oluşan bir demo/test veri seti olduğunu tanımlamaktadır.",
+      "schemaVersion 1.1'dir. datasetName alanı 'DateBind Realistic Synthetic Appointment Provider Profiles' olarak tanımlanmıştır (DateBind için sentetik randevu sağlayıcı profilleri demo/test veri seti)."
+    ],
+    "anahtar_kelimeler": [
+      "1.1",
+      "schemaVersion",
+      "DateBind Realistic Synthetic Appointment Provider Profiles",
+      "sentetik",
+      "randevu sağlayıcı",
+      "datasetName",
+      "demo/test"
+    ]
   },
   "32": {
     "soru": "statistics bölümüne göre veri setinde toplam kaç profil (profileCount), kaç sektör (sectorCount) ve kaç meslek (occupationCount) bulunmaktadır?",
     "zorluk": "Kolay",
     "beklenen_kaynak": "728_profiles.json",
-    "dokumanda_var_mi": "Hayır",
-    "referans_cevaplar": [],
-    "anahtar_kelimeler": []
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Veri setinde toplam 728 profil (profileCount: 728), 22 sektör (sectorCount: 22) ve 91 meslek (occupationCount: 91) bulunmaktadır.",
+      "profileCount: 728, sectorCount: 22, occupationCount: 91.",
+      "728 profil, 22 sektör ve 91 meslek bulunmaktadır."
+    ],
+    "anahtar_kelimeler": [
+      "728",
+      "22",
+      "91",
+      "profileCount",
+      "sectorCount",
+      "occupationCount"
+    ]
   },
   "33": {
     "soru": "safetyAndDataQuality bölümünde realPhoneNumbersIncluded ve realEmailsIncluded alanları hangi değeri taşımaktadır ve bu ne anlama gelir?",
     "zorluk": "Kolay",
     "beklenen_kaynak": "728_profiles.json",
-    "dokumanda_var_mi": "Hayır",
-    "referans_cevaplar": [],
-    "anahtar_kelimeler": []
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Her iki alan da false değerini taşımaktadır (realPhoneNumbersIncluded: false, realEmailsIncluded: false). Bu durum, veri setindeki hiçbir profilde gerçek bir telefon numarası veya e-posta adresi bulunmadığı, tüm iletişim alanlarının null olduğu ve verinin gizlilik korumalı (privacy-safe) sentetik veri olduğu anlamına gelir.",
+      "İkisi de false değerindedir. Veri setindeki hiçbir profilde gerçek telefon numarası veya e-posta adresi bulunmadığını, tüm iletişim alanlarının null olduğunu (privacy-safe sentetik veri) ifade eder.",
+      "realPhoneNumbersIncluded ve realEmailsIncluded false değerindedir; hiçbir gerçek telefon veya e-posta bilgisi içermediğini, tüm iletişim alanlarının null olduğunu belirtir."
+    ],
+    "anahtar_kelimeler": [
+      "false",
+      "realPhoneNumbersIncluded",
+      "realEmailsIncluded",
+      "telefon",
+      "e-posta",
+      "null",
+      "sentetik",
+      "privacy-safe",
+      "gizlilik"
+    ]
   },
   "34": {
     "soru": "Örnek profil olan Özge Taş'ın sector ve occupation alanları nedir?",
     "zorluk": "Kolay",
     "beklenen_kaynak": "728_profiles.json",
-    "dokumanda_var_mi": "Hayır",
-    "referans_cevaplar": [],
-    "anahtar_kelimeler": []
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Özge Taş profilinde sector 'Sağlık', occupation ise 'Aile Hekimliği Uzmanı'dır.",
+      "Özge Taş: sector = \"Sağlık\", occupation = \"Aile Hekimliği Uzmanı\".",
+      "Sektör (sector): Sağlık, Meslek (occupation): Aile Hekimliği Uzmanı."
+    ],
+    "anahtar_kelimeler": [
+      "Sağlık",
+      "Aile Hekimliği Uzmanı",
+      "sector",
+      "occupation",
+      "Özge Taş"
+    ]
   },
   "35": {
     "soru": "publicContact alanı altında phoneVisible ve emailVisible değerleri örnek profillerde genellikle nasıl ayarlanmıştır?",
     "zorluk": "Kolay",
     "beklenen_kaynak": "728_profiles.json",
-    "dokumanda_var_mi": "Hayır",
-    "referans_cevaplar": [],
-    "anahtar_kelimeler": []
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "İncelenen örnek profillerin tamamında phoneVisible: false ve emailVisible: false olarak ayarlanmıştır (phone ve email alanları da null'dır); hiçbir profil gerçek iletişim bilgisi göstermemektedir.",
+      "phoneVisible: false ve emailVisible: false olarak ayarlanmıştır; telefon ve e-posta değerleri null durumundadır.",
+      "Her iki değer de false olarak ayarlanmıştır (phoneVisible: false, emailVisible: false, phone: null, email: null)."
+    ],
+    "anahtar_kelimeler": [
+      "phoneVisible",
+      "emailVisible",
+      "false",
+      "null",
+      "phone: null",
+      "email: null",
+      "iletişim"
+    ]
   },
   "36": {
     "soru": "weeklyAvailability dizisinde her gün nesnesi hangi alanları (day, active, start, end) içermektedir?",
     "zorluk": "Kolay",
     "beklenen_kaynak": "728_profiles.json",
-    "dokumanda_var_mi": "Hayır",
-    "referans_cevaplar": [],
-    "anahtar_kelimeler": []
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Her gün nesnesi day (gün adı), active (o gün çalışılıp çalışılmadığı / aktiflik durumu), start (çalışma başlangıç saati) ve end (çalışma bitiş saati) alanlarını içermektedir.",
+      "day (gün adı), active (o gün çalışılıyor mu), start (başlangıç saati) ve end (bitiş saati) alanlarını içerir.",
+      "day, active, start ve end alanlarını içerir."
+    ],
+    "anahtar_kelimeler": [
+      "day",
+      "active",
+      "start",
+      "end",
+      "gün adı",
+      "başlangıç saati",
+      "bitiş saati",
+      "çalışma saatleri"
+    ]
   },
   "37": {
     "soru": "sectorDistribution içindeki 22 sektörün profil sayılarını bir çubuk grafikle karşılaştırdığınızda hangi üç sektör diğerlerinden (32 profil) daha fazla temsil edilmektedir?",
@@ -53,48 +125,102 @@
     "beklenen_kaynak": "728_profiles.json",
     "dokumanda_var_mi": "Evet",
     "referans_cevaplar": [
-      "Sağlık, Spor ve Fitness, Eğitim ve Özel Ders",
-      "Sağlık, Spor ve Fitness ve Eğitim ve Özel Ders sektörleri (40'ar profil)",
-      "Eğitim ve Özel Ders, Sağlık, Spor ve Fitness"
+      "Sağlık, Spor ve Fitness ile Eğitim ve Özel Ders sektörleri 40'ar profille diğer sektörlerden (32 profil) daha fazla temsil edilmektedir.",
+      "Sağlık, Spor ve Fitness ve Eğitim ve Özel Ders sektörleri (40'ar profil).",
+      "Eğitim ve Özel Ders, Sağlık, Spor ve Fitness sektörleri 40 profille daha fazla temsil edilmektedir."
     ],
     "anahtar_kelimeler": [
       "Sağlık",
       "Spor ve Fitness",
       "Eğitim ve Özel Ders",
-      "40"
+      "40",
+      "32",
+      "sektör"
     ]
   },
   "38": {
     "soru": "Mert Keskin profilinde appointmentSettings.autoApproveRequests neden false olarak ayarlanmış olabilir; Özge Taş'ın aynı alanla farkı nedir?",
     "zorluk": "Orta",
     "beklenen_kaynak": "728_profiles.json",
-    "dokumanda_var_mi": "Hayır",
-    "referans_cevaplar": [],
-    "anahtar_kelimeler": []
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Mert Keskin profilinde autoApproveRequests: false (randevuları manuel onaylama) ve cancellationNoticeHours: 4 iken, Özge Taş profilinde autoApproveRequests: true (otomatik onaylama) ve cancellationNoticeHours: 12'dir. Bu fark deneyim ve profil çeşitliliğini simüle etmek için yapılandırılmıştır; Mert Keskin randevuları manuel onaylayıp daha kısa iptal bildirim süresi isterken, Özge Taş otomatik onaylayıp daha uzun bildirim süresi talep eder.",
+      "Mert Keskin randevuları manuel onaylamakta (autoApproveRequests: false, cancellationNoticeHours: 4), Özge Taş ise otomatik onaylamaktadır (autoApproveRequests: true, cancellationNoticeHours: 12). Bu durum sağlayıcıların farklı işleyiş tercihlerini ve profil çeşitliliğini simüle eder.",
+      "Mert Keskin: autoApproveRequests false (manuel onay), Özge Taş: autoApproveRequests true (otomatik onay). Sağlayıcı tercih çeşitliliğini yansıtır."
+    ],
+    "anahtar_kelimeler": [
+      "autoApproveRequests",
+      "false",
+      "true",
+      "Mert Keskin",
+      "Özge Taş",
+      "manuel onay",
+      "otomatik onay",
+      "cancellationNoticeHours",
+      "çeşitlilik"
+    ]
   },
   "39": {
     "soru": "Umut Aslan profilinde services dizisindeki hizmetlerden hangileri Online, hangileri Yüz yüze modda sunulmaktadır?",
     "zorluk": "Orta",
     "beklenen_kaynak": "728_profiles.json",
-    "dokumanda_var_mi": "Hayır",
-    "referans_cevaplar": [],
-    "anahtar_kelimeler": []
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Umut Aslan profilinde 'Gelişim görüşmesi' (60 dk) ve 'Yetkinlik değerlendirme' (30 dk) Online modda; 'Kariyer görüşmesi' (30 dk) ise Yüz yüze modda sunulmaktadır.",
+      "Online hizmetler: 'Gelişim görüşmesi' (60 dk) ve 'Yetkinlik değerlendirme' (30 dk); Yüz yüze hizmet: 'Kariyer görüşmesi' (30 dk).",
+      "Gelişim görüşmesi ve Yetkinlik değerlendirme Online, Kariyer görüşmesi ise Yüz yüze sunulmaktadır."
+    ],
+    "anahtar_kelimeler": [
+      "Gelişim görüşmesi",
+      "Yetkinlik değerlendirme",
+      "Kariyer görüşmesi",
+      "Online",
+      "Yüz yüze",
+      "Umut Aslan",
+      "60 dk",
+      "30 dk"
+    ]
   },
   "40": {
     "soru": "location.serviceArea alanı bazı profillerde 'district, city' formatındayken bazılarında 'district / online' formatında görünmektedir; bu farkın nedeni serviceModes alanıyla nasıl ilişkilidir?",
     "zorluk": "Orta",
     "beklenen_kaynak": "728_profiles.json",
-    "dokumanda_var_mi": "Hayır",
-    "referans_cevaplar": [],
-    "anahtar_kelimeler": []
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "'district, city' formatı sadece Yüz yüze (In-person) hizmet veren profillerde kullanılır; 'district / online' formatı ise hem Yüz yüze hem Online modunu birlikte sunan hibrit profillerde kullanılır (örneğin Umut Aslan profilinde 'İzmit / online').",
+      "Sadece Yüz yüze hizmet sunulduğunda 'district, city' formatı kullanılırken; hem Yüz yüze hem Online modu birlikte sunulduğunda 'district / online' formatı kullanılmaktadır.",
+      "serviceModes içinde yalnızca yüz yüze varsa 'ilçe, il', hem yüz yüze hem online varsa 'ilçe / online' formatı kullanılır."
+    ],
+    "anahtar_kelimeler": [
+      "district, city",
+      "district / online",
+      "serviceModes",
+      "Yüz yüze",
+      "Online",
+      "hibrit",
+      "serviceArea"
+    ]
   },
   "41": {
     "soru": "searchKeywords dizisi bir profildeki hangi diğer alanlardan (sector, occupation, services, location) türetilmiş görünmektedir?",
     "zorluk": "Orta",
     "beklenen_kaynak": "728_profiles.json",
-    "dokumanda_var_mi": "Hayır",
-    "referans_cevaplar": [],
-    "anahtar_kelimeler": []
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "searchKeywords dizisi profildeki sector (sektör), occupation (meslek), services listesindeki hizmet adları ile location altındaki city (şehir) ve district (ilçe) bilgilerinin birleştirilip alfabetik sıralanmasıyla oluşturulmaktadır.",
+      "sector, occupation, services listesindeki hizmet adları, city ve district bilgilerinin birleştirilip alfabetik sıralanmasıyla türetilmiştir.",
+      "Sektör, meslek, hizmet adları, il ve ilçe alanlarının alfabetik olarak birleştirilmesinden oluşur."
+    ],
+    "anahtar_kelimeler": [
+      "sector",
+      "occupation",
+      "services",
+      "city",
+      "district",
+      "alfabetik",
+      "searchKeywords",
+      "hizmet adları"
+    ]
   },
   "42": {
     "soru": "Emre Korkmaz ve Umut Aslan profillerinin minimumNoticeHours ve cancellationNoticeHours değerlerini bir çubuk grafikle karşılaştırdığınızda nasıl bir fark ortaya çıkar?",
@@ -102,81 +228,180 @@
     "beklenen_kaynak": "728_profiles.json",
     "dokumanda_var_mi": "Evet",
     "referans_cevaplar": [
-      "İkisinin de cancellationNoticeHours değeri 24 saattir; ancak minimumNoticeHours Emre Korkmaz'da 6 saat iken Umut Aslan'da 4 saattir.",
-      "İptal bildirim süreleri (cancellationNoticeHours) aynı (24 saat) olup, minimum randevu bildirim süresi Emre'de 6 saat, Umut'ta 4 saattir.",
+      "Emre Korkmaz'da minimumNoticeHours: 6 ve cancellationNoticeHours: 24 iken; Umut Aslan'da minimumNoticeHours: 4 ve cancellationNoticeHours: 24'tür. İptal süreleri aynıdır (24 saat), ancak minimum randevu bildirim süresinde 2 saatlik fark vardır; bu da aynı meslekte bile profil bazında ayarların varyasyon gösterdiğini ortaya koyar.",
+      "İkisinin de cancellationNoticeHours değeri 24 saattir; ancak minimumNoticeHours Emre Korkmaz'da 6 saat iken Umut Aslan'da 4 saattir (2 saat fark vardır).",
       "minimumNoticeHours: Emre Korkmaz 6 saat, Umut Aslan 4 saat; cancellationNoticeHours her ikisinde de 24 saat."
     ],
     "anahtar_kelimeler": [
       "Emre Korkmaz: 6",
       "Umut Aslan: 4",
+      "24",
       "24 saat",
       "cancellationNoticeHours",
-      "minimumNoticeHours"
+      "minimumNoticeHours",
+      "2 saat"
     ]
   },
   "43": {
     "soru": "experience.credentialSummary alanı occupation türüne göre nasıl değişmektedir; Aile Hekimliği Uzmanı ile Yetenek Yönetimi Uzmanı örnekleri üzerinden karşılaştırın.",
     "zorluk": "Orta",
     "beklenen_kaynak": "728_profiles.json",
-    "dokumanda_var_mi": "Hayır",
-    "referans_cevaplar": [],
-    "anahtar_kelimeler": []
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "credentialSummary alanı her mesleğe özgü sabit bir şablon cümlesi olarak atanmıştır (meslek başına tek bir metin). Örneğin Aile Hekimliği Uzmanı için 'Tıp eğitimi ve uzmanlık', Yetenek Yönetimi Uzmanı için ise 'Yetenek yönetimi deneyimi' olarak tanımlanmıştır.",
+      "Aile Hekimliği Uzmanı → \"Tıp eğitimi ve uzmanlık\"; Yetenek Yönetimi Uzmanı → \"Yetenek yönetimi deneyimi\". Her meslek için sabit bir şablon cümlesi belirlenmiştir.",
+      "credentialSummary meslek türüne göre sabittir: Aile Hekimliği Uzmanı'nda 'Tıp eğitimi ve uzmanlık', Yetenek Yönetimi Uzmanı'nda 'Yetenek yönetimi deneyimi' metni kullanılır."
+    ],
+    "anahtar_kelimeler": [
+      "credentialSummary",
+      "Tıp eğitimi ve uzmanlık",
+      "Yetenek yönetimi deneyimi",
+      "Aile Hekimliği Uzmanı",
+      "Yetenek Yönetimi Uzmanı",
+      "şablon"
+    ]
   },
   "44": {
     "soru": "appointmentSettings içindeki minimumNoticeHours ile cancellationNoticeHours kavramsal olarak birbirinden nasıl ayrılmaktadır?",
     "zorluk": "Orta",
     "beklenen_kaynak": "728_profiles.json",
-    "dokumanda_var_mi": "Hayır",
-    "referans_cevaplar": [],
-    "anahtar_kelimeler": []
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "minimumNoticeHours bir randevunun en az kaç saat önceden talep edilebileceğini belirtirken; cancellationNoticeHours mevcut bir randevunun cezasız iptal edilebilmesi için gereken minimum bildirim süresini ifade eder. Biri randevu talep, diğeri ise randevu iptal aşamasıyla ilgilidir.",
+      "minimumNoticeHours yeni randevu talebinin en az kaç saat önceden yapılması gerektiğini, cancellationNoticeHours ise alınmış bir randevunun cezasız iptali için gereken süreyi belirtir.",
+      "minimumNoticeHours randevu oluşturma/talep aşamasıyla, cancellationNoticeHours ise randevu iptal aşamasıyla ilişkilidir."
+    ],
+    "anahtar_kelimeler": [
+      "minimumNoticeHours",
+      "cancellationNoticeHours",
+      "talep",
+      "iptal",
+      "en az kaç saat önceden",
+      "cezasız iptal",
+      "bildirim süresi"
+    ]
   },
   "45": {
     "soru": "slug alanı displayName ve profileCode alanlarından nasıl bir kurala göre oluşturulmuş görünmektedir? Örnek profil üzerinden gösterin.",
     "zorluk": "Orta",
     "beklenen_kaynak": "728_profiles.json",
-    "dokumanda_var_mi": "Hayır",
-    "referans_cevaplar": [],
-    "anahtar_kelimeler": []
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Kural: küçük-harfli-ad-soyad-profilkodununsonaltıkarakteri şeklindedir. Örneğin Özge Taş / DB-ZD5HGKSC için slug 'ozge-tas-zd5hgksc' olarak oluşturulmuştur.",
+      "displayName küçük harfe çevrilip tire ile birleştirilir ve profileCode'un son kısmı küçük harfle eklenir (Örnek: Özge Taş / DB-ZD5HGKSC → slug: 'ozge-tas-zd5hgksc').",
+      "küçük harfli ad-soyad ile profil kodunun son altı karakterinin birleşiminden oluşur (Örn. Özge Taş / DB-ZD5HGKSC → 'ozge-tas-zd5hgksc')."
+    ],
+    "anahtar_kelimeler": [
+      "slug",
+      "displayName",
+      "profileCode",
+      "küçük harf",
+      "ozge-tas-zd5hgksc",
+      "DB-ZD5HGKSC",
+      "Özge Taş"
+    ]
   },
   "46": {
     "soru": "sourceReference.note alanı bu veri setinin gerçek kişi/işletme doğrulaması iddia edip etmediği konusunda ne söylemektedir?",
     "zorluk": "Orta",
     "beklenen_kaynak": "728_profiles.json",
-    "dokumanda_var_mi": "Hayır",
-    "referans_cevaplar": [],
-    "anahtar_kelimeler": []
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "sourceReference.note açıkça bu veri setinin gerçek kişilerin veya işletmelerin doğrulanmış bir listesi olmadığını, DateBind demo/test popülasyonu için tasarlanmış gerçekçi görünümlü sentetik bir üst küme olduğunu belirtmektedir.",
+      "Gerçek kişi/işletmelerin doğrulanmış bir listesi olmadığını, DateBind demo ve test popülasyonu için tasarlanmış sentetik bir veri seti olduğunu ifade eder.",
+      "Doğrulanmış gerçek kişiler/işletmeler listesi değildir; demo/test amaçlı gerçekçi görünümlü sentetik bir kümedir."
+    ],
+    "anahtar_kelimeler": [
+      "sourceReference",
+      "note",
+      "gerçek kişi",
+      "doğrulanmış",
+      "DateBind",
+      "demo",
+      "test",
+      "sentetik"
+    ]
   },
   "47": {
     "soru": "fieldGuide bölümündeki 'publicContact' açıklaması ile örnek profillerdeki publicContact nesnesinin (phone:null, email:null) içeriği birbiriyle tutarlı mıdır?",
     "zorluk": "Orta",
     "beklenen_kaynak": "728_profiles.json",
-    "dokumanda_var_mi": "Hayır",
-    "referans_cevaplar": [],
-    "anahtar_kelimeler": []
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Evet, tamamen tutarlıdır. fieldGuide bölümü 'public contact visibility; intentionally no real phone/email' açıklamasını yapmaktadır; incelenen tüm örnek profillerde de phone ve email alanları null, görünürlük bayrakları (phoneVisible, emailVisible) false olup açıklama ile veri birebir örtüşmektedir.",
+      "Evet, tutarlıdır. fieldGuide kasıtlı olarak gerçek telefon/e-posta içermediğini belirtir; profillerde de phone/email null ve görünürlükler false olarak tanımlanmıştır.",
+      "Evet tutarlıdır; fieldGuide'da belirtilen no real phone/email ilkesi profillerdeki null ve false değerleriyle tam uyumludur."
+    ],
+    "anahtar_kelimeler": [
+      "tutarlı",
+      "fieldGuide",
+      "publicContact",
+      "phone:null",
+      "email:null",
+      "false",
+      "no real phone/email"
+    ]
   },
   "48": {
     "soru": "defaultDurationMinutes alanı ile services dizisindeki bireysel durationMinutes değerleri her zaman birebir eşleşmekte midir, yoksa profil bazında farklılaşabilmekte midir?",
     "zorluk": "Orta",
     "beklenen_kaynak": "728_profiles.json",
-    "dokumanda_var_mi": "Hayır",
-    "referans_cevaplar": [],
-    "anahtar_kelimeler": []
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Hayır, her zaman birebir eşleşmemektedir. Örneğin Mert Keskin profilinde defaultDurationMinutes: 20 iken hizmetlerinin süreleri 30, 20 ve 30 dakikadır; yani defaultDurationMinutes sadece bir varsayılan/gösterge değeridir ve hizmet bazlı özel süreleri geçersiz kılmaz.",
+      "Hayır, her zaman eşleşmez. defaultDurationMinutes bir varsayılan değerdir ancak hizmetler kendi özel durationMinutes sürelerine sahip olabilir (örneğin Mert Keskin'de defaultDurationMinutes 20 iken hizmet süreleri 30 ve 20 dakikadır).",
+      "Hayır, eşleşmek zorunda değildir; profil ve hizmet bazında farklılaşabilir."
+    ],
+    "anahtar_kelimeler": [
+      "Hayır",
+      "eşleşmez",
+      "defaultDurationMinutes",
+      "durationMinutes",
+      "Mert Keskin",
+      "20",
+      "30",
+      "varsayılan"
+    ]
   },
   "49": {
     "soru": "intendedUse listesinde belirtilen 'demo', 'test', 'seed data', 'UI population' kullanım amaçları syntheticOnly=true ayarıyla nasıl bir tutarlılık göstermektedir?",
     "zorluk": "Orta",
     "beklenen_kaynak": "728_profiles.json",
-    "dokumanda_var_mi": "Hayır",
-    "referans_cevaplar": [],
-    "anahtar_kelimeler": []
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Tamamen tutarlıdır. Belirtilen dört kullanım amacı da (demo, test, seed data, UI population) gerçek kullanıcı verisi gerektirmeyen, iç test ve geliştirme amaçlı senaryolardır; bu durum verinin yapay olarak üretildiğini belirten syntheticOnly: true ayarıyla birebir örtüşmektedir.",
+      "Tutarlıdır: demo, test, seed data ve UI population senaryoları gerçek kullanıcı verisi gerektirmez ve syntheticOnly: true ayarı ile tam uyumludur.",
+      "syntheticOnly: true ayarı ile birebir tutarlıdır; tüm kullanım amaçları sentetik veri senaryolarıdır."
+    ],
+    "anahtar_kelimeler": [
+      "tutarlı",
+      "syntheticOnly: true",
+      "demo",
+      "test",
+      "seed data",
+      "UI population",
+      "gerçek kullanıcı verisi"
+    ]
   },
   "50": {
     "soru": "weeklyAvailability dizisinde örnek profillerde yalnızca Pazartesi-Cuma günleri mi aktif görünmektedir, hafta sonu çalışan profil örneği var mıdır?",
     "zorluk": "Orta",
     "beklenen_kaynak": "728_profiles.json",
-    "dokumanda_var_mi": "Hayır",
-    "referans_cevaplar": [],
-    "anahtar_kelimeler": []
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Hayır, hepsi yalnızca Pazartesi-Cuma günleri aktif değildir. Veri setinde 248 profil Cumartesi günü de aktif çalışmaktadır (örneğin 'İyi Güzellik Studio' Salı-Cumartesi 10:00-19:00 çalışmaktadır). Ancak Pazar günü hiçbir profilde aktif değildir; hafta içi + bazı profillerde Cumartesi kombinasyonu bulunmaktadır.",
+      "Hayır, sadece hafta içi değildir; 248 profil Cumartesi günleri de aktiftir (örneğin İyi Güzellik Studio). Pazar günü ise hiçbir profilde aktif görünmemektedir.",
+      "Cumartesi günü çalışan profiller mevcuttur (248 profil, örn. İyi Güzellik Studio); Pazar günü hiçbir profil çalışmamaktadır."
+    ],
+    "anahtar_kelimeler": [
+      "Hayır",
+      "Cumartesi",
+      "248 profil",
+      "İyi Güzellik Studio",
+      "Pazar",
+      "hafta sonu",
+      "weeklyAvailability"
+    ]
   },
   "51": {
     "soru": "sectorDistribution içindeki 22 sektörün profil sayılarını gösteren bir grafik oluşturduğunuzda toplamın statistics.profileCount değeri olan 728'e eşit olup olmadığı nasıl doğrulanır?",
@@ -184,9 +409,9 @@
     "beklenen_kaynak": "728_profiles.json",
     "dokumanda_var_mi": "Evet",
     "referans_cevaplar": [
-      "19 sektördeki 32 profil (19 * 32 = 608) ile 3 sektördeki 40 profil (3 * 40 = 120) toplandığında 608 + 120 = 728 bulunur ve profileCount değeri tam doğrulanır.",
-      "19x32 + 3x40 = 608 + 120 = 728 eşitliği ile doğrulanır.",
-      "Tüm sektörlerin profil sayıları toplandığında 728 değerine ulaşılır (19*32 + 3*40 = 728)."
+      "Evet, sektör dağılımı toplamı tam olarak 728'e eşittir. 19 sektörde 32 profil (19 × 32 = 608) ve 3 sektörde 40 profil (3 × 40 = 120) yer alır; toplamda 608 + 120 = 728 bulunur ve profileCount değeri doğrulanır. Ayrıca ortalama meslek sayısı 91 meslek / 22 sektör ≈ 4.14 meslek/sektördür (çoğu sektörde 4, Sağlık/Spor ve Fitness/Eğitim ve Özel Ders sektörlerinde 5 meslek vardır).",
+      "19×32 + 3×40 = 608 + 120 = 728 eşitliği ile doğrulanır.",
+      "Tüm sektörlerin profil sayıları toplandığında 728 değerine ulaşılır (19*32 + 3*40 = 608 + 120 = 728)."
     ],
     "anahtar_kelimeler": [
       "608 + 120 = 728",
@@ -194,7 +419,9 @@
       "3 * 40",
       "728",
       "608",
-      "120"
+      "120",
+      "4.14",
+      "91/22"
     ]
   },
   "52": {
@@ -203,15 +430,20 @@
     "beklenen_kaynak": "728_profiles.json",
     "dokumanda_var_mi": "Evet",
     "referans_cevaplar": [
-      "Bu üç sektörün %25 daha fazla ağırlığa sahip olması, genel istatistiklerde ve ortalama metriklerde bu sektörlerin dinamiklerinin analize daha baskın yansımasına (hafif sektörel temsil yanlılığına) yol açar.",
-      "Genel ortalamalar ve analizler üzerinde bu üç sektörün ağırlığı artar ve hafif bir veri yanlılığı oluşturur."
+      "Bu 3 sektör (%40 daha fazla profil, 40 vs 32 profil, ~%25 fark) toplam veri setinin biraz daha büyük bir dilimini oluşturur. Dağılım yine de oldukça dengelidir ve ciddi bir çarpıklık yaratmaz; sektörler arası karşılaştırmalı analizlerde hafif bir ağırlık farkı yaratabilir ancak örneklem büyüklüğünü bozacak düzeyde değildir.",
+      "Bu 3 sektörün 40 profile sahip olması (%25 fazlalık), sektörel analizlerde hafif bir temsil ağırlığı oluştursa da genel dağılım dengelidir ve analizi bozacak düzeyde bir çarpıklık yaratmaz.",
+      "Genel ortalamalar ve analizler üzerinde bu üç sektörün hafif bir ağırlık farkı oluşur ancak örneklem dengesi korunur."
     ],
     "anahtar_kelimeler": [
-      "temsil yanlılığı",
-      "ağırlık",
-      "baskın",
-      "oran",
-      "%25"
+      "ağırlık farkı",
+      "temsil",
+      "%25",
+      "dengeli",
+      "çarpıklık",
+      "Sağlık",
+      "Spor ve Fitness",
+      "Eğitim ve Özel Ders",
+      "40"
     ]
   },
   "53": {
@@ -220,39 +452,85 @@
     "beklenen_kaynak": "728_profiles.json",
     "dokumanda_var_mi": "Evet",
     "referans_cevaplar": [
-      "Aynı meslekteki uzmanların farklı randevu sürelerine (12, 4, 6 saat) ve onay politikalarına sahip olması sentetik verinin tekdüze olmasını engeller ve gerçek hayattaki bireysel çalışma esnekliğini simüle eder.",
-      "Gerçek dünyadaki farklı çalışma koşullarını ve uzman tercihlerini yansıtarak sentetik verinin gerçekçiliğini artırır."
+      "Üç profilin minimumNoticeHours (Sinem: 12, Umut: 4, Emre: 6), cancellationNoticeHours (Sinem: 12, Umut: 24, Emre: 24) ve autoApproveRequests (Sinem: false, Umut: true, Emre: true) değerlerinin hepsi farklılık gösterir. Aynı meslekte bile ayarların dağıtılmış ve değişken olması, gerçek dünyada farklı sağlayıcıların farklı işleyiş tercihlerini taklit eder ve sentetik profillerin klon gibi görünmesini engeller.",
+      "Sinem Arslan, Umut Aslan ve Emre Korkmaz'ın randevu ayarlarındaki varyasyon, gerçek dünyadaki farklı sağlayıcı tercihlerini yansıtarak sentetik verinin gerçekçiliğini artırır ve klon profil görünümünü engeller.",
+      "Aynı meslekteki uzmanların farklı randevu sürelerine ve onay politikalarına sahip olması sentetik verinin tekdüze/klon olmasını engeller ve gerçekçilik kazandırır."
     ],
     "anahtar_kelimeler": [
+      "Sinem Arslan",
+      "Umut Aslan",
+      "Emre Korkmaz",
+      "minimumNoticeHours",
+      "cancellationNoticeHours",
+      "autoApproveRequests",
       "gerçekçilik",
-      "bireysel tercihler",
       "varyasyon",
-      "tekdüze olmama"
+      "klon"
     ]
   },
   "54": {
     "soru": "profileCode alanının 'DB-' önekli 8 karakterlik alfanümerik yapısı ile slug alanındaki kod parçası arasındaki ilişki nasıl kurulmaktadır; bu iki alan birlikte profilin benzersizliğini nasıl garanti eder?",
     "zorluk": "Zor",
     "beklenen_kaynak": "728_profiles.json",
-    "dokumanda_var_mi": "Hayır",
-    "referans_cevaplar": [],
-    "anahtar_kelimeler": []
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "profileCode 'DB-' + 8 karakterlik rastgele alfanümerik koddur (örn. DB-ZD5HGKSC); slug ise bu kodun son kısmını küçük harfe çevirip isimle birleştirir (ozge-tas-zd5hgksc). profileCode veritabanında tekilliği garanti ederken, slug hem SEO dostu hem de insan tarafından okunabilir benzersiz bir URL anahtarı sağlar.",
+      "profileCode ('DB-' + 8 alfanümerik karakter) benzersizliği garanti eder; slug ise bu kod parçasını küçük harfli ad-soyad ile birleştirerek hem benzersiz hem SEO-dostu URL anahtarı oluşturur.",
+      "profileCode benzersizliği sağlar, slug ise bu kodun son kısmını isimle birleştirip SEO-dostu ve insan-okunur tekil URL anahtarı sunar."
+    ],
+    "anahtar_kelimeler": [
+      "profileCode",
+      "DB-",
+      "8 karakter",
+      "slug",
+      "tekillik",
+      "benzersizlik",
+      "SEO-dostu",
+      "insan-okunur",
+      "ozge-tas-zd5hgksc"
+    ]
   },
   "55": {
     "soru": "Aynı occupation (örneğin 'Aile Hekimliği Uzmanı') farklı şehirlerdeki profillerde (Özge Taş - Adana, Mert Keskin - Antalya) hangi alanlar (experience.years, appointmentSettings, weeklyAvailability saatleri) profil bazında farklılaştırılmıştır?",
     "zorluk": "Zor",
     "beklenen_kaynak": "728_profiles.json",
-    "dokumanda_var_mi": "Hayır",
-    "referans_cevaplar": [],
-    "anahtar_kelimeler": []
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Sabit kalanlar: headline ve hizmet isimleri/açıklama şablonlarıdır. Değişkenler: experience.years (Özge Taş 3 yıl vs Mert Keskin 13 yıl), appointmentSettings (autoApprove, notice ve cancellation saatleri), weeklyAvailability saatleri (09:00-17:00 vs 09:30-18:00), location ve about metnindeki şehir/deneyim bilgileridir.",
+      "experience.years (3 vs 13), appointmentSettings (autoApprove ve bildirim saatleri), weeklyAvailability çalışma saatleri (09:00-17:00 vs 09:30-18:00), location ve about metinlerindeki şehir/deneyim alanları profil bazında farklılaştırılmıştır.",
+      "Deneyim yılları (experience.years), randevu ayarları (appointmentSettings), haftalık çalışma saatleri (weeklyAvailability), lokasyon ve about metni farklılaştırılmıştır."
+    ],
+    "anahtar_kelimeler": [
+      "experience.years",
+      "appointmentSettings",
+      "weeklyAvailability",
+      "location",
+      "about",
+      "3 vs 13",
+      "Özge Taş",
+      "Mert Keskin"
+    ]
   },
   "56": {
     "soru": "schemaVersion 1.1 olarak belirtilmiş olması, veri setinin ileride hangi alanlarda versiyon değişikliğine gidebileceğine dair ne tür bir çıkarım yapılmasına imkan tanır?",
     "zorluk": "Zor",
     "beklenen_kaynak": "728_profiles.json",
-    "dokumanda_var_mi": "Hayır",
-    "referans_cevaplar": [],
-    "anahtar_kelimeler": []
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Gelecekteki versiyon değişikliklerinin: yeni sektör veya mesleklerin eklenmesi, publicContact alanının gerçek verilerle doldurulması, hafta sonu/tatil kurallarının genişletilmesi, profileType için yeni kategorilerin (örn. 'kurum/klinik') eklenmesi gibi yapısal değişikliklerde gerçekleşebileceğini gösterir; schemaVersion bu tür yapısal değişikliklerde artırılır.",
+      "Şemanın gelecekte yeni sektör/meslekler ekleme, publicContact'a gerçek bilgiler koyma, hafta sonu kuralları tanımlama veya yeni profil tipleri ekleme gibi yapısal geliştirmelere açık olduğunu ve schemaVersion ile versiyonlanacağını gösterir.",
+      "Yeni sektör/meslek eklenmesi, publicContact verileri, hafta sonu kuralları veya yeni profil tipleri eklendiğinde schemaVersion güncellenecektir."
+    ],
+    "anahtar_kelimeler": [
+      "schemaVersion",
+      "yeni sektör",
+      "meslek",
+      "publicContact",
+      "hafta sonu",
+      "profileType",
+      "yapısal değişiklik",
+      "versiyon"
+    ]
   },
   "57": {
     "soru": "728 profil içinde her sektördeki ortalama meslek (occupation) sayısını bir grafikle gösterdiğinizde, occupationCount/sectorCount oranı sektörler arasında nasıl bir dağılım gösterir?",
@@ -260,33 +538,63 @@
     "beklenen_kaynak": "728_profiles.json",
     "dokumanda_var_mi": "Evet",
     "referans_cevaplar": [
-      "91 meslek / 22 sektör = ortalama yaklaşık 4.14 meslek/sektör oranına sahiptir ve meslekler sektörler arasında homojen/dengeli dağılmıştır.",
-      "91/22 ≈ 4.14 meslek; her sektörde ortalama 4-5 farklı meslek homojen olarak yer alır."
+      "728 profil arasında hiçbir occupation birden fazla sektörde tekrarlanmaz; her meslek tam olarak tek bir sektöre bağlıdır (91 meslek, 22 sektöre kesin dağılmış, çakışma yoktur). Ortalama oran 91 meslek / 22 sektör ≈ 4.14 meslek/sektördür (çoğu sektörde 4, Sağlık/Spor ve Fitness/Eğitim ve Özel Ders sektörlerinde 5 meslek vardır) ve homojen dağılmıştır.",
+      "91 meslek / 22 sektör ≈ 4.14 meslek/sektör. Hiçbir meslek birden fazla sektörde tekrarlanmaz; 91 meslek 22 sektöre homojen ve çakışmasız olarak dağılmıştır.",
+      "91/22 ≈ 4.14. Her meslek tek bir sektöre bağlıdır, çakışma yoktur ve dağılım dengelidir."
     ],
     "anahtar_kelimeler": [
-      "4.14",
-      "91/22",
       "91",
       "22",
-      "homojen",
-      "dengeli"
+      "4.14",
+      "91/22",
+      "occupationCount",
+      "sectorCount",
+      "çakışma yok",
+      "tek bir sektöre bağlı",
+      "homojen"
     ]
   },
   "58": {
     "soru": "about metin şablonunun ('...olarak X yıllık mesleki deneyimle Y bölgesinde randevulu hizmet veriyorum...') farklı profillerde tekrarlanan yapısı, veri setinin sentetik (template tabanlı) üretim yöntemine dair ne gibi ipuçları vermektedir?",
     "zorluk": "Zor",
     "beklenen_kaynak": "728_profiles.json",
-    "dokumanda_var_mi": "Hayır",
-    "referans_cevaplar": [],
-    "anahtar_kelimeler": []
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Bu şablon yapısı ('...olarak X yıllık mesleki deneyimle Y bölgesinde randevulu hizmet veriyorum...') veri setinin prosedürel ve şablon tabanlı (template-based) üretildiğini gösterir: sabit bir cümle iskeletine değişken alanlar (meslek adı, deneyim yılı, bölge) yerleştirilerek 728 farklı ancak yapısal olarak benzer metin üretilmiştir.",
+      "Veri setinin şablon tabanlı (template-based) ve prosedürel üretildiğini gösterir; sabit bir cümle kalıbına meslek adı, deneyim yılı ve bölge parametreleri yerleştirilerek 728 metin türetilmiştir.",
+      "Prosedürel/şablon tabanlı üretim yöntemini gösterir: Sabit bir metin iskeletine değişken alanlar yerleştirilmiştir."
+    ],
+    "anahtar_kelimeler": [
+      "şablon",
+      "template-based",
+      "prosedürel",
+      "sentetik",
+      "about",
+      "deneyim yılı",
+      "meslek adı",
+      "bölge",
+      "iskelet"
+    ]
   },
   "59": {
     "soru": "exactAddressPublic:false ayarı ile serviceArea alanındaki genel bölge bilgisi (ör. 'Yüreğir, Adana') arasındaki tasarım kararı, gizlilik (privacy-by-design) ilkesini nasıl yansıtmaktadır?",
     "zorluk": "Zor",
     "beklenen_kaynak": "728_profiles.json",
-    "dokumanda_var_mi": "Hayır",
-    "referans_cevaplar": [],
-    "anahtar_kelimeler": []
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "exactAddressPublic: false ayarı ile birlikte sadece ilçe/il düzeyinde (serviceArea) genel bölge bilgisi paylaşılması, kullanıcıların genel lokasyonu görmesine izin verirken açık/tam adres gibi hassas ve tanımlayıcı bilgileri gizleyen bilinçli bir gizlilik tasarımı (privacy-by-design) örneğidir.",
+      "exactAddressPublic: false ile tam adres gizlenirken sadece ilçe/il düzeyinde serviceArea sunulması, kullanıcı gizliliğini koruyan bilinçli bir privacy-by-design (tasarımdan gelen gizlilik) yaklaşımıdır.",
+      "Tam adres gibi hassas veriyi gizleyip sadece ilçe/il düzeyinde genel konum vererek gizliliği (privacy-by-design) korur."
+    ],
+    "anahtar_kelimeler": [
+      "exactAddressPublic: false",
+      "serviceArea",
+      "privacy-by-design",
+      "gizlilik",
+      "tam adres",
+      "ilçe/il",
+      "hassas bilgi"
+    ]
   },
   "60": {
     "soru": "Profillerin deneyim yıllarını (experience.years) bir histogramla görselleştirdiğinizde veri setindeki deneyim dağılımı nasıl bir eğilim göstermektedir?",
@@ -294,15 +602,20 @@
     "beklenen_kaynak": "728_profiles.json",
     "dokumanda_var_mi": "Evet",
     "referans_cevaplar": [
-      "Deneyim yılları 2 ile 22 yıl arasında değişmekte olup ortalaması 12 yıldır ve tüm yıllar boyunca yaklaşık düzgün/üniform (her yıl için 26-42 profil arası) bir dağılım göstermektedir.",
-      "2 ile 22 yıl arasında ortalaması 12 yıl olan düzgün (üniform) bir dağılım gösterir."
+      "Deneyim yılları 2 ile 22 yıl arasında değişmektedir; dağılım nispeten düzgün/üniformdur (her yıl için yaklaşık 26-42 profil) ve belirgin bir çan eğrisi yoktur (deneyim yılları sistematik olarak eşit dağıtılmıştır). Ayrıca profil türleri 599 'individual' ve 129 'business' olmak üzere iki değer alır.",
+      "Deneyim yılları 2-22 arasında düzgün/üniform bir dağılım göstermektedir (yıl başına ~26-42 profil) ve belirgin bir tepe/çan eğrisi bulunmamaktadır.",
+      "2 ile 22 yıl arasında üniform (düzgün) dağılım sergiler; her yıl için yaklaşık 26-42 profil yer alır."
     ],
     "anahtar_kelimeler": [
+      "2-22",
       "2 ile 22",
       "üniform",
       "düzgün dağılım",
-      "12 yıl",
-      "ortalama 12"
+      "26-42",
+      "çan eğrisi yok",
+      "experience.years",
+      "599 individual",
+      "129 business"
     ]
   }
 }
