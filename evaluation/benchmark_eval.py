@@ -1012,9 +1012,14 @@ def evaluate_all(sets=None, output_dir: str = "report", results_dir: str = ".") 
 
     per_set, all_records, missing = {}, [], []
     for name in sets:
-        csv_candidate = _resolve_file(f"{name}_sonuclari.csv")
+        # ONCELIK results_dir'dedir. Ters sirada arandiginda (once cipla dosya
+        # adi, sonra results_dir) kokte ayni isimli ESKI bir sonuc dosyasi varsa
+        # --results-dir sessizce yok sayiliyor ve baseline yeniden skorlanip
+        # "yeni sonuc" diye raporlaniyordu. Bu, karsilastirmayi fark edilmeden
+        # gecersiz kilan bir hataydi.
+        csv_candidate = _resolve_file(str(Path(results_dir) / f"{name}_sonuclari.csv"))
         if not csv_candidate.exists():
-            csv_candidate = _resolve_file(str(Path(results_dir) / f"{name}_sonuclari.csv"))
+            csv_candidate = _resolve_file(f"{name}_sonuclari.csv")
         if not csv_candidate.exists():
             missing.append(name)
             continue

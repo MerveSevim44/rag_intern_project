@@ -60,8 +60,12 @@ def test_full_pipeline():
         ('"profileCode" alanı ne için kullanılır?', "semantic_rag"),
         ("Fourier dönüşümü nedir?", "semantic_rag"),
     ]
+    # df_schema GECIRILMELIDIR: router dataset sinyalini gercek kolon
+    # adlarindan cikarir. Sema verilmezse uretimde dogru calisan sorular
+    # burada semantic_rag'e dusup sahte FAIL uretiyordu.
+    schemas = engine.get_schemas()
     for q, exp in sample_queries:
-        act = route_query(q)
+        act = route_query(q, df_schema=schemas)
         status = "✅ PASS" if act == exp else "❌ FAIL"
         print(f"  {status} | Beklenen: {exp:<16} | Çıkan: {act:<16} | Soru: {q}")
         assert act == exp

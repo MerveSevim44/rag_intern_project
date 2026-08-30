@@ -550,6 +550,25 @@ if __name__ == "__main__":
         "account_id": "object",
         "date": "datetime64[ns]",
         "description": "object",
+        "balance": "float64",
+    }
+
+    # Profil veri setinin (728_profiles.json) sadelestirilmis semasi.
+    # Bu harness eskiden bircok vakayi df_schema=None ile cagiriyordu; router
+    # ise dataset sinyalini SEMADAN cikardigi icin o vakalar uretimde dogru
+    # calistigi halde testte semantic_rag'e dusuyordu (sahte FAIL).
+    PROFILES_SCHEMA = {
+        "profileCode": "object",
+        "profileType": "object",
+        "sector": "object",
+        "occupation": "object",
+        "city": "object",
+        "experience.years": "int64",
+        "serviceModes": "object",
+        "services": "object",
+        "appointmentSettings.autoApproveRequests": "bool",
+        "appointmentSettings.defaultDurationMinutes": "int64",
+        "weeklyAvailability": "object",
     }
 
     # (soru, beklenen_rota, df_schema)
@@ -559,11 +578,11 @@ if __name__ == "__main__":
         ("Veri setinde kaç farklı sektör bulunmaktadır?", "rule_engine", None),
 
         # ── Code Interpreter (Karmaşık / Hesaplama) ──
-        ("Tüm profillerin experience.years alanlarına göre ortalama mesleki deneyim yılı kaçtır?", "code_interpreter", None),
-        ('"appointmentSettings.autoApproveRequests" değeri "true" olan profillerin toplam profil sayısına oranı yaklaşık yüzde kaçtır?', "code_interpreter", None),
+        ("Tüm profillerin experience.years alanlarına göre ortalama mesleki deneyim yılı kaçtır?", "code_interpreter", PROFILES_SCHEMA),
+        ('"appointmentSettings.autoApproveRequests" değeri "true" olan profillerin toplam profil sayısına oranı yaklaşık yüzde kaçtır?', "code_interpreter", PROFILES_SCHEMA),
         ("Veri setindeki profillerde toplam kaç farklı şehir (city) yer almaktadır ve en çok profile sahip ilk 3 şehir hangileridir?", "code_interpreter", None),
-        ('"serviceModes" alanında "Yerinde hizmet" seçeneğini içeren kaç profil bulunmaktadır?', "code_interpreter", None),
-        ("Çoklu Filtreleme ve Lokasyon Dağılımı: Sağlık sektörü içerisinde deneyimi 10 yılın üzerinde olan profillerin en yoğun bulunduğu iller hangileridir?", "code_interpreter", None),
+        ('"serviceModes" alanında "Yerinde hizmet" seçeneğini içeren kaç profil bulunmaktadır?', "code_interpreter", PROFILES_SCHEMA),
+        ("Çoklu Filtreleme ve Lokasyon Dağılımı: Sağlık sektörü içerisinde deneyimi 10 yılın üzerinde olan profillerin en yoğun bulunduğu iller hangileridir?", "code_interpreter", PROFILES_SCHEMA),
         ("Hangi ülkede kaç havaalanı bulunmaktadır ve en çok havaalanı olan ülke hangisidir?", "code_interpreter", None),
         ("En yüksek enlem değerine sahip ilk 3 havaalanı hangileridir?", "code_interpreter", None),
 
