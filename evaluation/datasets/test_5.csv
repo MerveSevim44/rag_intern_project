@@ -1,0 +1,16 @@
+id,zorluk,soru,beklenen_kaynak,dokumanda_var_mi
+101,Kolay,"Bağlamdan bağımsız dilbilgisini Chomsky normal formuna dönüştürme algoritması hangi adımlardan oluşur?",-,Hayır
+102,Kolay,"Bağlamdan bağımsız dilleri tanıyan yığın otomatı (pushdown automaton) nasıl tanımlanır?",-,Hayır
+103,Orta,"Bağlamdan bağımsız dilbilgisi için pompalama (pumping) lemması nasıl ifade edilir?",-,Hayır
+104,Kolay,"Fourier dönüşümünde Nyquist örnekleme teoremi hangi koşulu gerektirir?",-,Hayır
+105,Orta,"Dalgacık (wavelet) dönüşümü ile Fourier dönüşümü arasındaki fark dokümanda nasıl açıklanmıştır?",-,Hayır
+106,Zor,"Hızlı Fourier Dönüşümü (FFT) algoritmasının hesaplama karmaşıklığı kaçtır?",-,Hayır
+107,Kolay,"728_profiles.json veri setinde profillerin ortalama randevu ücreti kaç TL'dir?",-,Hayır
+108,Kolay,"728_profiles.json veri setinde profillerin cinsiyet dağılımı nedir?",-,Hayır
+109,Orta,"728_profiles.json veri setindeki profillerin müşteri memnuniyet puanı ortalaması kaçtır?",-,Hayır
+110,Orta,"mock-transactions.json dosyasında işlemlerin kredi kartı numaraları hangi alanda tutulmaktadır?",-,Hayır
+111,Zor,"728_profiles.json veri setinde profillerin IBAN bilgileri hangi şema alanında saklanır?",-,Hayır
+112,Kolay,"Summer School Foundry Local planında Kubernetes kurulumu hangi adımda anlatılır?",-,Hayır
+113,Orta,"Summer School Foundry Local planında projenin Kanban panosu hangi araçla yönetilmektedir?",-,Hayır
+114,Zor,"Unutulmuş Parşömen hikayesinde Alis'in ailesi hangi şehirde yaşamaktadır?",-,Hayır
+115,Orta,"Oda No: 304 hikayesinde anlatıcının mesleği nedir?",-,Hayır

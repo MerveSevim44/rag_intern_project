@@ -1,10 +1,12 @@
 """
-benchmark_eval.py — Otomatik Doğruluk Skorlaması (Exact Match / F1) ve Benchmark Raporlama
+benchmark_eval.py — Otomatik Doğruluk Skorlaması (EM / F1 / ROUGE-L / Semantik) ve Benchmark Raporlama
 
 Bu modül, test_sonuclari.csv dosyalarını otomatik olarak değerlendirir:
 1. Türkçe Uyumlu Metin Normalizasyonu
 2. Exact Match (EM) Skoru (Sıkı & Yumuşak)
 3. Token Seviyesi Precision, Recall ve F1 Skoru (SQuAD standardı)
+4. ROUGE-L (LCS tabanlı) — kelime sırasına duyarlı örtüşme
+5. Semantik Benzerlik (bge-m3 embedding + kosinüs) — anlamca doğruluk
 4. Retrieval (Kaynak Eşleşme) Başarısı
 5. Negatif Test & Halüsinasyon Tespiti (TP, TN, FP, FN Sınıflandırması)
 6. Yanıt Süresi (Latency) Analizi
@@ -190,6 +192,9 @@ def compute_rouge_l(prediction: str, ground_truths: list[str]) -> float:
 # Embedding tabanlı semantik benzerlik. Projenin retrieval'da kullandığı
 # bge-m3 modeli tekrar kullanılır: multilingual olduğu için Türkçe'yi destekler
 # ve ölçüm sistemin kendi embedding kalitesiyle tutarlı olur.
+# Skorlama sirasinda embedding modelini bellekte tutma suresi.
+SEMANTIC_KEEP_ALIVE = "10m"
+
 _SEMANTIC_AVAILABLE = None
 _EMBED_CACHE: dict = {}
 
@@ -214,10 +219,24 @@ def _embed_text(text: str):
     key = text.strip()
     if key in _EMBED_CACHE:
         return _EMBED_CACHE[key]
+    import sys as _sys
+    from pathlib import Path as _Path
+    # benchmark_eval bagimsiz calistirilabildigi icin src/ sys.path'te olmayabilir.
+    _src = str(_Path(__file__).resolve().parent.parent / "src")
+    if _src not in _sys.path:
+        _sys.path.insert(0, _src)
     import ollama
-    from embedder import EMBED_MODEL, OLLAMA_KEEP_ALIVE
+    try:
+        from src.embedder import EMBED_MODEL
+    except ImportError:
+        from embedder import EMBED_MODEL
+    # embedder.OLLAMA_KEEP_ALIVE = "0" (her cagrida unload) sorgu zamani icin
+    # bellek tasarrufu saglar, ama skorlamada yuzlerce ardisik cagri var:
+    # her seferinde yeniden yukleme benchmark'i dakikalarca uzatiyor.
+    # Skorlama LLM sorgusundan BAGIMSIZ bir toplu is oldugu icin burada
+    # modeli sicak tutuyoruz; bge-m3 ~1.2GB, LLM ile cakismasi beklenmiyor.
     resp = ollama.embeddings(model=EMBED_MODEL, prompt=key,
-                             keep_alive=OLLAMA_KEEP_ALIVE)
+                             keep_alive=SEMANTIC_KEEP_ALIVE)
     vec = resp["embedding"]
     _EMBED_CACHE[key] = vec
     return vec
@@ -435,10 +454,10 @@ def evaluate_dataset(
 
     scored_records = []
     category_stats = {
-        "Kolay": {"total": 0, "scored": 0, "em": 0, "em_soft": 0, "f1_sum": 0.0, "p_sum": 0.0, "r_sum": 0.0, "retrieval_ok": 0, "latencies": []},
-        "Orta": {"total": 0, "scored": 0, "em": 0, "em_soft": 0, "f1_sum": 0.0, "p_sum": 0.0, "r_sum": 0.0, "retrieval_ok": 0, "latencies": []},
-        "Zor": {"total": 0, "scored": 0, "em": 0, "em_soft": 0, "f1_sum": 0.0, "p_sum": 0.0, "r_sum": 0.0, "retrieval_ok": 0, "latencies": []},
-        "Negatif": {"total": 0, "scored": 0, "em": 0, "em_soft": 0, "f1_sum": 0.0, "p_sum": 0.0, "r_sum": 0.0, "retrieval_ok": 0, "latencies": []},
+        "Kolay": {"total": 0, "scored": 0, "em": 0, "em_soft": 0, "f1_sum": 0.0, "p_sum": 0.0, "r_sum": 0.0, "rouge_sum": 0.0, "sem_sum": 0.0, "retrieval_ok": 0, "latencies": []},
+        "Orta": {"total": 0, "scored": 0, "em": 0, "em_soft": 0, "f1_sum": 0.0, "p_sum": 0.0, "r_sum": 0.0, "rouge_sum": 0.0, "sem_sum": 0.0, "retrieval_ok": 0, "latencies": []},
+        "Zor": {"total": 0, "scored": 0, "em": 0, "em_soft": 0, "f1_sum": 0.0, "p_sum": 0.0, "r_sum": 0.0, "rouge_sum": 0.0, "sem_sum": 0.0, "retrieval_ok": 0, "latencies": []},
+        "Negatif": {"total": 0, "scored": 0, "em": 0, "em_soft": 0, "f1_sum": 0.0, "p_sum": 0.0, "r_sum": 0.0, "rouge_sum": 0.0, "sem_sum": 0.0, "retrieval_ok": 0, "latencies": []},
     }
 
     confusion = {"TP": 0, "TN": 0, "FP": 0, "FN": 0}
@@ -494,6 +513,7 @@ def evaluate_dataset(
         # Exact Match & F1
         if not has_reference and not is_negative:
             em_score = soft_em_score = f1_score = prec_score = rec_score = 0.0
+            rouge_l_score = semantic_score = 0.0
         elif is_negative:
             # Negatif soruda başarı: modelin bulunamadı demesi
             em_score = 1.0 if pred_is_not_found else 0.0
@@ -501,10 +521,15 @@ def evaluate_dataset(
             f1_score = 1.0 if pred_is_not_found else 0.0
             prec_score = 1.0 if pred_is_not_found else 0.0
             rec_score = 1.0 if pred_is_not_found else 0.0
+            # Negatif soruda "dogru cevap" = ret beyani; metin benzerligi anlamsiz
+            # oldugu icin EM ile ayni ikili skoru alir.
+            rouge_l_score = semantic_score = em_score
         else:
             em_score = compute_exact_match(prediction, ref_answers)
             soft_em_score = max(em_score, compute_soft_match(prediction, ref_answers))
             f1_score, prec_score, rec_score = compute_token_f1(prediction, ref_answers)
+            rouge_l_score = compute_rouge_l(prediction, ref_answers)
+            semantic_score = compute_semantic_similarity(prediction, ref_answers)
 
         # Sınıflandırma Mantığı (TP, TN, FP, FN)
         if not is_negative:
@@ -545,6 +570,8 @@ def evaluate_dataset(
         stats["f1_sum"] += f1_score
         stats["p_sum"] += prec_score
         stats["r_sum"] += rec_score
+        stats["rouge_sum"] += rouge_l_score
+        stats["sem_sum"] += semantic_score
         if retrieval_match:
             stats["retrieval_ok"] += 1
         stats["latencies"].append(latency)
@@ -563,6 +590,8 @@ def evaluate_dataset(
             "f1_score": round(f1_score * 100, 1),
             "precision": round(prec_score * 100, 1),
             "recall": round(rec_score * 100, 1),
+            "rouge_l": round(rouge_l_score * 100, 1),
+            "semantic_sim": round(semantic_score * 100, 1),
             "retrieval_match": "Evet" if retrieval_match else "Hayır",
             "retrieval_sira": retrieval_rank,
             "siniflandirma": status,
@@ -584,6 +613,8 @@ def evaluate_dataset(
     overall_f1 = sum(r["f1_score"] for r in accuracy_pool) / n_acc if n_acc else 0.0
     overall_prec = sum(r["precision"] for r in accuracy_pool) / n_acc if n_acc else 0.0
     overall_rec = sum(r["recall"] for r in accuracy_pool) / n_acc if n_acc else 0.0
+    overall_rouge = sum(r["rouge_l"] for r in accuracy_pool) / n_acc if n_acc else 0.0
+    overall_semantic = sum(r["semantic_sim"] for r in accuracy_pool) / n_acc if n_acc else 0.0
     overall_retrieval = sum(1 for r in scored_records if r["retrieval_match"] == "Evet") / total_q * 100 if total_q else 0.0
     # Sıralama duyarlı retrieval metrikleri (yalnız pozitif sorular üzerinden).
     mrr = (sum(1.0 / r for r in retrieval_ranks if r > 0) / len(retrieval_ranks) * 100) if retrieval_ranks else 0.0
@@ -601,6 +632,8 @@ def evaluate_dataset(
                 "exact_match_yuzde": round((data["em"] / acc_cnt) * 100, 2),
                 "soft_match_yuzde": round((data["em_soft"] / acc_cnt) * 100, 2),
                 "f1_skor_yuzde": round((data["f1_sum"] / acc_cnt) * 100, 2),
+                "rouge_l_yuzde": round((data["rouge_sum"] / acc_cnt) * 100, 2),
+                "semantik_benzerlik_yuzde": round((data["sem_sum"] / acc_cnt) * 100, 2),
                 "precision_yuzde": round((data["p_sum"] / acc_cnt) * 100, 2),
                 "recall_yuzde": round((data["r_sum"] / acc_cnt) * 100, 2),
                 "retrieval_dogruluk_yuzde": round((data["retrieval_ok"] / cnt) * 100, 2),
@@ -621,6 +654,8 @@ def evaluate_dataset(
             "exact_match_yuzde": round(overall_em, 2),
             "soft_match_yuzde": round(overall_em_soft, 2),
             "f1_skor_yuzde": round(overall_f1, 2),
+            "rouge_l_yuzde": round(overall_rouge, 2),
+            "semantik_benzerlik_yuzde": round(overall_semantic, 2),
             "precision_yuzde": round(overall_prec, 2),
             "recall_yuzde": round(overall_rec, 2),
             "retrieval_dogruluk_yuzde": round(overall_retrieval, 2),
@@ -659,6 +694,8 @@ def evaluate_dataset(
     print(f"Toplam Değerlendirilen Soru : {total_q}")
     print(f"Genel Exact Match (EM)      : %{summary['genel_metrikler']['exact_match_yuzde']:.1f}")
     print(f"Genel Token F1 Skoru        : %{summary['genel_metrikler']['f1_skor_yuzde']:.1f}")
+    print(f"Genel ROUGE-L Skoru         : %{summary['genel_metrikler']['rouge_l_yuzde']:.1f}")
+    print(f"Genel Semantik Benzerlik    : %{summary['genel_metrikler']['semantik_benzerlik_yuzde']:.1f}")
     print(f"Genel Soft Match (Soft EM)  : %{summary['genel_metrikler']['soft_match_yuzde']:.1f}")
     # MRR/Recall@1 yalnızca pozitif sorularda tanımlıdır. Sadece negatif soru
     # içeren bir sette (test_5) bunları basmak "Kaynak %100 ama MRR %0" gibi
@@ -685,7 +722,9 @@ def evaluate_dataset(
     print("-" * 80)
     print("📊 Kategori Bazlı Dağılım:")
     for cat, m in category_summary.items():
-        print(f"  [{cat:8s}] EM: %{m['exact_match_yuzde']:5.1f} | Soft: %{m['soft_match_yuzde']:5.1f} | F1: %{m['f1_skor_yuzde']:5.1f} | Kaynak: %{m['retrieval_dogruluk_yuzde']:5.1f} | Süre: {m['ortalama_sure_sn']:4.1f}s")
+        print(f"  [{cat:8s}] EM: %{m['exact_match_yuzde']:5.1f} | Soft: %{m['soft_match_yuzde']:5.1f} | F1: %{m['f1_skor_yuzde']:5.1f}"
+              f" | ROUGE-L: %{m.get('rouge_l_yuzde', 0.0):5.1f} | Semantik: %{m.get('semantik_benzerlik_yuzde', 0.0):5.1f}"
+              f" | Kaynak: %{m['retrieval_dogruluk_yuzde']:5.1f} | Süre: {m['ortalama_sure_sn']:4.1f}s")
     print("=" * 80)
     print(f"📁 Kaydedilen Dosyalar:")
     print(f"  - Scored CSV   : {scored_csv_path}")
@@ -919,6 +958,8 @@ def _summary_from_records(records: list[dict], label: str) -> dict:
             "exact_match_yuzde": round(mean("em_score", pool), 2),
             "soft_match_yuzde": round(mean("em_soft_score", pool), 2),
             "f1_skor_yuzde": round(mean("f1_score", pool), 2),
+            "rouge_l_yuzde": round(mean("rouge_l", pool), 2),
+            "semantik_benzerlik_yuzde": round(mean("semantic_sim", pool), 2),
             "precision_yuzde": round(mean("precision", pool), 2),
             "recall_yuzde": round(mean("recall", pool), 2),
             "retrieval_dogruluk_yuzde": round(
@@ -938,6 +979,8 @@ def _summary_from_records(records: list[dict], label: str) -> dict:
             "exact_match_yuzde": round(mean("em_score", acc_pool), 2),
             "soft_match_yuzde": round(mean("em_soft_score", acc_pool), 2),
             "f1_skor_yuzde": round(mean("f1_score", acc_pool), 2),
+            "rouge_l_yuzde": round(mean("rouge_l", acc_pool), 2),
+            "semantik_benzerlik_yuzde": round(mean("semantic_sim", acc_pool), 2),
             "precision_yuzde": round(mean("precision", acc_pool), 2),
             "recall_yuzde": round(mean("recall", acc_pool), 2),
             "retrieval_dogruluk_yuzde": round(
@@ -1023,18 +1066,20 @@ def evaluate_all(sets=None, output_dir: str = "report", results_dir: str = ".") 
     print("\n" + "=" * 96)
     print("GENEL DEĞERLENDİRME — TÜM TEST SETLERİNİN TOPLAMI")
     print("=" * 112)
-    print(f"{'Set':<10}{'Soru':>6}{'Ref':>6}{'EM%':>8}{'Soft%':>8}{'F1%':>8}{'Retr%':>8}{'MRR%':>8}"
+    print(f"{'Set':<10}{'Soru':>6}{'Ref':>6}{'EM%':>8}{'Soft%':>8}{'F1%':>8}{'RgL%':>8}{'Sem%':>8}{'Retr%':>8}{'MRR%':>8}"
           f"{'TP':>5}{'TN':>5}{'FP':>5}{'FN':>5}{'Sure(s)':>10}")
     print("-" * 112)
     for name, m in overall["set_bazli"].items():
         c = m["siniflandirma_matrisi"]
         print(f"{name:<10}{m['toplam_soru']:>6}{m['referansli_soru']:>6}"
               f"{m['exact_match_yuzde']:>8.1f}{m.get('soft_match_yuzde', 0.0):>8.1f}{m['f1_skor_yuzde']:>8.1f}"
+              f"{m.get('rouge_l_yuzde', 0.0):>8.1f}{m.get('semantik_benzerlik_yuzde', 0.0):>8.1f}"
               f"{m['retrieval_dogruluk_yuzde']:>8.1f}{m.get('retrieval_mrr_yuzde', 0.0):>8.1f}"
               f"{c['TP']:>5}{c['TN']:>5}{c['FP']:>5}{c['FN']:>5}{m['ortalama_sure_sn']:>10.2f}")
     print("-" * 112)
     print(f"{'GENEL':<10}{overall['toplam_soru']:>6}{overall['referansli_soru']:>6}"
           f"{g['exact_match_yuzde']:>8.1f}{g['soft_match_yuzde']:>8.1f}{g['f1_skor_yuzde']:>8.1f}"
+          f"{g.get('rouge_l_yuzde', 0.0):>8.1f}{g.get('semantik_benzerlik_yuzde', 0.0):>8.1f}"
           f"{g['retrieval_dogruluk_yuzde']:>8.1f}{g['retrieval_mrr_yuzde']:>8.1f}"
           f"{conf['TP']:>5}{conf['TN']:>5}{conf['FP']:>5}{conf['FN']:>5}{g['ortalama_sure_sn']:>10.2f}")
     print("=" * 112)
