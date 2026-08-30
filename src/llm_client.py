@@ -344,6 +344,55 @@ def _is_not_found_sentence(sentence):
     )
 
 
+# Formul/matematik icerigi isaretleri. Bu karakterleri tasiyan bir metin,
+# kelime sayisi ne olursa olsun "icerik" sayilir ve asla ret sanilmaz.
+_MATH_CONTENT_RE = re.compile(r"[∫∞∑∏√±≤≥≠∈∩∪δωπ]|\\int|\\infty|\\omega|\^|_\{|=")
+
+# Bir cumlenin SONUNA iliştirilmiş ret cumlecigi ("… dt Bu bilgi dokümanlarda
+# bulunamadı."). Modelin cevabi verip ardindan refleksle ret eklemesi sik.
+_TRAILING_REFUSAL_CLAUSE_RE = re.compile(
+    r"[\s,;:]*(?:bu\s+bilgi|bu\s+konu\w*|ba[gğ]lamda|baglamda|dok[uü]man\w*|"
+    r"dokuman\w*|belge\w*|metin\w*|ancak\s+bu|fakat\s+bu)"
+    r"[^.!?]*?bulunamad[ıi][^.!?]*[.!?]?\s*$",
+    re.IGNORECASE,
+)
+
+
+# Ret cumlesinin KALIP kelimeleri. Bunlar cumlede gecse de "icerik" sayilmaz;
+# bir ret beyani bu kelimelerden kurulur ("Bağlamda bu konuya dair bilgi ...").
+_REFUSAL_FRAME_WORDS = {
+    "bu", "bir", "bilgi", "bilgiler", "veri", "veriler", "konu", "konuya",
+    "konuda", "konusunda", "dair", "iliskin", "ilişkin", "ait", "hakkinda",
+    "hakkında", "baglamda", "bağlamda", "baglam", "bağlam", "dokuman",
+    "doküman", "dokumanda", "dokümanda", "dokumanlarda", "dokümanlarda",
+    "belge", "belgede", "metin", "metinde", "herhangi", "soruyla", "soruya",
+    "ilgili", "verilen", "mevcut", "net", "dogrudan", "doğrudan", "acikca",
+    "açıkça", "ve", "ile", "icin", "için", "da", "de", "ise", "olarak",
+}
+
+
+def _refusal_prefix_content(sentence):
+    """
+    Ret ifadesinden ONCE gelen ASIL icerik.
+
+    Kalip kelimeler ("bu", "bilgi", "bağlamda", "konuya", "dair"...) elenir;
+    geriye kalan, cumlenin gercekten tasidigi bilgidir. Bos kaliyorsa cumle
+    salt bir ret beyanidir.
+    """
+    m = _NOT_FOUND_RE.search(sentence)
+    if not m:
+        return ""
+    prefix = sentence[:m.start()]
+    kept = [w for w in re.findall(r"\S+", prefix)
+            if _normalize_tr_word(w) not in _REFUSAL_FRAME_WORDS]
+    return " ".join(kept).strip(" ,;:")
+
+
+def _normalize_tr_word(word):
+    """Kelimeyi noktalamadan arindirip kucuk harfe indirir (kalip karsilastirmasi)."""
+    return re.sub(r"[^\w]", "", word, flags=re.UNICODE).replace("I", "ı").lower()
+
+
 def _is_pure_refusal_sentence(sentence):
     """
     Cümle YALNIZCA bir ret beyanından mı ibaret?
@@ -351,14 +400,48 @@ def _is_pure_refusal_sentence(sentence):
     "içeriyor mu" yetmez: model sık sık ret ifadesini gerçek bir cevabın
     başlangıcı olarak kullanıyor ("Doğrudan bir formül bulunamadı, ancak
     örnekler incelendiğinde…"). Böyle bir cümleyi kırpmak bilgi kaybıdır.
-    Saf ret sayılması için cümle (a) ret ifadesi içermeli, (b) kısa olmalı ve
-    (c) devamında içerik geldiğini gösteren bir karşıtlık bağlacı taşımamalı.
+    Saf ret sayılması için cümle (a) ret ifadesi içermeli, (b) kısa olmalı,
+    (c) karşıtlık bağlacı taşımamalı ve (d) ret ifadesinden ÖNCE gerçek bir
+    içerik barındırmamalı.
+
+    (d) koşulu #61 regresyonundan geldi: model
+        "-∞ x(t)e^(-jωt) dt Bu bilgi dokümanlarda bulunamadı."
+    üretiyordu. Matematik metninde cümle sonu noktalaması olmadığı için tamamı
+    TEK cümle sayılıyor, 9 kelimeyle eşiğin altında kalıyor ve formül dahil her
+    şey silinip yerine generic ret mesajı konuyordu.
     """
     if not _is_not_found_sentence(sentence):
         return False
     if _CONTRAST_RE.search(sentence):
         return False
-    return _word_count(sentence) <= _PURE_REFUSAL_MAX_WORDS
+    if _word_count(sentence) > _PURE_REFUSAL_MAX_WORDS:
+        return False
+    # (d) Ret ifadesinden once anlamli icerik (formul ya da 2+ kelime) varsa
+    # bu bir ret degil, "cevap + gereksiz ret kuyrugu"dur.
+    prefix = _refusal_prefix_content(sentence)
+    if _MATH_CONTENT_RE.search(prefix) or _word_count(prefix) >= 2:
+        return False
+    return True
+
+
+def _strip_trailing_refusal_clause(sentence):
+    """
+    Icerikli bir cumlenin sonuna iliştirilmiş ret cumlecigini atar.
+
+    "-∞ x(t)e^(-jωt) dt Bu bilgi dokümanlarda bulunamadı."
+        -> "-∞ x(t)e^(-jωt) dt"
+    Geriye anlamli bir sey kalmiyorsa cumleye DOKUNULMAZ.
+    """
+    if not _is_not_found_sentence(sentence) or _is_pure_refusal_sentence(sentence):
+        return sentence
+    # NOT: bastaki isaret matematikte anlamlidir ("-∞"), bu yuzden yalnizca
+    # sondaki noktalama ve bosluk temizlenir; bas tarafta sadece bosluk.
+    stripped = _TRAILING_REFUSAL_CLAUSE_RE.sub("", sentence).rstrip(" ,;:-–—").lstrip()
+    if not stripped:
+        return sentence
+    if not (_MATH_CONTENT_RE.search(stripped) or _word_count(stripped) >= 2):
+        return sentence
+    return stripped
 
 
 def _split_sentences(text):
@@ -403,9 +486,15 @@ def _trim_after_not_found(answer):
 
     if not kept:
         return NOT_FOUND_ANSWER
-    if len(kept) == len(sentences):
-        return answer  # 3. Dokunma — orijinal biçimlendirme korunur.
-    return " ".join(kept).strip()
+
+    # 3. Icerikli son cumleye YAPISIK ret kuyrugu varsa yalniz o cumlecik atilir
+    #    (cumle sonu noktalamasi olmayan formul metinlerinde bu tek yol).
+    cleaned = list(kept)
+    cleaned[-1] = _strip_trailing_refusal_clause(cleaned[-1])
+
+    if cleaned == sentences:
+        return answer  # 4. Dokunma — orijinal biçimlendirme korunur.
+    return " ".join(cleaned).strip()
 
 
 # Modelin uydurmaya en yatkın olduğu para birimi ifadeleri.
