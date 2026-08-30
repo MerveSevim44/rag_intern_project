@@ -317,11 +317,48 @@ _NOT_FOUND_RE = re.compile(r"bulunamad[ıi]", re.IGNORECASE)
 _NOT_FOUND_CONTEXT_RE = re.compile(r"doküman|dokuman|belge|bağlam|baglam|metin", re.IGNORECASE)
 
 
+# Ret cümlesinin ardından GERÇEK içerik geldiğini gösteren karşıtlık bağlaçları.
+# "…formül bulunamadı ANCAK örnekler incelendiğinde…" → bu bir ret değil, cevaptır.
+_CONTRAST_RE = re.compile(
+    r"\b(ancak|fakat|ama|lakin|l[âa]kin|yaln[ıi]zca|bununla birlikte|"
+    r"ne var ki|buna ra[gğ]men|yine de|ancak ki|d[oö]lay[ıi]s[ıi]yla)\b",
+    re.IGNORECASE,
+)
+
+# Saf ret cümlesi için üst sınır. "Bu bilgi dokümanlarda bulunamadı." 4 kelime;
+# gerçek bir açıklama taşıyan cümle pratikte bunun çok üstünde.
+_PURE_REFUSAL_MAX_WORDS = 12
+
+# Cevabın tamamı bu kelime sayısının altındaysa "içerik yok" kabul edilir.
+_TRIM_MAX_TOTAL_WORDS = 20
+
+
+def _word_count(text):
+    return len(re.findall(r"\w+", text or "", re.UNICODE))
+
+
 def _is_not_found_sentence(sentence):
-    """Bir cümle 'bağlamda bilgi yok' beyanı mı?"""
+    """Bir cümle 'bağlamda bilgi yok' beyanı mı? (ret ifadesi İÇERİYOR mu)"""
     return bool(
         _NOT_FOUND_RE.search(sentence) and _NOT_FOUND_CONTEXT_RE.search(sentence)
     )
+
+
+def _is_pure_refusal_sentence(sentence):
+    """
+    Cümle YALNIZCA bir ret beyanından mı ibaret?
+
+    "içeriyor mu" yetmez: model sık sık ret ifadesini gerçek bir cevabın
+    başlangıcı olarak kullanıyor ("Doğrudan bir formül bulunamadı, ancak
+    örnekler incelendiğinde…"). Böyle bir cümleyi kırpmak bilgi kaybıdır.
+    Saf ret sayılması için cümle (a) ret ifadesi içermeli, (b) kısa olmalı ve
+    (c) devamında içerik geldiğini gösteren bir karşıtlık bağlacı taşımamalı.
+    """
+    if not _is_not_found_sentence(sentence):
+        return False
+    if _CONTRAST_RE.search(sentence):
+        return False
+    return _word_count(sentence) <= _PURE_REFUSAL_MAX_WORDS
 
 
 def _split_sentences(text):
@@ -333,12 +370,18 @@ def _trim_after_not_found(answer):
     """
     "Bulunamadı" beyanının yol açtığı iki bozulmayı düzeltir:
 
-    1. Cevap "bulunamadı" ile BAŞLIYORSA → gerçekten bilgi yok demektir;
-       arkasına eklenmiş her şey (modelin kendi genel bilgisi) atılır ve
-       geriye tek cümle kalır.
-    2. Normal bir cevabın SONUNA "bulunamadı" iliştirilmişse → model yanlışlıkla
-       eklemiştir; sadece o son cümle(ler) silinir, asıl cevap KORUNUR.
+    1. Cevap SAF bir ret cümlesiyle BAŞLIYOR *ve* cevabın tamamı kısaysa
+       (< _TRIM_MAX_TOTAL_WORDS kelime) → gerçekten bilgi yok demektir;
+       arkasına eklenmiş her şey (modelin kendi genel bilgisi) atılır.
+    2. Normal bir cevabın SONUNA saf bir ret cümlesi iliştirilmişse → model
+       yanlışlıkla eklemiştir; sadece o son cümle(ler) silinir, asıl cevap KORUNUR.
     3. Cevap tamamen normalse → dokunulmaz.
+
+    ÖNEMLİ: "bulunamadı" kelimesinin GEÇMESİ tek başına kırpma sebebi değildir.
+    Hem "cümle yalnızca retten mi ibaret" hem de "toplam cevap kısa mı" koşulu
+    birlikte aranır — yalnızca uzunluğa bakmak kısa ama gerçek bilgi taşıyan
+    cevapları, yalnızca kelimeye bakmak ise "…bulunamadı, ancak …" biçimindeki
+    gerçek cevapları yok ediyordu.
     """
     if not isinstance(answer, str):
         return answer
@@ -347,13 +390,15 @@ def _trim_after_not_found(answer):
     if not sentences:
         return answer
 
-    # 1. Baştaki "bulunamadı" → sadece o cümle kalır.
-    if _is_not_found_sentence(sentences[0]):
+    # 1. Baştaki SAF ret + kısa toplam cevap → gerçekten bilgi yok.
+    #    Cevap uzunsa ret cümlesinden sonra içerik var demektir; dokunma.
+    if (_is_pure_refusal_sentence(sentences[0])
+            and _word_count(answer) < _TRIM_MAX_TOTAL_WORDS):
         return NOT_FOUND_ANSWER
 
-    # 2. Sondaki gereksiz "bulunamadı" cümleleri atılır.
+    # 2. Sondaki gereksiz SAF ret cümleleri atılır (içerik taşıyanlar korunur).
     kept = list(sentences)
-    while kept and _is_not_found_sentence(kept[-1]):
+    while kept and _is_pure_refusal_sentence(kept[-1]):
         kept.pop()
 
     if not kept:

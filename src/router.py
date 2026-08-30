@@ -132,8 +132,6 @@ COMPLEXITY_SIGNALS = [
     "uzerinde",
     "altında",
     "altinda",
-    "fark",
-    "farkı",
     "kaç profil",
     "kac profil",
     "kaç farklı",
@@ -204,6 +202,26 @@ COLUMN_TR_ALIASES: Dict[str, List[str]] = {
     "count": ["sayı", "sayi", "adet"],
     "total": ["toplam"],
 }
+
+# ─── 5b. Jenerik / Tek Başına Anlamsız Kelimeler ───
+# Bu kelimeler bir kolonun Türkçe karşılığı olsa bile, gündelik Türkçede
+# veri setiyle ilgisiz cümlelerde de sık geçer ("hesaplama karmaşıklığı",
+# "dilbilgisi", "saatin 03.13'e gelmesi", "fark etmesi"...). Tek başlarına
+# DATASET SİNYALİ SAYILMAZLAR; yalnızca soruda net bir veri-seti bağlamı
+# (tablo, veri seti, profil, kolon, istatistik, .json ...) varsa sayılırlar.
+EXCLUDED_GENERIC_WORDS: Set[str] = {
+    "dil", "durum", "tip", "tur", "cesit", "fark", "hesap", "saat", "zaman",
+    "gun", "ay", "yil", "tarih", "ad", "isim", "il", "sehir", "ulke", "adet",
+    "sayi", "puan", "skor", "detay", "adres", "mail", "telefon", "sure",
+    "dakika", "deneyim", "toplam", "miktar", "sinif", "statu",
+}
+
+# Zayıf (jenerik) eşleşmeleri geçerli kılan net veri-seti bağlam sinyalleri.
+DATASET_CONTEXT_SIGNALS = [
+    r"veri\s*seti", r"veri\s*kumesi", r"dataset", r"tablo", r"kolon", r"sutun",
+    r"satir", r"kayit", r"profil", r"istatistik", r"alan[ıi]nda", r"alani",
+    r"\.json", r"\.csv", r"dosyas[ıi]nda",
+]
 
 # Şema verilmediğinde ya da şema eşleşmesi olmadığında devreye giren, veri-seti-üstü genel ipuçları.
 # Tek başına yönlendirme yapmaz; yalnızca dataset sinyali olarak sayılır.
@@ -325,19 +343,47 @@ def _column_variants(column: str) -> List[str]:
     return out
 
 
+def has_dataset_context(question: str) -> bool:
+    """Soruda net bir veri-seti bağlamı (tablo/veri seti/profil/kolon/.json ...) var mı?"""
+    q_norm = _normalize(question)
+    return any(re.search(pat, q_norm, re.IGNORECASE) for pat in DATASET_CONTEXT_SIGNALS)
+
+
+def _detect_schema_matches_split(question: str, df_schema: Any = None):
+    """
+    Şema eşleşmelerini GÜÇLÜ ve ZAYIF olarak ayırır.
+
+    * Güçlü: eşleşme gerçek kolon adı üzerinden ya da jenerik olmayan bir
+      Türkçe alias üzerinden geldi ("weeklyAvailability", "sektör", "bakiye").
+    * Zayıf: eşleşme EXCLUDED_GENERIC_WORDS içindeki jenerik bir alias'tan
+      geldi ("dil", "hesap", "saat"). Bunlar tek başına dataset sinyali sayılmaz.
+    """
+    q_norm = _normalize(question)
+    strong: List[str] = []
+    weak: List[str] = []
+    for col in _iter_schema_columns(df_schema):
+        for variant in _column_variants(col):
+            if not _contains_token(q_norm, variant):
+                continue
+            v_norm = _normalize(variant)
+            label = col if v_norm == _normalize(col) else f"{col}~{variant}"
+            is_alias = v_norm != _normalize(col)
+            if is_alias and v_norm in EXCLUDED_GENERIC_WORDS:
+                weak.append(label)
+                continue          # aynı kolon için daha güçlü bir varyant aranmaya devam
+            strong.append(label)
+            break
+    return strong, weak
+
+
 def detect_schema_matches(question: str, df_schema: Any = None) -> List[str]:
     """
     Soru metni ile şema kolonları (ve Türkçe karşılıkları) arasındaki eşleşmeleri döner.
     Dönen öğeler "col" veya "col~alias" biçimindedir (loglamada okunabilir olsun diye).
+    Geriye dönük uyumluluk için güçlü + zayıf tüm eşleşmeleri birlikte verir.
     """
-    q_norm = _normalize(question)
-    matches: List[str] = []
-    for col in _iter_schema_columns(df_schema):
-        for variant in _column_variants(col):
-            if _contains_token(q_norm, variant):
-                matches.append(col if _normalize(variant) == _normalize(col) else f"{col}~{variant}")
-                break
-    return matches
+    strong, weak = _detect_schema_matches_split(question, df_schema)
+    return strong + weak
 
 
 def matches_simple_pattern(question: str) -> bool:
@@ -369,11 +415,20 @@ def _analyze(question: str, df_schema: Any = None) -> Dict[str, Any]:
     matched_schema = [p for p in SCHEMA_DEFINITION_PATTERNS if re.search(p, q_low, re.IGNORECASE)]
     matched_complexity = [s for s in COMPLEXITY_SIGNALS if _contains_token(q_norm, s)]
 
-    schema_matches = detect_schema_matches(q_raw, df_schema)
+    strong_schema, weak_schema = _detect_schema_matches_split(q_raw, df_schema)
+    schema_matches = strong_schema + weak_schema
     matched_generic = [p for p in GENERIC_DATASET_INDICATORS if re.search(p, q_norm, re.IGNORECASE)]
+    dataset_context = has_dataset_context(q_raw)
 
     has_complexity = bool(matched_complexity)
-    has_dataset_signal = bool(schema_matches) or bool(matched_generic)
+    # Zayıf (jenerik alias) eşleşmeler yalnızca net bir veri-seti bağlamı varsa sayılır:
+    # "FFT'nin hesaplama karmaşıklığı" sorusu account_id~hesap yüzünden pandas
+    # sandbox'ına gitmesin diye.
+    has_dataset_signal = (
+        bool(strong_schema)
+        or bool(matched_generic)
+        or (bool(weak_schema) and dataset_context)
+    )
 
     # ── Karar Zinciri ──
     if matched_simple:
@@ -416,6 +471,9 @@ def _analyze(question: str, df_schema: Any = None) -> Dict[str, Any]:
             "generic_dataset": matched_generic,
         },
         "matched_schema_columns": schema_matches,
+        "strong_schema_columns": strong_schema,
+        "weak_schema_columns": weak_schema,
+        "dataset_context": dataset_context,
         "schema_columns_seen": _iter_schema_columns(df_schema),
     }
 

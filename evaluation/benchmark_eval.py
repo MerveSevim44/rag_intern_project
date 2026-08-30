@@ -134,6 +134,128 @@ def compute_soft_match(prediction: str, ground_truths: list[str]) -> float:
     return 0.0
 
 
+# ─────────────────────────────────────────────────────────────────────────────
+# EK METRİKLER — ROUGE-L ve Semantik Benzerlik
+#
+# Katı EM/F1 korunur (geriye dönük kıyas için), yanına iki metrik eklenir:
+#   * ROUGE-L : en uzun ortak alt dizi (LCS) tabanlı F-ölçüsü. Kelime sırasını
+#               dikkate alır, birebir eşleşme dayatmaz.
+#   * Semantik: cevabın ANLAMCA doğruluğu. Türkçe eklemeli bir dil olduğu için
+#               ("kümesinin"/"kümesi"/"küme") token eşleşmesi haksız düşük skor
+#               veriyor; embedding karşılaştırması bunu telafi eder.
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _lcs_length(a: list, b: list) -> int:
+    """İki token dizisi arasındaki en uzun ortak alt dizinin (LCS) uzunluğu."""
+    if not a or not b:
+        return 0
+    prev = [0] * (len(b) + 1)
+    for x in a:
+        cur = [0]
+        for j, y in enumerate(b):
+            cur.append(prev[j] + 1 if x == y else max(cur[j], prev[j + 1]))
+        prev = cur
+    return prev[-1]
+
+
+def compute_rouge_l(prediction: str, ground_truths: list[str]) -> float:
+    """
+    ROUGE-L F-ölçüsü (0.0–1.0), referanslar arasından EN İYİsi alınır.
+
+    NOT: `rouge_score` paketi yerine yerel LCS kullanılıyor. Paketin varsayılan
+    tokenizer'ı metni `[^a-z0-9]` ile filtreler; bu Türkçe karakterleri (ç, ğ,
+    ı, ö, ş, ü) tamamen siler ve "kümesinin" -> "k mesinin" gibi bozulmalar
+    üretir. Buradaki sürüm projenin kendi `tokenize_tr` normalizasyonunu
+    kullanır, böylece ROUGE-L ile EM/F1 aynı token uzayında karşılaştırılır.
+    """
+    pred_tokens = tokenize_tr(prediction)
+    if not pred_tokens:
+        return 0.0
+
+    best = 0.0
+    for gt in ground_truths:
+        gt_tokens = tokenize_tr(gt)
+        if not gt_tokens:
+            continue
+        lcs = _lcs_length(pred_tokens, gt_tokens)
+        if lcs == 0:
+            continue
+        prec = lcs / len(pred_tokens)
+        rec = lcs / len(gt_tokens)
+        f = (2 * prec * rec) / (prec + rec)
+        best = max(best, f)
+    return best
+
+
+# Embedding tabanlı semantik benzerlik. Projenin retrieval'da kullandığı
+# bge-m3 modeli tekrar kullanılır: multilingual olduğu için Türkçe'yi destekler
+# ve ölçüm sistemin kendi embedding kalitesiyle tutarlı olur.
+_SEMANTIC_AVAILABLE = None
+_EMBED_CACHE: dict = {}
+
+
+def _semantic_backend_ready() -> bool:
+    """bge-m3 embedding servisi (Ollama) erişilebilir mi? Tek sefer denenir."""
+    global _SEMANTIC_AVAILABLE
+    if _SEMANTIC_AVAILABLE is not None:
+        return _SEMANTIC_AVAILABLE
+    try:
+        _embed_text("test")
+        _SEMANTIC_AVAILABLE = True
+    except Exception as e:
+        print(f"UYARI: Semantik benzerlik devre disi ({type(e).__name__}: {e}). "
+              f"EM/F1/ROUGE-L etkilenmez.")
+        _SEMANTIC_AVAILABLE = False
+    return _SEMANTIC_AVAILABLE
+
+
+def _embed_text(text: str):
+    """Metni bge-m3 ile vektöre çevirir (aynı metin tekrar gelirse cache'ten)."""
+    key = text.strip()
+    if key in _EMBED_CACHE:
+        return _EMBED_CACHE[key]
+    import ollama
+    from embedder import EMBED_MODEL, OLLAMA_KEEP_ALIVE
+    resp = ollama.embeddings(model=EMBED_MODEL, prompt=key,
+                             keep_alive=OLLAMA_KEEP_ALIVE)
+    vec = resp["embedding"]
+    _EMBED_CACHE[key] = vec
+    return vec
+
+
+def compute_semantic_similarity(prediction: str, ground_truths: list[str]) -> float:
+    """
+    Cevap ile referanslar arasındaki en yüksek kosinüs benzerliği (0.0–1.0).
+
+    Embedding servisi yoksa 0.0 döner ve metrik rapordan düşülür — bu durumda
+    EM/F1/ROUGE-L etkilenmez.
+    """
+    if not prediction or not prediction.strip() or not ground_truths:
+        return 0.0
+    if not _semantic_backend_ready():
+        return 0.0
+    try:
+        import numpy as _np
+        pv = _np.array(_embed_text(prediction), dtype=_np.float32)
+        pn = _np.linalg.norm(pv)
+        if pn == 0:
+            return 0.0
+        best = 0.0
+        for gt in ground_truths:
+            if not gt or not gt.strip():
+                continue
+            gv = _np.array(_embed_text(gt), dtype=_np.float32)
+            gn = _np.linalg.norm(gv)
+            if gn == 0:
+                continue
+            best = max(best, float(_np.dot(pv, gv) / (pn * gn)))
+        # Kosinüs [-1,1] aralığında; negatif benzerlik "alakasız" demektir.
+        return max(0.0, min(1.0, best))
+    except Exception as e:
+        print(f"UYARI: Semantik benzerlik hesaplanamadi: {e}")
+        return 0.0
+
+
 def parse_sources(found_src: str) -> list[str]:
     """'a.pdf (sayfa 3); b.json ($.x)' -> ['a.pdf', 'b.json'] (sıra korunur)."""
     out = []

@@ -121,9 +121,20 @@ def run_single_test(llm, question, top_k=5, use_reranker=True, retries=1):
     chunks = get_top_chunks(question, top_k=top_k, use_reranker=use_reranker, llm=llm)
     context = build_context(chunks)
 
+    # app.py ile BİREBİR aynı mantık: META_QUERY rotasında retrieval, chunk'lara
+    # "açık bilgi vs. çıkarım" talimatını iliştirir. Bu talimat synthesizer'a
+    # geçirilmezse hesaplanmış/sentezlenmiş context blokları için LLM app.py'dan
+    # farklı davranır ve benchmark skorları yapay olarak düşer.
+    extra_instruction = next(
+        (c.get("synthesizer_instruction") for c in chunks
+         if c.get("synthesizer_instruction")),
+        None,
+    )
+
     for attempt in range(retries + 1):
         try:
-            answer = ask(llm, context, question)
+            answer = ask(llm, context, question,
+                         extra_instruction=extra_instruction)
             break
         except Exception as e:
             if attempt == retries:
