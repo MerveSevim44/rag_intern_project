@@ -1,0 +1,183 @@
+{
+  "test_seti": "GENEL (tum setler)",
+  "toplam_soru": 100,
+  "referansli_soru": 100,
+  "referanssiz_soru": 0,
+  "genel_metrikler": {
+    "exact_match_yuzde": 5.0,
+    "soft_match_yuzde": 8.0,
+    "f1_skor_yuzde": 37.19,
+    "rouge_l_yuzde": 34.21,
+    "semantik_benzerlik_yuzde": 72.03,
+    "precision_yuzde": 41.02,
+    "recall_yuzde": 40.1,
+    "retrieval_dogruluk_yuzde": 99.0,
+    "retrieval_mrr_yuzde": 99.0,
+    "retrieval_recall_at_1_yuzde": 99.0,
+    "ortalama_sure_sn": 40.07,
+    "medyan_sure_sn": 32.91,
+    "min_sure_sn": 8.96,
+    "max_sure_sn": 230.32
+  },
+  "siniflandirma_matrisi": {
+    "TP": 72,
+    "TN": 0,
+    "FP": 0,
+    "FN": 28
+  },
+  "kategori_bazli": {
+    "Kolay": {
+      "toplam_soru": 22,
+      "referansli_soru": 22,
+      "exact_match_yuzde": 18.18,
+      "soft_match_yuzde": 27.27,
+      "f1_skor_yuzde": 46.99,
+      "rouge_l_yuzde": 44.69,
+      "semantik_benzerlik_yuzde": 75.88,
+      "precision_yuzde": 48.11,
+      "recall_yuzde": 51.0,
+      "retrieval_dogruluk_yuzde": 100.0,
+      "ortalama_sure_sn": 28.14,
+      "medyan_sure_sn": 23.27,
+      "min_sure_sn": 8.96,
+      "max_sure_sn": 69.93
+    },
+    "Orta": {
+      "toplam_soru": 58,
+      "referansli_soru": 58,
+      "exact_match_yuzde": 1.72,
+      "soft_match_yuzde": 3.45,
+      "f1_skor_yuzde": 40.46,
+      "rouge_l_yuzde": 37.5,
+      "semantik_benzerlik_yuzde": 75.11,
+      "precision_yuzde": 43.3,
+      "recall_yuzde": 43.92,
+      "retrieval_dogruluk_yuzde": 98.28,
+      "ortalama_sure_sn": 39.51,
+      "medyan_sure_sn": 34.64,
+      "min_sure_sn": 13.42,
+      "max_sure_sn": 230.32
+    },
+    "Zor": {
+      "toplam_soru": 20,
+      "referansli_soru": 20,
+      "exact_match_yuzde": 0.0,
+      "soft_match_yuzde": 0.0,
+      "f1_skor_yuzde": 16.95,
+      "rouge_l_yuzde": 13.16,
+      "semantik_benzerlik_yuzde": 58.87,
+      "precision_yuzde": 26.59,
+      "recall_yuzde": 17.02,
+      "retrieval_dogruluk_yuzde": 100.0,
+      "ortalama_sure_sn": 54.85,
+      "medyan_sure_sn": 37.13,
+      "min_sure_sn": 18.37,
+      "max_sure_sn": 209.65
+    }
+  },
+  "dahil_edilen_setler": [
+    "test_1",
+    "test_2",
+    "test_3",
+    "test_4"
+  ],
+  "eksik_setler": [],
+  "set_bazli": {
+    "test_1": {
+      "toplam_soru": 30,
+      "referansli_soru": 30,
+      "exact_match_yuzde": 13.33,
+      "soft_match_yuzde": 20.0,
+      "f1_skor_yuzde": 53.92,
+      "rouge_l_yuzde": 51.01,
+      "semantik_benzerlik_yuzde": 78.41,
+      "precision_yuzde": 53.69,
+      "recall_yuzde": 60.49,
+      "retrieval_dogruluk_yuzde": 100.0,
+      "retrieval_mrr_yuzde": 100.0,
+      "retrieval_recall_at_1_yuzde": 100.0,
+      "ortalama_sure_sn": 20.87,
+      "medyan_sure_sn": 20.91,
+      "min_sure_sn": 13.42,
+      "max_sure_sn": 27.91,
+      "siniflandirma_matrisi": {
+        "TP": 25,
+        "TN": 0,
+        "FP": 0,
+        "FN": 5
+      }
+    },
+    "test_2": {
+      "toplam_soru": 30,
+      "referansli_soru": 30,
+      "exact_match_yuzde": 0.0,
+      "soft_match_yuzde": 3.33,
+      "f1_skor_yuzde": 28.17,
+      "rouge_l_yuzde": 25.06,
+      "semantik_benzerlik_yuzde": 69.02,
+      "precision_yuzde": 30.44,
+      "recall_yuzde": 31.47,
+      "retrieval_dogruluk_yuzde": 100.0,
+      "retrieval_mrr_yuzde": 100.0,
+      "retrieval_recall_at_1_yuzde": 100.0,
+      "ortalama_sure_sn": 65.94,
+      "medyan_sure_sn": 47.45,
+      "min_sure_sn": 8.96,
+      "max_sure_sn": 230.32,
+      "siniflandirma_matrisi": {
+        "TP": 20,
+        "TN": 0,
+        "FP": 0,
+        "FN": 10
+      }
+    },
+    "test_3": {
+      "toplam_soru": 30,
+      "referansli_soru": 30,
+      "exact_match_yuzde": 3.33,
+      "soft_match_yuzde": 3.33,
+      "f1_skor_yuzde": 35.5,
+      "rouge_l_yuzde": 32.0,
+      "semantik_benzerlik_yuzde": 73.43,
+      "precision_yuzde": 43.42,
+      "recall_yuzde": 34.94,
+      "retrieval_dogruluk_yuzde": 96.67,
+      "retrieval_mrr_yuzde": 96.67,
+      "retrieval_recall_at_1_yuzde": 96.67,
+      "ortalama_sure_sn": 34.52,
+      "medyan_sure_sn": 37.27,
+      "min_sure_sn": 20.99,
+      "max_sure_sn": 52.52,
+      "siniflandirma_matrisi": {
+        "TP": 23,
+        "TN": 0,
+        "FP": 0,
+        "FN": 7
+      }
+    },
+    "test_4": {
+      "toplam_soru": 10,
+      "referansli_soru": 10,
+      "exact_match_yuzde": 0.0,
+      "soft_match_yuzde": 0.0,
+      "f1_skor_yuzde": 19.12,
+      "rouge_l_yuzde": 17.93,
+      "semantik_benzerlik_yuzde": 57.73,
+      "precision_yuzde": 27.52,
+      "recall_yuzde": 20.23,
+      "retrieval_dogruluk_yuzde": 100.0,
+      "retrieval_mrr_yuzde": 100.0,
+      "retrieval_recall_at_1_yuzde": 100.0,
+      "ortalama_sure_sn": 36.73,
+      "medyan_sure_sn": 36.99,
+      "min_sure_sn": 31.15,
+      "max_sure_sn": 40.59,
+      "siniflandirma_matrisi": {
+        "TP": 4,
+        "TN": 0,
+        "FP": 0,
+        "FN": 6
+      }
+    }
+  }
+}
