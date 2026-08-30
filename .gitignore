@@ -165,3 +165,6 @@ rag.db-shm
 rag.db-wal
 
 /microsoft_
+# Gecici ve arsivlenmis degerlendirme ciktilari
+report_tmp/
+archive/

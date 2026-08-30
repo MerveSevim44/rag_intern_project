@@ -335,19 +335,97 @@ def compute_token_f1(prediction: str, ground_truths: list[str]) -> tuple[float, 
     return best_f1, best_prec, best_rec
 
 
+# Ret beyani kaliplari (substring taramasi — GEVSEK).
+_REFUSAL_MARKERS = [
+    "dokumanlarda bulunamadi", "bilgi dokumanlarda", "bulunamadi",
+    "bulunmamaktadir", "bulunmuyor", "yer almamaktadir", "yer almiyor",
+    "gecmemektedir", "belirtilmemistir", "mevcut degildir",
+]
+
+# Ret cumlesini KURAN kalip kelimeler. Bunlarin disinda kalan her sozcuk
+# "icerik" sayilir. src/llm_client.py icindeki _REFUSAL_FRAME_WORDS ile
+# BILINCLI olarak ayni mantiga dayanir: uretim tarafinda "bu bir ret mi"
+# sorusuna verilen cevap ile degerlendirme tarafindaki cevap ayrisirsa,
+# halusinasyon sayimi sessizce yaniltici olur.
+_EVAL_REFUSAL_FRAME_WORDS = {
+    "bu", "bir", "bilgi", "bilgiler", "bilgisi", "veri", "veriler", "konu",
+    "konuya", "konuda", "konusunda", "dair", "iliskin", "ait", "hakkinda",
+    "baglamda", "baglam", "dokuman", "dokumanda", "dokumanlarda", "dokumanlar",
+    "belge", "belgede", "metin", "metinde", "herhangi", "soruyla", "soruya",
+    "sorunun", "ilgili", "verilen", "mevcut", "net", "dogrudan", "acikca",
+    "ve", "ile", "icin", "da", "de", "ise", "olarak", "cevabi", "cevap",
+    "yoktur", "yok", "degildir", "ancak", "fakat", "maalesef", "uzgunum",
+    "saglanan", "sunulan", "icerisinde", "icinde", "uzerinde", "kaynaklarda",
+    "kaynak", "veri", "setinde", "seti", "dosyada", "dosyasinda",
+}
+
+# Matematik/sembolik icerik — kelime sayaci bunlari goremez ama bunlar icerik.
+_EVAL_MATH_RE = re.compile(r"[∫∞∑∏√±≤≥≠∈∩∪δωπ]|\\int|\\infty|\\omega")
+
+
+def _fold_tr(text: str) -> str:
+    """Turkce aksanlari duzler: 'dokümanlarda' ile 'dokumanlarda' esitlensin.
+
+    normalize_text_tr aksanlari KORUR (EM/F1 icin dogru davranis), bu yuzden
+    kalip karsilastirmasi ayrica katlanmis bicim uzerinden yapilir.
+    """
+    out = (text or "").lower()
+    for a, b in (("ı", "i"), ("ü", "u"), ("ö", "o"), ("ş", "s"),
+                 ("ğ", "g"), ("ç", "c"), ("â", "a"), ("î", "i"), ("û", "u")):
+        out = out.replace(a, b)
+    return out
+
+
+def _refusal_residual_content(text: str) -> str:
+    """
+    Ret kaliplarini ve kalip kelimeleri dusurdukten sonra GERIYE KALAN icerik.
+
+    Bos donerse cevap salt bir rettir. Doluysa model ret ifadesi kullanmis
+    olsa bile fiilen bir seyler iddia etmistir.
+    """
+    norm = _fold_tr(normalize_text_tr(text or ""))
+    for marker in _REFUSAL_MARKERS:
+        norm = norm.replace(marker, " ")
+    # "bulunamadi" gibi ekli varyantlari da temizle
+    norm = re.sub(r"\bbulunama\w*|\bbulunmam\w*|\bbelirtilmem\w*", " ", norm)
+    kept = [w for w in norm.split() if w not in _EVAL_REFUSAL_FRAME_WORDS]
+    return " ".join(kept).strip()
+
+
 def check_is_not_found(text: str) -> bool:
-    """Modelin 'dokümanlarda bulunamadı' yanıtı verip vermediğini tespit eder."""
-    norm = normalize_text_tr(text)
-    patterns = [
-        "dokumanlarda bulunamadi",
-        "dokümanlarda bulunamadı",
-        "bilgi dokumanlarda",
-        "bulunamadi",
-        "bulunmamaktadir",
-        "bilgi yer almamaktadir",
-        "metinde gecmemektedir",
-    ]
-    return any(p in norm for p in patterns)
+    """
+    Cevap GERCEK bir ret beyani mi?
+
+    DIKKAT — bu fonksiyonun eski hali yalnizca "bulunamadi" alt dizgisini
+    ariyordu. O tanimla, "Dogrudan bulunamadi, ancak muhtemelen ACC-124
+    hesabinin bakiyesi 3.200 USD'dir." gibi bir cevap RET sayilir ve
+    halusinasyon (FP) olarak degil dogru negatif (TN) olarak kaydedilirdi —
+    yani halusinasyon orani oldugundan DUSUK gorunurdu. Negatif test setinin
+    tum amaci tam olarak bunu olcmek oldugu icin tanim siki tutulmustur:
+    cevapta ret ifadesi GECMESI yetmez, cevabin ret ifadesinden BASKA bir sey
+    iddia etmemesi de gerekir.
+    """
+    if not text or not text.strip():
+        return False
+    norm = _fold_tr(normalize_text_tr(text))
+    if not any(m in norm for m in _REFUSAL_MARKERS):
+        return False
+    residual = _refusal_residual_content(text)
+    if _EVAL_MATH_RE.search(text):
+        return False
+    # Birkac artik sozcuk tolere edilir ("bu konuda ... yer almamaktadir");
+    # 3+ anlamli sozcuk kaldiysa model fiilen bir iddiada bulunmustur.
+    return len(residual.split()) < 3
+
+
+def check_is_not_found_legacy(text: str) -> bool:
+    """Eski (gevsek) tanim — yalnizca karsilastirma/regresyon olcumu icin."""
+    norm = _fold_tr(normalize_text_tr(text))
+    return any(m in norm for m in [
+        "dokumanlarda bulunamadi", "dokümanlarda bulunamadı",
+        "bilgi dokumanlarda", "bulunamadi", "bulunmamaktadir",
+        "bilgi yer almamaktadir", "metinde gecmemektedir",
+    ])
 
 
 def _is_negative_flag(value: str) -> bool:
