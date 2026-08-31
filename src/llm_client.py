@@ -34,6 +34,14 @@ MAX_ANSWER_TOKENS = 600
 # kaynağında kırpıyoruz.
 #
 # Tek bir chunk'ın bağlama girebilecek en fazla karakter sayısı.
+# NOT: 728_profiles.json profil kayitlarinin TAMAMI (728/728) bu siniri asiyor
+# (medyan 2475, maks 2854) ve 'weeklyAvailability' medyan 1382. offsette —
+# yani her kayidin bir kismi context'e hic girmiyor. 2900'e yukseltmek
+# DENENDI ve GERI ALINDI: olculen kazanc marjinaldi (6 sondadan yalnizca
+# birinde yeni alan geldi), buna karsilik test_2'de context ~8700 karaktere
+# cikinca Foundry Local 8GB VRAM'de cokup toparlanamadi (30 sorunun 8'i
+# 'Connection error'). Bu siniri yukseltmek once VRAM/model tarafinda
+# cozum gerektirir.
 MAX_CHUNK_CHARS = 1500
 
 # Tüm chunk'lar birleştirildikten sonraki toplam üst sınır. Chunk sayısı
@@ -661,15 +669,43 @@ def ask(llm, context, question, extra_instruction=None, debug=False):
             "\n\nBu soruyu MUTLAKA cevapla; 'bulunamadı' deyip geçme.",
         ]
     else:
+        # Ret kurali BILINCLI olarak iki dalli. Onceki tek dalli surum ("bilgi
+        # yoksa sus") modeli asiri temkinli yapiyordu: benchmark'taki 25 FN'in
+        # 10'unda dogru chunk context'in ilk 3 sirasindaydi ve cevap acikca
+        # oradaydi, model yine de ret veriyordu (or. #93'te chunk 1 birebir
+        # sorulan cumleydi). Olculen etki (10 vaka): ret 10/10 -> 2/10,
+        # ortalama F1 3.3 -> 15.7. TAM kosuda (100 soru) FN 25 -> 10.
+        #
+        # BEDELI olculdu ve kabul edildi: negatif sette FP 7/32 -> 8/32. Yeni FP
+        # "Yanlis On Kabul" kategorisinde (#224) — (a) dali modeli "elindeki
+        # bilgiyle tahmin et" yonune ittigi icin yanlis oncullu tuzak sorularda
+        # risk artiyor. Izole A/B bunu YAKALAYAMAMISTI (7/32 cikmisti); modelin
+        # nondeterminizmi yuzunden yaniltici oldu. Bu yuzden bu prompt'a
+        # dokunan her degisiklik TAM 32 soruluk negatif setle dogrulanmalidir.
+        #
+        # Son paragraf (uydurma yasagi) bu dengenin tasiyicisi; kaldirilirsa
+        # FP tarafi korunmaz.
         system_parts = [
             base_instruction,
-            "Bağlamda soruyla İLGİLİ HİÇBİR bilgi yoksa, cevabın TAMAMI tek bir "
-            f"cümleden ibaret olmalı: '{NOT_FOUND_ANSWER}' "
-            "Bu cümleyi yazdıktan sonra ÜRETİMİ BİTİR. Tek kelime bile ekleme: "
-            "açıklama yapma, konuyu tanıtma, genel/ansiklopedik bilgi verme, "
-            "kendi bilginle tamamlama yapma, öneride bulunma, soruyu yorumlama. "
-            "Konuyu biliyor olsan bile anlatma — bağlamda yoksa susmalısın. "
-            f"O durumda vereceğin çıktı harfi harfine şudur: {NOT_FOUND_ANSWER}",
+            "ÖNCE şunu değerlendir: bağlamda soruyla ilgili HERHANGİ bir bilgi var mı?\n"
+            "(a) VARSA — kısmi, dolaylı olsa ya da tek bir cümlede geçse bile — o bilgiyi "
+            "kullanarak elindeki EN İYİ cevabı ver. Bağlamdaki ifadelerden çıkarım yaparak "
+            "cevaplayabiliyorsan çıkarımını yap ve neye dayandığını belirt. "
+            "Cevabın eksik ya da kısmi olması, cevap vermemenden İYİDİR. "
+            "'Emin değilim' diye susma; bağlamda dayanak varken ret cümlesini KULLANMA.\n"
+            "(b) Bağlamda soruyla İLGİLİ HİÇBİR şey yoksa, cevabın TAMAMI tek bir cümle "
+            f"olmalı: '{NOT_FOUND_ANSWER}' Bu cümleyi yazdıktan sonra ÜRETİMİ BİTİR; "
+            "açıklama, genel/ansiklopedik bilgi, öneri ekleme.\n"
+            "HER İKİ DURUMDA DA: bağlamda BULUNMAYAN hiçbir şeyi uydurma. Sayı, tarih, "
+            "isim, para birimi ve tutarları YALNIZCA bağlamda açıkça yazıyorsa kullan. "
+            "Bağlamda olmayan bir değeri tahmin etme, sıfır/varsayılan bir değer uydurma.\n"
+            # Kisalik kisiti: (a) dali FN'i 25 -> 10'a dusurdu ama TP cevaplarinin
+            # uzunlugunu medyan 19 -> 47 kelimeye cikardi; token-F1 uzunlugu
+            # cezaladigi icin precision 42.8 -> 26.7 ve F1 38.8 -> 31.4 geriledi.
+            # Uzun cevap ayni zamanda gercek bir kullanici deneyimi maliyeti.
+            "SON OLARAK: cevabı KISA ve ÖZ tut — doğrudan sorulan şeyi söyle. "
+            "Soruyu ya da bağlamı olduğu gibi tekrar etme, giriş cümlesi kurma, "
+            "aynı bilgiyi farklı sözcüklerle yineleme, cevabın sonuna özet ekleme.",
         ]
 
     if not question or not question.strip():
