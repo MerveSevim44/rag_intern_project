@@ -392,7 +392,83 @@ def _refusal_residual_content(text: str) -> str:
     return " ".join(kept).strip()
 
 
-def check_is_not_found(text: str) -> bool:
+# Ret cumlesinden SONRA gelen icerigin "aciklama" mi yoksa "yeni iddia" mi
+# oldugunu ayirmak icin kullanilir.
+#
+# Neden gerekli: saf kelime-sayisi esigi, DURUST bir reddi halusinasyon
+# sayabiliyordu. Negatif set #231'de model "Bulunamadi. Not: veri setinde
+# 2026 guncellemesinde eklenen havaalanlari bulamadim..." dedi — hicbir sey
+# uydurmadi, yalnizca reddini gerekcelendirdi — ama artik 8 icerik kelimesi
+# kaldigi icin FP sayildi. Oysa asil olcmek istedigimiz sey "model VAR OLMAYAN
+# bir sey hakkinda YENI bir iddiada bulundu mu".
+#
+# Ayrim: sorunun KENDISINDE gecen sayi/varlik tekrar edilirse bu bir iddia
+# degil, sorunun yankisidir. Yalnizca soruda GECMEYEN yeni bir sayi, kod ya da
+# ozel isim gercek bir iddiadir.
+
+# Cumle basi sayilan konumdan sonra gelen buyuk harfli sozcuk ozel isim
+# sayilmaz (Turkce'de cumle basi zaten buyuk harfle baslar).
+_SENTENCE_START_RE = re.compile(r"(?:^|[.!?:;]\s*|\n\s*)$")
+
+# Buyuk harfle baslasa bile ozel isim olmayan, sik kullanilan baglayici/
+# soylem sozcukleri.
+_NOT_PROPER_NOUN = {
+    "not", "veri", "bu", "ancak", "fakat", "maalesef", "uzgunum", "dogrudan",
+    "acikca", "ilgili", "sorulan", "belirtilen", "yukaridaki", "boyle",
+    "dokuman", "dokumanda", "dokumanlarda", "belge", "metin", "kaynak",
+    "bilgi", "konu", "evet", "hayir", "ayrica", "ornegin", "yani",
+}
+
+
+def _question_tokens(question: str) -> set:
+    """Sorudaki sozcuk ve sayilarin katlanmis (aksansiz) kumesi."""
+    q = _fold_tr(normalize_text_tr(question or ""))
+    toks = set(q.split())
+    # "acc-124" gibi bilesik kodlarin parcalarini da ekle ki cevapta ayrik
+    # yazildiginda yankı olarak taninabilsin.
+    for t in list(toks):
+        for part in re.split(r"[-_/]", t):
+            if part:
+                toks.add(part)
+    return toks
+
+
+def _new_claims(text: str, question: str) -> list:
+    """
+    Ret ifadesinden arta kalan icerikte, soruda GECMEYEN yeni iddialar.
+
+    Iddia sayilanlar:
+      * yeni sayi (bakiye, tarih, adet...)
+      * yeni alfanumerik kod (ACC-124 gibi)
+      * yeni ozel isim (Hawaii gibi) — cumle basi olmayan buyuk harfli sozcuk
+    """
+    residual = _refusal_residual_content(text)
+    if not residual:
+        return []
+    qtokens = _question_tokens(question)
+
+    claims = []
+    for tok in residual.split():
+        if tok in qtokens:
+            continue                      # soruyu tekrarlamak iddia degil
+        if any(ch.isdigit() for ch in tok):
+            claims.append(tok)            # yeni sayi / kod
+
+    # Ozel isimler icin ORIJINAL buyuk-kucuk harf bilgisi gerekli; residual
+    # kucuk harfli oldugu icin ham metin uzerinden ayrica tararız.
+    raw = text or ""
+    for m in re.finditer(r"[A-ZÇĞİÖŞÜ][\wçğıöşüÇĞİÖŞÜ]+", raw):
+        word = m.group(0)
+        folded = _fold_tr(word.lower())
+        if folded in qtokens or folded in _NOT_PROPER_NOUN:
+            continue
+        if _SENTENCE_START_RE.search(raw[:m.start()]):
+            continue                      # cumle basi -> ozel isim degil
+        claims.append(word)
+    return claims
+
+
+def check_is_not_found(text: str, question: str = None) -> bool:
     """
     Cevap GERCEK bir ret beyani mi?
 
@@ -413,8 +489,15 @@ def check_is_not_found(text: str) -> bool:
     residual = _refusal_residual_content(text)
     if _EVAL_MATH_RE.search(text):
         return False
-    # Birkac artik sozcuk tolere edilir ("bu konuda ... yer almamaktadir");
-    # 3+ anlamli sozcuk kaldiysa model fiilen bir iddiada bulunmustur.
+    # Soru verildiyse: karar kelime SAYISINA degil, arta kalan icerikte YENI
+    # bir iddia (soruda gecmeyen sayi/kod/ozel isim) olup olmadigina bakar.
+    # Boylece gerekceli ama durust bir ret (#231) ret sayilir, "bulunamadi
+    # ancak muhtemelen 3.200 USD'dir" ise iddia sayilir.
+    if question is not None:
+        return len(_new_claims(text, question)) == 0
+
+    # Soru verilmediyse eski (yalnizca uzunluga bakan) davranis korunur —
+    # boylece bu fonksiyonu soru gecirmeden cagiran yerler etkilenmez.
     return len(residual.split()) < 3
 
 
@@ -603,7 +686,10 @@ def evaluate_dataset(
         is_negative = (expected_src == "-") or (doc_is_negative and not has_reference)
         if label_conflict:
             conflicts.append(q_id)
-        pred_is_not_found = check_is_not_found(prediction)
+        # Soru da gecirilir: ret sonrasi kalan icerigin "soruyu tekrar" mi
+        # yoksa "yeni iddia" mi oldugu ancak soruyla karsilastirilarak
+        # ayirt edilebilir (bkz. _new_claims).
+        pred_is_not_found = check_is_not_found(prediction, question)
 
         # Retrieval kontrolü (sıra bilgisiyle -> MRR)
         if is_negative:
