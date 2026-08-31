@@ -36,6 +36,16 @@ def _tr_normalize(text: str) -> str:
     return text
 
 
+# Sandbox'ta filtre 0 satir dondurdugunde synthesizer'a gecilen govde.
+# Sayisal bir sonuc ICERMEZ — amaci modelin "0" gibi bir degeri olgu diye
+# aktarmasini engellemek.
+NO_MATCH_SUMMARY = (
+    "Sorgu veri seti uzerinde calistirildi ancak belirtilen filtreye uyan "
+    "HICBIR KAYIT (0 satir) bulunamadi. Sorulan varlik (hesap, sehir, tarih "
+    "vb.) veri setinde mevcut degil."
+)
+
+
 class TabularDataEngine:
     def __init__(self, data_dir: Path = DATA_DIR):
         self.data_dir = Path(data_dir)
@@ -835,11 +845,20 @@ class TabularDataEngine:
                 exec_info = code_interpreter_with_retry(query, df, llm, max_retries=3)
                 if exec_info.get("success"):
                     raw_res = exec_info["raw_result"]
-                    natural_summary = result_to_natural_language(query, raw_res, llm)
+                    # Filtre HICBIR SATIRLA eslesmediyse sonucu dogal dile
+                    # cevirtmeyiz: result_to_natural_language 0/NaN'i olgusal
+                    # bir cevap gibi ("bakiye 0'dir") sunan adimin ta kendisi.
+                    # Bunun yerine synthesizer'a acik bir "bulunamadi" sinyali
+                    # gecilir (bkz. retrieval.EMPTY_RESULT_INSTRUCTION).
+                    if exec_info.get("empty_result"):
+                        natural_summary = NO_MATCH_SUMMARY
+                    else:
+                        natural_summary = result_to_natural_language(query, raw_res, llm)
                     return {
                         "operation": "code_interpreter_sandbox",
                         "result": raw_res,
                         "summary": natural_summary,
+                        "empty_result": bool(exec_info.get("empty_result")),
                         "code": exec_info.get("code", ""),
                         "attempts": exec_info.get("attempts", 1),
                         "source_file": source_name,

@@ -450,6 +450,57 @@ def call_llm_text(llm: Any, prompt_text: str) -> str:
         raise ValueError(f"Geçersiz LLM nesnesi: {type(llm)}")
 
 
+def _structurally_empty(value: Any) -> bool:
+    """
+    Sonuc YAPISAL olarak bos mu?
+
+    DIKKAT — skaler 0 / 0.0 / False BURAYA GIRMEZ. Onlar gercek birer degerdir
+    ("hesap var ama bakiyesi sifir" mesru bir cevaptir). Burada yalnizca
+    "icinde hicbir sey yok" anlamina gelen yapilar bos sayilir:
+    bos DataFrame/Series/dizi/liste/sozluk/metin, None ve NaN/NaT.
+
+    NaN ozellikle onemli: bos bir filtre uzerinde .mean()/.max() cagrildiginda
+    pandas NaN dondurur — bu "deger sifir" degil, "hesaplanacak satir yok"
+    demektir.
+    """
+    if value is None:
+        return True
+    if isinstance(value, (pd.DataFrame, pd.Series, pd.Index, np.ndarray)):
+        return len(value) == 0
+    if isinstance(value, str):
+        return len(value.strip()) == 0
+    if isinstance(value, (list, tuple, set)):
+        if len(value) == 0:
+            return True
+        return all(_structurally_empty(v) for v in value)
+    if isinstance(value, dict):
+        if len(value) == 0:
+            return True
+        return all(_structurally_empty(v) for v in value.values())
+    try:
+        if np.ndim(value) == 0 and pd.isna(value):
+            return True
+    except (TypeError, ValueError):
+        pass
+    return False
+
+
+def is_no_match_result(value: Any, empty_filter: bool) -> bool:
+    """
+    Sandbox sonucu "kayit bulunamadi" olarak mi sunulmali?
+
+    Iki bagimsiz kanit kabul edilir:
+      1. empty_filter — kod icinde bir boolean maske 0 SATIR dondurdu
+         (sandbox.TrackedDataFrame tarafindan tespit edilir). Bu, sorulan
+         varligin veri setinde olmadiginin dogrudan kanitidir.
+      2. Sonuc yapisal olarak bos (bos DataFrame, NaN, bos dizi...).
+
+    Mesru sifir (filtre satir buldu, deger gercekten 0) bu iki kanitin da
+    disinda kalir ve normal sonuc olarak sunulmaya devam eder.
+    """
+    return bool(empty_filter) or _structurally_empty(value)
+
+
 def code_interpreter_with_retry(
     question: str,
     df: pd.DataFrame,
@@ -497,7 +548,9 @@ def code_interpreter_with_retry(
         repeated = norm in seen_codes
         seen_codes.add(norm)
 
-        exec_result = safe_execute(code, df, timeout_seconds=timeout_seconds)
+        exec_meta: Dict[str, Any] = {}
+        exec_result = safe_execute(code, df, timeout_seconds=timeout_seconds,
+                                   info=exec_meta)
 
         if isinstance(exec_result, dict) and "error" in exec_result:
             last_error = exec_result["error"]
@@ -522,17 +575,26 @@ def code_interpreter_with_retry(
                 if fallback_result is None:
                     fallback_result = {"success": True, "raw_result": exec_result,
                                        "code": code, "attempts": attempt, "error": None,
-                                       "warning": issue}
+                                       "warning": issue,
+                                       "empty_result": is_no_match_result(
+                                           exec_result,
+                                           exec_meta.get("empty_filter", False))}
                 continue
 
+        empty = is_no_match_result(exec_result, exec_meta.get("empty_filter", False))
         if verbose:
-            print(f"[CodeInterpreter] Basarili! Cikti: {exec_result}")
+            if empty:
+                print(f"[CodeInterpreter] Basarili ama KAYIT BULUNAMADI "
+                      f"(bos filtre={exec_meta.get('empty_filter', False)}). Cikti: {exec_result}")
+            else:
+                print(f"[CodeInterpreter] Basarili! Cikti: {exec_result}")
         return {
             "success": True,
             "raw_result": exec_result,
             "code": code,
             "attempts": attempt,
-            "error": None
+            "error": None,
+            "empty_result": empty,
         }
 
     # Dogrulama uyarili ama calisan bir sonuc varsa onu dondur (fallback'e dusme).
