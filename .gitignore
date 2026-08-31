@@ -163,6 +163,7 @@ Thumbs.db
 rag.db
 rag.db-shm
 rag.db-wal
+rag.db.bak
 
 /microsoft_
 # Gecici ve arsivlenmis degerlendirme ciktilari
