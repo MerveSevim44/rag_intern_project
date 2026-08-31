@@ -1,0 +1,102 @@
+Model yükleniyor...
+[Foundry] Model yüklendi: qwen2.5-7b-instruct-cuda-gpu:4 | execution provider: CUDAExecutionProvider | cihaz: GPU
+[Foundry] Servis adresi: http://127.0.0.1:49836
+[Foundry] Serviste yüklü modeller: ['qwen2.5-7b-instruct-cuda-gpu:4']
+Model hazır.
+
+Soru seti: evaluation\datasets\test_3.csv
+[61] Soruluyor: Fourier dönüşümünün ileri yöndeki (forward) tanımı X(jω) hangi integral ile verilir?
+[retrieval] Cache yuklendi: 916 chunk, embedding matrisi (916, 1024)
+    → 28.4 sn
+
+[62] Soruluyor: Ters Fourier dönüşümü (inverse direction) formülünde 1/2π çarpanı nerede yer alır?
+    → 18.9 sn
+
+[63] Soruluyor: x(t)=e^{-at}u(t) nedensel üstel işaretinin Fourier dönüşümü hangi koşul altında (Re{a}>0) X(jω)=1/(a+jω) olarak bulunur?
+    → 23.9 sn
+
+[64] Soruluyor: Analiz (analysis) ve sentez (synthesis) işlemleri Fourier dönüşümü bağlamında nasıl tanımlanmıştır?
+    → 16.05 sn
+
+[65] Soruluyor: F{1}=2πδ(ω) eşitliği hangi özellikten (Dirac delta'nın sifting property'si) yararlanılarak elde edilmiştir?
+    → 18.3 sn
+
+[66] Soruluyor: Bir x(t) işaretinin Fourier dönüşümünün var olabilmesi için gerekli üç koşuldan biri olan "mutlak integrallenebilirlik" ne anlama gelir?
+    → 23.47 sn
+
+[67] Soruluyor: cos(t), sin(t) ve u(t) işaretleri neden klasik Fourier dönüşüm koşullarını sağlamaz?
+    → 26.73 sn
+
+[68] Soruluyor: x(t) işaretinin Fourier dönüşümünün var olması için gereken üç koşulu (single-valued, piecewise continuous, absolutely integrable) birlikte açıklayınız.
+    → 20.09 sn
+
+[69] Soruluyor: rect(t/τ) işaretinin Fourier dönüşümünün sinc fonksiyonu ile ifade edilme süreci nasıl gerçekleşir?
+    → 24.58 sn
+
+[70] Soruluyor: cos(ω0t) işaretinin Fourier dönüşümünün π[δ(ω-ω0)+δ(ω+ω0)] biçiminde elde edilme adımları nelerdir?
+    → 24.69 sn
+
+[71] Soruluyor: Nedensel üstel işaretin Fourier dönüşümü türetilirken lim(t→∞) e^{-at}e^{-jωt} teriminin sıfıra gitmesi neden Re{a}>0 koşuluna bağlıdır?
+[llm_client] Yabanci alfabe parcasi temizlendi (301 -> 139 karakter)
+    → 20.84 sn
+
+[72] Soruluyor: X(jω)=1/(a+jω) ifadesinin genlik-faz (magnitude-phase) formu nasıl elde edilir?
+    → 23.75 sn
+
+[73] Soruluyor: Nedensel üstel işaretin Fourier dönüşümünün faz açısı ∠X(jω) hangi ifade ile hesaplanır?
+    → 20.18 sn
+
+[74] Soruluyor: Fourier dönüşümünün "memoryless", "causal" ve "linear" sistem özellikleriyle ilişkisi nasıl açıklanmıştır?
+    → 19.02 sn
+
+[75] Soruluyor: Fourier dönüşümünün bir işaret hakkında ne söylediği ve ne söylemediği (frekans içeriği vs. zaman bilgisi) nasıl özetlenmiştir?
+    → 16.41 sn
+
+[76] Soruluyor: Duallik (duality) özelliği ileri ve ters dönüşümlerin benzerliğinden nasıl yararlanmaktadır?
+    → 19.08 sn
+
+[77] Soruluyor: rect(t/τ)↔τsinc(ωτ/2) dönüşüm çiftine duallik uygulandığında hangi yeni dönüşüm çifti elde edilir?
+    → 29.74 sn
+
+[78] Soruluyor: Ölçekleme (scaling) özelliğine göre |a|>1 olduğunda zaman ve frekans eksenlerinde ne tür bir değişim meydana gelir?
+    → 17.23 sn
+
+[79] Soruluyor: Zaman ekseninde genişleme ile frekans ekseninde daralma (bant genişliği) arasındaki ters orantı nasıl açıklanmıştır?
+    → 15.49 sn
+
+[80] Soruluyor: Zamanda kaydırma (shifting in time) özelliğine göre bir işaretin gecikmesi Fourier dönüşümünün genliğini mi yoksa fazını mı etkiler?
+    → 17.4 sn
+
+[81] Soruluyor: Zamanda kaydırma özelliğinin ispatında u=t-t0 değişken dönüşümü nasıl kullanılmıştır?
+    → 19.26 sn
+
+[82] Soruluyor: Zamanda çarpımın frekansta konvolüsyona karşılık geldiği özellik hangi türetme ile gösterilmiştir?
+    → 15.2 sn
+
+[83] Soruluyor: Sinüzoidal genlik modülasyonunda (y(t)=f(t)cos(ω0t)) elde edilen Y(ω) ifadesi F(ω) cinsinden nasıl yazılır?
+    → 20.41 sn
+
+[84] Soruluyor: Sinüzoidal genlik modülasyonunda demodülasyon (f(t)'nin geri kazanılması) hangi iki adımdan oluşur?
+    → 17.71 sn
+
+[85] Soruluyor: Frekans-kaydırma özelliğine göre e^{jω0t}f(t) işaretinin Fourier dönüşümü F(ω) cinsinden nasıl ifade edilir?
+    → 19.29 sn
+
+[86] Soruluyor: cos(ω0t)f(t) işaretinin frekans-kaydırma özelliği kullanılarak elde edilen Fourier dönüşümü hangi iki terimin toplamı şeklindedir?
+    → 23.97 sn
+
+[87] Soruluyor: Nedensel üstel işaretin genlik yanıtı |X(jω)|=1/√(Re{a}²+(ω+Im{a})²) ifadesinde Re{a} ve Im{a} terimleri fiziksel olarak neyi temsil eder ve a=1 için genlik-faz grafiklerinin şekli nasıl yorumlanır?
+    → 26.21 sn
+
+[88] Soruluyor: F{1}=2πδ(ω) sonucunun elde edilme sürecinde ters Fourier dönüşümü tanımı ile sifting property arasındaki matematiksel bağlantı adım adım nasıl kurulmuştur?
+    → 25.66 sn
+
+[89] Soruluyor: Sinüzoidal genlik modülasyonu örneğinde ω1<<ω0 varsayımının demodülasyon sürecinde alçak geçiren filtreleme adımı için neden gerekli olduğunu, Y(ω) spektrumundaki F(ω-ω0) ve F(ω+ω0) bileşenlerinin konumu üzerinden açıklayınız.
+    → 28.09 sn
+
+[90] Soruluyor: Zamanda kaydırma özelliğinin türetmesinde elde edilen e^{-jωt0}F(ω) ifadesi ile frekans-kaydırma özelliğindeki e^{jω0t}f(t)↔F(ω-ω0) ifadesi arasındaki dualite ilişkisini, her iki türetmenin matematiksel adımlarını karşılaştırarak açıklayınız.
+    → 42.31 sn
+
+
+Tamamlandı. 30 soru test edildi.
+Sonuçlar: results_v3/test_3_sonuclari.csv

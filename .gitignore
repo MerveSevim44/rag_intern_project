@@ -167,4 +167,14 @@ rag.db-wal
 /microsoft_
 # Gecici ve arsivlenmis degerlendirme ciktilari
 report_tmp/
+
+# archive/ = gecersiz, kirli ya da superseded kosular. Diske durur, repoyu
+# sismez. NOT: daha once takip EDILEN dosyalar buraya "git mv" ile tasindiginda
+# takipli kalir (ignore yalnizca takipsiz dosyalara uygulanir) — bu bilinclidir,
+# boylece eski baseline'lar history'de kaybolmaz.
 archive/
+
+# experiments/ = gecerli, raporlanmis deneyler. BILEREK takip edilir; her deney
+# EXPERIMENTS.md'de bir bolumle eslesir. Yeni kosular icin bkz. EXPERIMENTS.md
+# "Yeni deney nasil eklenir".
+!experiments/
