@@ -497,6 +497,85 @@ def _trim_after_not_found(answer):
     return " ".join(cleaned).strip()
 
 
+# ─── Yabancı Alfabe (Dil Sızıntısı) Temizliği ────────────────────────────────
+# qwen2.5 Çince ağırlıklı eğitilmiş bir model; prompt "HER ZAMAN TÜRKÇE" dese
+# bile belirsizlik anında ana eğitim diline kayabiliyor (benchmark'ta #8:
+# "L(G4.2) dili如下定义：..."). Prompt tarafında denenen iki dil çapası varyantı
+# sızıntıyı %66 azalttı ama TAMAMEN gideremedi; ayrıca prompt değişikliği 100
+# sorunun tamamını etkilediği için riskliydi. Bu yüzden çözüm, para birimi
+# hallüsinasyonundaki ile aynı desende deterministik bir son kontrol katmanı.
+#
+# DİKKAT — Yunanca BİLEREK kapsam dışıdır: matematik/işaret-sistem cevaplarında
+# ω, π, δ, Ω gibi harfler meşru içeriktir (benchmark'ta 13 cevapta geçiyor) ve
+# temizlenirse gerçek bilgi kaybı olur.
+_FOREIGN_SCRIPT_RE = re.compile(
+    "["
+    "\u4e00-\u9fff"      # CJK ideogramlar
+    "\u3400-\u4dbf"      # CJK genişletme A
+    "\uf900-\ufaff"      # CJK uyumluluk
+    "\u3000-\u303f"      # CJK noktalama (、。，：)
+    "\uff00-\uffef"      # tam genişlik biçimler
+    "\u3040-\u309f"      # Hiragana
+    "\u30a0-\u30ff"      # Katakana
+    "\uac00-\ud7af"      # Hangul
+    "\u0400-\u04ff"      # Kiril
+    "\u0600-\u06ff"      # Arapça
+    "\u0590-\u05ff"      # İbranice
+    "\u0900-\u097f"      # Devanagari
+    "\u0e00-\u0e7f"      # Tay
+    "]"
+)
+
+# Temizlik sonrası cevabın korunması gereken asgari oranı. Bunun altına
+# düşüyorsa cevap fiilen o dilde yazılmıştır; kırpmak yerine olduğu gibi
+# bırakılır (bozuk ama görünür bir cevap, içi boşaltılmış bir cevaptan iyidir).
+_FOREIGN_STRIP_MIN_KEEP_RATIO = 0.4
+
+
+def _latin_letter_count(text):
+    return sum(1 for ch in (text or "") if ch.isalpha() and not _FOREIGN_SCRIPT_RE.match(ch))
+
+
+def _strip_foreign_script_fragments(answer):
+    """
+    Latin-dışı alfabeyle yazılmış parçaları satır bazında temizler.
+
+    Yöntem GENEL bir desene dayanır, tek bir vakanın metnine değil: her satır
+    İLK yabancı-alfabe karakterinde kesilir, öncesindeki Latin içerik korunur.
+    Model tipik olarak "<Türkçe/formül içerik><yabancı açıklama>" biçiminde
+    üretiyor; bu yüzden değerli kısım baştadır.
+
+    Karakter tek tek silinseydi araya serpiştirilmiş Latin token'lar
+    ("n, m, p, k") anlamsız enkaz hâlinde kalırdı — satır kesme bunu önler.
+
+    Güvenlik ağı: temizlik Latin harflerinin %60'ından fazlasını götürüyorsa
+    ya da geriye anlamlı bir şey kalmıyorsa cevaba DOKUNULMAZ.
+    """
+    if not isinstance(answer, str) or not answer.strip():
+        return answer
+    if not _FOREIGN_SCRIPT_RE.search(answer):
+        return answer                      # yaygın durum: hiç dokunma
+
+    kept_lines = []
+    for line in answer.splitlines():
+        m = _FOREIGN_SCRIPT_RE.search(line)
+        head = line[:m.start()] if m else line
+        head = head.rstrip(" \t,;:-–—")
+        if head.strip():
+            kept_lines.append(head)
+
+    cleaned = "\n".join(kept_lines).strip()
+    if not cleaned:
+        return answer
+    before, after = _latin_letter_count(answer), _latin_letter_count(cleaned)
+    if before and after / before < _FOREIGN_STRIP_MIN_KEEP_RATIO:
+        return answer
+    if cleaned != answer:
+        print("[llm_client] Yabanci alfabe parcasi temizlendi "
+              f"({len(answer)} -> {len(cleaned)} karakter)")
+    return cleaned
+
+
 # Modelin uydurmaya en yatkın olduğu para birimi ifadeleri.
 _CURRENCY_HALLUCINATIONS = [
     (r"(?<!\w)[Tt][Ll](?=$|[^\wçğıöşü])", "TL"),
@@ -627,6 +706,8 @@ def ask(llm, context, question, extra_instruction=None, debug=False):
     # Çıkarım rotalarında (META_QUERY) cevap bilinçli olarak "doğrudan belirtilmemiştir"
     # gibi ifadeler içerir; NOT_FOUND kırpması bu cevabı ortasından kesebilir.
     if extra_instruction:
-        return _fix_currency_hallucination(response.content.strip(), context)
-    return _fix_currency_hallucination(_trim_after_not_found(response.content), context)
+        return _strip_foreign_script_fragments(
+            _fix_currency_hallucination(response.content.strip(), context))
+    return _strip_foreign_script_fragments(
+        _fix_currency_hallucination(_trim_after_not_found(response.content), context))
 
