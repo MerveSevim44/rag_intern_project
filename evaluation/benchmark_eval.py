@@ -465,6 +465,33 @@ def _resolve_file(file_path: str) -> Path:
 # Test setleri ve bunlara ait sonuc/GT dosyalarinin varsayilan adlandirmasi.
 TEST_SETS = ["test_1", "test_2", "test_3", "test_4", "test_5"]
 
+# Negatif (kapsam disi) test setleri. TEST_SETS'ten AYRI tutulur cunku bunlar
+# EM/F1 gibi metrikleri degil, TN/FP (halusinasyon) matrisini besler.
+# Onceden bu setler evaluate_all'a hic girmiyordu; sonucta TN+FP=0 kaliyor ve
+# KPI karti "Negatif Test Basarisi %0.0" / "Halusinasyon Orani %0.0" yaziyordu.
+# Bu, olculmemis bir metrigi "sifir halusinasyon" gibi okutan yaniltici bir
+# gorunumdu - simdi olculmediyse acikca "Olculmedi (n=0)" yaziliyor.
+NEGATIVE_SETS = ["test_negative"]
+
+
+def negative_kpi_values(conf: dict) -> tuple[str, str]:
+    """
+    Siniflandirma matrisinden negatif-set KPI metinlerini uretir.
+
+    Negatif set skorlanmadiysa (TN+FP == 0) yuzde YAZILMAZ; "Olculmedi (n=0)"
+    dondurulur. Halusinasyon orani da negatif soru sayisina bolunur (toplam
+    soruya degil) - aksi halde pozitif sorular paydayi sisirip orani oldugundan
+    dusuk gosteriyordu.
+    """
+    tn, fp = conf.get("TN", 0), conf.get("FP", 0)
+    n = tn + fp
+    if n == 0:
+        return "Ölçülmedi (n=0)", "Ölçülmedi (n=0)"
+    return (
+        f"%{tn / n * 100:.1f} ({tn}/{n})",
+        f"%{fp / n * 100:.1f} ({fp}/{n})",
+    )
+
 
 def _set_name_of(path: Path) -> str:
     """'test_2_sonuclari.csv' -> 'test_2'. Taninmayan adlarda stem doner."""
@@ -974,12 +1001,13 @@ def generate_benchmark_charts(summary: dict, scored_records: list[dict], output_
 
     # KPI Kartları
     ax_card.axis("off")
+    _neg_success, _halu_rate = negative_kpi_values(conf)
     kpis = [
         ("Exact Match (EM)", f"%{summary['genel_metrikler']['exact_match_yuzde']:.1f}", "#3B82F6"),
         ("Token F1 Skoru", f"%{summary['genel_metrikler']['f1_skor_yuzde']:.1f}", "#10B981"),
         ("Retrieval Başarısı", f"%{summary['genel_metrikler']['retrieval_dogruluk_yuzde']:.1f}", "#F59E0B"),
-        ("Negatif Test Başarısı", f"%{(conf['TN'] / (conf['TN'] + conf['FP'])) * 100 if (conf['TN'] + conf['FP']) else 0.0:.1f}", "#8B5CF6"),
-        ("Halüsinasyon Oranı", f"%{(conf['FP'] / summary['toplam_soru']) * 100 if summary['toplam_soru'] else 0.0:.1f}", "#EF4444"),
+        ("Negatif Test Başarısı", _neg_success, "#8B5CF6"),
+        ("Halüsinasyon Oranı", _halu_rate, "#EF4444"),
         ("Ortalama Yanıt Süresi", f"{summary['genel_metrikler']['ortalama_sure_sn']:.2f} sn", "#6366F1"),
     ]
 
@@ -991,7 +1019,10 @@ def generate_benchmark_charts(summary: dict, scored_records: list[dict], output_
         rect = plt.Rectangle((0.05, y_pos - 0.04), 0.9, 0.11, facecolor="#FFFFFF", edgecolor=col, linewidth=1.5, transform=ax_card.transAxes, zorder=2, clip_on=False)
         ax_card.add_patch(rect)
         ax_card.text(0.1, y_pos + 0.015, title, fontsize=9.5, fontweight="bold", color="#334155", transform=ax_card.transAxes, zorder=3)
-        ax_card.text(0.88, y_pos + 0.015, val, fontsize=11, fontweight="bold", color=col, ha="right", transform=ax_card.transAxes, zorder=3)
+        # "Olculmedi (n=0)" / "%21.9 (7/32)" gibi uzun degerler 11 punto ile
+        # baslik metnine binebiliyor; uzunluga gore kuculterek tasmayi onluyoruz.
+        val_size = 11 if len(val) <= 10 else (9.5 if len(val) <= 15 else 8.5)
+        ax_card.text(0.88, y_pos + 0.015, val, fontsize=val_size, fontweight="bold", color=col, ha="right", transform=ax_card.transAxes, zorder=3)
 
     plt.tight_layout()
     chart3_path = output_dir / "benchmark_overall_summary.png"
@@ -1082,7 +1113,9 @@ def evaluate_all(sets=None, output_dir: str = "report", results_dir: str = ".") 
 
     Beklenen sonuç dosyaları: <set>_sonuclari.csv (run_tests.py bunu üretir).
     """
-    sets = list(sets or TEST_SETS)
+    # Negatif set varsayilan olarak dahil edilir. Kullanici --sets ile acikca
+    # bir liste verdiyse ona dokunulmaz.
+    sets = list(sets) if sets else TEST_SETS + NEGATIVE_SETS
     out_dir = Path(output_dir)
     if not out_dir.is_absolute():
         out_dir = Path(__file__).resolve().parent.parent / output_dir
@@ -1118,6 +1151,9 @@ def evaluate_all(sets=None, output_dir: str = "report", results_dir: str = ".") 
 
     overall = _summary_from_records(all_records, "GENEL (tum setler)")
     overall["dahil_edilen_setler"] = list(per_set.keys())
+    _nc = overall["siniflandirma_matrisi"]
+    overall["negatif_set_olculdu"] = (_nc["TN"] + _nc["FP"]) > 0
+    overall["negatif_soru_sayisi"] = _nc["TN"] + _nc["FP"]
     overall["eksik_setler"] = missing
     overall["set_bazli"] = {
         name: {
@@ -1168,9 +1204,13 @@ def evaluate_all(sets=None, output_dir: str = "report", results_dir: str = ".") 
     print("=" * 112)
     tq = overall["toplam_soru"]
     neg_total = conf["TN"] + conf["FP"]
-    print(f"Halusinasyon (FP) orani     : {conf['FP']}/{tq} (%{conf['FP'] / tq * 100:.1f})")
     if neg_total:
+        print(f"Halusinasyon (FP) orani     : {conf['FP']}/{neg_total} (%{conf['FP'] / neg_total * 100:.1f}) [negatif set uzerinden]")
         print(f"Negatif test basarisi (TN)  : {conf['TN']}/{neg_total} (%{conf['TN'] / neg_total * 100:.1f})")
+    else:
+        print("Halusinasyon (FP) orani     : Olculmedi (n=0) - negatif set sonucu yok")
+        print("Negatif test basarisi (TN)  : Olculmedi (n=0) - once negatif seti calistirin:")
+        print("  -> python run_tests.py evaluation/datasets/test_negative.csv test_negative_sonuclari.csv")
     print(f"Cevapsiz kalma (FN) orani   : {conf['FN']}/{tq} (%{conf['FN'] / tq * 100:.1f})")
     if overall["referanssiz_soru"]:
         print(f"UYARI: {overall['referanssiz_soru']} soruda referans cevap yok - EM/F1 ortalamasina girmedi. "
