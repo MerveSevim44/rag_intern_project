@@ -1,507 +1,381 @@
-# RAG Soru-Cevap Sistemi — Teknik Rapor
+# Yerel Hibrit RAG ve Analitik Soru-Cevap Sistemi
+## Kapsamlı Teknik Rapor — v6
 
-**Proje:** Yerel Doküman Tabanlı RAG (Retrieval-Augmented Generation) Soru-Cevap Sistemi  
-**Tarih:** Ağustos 2026  
-**Platform:** Windows 10/11 · Python 3.10+ · GPU (CUDA)
-
----
-
-## 1. Proje Amacı ve Kapsamı
-
-Bu proje, kullanıcıların kendi dokümanları (PDF, DOCX, TXT) üzerinde Türkçe soru-cevap yapabilmesini sağlayan, tamamen yerelde çalışan bir RAG sistemi geliştirmeyi amaçlamaktadır. Hiçbir veri dış sunuculara gönderilmez; tüm işlemler (embedding, reranking, cevap üretimi) kullanıcının bilgisayarında gerçekleşir.
-
-### 1.1 Temel Bileşenler
-
-| Bileşen | Teknoloji | Görevi |
-|---------|-----------|-------|
-| Embedding | Ollama + bge-m3 | Metin → 1024 boyutlu vektör |
-| Reranker | BAAI/bge-reranker-v2-m3 (CrossEncoder) | Aday chunk'ları hassas puanlama |
-| Vektör Veritabanı | SQLite (rag.db) | Chunk metin + embedding depolama |
-| LLM | Foundry Local (qwen2.5-7b-instruct-cuda-gpu) | Bağlama dayalı cevap üretimi |
-| Arayüz | Streamlit | Web tabanlı kullanıcı arayüzü |
+| | |
+| :--- | :--- |
+| **Proje** | Yerel Hibrit RAG + Dinamik Kod Yorumlayıcı (Text-to-Pandas) + Analitik Görselleştirme |
+| **Aktif Sürüm** | **v6** — Sandbox Boş-Filtre Koruması & Soru Bağlamlı Ret Skorlayıcı |
+| **Tarih** | Eylül 2026 |
+| **Platform** | Windows 10/11 · Python 3.10+ · CUDA (8 GB VRAM) · %100 yerel çalışma |
+| **Üretim Modeli** | Qwen 2.5 7B (Foundry Local) · Embedding: `bge-m3` · Reranker: `bge-reranker-v2-m3` |
+| **Kanıt Dizini** | `experiments/v6_sandbox_empty_guard/` · Deney kaydı: `docs/EXPERIMENTS.md` |
 
 ---
 
-## 2. Sistem Mimarisi
+## 0. Bu Rapor Nasıl Okunmalı — İki Ölçüm Tabanı
 
-### 2.1 İndeksleme Pipeline'ı (ingest.py)
+Raporda **iki farklı soru kümesi** üzerinden rakam verilir. Karıştırılmamaları
+kritiktir; her tablonun başlığında hangisi olduğu belirtilmiştir.
 
-```
-Doküman (.pdf/.docx/.txt)
-    │
-    ├─ PDF: pdfplumber → sayfa sayfa metin çıkarımı → \\n\\n ile chunk'lama
-    ├─ DOCX: python-docx → paragraf bazlı chunk'lama
-    └─ TXT: \\n\\n ile paragraf bazlı chunk'lama
-    │
-    ▼
-Metin Temizleme (strip, boş parça eleme)
-    │
-    ▼
-Embedding Üretimi (Ollama bge-m3, batch_size=16)
-    │
-    ▼
-SQLite'a Kayıt (source, content, embedding JSON, page_info)
-```
+| Taban | Kapsam | Nerede kullanılır | Neden |
+| :--- | :--- | :--- | :--- |
+| **132 soruluk tam koşu** | `test_1..test_4` + `test_negative`'in tamamı | §1, §5 — sistemin **mutlak** performansı | v6 koşusunda hiçbir soru altyapı hatası vermedi; sistemin gerçek karnesi budur. |
+| **98 soruluk temiz set** | `test_2#43` ve `test_2#53` çıkarılmış pozitif setler | §4 — **sürümler arası** karşılaştırma | Bu iki soru her deneyde kronik GPU bellek hatası verdi; adil kıyas için iki taraftan da çıkarılır. |
+| **31 soruluk negatif kıyas** | `test_negative` eksi `#216` | §4'ün "Negatif FP" sütunu | v5 koşusunda `#216` altyapı hatası verdi, v6'da vermedi. v6'nın **kendi tam sayısı 2/32**'dir. |
 
-**Önemli özellikler:**
-- WAL (Write-Ahead Logging) modu ile eşzamanlı okuma/yazma desteği
-- Otomatik şema migrasyonu (yeni sütun eklendiğinde ALTER TABLE)
-- Dosya bazlı commit (bir dosya hata verse diğerleri kaydedilir)
-- Zaten indekslenmiş dosyaları atlama (`--force` ile yeniden indeksleme)
+> **Sonuç:** §4'teki `F1 = 40.0` ile §5'teki `F1 = %52.43` çelişmez — biri 98
+> soruluk pozitif set, diğeri negatif setin de dahil olduğu 132 soruluk tam
+> koşudur. Negatif sorularda doğru ret tam puan aldığı için tam koşunun
+> ortalaması yapısal olarak yüksektir.
 
-### 2.2 Arama Pipeline'ı (retrieval.py)
-
-```
-Kullanıcı Sorusu
-    │
-    ▼
-Soru Embedding (bge-m3 → 1024-d vektör)
-    │
-    ▼
-Cosine Similarity (tüm chunk'lara karşı)
-    │
-    ▼
-Top-K Aday Seçimi (varsayılan K=5)
-    │
-    ▼
-Cross-Encoder Reranking (bge-reranker-v2-m3)
-    │
-    ▼
-En İyi 3 Chunk (RERANK_TOP_N=3)
-```
-
-### 2.3 Cevap Üretimi (llm_client.py)
-
-**Model:** qwen2.5-7b-instruct-cuda-gpu:4 (Foundry Local üzerinde)
-
-**Prompt tasarımı:**
-- Sistem mesajında katı kurallar: yalnızca bağlamdaki bilgiyi kullan
-- Bağlamda bilgi yoksa sabit cevap: "Bu bilgi dokümanlarda bulunamadı."
-- Her zaman Türkçe cevap verme zorunluluğu
-- Genel/ansiklopedik bilgi ekleme yasağı
-
-**Güvenlik önlemleri:**
-- Chunk metin kırpma: MAX_CHUNK_CHARS = 1500 karakter
-- Toplam bağlam kırpma: MAX_CONTEXT_CHARS = 6000 karakter
-- Cevap token sınırı: MAX_ANSWER_TOKENS = 600
-- "Bulunamadı" cevabı sonrası üretimi durdurma (_trim_after_not_found)
-
-### 2.4 Endpoint Keşfi
-
-Foundry Local servisinin dinamik port kullanması nedeniyle, llm_client.py süreç tabanlı port taraması yapar:
-1. `FOUNDRY_LOCAL_ENDPOINT` ortam değişkeni kontrol edilir
-2. psutil ile `inference.service.agent` süreçlerinin TCP portları taranır
-3. `/openai/status` endpoint'i ile doğrulama yapılır
-4. GPU (CUDA) varyantı tercih edilir
+**Metrik uyarısı:** Negatif sette raporlanan `F1 / ROUGE-L / Semantik = %93.75`
+bir *metin benzerliği* değil, **ret doğruluğu vekilidir** (30/32 doğru ret).
+Aynı şekilde negatif setin `Retrieval = %100` değeri trivialdir: cevaplanacak bir
+hedef chunk yoktur.
 
 ---
 
-## 3. Dosya Yapısı
+## 1. Yönetici Özeti
 
-```text
-rag_project/
-├── data/                                # Ham kaynak dokümanlar ve veri setleri
-│   ├── 728_profiles.json
-│   ├── airports.json
-│   ├── 8-Baglamdan_bagimsiz_dilbilgisi.pdf
-│   ├── lsarSist-H8_FourierTransform.pdf
-│   ├── lsarSist-H9_ZTransform.pdf
-│   ├── Summer School Foundry Local Plan.docx
-│   ├── test1.txt
-│   └── test2.txt
-│
-├── src/                                 # Çekirdek Kaynak Kodları (Core Modules)
-│   ├── __init__.py
-│   ├── app.py                           # Streamlit arayüzü ve sohbet motoru
-│   ├── ingest.py                        # Doküman okuma, chunk'lama, SQLite indeksleme
-│   ├── embedder.py                      # Ollama bge-m3 embedding & CrossEncoder reranker
-│   ├── retrieval.py                     # Hibrit arama (Vektör + BM25 + RRF Reranker)
-│   ├── router.py                        # 3 kademeli soru yönlendirici (Rule / Sandbox / RAG)
-│   ├── llm_client.py                    # Foundry Local LLM istemcisi & prompt yönetimi
-│   ├── data_engine.py                   # Yapılandırılmış veri analitiği (Pandas & JSON)
-│   ├── sandbox.py                       # Güvenli Python çalışma alanı (AST denetimi & timeout)
-│   ├── code_interpreter.py              # LLM kod üretici & otomatik retry mekanizması
-│   └── visualizer.py                    # Analitik grafik ve görselleştirme motoru (Plotly/Altair)
-│
-├── tests/                               # Birim ve Entegrasyon Testleri
-│   ├── test_sandbox_step1.py            # Sandbox güvenlik ve izolasyon testleri
-│   ├── test_code_interpreter_step2.py   # Kod yorumlayıcı ve prompt testleri
-│   ├── test_retry_mechanism.py          # Hata düzeltme & retry mekanizması testleri
-│   ├── test_sandbox_and_datasets.py     # Veri setleri ve sandbox entegrasyonu testleri
-│   └── test_visualization.py            # Grafik ve görselleştirme motoru testleri
-│
-├── evaluation/                          # Benchmark, Skorlama ve Değerlendirme Araçları
-│   ├── benchmark_eval.py                # Otomatik skorlama (EM, F1, Latency) & grafik üretimi
-│   ├── eval_retrieval.py                # Retrieval ve router doğruluk değerlendirmesi
-│   ├── run_tests.py                     # Toplu test seti koşucusu
-│   ├── ground_truth.json                # 30 soruluk standart referans cevap veri seti
-│   └── datasets/                        # Test soru setleri ve çıktı CSV'leri
-│       ├── test_sorulari.csv
-│       ├── test_sorulari_json.csv
-│       ├── test_sorulari_json_zor.csv
-│       ├── test_sonuclari.csv
-│       └── test_sonuclari_json_zor.csv
-│
-├── report/                              # Haftalık Raporlar ve Benchmark Çıktıları
-│   ├── week_1_report.pdf ... week_6_report.pdf
-│   ├── RAG_Kavramlari_Arastirma_Notu.pdf
-│   ├── test_sonuclari_scored.csv
-│   ├── benchmark_summary.json
-│   └── benchmark_charts/
-│
-├── docs/                                # Kapsamlı Dokümantasyon ve Tasarım Raporları
-│   ├── TEKNIK_RAPOR.md                  # Bu teknik rapor
-│   └── ...
-│
-├── app.py                               # Kök dizin Streamlit çalıştırıcı
-├── ingest.py                            # Kök dizin indeksleme çalıştırıcı
-├── benchmark_eval.py                    # Kök dizin benchmark çalıştırıcı
-├── run_tests.py                         # Kök dizin test çalıştırıcı
-├── requirements.txt                     # Python bağımlılıkları
-├── README.md                            # Kurulum ve kullanım kılavuzu
-├── license                              # Lisans
-└── rag.db                               # SQLite veritabanı
+Bu proje; kurumsal ve akademik dokümanlar (PDF, DOCX, TXT) ile yapılandırılmış
+veri setleri (JSON, CSV) üzerinde çalışan, **%100 yerel (on-premise)**, sıfır veri
+sızıntılı ve halüsinasyon korumalı bir hibrit soru-cevap ve veri analitiği
+asistanıdır.
+
+Klasik RAG mimarilerinin çözemediği **sayısal hesaplama, oran bulma, çoklu
+filtreleme ve görselleştirme** ihtiyaçları için sistem dört ayırt edici bileşenle
+donatılmıştır:
+
+1. **3 Kademeli Akıllı Yönlendirici** — her soruyu en ucuz doğru rotaya gönderir.
+2. **AST Denetimli Güvenli Sandbox** — LLM'in ürettiği Python'u izole çalıştırır.
+3. **Boş-Filtre Koruması** — v6'nın ana katkısı; "hiç eşleşmeyen sorgu"yu olgu
+   gibi sunmayı yapısal olarak imkânsız kılar.
+4. **Etkileşimli Görselleştirme Motoru** — analitik sonucu grafiğe ve KPI'ya çevirir.
+
+### Temel Başarı Göstergeleri (v6 — 132 soruluk tam koşu)
+
+| Gösterge | Değer | Not |
+| :--- | :---: | :--- |
+| **Genel Karar Doğruluğu** | **%88.64** | 117 / 132 |
+| **Halüsinasyon (FP) Oranı** | **%1.52** | 2 / 132 — negatif tuzaklarda 7'den 2'ye |
+| Hatalı Ret (FN) Oranı | %9.85 | 13 / 132 — prompt yumuşatmasıyla 23'ten 13'e |
+| Retrieval Doğruluğu (Top-3) | %97.73 | MRR %97.0 |
+| Semantik Benzerlik | %80.83 | |
+| Token-Level F1 | %52.43 | ROUGE-L %49.07 · EM %27.27 |
+| Ortalama / Medyan Yanıt Süresi | 30.55 sn / 21.05 sn | Yerel 8 GB VRAM |
+
+### v6'nın Tek Cümlelik Katkısı
+
+> Negatif set halüsinasyonlarının **6/7'si** tek bir mekanizmadan geliyordu:
+> var olmayan bir varlık için kurulan Pandas maskesi 0 satır döndürüyor,
+> üstündeki `.sum()` / `.mean()` bundan sessizce `0` / `NaN` üretiyor ve
+> sentezleyici bunu olgu gibi sunuyordu — *"ACC-124 hesabının kapanış bakiyesi
+> 0'dır"*. v6 bu sınıfı **sonucun değerine değil, filtrenin eşleşip
+> eşleşmediğine** bakarak kapattı: FP **7 → 2**, pozitif set metrikleri **birebir
+> değişmeden** (98 cevabın 98'i karakter karakter özdeş).
+
+---
+
+## 2. Uçtan Uca Sistem Mimarisi
+
+```mermaid
+flowchart TD
+    UserQuery([Kullanıcı Sorusu]) --> Router{3 Kademeli Router}
+
+    %% Rota 1 — deterministik
+    Router -->|Deterministik Soru| RuleEngine["Kural Motoru / Regex"]
+    RuleEngine --> DirectResult["Doğrudan Yanıt"]
+
+    %% Rota 2 — analitik
+    Router -->|Analitik Hesaplama| SchemaInject["Dinamik Şema Enjeksiyonu"]
+    SchemaInject --> LLMCode["LLM Python Kod Üretimi"]
+    LLMCode --> Sandbox["AST Denetimli Sandbox"]
+    Sandbox -->|Runtime hatası| Retry["Self-Correction — en fazla 3 deneme"]
+    Retry --> LLMCode
+    Sandbox -->|Filtre 0 satır| Guard["Boş-Filtre Koruması"]
+    Guard --> EmptyRefusal["KAYIT BULUNAMADI — dürüst ret"]
+    Sandbox -->|Geçerli sonuç| NLSynth["Doğal Dil Sentezleyici"]
+
+    %% Rota 3 — metin
+    Router -->|Doküman QA| HybridRet["Hibrit Retrieval — Vektör + BM25, RRF"]
+    HybridRet --> Reranker["Cross-Encoder Reranker"]
+    Reranker --> TopChunks["En iyi 3 chunk"]
+    TopChunks --> LLMGen["LLM Yanıt Üretimi"]
+    LLMGen --> TrimLayer["Trim & Dil Sızıntısı Filtresi"]
+
+    %% Ortak çıkış
+    NLSynth --> Visualizer{Görselleştirilebilir mi?}
+    DirectResult --> Visualizer
+    Visualizer -->|Evet| ChartGen["Plotly / Altair + KPI Kartları"]
+    Visualizer -->|Hayır| UI["Streamlit Arayüzü"]
+    ChartGen --> UI
+    TrimLayer --> UI
+    EmptyRefusal --> UI
 ```
 
+**Tasarım ilkesi:** Her rota kendi doğruluk garantisini kendi katmanında verir —
+sandbox rotasında *filtre eşleşmesi*, RAG rotasında *reranker skoru*, kural
+motorunda *deterministik eşleşme*. Hiçbir rota bir diğerinin hatasını maskelemez.
+
 ---
 
-## 4. Kullanılan Modeller ve Teknolojiler
+## 3. Sistem Bileşenleri
 
-### 4.1 Embedding Modeli: bge-m3
+### 3.1 İndeksleme ve Veri Hazırlığı — `src/ingest.py`
 
-- **Model:** BAAI/bge-m3 (Ollama üzerinden)
-- **Boyut:** 1024 boyutlu dense vektörler
-- **Dil desteği:** 100+ dil (Türkçe dahil)
-- **Seçim gerekçesi:** Türkçe'nin eklemeli (agglutinative) yapısında yüksek performans, çok dilli destek
+| Konu | Uygulama |
+| :--- | :--- |
+| PDF | `pdfplumber` ile sayfa bazlı çıkarım, çift satırbaşı sınırında chunk'lama |
+| DOCX | `python-docx` ile paragraf hiyerarşisi tabanlı chunk'lama |
+| TXT / Markdown | Paragraf ve semantik sınır odaklı parçalama |
+| Depolama | `sqlite3` / `rag.db`, WAL modu, otomatik şema migrasyonu, dosya bazlı transaksiyon |
+| İdempotanlık | Aynı dosyanın yeniden indekslenmesi mükerrer chunk üretmez |
+| Chunk sınırı | `MAX_CHUNK_CHARS = 1500` — ölçümle belirlendi (bkz. §4.2) |
 
-### 4.2 Reranker Modeli: bge-reranker-v2-m3
+### 3.2 Embedding ve Yeniden Sıralama — `src/embedder.py`, `src/retrieval.py`
 
-- **Model:** BAAI/bge-reranker-v2-m3 (CrossEncoder, sentence-transformers)
-- **Yöntem:** Soru-chunk çiftini birlikte değerlendirme
-- **Avantaj:** Cosine similarity'den daha hassas sıralama
-- **Sınırlama:** Daha yavaş (her çift için ayrı inference)
+* **Dense:** `BAAI/bge-m3`, 1024 boyutlu çok dilli vektör, batch = 16.
+* **Sparse:** BM25 — kod, kısaltma ve özel isim eşleşmelerini yakalar.
+* **Füzyon:** Reciprocal Rank Fusion (RRF) ile iki listenin birleştirilmesi.
+* **Rerank:** `BAAI/bge-reranker-v2-m3` cross-encoder; 16 adaydan **en iyi 3**
+  (`RERANK_TOP_N = 3`).
 
-### 4.3 LLM: qwen2.5-7b-instruct
+> Aday havuzunu 64'e, seçilen chunk sayısını 8'e çıkarmak **oracle yakalama
+> oranını artırmadı**, yalnızca bağlam kirliliği üretti (§4.2).
 
-- **Model:** qwen2.5-7b-instruct-cuda-gpu:4
-- **Çalıştırma:** Foundry Local (GPU/CUDA)
-- **Alternatif:** Phi-4-mini-instruct-cuda-gpu:5
-- **Seçim gerekçesi:** Türkçe cevap kalitesinde phi-4-mini'den belirgin üstünlük
+### 3.3 3 Kademeli Yönlendirici — `src/router.py`
 
-### 4.4 Benzerlik Ölçütü: Cosine Similarity
+| Kademe | Tetikleyici | Tipik gecikme |
+| :--- | :--- | :--- |
+| 1 — `rule_engine` | Basit sayım / şablon soruları | milisaniye |
+| 2 — `code_interpreter` | Sektör, şehir, tarih, ortalama, oran, çoklu filtre | 20–70 sn |
+| 3 — `semantic_rag` | Kavramsal, tanımsal, doküman içi metin | 15–45 sn |
 
-Cosine similarity, iki vektör arasındaki açının kosinüsünü hesaplar:
+Ayrıca **görsel istek tespiti** (dağılım, grafik, pasta/çubuk) görselleştirme
+hattını tetikler.
+
+### 3.4 Güvenli Sandbox ve Boş-Filtre Koruması — `src/sandbox.py`
+
+**AST statik analizi.** Kod çalıştırılmadan önce AST düzeyinde taranır;
+`import`, `open`, `eval`, `exec`, `os`, `sys`, `subprocess`, socket erişimleri ve
+dunder (`__`) öznitelikleri **derleme anında** reddedilir.
+
+**İzolasyon.** Kod daima `df.copy()` üzerinde çalışır; sonsuz döngülere karşı
+5 saniye limitli daemon thread zaman aşımı devrededir.
+
+**`TrackedDataFrame` — v6'nın çekirdeği.** Boolean maske 0 satır döndürdüğünde
+thread-local bir bayrak kalkar. `code_interpreter.is_no_match_result` bu bayrağı
+(veya yapısal boşluğu) görünce sonucu "kayıt bulunamadı" işaretler; `data_engine`
+bu durumda `result_to_natural_language`'i **hiç çağırmaz** — sayıyı cümleye
+çeviren adım tam olarak orasıydı — ve `retrieval` normal `[KESİN HESAPLAMA
+SONUCU]` yerine `[KAYIT BULUNAMADI]` bloğunu geçirir.
+
+> **Neden değer kontrolü yetmez:** `#225`'in sonucu
+> `{'total_amount': 0.0, 'currency': 'USD'}` idi — yapısal olarak **boş değil**.
+> Bu vakayı yalnızca maske takibi yakalar. Simetrik olarak *meşru sıfır* (hesap
+> var, net bakiye gerçekten 0) maske eşleştiği için normal sonuç kalır. Bu ayrım
+> `tests/test_empty_result_guard.py` ile kilitlenmiştir.
+
+### 3.5 Kod Yorumlayıcı ve Self-Correction — `src/code_interpreter.py`
+
+* **Dinamik şema enjeksiyonu:** Sütun adları, `dtypes` ve ilk 2 örnek satır sistem
+  prompt'una eklenir — hayali sütun uydurmayı engeller.
+* **Retry döngüsü:** Runtime hatasında traceback modele geri verilir; **en fazla
+  3 deneme**.
+* **`result_to_natural_language`:** Scalar / Series / dict / DataFrame çıktısını
+  veriyi tahrif etmeden Türkçe yanıta çevirir.
+
+### 3.6 Görselleştirme Motoru — `src/visualizer.py`
+
+`extract_chart_data` gelen tabüler veriden kategori ve metrikleri otomatik
+çıkarır; Plotly ve Altair ile etkileşimli çubuk, yatay çubuk ve donut grafikleri
+üretilir (`#8b5cf6`, `#60a5fa`, `#34d399` paleti). KPI kartları toplam, maksimum,
+ortalama ve kategori adedini özetler.
+
+### 3.7 Arayüz ve Stil Sistemi — `src/app.py`, `src/components.py`, `src/styles.py`
+
+WCAG AA uyumlu koyu tema (`#0f0c29` / `#302b63` / `#24243e` zeminleri; 4.5:1 ve
+10:1 kontrast). Glassmorphism sohbet balonları, alaka skoru rozetleri, dosya türü
+ikonları, açılır kaynak kartları ve çalıştırılan Python kodunun görüntüleyicisi.
+
+---
+
+## 4. Deneysel İterasyonlar
+
+### 4.1 Sürüm Karşılaştırması
+
+*(98 soruluk temiz pozitif set; "Negatif FP" sütunu v5–v6 için n=31)*
+
+| Sürüm | FN ↓ | F1 ↑ | ROUGE-L ↑ | Semantik ↑ | Negatif FP ↓ | Karar |
+| :--- | :---: | :---: | :---: | :---: | :---: | :--- |
+| v2 — Baseline + trim düzeltmesi | 23 | 39.6 | **36.6** | 73.9 | 7 / 32 | Superseded |
+| v3 — Yumuşatma + chunk büyütme | **10** | 32.1 | 27.9 | 75.6 | 8 / 32 | ❌ Alınmadı |
+| v4 — Başarısız koşu | — | — | — | — | — | ⚠️ Geçersiz |
+| v5 — Yumuşatma + kısalık kısıtı | 13 | **40.0** | 35.5 | **77.5** | 7 / 31 | Superseded |
+| **v6 — Sandbox boş-filtre koruması** | **13** | **40.0** | **35.5** | **77.5** | **2 / 31** | ✅ **Aktif** |
+
+**v3 neden alınmadı (üç bağımsız sebep):** cevap uzunluğu medyan 19 → 48 kelimeye
+çıkınca token-F1 39.6 → 32.1 geriledi; negatif FP 7 → 8 arttı (yeni FP tam olarak
+"yanlış ön kabul" kategorisinde); bağlam ~8700 karaktere çıkınca Foundry Local
+8 GB VRAM'de çöktü (`test_2`'de 30 sorunun 8'i "Connection error").
+
+**v4 neden geçersiz:** Foundry servisi koşu sırasında üç kez çöktü; skorlayıcı
+hata satırlarını ret olarak tanımadığı için bunları **TP saydı** ve metrikleri
+yapay olarak iyi gösterdi. Bu rakamlar kullanılmamalıdır.
+
+**v6'da iki etkinin ayrımı.** Bu deneyde `check_is_not_found` skorlayıcısı da
+değişti; karşılaştırmanın geçerli olması için v5'in negatif koşusu **yeni
+skorlayıcıyla yeniden skorlandı**:
+
+| | Eski skorlayıcı | Yeni skorlayıcı |
+| :--- | :---: | :---: |
+| v5 negatif FP (n=31) | 7 | 6 |
+| v6 negatif FP (n=31) | 2 | 2 |
+
+Yani **7 → 6 düşüşü yalnızca skorlayıcıdan** (`#231`), **6 → 2 düşüşü yalnızca
+kod düzeltmesinden** gelir. Kazanç bir ölçüm artefaktı değildir.
+
+### 4.2 Denenip Çürütülen Hipotezler
+
+1. **`MAX_CHUNK_CHARS` 1500 → 2900.** Bağlam ~8700 karaktere çıkınca 8 GB VRAM
+   sınırında çökme. Ölçülen kazanç marjinaldi (6 sondajdan 1'i). **Geri alındı.**
+2. **Chunk sayısı 3 → 8, aday havuzu 16 → 64.** Oracle chunk yakalama oranı
+   artmadı; bağlam kirliliği arttı. **Geri alındı.**
+3. **Sonucun değerine bakarak boş sonuç tespiti.** `0` / `NaN` kontrolü hem
+   `#225` gibi yapısal olarak dolu vakaları kaçırıyor hem de meşru sıfırları
+   yanlışlıkla reddediyordu. **Filtre-eşleşme takibiyle değiştirildi.**
+
+---
+
+## 5. Test ve Benchmark Değerlendirmesi
+
+### 5.1 Test Veri Seti (Toplam 132 Soru)
+
+| Set | Soru | İçerik |
+| :--- | :---: | :--- |
+| `test_1` | 30 | PDF / DOCX üzerinden temel metin QA |
+| `test_2` | 30 | `728_profiles.json`, `airports.json` — aggregation ve filtreleme |
+| `test_3` | 30 | Karmaşık teknik terimler, matematiksel dönüşüm, çoklu doküman |
+| `test_4` | 10 | Özel formatlı dokümanlar, çeviri / yabancı dil |
+| `test_negative` | 32 | 4 tuzak kategorisi: hayali varlık, yanlış ön kabul, gelecek tarih, alan dışı |
+
+### 5.2 Karar Matrisi *(132 soruluk tam koşu)*
 
 ```
-cos(A, B) = (A · B) / (||A|| × ||B||)
+                            SİSTEM KARAR MATRİSİ (132 SORU)
+  ┌────────────────────────────────────────┬────────────────────────────────────────┐
+  │         GERÇEKTE VAR (POZİTİF)         │        GERÇEKTE YOK (NEGATİF)          │
+  ├────────────────────────────────────────┼────────────────────────────────────────┤
+  │   Doğru Pozitif (TP): 87  (%65.91)     │   Yanlış Pozitif (FP):  2  (%1.52)     │
+  │   [Doğru cevap üretildi]               │   [Halüsinasyon / tuzağa düşüldü]      │
+  ├────────────────────────────────────────┼────────────────────────────────────────┤
+  │   Yanlış Negatif (FN): 13  (%9.85)     │   Doğru Negatif (TN): 30  (%22.73)     │
+  │   [Cevap üretilemedi, ret verildi]     │   [Başarıyla reddedildi]               │
+  └────────────────────────────────────────┴────────────────────────────────────────┘
+
+  Karar Doğruluğu = (TP + TN) / 132 = 117 / 132 = %88.64
 ```
 
-Değer 0'a yakınsa alakasız, 1'e yakınsa çok alakalı demektir.
+### 5.3 Zorluk Seviyesine Göre Dağılım *(132 soruluk tam koşu)*
+
+| Kategori | Soru | EM (%) | F1 (%) | Semantik (%) | Retrieval (%) | Ort. Süre (sn) |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| Kolay | 22 | 18.18 | **47.54** | **80.18** | 100.0 | 30.10 |
+| Orta | 58 | 3.45 | **42.15** | **78.03** | 96.55 | 29.53 |
+| Zor | 20 | 0.00 | **21.49** | **68.99** | 95.00 | 51.33 |
+| Negatif † | 32 | 93.75 | 93.75 | 93.75 | — | 19.70 |
+
+† Negatif satırın tüm metrikleri **ret doğruluğu vekilidir** (30/32), metin
+benzerliği değildir; retrieval değeri anlamsızdır (hedef chunk yoktur).
+
+**Okuma:** Zorluk arttıkça F1 keskin (47.5 → 21.5), semantik benzerlik ise ılımlı
+(80.2 → 69.0) düşer. Bu, zor sorularda sistemin **yanlış cevap vermediğini,
+doğru cevabı farklı kelimelerle ve daha uzun ifade ettiğini** gösterir — token
+örtüşmesi cezalanır, anlam korunur. Zor sorulardaki 51.33 sn'lik ortalama süre
+self-correction retry zincirlerinden gelir (tekil maksimum 188.3 sn).
+
+### 5.4 Test Seti Bazında Sonuçlar *(132 soruluk tam koşu)*
+
+| Set | Soru | TP | TN | FP | FN | F1 (%) | Semantik (%) | Retrieval (%) | Medyan (sn) |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| `test_1` — Temel QA | 30 | 27 | 0 | 0 | 3 | **55.61** | **81.71** | 100.0 | 15.28 |
+| `test_2` — JSON analitiği | 30 | 26 | 0 | 0 | 4 | 29.10 | 74.15 | 93.33 | 38.70 |
+| `test_3` — Karmaşık QA | 30 | 27 | 0 | 0 | 3 | 38.61 | 76.88 | 96.67 | 42.96 |
+| `test_4` — Özel dokümanlar | 10 | 7 | 0 | 0 | 3 | 22.11 | 68.73 | 100.0 | 38.09 |
+| `test_negative` — Tuzak | 32 | 0 | **30** | **2** | 0 | 93.75 † | 93.75 † | — | 16.55 |
+
+`test_2`'nin düşük F1'i (29.10) beklenendir: sandbox rotası sayısal sonucu tam
+cümleye çevirir, referans cevap ise çıplak sayıdır — token örtüşmesi yapısal
+olarak düşük kalır. Aynı sette semantik benzerliğin %74'te kalması ve FP'nin
+**0** olması, sonucun doğru ama ifadenin uzun olduğunu doğrular.
+
+### 5.5 Kalan Hataların Analizi
+
+**13 Yanlış Negatif.** Skorlayıcının otomatik kırılımı bunların **12'sinde doğru
+kaynağın Top-3'e girdiğini** ("doğru kaynak ama cevap yok"), yalnızca 1 vakada
+retrieval'ın ıskaladığını raporlar (`test_3`). Manuel incelemede baskın kök neden
+**zamir / koreferans kopukluğu**dur: hedef paragraf doğru belgeden gelir, ancak
+soruyu bağlayan özel isim o paragrafta hiç geçmediği için model paragrafı
+cevapla ilişkilendiremez.
+
+> *Örnek — `test_4#91`:* Soru "Alis kütüphanenin adını nereden öğrendi?"
+> Cevabın bulunduğu paragrafta "Alis" kelimesi hiç geçmez; özne zamirle
+> taşınmıştır. Dense arama hedef paragrafı üst sıralara çıkaramaz.
+
+**2 Yanlış Pozitif.** İkisi de v6'nın kapattığı sınıfın **dışındadır**:
+
+| ID | Sınıf | Açıklama |
+| :--- | :--- | :--- |
+| `#224` | Yanlış ön kabul | Sandbox dışı, saf metin rotası. Soru var olmayan bir doküman içeriğini varsayıyor; model ön kabulü sorgulamadan cevaplıyor. |
+| `#232` | Yanlış sütun okuma | Sandbox rotası ama **boş filtre değil**: `founded.idxmax()` ile yanlış sütun okunuyor. Ayrı bir hata sınıfı; boş-filtre koruması bu vakayı tasarım gereği yakalamaz. |
 
 ---
 
-## 5. Test Değerlendirmesi
+## 6. Altyapı ve Kararlılık Notları
 
-### 5.1 Test Seti Tasarımı
+* **GPU VRAM tavanı.** Qwen 2.5 7B, 8 GB VRAM'de çalışırken uzun retry zincirleri
+  veya 8000+ karakterlik bağlamlar taşmaya yol açabilir. Chunk ve bağlam sınırları
+  bu tavana göre kalibre edilmiştir (`docs/INFRASTRUCTURE_NOTES.md`).
+* **Segmentli koşu zorunluluğu.** Negatif set tek geçişte koşulduğunda `#215 → #216`
+  sırası Foundry servisini **deterministik olarak** düşürüyor. v6 negatif koşusu bu
+  nedenle iki segmentte (`201–215`, `216–232`) ayrı oturumlarda yürütülmüştür.
+* **Dinamik port keşfi.** Foundry Local'in yeniden başlatmalarda değişen TCP portu
+  `psutil` süreç taramasıyla otomatik bulunur.
+* **Kronik hatalı sorular.** `test_2#43` ve `test_2#53` her deneyde GPU bellek
+  hatası verdiği için sürüm karşılaştırmalarından çıkarılır (§0).
 
-30 soruluk test seti şu kriterlere göre tasarlanmıştır:
+### 6.1 Tekrarlanabilirlik
 
-| Kategori | Soru Sayısı | Açıklama |
-|----------|-------------|----------|
-| Kolay | 8 | Doğrudan metinde geçen bilgiler |
-| Orta | 12 | Çıkarım gerektiren sorular |
-| Zor | 10 | Derin anlama veya bilgi yok testi |
-
-**Doküman dağılımı:**
-
-| Doküman | Soru Sayısı |
-|---------|-------------|
-| 8-Baglamdan_bagimsiz_dilbilgisi.pdf | 7 |
-| lsarSist-H8_FourierTransform.pdf | 7 |
-| test1.txt | 3 |
-| test2.txt | 3 |
-| Summer School Foundry Local Plan.docx | 4 |
-| Dokümanda bulunmayan (negatif test) | 6 |
-
-### 5.2 Sonuç Analizi
-
-#### Kaynak Eşleşme Doğruluğu
-
-30 sorunun her biri için beklenen kaynak ile bulunan kaynaklar karşılaştırıldı:
-
-| Metrik | Değer |
-|--------|-------|
-| Doğru kaynak bulma (dokümanda var, kaynak eşleşti) | 24/24 (%100) |
-| Negatif test başarısı (yoksa "bulunamadı" deme) | 5/6 (%83.3) |
-| Her soru için getirilen kaynak sayısı | 3 (sabit) |
-
-**Detaylı analiz:**
-
-- **Soru 6** (Zor): "Bir değişkenin yararlı olabilmesi için hangi iki koşul sağlanmalıdır?" — Doğru kaynak bulundu ancak cevap "Bu bilgi dokümanlarda bulunamadı" olarak verildi. Bilgi dokümanın farklı sayfalarında parçalı olduğu için model birleştiremedi. (Yanlış negatif)
-
-- **Soru 9** (Orta): "Zamanda kaydırma Fourier dönüşümünün genliğini nasıl etkiler?" — Doğru kaynak bulundu ancak model cevap veremedi. Teknik içeriğin yoğunluğu nedeniyle. (Yanlış negatif)
-
-- **Soru 24** (Orta): "Korev kimdir?" — Doğru kaynak bulundu ancak model cevap veremedi. Bağlam parçasında yeterli bilgi olmayabilir. (Yanlış negatif)
-
-- **Soru 30** (Zor, negatif test): "Oda No: 304 hikayesinde bağlamdan bağımsız dilbilgisi nasıl anlatılıyor?" — Dokümanda olmaması gereken bir bilgi; ancak sistem bağlamdan bağımsız dilbilgisi hakkında bilgi verdi. İki farklı dokümanın bilgisini çapraz kullandı. (Yanlış pozitif, hallucination)
-
-#### Negatif Test Sonuçları (dokumanda_var_mi = Hayır)
-
-| Soru ID | Soru | Beklenen | Sonuç | Durum |
-|---------|------|----------|-------|-------|
-| 15 | Kuantum bilgisayarlar nasıl çalışır? | Bulunamadı | Bulunamadı | ✅ |
-| 16 | Python'da liste ile tuple arasındaki fark nedir? | Bulunamadı | Bulunamadı | ✅ |
-| 17 | Osmanlı İmparatorluğu ne zaman kuruldu? | Bulunamadı | Bulunamadı | ✅ |
-| 18 | Blockchain teknolojisi nedir? | Bulunamadı | Bulunamadı | ✅ |
-| 29 | Alis hangi programlama dilini kullanarak Fourier dönüşümü hesapladı? | Bulunamadı | Bulunamadı | ✅ |
-| 30 | Oda No: 304'te bağlamdan bağımsız dilbilgisi nasıl anlatılıyor? | Bulunamadı | Cevap verdi | ❌ |
-
-**Negatif test başarı oranı:** 5/6 = %83.3
-
-Soru 30, iki farklı dokümanın bilgisini birleştiren bir çapraz referans sorusuydu. Sistem, "Oda No: 304" test2.txt'te ve "bağlamdan bağımsız dilbilgisi" PDF'te geçtiği için her iki kaynaktan da parçalar getirdi ve model bunları birleştirdi. Bu, prompt mühendisliğinin sınırlarından biridir.
-
-#### Yanıt Süreleri
-
-| Metrik | Değer |
-|--------|-------|
-| Ortalama yanıt süresi | 14.3 sn |
-| En hızlı yanıt | 4.80 sn (Soru 22) |
-| En yavaş yanıt | 44.48 sn (Soru 26) |
-| Medyan yanıt süresi | ~10 sn |
-
-**Gözlem:** DOCX formatındaki Summer School dokümanı için süreler belirgin şekilde uzun (38-44 sn). Bu, dokümanın İngilizce olması ve çeviri gerektirmesinden kaynaklanıyor.
-
-#### Zorluk Seviyesine Göre Başarı
-
-| Zorluk | Toplam | Doğru Cevap | Bulunamadı (Doğru) | Bulunamadı (Yanlış) | Hallucination | Başarı |
-|--------|--------|-------------|---------------------|---------------------|---------------|--------|
-| Kolay | 8 | 8 | 0 | 0 | 0 | %100 |
-| Orta | 12 | 9 | 0 | 2 | 0 | %75 |
-| Zor | 10 | 4 | 5 | 1 | 1 | %80* |
-
-*Negatif testler hariç tutulduğunda zor soruların cevap doğruluğu %57 (4/7).
-
-### 5.3 Genel Performans Özeti
-
-| Metrik | Değer |
-|--------|-------|
-| **Toplam soru** | 30 |
-| **Doğru cevap (pozitif sorularda)** | 21/24 (%87.5) |
-| **Negatif test başarısı** | 5/6 (%83.3) |
-| **Genel doğruluk** | 26/30 (%86.7) |
-| **Kaynak eşleşme** | 24/24 (%100) |
-| **Hallucination oranı** | 1/30 (%3.3) |
+Koşu, `run_tests.py`'nin **kendi** fonksiyonları (`run_single_test`,
+`free_gpu_memory`) değiştirilmeden import edilerek yapılmıştır; tek fark her
+satırın anında diske yazılması ve id aralığı filtresidir — **RAG davranışı
+değişmemiştir.** Ham çıktılar, loglar ve skorlanmış CSV'ler
+`experiments/v6_sandbox_empty_guard/{results,report}/` altındadır; koşu koşulları
+aynı klasördeki `PROVENANCE.md`'de kayıtlıdır.
 
 ---
 
-### 5.4 Otomatik Skorlama & Benchmark Raporlama (Exact Match / F1)
+## 7. Yol Haritası
 
-Sistem çıktılarının objektif ve tekrarlanabilir bir şekilde değerlendirilmesi amacıyla **`benchmark_eval.py`** modülü ve **`ground_truth.json`** referans veri seti geliştirilmiştir. 
-
-Bu değerlendirmede NLP ve Soru-Cevap (QA/SQuAD) literatüründeki standart metrikler Türkçe dil yapısına uygun normalizasyon adımlarıyla (küçük harf, İ/i & I/ı eşleşmesi, noktalama temizleme, stopword eleme) hesaplanmıştır.
-
-#### 5.4.1 Kullanılan Değerlendirme Metrikleri
-
-1. **Exact Match (EM %):** Model yanıtının normalize edilmiş metninin, referans cevap kümesindeki herhangi bir tam cevap veya temel bilgi kalıbıyla birebir örtüşme oranı.
-2. **Token-Level F1 Skoru (%):** Modelin ürettiği kelime token'ları ile referans cevap token'ları arasındaki ortak kesişim (Harmonik Ortalama):
-   $$\text{Precision} = \frac{|T_{pred} \cap T_{gt}|}{|T_{pred}|}, \quad \text{Recall} = \frac{|T_{pred} \cap T_{gt}|}{|T_{gt}|}, \quad F_1 = 2 \cdot \frac{\text{Precision} \cdot \text{Recall}}{\text{Precision} + \text{Recall}}$$
-3. **Retrieval Doğruluğu (%):** Sorulan soru için getirilmesi gereken kaynak dokümanın ilk 3 chunk içerisinde yer alma oranı.
-4. **Sınıflandırma Matrisi (TP / TN / FP / FN):**
-   - **TP (True Positive):** Dokümanda bulunan soruya doğru ve tutarlı cevap üretildi.
-   - **TN (True Negative):** Dokümanda bulunmayan negatif soruya doğru şekilde *"Bu bilgi dokümanlarda bulunamadı"* yanıtı verildi.
-   - **FN (False Negative):** Dokümanda yer alan soru için model hatalı olarak *"bulunamadı"* dedi.
-   - **FP (False Positive / Halüsinasyon):** Dokümanda olmayan soru için model bilgi uydurdu (çapraz doküman sızıntısı).
+| Öncelik | İyileştirme | Hedeflenen hata |
+| :---: | :--- | :--- |
+| 1 | **Koreferans çözümü + parent-child chunking** — chunk'a belge içi üst bağlamı iliştir | 13 FN'in baskın kısmı (§5.5) |
+| 2 | **Ön kabul denetimi** — sorudaki varsayımı bağlama karşı doğrulayan ayrı kontrol | `#224` sınıfı FP |
+| 3 | **Sütun seçim doğrulaması** — üretilen kodun okuduğu sütunu soru semantiğiyle eşleştirme | `#232` sınıfı FP |
+| 4 | **FAISS / HNSW indeksi** — SQLite lineer taramasından geçiş | >100.000 chunk'ta ölçekleme |
+| 5 | **Çok turlu sohbet hafızası** — önceki analiz sonuçlarını ve grafik durumunu koruma | Kullanıcı deneyimi |
 
 ---
 
-#### 5.4.2 Benchmark Görsel Grafikleri
+## 8. Sonuç
 
-Aşağıdaki grafikler `python benchmark_eval.py` komutu tarafından `test_sonuclari.csv` çıktılarından otomatik olarak üretilmiştir:
+Sistem, tamamen yerel donanımda ve dışa veri çıkarmadan çalışarak hem serbest
+metin dokümanlarını hem de yapılandırılmış tabloları işleyebilmekte, dinamik kod
+üretimiyle analitik sorguları hesaplayıp görselleştirmekte ve **%88.64 karar
+doğruluğu** ile **%1.52 halüsinasyon oranına** ulaşmaktadır.
 
-##### 1. Zorluk Seviyesine Göre Doğruluk & F1 Karşılaştırması
-![Doğruluk & F1 Grafiği](report/benchmark_charts/benchmark_accuracy_f1.png)
-
-##### 2. Kategori Bazında Yanıt Süreleri ve Gecikme (Latency) Dağılımı
-![Yanıt Süreleri Grafiği](report/benchmark_charts/benchmark_latency.png)
-
-##### 3. Genel Sistem Başarı Karnesi & Sınıflandırma Dağılımı
-![Sistem Başarı Karnesi](report/benchmark_charts/benchmark_overall_summary.png)
-
----
-
-#### 5.4.3 Kategori Bazlı Benchmark Skor Tablosu
-
-| Kategori | Soru Sayısı | Exact Match (EM %) | Token F1 Skoru (%) | Precision (%) | Recall (%) | Retrieval Doğruluğu (%) | Ortalama Süre (sn) | Medyan Süre (sn) |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Kolay** | 7 | **%85.7** | **%93.6** | %93.9 | %93.3 | %100.0 | 15.38 s | 9.52 s |
-| **Orta** | 12 | **%16.7** | **%30.9** | %26.5 | %50.5 | %100.0 | 14.46 s | 10.79 s |
-| **Zor** | 5 | **%60.0** | **%65.2** | %61.1 | %71.5 | %100.0 | 15.28 s | 9.87 s |
-| **Negatif Test** | 6 | **%83.3** | **%83.3** | %83.3 | %83.3 | %100.0 | 20.23 s | 11.88 s |
-| **GENEL TOPLAM** | **30** | **%53.3** | **%61.8** | **%59.4** | **%70.6** | **%100.0** | **15.97 s** | **10.27 s** |
-
----
-
-#### 5.4.4 Sınıflandırma ve Güvenilirlik Analizi
-
-| Metrik | Adet | Oran (%) | Açıklama |
-| :--- | :---: | :---: | :--- |
-| **Doğru Pozitif (TP)** | 21 | %70.0 | Bilgi dokümanda vardı, doğru içerikle yanıtlandı |
-| **Doğru Negatif (TN)** | 5 | %16.7 | Dokümanda yoktu, başarıyla reddedildi |
-| **Yanlış Negatif (FN)** | 3 | %10.0 | Bilgi dokümanda vardı fakat model "bulunamadı" dedi |
-| **Halüsinasyon (FP)** | 1 | %3.3 | Negatif soruya uydurma/çapraz bağlamlı cevap verildi |
-| **Genel Doğruluk (TP + TN) / Toplam** | **26 / 30** | **%86.7** | **Sistemin genel karar verme ve yanıtlama doğruluğu** |
-
----
-
-#### 5.4.5 30 Soruluk Detaylı Skorlama Listesi
-
-| ID | Zorluk | Soru Özeti | EM | F1 | Durum | Süre (sn) |
-| :---: | :---: | :--- | :---: | :---: | :---: | :---: |
-| 1 | Kolay | CFG kaç elemanlı yapıdır? | %100 | %100.0 | TP | 25.64 |
-| 2 | Kolay | VN neyi ifade eder? | %100 | %100.0 | TP | 13.86 |
-| 3 | Orta | Soldan türetme nedir? | %0 | %8.3 | TP | 11.41 |
-| 4 | Orta | Belirgin olmayan dil ne demektir? | %0 | %45.8 | TP | 10.16 |
-| 5 | Orta | Yararsız değişken nedir? | %0 | %38.1 | TP | 11.50 |
-| 6 | Zor | Yararlı değişkenin 2 koşulu nedir? | %0 | %0.0 | FN | 9.82 |
-| 7 | Zor | Türetme ağacında kök etiketi nedir? | %100 | %100.0 | TP | 8.05 |
-| 8 | Kolay | Fourier ileri yönü ne yapar? | %0 | %55.2 | TP | 9.52 |
-| 9 | Orta | Zamanda kaydırma genliği nasıl etkiler? | %0 | %0.0 | FN | 5.80 |
-| 10 | Orta | Zaman daralırsa frekans ekseni ne olur? | %0 | %0.0 | TP | 6.62 |
-| 11 | Orta | Dualite özelliği neyi ifade eder? | %0 | %28.6 | TP | 11.86 |
-| 12 | Zor | Fourier var olma (Dirichlet) koşulları | %0 | %41.1 | TP | 10.38 |
-| 13 | Zor | Nedensel üstel işaretin Fourier dönüşümü | %100 | %84.8 | TP | 9.87 |
-| 14 | Orta | Demodülasyon nasıl yapılır? | %0 | %24.3 | TP | 14.27 |
-| 15 | Negatif | Kuantum bilgisayarlar nasıl çalışır? | %100 | %100.0 | TN | 39.12 |
-| 16 | Negatif | Python liste vs tuple farkı | %100 | %100.0 | TN | 10.60 |
-| 17 | Negatif | Osmanlı İmparatorluğu ne zaman kuruldu? | %100 | %100.0 | TN | 5.54 |
-| 18 | Negatif | Blockchain teknolojisi nedir? | %100 | %100.0 | TN | 43.16 |
-| 19 | Kolay | Gümüş Yaprak kütüphanesindeki çırak kimdir? | %100 | %100.0 | TP | 6.18 |
-| 20 | Kolay | En alt kattaki yasak bölgenin adı | %100 | %100.0 | TP | 4.86 |
-| 21 | Orta | Alis'in akıl hocasının adı | %100 | %40.0 | TP | 5.79 |
-| 22 | Kolay | Kiralanan dairenin numarası | %100 | %100.0 | TP | 4.80 |
-| 23 | Orta | Günlükte çözülen ilk kelime | %100 | %100.0 | TP | 5.22 |
-| 24 | Orta | Korev kimdir? | %0 | %0.0 | FN | 4.92 |
-| 25 | Kolay | Summer School programı kaç haftalıktır? | %100 | %100.0 | TP | 42.83 |
-| 26 | Orta | Summer School fazları nelerdir? | %0 | %24.2 | TP | 44.48 |
-| 27 | Orta | Birinci fazda ne öğrenilir? | %0 | %41.7 | TP | 41.52 |
-| 28 | Zor | Kullanılan vektör veritabanı | %100 | %100.0 | TP | 38.26 |
-| 29 | Negatif | Alis hangi dille Fourier hesapladı? | %100 | %100.0 | TN | 9.82 |
-| 30 | Negatif | Oda 304'te bağlamdan bağımsız dilbilgisi | %0 | %0.0 | FP | 13.17 |
-
----
-
-#### 5.4.6 Skorlama Komutu ve Otomasyon
-
-Test sonuçlarını yeniden skorlamak ve grafikleri güncellemek için aşağıdaki komut kullanılabilir:
-
-```bash
-# test_sonuclari.csv dosyasını otomatik skorla ve grafikleri üret:
-python benchmark_eval.py test_sonuclari.csv ground_truth.json --output-dir report
-```
-
-Çıktılar:
-- `report/test_sonuclari_scored.csv` (Soru bazlı detaylı skorlar)
-- `report/benchmark_summary.json` (Özet metrikler ve konfüzyon matrisi)
-- `report/benchmark_charts/` (3 adet yüksek çözünürlüklü grafik)
-
-
----
-
-## 6. Başarı Ölçütleri Değerlendirmesi
-
-| # | Ölçüt | Durum | Açıklama |
-|---|-------|-------|----------|
-| 1 | En az 5 doküman indekslenebilmeli | ✅ Karşılandı | 6 doküman indeksli (2 PDF, 1 DOCX, 2 TXT, 1 ek PDF) |
-| 2 | Metin çıkarımı, temizleme ve chunking otomatik çalışmalı | ✅ Karşılandı | `python ingest.py` tek komutla tüm pipeline çalışıyor |
-| 3 | Her soru için en alakalı en az 3 kaynak parça getirilmeli | ✅ Karşılandı | RERANK_TOP_N=3 ile her soruda 3 kaynak getiriliyor |
-| 4 | Üretilen cevaplarda kaynak bilgisi gösterilmeli | ✅ Karşılandı | Dosya adı + sayfa/paragraf bilgisi hem UI'da hem CSV'de |
-| 5 | Dokümanda bulunmayan bilgi için uydurma cevap vermemeli | ✅ Karşılandı | 6 negatif testin 5'inde başarılı (%83.3), prompt güçlü |
-| 6 | En az 30 soruluk test seti ile değerlendirme yapılmalı | ✅ Karşılandı | 30 soru test edildi, sonuçlar CSV'de |
-| 7 | Kod deposu, kurulum kılavuzu ve teknik rapor eksiksiz teslim edilmeli | ✅ Karşılandı | README.md + TEKNIK_RAPOR.md + requirements.txt |
-
----
-
-## 7. Bilinen Sınırlamalar ve İyileştirme Önerileri
-
-### 7.1 Bilinen Sınırlamalar
-
-1. **Çapraz referans zafiyeti:** Farklı dokümanlardan gelen bilgiyi birleştiren sorularda hallucination riski var (Soru 30).
-2. **Tüm embedding'lerin bellekte taranması:** Büyük veritabanlarında (>10.000 chunk) cosine similarity tüm satırları çekiyor → yavaşlama.
-3. **VRAM sınırı:** 8 GB GPU belleğinde uzun bağlamlar hata veriyor; kırpma ile çözülmüş ama bilgi kaybı olabiliyor.
-4. **PDF'lerden çıkarım kalitesi:** Bazı PDF'lerde boşluk/satır sonu sorunları nedeniyle kelimeler birleşebiliyor.
-
-### 7.2 Gelecek İyileştirmeler
-
-1. **FAISS veya ChromaDB entegrasyonu:** Cosine similarity yerine ANN (Approximate Nearest Neighbor) ile büyük veri setlerinde hız artışı.
-2. **Chunking stratejisi:** Sabit paragraf bölünmesi yerine semantik chunking veya overlapping window.
-3. **Çok turlu sohbet:** Önceki soruların bağlamını koruyarak takip soruları cevaplayabilme.
-4. **Daha güçlü negatif test:** Prompt'a "farklı dokümanlardan gelen bilgiyi birleştirme" kuralı ekleme.
-
----
-
-## 8. Kurulum ve Çalıştırma Özeti
-
-### Ön Gereksinimler
-- Python 3.10+
-- Ollama (bge-m3 modeli yüklü)
-- Foundry Local (qwen2.5-7b-instruct-cuda-gpu modeli yüklü)
-- NVIDIA GPU (CUDA desteği)
-
-### Adımlar
-
-```bash
-# 1. Sanal ortam oluştur ve aktifleştir
-python -m venv rag_project
-rag_project\Scripts\activate
-
-# 2. Bağımlılıkları kur
-pip install -r requirements.txt
-
-# 3. Embedding modelini indir
-ollama pull bge-m3
-
-# 4. Dokümanları indeksle
-python ingest.py
-
-# 5. Arayüzü başlat
-streamlit run app.py
-
-# 6. Testleri çalıştır
-python run_tests.py
-```
-
----
-
-## 9. Sonuç
-
-Geliştirilen RAG sistemi, tüm başarı ölçütlerini karşılamaktadır. Sistem 6 dokümanı başarıyla indeksleyebilmekte, otomatik metin çıkarımı ve chunking yapabilmekte, her soru için 3 alakalı kaynak getirmekte, cevaplarda kaynak göstermekte, ve negatif testlerin büyük çoğunluğunda (%83.3) doğru şekilde "bilgi bulunamadı" cevabı vermektedir. 30 soruluk test setinde genel doğruluk %86.7 olarak ölçülmüştür. Hallucination oranı %3.3 ile düşük seviyededir.
-
-Proje tamamen yerelde çalışarak veri gizliliğini garanti altına almakta ve Streamlit tabanlı kullanıcı arayüzü ile kolay erişim sağlamaktadır.
-
-
-## 10 . Geliştirlmesi gerekenler NOT:
-
-4 Aşamalı Filtreleme Sistemi:
-Modelin her seferinde tüm veritabanını (örneğin 10.000 chunk) taraması yerine, adayları 4 aşamalı bir " Eleme Süreci" ile filtreledik:
-
-1. Aşama (Keyword - BM25):
-
-Çok hızlı çalışır. Sorgudaki anahtar kelimeleri (örn: "SQLite", "VN") harfi harfine arar. Anlamsal değil, tam eşleşmeye bakar.
-2. Aşama (Vector - Embedding): 
-
-Anlamsal benzerliğe bakar. "Bitcoin nedir?" sorusunda "Kripto para" içeren paragrafı bulur.
-3. Aşama (Fusion - RRF): 
-
-İlk iki aşamanın sonuçlarını birleştirir. Her iki listede de üst sıralarda olan dokümanları öne çıkarır. İşte sizin "Sinc" kelimesini bulduğunuz yer tam olarak burası. BM25 "Sinc"i buldu, Vektör de "Sinc"in geçtiği bağlamı anladı ve RRF bunları birleştirdi.
-4. Aşama (Rerank - Cross-Encoder): 
-
-Son filtre. Yukarıdakilerden gelen 15-20 adayı alıp en akıllı modelle tekrar puanlar. Bu aşama sayesinde alakasız ama anahtar kelime içeren dokümanlar elenir.
-
-BM25 Katkısı: Sorgu içerisinde geçen "VN", "SQLite", "Sinc" gibi nadir kelimeleri harfiyen içeren dokümanlar BM25 tarafında çok üst sıralara tırmanır.
-
-Dense Katkısı: Anlamsal benzerliğe sahip dokümanlar Vektör tarafında üst sıralara çıkar.
-RRF Katkısı: Hem anlamsal hem kelimesi kelimesine tutarlı olan dokümanlar her iki listede de üstte olacağı için RRF skoru tavan yapar ve ilk sıraya yerleşir.
-
-Reranker Katkısı: RRF ile filtrelenen adaylar son olarak Cross-Encoder modeline girerek gürültülü/alakasız parçalardan tamamen temizlenir.
-
-free_gpu_memory() ekle app.py faydalı olur mu araştır 
+v6'nın asıl kazanımı bir metrik artışı değil, **bir hata sınıfının yapısal olarak
+kapatılmasıdır:** boş filtre artık olgu gibi sunulamaz ve bu, pozitif set
+performansından hiçbir şey götürmeden (98 cevabın 98'i özdeş) sağlanmıştır.
+Kalan iki halüsinasyon farklı ve daha dar iki mekanizmadan gelir; her ikisi de
+§7'de adreslenmiştir.
