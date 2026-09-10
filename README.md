@@ -1,5 +1,7 @@
 # RAG Soru-Cevap
 
+[![tests](https://github.com/MerveSevim44/rag_intern_project/actions/workflows/tests.yml/badge.svg)](https://github.com/MerveSevim44/rag_intern_project/actions/workflows/tests.yml)
+
 Kendi dokümanlarınız ve veri setleriniz üzerinde Türkçe soru-cevap yapan, **tamamen yerelde**
 çalışan bir RAG (Retrieval-Augmented Generation) uygulaması.
 
@@ -205,6 +207,17 @@ Her deneyin çıktıları `experiments/<sürüm>/` altında koşu kaynağıyla (
 ```bash
 python -m pytest tests
 ```
+
+Bu komut **29 offline testi** koşar; Ollama, Foundry Local, GPU veya `torch` gerektirmez.
+Canlı LLM isteyen 2 test (`test_code_interpreter`, `test_full_pipeline`) `live` marker'ıyla
+varsayılan koşudan hariç tutulur — çalıştırmak için Foundry servisi açıkken:
+
+```bash
+python -m pytest tests -m live
+```
+
+Ayrım [pytest.ini](pytest.ini) içinde tanımlıdır. `main`'e açılan her PR'da offline set
+GitHub Actions ile otomatik koşar ([.github/workflows/tests.yml](.github/workflows/tests.yml)).
 
 ---
 

@@ -400,12 +400,20 @@ Koşuyu yeniden üretmek için:
 python evaluation/run_all.py --sets test_1 test_2 test_3 test_4   # tam akış
 python evaluation/run_all.py --skip-llm                           # yalnızca yeniden skorlama
 python evaluation/run_all.py --only-retrieval                     # LLM'siz retrieval karnesi
-python -m pytest tests                                            # davranış kilitleri
+python -m pytest tests                                            # davranış kilitleri (29 offline test)
+python -m pytest tests -m live                                    # canlı LLM testleri (Foundry gerekir)
 ```
 
 `--skip-llm`, mevcut `<set>_sonuclari.csv` dosyalarını yeniden skorlar; skorlayıcı
 değişikliklerinin (2B gibi) etkisini LLM'i yeniden koşmadan ölçmek için kullanılan
 yol budur. Negatif set, §6'daki segmentli koşu kısıtı nedeniyle ayrı yürütülür.
+
+**Sürekli entegrasyon.** Test paketi ikiye ayrılmıştır (`pytest.ini`): 29 test
+Ollama/Foundry/GPU gerektirmeden koşar, canlı LLM isteyen 2 test `live` marker'ıyla
+işaretlidir. Offline set `main`'e açılan her PR'da GitHub Actions ile otomatik koşar
+(`.github/workflows/tests.yml`), böylece boş-filtre koruması gibi davranış kilitleri
+her değişiklikte doğrulanır. Benchmark koşuları GPU gerektirdiği için CI kapsamı
+dışındadır.
 
 ---
 
