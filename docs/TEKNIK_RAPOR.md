@@ -9,6 +9,7 @@
 | **Platform** | Windows 10/11 · Python 3.10+ · CUDA (8 GB VRAM) · %100 yerel çalışma |
 | **Üretim Modeli** | Qwen 2.5 7B (Foundry Local) · Embedding: `bge-m3` · Reranker: `bge-reranker-v2-m3` |
 | **Kanıt Dizini** | `experiments/v6_sandbox_empty_guard/` · Deney kaydı: `docs/EXPERIMENTS.md` |
+| **v6 Commit'leri** | `f234be3` (2A — sandbox boş-filtre koruması) · `aa081db` (2B — soru bağlamlı ret skorlayıcı) |
 
 ---
 
@@ -46,7 +47,8 @@ Klasik RAG mimarilerinin çözemediği **sayısal hesaplama, oran bulma, çoklu
 filtreleme ve görselleştirme** ihtiyaçları için sistem dört ayırt edici bileşenle
 donatılmıştır:
 
-1. **3 Kademeli Akıllı Yönlendirici** — her soruyu en ucuz doğru rotaya gönderir.
+1. **4 Kademeli Akıllı Yönlendirici** — her soruyu en ucuz doğru rotaya gönderir
+   (`rule_engine` · `code_interpreter` · `semantic_rag` · `meta_query`).
 2. **AST Denetimli Güvenli Sandbox** — LLM'in ürettiği Python'u izole çalıştırır.
 3. **Boş-Filtre Koruması** — v6'nın ana katkısı; "hiç eşleşmeyen sorgu"yu olgu
    gibi sunmayı yapısal olarak imkânsız kılar.
@@ -80,7 +82,7 @@ donatılmıştır:
 
 ```mermaid
 flowchart TD
-    UserQuery([Kullanıcı Sorusu]) --> Router{3 Kademeli Router}
+    UserQuery([Kullanıcı Sorusu]) --> Router{4 Kademeli Router}
 
     %% Rota 1 — deterministik
     Router -->|Deterministik Soru| RuleEngine["Kural Motoru / Regex"]
@@ -97,11 +99,15 @@ flowchart TD
     Sandbox -->|Geçerli sonuç| NLSynth["Doğal Dil Sentezleyici"]
 
     %% Rota 3 — metin
-    Router -->|Doküman QA| HybridRet["Hibrit Retrieval — Vektör + BM25, RRF"]
+    Router -->|Doküman QA| HybridRet["Hibrit Retrieval — Vektör + BM25, ağırlıklı füzyon"]
     HybridRet --> Reranker["Cross-Encoder Reranker"]
     Reranker --> TopChunks["En iyi 3 chunk"]
     TopChunks --> LLMGen["LLM Yanıt Üretimi"]
     LLMGen --> TrimLayer["Trim & Dil Sızıntısı Filtresi"]
+
+    %% Rota 4 — meta
+    Router -->|Meta / Çıkarım Sorusu| MetaSynth["Dokümanda olan / çıkarım ayrımı zorunlu"]
+    MetaSynth --> HybridRet
 
     %% Ortak çıkış
     NLSynth --> Visualizer{Görselleştirilebilir mi?}
@@ -129,27 +135,53 @@ motorunda *deterministik eşleşme*. Hiçbir rota bir diğerinin hatasını mask
 | DOCX | `python-docx` ile paragraf hiyerarşisi tabanlı chunk'lama |
 | TXT / Markdown | Paragraf ve semantik sınır odaklı parçalama |
 | Depolama | `sqlite3` / `rag.db`, WAL modu, otomatik şema migrasyonu, dosya bazlı transaksiyon |
-| İdempotanlık | Aynı dosyanın yeniden indekslenmesi mükerrer chunk üretmez |
-| Chunk sınırı | `MAX_CHUNK_CHARS = 1500` — ölçümle belirlendi (bkz. §4.2) |
+| İdempotanlık | Aynı dosyanın yeniden indekslenmesi mükerrer chunk üretmez (`--force` ile bilinçli yeniden işleme) |
+| Embedding batch | `BATCH_SIZE = 64` (`src/ingest.py`); `--batch_size` ile ezilebilir |
+
+> **Not:** `MAX_CHUNK_CHARS = 1500` bir *indeksleme* değil, **bağlam kırpma**
+> sınırıdır ve `src/llm_client.py` içinde tanımlıdır — chunk'lar diske tam
+> hâliyle yazılır, yalnızca prompt'a girerken kırpılır. Değeri ölçümle
+> belirlenmiştir (bkz. §4.2).
 
 ### 3.2 Embedding ve Yeniden Sıralama — `src/embedder.py`, `src/retrieval.py`
 
-* **Dense:** `BAAI/bge-m3`, 1024 boyutlu çok dilli vektör, batch = 16.
-* **Sparse:** BM25 — kod, kısaltma ve özel isim eşleşmelerini yakalar.
-* **Füzyon:** Reciprocal Rank Fusion (RRF) ile iki listenin birleştirilmesi.
-* **Rerank:** `BAAI/bge-reranker-v2-m3` cross-encoder; 16 adaydan **en iyi 3**
+* **Dense:** `BAAI/bge-m3`, 1024 boyutlu çok dilli vektör; cosine benzerliği
+  döngü yerine numpy matris çarpımıyla toplu hesaplanır.
+* **Sparse:** BM25 (`rank_bm25`) — kod, kısaltma ve özel isim eşleşmelerini yakalar.
+* **Füzyon:** **Ağırlıklı doğrusal birleştirme** — her iki skor [0,1] aralığına
+  normalize edilir ve
+  `hybrid = (1 − BM25_WEIGHT) · dense + BM25_WEIGHT · sparse` ile toplanır
+  (`BM25_WEIGHT = 0.35`). Şema/meta chunk'ları (`fieldGuide`,
+  `safetyAndDataQuality`) sabit bir bonusla öne çekilir.
+* **Aday havuzu:** `TOP_K = 8` en yüksek hibrit skorlu chunk.
+* **Rerank:** `BAAI/bge-reranker-v2-m3` cross-encoder; 8 adaydan **en iyi 3**
   (`RERANK_TOP_N = 3`).
+* **Cache:** Chunk verisi ve BM25 indeksi ilk sorguda belleğe alınır; yeni
+  doküman indekslendiğinde otomatik geçersizleşir.
 
 > Aday havuzunu 64'e, seçilen chunk sayısını 8'e çıkarmak **oracle yakalama
 > oranını artırmadı**, yalnızca bağlam kirliliği üretti (§4.2).
 
-### 3.3 3 Kademeli Yönlendirici — `src/router.py`
+### 3.3 4 Kademeli Yönlendirici — `src/router.py`
 
 | Kademe | Tetikleyici | Tipik gecikme |
 | :--- | :--- | :--- |
-| 1 — `rule_engine` | Basit sayım / şablon soruları | milisaniye |
+| 1 — `rule_engine` | Basit sayım / şablon soruları (sabit regex) | milisaniye |
 | 2 — `code_interpreter` | Sektör, şehir, tarih, ortalama, oran, çoklu filtre | 20–70 sn |
 | 3 — `semantic_rag` | Kavramsal, tanımsal, doküman içi metin | 15–45 sn |
+| 4 — `meta_query` | Veri setinin **sınırlarını / varlığını** sorgulayan çıkarım soruları | 15–45 sn |
+
+`meta_query` rotası semantik hattı kullanır, ancak sentezleyiciye ek bir sözleşme
+dayatır: cevap **"dokümanda açıkça olan"** ve **"çıkarım"** olmak üzere iki bölüme
+ayrılmak zorundadır ve çıkarım kısmında *"bu bir çıkarımdır, dokümanda doğrudan
+belirtilmemiştir"* ifadesi aynen geçmelidir. Bu rotanın amacı, "veri setinde bu
+bilgiyi taşıyan alan yok" cevabını **geçerli bir cevap** hâline getirmektir.
+
+**Dataset bağımsızlığı.** Router tek bir veri setine sabitlenmiş kelime listesine
+bağlı değildir; veri seti sinyali çalışma anında verilen gerçek kolon adlarından
+(`df_schema`) hesaplanır ve İngilizce kolonlar `COLUMN_TR_ALIASES` sözlüğüyle
+Türkçeye eşlenir. Yeni bir veri seti eklendiğinde router'da kod değişikliği
+gerekmez.
 
 Ayrıca **görsel istek tespiti** (dağılım, grafik, pasta/çubuk) görselleştirme
 hattını tetikler.
@@ -239,7 +271,7 @@ kod düzeltmesinden** gelir. Kazanç bir ölçüm artefaktı değildir.
 
 1. **`MAX_CHUNK_CHARS` 1500 → 2900.** Bağlam ~8700 karaktere çıkınca 8 GB VRAM
    sınırında çökme. Ölçülen kazanç marjinaldi (6 sondajdan 1'i). **Geri alındı.**
-2. **Chunk sayısı 3 → 8, aday havuzu 16 → 64.** Oracle chunk yakalama oranı
+2. **Chunk sayısı 3 → 8 (`RERANK_TOP_N`), aday havuzu 8 → 64 (`TOP_K`).** Oracle chunk yakalama oranı
    artmadı; bağlam kirliliği arttı. **Geri alındı.**
 3. **Sonucun değerine bakarak boş sonuç tespiti.** `0` / `NaN` kontrolü hem
    `#225` gibi yapısal olarak dolu vakaları kaçırıyor hem de meşru sıfırları
@@ -258,6 +290,15 @@ kod düzeltmesinden** gelir. Kazanç bir ölçüm artefaktı değildir.
 | `test_3` | 30 | Karmaşık teknik terimler, matematiksel dönüşüm, çoklu doküman |
 | `test_4` | 10 | Özel formatlı dokümanlar, çeviri / yabancı dil |
 | `test_negative` | 32 | 4 tuzak kategorisi: hayali varlık, yanlış ön kabul, gelecek tarih, alan dışı |
+
+**Henüz koşulmamış set — `test_5` (15 soru).** `evaluation/datasets/test_5.csv` ve
+karşılığı `evaluation/ground_truth/test_5.json` repoda mevcuttur; tamamı
+`dokumanda_var_mi = Hayır` olan **ikinci bir negatif settir** (indekslenmiş
+dokümanlara yakın duran ama karşılığı olmayan sorular: FFT karmaşıklığı, IBAN
+alanı, Kanban aracı…). `run_all.py`'nin varsayılan set listesine dahildir, ancak
+**v6 koşusunda çalıştırılmamıştır** — bu rapordaki hiçbir rakam `test_5` içermez.
+Halüsinasyon direncinin bağımsız bir sette doğrulanması için sonraki koşuya
+bırakılmıştır (§7).
 
 ### 5.2 Karar Matrisi *(132 soruluk tam koşu)*
 
@@ -353,6 +394,19 @@ değişmemiştir.** Ham çıktılar, loglar ve skorlanmış CSV'ler
 `experiments/v6_sandbox_empty_guard/{results,report}/` altındadır; koşu koşulları
 aynı klasördeki `PROVENANCE.md`'de kayıtlıdır.
 
+Koşuyu yeniden üretmek için:
+
+```bash
+python evaluation/run_all.py --sets test_1 test_2 test_3 test_4   # tam akış
+python evaluation/run_all.py --skip-llm                           # yalnızca yeniden skorlama
+python evaluation/run_all.py --only-retrieval                     # LLM'siz retrieval karnesi
+python -m pytest tests                                            # davranış kilitleri
+```
+
+`--skip-llm`, mevcut `<set>_sonuclari.csv` dosyalarını yeniden skorlar; skorlayıcı
+değişikliklerinin (2B gibi) etkisini LLM'i yeniden koşmadan ölçmek için kullanılan
+yol budur. Negatif set, §6'daki segmentli koşu kısıtı nedeniyle ayrı yürütülür.
+
 ---
 
 ## 7. Yol Haritası
@@ -362,8 +416,9 @@ aynı klasördeki `PROVENANCE.md`'de kayıtlıdır.
 | 1 | **Koreferans çözümü + parent-child chunking** — chunk'a belge içi üst bağlamı iliştir | 13 FN'in baskın kısmı (§5.5) |
 | 2 | **Ön kabul denetimi** — sorudaki varsayımı bağlama karşı doğrulayan ayrı kontrol | `#224` sınıfı FP |
 | 3 | **Sütun seçim doğrulaması** — üretilen kodun okuduğu sütunu soru semantiğiyle eşleştirme | `#232` sınıfı FP |
-| 4 | **FAISS / HNSW indeksi** — SQLite lineer taramasından geçiş | >100.000 chunk'ta ölçekleme |
-| 5 | **Çok turlu sohbet hafızası** — önceki analiz sonuçlarını ve grafik durumunu koruma | Kullanıcı deneyimi |
+| 4 | **`test_5` koşusu** — 15 soruluk ikinci negatif seti çalıştırıp boş-filtre korumasını bağımsız sette doğrulama | v6 kazancının genellenebilirliği (§5.1) |
+| 5 | **FAISS / HNSW indeksi** — SQLite lineer taramasından geçiş | >100.000 chunk'ta ölçekleme |
+| 6 | **Çok turlu sohbet hafızası** — önceki analiz sonuçlarını ve grafik durumunu koruma | Kullanıcı deneyimi |
 
 ---
 
