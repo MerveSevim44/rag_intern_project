@@ -23,7 +23,7 @@ jobs:
       # requirements.txt'in tamami BILINCLI olarak kurulmuyor: torch==2.11.0 +
       # sentence-transformers CI'da ~2 GB indirme demek ve offline testlerin
       # hicbiri bunlara dokunmuyor. Foundry Local / Ollama gerektiren iki test
-      # `live` marker'i ile zaten haric tutuluyor (bkz. pytest.ini).
+      # pytest komutunda --ignore ile haric tutuluyor.
       # Yeni bir test bu listede olmayan bir pakete ihtiyac duyarsa buraya eklenir.
       - name: Install test dependencies
         run: |
