@@ -1,0 +1,78 @@
+Segment 201-215: 15 soru
+[Foundry] Model yüklendi: qwen2.5-7b-instruct-cuda-gpu:4 | execution provider: CUDAExecutionProvider | cihaz: GPU
+[Foundry] Servis adresi: http://127.0.0.1:59242
+[Foundry] Serviste yüklü modeller: ['qwen2.5-7b-instruct-cuda-gpu:4']
+Model hazir.
+
+[201] Soruluyor: Blockchain tabanlı akıllı sözleşmelerde gaz (gas) ücreti nasıl hesaplanır?
+[retrieval] Cache yuklendi: 916 chunk, embedding matrisi (916, 1024)
+    -> 25.04 sn
+
+[202] Soruluyor: Kuantum dolanıklığının kübit hata oranlarına etkisi nedir?
+    -> 16.02 sn
+
+[203] Soruluyor: GDPR kapsamında kişisel verilerin azami saklama süresi ne kadardır?
+    -> 13.25 sn
+
+[204] Soruluyor: Kubernetes'te pod autoscaling eşik değerleri nasıl yapılandırılır?
+    -> 13.99 sn
+
+[205] Soruluyor: Porter'ın beş güç analizi bir pazara nasıl uygulanır?
+    -> 13.84 sn
+
+[206] Soruluyor: Fotosentezde Calvin döngüsünün ATP tüketimi nedir?
+    -> 15.18 sn
+
+[207] Soruluyor: Wavelet dönüşümünün zaman-frekans çözünürlüğü avantajı nedir?
+    -> 15.1 sn
+
+[208] Soruluyor: Dizel motorlarda ortak hat (common rail) yakıt enjeksiyon basıncı kaç bardır?
+    -> 14.62 sn
+
+[209] Soruluyor: ACC-456 hesabının Ocak 2024 dönemindeki toplam harcaması nedir?
+    -> 11.69 sn
+
+[210] Soruluyor: TXN-020 numaralı işlemin tutarı ve kategorisi nedir?
+    -> 14.45 sn
+
+[211] Soruluyor: "Havacılık ve Uzay" sektöründeki profillerin ortalama deneyim yılı kaçtır?
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=7.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'sector~sektör', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil', 'experience.years~deneyim']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df[df['sector'] == 'Havacılık ve Uzay']['experience.years'].mean()
+[CodeInterpreter] Basarili! Cikti: nan
+[llm_client] Para birimi duzeltildi: 'lira' -> '(kaldirildi)'
+    -> 7.77 sn
+
+[212] Soruluyor: Erzurum şehrinde hizmet veren kaç profil bulunmaktadır?
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df[(df['location.city'] == 'Erzurum')].shape[0]
+[CodeInterpreter] Basarili! Cikti: 0
+    -> 7.56 sn
+
+[213] Soruluyor: "Ahmet Yıldırım" adlı profilin uzmanlık alanı ve şehri nedir?
+    -> 22.07 sn
+
+[214] Soruluyor: airports.json veri setindeki Türkiye'ye ait havaalanlarının IATA kodları nelerdir?
+    -> 21.93 sn
+
+[215] Soruluyor: us-states veri setinde her eyaletin nüfusu kaç olarak belirtilmiştir?
+[data_engine] route=code_interpreter (dataset_signal+interrogative) | dataset=us-states-with-detail.json (score=3.0, best_score, ambiguous=False) | schema_cols=[]
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = None
+[CodeInterpreter] Hata alindi (1. deneme): ValueError: Kod çalıştırıldı ancak 'result' değişkenine bir değer atanmadı. Lütfen sonucu 'result = ...' şeklinde atayın.
+[CodeInterpreter] Deneme 2/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['population']
+[CodeInterpreter] Hata alindi (2. deneme): KeyError: 'population'
+[CodeInterpreter] Deneme 3/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['population']
+[CodeInterpreter] Hata alindi (3. deneme): KeyError: 'population'
+[CodeInterpreter] 3 deneme basarisiz oldu. Son hata: KeyError: 'population'
+    -> 30.96 sn
+
+Segment tamamlandi.

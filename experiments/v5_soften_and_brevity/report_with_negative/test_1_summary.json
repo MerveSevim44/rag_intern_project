@@ -1,0 +1,85 @@
+{
+  "test_seti": "test_1",
+  "sonuc_dosyasi": "results_v5\\test_1_sonuclari.csv",
+  "ground_truth_dosyasi": "C:\\Users\\merve\\Desktop\\rag_project\\evaluation\\ground_truth\\test_1.json",
+  "toplam_soru": 30,
+  "referansli_soru": 30,
+  "referanssiz_soru": 0,
+  "genel_metrikler": {
+    "exact_match_yuzde": 20.0,
+    "soft_match_yuzde": 30.0,
+    "f1_skor_yuzde": 55.61,
+    "rouge_l_yuzde": 51.54,
+    "semantik_benzerlik_yuzde": 81.71,
+    "precision_yuzde": 52.37,
+    "recall_yuzde": 65.21,
+    "retrieval_dogruluk_yuzde": 100.0,
+    "retrieval_mrr_yuzde": 100.0,
+    "retrieval_recall_at_1_yuzde": 100.0,
+    "ortalama_sure_sn": 28.18,
+    "medyan_sure_sn": 26.2,
+    "min_sure_sn": 23.41,
+    "max_sure_sn": 65.15
+  },
+  "siniflandirma_matrisi": {
+    "TP": 27,
+    "TN": 0,
+    "FP": 0,
+    "FN": 3
+  },
+  "fn_kirilimi": {
+    "retrieval_kacirdi": 0,
+    "dogru_kaynak_ama_cevap_yok": 3
+  },
+  "etiket_celiskisi_olan_sorular": [],
+  "kategori_bazli": {
+    "Kolay": {
+      "toplam_soru": 6,
+      "referansli_soru": 6,
+      "exact_match_yuzde": 66.67,
+      "soft_match_yuzde": 83.33,
+      "f1_skor_yuzde": 62.16,
+      "rouge_l_yuzde": 62.16,
+      "semantik_benzerlik_yuzde": 87.99,
+      "precision_yuzde": 59.92,
+      "recall_yuzde": 77.63,
+      "retrieval_dogruluk_yuzde": 100.0,
+      "ortalama_sure_sn": 33.81,
+      "medyan_sure_sn": 27.27,
+      "min_sure_sn": 25.03,
+      "max_sure_sn": 65.15
+    },
+    "Orta": {
+      "toplam_soru": 20,
+      "referansli_soru": 20,
+      "exact_match_yuzde": 10.0,
+      "soft_match_yuzde": 20.0,
+      "f1_skor_yuzde": 59.23,
+      "rouge_l_yuzde": 55.04,
+      "semantik_benzerlik_yuzde": 82.51,
+      "precision_yuzde": 54.55,
+      "recall_yuzde": 68.28,
+      "retrieval_dogruluk_yuzde": 100.0,
+      "ortalama_sure_sn": 25.98,
+      "medyan_sure_sn": 25.45,
+      "min_sure_sn": 23.41,
+      "max_sure_sn": 31.64
+    },
+    "Zor": {
+      "toplam_soru": 4,
+      "referansli_soru": 4,
+      "exact_match_yuzde": 0.0,
+      "soft_match_yuzde": 0.0,
+      "f1_skor_yuzde": 27.64,
+      "rouge_l_yuzde": 18.17,
+      "semantik_benzerlik_yuzde": 68.35,
+      "precision_yuzde": 30.08,
+      "recall_yuzde": 31.24,
+      "retrieval_dogruluk_yuzde": 100.0,
+      "ortalama_sure_sn": 30.74,
+      "medyan_sure_sn": 30.54,
+      "min_sure_sn": 26.63,
+      "max_sure_sn": 35.28
+    }
+  }
+}

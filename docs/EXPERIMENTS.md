@@ -8,13 +8,18 @@ klasor adindan tahmin etmek zorunda kalmamak.
 
 Tum rakamlar **98 soruluk temiz set** uzerinden (kronik GPU bellek hatasi veren
 `test_2#43` ve `test_2#53` her deneyden cikarildi — bkz. "Bilinen sorunlar").
-Negatif set FP'si her zaman **tam 32 soruluk** kosudan gelir.
+Negatif set FP'si tam kosudan gelir. **v5 ve v6 karsilastirmasi n=31**
+uzerindendir: v5 kosusunda `#216` altyapi hatasi verdi (v6'da vermedi),
+bu yuzden iki taraftan da cikarildi. v6'nin kendi tam sayisi 2/32'dir.
+**v6 satirindaki FP yeni skorlayiciyla olculdu; v5 satiri da ayni
+skorlayiciyla yeniden skorlanmistir** (bkz. v6 bolumu).
 
 | Deney | FN | F1 | ROUGE-L | Semantik | EM | Soft | Negatif FP | Durum |
 |---|---|---|---|---|---|---|---|---|
 | v2 — baseline + trim duzeltmesi | 23 | 39.6 | **36.6** | 73.9 | 6.1 | 9.2 | 7/32 | superseded |
 | v3 — yumusatma + kirpma | **10** | 32.1 | 27.9 | 75.6 | 3.1 | 12.2 | 8/32 | ❌ alinmadi |
-| **v5 — yumusatma + kisalik** | 13 | **40.0** | 35.5 | **77.5** | 6.1 | **12.2** | **7/32** | ✅ **aktif** |
+| v5 — yumusatma + kisalik | 13 | **40.0** | 35.5 | **77.5** | 6.1 | **12.2** | 7/31 | superseded |
+| **v6 — sandbox bos-sonuc korumasi** | 13 | **40.0** | 35.5 | **77.5** | 6.1 | **12.2** | **2/31** | ✅ **aktif** |
 | v4 — basarisiz kosu | — | — | — | — | — | — | — | ⚠️ gecersiz |
 
 ---
@@ -67,11 +72,55 @@ Klasor: `archive/reports_old/report_v4_invalid/`, `archive/reports_old/results_v
   geri alindi.
 - **Sonuc (98 soru):** FN 23->13, F1 39.6->40.0, ROUGE-L 36.6->35.5,
   Semantik 73.9->77.5, EM 6.1->6.1, Soft 9.2->12.2,
-  Negatif set FP 7/32->7/32 (degismedi, kategori dagilimi da ayni)
+  Negatif set FP **7/31** (temiz kosu ile olculdu — v2'nin 7/32'siyle ayni,
+  yani FN kazanci halusinasyon pahasina gelmedi)
 - **Takas:** Cevap uzunlugu 19 -> 28 kelime, ROUGE-L -1.1. Kisalik kisiti
   FN'i v3'un 10'undan 13'e cikardi — 3 FN karsiliginda F1'de ~8 puan ve
   FP'de 1 birim kazanildi; takas bilincli.
-- **Durum:** ✅ Commit edildi, aktif kod
+- **Not (provenance):** EXPERIMENTS.md'nin ilk halindeki 7/32, commit
+  ONCESI calisma agacindan gelen bir kosuya dayaniyordu. Temiz bir kosu ile
+  dogrulandi: rakam tutuyor (7/31), ama artik hangi koda ait oldugu kesin.
+- **Durum:** Superseded (v6 tarafindan)
+
+## v6 — Sandbox Bos-Sonuc Korumasi (FINAL / aktif)
+- **Commit:** (bu degisiklik)
+- **Klasor:** `experiments/v6_sandbox_empty_guard/`
+- **Problem:** Negatif set FP'lerinin 6/7'si sandbox rotasindan geliyordu ve
+  mekanizma her seferinde ayniydi: model VAR OLMAYAN bir varlik icin
+  ("ACC-124", "Erzurum", "Subat 2024") bir maske kuruyor, maske hicbir satirla
+  eslesmiyor, ustundeki `.sum()/.mean()/.shape[0]` bundan sessizce `0`/`NaN`
+  uretiyor ve synthesizer bunu olgusal bir cevap gibi sunuyordu
+  ("ACC-124 hesabinin kapanis bakiyesi 0'dir").
+- **Degisiklik (2A):** Tespit noktasi sonucun DEGERI degil, FILTRENIN ESLESIP
+  ESLESMEDIGI. `sandbox.TrackedDataFrame` boolean maske 0 satir dondurdugunde
+  thread-local bir bayrak kaldirir; `code_interpreter.is_no_match_result` bunu
+  (veya yapisal bosluğu) gorunce sonucu "kayit bulunamadi" isaretler;
+  `data_engine` bu durumda `result_to_natural_language`'i HIC CAGIRMAZ
+  (sayiyi cumleye ceviren adim tam olarak orasiydi) ve `retrieval` normal
+  `[KESIN HESAPLAMA SONUCU]` yerine `[KAYIT BULUNAMADI]` blogu +
+  `EMPTY_RESULT_INSTRUCTION` gecirir.
+- **Neden deger kontrolu yetmez:** #225'in sonucu `{'total_amount': 0.0,
+  'currency': 'USD'}` — yapisal olarak BOS DEGIL. Yalnizca maske takibi yakalar.
+  Ayni sekilde mesru sifir (hesap var, net bakiye gercekten 0) maske eslestigi
+  icin normal sonuc olarak kalir. Bu ayrim `tests/test_empty_result_guard.py`
+  ile kilitlenmistir.
+- **Degisiklik (2B):** `check_is_not_found` artik istege bagli `question` alir.
+  Ret ifadesinden sonra kalan icerik SORUDA GECMEYEN yeni bir sayi/kod/ozel
+  isim iceriyorsa iddia (FP), aksi halde gerekce (TN) sayilir. Eski davranis
+  `question` verilmediginde aynen korunur.
+- **Sonuc (98 soru):** F1 40.0, ROUGE-L 35.5, Semantik 77.5, EM 6.1, Soft 12.2,
+  FN 13 — **v5 ile BIREBIR AYNI; 98 cevabin 98'i karakter karakter ozdes.**
+- **Sonuc (negatif, n=31):** FP **7 -> 2**, TN 24 -> 29.
+  Kapanan 5 vaka (211, 212, 218, 225, 228) sandbox bos-filtre; 231 skorlayici
+  duzeltmesiyle zaten TN. Kalan 2 FP kapsam disi:
+  **#224** (sandbox disi, yanlis on kabul) ve **#232** (sandbox ama YANLIS
+  SUTUN okuyor — `founded`.idxmax; bos filtre degil, ayri bir hata sinifi).
+- **Iki etkinin ayrimi:** skorlayici tek basina 7->6 (yalnizca #231),
+  kod duzeltmesi tek basina 6->2. v6'da eski ve yeni skorlayici ayni sonucu
+  (2) veriyor.
+- **Yan etki taramasi:** ana sette koruma HIC tetiklenmedi (0 kez), yeni FN
+  yok, yeni FP yok, cevaplar degismedi.
+- **Durum:** ✅ Aktif
 
 ---
 
@@ -92,6 +141,11 @@ coreference sorunu. Cozum chunking veya embedding tarafinda aranmali.
 
 ## Bilinen sorunlar
 
+- **Foundry Local 8GB VRAM'de kosu ortasinda cokuyor — yapisal, tekrarlayan
+  bir sorun (v3, v4 ve v5 negatif kosusunda ucuncu kez).** Tetikleyici uzun
+  `code_interpreter` retry zincirleri; negatif set en agir yuku urettigi icin
+  en kirilgan kosu. Ayrinti, tetikleyici analizi ve kosu oncesi/sonrasi
+  kontrol listesi: **`docs/INFRASTRUCTURE_NOTES.md`**.
 - **`test_2#43` ve `test_2#53`** kronik GPU bellek hatasi veriyor (en agir
   code_interpreter sorulari; 5 denemede de 500/BFCArena). Karsilastirmalarda
   iki taraftan da cikarilir. Ilk teshis kosusunda da ayni iki soru hata vermisti,

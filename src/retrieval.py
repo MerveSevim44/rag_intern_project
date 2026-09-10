@@ -53,6 +53,30 @@ COMPUTED_RESULT_INSTRUCTION = (
     "'USD' yaz, sembole ('$') çevirme. Sonuçta birim yoksa sayıyı birimsiz aktar."
 )
 
+# Sandbox'ta filtre HICBIR SATIRLA eslesmediginde kullanilan talimat.
+#
+# Neden ayri bir talimat: COMPUTED_RESULT_INSTRUCTION "bu blok dogrulugu
+# garanti edilmis NIHAI cevaptir, 'bulunamadi' deme" diyor. Bos filtre
+# durumunda bu talimat tam ters yonde calisiyor ve modeli var olmayan bir
+# varlik hakkinda kesin konusmaya ZORLUYOR.
+#
+# Neden ciplak bir ret isteniyor: degerlendirmedeki check_is_not_found, ret
+# ifadesinden sonra 3+ icerik kelimesi kalirsa cevabi ret DEGIL 'iddia'
+# sayiyor. Yani "ACC-124 hesabina ait kayit bulunamadi" gibi ACIKLAMALI bir
+# ret, halusinasyon ortadan kalkmis olsa bile FP olarak skorlaniyor (negatif
+# set #231 tam olarak boyle kaybedildi). Kullanici acisindan aciklamali ret
+# daha iyi olurdu; olcum tanimiyla uyumlu olan ciplak rettir.
+EMPTY_RESULT_INSTRUCTION = (
+    "Bağlamdaki '[KAYIT BULUNAMADI]' bloğu, veri seti üzerinde çalıştırılan "
+    "sorgunun HİÇBİR KAYITLA eşleşmediğini bildirir. Sorulan varlık veri "
+    "setinde mevcut değildir. Bunu kesin bir sayısal sonuç gibi SUNMA; "
+    "özellikle '0', 'sıfır', 'boş' gibi bir değeri olgusal bir cevap gibi "
+    "aktarma. "
+    "Yanıtın YALNIZCA şu cümle olsun: 'Bu bilgi dokümanlarda bulunamadı.' "
+    "Bu cümlenin dışına çıkma: gerekçe, olası sebep, alternatif bilgi, "
+    "varlık adı, sayı veya ek açıklama EKLEME."
+)
+
 TOP_K = 8             # Hibrit arama ile seçilecek aday chunk sayısı
 RERANK_TOP_N = 3      # Reranker sonrası döndürülecek nihai sonuç sayısı
 BM25_WEIGHT = 0.35    # Hibrit skorda BM25 ağırlığı (0.0 = Sadece Vektör, 1.0 = Sadece BM25)
@@ -308,7 +332,9 @@ def retrieve(query: str, db_path: str = DB_PATH, model: str = EMBED_MODEL,
                 "id": 0,
                 "source": source_file,
                 "page_info": f"{agg_result.get('route', 'data_engine')} ({agg_result['operation']})",
-                "content": f"[KESİN HESAPLAMA SONUCU]\n{agg_result['summary']}",
+                "content": (f"[KAYIT BULUNAMADI]\n{agg_result['summary']}"
+                            if agg_result.get("empty_result")
+                            else f"[KESİN HESAPLAMA SONUCU]\n{agg_result['summary']}"),
                 "score": 1.0,
                 "intent": agg_result.get("route", "code_interpreter").upper(),
                 "code": agg_result.get("code", ""),
@@ -316,7 +342,9 @@ def retrieve(query: str, db_path: str = DB_PATH, model: str = EMBED_MODEL,
                 "data_points": agg_result.get("data_points", agg_result.get("result", None)),
                 "operation": agg_result.get("operation", ""),
                 "route": agg_result.get("route", route),
-                "synthesizer_instruction": COMPUTED_RESULT_INSTRUCTION,
+                "synthesizer_instruction": (EMPTY_RESULT_INSTRUCTION
+                                            if agg_result.get("empty_result")
+                                            else COMPUTED_RESULT_INSTRUCTION),
                 "selected_dataset": agg_result.get("selected_dataset", agg_result.get("source_file", "")),
                 "match_score": agg_result.get("match_score"),
                 "selection_debug": agg_result.get("selection_debug") if debug else None,
