@@ -17,7 +17,6 @@ import re
 import unicodedata
 from pathlib import Path
 from typing import Dict, Any, Optional, List, Tuple
-from collections import Counter, defaultdict
 import pandas as pd
 
 # Varsayılan veri dizini
@@ -39,6 +38,7 @@ def _tr_normalize(text: str) -> str:
 class TabularDataEngine:
     def __init__(self, data_dir: Path = DATA_DIR):
         self.data_dir = Path(data_dir)
+        #veriyi bir kez beleğe yüklemek için 
         self._cache: Dict[str, Tuple[pd.DataFrame, list, dict]] = {}
         # Dataset seçimi için kategorik değer sözlüğü (lazy, dataset başına bir kez hesaplanır)
         self._value_vocab_cache: Dict[str, Dict[str, str]] = {}
@@ -80,6 +80,11 @@ class TabularDataEngine:
                     self._cache[file_path.name] = (pd.DataFrame(), [], meta_dict)
             except Exception as e:
                 print(f"[data_engine] '{file_path.name}' yüklenirken hata: {e}")
+
+
+                #artık her yeni json dosyası için dinamik bir puanlama yapılıyor 
+                #soru içinde kelimeler veri setlerinin kolon adları veya kategorik değerleriyle 
+                #eşleştiğinden puan artıyor 
 
     # ─── Dataset Seçimi (Dataset-Bağımsız Skorlama) ──────────────────────────
     # Eskiden burada "airport ise airports.json, profil ise 728_profiles.json,
@@ -293,235 +298,18 @@ class TabularDataEngine:
         """
         Kullanıcı sorusunu analiz ederek DataFrame veya JSON statistics üzerinden
         kesin hesaplama yapar.
-        
-        Öncelik: En spesifik / çoklu filtreli sorgulardan en genele doğru sıralanır.
+
+        Sadece hızlı, tekil ve büyük ölçüde dataset-bağımsız regex kuralları içerir.
+        Çok koşullu / karmaşık analitik sorgular burada ele alınmaz; None dönerek
+        execute_smart_query() içindeki code_interpreter kademesine devredilir.
         """
         df = self.get_dataframe()
-        records = self.get_records()
         meta = self.get_metadata()
         q_clean = query.strip()
         q_norm = _tr_normalize(q_clean)
 
         if df is None or df.empty:
             return self._query_from_metadata_only(q_norm, meta)
-
-        # ══════════════════════════════════════════════════════════════════════════
-        # 1. KARMAŞIK VE ÇOK KOŞULLU ANALİTİK SORGULAR (COMPLEX AGGREGATIONS)
-        # ══════════════════════════════════════════════════════════════════════════
-
-        # ── 1A. ÇOKLU FİLTRELEME VE LOKASYON / İL DAĞILIMI (örn: Sektör + Deneyim + İptal + Onay + İl) ──
-        if ("coklu filtre" in q_norm or ("cancellationnoticehours" in q_norm and "experience" in q_norm) 
-            or ("iptal" in q_norm and "deneyim" in q_norm and "autoapprove" in q_norm)
-            or ("iptal" in q_norm and "deneyim" in q_norm and "onay" in q_norm)):
-            
-            sub_df = df.copy()
-            applied_filters = []
-
-            # Sektör filtresi
-            for sec in df["sector"].dropna().unique():
-                if _tr_normalize(sec) in q_norm:
-                    sub_df = sub_df[sub_df["sector"] == sec]
-                    applied_filters.append(f"Sektör: '{sec}'")
-                    break
-
-            # Deneyim filtresi (experience.years)
-            exp_match = re.search(r"(\d+)\s*(?:yilin uzerinde|yil uzerinde|yildan fazla|>)", q_norm)
-            if exp_match:
-                exp_val = int(exp_match.group(1))
-                sub_df = sub_df[sub_df["experience.years"] > exp_val]
-                applied_filters.append(f"Deneyim > {exp_val} yıl")
-            elif "experience.years" in q_norm and "10" in q_norm:
-                sub_df = sub_df[sub_df["experience.years"] > 10]
-                applied_filters.append("Deneyim > 10 yıl")
-
-            # cancellationNoticeHours filtresi
-            cancel_match = re.search(r"cancellationnoticehours.*?(\d+)|iptal.*?(\d+)\s*saat", q_norm)
-            if cancel_match:
-                c_val = int(cancel_match.group(1) or cancel_match.group(2))
-                sub_df = sub_df[sub_df["appointmentSettings.cancellationNoticeHours"] == c_val]
-                applied_filters.append(f"İptal süresi = {c_val} saat")
-
-            # autoApproveRequests filtresi
-            if "autoapproverequests" in q_norm or "otomatik onay" in q_norm:
-                if "false" in q_norm or "kapali" in q_norm or "hayir" in q_norm or "yanlis" in q_norm:
-                    sub_df = sub_df[sub_df["appointmentSettings.autoApproveRequests"] == False]
-                    applied_filters.append("autoApproveRequests = False")
-                elif "true" in q_norm or "acik" in q_norm or "evet" in q_norm or "dogru" in q_norm:
-                    sub_df = sub_df[sub_df["appointmentSettings.autoApproveRequests"] == True]
-                    applied_filters.append("autoApproveRequests = True")
-
-            # Lokasyon dağılımı
-            city_col = next((c for c in sub_df.columns if "city" in c.lower()), "location.city")
-            city_counts = sub_df[city_col].value_counts()
-            match_count = len(sub_df)
-            
-            top_cities = [f"{c} ({cnt} profil)" for c, cnt in city_counts.items()]
-            cities_str = ", ".join(top_cities) if top_cities else "Eşleşen profil bulunamadı"
-
-            profile_details = []
-            for _, row in sub_df.iterrows():
-                name = row.get("displayName", row.get("profileCode", ""))
-                occ = row.get("occupation", "")
-                city = row.get(city_col, "")
-                exp = row.get("experience.years", "")
-                profile_details.append(f"{name} ({occ}, {city}, {exp} yıl deneyim)")
-            prof_str = "; ".join(profile_details) if profile_details else "Yok"
-
-            city_ranking_lines = []
-            for rank, (c, cnt) in enumerate(city_counts.items(), 1):
-                city_ranking_lines.append(f"{rank}. {c} ({cnt} profil)")
-            
-            while len(city_ranking_lines) < 3:
-                city_ranking_lines.append(f"{len(city_ranking_lines) + 1}. Yok / Başka eşleşen il bulunmamaktadır (0 profil)")
-
-            summary = (
-                f"Filtre kriterleri ({', '.join(applied_filters)}) sonucunda toplam {match_count} profil tespit edilmiştir. "
-                f"Eşleşen profil: {prof_str}. "
-                f"Bu kriterleri sağlayan profillerin en yoğun bulunduğu ilk 3 il dağılımı/sıralaması:\n"
-                + "\n".join(city_ranking_lines) + "\n"
-                f"Sonuç olarak kriterleri sağlayan profiller en yoğun olarak {cities_str} ilinde yer almaktadır."
-            )
-            return {
-                "operation": "multi_filter_location_distribution",
-                "result": {"count": match_count, "city_counts": dict(city_counts)},
-                "summary": summary,
-                "data_points": {"match_count": match_count, "cities": dict(city_counts)}
-            }
-
-        # ── 1B. HİZMET SÜRESİ VE SEKTÖR KARŞILAŞTIRMASI (örn: Psikoloji vs Diş, duration >= 45 dk yüzdesi) ──
-        if (("hizmet" in q_norm or "services" in q_norm or "seans" in q_norm) 
-            and ("durationminutes" in q_norm or "sure" in q_norm or "dakika" in q_norm or "dk" in q_norm)
-            and ("karsilastir" in q_norm or "hangisinde daha yuksek" in q_norm or "oran" in q_norm or ("psikoloji" in q_norm and "agiz" in q_norm))):
-            
-            target_sectors = []
-            for sec in df["sector"].dropna().unique():
-                if _tr_normalize(sec) in q_norm:
-                    target_sectors.append(sec)
-
-            dur_match = re.search(r"(\d+)\s*(?:dakika|dk|minute)", q_norm)
-            dur_threshold = int(dur_match.group(1)) if dur_match else 45
-
-            sector_stats = {}
-            for sec in target_sectors:
-                sec_profs = [p for p in records if p.get("sector") == sec]
-                all_services = [s for p in sec_profs for s in p.get("services", [])]
-                ge_services = [s for s in all_services if s.get("durationMinutes", 0) >= dur_threshold]
-                total_svc = len(all_services)
-                ge_svc = len(ge_services)
-                pct = (ge_svc / total_svc * 100) if total_svc > 0 else 0
-                sector_stats[sec] = {
-                    "profile_count": len(sec_profs),
-                    "total_services": total_svc,
-                    "ge_services": ge_svc,
-                    "pct": round(pct, 2)
-                }
-
-            if sector_stats:
-                sorted_sectors = sorted(sector_stats.items(), key=lambda x: x[1]["pct"], reverse=True)
-                winner_sec, winner_data = sorted_sectors[0]
-
-                parts = []
-                for sec, s_data in sector_stats.items():
-                    parts.append(
-                        f"'{sec}' sektöründe sunulan toplam {s_data['total_services']} hizmetten "
-                        f"{s_data['ge_services']} tanesi {dur_threshold} dakika ve üzerindedir (yüzdesel oran: %{s_data['pct']:.2f})"
-                    )
-
-                summary = (
-                    f"Süresi (durationMinutes) {dur_threshold} dakika ve üzerinde olan seansların toplam hizmetler içindeki yüzdesel oranı "
-                    f"'{winner_sec}' sektöründe daha yüksektir. "
-                    f"Detaylı karşılaştırma: {'; '.join(parts)}. "
-                    f"Sonuç olarak '{winner_sec}' sektörünün %{winner_data['pct']:.2f}'lik oranı diğer sektörden belirgin şekilde daha yüksektir."
-                )
-                return {
-                    "operation": "sector_service_duration_comparison",
-                    "result": sector_stats,
-                    "summary": summary,
-                    "data_points": sector_stats
-                }
-
-        # ── 1C. OPERASYONEL EŞİK ANALİZİ (minimumNoticeHours + weeklyAvailability + occupation) ──
-        if (("minimumnoticehours" in q_norm or "bildirim suresi" in q_norm or "operasyonel esik" in q_norm)
-            and ("weeklyavailability" in q_norm or "mesai" in q_norm or "calisma" in q_norm)
-            and ("meslek" in q_norm or "occupation" in q_norm)):
-            
-            notice_match = re.search(r"(\d+)\s*saat", q_norm)
-            threshold_hours = int(notice_match.group(1)) if notice_match else 12
-
-            # minimumNoticeHours < threshold_hours
-            matching_profiles = []
-            for p in records:
-                min_notice = p.get("appointmentSettings", {}).get("minimumNoticeHours", 999)
-                if min_notice < threshold_hours:
-                    wa = p.get("weeklyAvailability", [])
-                    active_days = [d for d in wa if d.get("active")]
-                    starts = [d.get("start") for d in active_days]
-                    if any(s <= "09:00" for s in starts):
-                        matching_profiles.append(p)
-
-            all_min_profs = [p for p in records if p.get("appointmentSettings", {}).get("minimumNoticeHours", 999) < threshold_hours]
-            all_occ_counts = Counter(p.get("occupation") for p in all_min_profs)
-            top_all_occs = all_occ_counts.most_common(2)
-
-            early_occ_counts = Counter(p.get("occupation") for p in matching_profiles)
-            top_early_occs = early_occ_counts.most_common(3)
-
-            summary = (
-                f"Minimum bildirim süresi (minimumNoticeHours) {threshold_hours} saatten az olan toplam {len(all_min_profs)} profil "
-                f"bulunmaktadır (09:00 standart mesai başlangıcına sahip {len(matching_profiles)} profil). "
-                f"Bu kriterlere uyan profiller arasında en sık rastlanan meslek grupları: "
-                f"Genel eşik altında 8'er profille 'Psikolog' (8 profil) ve 'Veteriner Hekim' (8 profil)'dir "
-                f"(09:00 başlangıçlı profillerde ise 6'şar profille 'Cep Telefonu Teknik Servis Uzmanı', 'Su Tesisat Ustası' ve 'Lastik Servis Uzmanı' en sıktır)."
-            )
-            return {
-                "operation": "operational_threshold_occupation_analysis",
-                "result": {"matching_count": len(matching_profiles), "top_occupations": dict(all_occ_counts.most_common(10))},
-                "summary": summary,
-                "data_points": {"top_occupations": dict(top_all_occs)}
-            }
-
-        # ── 1D. ÇOK DİLLİ UZMANLIK KÜMESİ (Languages > 1 foreign, Sector Diversity, City Clusters) ──
-        if (("birden fazla" in q_norm or "cok dilli" in q_norm or "yabanci dil" in q_norm)
-            and ("cesitlilik" in q_norm or "kumele" in q_norm or "sehir" in q_norm or "sektor" in q_norm)):
-            
-            multi_lang_profs = []
-            for p in records:
-                langs = p.get("languages", [])
-                non_tr = [l for l in langs if _tr_normalize(l) != "turkce"]
-                if len(non_tr) > 1:
-                    multi_lang_profs.append(p)
-
-            sec_occupations = defaultdict(set)
-            sec_profs_count = Counter()
-            for p in multi_lang_profs:
-                sec = p.get("sector")
-                sec_occupations[sec].add(p.get("occupation"))
-                sec_profs_count[sec] += 1
-
-            sorted_sectors = sorted(sec_occupations.items(), key=lambda x: (len(x[1]), sec_profs_count[x[0]]), reverse=True)
-            top_2_sectors = sorted_sectors[:2]
-            sec_desc = [f"'{s[0]}' ({len(s[1])} farklı meslek: {', '.join(s[1])}, toplam {sec_profs_count[s[0]]} profil)" for s in top_2_sectors]
-
-            city_counts = Counter(p.get("location", {}).get("city") for p in multi_lang_profs)
-            top_cities = [f"{c} ({cnt} profil)" for c, cnt in city_counts.most_common()]
-
-            summary = (
-                f"Türkçe dışında birden fazla yabancı dil içeren toplam {len(multi_lang_profs)} profil bulunmaktadır. "
-                f"Bu profillerin faaliyet gösterdiği ve en yüksek meslek çeşitliliğine sahip ilk iki sektör: "
-                f"1) {sec_desc[0]}, 2) {sec_desc[1]}'dir. "
-                f"Bu çok dilli profillerin coğrafi olarak en sık kümelendiği şehir ise 5 profille 'İzmir'dir "
-                f"(ardından {', '.join(top_cities[1:5])} gelmektedir)."
-            )
-            return {
-                "operation": "multi_language_cluster_diversity",
-                "result": {
-                    "multi_lang_count": len(multi_lang_profs),
-                    "top_sectors": {s[0]: list(s[1]) for s in top_2_sectors},
-                    "city_clusters": dict(city_counts)
-                },
-                "summary": summary,
-                "data_points": {"top_sectors": [s[0] for s in top_2_sectors], "top_city": city_counts.most_common(1)[0][0]}
-            }
 
         # ══════════════════════════════════════════════════════════════════════════
         # 2. TEKİL VE GENEL FİLTRE HESAPLAMALARI
@@ -887,10 +675,8 @@ if __name__ == "__main__":
         "appointmentSettings içindeki autoApproveRequests alanı true olan profil sayısı kaçtır?",
         "Veri setindeki profillerde toplam kaç farklı şehir yer almaktadır?",
         "Profillerdeki mesleki deneyim (experience.years) alanının minimum ve maksimum değerleri nedir?",
-        'Çoklu Filtreleme ve Lokasyon Dağılımı: "Sağlık" sektörü içerisinde, mesleki deneyimi (experience.years) 10 yılın üzerinde olan, randevu iptal süresi (cancellationNoticeHours) 24 saat olarak belirlenen ve otomatik onay seçeneği (autoApproveRequests) false olan profillerin en yoğun bulunduğu ilk 3 il hangisidir?',
-        'Hizmet Süresi ve Sektör Karşılaştırması: "Psikoloji ve Danışmanlık" ve "Ağız ve Diş Sağlığı" sektörlerindeki tüm profillerin sunduğu hizmetler (services) incelendiğinde, süresi (durationMinutes) 45 dakika ve üzerinde olan seansların toplam hizmetler içindeki yüzdesel oranı hangi sektörde daha yüksektir?',
-        'Operasyonel Eşik Analizi: Minimum bildirim süresi (minimumNoticeHours) 12 saatten az olan ve haftalık çalışma günlerinde (weeklyAvailability) hem erken mesai (09:00\'dan önce veya 09:00 başlangıç) hem de standart çalışma düzeni sunan profillerin en sık rastlanan meslek grubu (occupation) hangisidir?',
-        'Çok Dilli Uzmanlık Kümesi: Türkçe dışında birden fazla yabancı dil (languages) içeren profillerin faaliyet gösterdiği sektörler arasında en yüksek çeşitliliğe sahip ilk iki sektör ve bu profillerin coğrafi olarak en sık kümelendiği şehirler hangileridir?'
+        # NOT: Çok koşullu analitik sorgular artık execute_query() kapsamında değil;
+        # execute_smart_query() üzerinden code_interpreter kademesinde çalışırlar.
     ]
 
     print("=" * 70)
