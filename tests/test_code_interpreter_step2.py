@@ -14,6 +14,7 @@ except AttributeError:
     pass
 
 import pandas as pd
+import pytest
 try:
     from src.llm_client import load_model
     from src.code_interpreter import code_interpreter_with_retry, result_to_natural_language
@@ -21,6 +22,7 @@ except ImportError:
     from llm_client import load_model
     from code_interpreter import code_interpreter_with_retry, result_to_natural_language
 
+@pytest.mark.live
 def test_code_interpreter():
     print("=== LLM YÜKLENİYOR ===")
     llm = load_model()

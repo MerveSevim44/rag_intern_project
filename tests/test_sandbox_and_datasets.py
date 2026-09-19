@@ -2,7 +2,7 @@
 test_sandbox_and_datasets.py — Dinamik Text-to-Pandas Sandbox & Çoklu Veri Seti Doğrulama Testi
 
 Bu test:
-1. 3 Kademeli Router'ı test eder (rule_engine -> code_interpreter -> semantic_rag).
+1. 4 Kademeli Router'ı test eder (rule_engine -> code_interpreter -> semantic_rag -> meta_query).
 2. Sandbox güvenliğini (yasaklı token engelleme, timeout) doğrular.
 3. 728_profiles.json üzerindeki karmaşık analitik soruları LLM & Sandbox ile çözer.
 4. airports.json (yeni/ikinci JSON) üzerindeki dinamik soruları SIFIR ön tanımlı kural ile %100 otomatik çözer.
@@ -26,6 +26,7 @@ except AttributeError:
 import json
 import time
 import pandas as pd
+import pytest
 
 try:
     from src.llm_client import load_model
@@ -41,6 +42,7 @@ except ImportError:
     from data_engine import get_data_engine, query_tabular_data
 
 
+@pytest.mark.live
 def test_full_pipeline():
     print("=" * 80)
     print("DİNAMİK TEXT-TO-PANDAS SANDBOX & ÇOKLU JSON DOĞRULAMA TESTİ")

@@ -1,0 +1,38 @@
+Segment 0-9999: 10 soru
+[Foundry] Model yüklendi: qwen2.5-7b-instruct-cuda-gpu:4 | execution provider: CUDAExecutionProvider | cihaz: GPU
+[Foundry] Servis adresi: http://127.0.0.1:59242
+[Foundry] Serviste yüklü modeller: ['qwen2.5-7b-instruct-cuda-gpu:4']
+Model hazir.
+
+[91] Soruluyor: Alis'in çalıştığı kütüphanenin adı nedir?
+[retrieval] Cache yuklendi: 916 chunk, embedding matrisi (916, 1024)
+    -> 46.96 sn
+
+[92] Soruluyor: Anlatıcının Oda No: 304'ü kiraladığı şehir ve mevsim hangisidir?
+    -> 39.08 sn
+
+[93] Soruluyor: Defterin sayfalarında beliren cümlede 'gardiyan' olarak kim gösterilmektedir?
+    -> 33.82 sn
+
+[94] Soruluyor: Alis'in Yasaklı Kanat'a girme kararını tetikleyen olaylar zincirini (ay ışığının yansıması, kapının aralık olması, kalp atışları) sırasıyla açıklayınız.
+    -> 39.13 sn
+
+[95] Soruluyor: Antikacının verdiği pirinç anahtarın hikâyedeki işlevi ile günlükte bahsedilen tıkırtı sesi arasındaki bağlantı nasıl kurulmuştur?
+    -> 38.66 sn
+
+[96] Soruluyor: Defterde Alis'in isminin belirmesinden hemen sonra ortaya çıkan illüstrasyonun içeriği, hikâyenin gerilimini nasıl artırmaktadır?
+    -> 32.38 sn
+
+[97] Soruluyor: Günlükteki 12 Mart ve 28 Mart tarihli kayıtlar arasında bilgi açısından ne gibi bir ilerleme (fısıltıdan koda, kodan antikacıya) yaşanmıştır?
+    -> 39.44 sn
+
+[98] Soruluyor: Anlatıcının saatin 03.13'e gelmesini fark etmesi ile önceki günlük kayıtlarında belirtilen 03.14 tıkırtısı arasındaki zamansal gerilim nasıl kurgulanmıştır?
+    -> 37.52 sn
+
+[99] Soruluyor: 'Geleceği görmek bir lütuf değil, bir hapishanedir' cümlesinin, Usta Magnus'un kimliğine dair ipuçlarıyla birlikte hikâyenin genel gizem yapısına nasıl bir anlam kattığını değerlendiriniz.
+    -> 34.72 sn
+
+[100] Soruluyor: Günlükteki koparılmış yirmi sayfa ile arka kapaktaki kroki/koordinat arasındaki anlatısal boşluk, okuyucuda nasıl bir belirsizlik ve merak etkisi yaratacak şekilde kurgulanmıştır?
+    -> 33.97 sn
+
+Segment tamamlandi.
