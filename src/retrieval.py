@@ -452,8 +452,11 @@ def retrieve(query: str, db_path: str = DB_PATH, model: str = EMBED_MODEL,
         # ama vektörel anlam yakalanmadı. Terminoloji uyumsuzluklarını giderir
         # (örn. "dişçi" sorgusu ↔ "Diş Hekimi" chunk'ı) alan adı bilmeden.
         bm25_local = float(bm25_raw[idx])
+        rrf_base = hybrid_score
+        keyword_boost = 0.0
         if bm25_local > 0 and sparse_score > 0.5 and dense_score < 0.70:
-            hybrid_score += 0.08 / (1.0 + dense_score)
+            keyword_boost = 0.08 / (1.0 + dense_score)
+            hybrid_score += keyword_boost
 
         # ── Meta/Şema Chunk Boost ─────────────────────────────────────────────
         # Mevcut veri setiyle geriye dönük uyumluluk korunur.
@@ -465,12 +468,12 @@ def retrieve(query: str, db_path: str = DB_PATH, model: str = EMBED_MODEL,
                                          "statistics", "metadata"])
             or page_str.startswith("$.meta")  # _roots_from_object'in ürettiği path
         )
-        if is_meta_chunk:
-            hybrid_score += 0.35
+        meta_boost = 0.35 if is_meta_chunk else 0.0
+        hybrid_score += meta_boost
 
         # META_QUERY: soruyla eşleşen dataset'in chunk'larını öne çek
-        if meta_source_hint and meta_source_hint in (source or ""):
-            hybrid_score += 0.50
+        hint_boost = 0.50 if (meta_source_hint and meta_source_hint in (source or "")) else 0.0
+        hybrid_score += hint_boost
 
         scored_chunks.append({
             "id": chunk_id,
@@ -480,6 +483,18 @@ def retrieve(query: str, db_path: str = DB_PATH, model: str = EMBED_MODEL,
             "score": hybrid_score,
             "dense_score": dense_score,
             "bm25_score": sparse_score,
+            # Katman katman skor dökümü — hangi katmanın sıralamayı bozduğunu
+            # görmek için (bkz. _print_score_breakdown). Rank'lar 1 tabanlı.
+            "score_debug": {
+                "dense_raw": dense_score,
+                "bm25_raw": bm25_local,
+                "dense_rank": int(dense_ranks[idx]) + 1,
+                "bm25_rank": int(bm25_ranks[idx]) + 1 if bm25_local > 0 else None,
+                "rrf": rrf_base,
+                "keyword_boost": keyword_boost,
+                "meta_boost": meta_boost,
+                "hint_boost": hint_boost,
+            },
             "intent": route.upper(),
             "route": route,
             # META_QUERY rotasında synthesizer'a "açık bilgi vs. çıkarım" talimatı taşınır;
@@ -509,13 +524,45 @@ def retrieve(query: str, db_path: str = DB_PATH, model: str = EMBED_MODEL,
             chunk_copy["rerank_score"] = float(score)
             final_results.append(chunk_copy)
 
+        if debug:
+            rerank_by_idx = {i: float(s) for s, i in reranked}
+            _print_score_breakdown(query, query_tokens, top_candidates, rerank_by_idx)
         if profiler:
             profiler.print_report()
         return final_results
 
+    if debug:
+        _print_score_breakdown(query, query_tokens, top_candidates, None)
     if profiler:
         profiler.print_report()
     return top_candidates[:rerank_top_n]
+
+
+def _print_score_breakdown(query: str, query_tokens: List[str],
+                           candidates: List[Dict[str, Any]],
+                           rerank_by_idx: Optional[Dict[int, float]]) -> None:
+    """
+    Hibrit aramanın her aday için ara skorlarını tablo olarak basar:
+    ham dense, ham BM25, iki listedeki sıra, RRF, boost'lar, final ve rerank.
+    """
+    print(f"\n[retrieval] SKOR DOKUMU — sorgu: {query!r} | BM25 token'lari: {query_tokens}")
+    header = (f"{'#':>2} {'id':>5} {'page_info':<18} {'dense':>7} {'d_rank':>6} "
+              f"{'bm25':>7} {'b_rank':>6} {'rrf':>7} {'kw_bst':>7} {'meta':>5} "
+              f"{'hint':>5} {'final':>7} {'rerank':>8}  kimlik")
+    print(header)
+    print("-" * len(header))
+    for pos, c in enumerate(candidates):
+        d = c["score_debug"]
+        b_rank = "-" if d["bm25_rank"] is None else str(d["bm25_rank"])
+        rr = "" if rerank_by_idx is None else f"{rerank_by_idx.get(pos, float('nan')):.4f}"
+        ident = next((ln.strip() for ln in c["content"].splitlines()
+                      if ln.lower().startswith(("occupation:", "name:", "title:"))),
+                     c["content"][:40].replace("\n", " "))
+        print(f"{pos + 1:>2} {c['id']:>5} {str(c['page_info'])[:18]:<18} "
+              f"{d['dense_raw']:>7.4f} {d['dense_rank']:>6} {d['bm25_raw']:>7.3f} {b_rank:>6} "
+              f"{d['rrf']:>7.4f} {d['keyword_boost']:>7.4f} {d['meta_boost']:>5.2f} "
+              f"{d['hint_boost']:>5.2f} {c['score']:>7.4f} {rr:>8}  {ident[:40]}")
+    print()
 
 
 # Geriye dönük uyumluluk için alias — retrieve() ile birebir aynı imzayı taşır
