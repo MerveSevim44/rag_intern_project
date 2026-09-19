@@ -29,11 +29,13 @@ try:
     from src.router import classify_query, QueryIntent
     from src.data_engine import query_tabular_data, _tr_normalize
     from src.memory_profiler import MemoryProfiler
+    from src.ingest import FIELD_KEY_MAX_CHARS
 except ImportError:
     from embedder import get_embedding, cosine_similarity, cosine_similarity_batch, rerank_indices, EMBED_MODEL
     from router import classify_query, QueryIntent
     from data_engine import query_tabular_data, _tr_normalize
     from memory_profiler import MemoryProfiler
+    from ingest import FIELD_KEY_MAX_CHARS
 
 # ─── Varsayılan Ayarlar ───
 from pathlib import Path
@@ -58,6 +60,7 @@ TOP_K = 8             # Hibrit arama ile seçilecek aday chunk sayısı
 RERANK_TOP_N = 3      # Reranker sonrası döndürülecek nihai sonuç sayısı
 BM25_WEIGHT = 0.35    # (Geriye dönük uyumluluk için korunur — RRF'de kullanılmaz)
 RRF_K = 60            # RRF sabiti: düşük değer üst sıraları güçlendirir (standart: 60)
+KEYWORD_BOOST_MAX = 0.08  # Keyword hit boost tavanı (BM25 en güçlü + tüm terimler KEY alanında)
 
 
 # ─── BM25 Metin Normalizasyonu ──────────────────────────────────────────────
@@ -147,6 +150,22 @@ def _tokenize(text: str) -> List[str]:
     return [t for t in _apply_synonyms(_base_tokens(text)) if t not in _STOPWORDS]
 
 
+def _key_field_tokens(content: str) -> set:
+    """
+    Chunk'taki KEY alanlarının (kısa/kategorik değerler: occupation, sector,
+    city…) BM25 token'larını döndürür. Alan adına bakılmaz: ingest'teki alan
+    karakterizasyonuyla aynı kural — "alan: değer" satırında değer
+    FIELD_KEY_MAX_CHARS'tan kısaysa KEY sayılır. Yalnızca değer token'lanır,
+    böylece sorgudaki bir kelimenin alan ADIYLA eşleşmesi sayılmaz.
+    """
+    tokens = set()
+    for line in content.splitlines():
+        _, sep, value = line.partition(": ")
+        if sep and 0 < len(value) <= FIELD_KEY_MAX_CHARS:
+            tokens.update(_tokenize(value))
+    return tokens
+
+
 def _normalize_source(source: Optional[str]) -> str:
     """
     Kaynak adini karsilastirilabilir hale getirir: yol ayraclari atilir,
@@ -195,6 +214,7 @@ class _RetrievalCache:
         self._embedding_norms = None
         self._bm25 = None
         self._corpus_tokens = None
+        self._key_tokens = None
         self._db_path = None
         # source_filter -> (indices, matrix, norms, bm25) — dokuman bazli alt indeks
         self._views = {}
@@ -210,6 +230,7 @@ class _RetrievalCache:
         self._embedding_norms = None
         self._bm25 = None
         self._corpus_tokens = None
+        self._key_tokens = None
         self._views = {}
 
     def load(self, db_path: str):
@@ -232,6 +253,7 @@ class _RetrievalCache:
             self._embedding_norms = np.array([], dtype=np.float32)
             self._bm25 = None
             self._corpus_tokens = []
+            self._key_tokens = []
             return
 
         # Embedding matrisini bir kez oluştur (N chunk x D boyut)
@@ -242,6 +264,8 @@ class _RetrievalCache:
         # BM25 indeksini bir kez oluştur
         self._corpus_tokens = [_tokenize(row[2]) for row in self._rows]
         self._bm25 = BM25Okapi(self._corpus_tokens)
+        # Keyword hit boost için chunk başına KEY alanı token kümesi
+        self._key_tokens = [_key_field_tokens(row[2]) for row in self._rows]
 
         print(f"[retrieval] Cache yuklendi: {len(self._rows)} chunk, "
               f"embedding matrisi {self._embedding_matrix.shape}")
@@ -285,6 +309,10 @@ class _RetrievalCache:
     @property
     def rows(self):
         return self._rows or []
+
+    @property
+    def key_tokens(self):
+        return self._key_tokens or []
 
     @property
     def embedding_matrix(self):
@@ -521,9 +549,12 @@ def retrieve(query: str, db_path: str = DB_PATH, model: str = EMBED_MODEL,
         if active_indices is not None
         else list(enumerate(rows))
     )
+    key_tokens = _cache.key_tokens
+    query_terms = set(query_tokens)
 
     scored_chunks = []
     for idx, (chunk_id, source, content, _embedding_json, page_info) in iter_rows:
+        row_idx = active_indices[idx] if active_indices is not None else idx
         dense_score = float(dense_scores[idx])
         sparse_score = float(bm25_norm[idx])   # normalize BM25 (debug/UI)
 
@@ -531,14 +562,21 @@ def retrieve(query: str, db_path: str = DB_PATH, model: str = EMBED_MODEL,
         hybrid_score = float(rrf_scores[idx])
 
         # ── Keyword Hit Boost (şema-agnostik) ────────────────────────────────
-        # BM25 yüksek & dense düşükse: sorgu kelimesi metinde birebir eşleşti
-        # ama vektörel anlam yakalanmadı. Terminoloji uyumsuzluklarını giderir
-        # (örn. "dişçi" sorgusu ↔ "Diş Hekimi" chunk'ı) alan adı bilmeden.
+        # Sorgu terimleri chunk'ın KEY alanlarında (kısa/kategorik değerler:
+        # meslek, sektör, şehir…) birebir geçiyorsa, boost BM25 alaka gücüyle
+        # DOĞRU orantılıdır:
+        #   boost = KEYWORD_BOOST_MAX × bm25_norm × key_coverage
+        # key_coverage: sorgu terimlerinden KEY alanlarında bulunanların oranı.
+        # Dense skoruna bağlı DEĞİL — önceki 0.08/(1+dense) formülü düşük
+        # dense'e (zaten "alakasız" sinyali) daha büyük boost veriyordu.
+        # Terim yalnızca uzun serbest metinde (about vb.) geçiyorsa boost yok.
         bm25_local = float(bm25_raw[idx])
         rrf_base = hybrid_score
         keyword_boost = 0.0
-        if bm25_local > 0 and sparse_score > 0.5 and dense_score < 0.70:
-            keyword_boost = 0.08 / (1.0 + dense_score)
+        key_coverage = 0.0
+        if bm25_local > 0 and query_terms:
+            key_coverage = len(query_terms & key_tokens[row_idx]) / len(query_terms)
+            keyword_boost = KEYWORD_BOOST_MAX * sparse_score * key_coverage
             hybrid_score += keyword_boost
 
         # ── Meta/Şema Chunk Boost ─────────────────────────────────────────────
@@ -575,6 +613,7 @@ def retrieve(query: str, db_path: str = DB_PATH, model: str = EMBED_MODEL,
                 "bm25_rank": int(bm25_ranks[idx]) + 1 if bm25_local > 0 else None,
                 "rrf": rrf_base,
                 "keyword_boost": keyword_boost,
+                "key_coverage": key_coverage,
                 "meta_boost": meta_boost,
                 "hint_boost": hint_boost,
             },
@@ -630,7 +669,7 @@ def _print_score_breakdown(query: str, query_tokens: List[str],
     """
     print(f"\n[retrieval] SKOR DOKUMU — sorgu: {query!r} | BM25 token'lari: {query_tokens}")
     header = (f"{'#':>2} {'id':>5} {'page_info':<18} {'dense':>7} {'d_rank':>6} "
-              f"{'bm25':>7} {'b_rank':>6} {'rrf':>7} {'kw_bst':>7} {'meta':>5} "
+              f"{'bm25':>7} {'b_rank':>6} {'rrf':>7} {'kcov':>5} {'kw_bst':>7} {'meta':>5} "
               f"{'hint':>5} {'final':>7} {'rerank':>8}  kimlik")
     print(header)
     print("-" * len(header))
@@ -643,7 +682,7 @@ def _print_score_breakdown(query: str, query_tokens: List[str],
                      c["content"][:40].replace("\n", " "))
         print(f"{pos + 1:>2} {c['id']:>5} {str(c['page_info'])[:18]:<18} "
               f"{d['dense_raw']:>7.4f} {d['dense_rank']:>6} {d['bm25_raw']:>7.3f} {b_rank:>6} "
-              f"{d['rrf']:>7.4f} {d['keyword_boost']:>7.4f} {d['meta_boost']:>5.2f} "
+              f"{d['rrf']:>7.4f} {d['key_coverage']:>5.2f} {d['keyword_boost']:>7.4f} {d['meta_boost']:>5.2f} "
               f"{d['hint_boost']:>5.2f} {c['score']:>7.4f} {rr:>8}  {ident[:40]}")
     print()
 
