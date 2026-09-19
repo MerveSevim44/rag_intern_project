@@ -99,7 +99,24 @@ def render_source_card(chunk: dict, index: int, card_key: str):
     """
     source = html.escape(Path(chunk["source"]).name)
     page_info = html.escape(str(chunk.get("page_info", "") or "—"))
-    raw_score = chunk.get("score", 0.0)
+
+    # Kartların sırasını cross-encoder reranker belirler, bu yüzden gösterilen
+    # skor da onun skoru olmalı. Önceki sürüm rerank ÖNCESİ hibrit skoru
+    # basıyordu; sıralama rerank sonrası olduğu için kartlar "3. sıradaki
+    # 2. sıradan yüksek skorlu" gibi kendi içinde çelişkili görünüyordu
+    # (ör. [2] 0.9629 < [3] 1.0247). score_visual'ın 0-1 varsayımı da zaten
+    # reranker'ın sigmoid'li skoruna göre yazılmıştı.
+    # Reranker kapalıyken rerank_score bulunmaz; o durumda hibrit skora düşeriz
+    # ve sıralama da hibrit skora göre yapıldığı için tutarlılık korunur.
+    hybrid_score = float(chunk.get("score", 0.0))
+    rerank_score = chunk.get("rerank_score")
+    if rerank_score is None:
+        raw_score, score_label = hybrid_score, "hibrit"
+        score_title = f"Hibrit skor (RRF + boost): {hybrid_score:.4f}"
+    else:
+        raw_score, score_label = float(rerank_score), "rerank"
+        score_title = (f"Reranker skoru: {raw_score:.4f} — "
+                       f"hibrit skor (rerank öncesi): {hybrid_score:.4f}")
     pct, color = score_visual(raw_score)
 
     content = chunk.get("content", "")
@@ -111,11 +128,12 @@ def render_source_card(chunk: dict, index: int, card_key: str):
         f"""<div class="source-card">
             <span class="source-head">[{index}] {source}</span>
             <span class="source-meta">&nbsp;({page_info})</span>
-            <div class="score-wrap">
+            <div class="score-wrap" title="{html.escape(score_title)}">
                 <div class="score-track">
                     <div class="score-fill" style="width:{pct * 100:.1f}%; background:{color};"></div>
                 </div>
                 <span class="score-val" style="color:{color};">{raw_score:.4f}</span>
+                <span class="score-tag">{score_label}</span>
             </div>
             <span class="source-preview">{preview}{ellipsis}</span>
         </div>""",

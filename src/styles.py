@@ -101,6 +101,15 @@ CUSTOM_CSS = """
 }
 .score-fill { height: 100%; border-radius: 3px; }
 .score-val { font-weight: 700; font-size: 0.78rem; font-variant-numeric: tabular-nums; }
+/* Skorun hangi aşamadan geldiğini söyleyen küçük etiket (rerank / hibrit) —
+   aynı sayının iki farklı ölçekte okunmasını engeller. */
+.score-tag {
+    font-size: 0.62rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    opacity: 0.55;
+    margin-left: 0.3rem;
+}
 
 /* Aktif model rozeti */
 .model-badge {
