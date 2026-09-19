@@ -17,6 +17,7 @@ Performans:
 import json
 import re
 import sqlite3
+import unicodedata
 from contextlib import closing
 from typing import List, Dict, Any, Optional
 
@@ -26,12 +27,12 @@ from rank_bm25 import BM25Okapi
 try:
     from src.embedder import get_embedding, cosine_similarity, cosine_similarity_batch, rerank_indices, EMBED_MODEL
     from src.router import classify_query, QueryIntent
-    from src.data_engine import query_tabular_data
+    from src.data_engine import query_tabular_data, _tr_normalize
     from src.memory_profiler import MemoryProfiler
 except ImportError:
     from embedder import get_embedding, cosine_similarity, cosine_similarity_batch, rerank_indices, EMBED_MODEL
     from router import classify_query, QueryIntent
-    from data_engine import query_tabular_data
+    from data_engine import query_tabular_data, _tr_normalize
     from memory_profiler import MemoryProfiler
 
 # ─── Varsayılan Ayarlar ───
@@ -59,9 +60,84 @@ BM25_WEIGHT = 0.35    # (Geriye dönük uyumluluk için korunur — RRF'de kulla
 RRF_K = 60            # RRF sabiti: düşük değer üst sıraları güçlendirir (standart: 60)
 
 
+# ─── BM25 Metin Normalizasyonu ──────────────────────────────────────────────
+# Aynı katman hem corpus'a (indeks kurulurken) hem sorguya uygulanır; iki taraf
+# simetrik kaldığı sürece eşleşme tutarlıdır.
+
+# Eş anlamlı / halk ağzı terimler → corpus'ta geçen kanonik ifade.
+# Alan-agnostiktir: hangi JSON alanında geçtiğine bakılmaz, yalnızca metin
+# düzeyinde çalışır. Yeni terim çifti eklemek için buraya bir satır yeter.
+# Anahtarın SON kelimesi önek olarak eşleşir → Türkçe ekler de yakalanır
+# ("dişçisi", "dişçiye" → "diş hekimi").
+TERM_SYNONYMS = {
+    "dişçi": "diş hekimi",
+    "göz doktoru": "göz hekimi",
+    "çocuk doktoru": "çocuk sağlığı uzmanı",
+    "kbb": "kulak burun boğaz",
+    "cildiye": "dermatoloji",
+}
+
+# İşlev kelimeleri ve sorgu kalıpları. Bunlar corpus'un tamamında geçtiği için
+# (ör. "için" 728 profilin hepsinde) BM25 sırasına yalnızca uzunluk gürültüsü
+# katar. Özel isim / konum / meslek adı buraya EKLENMEZ.
+TURKISH_STOPWORDS = {
+    "acaba", "ama", "ancak", "bana", "bazı", "belki", "ben", "beni", "benim",
+    "bir", "biraz", "biz", "bize", "bu", "buna", "bunu", "bunun", "da", "daha",
+    "de", "değil", "diye", "en", "gibi", "hem", "her", "için", "ile", "ise",
+    "kadar", "ki", "mi", "mı", "mu", "mü", "ne", "neden", "nasıl", "o", "ona",
+    "onu", "onun", "olan", "olarak", "sen", "siz", "şu", "ve", "veya", "ya",
+    "yani", "çok",
+    # sorgu kalıpları
+    "arıyorum", "istiyorum", "lazım", "bul", "bulur", "öner", "önerir",
+    "musun", "misin", "müsün", "mısın",
+}
+
+
+def _base_tokens(text: str) -> List[str]:
+    """
+    Türkçe-güvenli küçük harf + aksan katlama + kelimelere ayırma.
+
+    str.lower() "İ" harfini "i" + U+0307 (birleşik nokta) yapar; U+0307 \\w
+    sayılmadığından "İstanbul" → ["i", "stanbul"] diye bölünüyordu.
+    _tr_normalize önce İ→i, I→ı dönüşümünü yapıp sonra aksanları katlar
+    (ç→c, ş→s, ı→i…); böylece aksansız yazılan sorgular da eşleşir.
+    NFC, ayrışık (NFD) gelen "I + U+0307" dizisini tek "İ" harfine birleştirir.
+    """
+    text = unicodedata.normalize("NFC", text or "")
+    return re.findall(r"\w+", _tr_normalize(text))
+
+
+# Sözlükler bir kez, aynı normalizasyondan geçirilerek derlenir.
+# Uzun anahtarlar önce denenir ("göz doktoru" tek kelimelik anahtarlardan önce).
+_SYNONYM_RULES = sorted(
+    ((tuple(_base_tokens(k)), _base_tokens(v)) for k, v in TERM_SYNONYMS.items()),
+    key=lambda rule: len(rule[0]), reverse=True,
+)
+_STOPWORDS = {t for w in TURKISH_STOPWORDS for t in _base_tokens(w)}
+
+
+def _apply_synonyms(tokens: List[str]) -> List[str]:
+    """Token dizisindeki eş anlamlı ifadeleri kanonik karşılıklarıyla değiştirir."""
+    out: List[str] = []
+    i = 0
+    while i < len(tokens):
+        for key, canonical in _SYNONYM_RULES:
+            n = len(key)
+            window = tokens[i:i + n]
+            if (len(window) == n and window[:-1] == list(key[:-1])
+                    and window[-1].startswith(key[-1])):
+                out.extend(canonical)
+                i += n
+                break
+        else:
+            out.append(tokens[i])
+            i += 1
+    return out
+
+
 def _tokenize(text: str) -> List[str]:
-    """Metni küçük harfe çevirip kelimelerine ayırır (Türkçe uyumlu)."""
-    return re.findall(r"\w+", text.lower())
+    """BM25 token'ları: Türkçe normalizasyon → eş anlamlılar → stopword filtresi."""
+    return [t for t in _apply_synonyms(_base_tokens(text)) if t not in _STOPWORDS]
 
 
 def _normalize_source(source: Optional[str]) -> str:
