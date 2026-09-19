@@ -216,6 +216,16 @@ def _flatten_json(value, path="$"):
 # records fall back to one chunk per leaf field.
 MAX_RECORD_CHARS = 3000
 
+# ─── Alan Karakterizasyonu Sabitleri ─────────────────────────────────────────
+# Alan adına değil, değer uzunluğuna göre otomatik sınıflandırma.
+# Herhangi bir JSON şemasıyla çalışır — hardcoded alan adı yok.
+# KEY      : kısa/kategorik değer  (≤ eşik)  → kimlik sinyali, öne al + tekrar et
+# CONTEXT  : orta uzunluk          (≤ eşik)  → açıklama, ortaya koy
+# NARRATIVE: uzun serbest metin    (> eşik)  → gürültü kaynağı, kırp, sona koy
+FIELD_KEY_MAX_CHARS      = 60   # Bu kadar kısa → KEY (kimlik/kategori alanı)
+FIELD_CONTEXT_MAX_CHARS  = 400  # Bu kadar → CONTEXT (açıklama alanı)
+FIELD_NARRATIVE_TRUNCATE = 350  # Daha uzunu bu kadarla kes (NARRATIVE)
+
 
 def _roots_from_object(data: dict) -> list[tuple[object, str]]:
     """
@@ -295,15 +305,52 @@ def extract_chunks_from_json(file_path: Path) -> list[tuple[str, str]]:
         leaves = list(_flatten_json(root, root_path))
         if not leaves:
             continue
-        # Render the whole record as one chunk if it is compact; otherwise fall
-        # back to one chunk per leaf so no single chunk dwarfs the others.
-        # Field paths are rendered relative to the record so the repeated root
-        # prefix does not dominate the chunk text (or its size budget).
         prefix = len(root_path) + 1
-        record_text = "\n".join(f"{p[prefix:] or p}: {t}" for t, p in leaves)
+
+        # ── Alan Karakterizasyonu (şema-agnostik) ──────────────────────────────
+        # Alan adına değil, değer uzunluğuna göre otomatik sınıflandır.
+        # KEY      : kısa/kategorik (≤ FIELD_KEY_MAX_CHARS)
+        #            → discriminative; öne al ve chunk başında tekrar et.
+        #            Embedding modelleri başa daha fazla ağırlık verdiğinden
+        #            kimlik sinyali (occupation, sector, name...) güçlenir.
+        # CONTEXT  : orta uzunluk (KEY < len ≤ FIELD_CONTEXT_MAX_CHARS)
+        #            → açıklama; ortaya koy.
+        # NARRATIVE: uzun serbest metin (> FIELD_CONTEXT_MAX_CHARS)
+        #            → gürültü kaynağı; son kelime sınırında kes, sona koy.
+        #
+        # Bu sınırlar hiçbir alan adı içermiyor — herhangi bir JSON şemasıyla
+        # çalışır. Yeni bir veri seti eklendiğinde kod değişmez.
+        key_lines, context_lines, narrative_lines = [], [], []
+        for text, path in leaves:
+            field_name = path[prefix:] or path
+            char_count = len(text)
+            if char_count <= FIELD_KEY_MAX_CHARS:
+                key_lines.append(f"{field_name}: {text}")
+            elif char_count <= FIELD_CONTEXT_MAX_CHARS:
+                context_lines.append(f"{field_name}: {text}")
+            else:
+                # Son kelime sınırında kes — yarım kelime bırakma
+                truncated = text[:FIELD_NARRATIVE_TRUNCATE].rsplit(" ", 1)[0]
+                narrative_lines.append(f"{field_name}: {truncated}\u2026")
+
+        # Sıra: KEY (×2) → CONTEXT → NARRATIVE
+        # KEY alanları başta tekrar edilir → attention bias ile kimlik sinyali güçlenir.
+        # Ancak tekrarlı versiyon MAX_RECORD_CHARS sınırını aşarsa tekrarsız yaz:
+        # öncelik sırası (KEY → CONTEXT → NARRATIVE) yine de korunur.
+        record_with_repeat    = "\n".join(key_lines + key_lines + context_lines + narrative_lines)
+        record_without_repeat = "\n".join(key_lines + context_lines + narrative_lines)
+
+        if len(record_with_repeat) <= MAX_RECORD_CHARS:
+            record_text = record_with_repeat
+        elif len(record_without_repeat) <= MAX_RECORD_CHARS:
+            record_text = record_without_repeat
+        else:
+            record_text = record_with_repeat  # fallback — SPLIT yolu aşağıda yakalanır
+
         if len(record_text) <= MAX_RECORD_CHARS:
             chunks.append((record_text, root_path))
         else:
+            # Büyük kayıt: her yaprağı ayrı chunk yap (mevcut davranış korunur)
             for text, leaf_path in leaves:
                 chunks.append((f"{leaf_path}: {text}", leaf_path))
     return chunks

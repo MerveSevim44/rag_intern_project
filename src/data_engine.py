@@ -375,11 +375,12 @@ class TabularDataEngine:
                     }
 
         # ── 2D. FİLTRELİ SAYMA: SEKTÖRE GÖRE SAYI (örn: 'Sağlık' sektöründe kaç profil var?) ──
-        if ("sektor" in q_norm or "alan" in q_norm) and "sector" in df.columns:
-            for sector_name in df["sector"].dropna().unique():
+        sector_col = next((col for col in df.columns if col.lower() in ("sector", "industry", "kategori", "category")), None)
+        if ("sektor" in q_norm or "alan" in q_norm or "kategori" in q_norm) and sector_col:
+            for sector_name in df[sector_col].dropna().unique():
                 norm_sec = _tr_normalize(sector_name)
                 if norm_sec in q_norm:
-                    count = int(len(df[df["sector"] == sector_name]))
+                    count = int(len(df[df[sector_col] == sector_name]))
                     return {
                         "operation": "filtered_count_sector",
                         "filter": {"sector": sector_name},

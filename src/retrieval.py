@@ -55,7 +55,8 @@ COMPUTED_RESULT_INSTRUCTION = (
 
 TOP_K = 8             # Hibrit arama ile seçilecek aday chunk sayısı
 RERANK_TOP_N = 3      # Reranker sonrası döndürülecek nihai sonuç sayısı
-BM25_WEIGHT = 0.35    # Hibrit skorda BM25 ağırlığı (0.0 = Sadece Vektör, 1.0 = Sadece BM25)
+BM25_WEIGHT = 0.35    # (Geriye dönük uyumluluk için korunur — RRF'de kullanılmaz)
+RRF_K = 60            # RRF sabiti: düşük değer üst sıraları güçlendirir (standart: 60)
 
 
 def _tokenize(text: str) -> List[str]:
@@ -401,15 +402,37 @@ def retrieve(query: str, db_path: str = DB_PATH, model: str = EMBED_MODEL,
 
     # ── ADIM 6: BM25 (Anahtar Kelime Eşleştirme) — Cache'li İndeks ──
     query_tokens = _tokenize(query)
-    bm25_scores = search_bm25.get_scores(query_tokens)
+    bm25_raw = search_bm25.get_scores(query_tokens)
 
-    # BM25 skorlarını [0..1] aralığına normalize et
-    max_bm25 = max(bm25_scores) if len(bm25_scores) > 0 and max(bm25_scores) > 0 else 1.0
-    bm25_norm = bm25_scores / max_bm25
+    # ── ADIM 6b: Reciprocal Rank Fusion (RRF) ──────────────────────────────
+    # Linear combination (ağırlıklı toplam) yerine sıra tabanlı füzyon kullanılır.
+    # Avantajları:
+    #   - Ölçek bağımsız: dense [0.6–0.8] ile BM25 [0–∞] farklı ölçektedir;
+    #     RRF yalnızca sıra kullandığı için bu ölçek farkından etkilenmez.
+    #   - Şema-agnostik: yeni embedding modeli veya veri seti eklendiğinde
+    #     BM25_WEIGHT sabiti ayarlamak gerekmez, kendiliğinden ölçeklenir.
+    n = len(dense_scores)
+    # Her skor için sıra pozisyonunu hesapla (0 = en iyi)
+    dense_ranks = np.empty(n, dtype=np.float32)
+    dense_ranks[np.argsort(-dense_scores)] = np.arange(n, dtype=np.float32)
+    bm25_ranks = np.empty(n, dtype=np.float32)
+    bm25_ranks[np.argsort(-bm25_raw, kind="stable")] = np.arange(n, dtype=np.float32)
+    # Her kaynaktan gelen sıra katkısı toplanır. BM25 skoru 0 olan chunk'larda
+    # sorgu kelimesi hiç geçmiyor; argsort'un eşitlikleri keyfi sıralaması
+    # gürültü katmasın diye bu chunk'lar BM25'ten katkı almaz.
+    bm25_contrib = np.where(bm25_raw > 0, 1.0 / (RRF_K + bm25_ranks), 0.0)
+    rrf_scores = 1.0 / (RRF_K + dense_ranks) + bm25_contrib
+    # [0..1]'e normalize et (teorik maksimum: iki listede de 1. sıra = 2/RRF_K).
+    # Aşağıdaki boost'lar ve UI skor çubuğu bu ölçeği varsayar.
+    rrf_scores = rrf_scores / (2.0 / RRF_K)
+
+    # Debug / UI için normalize edilmiş BM25 skorları (eski davranış korunur)
+    max_bm25 = float(bm25_raw.max()) if bm25_raw.max() > 0 else 1.0
+    bm25_norm = bm25_raw / max_bm25
 
     # ── ADIM 7: Hibrit Skorlama ve Şema Önceliklendirme ──
     # Filtre varsa yalnızca seçilen dokümanın satırları üzerinde dönülür;
-    # skor dizileri (dense/bm25) zaten bu alt küme için hesaplandı.
+    # skor dizileri (dense/bm25/rrf) zaten bu alt küme için hesaplandı.
     iter_rows = (
         [(pos, rows[i]) for pos, i in enumerate(active_indices)]
         if active_indices is not None
@@ -419,14 +442,30 @@ def retrieve(query: str, db_path: str = DB_PATH, model: str = EMBED_MODEL,
     scored_chunks = []
     for idx, (chunk_id, source, content, _embedding_json, page_info) in iter_rows:
         dense_score = float(dense_scores[idx])
-        sparse_score = float(bm25_norm[idx])
+        sparse_score = float(bm25_norm[idx])   # normalize BM25 (debug/UI)
 
-        # Hibrit skor formülü
-        hybrid_score = (1.0 - bm25_weight) * dense_score + bm25_weight * sparse_score
+        # RRF skoru temel hibrit skoru olarak kullanılır
+        hybrid_score = float(rrf_scores[idx])
 
-        # ŞEMA SORGUSU İSE: fieldGuide, safetyAndDataQuality, statistics bölümlerini öne çıkar
+        # ── Keyword Hit Boost (şema-agnostik) ────────────────────────────────
+        # BM25 yüksek & dense düşükse: sorgu kelimesi metinde birebir eşleşti
+        # ama vektörel anlam yakalanmadı. Terminoloji uyumsuzluklarını giderir
+        # (örn. "dişçi" sorgusu ↔ "Diş Hekimi" chunk'ı) alan adı bilmeden.
+        bm25_local = float(bm25_raw[idx])
+        if bm25_local > 0 and sparse_score > 0.5 and dense_score < 0.70:
+            hybrid_score += 0.08 / (1.0 + dense_score)
+
+        # ── Meta/Şema Chunk Boost ─────────────────────────────────────────────
+        # Mevcut veri setiyle geriye dönük uyumluluk korunur.
+        # Ek olarak: "$.meta" path'i de yakalanır → yeni veri setlerinin meta
+        # bölümleri otomatik tanınır, listeye elle ekleme gerekmez.
         page_str = (page_info or "").lower()
-        if any(k in page_str for k in ["fieldguide", "safetyanddataquality", "statistics", "metadata"]):
+        is_meta_chunk = (
+            any(k in page_str for k in ["fieldguide", "safetyanddataquality",
+                                         "statistics", "metadata"])
+            or page_str.startswith("$.meta")  # _roots_from_object'in ürettiği path
+        )
+        if is_meta_chunk:
             hybrid_score += 0.35
 
         # META_QUERY: soruyla eşleşen dataset'in chunk'larını öne çek
