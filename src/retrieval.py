@@ -205,21 +205,31 @@ _SYNONYM_RULES = sorted(
 _STOPWORDS = {t for w in TURKISH_STOPWORDS for t in _tokenize_key(w)}
 
 
-def _apply_synonyms(tokens: List[str]) -> List[str]:
-    """Token dizisindeki eş anlamlı ifadeleri kanonik karşılıklarıyla değiştirir."""
+def _apply_synonyms(folded: List[str], natural: List[str]) -> List[str]:
+    """
+    Eş anlamlı ifadeleri kanonik karşılıklarıyla değiştirir, kalanları stem'ler.
+
+    İki paralel dizi alır çünkü iki adımın ihtiyacı farklı:
+      - eşleşme  `folded` üzerinde yapılır (aksanlı/aksansız sorgu simetrisi için;
+        kural anahtarları da _base_tokens_folded ile derlenir),
+      - stem ise `natural` (aksanlı) biçimden yapılır, çünkü Snowball Türkçe
+        stemmer'ı ünlü uyumuna dayanır ve aksansız ASCII girdide çöker
+        (bkz. _tokenize docstring'indeki sıra notu).
+    Kanonik değerler zaten stem'li + fold'lu olduğundan oldukları gibi geçer.
+    """
     out: List[str] = []
     i = 0
-    while i < len(tokens):
+    while i < len(folded):
         for key, canonical in _SYNONYM_RULES:
             n = len(key)
-            window = tokens[i:i + n]
+            window = folded[i:i + n]
             if (len(window) == n and window[:-1] == list(key[:-1])
                     and window[-1].startswith(key[-1])):
                 out.extend(canonical)
                 i += n
                 break
         else:
-            out.append(tokens[i])
+            out.append(_accent_fold(_stem(natural[i])))
             i += 1
     return out
 
@@ -229,23 +239,29 @@ def _tokenize(text: str) -> List[str]:
     BM25 token'ları: normalize → eş anlamlılar → snowball → aksan katlama → stopword.
 
     Pipeline (v3 — stem_before_fold):
-      1. _base_tokens_folded : NFC normalize + büyük harf + aksan katlama + tokenize
-                               (eş anlamlı eşleşme için — aksanlı/aksansız simetri)
-      2. _apply_synonyms     : eş anlamlı ifadeler kanonik biçimiyle değiştirilir
-                               ("dişçi" → "dis hek"; kanonik değerler zaten stem'lı)
-      3. _stem + _accent_fold: kalan token'lara çekim eki çözümü + aksan katlama
-                               (kanonik token'larda stem idempotent'tir)
-      4. stopword filtre     : İşlev kelimelerini ve sorgu kalıplarını dışla
+      1. _base_tokens        : NFC normalize + Türkçe-güvenli küçük harf + tokenize
+                               (AKSANLAR KORUNUR — stem'in ihtiyacı var)
+         _accent_fold        : yalnızca eşleşme için fold'lu bir kopya çıkarılır
+      2. _apply_synonyms     : eş anlamlılar fold'lu kopya üzerinde eşleştirilir,
+                               kanonik biçimle değiştirilir ("dişçi" → "dis hek");
+                               eşleşmeyen token AKSANLI biçiminden stem'lenir
+      3. stopword filtre     : İşlev kelimelerini ve sorgu kalıplarını dışla
+
+    Sıra neden önemli: Snowball Türkçe stemmer'ı ünlü uyumuna dayanır. Aksan
+    katlama stem'den ÖNCE uygulanırsa ("çocuğum" → "cocugum") stemmer ekleri
+    çözemez ve "cocugu" üretir; bu da corpus'taki "cocuk" ile eşleşmez, yani
+    terim BM25'e hiç katkı vermez. Doğru sırada ("çocuğum" → stem → "çocuk" →
+    fold → "cocuk") eşleşme kurulur. Aynısı "uzmanı" (uzmani → uzma) için de
+    geçerli. Bu sıra baştan belgelenmişti ama kod tersini yapıyordu.
 
     Simetri: Hem sorgu hem corpus aynı pipeline'dan geçer;
     _SYNONYM_RULES anahtarları ve _STOPWORDS de _base_tokens_folded / _tokenize_key
     ile derlendiğinden eşleşme tutarlıdır.
     """
-    folded = _base_tokens_folded(text)       # fold'lı, stem öncesi
-    after_syn = _apply_synonyms(folded)      # eş anlamlılar uygulandı
-    # Kanonik token'lar stem'da idempotent; kalan token'lar stem+fold geçer.
-    return [t for t in (_accent_fold(_stem(tok)) for tok in after_syn)
-            if t not in _STOPWORDS]
+    natural = _base_tokens(text)                    # aksanlı, stem öncesi
+    folded = [_accent_fold(t) for t in natural]     # yalnızca eşleşme için
+    # Eş anlamlılar fold'lu kopyada eşleşir; kalanlar aksanlı biçimden stem'lenir.
+    return [t for t in _apply_synonyms(folded, natural) if t not in _STOPWORDS]
 
 
 

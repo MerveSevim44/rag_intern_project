@@ -4,6 +4,7 @@ numpy==2.4.4
 sentence-transformers==4.1.0
 torch==2.11.0
 rank-bm25>=0.2.2
+snowballstemmer>=2.2.0
 
 # Document parsing
 pdfplumber
