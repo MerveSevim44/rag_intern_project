@@ -69,6 +69,13 @@ RRF_K = 60            # RRF sabiti: düşük değer üst sıraları güçlendiri
 # düzeyinde çalışır. Yeni terim çifti eklemek için buraya bir satır yeter.
 # Anahtarın SON kelimesi önek olarak eşleşir → Türkçe ekler de yakalanır
 # ("dişçisi", "dişçiye" → "diş hekimi").
+#
+# TODO: Bu sözlük GEÇİCİ bir çözümdür ve elle bakım ister — listede olmayan her
+# halk ağzı terim / ek varyantı ("kuaförcü", "çocuğum" ↔ "çocuk") BM25'te yine
+# sıfır eşleşir. Kalıcı çözüm: gerçek bir Türkçe morfolojik normalizasyon
+# (stemmer/lemmatizer, ör. zemberek-nlp veya TurkishStemmer) corpus'a ve sorguya
+# simetrik uygulanmalı; sözlük yalnızca morfolojinin çözemediği gerçek eş
+# anlamlılara (dişçi → diş hekimi, cildiye → dermatoloji) indirgenmeli.
 TERM_SYNONYMS = {
     "dişçi": "diş hekimi",
     "göz doktoru": "göz hekimi",
