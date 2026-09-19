@@ -391,11 +391,27 @@ def retrieve(query: str, db_path: str = DB_PATH, model: str = EMBED_MODEL,
     if synth_instruction:
         synth_instruction += META_QUERY_SYNTH_SUFFIX
 
+    # Meta-chunk boost kapısı: +0.35 yalnızca sorgu veri setinin kendisini
+    # (şemasını, kapsamını, alanlarını) sorduğunda uygulanır. Aksi halde
+    # "dişçi" gibi bir sorguda ya da PDF sorularında $.statistics öne çıkıyordu.
+    # Rota tek başına yetmez: şema sorularının çoğu fallback_semantic'ten gelir.
+    strong_cols = classification.get("strong_schema_columns") or []
+    if route == RouteTarget.META_QUERY.value:
+        meta_gate_reason = "meta_query"
+    elif classification["reason"] == "schema_or_doc_conceptual":
+        meta_gate_reason = "schema_or_doc_conceptual"
+    elif strong_cols:
+        meta_gate_reason = f"kolon={strong_cols[:3]}"
+    else:
+        meta_gate_reason = None
+
     if debug:
         print(f"[retrieval] route={route} ({classification['reason']}) | "
               f"complexity={classification['has_complexity']} "
               f"dataset_signal={classification['has_dataset_signal']} | "
               f"schema_cols={classification['matched_schema_columns'][:6]}")
+        print(f"[retrieval] meta_gate={'on' if meta_gate_reason else 'off'}"
+              f"{f' ({meta_gate_reason})' if meta_gate_reason else ''}")
 
     # ── ADIM 2: RULE_ENGINE veya CODE_INTERPRETER İse Veri Motorunu / Sandbox'ı Çalıştır ──
     if route in (RouteTarget.RULE_ENGINE.value, RouteTarget.CODE_INTERPRETER.value):
@@ -589,7 +605,7 @@ def retrieve(query: str, db_path: str = DB_PATH, model: str = EMBED_MODEL,
                                          "statistics", "metadata"])
             or page_str.startswith("$.meta")  # _roots_from_object'in ürettiği path
         )
-        meta_boost = 0.35 if is_meta_chunk else 0.0
+        meta_boost = 0.35 if (is_meta_chunk and meta_gate_reason) else 0.0
         hybrid_score += meta_boost
 
         # META_QUERY: soruyla eşleşen dataset'in chunk'larını öne çek

@@ -525,6 +525,9 @@ def classify_query(query: str, df_schema: Optional[Any] = None, debug: bool = Fa
         "has_dataset_signal": info["has_dataset_signal"],
         "matched_patterns": info["matched_patterns"],
         "matched_schema_columns": info["matched_schema_columns"],
+        # Sorguda dataset kolon adı (veya güçlü alias'ı) geçiyor mu — retrieval'daki
+        # meta-chunk boost kapısı bunu kullanır. Zayıf eşleşmeler dahil değil.
+        "strong_schema_columns": info["strong_schema_columns"],
     }
 
     if target == RouteTarget.META_QUERY.value:
