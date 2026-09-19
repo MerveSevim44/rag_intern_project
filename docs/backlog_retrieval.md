@@ -15,6 +15,7 @@ PR olarak ele alınır.
 | 6 | Türkçe stemmer (TERM_SYNONYMS'ın yerine) | Açık — sıradaki |
 | 7 | Cevap sentezinde özne karışıklığı (test_5#115) | Açık |
 | 8 | Kolon adı takma ad bağımlılığı (meta-boost kapısı) | Açık |
+| 9 | RRF sıra tabanlı olduğu için BM25'teki güçlü skor marjını düzleştiriyor | Açık — teorik, somut regresyon örneği bekliyor |
 
 ## Madde 5 — Meta-chunk boost'u
 Sabit `+0.35` meta-chunk boost'u sorgu tipine bakmaksızın uygulanıyor ve RRF
@@ -72,3 +73,48 @@ DB'deki 733 profil chunk'ının hiçbirinde KEY tekrarı yok: tekrarlı hâl
 `MAX_RECORD_CHARS=3000` sınırını aştığı için hepsi tekrarsız sürüme düştü.
 Dense skorlarındaki değişim yalnızca yeniden sıralama + narrative kırpmadan
 geliyor.
+
+## Madde 9 — RRF'nin BM25 skor marjını düzleştirmesi
+"kocaeli çocuk dişçisi" sorgusunun teşhisi sırasında çıktı. Bu sorguda **sonuç
+doğru**: veri setinde Kocaeli'de tek bir çocuk diş hekimi var (`$.profiles[60]`,
+DB-QMY5ZS3R / Gizem Arslan) ve sistem onu 1. sıraya koyuyor. 2. ve 3. sıradaki
+adayların Antalya (`$.profiles[61]`) ve Eskişehir (`$.profiles[59]`) olması bir
+sıralama hatası değil: `RERANK_TOP_N = 3` kalan iki slotu mesleği tutan ama
+şehri tutmayan adaylarla doldurmak zorunda, çünkü ikinci bir doğru aday yok.
+Bu maddenin konusu o sıralama değil, altındaki mekanizma.
+
+Sorun: `kocaeli` yüksek-IDF bir terim ve BM25 bunu net ayırıyor —
+21.18 (Kocaeli) vs 17.38 (sıradaki, Eskişehir), yani ~%22 marj. RRF yalnızca
+*sırayı* kullandığı için bu marj tamamen atılıyor: `RRF_K = 60` ile 1. sıra ile
+3. sıra arasındaki katkı farkı `1/61` vs `1/63`, yaklaşık **%3**. Şehir
+sinyalinin ayırt ediciliği burada düzleşiyor. Bu sorguda sonucu değiştirmedi
+çünkü dense taraf da aynı yönde oy verdi; ama dense yanlış şehirdeki bir profili
+öne koysaydı, BM25'in 21 vs 17'lik marjı onu geri çekmeye yetmezdi.
+`KEYWORD_BOOST_MAX = 0.08` de bu farkı telafi edecek büyüklükte değil.
+
+Durum: **teorik kırılganlık.** Bugüne kadar hiçbir test setinde (test_2 /
+test_4 / test_5, 100 soruluk kaynak doğruluğu koşusu) somut bir regresyon
+üretmedi. Öncelik, dense'in yanlış şehri öne çıkardığı **gerçek bir sorgu
+örneği** bulunursa yükseltilir; bulunana kadar madde 6/7/8'in gerisinde.
+
+Neden şimdi yapılmıyor: madde 6 (stemmer) hâlâ ölçüm aşamasında (3 manuel
+sorgu + tam eval + test_5 bekleniyor). RRF'nin kendisini aynı anda değiştirmek,
+hangi değişikliğin hangi etkiyi yarattığını ayırt edilemez hale getirir.
+
+Çözüm yönü henüz **net değil** ve ayrı bir tasarım tartışması gerektiriyor.
+"Skor marjına duyarlı bir bileşen" eklemek, RRF'nin tercih edilme gerekçesiyle
+(ölçek bağımsızlığı — bkz. `retrieval.py` ADIM 6 yorumu ve madde 4) doğrudan
+çelişiyor: dense [0.6–0.8] ile BM25 [0–∞] farklı ölçekte ve RRF tam da bu yüzden
+seçilmişti. Marjı geri getiren her çözüm, madde 4'te reddedilen linear
+combination'a bir adım geri dönüştür. Olası yönler (hiçbiri değerlendirilmedi):
+RRF'ye normalize BM25'ten küçük bir katkı eklemek, `RRF_K`'yı düşürmek (üst
+sıraları keskinleştirir ama tüm sorguları etkiler), ya da yüksek-IDF KEY
+eşleşmelerini `keyword_boost` üzerinden ayrıca ödüllendirmek. Aceleye
+getirilmeden, kendi planıyla ele alınmalı.
+
+## Not — Kaynak kartlarındaki skor gösterimi (`a197843`)
+Aynı teşhiste çıkan ayrı ve düşük riskli bir UI bug'ı: kart sırasını reranker
+belirlerken kartın üzerinde rerank *öncesi* hibrit skor basılıyordu, bu yüzden
+ekranda [2] 0.9629 ile [3] 1.0247 gibi sıralamayla çelişen sayılar görünüyordu.
+Retrieval mantığına dokunmadan düzeltildi. Madde 9 ile ilgisi yok; teşhis
+sırasında yan ürün olarak bulundu.
