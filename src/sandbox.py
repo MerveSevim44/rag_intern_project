@@ -128,6 +128,75 @@ SAFE_HELPERS = {
 }
 
 
+# ─────────────────────────────────────────────────────────────────────────────
+# BOS FILTRE TAKIBI (halusinasyon korumasi)
+#
+# Negatif set olcumunde halusinasyonlarin 6/7'si sandbox rotasindan geliyordu
+# ve mekanizma her seferinde ayniydi: model VAR OLMAYAN bir varlik icin
+# ("ACC-124", "Erzurum", "Subat 2024") bir maske kuruyor, maske HICBIR SATIRLA
+# eslesmiyor, ustundeki toplama/sayma islemi bundan sessizce 0 / NaN uretiyor.
+# Sandbox bu 0'i normal bir hesaplama sonucu gibi synthesizer'a veriyor, o da
+# "ACC-124 hesabinin kapanis bakiyesi 0'dir" diye VAR OLMAYAN bir varlik
+# hakkinda kesin bir iddiada bulunuyordu.
+#
+# Ayrimin dogru yeri sonucun DEGERI degil, FILTRENIN ESLESIP ESLESMEDIGIDIR:
+#   (a) maske 0 satir dondurdu            -> "kayit bulunamadi" sinyali
+#   (b) maske satir buldu, deger 0 cikti  -> GERCEK sifir, normal sonuc
+#
+# Deger'e bakan bir kontrol bu ikisini AYIRAMAZ (ikisi de "0" gorunur);
+# maskeye bakan kontrol tam olarak ayirir.
+# ─────────────────────────────────────────────────────────────────────────────
+
+# Bayrak thread-local: safe_execute kodu kendi daemon thread'inde calistirir,
+# baska thread'lerdeki pandas kullanimi bundan etkilenmez.
+_MASK_STATE = threading.local()
+
+
+def _mask_flag_reset():
+    _MASK_STATE.empty_filter = False
+
+
+def _mask_flag_get() -> bool:
+    return getattr(_MASK_STATE, "empty_filter", False)
+
+
+def _is_boolean_mask(key: Any) -> bool:
+    """key bir boolean maske mi? (df[df.x == y] kalibi)"""
+    if isinstance(key, pd.Series):
+        return key.dtype == bool
+    if isinstance(key, np.ndarray):
+        return key.dtype == bool
+    if isinstance(key, list) and key:
+        return all(isinstance(k, (bool, np.bool_)) for k in key)
+    return False
+
+
+class TrackedDataFrame(pd.DataFrame):
+    """
+    df[mask] cagrisi 0 satir donerse thread-local bayragi kaldiran DataFrame.
+
+    Sandbox'a df bu sinifin ornegi olarak verilir. pandas turetilmis nesneleri
+    _constructor uzerinden urettigi icin zincirlenmis filtreler (df[a][b]) de
+    otomatik olarak takip edilir.
+    """
+
+    @property
+    def _constructor(self):
+        return TrackedDataFrame
+
+    def __getitem__(self, key):
+        out = super().__getitem__(key)
+        if isinstance(out, pd.DataFrame) and len(out) == 0 and _is_boolean_mask(key):
+            _MASK_STATE.empty_filter = True
+        return out
+
+    def query(self, expr, **kwargs):
+        out = super().query(expr, **kwargs)
+        if len(out) == 0:
+            _MASK_STATE.empty_filter = True
+        return out
+
+
 def clean_python_code(code_str: str) -> str:
     """LLM çıktısındaki markdown kod bloklarını (```python ... ```) ve çevreleyen metinleri temizler."""
     if not code_str:
@@ -209,7 +278,8 @@ def _execute_in_sandbox(code: str, df: pd.DataFrame) -> Any:
     """
     namespace: Dict[str, Any] = {
         "__builtins__": SAFE_BUILTINS,
-        "df": df.copy(),
+        # Bos-filtre takibi icin izlenen DataFrame (bkz. TrackedDataFrame).
+        "df": TrackedDataFrame(df.copy()),
         "pd": pd,
         "np": np,
         "math": math,
@@ -223,13 +293,22 @@ def _execute_in_sandbox(code: str, df: pd.DataFrame) -> Any:
     # böylece iç kapsamlar (fonksiyon/lambda) tüm isimleri görür.
     exec(code, namespace)
 
+    # Takip sinifini disari SIZDIRMA: repr'i "Empty TrackedDataFrame" gibi
+    # gorunur ve bu metin semantik dogrulama prompt'una ve gorsellestirmeye
+    # kadar gidiyor. Takip yalnizca sandbox icinde anlamli; disari duz pandas
+    # nesnesi cikar.
+    _res = namespace.get("result")
+    if isinstance(_res, TrackedDataFrame):
+        namespace["result"] = pd.DataFrame(_res)
+
     if namespace.get("result") is None:
         raise ValueError("Kod çalıştırıldı ancak 'result' değişkenine bir değer atanmadı. Lütfen sonucu 'result = ...' şeklinde atayın.")
 
     return namespace.get("result")
 
 
-def safe_execute(code: str, df: pd.DataFrame, timeout_seconds: int = 5) -> Union[Any, Dict[str, str]]:
+def safe_execute(code: str, df: pd.DataFrame, timeout_seconds: int = 5,
+                 info: Optional[Dict[str, Any]] = None) -> Union[Any, Dict[str, str]]:
     """
     Verilen pandas kodunu güvenli sandbox içerisinde çalıştırır.
     
@@ -237,6 +316,9 @@ def safe_execute(code: str, df: pd.DataFrame, timeout_seconds: int = 5) -> Union
         code: Çalıştırılacak Python/Pandas kodu string'i.
         df: Üzerinde çalışılacak DataFrame.
         timeout_seconds: Maksimum izin verilen çalışma süresi (saniye).
+        info: Verilirse çalıştırma hakkında yan bilgi buraya YAZILIR (dönüş
+            tipi değişmez, mevcut çağrılar etkilenmez). Şu an tek anahtar:
+            'empty_filter' -> kod içinde bir boolean maske 0 satır döndürdü mü.
         
     Returns:
         Başarılıysa hesaplanan 'result' nesnesi (Scalar, Series, DataFrame, Dict, List vb.).
@@ -253,14 +335,22 @@ def safe_execute(code: str, df: pd.DataFrame, timeout_seconds: int = 5) -> Union
     result_box = {"result": None, "error": None}
     
     def target():
+        # Bayrak thread-local oldugu icin hem sifirlama hem okuma bu thread'de
+        # yapilmali; sonucu result_box uzerinden disari tasiyoruz.
+        _mask_flag_reset()
         try:
             result_box["result"] = _execute_in_sandbox(cleaned_code, df)
         except Exception as e:
             result_box["error"] = f"{type(e).__name__}: {str(e)}"
+        finally:
+            result_box["empty_filter"] = _mask_flag_get()
 
     thread = threading.Thread(target=target, daemon=True)
     thread.start()
     thread.join(timeout=timeout_seconds)
+
+    if info is not None:
+        info["empty_filter"] = bool(result_box.get("empty_filter", False))
 
     if thread.is_alive():
         return {"error": f"Kod çalışma süresi aşıldı ({timeout_seconds} saniye limit)"}
