@@ -23,6 +23,12 @@ from typing import List, Dict, Any, Optional
 
 import numpy as np
 from rank_bm25 import BM25Okapi
+import snowballstemmer as _snowball_lib
+
+# Snowball Türkçe stemmer — modül başlatılırken bir kez oluşturulur (thread-safe singleton).
+# Doğal Türkçe karakterler üzerinde çalışır; aksan katlama stem'dan SONRA uygulanır
+# (v3 pipeline — bkz. _tokenize açıklaması).
+_TR_STEMMER = _snowball_lib.stemmer("turkish")
 
 try:
     from src.embedder import get_embedding, cosine_similarity, cosine_similarity_batch, rerank_indices, EMBED_MODEL
@@ -73,12 +79,10 @@ KEYWORD_BOOST_MAX = 0.08  # Keyword hit boost tavanı (BM25 en güçlü + tüm t
 # Anahtarın SON kelimesi önek olarak eşleşir → Türkçe ekler de yakalanır
 # ("dişçisi", "dişçiye" → "diş hekimi").
 #
-# TODO: Bu sözlük GEÇİCİ bir çözümdür ve elle bakım ister — listede olmayan her
-# halk ağzı terim / ek varyantı ("kuaförcü", "çocuğum" ↔ "çocuk") BM25'te yine
-# sıfır eşleşir. Kalıcı çözüm: gerçek bir Türkçe morfolojik normalizasyon
-# (stemmer/lemmatizer, ör. zemberek-nlp veya TurkishStemmer) corpus'a ve sorguya
-# simetrik uygulanmalı; sözlük yalnızca morfolojinin çözemediği gerçek eş
-# anlamlılara (dişçi → diş hekimi, cildiye → dermatoloji) indirgenmeli.
+# Snowball stem bu sözlüğün SONRASINDA uygulanır: çocuğum/çocuğu → cocuk,
+# hekimi → hek, uzmanı → uzma gibi çekim ekleri artık stem çözüyor.
+# Sözlük yalnızca morfolojinin çözemediği gerçek eş anlamlılara
+# (dişçi → diş hekimi, cildiye → dermatoloji) hizmet eder.
 TERM_SYNONYMS = {
     "dişçi": "diş hekimi",
     "göz doktoru": "göz hekimi",
@@ -96,34 +100,85 @@ TURKISH_STOPWORDS = {
     "de", "değil", "diye", "en", "gibi", "hem", "her", "için", "ile", "ise",
     "kadar", "ki", "mi", "mı", "mu", "mü", "ne", "neden", "nasıl", "o", "ona",
     "onu", "onun", "olan", "olarak", "sen", "siz", "şu", "ve", "veya", "ya",
-    "yani", "çok",
+    "yani", "çok", "iyi", "var",
     # sorgu kalıpları
     "arıyorum", "istiyorum", "lazım", "bul", "bulur", "öner", "önerir",
     "musun", "misin", "müsün", "mısın",
 }
 
 
+def _tr_lower(text: str) -> str:
+    """
+    Yalnızca büyük→küçük harf dönüşümü; Türkçe İ ve I özel durumları dahil.
+    Aksanlar (ç, ğ, ş, ü, ö, ı) korunur — snowball bunları tanıması için gerekir.
+    """
+    return text.replace("İ", "i").replace("I", "ı").lower()
+
+
+def _accent_fold(token: str) -> str:
+    """
+    Tek token'daki Türkçe aksanları Latin karşılıklarına katar:
+    ç→c, ğ→g, ı→i, ö→o, ş→s, ü→u.
+    Snowball stem'dan SONRA uygulanır; böylece aksansız yazılan sorgular
+    corpus token'larıyla eşleşir.
+    """
+    mapping = {"ç": "c", "ğ": "g", "ı": "i", "ö": "o", "ş": "s", "ü": "u"}
+    for k, v in mapping.items():
+        token = token.replace(k, v)
+    return token
+
+
+def _stem(token: str) -> str:
+    """Snowball Türkçe stemmer — doğal Türkçe karakterler üzerinde çalışır."""
+    return _TR_STEMMER.stemWord(token)
+
+
 def _base_tokens(text: str) -> List[str]:
     """
-    Türkçe-güvenli küçük harf + aksan katlama + kelimelere ayırma.
+    Türkçe-güvenli küçük harf + kelimelere ayırma.
 
     str.lower() "İ" harfini "i" + U+0307 (birleşik nokta) yapar; U+0307 \\w
     sayılmadığından "İstanbul" → ["i", "stanbul"] diye bölünüyordu.
-    _tr_normalize önce İ→i, I→ı dönüşümünü yapıp sonra aksanları katlar
-    (ç→c, ş→s, ı→i…); böylece aksansız yazılan sorgular da eşleşir.
+    _tr_lower önce İ→i, I→ı dönüşümünü yapar; aksanlar (ç, ğ…) korunur —
+    snowball bunlara ihtiyaç duyar. Aksan katlama _tokenize'da stem'dan sonra gelir.
     NFC, ayrışık (NFD) gelen "I + U+0307" dizisini tek "İ" harfine birleştirir.
     """
     text = unicodedata.normalize("NFC", text or "")
-    return re.findall(r"\w+", _tr_normalize(text))
+    return re.findall(r"\w+", _tr_lower(text))
+
+
+def _base_tokens_folded(text: str) -> List[str]:
+    """
+    _base_tokens + _accent_fold: stem ÖNCESİ, aksan SONRASI token'lar.
+    Eş anlamlı kural anahtarları bu fonksiyonla derlenir;
+    böylece aksanlı (çocuk) ve aksansız (cocuk) sorgular eşleşir.
+    """
+    return [_accent_fold(t) for t in _base_tokens(text)]
+
+
+def _tokenize_key(text: str) -> List[str]:
+    """
+    Sözlük anahtarı/değeri için tam pipeline (stem + aksan katlama dahil).
+    _SYNONYM_RULES ve _STOPWORDS bu fonksiyonla derlenir; böylece eşleştirme
+    tokenize edilmiş sorgu token'larıyla tutarlı kalır.
+    """
+    return [_accent_fold(_stem(t)) for t in _base_tokens(text)]
 
 
 # Sözlükler bir kez, aynı normalizasyondan geçirilerek derlenir.
 # Uzun anahtarlar önce denenir ("göz doktoru" tek kelimelik anahtarlardan önce).
+#
+# Strateji:
+#   ANAHTAR   — _base_tokens_folded (stem ÖNCESİ, aksan SONRASI)
+#   KANONİK   — _tokenize_key       (stem + aksan katlama uygulanmış)
+# Neden: _apply_synonyms fold'lı token dizisi üzerinde çalışır; önek eşleşmesi
+# "dişçisi" (aksansız: discisi) — kural anahtarı "disci" prefix olarak eşleşir.
+# Kanonik değerler stem'lı olduğundan tekrar stem uygulanması idempotent'tir.
 _SYNONYM_RULES = sorted(
-    ((tuple(_base_tokens(k)), _base_tokens(v)) for k, v in TERM_SYNONYMS.items()),
+    ((tuple(_base_tokens_folded(k)), _tokenize_key(v)) for k, v in TERM_SYNONYMS.items()),
     key=lambda rule: len(rule[0]), reverse=True,
 )
-_STOPWORDS = {t for w in TURKISH_STOPWORDS for t in _base_tokens(w)}
+_STOPWORDS = {t for w in TURKISH_STOPWORDS for t in _tokenize_key(w)}
 
 
 def _apply_synonyms(tokens: List[str]) -> List[str]:
@@ -146,8 +201,28 @@ def _apply_synonyms(tokens: List[str]) -> List[str]:
 
 
 def _tokenize(text: str) -> List[str]:
-    """BM25 token'ları: Türkçe normalizasyon → eş anlamlılar → stopword filtresi."""
-    return [t for t in _apply_synonyms(_base_tokens(text)) if t not in _STOPWORDS]
+    """
+    BM25 token'ları: normalize → eş anlamlılar → snowball → aksan katlama → stopword.
+
+    Pipeline (v3 — stem_before_fold):
+      1. _base_tokens_folded : NFC normalize + büyük harf + aksan katlama + tokenize
+                               (eş anlamlı eşleşme için — aksanlı/aksansız simetri)
+      2. _apply_synonyms     : eş anlamlı ifadeler kanonik biçimiyle değiştirilir
+                               ("dişçi" → "dis hek"; kanonik değerler zaten stem'lı)
+      3. _stem + _accent_fold: kalan token'lara çekim eki çözümü + aksan katlama
+                               (kanonik token'larda stem idempotent'tir)
+      4. stopword filtre     : İşlev kelimelerini ve sorgu kalıplarını dışla
+
+    Simetri: Hem sorgu hem corpus aynı pipeline'dan geçer;
+    _SYNONYM_RULES anahtarları ve _STOPWORDS de _base_tokens_folded / _tokenize_key
+    ile derlendiğinden eşleşme tutarlıdır.
+    """
+    folded = _base_tokens_folded(text)       # fold'lı, stem öncesi
+    after_syn = _apply_synonyms(folded)      # eş anlamlılar uygulandı
+    # Kanonik token'lar stem'da idempotent; kalan token'lar stem+fold geçer.
+    return [t for t in (_accent_fold(_stem(tok)) for tok in after_syn)
+            if t not in _STOPWORDS]
+
 
 
 def _key_field_tokens(content: str) -> set:
