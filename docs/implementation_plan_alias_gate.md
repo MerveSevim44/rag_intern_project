@@ -271,3 +271,80 @@ maddeye göre kural zaten tam tutmuyor). Bu yüzden adım 4 sonrası test yalnı
 "cümle doğru alan adını mı kullanıyor" diye değil, **"sayı hâlâ olduğu gibi mi
 kalıyor"** diye de bakmalı. Envanterdeki 11 vaka önce/sonra karşılaştırması
 için taban oluşturur.
+
+## Adım 4 — tasarım (onaylandı, uygulama öncesi)
+
+### İmza
+```python
+def result_to_natural_language(question, result, llm, code=None, columns=None)
+```
+İki yeni parametre de **opsiyonel**; varsayılan `None` olduğu için mevcut çağrı
+yerleri değişmeden çalışır. Tek gerçek çağrı yeri `data_engine.py` içindeki
+sandbox dalı; oraya `code=exec_info.get("code")` geçilir, `columns` koddan
+çıkarılır.
+
+### Yeni yardımcı — `_carries_own_labels(result) -> bool`
+Kural **tür bazlı değil davranış bazlı**; `isinstance(result, dict)` yetmez
+(bkz. #35).
+
+| Girdi | Karar | Gerekçe |
+|---|---|---|
+| `DataFrame` | taşıyor | kolon adları |
+| `Series` | taşıyor | index etiketleri |
+| `dict`, TÜM anahtarlar `str` VE en az biri alfabetik karakter içeriyor | taşıyor | `{'Individual': 599}` |
+| `dict`, tuple/bool/sayı anahtarlı | **taşımıyor** | **#35 `{(False, False): 728}`** |
+| `list`, elemanları `dict` ya da (etiket, değer) çifti | taşıyor | |
+| `list`, çıplak değerler | taşımıyor | `['Aile Hekimliği Uzmanı', …]` |
+| skaler / `int` / `float` / `str` / `bool` | taşımıyor | |
+
+"En az bir alfabetik karakter" koşulu gerekli: `{'0': 5, '1': 3}` anahtarları
+teknik olarak `str` ama alan adı değil.
+
+### Prompt bloğu — yalnızca etiketsizlere
+`_carries_own_labels(result)` False ise prompt'a sonucun hangi koddan ve hangi
+alandan geldiğini bildiren bir blok eklenir ve cümlenin ALAN ADININ anlamıyla
+kurulması, sorunun kelimeleriyle değil, zorunlu tutulur. True ise **hiçbir şey
+eklenmez** — #108 / #35 / `Series` / `DataFrame` yolu bit düzeyinde değişmez.
+
+### `columns` çıkarımı
+Üretilen koddan `df['...']` / `df["..."]` desenleri regex ile toplanır ve
+gerçek `df.columns` ile kesiştirilir. Kesişim boşsa blok EKLENMEZ — uyduracak
+alan adı yoktur.
+
+## Adım 4 — test planı
+
+Envanterdeki 11 vaka önce/sonra, **birbirinden bağımsız iki kriterle**:
+
+1. **Alan adı kullanımı** — cümle verinin diliyle mi kuruluyor?
+2. **Sayı korunması** — ham sayının cümlede birebir geçip geçmediği
+   **programatik** olarak doğrulanır (LLM yorumuna bırakılmadan). `float`
+   yuvarlamasının (`11.998626` → `"12.0"`) kötüleşip kötüleşmediği dahil.
+   Bu iki kriter bağımsızdır: biri düzelirken diğeri sessizce bozulabilir.
+
+Ek olarak, uygulamaya geçmeden test planına eklenen üç nokta:
+
+3. **Kenar durum: `code=None` ve regex kesişimi boş.** Sessiz hata değil,
+   **blok eklenmeme** davranışı doğrulanmalı. Üç alt vaka ayrı ayrı denenecek:
+   `code=None` geldiğinde, kod `df.shape[0]` gibi hiç kolon adı içermediğinde,
+   ve koddaki kolon adı gerçek `df.columns` ile kesişmediğinde (ör. modelin
+   uydurduğu `customer_satisfaction_score`). Üçünde de fonksiyon bugünkü
+   davranışını aynen sürdürmeli ve istisna atmamalı.
+
+4. **Cümlenin doğallığı.** Alan adını prompt'a sokmak, pandas/kod jargonunun
+   cevaba sızmasına yol açabilir: cümlede `df[...]`, `.mean()`, alan adının
+   ham hâli (`appointmentSettings.defaultDurationMinutes`) ya da kod parçası
+   görünmemeli. 11 vakanın her birinde çıktı bu açıdan okunacak; ölçüt
+   "kullanıcıya gösterilebilir bir Türkçe cümle mi" olacak.
+
+5. **#107'nin başarı ölçütü NET.** Hedef "cümle daha doğru" DEĞİL. Hedef:
+   **synthesizer bunu uyuşmazlık olarak görüp "bulunamadı" diyor mu.** Yani
+   başarı kriteri `result_to_natural_language`'ın çıktısı değil, zincirin
+   sonundaki cevap ve test_5'teki sınıfı (FP → TN). Cümle düzelip de
+   synthesizer yine de sayıyı aktarıyorsa adım 4 hedefine ULAŞMAMIŞ sayılır.
+
+Sonra sırasıyla: test_5 TN/FP (beklenti FP 2/15 → 1/15), test_2
+`code_interpreter` soruları, tam eval (100/100 korunmalı).
+
+### Kapsam dışı (kasıtlı)
+`bool` bozukluğu (madde 12) ve `float` yuvarlaması düzeltilmeyecek, yalnızca
+**ölçülecek**.
