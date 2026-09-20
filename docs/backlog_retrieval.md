@@ -17,6 +17,7 @@ PR olarak ele alınır.
 | 8 | Kolon adı takma ad bağımlılığı (meta-boost kapısı) | Açık |
 | 9 | RRF sıra tabanlı olduğu için BM25'teki güçlü skor marjını düzleştiriyor | Açık — teorik, somut regresyon örneği bekliyor |
 | 10 | Para birimi koruması birimi siliyor ama sayıyı bırakıyor; halüsinasyonu engellemeden denetlenebilirliği azaltıyor | Açık — düşük öncelik |
+| 11 | Düzeltme prompt'u sınırsız büyüyor → Foundry GPU OOM → kullanıcıya 500 | Açık — **ayrıca değerlendirilmeli** (öncelik sırasına sokulmadı; farklı hata sınıfı) |
 
 ## Madde 5 — Meta-chunk boost'u
 Sabit `+0.35` meta-chunk boost'u sorgu tipine bakmaksızın uygulanıyor ve RRF
@@ -259,3 +260,59 @@ tamamen reddetmek, ya da birimi sayının çıktığı kolon adıyla değiştirm
 Düşük öncelik: #107'nin asıl sorunu birim uyuşmazlığı (madde 8 planındaki
 4. adım). Bu madde o çözülünce zaten büyük ölçüde konusuz kalabilir —
 ama kararı o zaman verilmeli, şimdi kapatılmamalı.
+
+## Madde 11 — Düzeltme zinciri prompt'u şişirip servisi çökertiyor
+Madde 8'in adım 3 regresyon koşusu sırasında ortaya çıktı, ama **madde 8 ile
+aynı hata sınıfı değil.** Buraya o yüzden ayrı yazılıyor.
+
+### Kök neden
+`build_correction_prompt` başarısız denemeleri `history` içinde **sınırsız**
+biriktiriyor ve her denemenin kodunu + hata mesajını tam metin olarak prompt'a
+gömüyor (`code_interpreter.py:385-388`). Model aynı hatayı tekrarladığında
+prompt her turda katlanarak büyüyor ve Foundry Local'ın GPU belleğini taşırıyor.
+
+Gözlemlenen koşu (test_2 #43, `experience.credentialSummary` / `occupation`
+karşılaştırması):
+
+```
+Deneme 1: uzun kod, tanımsız percent_change  -> ValueError
+Deneme 2: NEREDEYSE AYNI kod                 -> aynı ValueError
+Deneme 3: prompt iki uzun kod bloğu + iki hata taşıyor
+          -> openai.InternalServerError: 500
+             onnxruntime::BFCArena::AllocateRawInternal
+             Failed to allocate memory for requested buffer of size 2278526976
+```
+
+### Gözlemlenen etki
+`code_interpreter_with_retry` bu istisnayı **yakalamıyor**. `call_llm_text`
+içinden fırlayan hata `query_tabular_data` → `retrieve` zincirini boydan boya
+geçiyor ve çağrı tamamen patlıyor. Uygulamada kullanıcıya cevap değil, 500
+hatası yansır.
+
+### `repeated` bayrağı neden durdurmuyor — ölçülen cevap
+Tekrar tespiti zaten var (`code_interpreter.py:548`: `repeated = norm in
+seen_codes`), ama **durdurma koşulu değil, prompt yönlendirme sinyali.**
+Yaptığı tek şey `build_correction_prompt`'a bir uyarı metni eklemek
+("Ayni kodu tekrar yazmak YASAK, farkli bir yaklasim sec", satır 392-397).
+Döngüde `repeated` True olduğunda `break`/erken dönüş yapan hiçbir dal yok;
+akış bir sonraki denemeye devam ediyor.
+
+Yani tasarım niyeti "tekrarı **tespit edip bir sonraki denemeyi iyileştirmek**",
+"tekrarı görünce **durmak**" değil. Ters etkisi de var: tekrar tespit edildiğinde
+prompt KÜÇÜLMÜYOR, tam tersine büyüyor — tekrarlanan kod ve hatası `history`'ye
+koşulsuz ekleniyor (satır 559) ve üstüne bir de uyarı metni biniyor. Yani
+tekrarı fark etmek, OOM'a giden yolu hızlandırıyor.
+
+Bu bir gözlemdir, çözüm önerisi değil; maddeyi ele alan kişi bu soruyu baştan
+araştırmasın diye kaydedildi.
+
+### Öncelik notu
+Bu madde diğerleriyle **aynı ölçekte sıralanmamalı.** Madde 8 "yanlış ama
+kendinden emin cevap" sınıfı; bu madde "sistemin tamamen çökmesi" sınıfı.
+Kullanıcı deneyimi açısından çökme daha kötü bir sonuç olabilir: halüsinasyon
+en azından bir cevap veriyor ve denetlenebiliyor, çökme hiç cevap vermiyor.
+Bu yüzden "düşük öncelik" diye işaretlenmedi — sıraya sokulmadan, ayrıca
+değerlendirilmesi gereken bir madde olarak duruyor.
+
+Şimdi çözülmüyor: madde 8'in adım 3'ü (regresyon koşusu + test_5 + tam eval)
+tamamlanmadan ne bu maddeye ne de madde 8'in adım 4'üne geçilmiyor.
