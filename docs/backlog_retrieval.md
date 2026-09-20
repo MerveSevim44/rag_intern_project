@@ -12,8 +12,8 @@ PR olarak ele alınır.
 | 3 | Keyword hit boost formülü (`+0.08/(1+dense)`) düşük dense'e daha büyük boost veriyor; BM25 alaka gücüyle doğru orantılı olmalı | Tamam — `f20e3ff`: `0.08 × bm25_norm × key_coverage` |
 | 4 | Linear combination vs RRF kıyası | Tamam — RRF'de kalındı. Regresyonu bozuk BM25 + RRF birleşimi üretti; düzeltilmiş BM25 ile ikisi de 3440'ı 1. sıraya koyuyor. Linear'ın daha geniş farkı madde 5'teki meta-boost kaynaklı (linear ölçekte `$.statistics` 2. sıraya giriyor). |
 | 5 | `$.statistics` / meta-chunk boost'u | Tamam — `eec3c9c`: boost yalnızca meta_query / şema sorusu / kolon adı geçen sorgularda |
-| 6 | Türkçe stemmer (TERM_SYNONYMS'ın yerine) | Açık — sıradaki |
-| 7 | Cevap sentezinde özne karışıklığı (test_5#115) | Açık |
+| 6 | Türkçe stemmer (TERM_SYNONYMS'ın yerine) | Tamam — `ed5aeb8` + `0355b2d`. Sözlüğün YERİNİ almadı, yanında duruyor (bkz. Sorun B) |
+| 7 | Cevap sentezinde özne karışıklığı (test_5#115) | Kapandı — #115 artık TN (ölçüm `0355b2d`). Kasıtlı bir düzeltme yapılmadı |
 | 8 | Kolon adı takma ad bağımlılığı (meta-boost kapısı) | Açık |
 | 9 | RRF sıra tabanlı olduğu için BM25'teki güçlü skor marjını düzleştiriyor | Açık — teorik, somut regresyon örneği bekliyor |
 
@@ -118,3 +118,112 @@ belirlerken kartın üzerinde rerank *öncesi* hibrit skor basılıyordu, bu yü
 ekranda [2] 0.9629 ile [3] 1.0247 gibi sıralamayla çelişen sayılar görünüyordu.
 Retrieval mantığına dokunmadan düzeltildi. Madde 9 ile ilgisi yok; teşhis
 sırasında yan ürün olarak bulundu.
+
+## Madde 6 — Türkçe stemmer
+Snowball Türkçe stemmer'ı `ed5aeb8` ile eklendi (`snowballstemmer`, bağımlılık
+`0355b2d`'de requirements'a yazıldı — o commit'e kadar temiz kurulumda uygulama
+açılmıyordu). Planın adımları `implementation_plan_meta_boost.md` sonundaki
+"Sonraki madde (6)" listesinde.
+
+### Sorun A — boru hattı kendi belgelediği sırayı uygulamıyordu (düzeltildi)
+`_base_tokens` ve `_tokenize` docstring'leri aksanların stem için korunduğunu,
+katlamanın stem'den SONRA geldiğini söylüyordu ("v3 — stem_before_fold"). Ama
+`_tokenize` adım 1'de `_base_tokens_folded` çağırıyordu: fold önce, stem sonra.
+Snowball Türkçe stemmer'ı ünlü uyumuna dayandığı için aksansız ASCII girdide
+ekleri çözemiyor:
+
+| kelime | fold→stem (hatalı) | stem→fold (doğru) |
+|---|---|---|
+| çocuğum | `cocugu` | `cocuk` |
+| çocuğa | `cocugu` | `cocuk` |
+| uzmanı | `uzmani` | `uzma` |
+
+Ölçülen etki, manuel sorgu "çocuğum için dişçi lazım": `cocugu` token'ı
+corpus'taki `cocuk` ile eşleşmediği için "çocuğum" BM25'e **sıfır** katkı
+veriyordu — sorgunun BM25 skoru 12.39, yani "dişçi arıyorum" ile birebir aynı.
+Düzeltmeden sonra 17.32; terim gerçekten ayırt edici hale geldi. Diğer iki
+manuel sorgu ("Kocaeli çocuk dişçisi", "dişçi arıyorum") çekim eki taşımadığı
+için değişmedi. Düzeltme: `0355b2d`.
+
+### Sorun B — stemmer'ın kendi sınırlılığı (çözülmüyor, kabul edildi)
+Sıradan bağımsız, Snowball'ın kendi davranışı:
+
+- `hekim` → `hek` ama `hekimler` → `hekim`: aynı kökte birleşmiyor. Corpus
+  "Çocuk Diş Hekimi" → `hek` üretirken "diş hekimleri" diye arayan sorgu
+  `hekim` üretir ve eşleşmez.
+- `uzman` → `uzma`, `uzmanlar` → `uzman`, `uzmanlık` → `uzmanlik`: dört biçim
+  üç ayrı kök.
+- `kocaeli'nde` → `['kocael', 'nde']`: kesme işaretinden artık token.
+- `dişi` → `dis`: "diş" ile çakışıyor (aşırı stem).
+
+**Sonuç: stemmer `TERM_SYNONYMS`'ın yerini ALMIYOR, yanında tamamlayıcı olarak
+duruyor.** Planın 2. adımı (sözlüğü küçültme) İPTAL. `dişçi → diş hekimi` gibi
+kurallar hâlâ sözlükten geliyor; stemmer tek başına bunu üretmiyor. Bu, maddenin
+başındaki "stemmer sözlüğü küçültecek" varsayımının yanlış çıktığının kaydıdır.
+Düzeltmeye çalışıp yeni bir karmaşaya girmek yerine olduğu gibi kabul edildi.
+
+### Ölçüm sonuçları (`0355b2d`)
+Ortam: Ollama `bge-m3` (embedding) + BGE-reranker-v2-m3, Foundry Local
+`qwen2.5-7b-instruct-cuda-gpu:4` (GPU/CUDA).
+
+Retrieval kaynak doğruluğu — `evaluation/eval_retrieval.py --all`, reranker açık:
+
+| Set | Soru | Skorlanabilir | Doğru | Başarı | Ort. ms |
+|---|---|---|---|---|---|
+| test_1 | 30 | 30 | 30 | %100 | 13530 |
+| test_2 | 30 | 30 | 30 | %100 | 16635 |
+| test_3 | 30 | 30 | 30 | %100 | 9788 |
+| test_4 | 10 | 10 | 10 | %100 | 8633 |
+| test_5 | 15 | 0 | — | — | 15036 |
+| **GENEL** | **115** | **100** | **100** | **%100** | 13134 |
+
+Zorluk bazında 22/22 Kolay, 58/58 Orta, 20/20 Zor. Rota: SEMANTIC_RAG 105
+(%91.3), CODE_INTERPRETER 10 (%8.7).
+
+test_5 (negatif set, halüsinasyon matrisi) — `run_all.py --sets test_5`:
+
+| Metrik | Madde 5 sonrası (`eec3c9c`) | Şimdi (`0355b2d`) |
+|---|---|---|
+| TN (negatif test başarısı) | 9/15 | **12/15 (%80)** |
+| FP (halüsinasyon) | 6/15 | **3/15 (%20)** |
+| FN | — | 0/15 |
+
+Kalan 3 FP: **#101** (Chomsky normal formu — PDF'te olmayan algoritma adımlarını
+üretti), **#107** (ortalama randevu ücreti 45.12 — veri setinde böyle bir alan
+yok), **#109** (müşteri memnuniyet puanı 1.0 — code_interpreter
+`customer_satisfaction_score` için KeyError aldıktan sonra "doğrulama uyarılı
+sonuç" olarak `df.shape[0]/len(df)` = 1.0 döndürdü). #107 ve #109 madde 8'in
+(takma ad bağımlılığı / var olmayan kolon) kapsamına giriyor, retrieval
+sıralaması değil.
+
+### Atıf uyarısı
+Baz çizgi 99/100 ve TN 9/15, `eec3c9c`'de ölçülmüştü. Aradan `ed5aeb8`
+(stemmer'ın ve hibrit retrieval modülünün eklenmesi) geçti. Dolayısıyla
+99→100 ve 9/15→12/15 farkları **`ed5aeb8` + `0355b2d` toplamının** sonucudur;
+yalnızca Sorun A düzeltmesine yazılamaz. Ayrıştırmak için `0355b2d~1`'de bir
+baz koşu daha gerekir; yapılmadı. Ayrıca `report/*.csv` git'te izlenmediği ve
+eski koşunun çıktısı üzerine yazıldığı için 99/100'deki başarısız sorunun
+kimliği tespit edilemedi.
+
+### Madde 7 hakkında
+test_5 #115 ("Oda No: 304 hikâyesinde anlatıcının mesleği nedir?") bu koşuda
+**TN** çıktı, yani model doğru şekilde "bulunamadı" dedi. Madde 7 için planlanan
+synthesizer prompt değişikliği YAPILMADI; sorun retrieval tarafındaki
+değişikliklerin yan etkisiyle kapandı. Tek koşuluk bir gözlem olduğu için
+kırılgan olabilir — madde 5'teki TN'in de "alakasız bir chunk'ın tesadüfi
+etkisi" olduğu hatırlanmalı. Yeniden görülürse madde 7 açılır.
+
+## Not — Birim testler (`0355b2d`)
+pytest 9.1.1 ile `tests/` altında 31 test: 28 geçti, 3 başarısız. Üçü de
+tokenizasyon değişikliğinden bağımsız:
+- `test_code_interpreter_step2.py::test_code_interpreter` ve
+  `test_sandbox_and_datasets.py::test_full_pipeline` — `@pytest.mark.live`,
+  Foundry Local kapalıyken `RuntimeError`.
+- `test_visualization.py::test_data_engine_end_to_end_visualization` — önceden
+  var olan hata; `0355b2d~1`'deki retrieval.py ile de birebir aynı şekilde
+  başarısız oluyor. "45 dk üzeri seans oranları" sorgusunda `data_engine` sonuç
+  üretiyor ama `extract_chart_data` `None` dönüyor. Retrieval'dan bağımsız,
+  `data_engine` → `visualizer` yolunda. Backlog'a alınmadı.
+
+pytest requirements.txt'ye eklenmedi (dev bağımlılığı, repoda
+`requirements-dev.txt` yok).
