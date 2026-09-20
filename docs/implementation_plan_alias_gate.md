@@ -213,3 +213,61 @@ Tek seferde bir değişiklik, madde 5/6'daki alışkanlığın aynısı:
   B öncesi/sonrası karşılaştırma aynı oturumda yapılmalı.
 - **#101 bu planın kapsamı dışında.** O bir PDF sorusu, `semantic_rag`
   rotasından geçiyor, code_interpreter'a hiç uğramıyor. Ayrı ele alınmalı.
+
+## Adım 4 envanteri — `raw_result` türleri (ÖLÇÜLDÜ)
+
+Adım 4 `result_to_natural_language`'ın girdisini değiştiriyor ve o fonksiyon
+HER sonuç türünden geçiyor. Değişiklikten önce her türün bugün hangi cümleye
+dönüştüğü gerçek veri setiyle, gerçek fonksiyon çağrısıyla çıkarıldı.
+
+| Tür | Dal | Kaynak | RAW | Üretilen cümle | Dağarcık |
+|---|---|---|---|---|---|
+| `np.float64` | `np.generic` | **#107** | `45.11675824` | "…ortalama randevu **ücreti** 45.12'dir" | SORU |
+| `np.int64` | `np.generic` | türetilmiş | `728` | "Veri setinde **toplam** 728 **profil** vardır" | SORU |
+| `dict` (str anahtar) | `else` | **#108 REFERANS** | `{'Individual': 599, 'Business': 129}` | "**Individual** profil sayısı 599'dur, **Business** profil sayısı 129'tür" | **VERİ** |
+| `dict` (tuple anahtar) | `else` | **#35** | `{(False, False): 728}` | "**publicContact** alanındaki **phoneVisible** ve **emailVisible** değerleri False'dur" | SORU |
+| `pd.Series` | `Series` | türetilmiş | `Sağlık 40, Spor… 40` | "**Sağlık** sektöründe 40 profil, **Spor ve Fitness**…" | VERİ |
+| `pd.DataFrame` | `DataFrame` | türetilmiş | `İstanbul 130, İzmir 81` | "**İstanbul**'da 130 profil, **İzmir**'de 81…" | VERİ |
+| `list` | `else` | türetilmiş | `['Aile Hekimliği Uzmanı', …]` | "En sık geçen 3 **meslek**: Aile Hekimliği Uzmanı…" | KARMA |
+| `int` | `else` | türetilmiş | `22` | "22 **farklı sektör** vardır" | SORU |
+| `float` | `else` | türetilmiş | `11.998626` | "Profillerin **ortalama deneyim yılı** 12.0" | SORU |
+| `str` | `else` | türetilmiş | `'İstanbul'` | "İstanbul **en çok profile sahip şehirdir**" | SORU |
+| `bool` | `else` | kenar durum | `True` | "Veri setinde hiç business profil var. **True**" | SORU |
+
+### Çıkan kural
+Belirleyici olan **tür değil, sonucun kendi etiketini taşıyıp taşımadığı**:
+
+- **Etiket taşıyanlar** (str anahtarlı `dict`, `Series`, `DataFrame`) → cümle
+  verinin diliyle kurulur → uyuşmazlık görünür kalır. 3 vaka. **Korunacak
+  davranış bu**; #108 referans örnek.
+- **Yalnızca değer taşıyanlar** (skaler, `int`, `float`, `str`, `bool`, çıplak
+  değerli `list`, tuple anahtarlı `dict`) → cümleyi kuracak tek kelime
+  dağarcığı sorunun kendisidir → uyuşmazlık kaybolur. 8 vaka. **Adım 4'ün
+  hedefi bunlar.**
+
+### Envanterin önlediği hata
+"`dict` ise dokunma" gibi tür bazlı kaba bir kural yazılsaydı **#35 yanlışlıkla
+güvenli sayılacaktı**: `dict` olmasına rağmen anahtarları `(False, False)`,
+yani alan adı taşımıyor ve cümledeki `publicContact`/`phoneVisible`/
+`emailVisible` adlarının hepsi sorudan gelmiş. Bu yüzden adım 4'ün kuralı
+**tür bazlı değil davranış bazlı** olmalı: `isinstance(result, dict)` yetmez,
+anahtarların gerçekten alan adı taşıyıp taşımadığına bakan bir kontrol gerekir.
+
+### Adım 4'ün kapsamı DIŞINDA kalan iki kusur
+Envanterde çıktılar, adım 4 ile aynı commit'e KARIŞTIRILMAYACAK — aksi halde
+hangi düzeltmenin neyi etkilediği yine ayrılamaz:
+
+1. **`bool` dalı zaten bozuk**: `"Veri setinde hiç business profil var. True"` —
+   ham `True` cümleye sızıyor ve cümle devrik. Bağımsız kusur, ayrı madde
+   olarak kaydedildi (backlog madde 12), adım 4 bittikten sonra ele alınacak.
+2. **"Sayıyı asla değiştirme" kuralı `float`'ta zaten delinmiş**:
+   `11.998626` → `"12.0"`. Prompt açıkça yasaklamasına rağmen model yuvarlamış.
+
+### Adım 4'ün test aşamasına ek koşul
+Sayı korunması ile alan adı kullanımı **birbirinden bağımsız iki özellik**;
+biri düzelirken diğeri sessizce kötüleşebilir. Prompt'a alan adı eklemek
+"sayıyı değiştirme" kuralının ağırlığını daha da azaltabilir (yukarıdaki 2.
+maddeye göre kural zaten tam tutmuyor). Bu yüzden adım 4 sonrası test yalnızca
+"cümle doğru alan adını mı kullanıyor" diye değil, **"sayı hâlâ olduğu gibi mi
+kalıyor"** diye de bakmalı. Envanterdeki 11 vaka önce/sonra karşılaştırması
+için taban oluşturur.
