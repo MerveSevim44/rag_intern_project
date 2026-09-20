@@ -18,6 +18,7 @@ PR olarak ele alınır.
 | 9 | RRF sıra tabanlı olduğu için BM25'teki güçlü skor marjını düzleştiriyor | Açık — teorik, somut regresyon örneği bekliyor |
 | 10 | Para birimi koruması birimi siliyor ama sayıyı bırakıyor; halüsinasyonu engellemeden denetlenebilirliği azaltıyor | Açık — düşük öncelik |
 | 11 | Düzeltme prompt'u sınırsız büyüyor → Foundry GPU OOM → kullanıcıya 500 | Açık — **ayrıca değerlendirilmeli** (öncelik sırasına sokulmadı; farklı hata sınıfı) |
+| 12 | `result_to_natural_language` `bool` sonuçta devrik cümle üretiyor ve ham `True` sızdırıyor | Açık — madde 8 adım 4'ten SONRA |
 
 ## Madde 5 — Meta-chunk boost'u
 Sabit `+0.35` meta-chunk boost'u sorgu tipine bakmaksızın uygulanıyor ve RRF
@@ -330,3 +331,32 @@ değerlendirilmesi gereken bir madde olarak duruyor.
 
 Şimdi çözülmüyor: madde 8'in adım 3'ü (regresyon koşusu + test_5 + tam eval)
 tamamlanmadan ne bu maddeye ne de madde 8'in adım 4'üne geçilmiyor.
+
+## Madde 12 — `bool` sonuçta devrik cümle ve ham değer sızması
+Madde 8'in adım 4 envanterinde çıktı (bkz.
+[implementation_plan_alias_gate.md](implementation_plan_alias_gate.md)).
+
+`result_to_natural_language`'a `bool` bir sonuç geldiğinde üretilen cümle hem
+devrik hem de ham değeri sızdırıyor:
+
+```
+SORU  : Veri setinde hiç business profil var mı?
+RAW   : True
+CUMLE : "Veri setinde hiç business profil var. True"
+```
+
+Beklenen: "Veri setinde business profil vardır." Şu anki çıktıda hem "hiç …
+var" yapısı bozuk (olumsuzluk beklerken olumlu bitiyor) hem de cümlenin sonuna
+`True` iliştirilmiş.
+
+`bool`, `formatted_result` için ayrı bir dal DEĞİL — `else` dalına düşüyor ve
+prompt'a çıplak `True` olarak giriyor. Model bunu bir değer olarak aktarmaya
+çalışıyor.
+
+**Adım 4 ile aynı commit'te düzeltilmeyecek.** Adım 4 aynı fonksiyonun
+girdisini değiştiriyor ve bu dala da dokunacak; iki düzeltme karışırsa hangisinin
+neyi etkilediği ayrılamaz. Adım 4 tamamlanıp ölçüldükten sonra ele alınacak.
+
+Kapsam notu: envanterde yalnızca tek bir `bool` vakası denendi. Ele alınırken
+önce `False` durumu ve "var mı / yok mu" kalıplarının başka biçimleri de
+örneklenmeli; tek örnekten genelleme yapılmamalı.
