@@ -86,6 +86,21 @@ EMPTY_RESULT_INSTRUCTION = (
     "varlık adı, sayı veya ek açıklama EKLEME."
 )
 
+# EMPTY_RESULT_INSTRUCTION'ın kardeşi. Orada sorgu çalıştı ama 0 satır döndü;
+# burada sonucun soruyu doğru yorumladığı hiç doğrulanamadı (semantik
+# doğrulayıcı itiraz etti, düzeltme denemeleri de tutmadı). İki durumda da
+# kullanıcıya verilecek cevap aynı — "bulunamadı" — ama sebepleri ayrı olduğu
+# için talimatlar da ayrı tutuluyor.
+UNVERIFIED_RESULT_INSTRUCTION = (
+    "Bağlamdaki '[DOĞRULANAMAYAN SONUÇ]' bloğu, veri seti üzerinde bir sorgu "
+    "çalıştırıldığını ama sonucun soruyu doğru yanıtladığının DOĞRULANAMADIĞINI "
+    "bildirir. Bu bir cevap değildir. İçindeki hiçbir sayıyı, oranı veya adı "
+    "kullanıcıya aktarma; kesin bir sonuç gibi SUNMA. "
+    "Yanıtın YALNIZCA şu cümle olsun: 'Bu bilgi dokümanlarda bulunamadı.' "
+    "Bu cümlenin dışına çıkma: gerekçe, olası sebep, alternatif bilgi, "
+    "varlık adı, sayı veya ek açıklama EKLEME."
+)
+
 TOP_K = 8             # Hibrit arama ile seçilecek aday chunk sayısı
 RERANK_TOP_N = 3      # Reranker sonrası döndürülecek nihai sonuç sayısı
 BM25_WEIGHT = 0.35    # (Geriye dönük uyumluluk için korunur — RRF'de kullanılmaz)
@@ -553,6 +568,8 @@ def retrieve(query: str, db_path: str = DB_PATH, model: str = EMBED_MODEL,
                 "page_info": f"{agg_result.get('route', 'data_engine')} ({agg_result['operation']})",
                 "content": (f"[KAYIT BULUNAMADI]\n{agg_result['summary']}"
                             if agg_result.get("empty_result")
+                            else f"[DOĞRULANAMAYAN SONUÇ]\n{agg_result['summary']}"
+                            if agg_result.get("unverified_result")
                             else f"[KESİN HESAPLAMA SONUCU]\n{agg_result['summary']}"),
                 "score": 1.0,
                 "intent": agg_result.get("route", "code_interpreter").upper(),
@@ -563,6 +580,8 @@ def retrieve(query: str, db_path: str = DB_PATH, model: str = EMBED_MODEL,
                 "route": agg_result.get("route", route),
                 "synthesizer_instruction": (EMPTY_RESULT_INSTRUCTION
                                             if agg_result.get("empty_result")
+                                            else UNVERIFIED_RESULT_INSTRUCTION
+                                            if agg_result.get("unverified_result")
                                             else COMPUTED_RESULT_INSTRUCTION),
                 "selected_dataset": agg_result.get("selected_dataset", agg_result.get("source_file", "")),
                 "match_score": agg_result.get("match_score"),

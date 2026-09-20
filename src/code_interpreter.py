@@ -573,9 +573,18 @@ def code_interpreter_with_retry(
                 # Ilk calisan sonucu yedekte tut ki duzeltme denemesi de tutmazsa
                 # elimizde hicbir sey kalmasin.
                 if fallback_result is None:
+                    # validation_warning: bu sonuc semantik dogrulayicinin
+                    # ITIRAZ ETTIGI sonuctur. Yalnizca duzeltme denemeleri de
+                    # tutmazsa donulur, yani "elimizde kalan en iyi sey" demek,
+                    # "dogrulanmis cevap" demek DEGIL. Bayrak olmadan cagiran
+                    # taraf bunu temiz bir basaridan ayirt edemiyor ve
+                    # synthesizer'a "kesin hesaplama sonucu" diye gidiyordu
+                    # (test_5 #109: uc deneme de basarisiz, 1. denemenin 1.0'i
+                    # "musteri memnuniyet puani ortalamasi 1.0'tir" oldu).
                     fallback_result = {"success": True, "raw_result": exec_result,
                                        "code": code, "attempts": attempt, "error": None,
                                        "warning": issue,
+                                       "validation_warning": True,
                                        "empty_result": is_no_match_result(
                                            exec_result,
                                            exec_meta.get("empty_filter", False))}

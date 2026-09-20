@@ -44,6 +44,16 @@ NO_MATCH_SUMMARY = (
     "vb.) veri setinde mevcut degil."
 )
 
+# NO_MATCH_SUMMARY'nin kardesi: orada sorgu calisti ama 0 satir dondu; burada
+# sonuc hic dogrulanamadi. Ikisi de synthesizer'a "bunu kesin cevap gibi sunma"
+# demek icin kullanilir, ama sebepleri farkli oldugu icin metinleri de ayri.
+UNVERIFIED_RESULT_SUMMARY = (
+    "Sorgu veri seti uzerinde calistirildi ancak uretilen kodun soruyu dogru "
+    "yorumladigi DOGRULANAMADI: semantik dogrulayici itiraz etti ve izleyen "
+    "duzeltme denemeleri de basarisiz oldu. Elde kalan sonuc guvenilir degil; "
+    "sorulan buyukluk veri setinde mevcut olmayabilir."
+)
+
 
 class TabularDataEngine:
     def __init__(self, data_dir: Path = DATA_DIR):
@@ -634,6 +644,12 @@ class TabularDataEngine:
                 exec_info = code_interpreter_with_retry(query, df, llm, max_retries=3)
                 if exec_info.get("success"):
                     raw_res = exec_info["raw_result"]
+                    # Semantik dogrulayici itiraz etti ve duzeltmeler tutmadi:
+                    # sonuc "elimizde kalan en iyi sey", dogrulanmis cevap degil.
+                    # empty_result ile ayni sebeple dogal dile CEVRILMEZ; aksi
+                    # halde synthesizer'a [KESIN HESAPLAMA SONUCU] diye gidiyor
+                    # ve prompt modele "buna guven, bulunamadi deme" diyor.
+                    unverified = bool(exec_info.get("validation_warning"))
                     # Filtre HICBIR SATIRLA eslesmediyse sonucu dogal dile
                     # cevirtmeyiz: result_to_natural_language 0/NaN'i olgusal
                     # bir cevap gibi ("bakiye 0'dir") sunan adimin ta kendisi.
@@ -641,6 +657,8 @@ class TabularDataEngine:
                     # gecilir (bkz. retrieval.EMPTY_RESULT_INSTRUCTION).
                     if exec_info.get("empty_result"):
                         natural_summary = NO_MATCH_SUMMARY
+                    elif unverified:
+                        natural_summary = UNVERIFIED_RESULT_SUMMARY
                     else:
                         natural_summary = result_to_natural_language(query, raw_res, llm)
                     return {
@@ -648,6 +666,8 @@ class TabularDataEngine:
                         "result": raw_res,
                         "summary": natural_summary,
                         "empty_result": bool(exec_info.get("empty_result")),
+                        "unverified_result": unverified,
+                        "validation_warning": exec_info.get("warning"),
                         "code": exec_info.get("code", ""),
                         "attempts": exec_info.get("attempts", 1),
                         "source_file": source_name,
