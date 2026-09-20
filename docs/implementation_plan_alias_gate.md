@@ -99,14 +99,47 @@ Yan gözlem: `llm_client` para birimi koruması "TL"yi cevaptan sildi
 oldu — halüsinasyonu engellemedi, yalnızca daha az denetlenebilir hale getirdi.
 Koruma cümleyi "bu sayı neyin sayısı" sorusuna cevapsız bırakıyor.
 
-### Neden #108 kurtuldu
+### Neden #108 kurtuldu — ÖLÇÜLDÜ (adım 1)
 
-#108'de de yanlış kolon ikame edildi (`profileType` → cinsiyet) ve kod temiz
-çalıştı, yani #107 ile aynı desen. Fark cevapta ortaya çıkıyor: synthesizer
-"bulunamadı" demeyi seçti. Bunun neden #107'de olmadığı **ölçülmedi** — olası
-sebep, `Individual/Business` etiketlerinin soruyla açıkça alakasız görünmesi,
-oysa çıplak bir `45.12` sayısının "ücret" gibi okunabilmesi. Bu bir hipotez;
-planın 1. adımı bunu ölçecek.
+Hipotez kısmen doğru çıktı, ama sebep tahmin edilen katmanda değil. Synthesizer'a
+giden bloklar yan yana:
+
+```
+#107   raw_result = np.float64(45.11675824175824)
+       [KESİN HESAPLAMA SONUCU]
+       728_profiles.json veri setinde profillerin ortalama randevu ücreti 45.12'dir.
+
+#108   raw_result = {'Individual': 599, 'Business': 129}
+       [KESİN HESAPLAMA SONUCU]
+       Individual profil sayısı 599'dur, Business profil sayısı 129'tür.
+```
+
+Talimat ikisinde de aynı ("doğruluğu garanti edilmiş NİHAİ cevap"). Fark
+synthesizer'ın muhakemesinde değil, bir katman önce, `result_to_natural_language`
+içinde oluşuyor:
+
+- **#107'nin cümlesi sorunun kelimeleriyle kurulmuş** ("ortalama randevu
+  ücreti"). Blok, soruyu birebir cevaplayan tutarlı bir iddia hâline gelmiş ve
+  "garantili" damgası yemiş. Synthesizer'ın uyuşmazlığı görmesi imkânsız.
+- **#108'in cümlesi verinin etiketleriyle kurulmuş** ("Individual / Business").
+  Soru "cinsiyet" diyor, blok "profil tipi" diyor; synthesizer farkı görüp
+  "bulunamadı" diyor.
+
+Sebep `result_to_natural_language`'ın prompt'u: fonksiyona **soru + ham sonuç**
+veriliyor, sonucun hangi kolondan geldiği ya da üretilen kod **verilmiyor**.
+Sonuç kendi etiketini taşımıyorsa cümleyi kuracak tek kelime dağarcığı sorunun
+kendisi oluyor:
+
+| raw_result | Etiket taşıyor mu | Cümle kimin diliyle kurulur | Uyuşmazlık |
+|---|---|---|---|
+| skaler (`45.117`) | hayır | **sorunun** dili (tek seçenek) | görünmez olur |
+| dict / Series | evet | **verinin** dili | görünür kalır |
+
+Yani #108'i kurtaran şey synthesizer'ın dikkati değil, ham sonucun `dict` olup
+anahtarlarını yanında getirmesiydi — yapısal bir tesadüf. Aynı soru skaler bir
+sonuç üretseydi #107 gibi FP olurdu.
+
+Bu bulgu 4. adımın yönünü değiştirdi (aşağıya bakınız).
 
 ## Değerlendirilen yaklaşımlar
 
@@ -124,9 +157,15 @@ planın 1. adımı bunu ölçecek.
   büyüklük çıkarımı gerekiyor, bu da yeni bir LLM çağrısı (gecikme) ya da
   kırılgan bir sözlük demek. Madde 5'te reddedilen "şema-agnostik kalma"
   ilkesine de sürtünüyor. **Şimdilik hayır.**
-- **D. `_semantic_check`'i birim/anlam uyuşmazlığına duyarlı hale getirmek**
-  (kök neden 2). Gerekli ama B'den ayrı; doğrulayıcının prompt'una dokunmak
-  ölçümü karıştırır. **Ayrı adım.**
+- **D. `result_to_natural_language`'a kolon adını / üretilen kodu vermek**
+  (kök neden 2), böylece cümle her zaman *ne hesaplandığını* anlatsın, *ne
+  sorulduğunu* değil. Adım 1 ölçümünün ortaya çıkardığı yön: #107'yi #108'in
+  kurtulduğu duruma çevirir ve yeni bir LLM doğrulama çağrısı gerektirmez.
+  **Ayrı adım.**
+- **D-eski. `_semantic_check`'i birim uyuşmazlığına duyarlı hale getirmek.**
+  Adım 1'den önce planlanan yol. Terk edildi: doğrulayıcı #107'de zaten çalıştı
+  ve itiraz etmedi; onu sıkılaştırmak yeni bir LLM muhakemesine bel bağlamak
+  demek. D daha ucuz ve daha kesin bir yerde duruyor.
 
 ## Önerilen sıra
 
@@ -149,7 +188,16 @@ Tek seferde bir değişiklik, madde 5/6'daki alışkanlığın aynısı:
    - Tam eval (test_1…test_5). Kaynak doğruluğu değişmemeli, çünkü retrieval'a
      dokunulmuyor; değişirse düzeltme sızmış demektir.
 4. **D'yi ayrı madde olarak aç** (#107 sınıfı: var olan ama yanlış kolonun
-   ikamesi). B ölçülmeden başlanmamalı.
+   ikamesi). Adım 2 ve 3 bitmeden başlanmamalı.
+
+   **Uygulamadan önce zorunlu envanter.** D, `result_to_natural_language`'ın
+   girdisini değiştiriyor ve bu fonksiyon HER `raw_result` türünden geçiyor —
+   yalnızca #107'deki skaler değil. Kod şu an `DataFrame`, `Series`,
+   `np.generic` ve "diğer" (dict, liste, int, str…) dallarını ayrı ayrı
+   biçimlendiriyor. Değişiklikten önce her türün bugün hangi cümleye
+   dönüştüğü örnekle çıkarılmalı; aksi halde skaler durumu düzeltirken
+   dict/DataFrame durumu bozulabilir — ki dict durumu (#108) şu an **doğru
+   çalışan** taraf, korunması gereken davranış o.
 
 ## Riskler
 
