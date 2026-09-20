@@ -16,6 +16,7 @@ PR olarak ele alınır.
 | 7 | Cevap sentezinde özne karışıklığı (test_5#115) | Kapandı — #115 artık TN (ölçüm `0355b2d`). Kasıtlı bir düzeltme yapılmadı |
 | 8 | Kolon adı takma ad bağımlılığı (meta-boost kapısı) | Açık |
 | 9 | RRF sıra tabanlı olduğu için BM25'teki güçlü skor marjını düzleştiriyor | Açık — teorik, somut regresyon örneği bekliyor |
+| 10 | Para birimi koruması birimi siliyor ama sayıyı bırakıyor; halüsinasyonu engellemeden denetlenebilirliği azaltıyor | Açık — düşük öncelik |
 
 ## Madde 5 — Meta-chunk boost'u
 Sabit `+0.35` meta-chunk boost'u sorgu tipine bakmaksızın uygulanıyor ve RRF
@@ -227,3 +228,34 @@ tokenizasyon değişikliğinden bağımsız:
 
 pytest requirements.txt'ye eklenmedi (dev bağımlılığı, repoda
 `requirements-dev.txt` yok).
+
+## Madde 10 — Para birimi koruması denetlenebilirliği azaltıyor
+Madde 8'in teşhisi sırasında yan ürün olarak çıktı (bkz.
+[implementation_plan_alias_gate.md](implementation_plan_alias_gate.md)).
+
+test_5 #107: "728_profiles.json veri setinde profillerin ortalama randevu
+ücreti kaç TL'dir?" Sandbox, ücret kolonu olmadığı için
+`appointmentSettings.defaultDurationMinutes` (dakika) ortalamasını aldı: 45.117.
+Model cevabı "…ortalama randevu ücreti 45.12 TL'dir" diye kurdu.
+`llm_client._fix_currency_hallucination` devreye girdi ve "TL"yi sildi
+(`Para birimi duzeltildi: 'TL' -> '(kaldirildi)'`, iki kez). Nihai cevap:
+
+> "728_profiles.json veri setinde profillerin ortalama randevu ücreti 45.12'dir."
+
+Koruma uydurma para birimini kaldırmayı başardı, ama **halüsinasyonu
+engellemedi**: cevap hâlâ var olmayan bir ücreti bildiriyor. Dahası, birimi
+silmek sayıyı bağlamsız bıraktı — "45.12 TL" okuyan biri en azından neyin
+iddia edildiğini görüp itiraz edebilirdi; çıplak "45.12" hangi büyüklüğün
+söylendiğini gizliyor. Yani koruma, yanlış cevabı **daha az denetlenebilir**
+hale getirdi.
+
+Bu, "halüsinasyonu engelleme çabasının denetlenebilirliği azaltması"na dair
+genel bir örnek; korumayı kaldırmak da çözüm değil (uydurma para birimi gerçek
+bir sorundu, bkz. `COMPUTED_RESULT_INSTRUCTION` içindeki "Para birimi uydurma"
+kuralı). Olası yönler (hiçbiri değerlendirilmedi): birimi silmek yerine cevabı
+tamamen reddetmek, ya da birimi sayının çıktığı kolon adıyla değiştirmek
+("ortalama randevu süresi 45.12 dakika").
+
+Düşük öncelik: #107'nin asıl sorunu birim uyuşmazlığı (madde 8 planındaki
+4. adım). Bu madde o çözülünce zaten büyük ölçüde konusuz kalabilir —
+ama kararı o zaman verilmeli, şimdi kapatılmamalı.
