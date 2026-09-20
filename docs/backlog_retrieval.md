@@ -261,6 +261,20 @@ Düşük öncelik: #107'nin asıl sorunu birim uyuşmazlığı (madde 8 planınd
 4. adım). Bu madde o çözülünce zaten büyük ölçüde konusuz kalabilir —
 ama kararı o zaman verilmeli, şimdi kapatılmamalı.
 
+### Ek kanıt — adım 4 envanterinden (tekil kaza değil, düzenli davranış)
+Madde 8'in `raw_result` envanteri koşulurken (bkz.
+[implementation_plan_alias_gate.md](implementation_plan_alias_gate.md)) para
+birimi koruması **11 vakanın 3'ünde** tetiklendi: `np.float64` (#107),
+`pd.Series` ve saf `float`. Üçü de sayısal sonuç.
+
+Yani model, hesaplama sonucunda hiçbir para birimi geçmemesine ve prompt'ta
+açık bir "PARA BİRİMİ KURALI" yasağı bulunmasına rağmen sayısal sonuçlara
+kendiliğinden "TL" ekliyor; koruma da düzenli olarak devreye girip siliyor.
+İlk kayıtta bu #107'ye özgü bir gözlem gibi duruyordu; envanter bunun
+sistematik olduğunu gösteriyor.
+
+Önceliğin yükseltilip yükseltilmeyeceği madde 8 bitince değerlendirilecek.
+
 ## Madde 11 — Düzeltme zinciri prompt'u şişirip servisi çökertiyor
 Madde 8'in adım 3 regresyon koşusu sırasında ortaya çıktı, ama **madde 8 ile
 aynı hata sınıfı değil.** Buraya o yüzden ayrı yazılıyor.
