@@ -19,6 +19,7 @@ PR olarak ele alınır.
 | 10 | Para birimi koruması birimi siliyor ama sayıyı bırakıyor; halüsinasyonu engellemeden denetlenebilirliği azaltıyor | Açık — düşük öncelik |
 | 11 | Düzeltme prompt'u sınırsız büyüyor → Foundry GPU OOM → kullanıcıya 500 | Açık — **ayrıca değerlendirilmeli** (öncelik sırasına sokulmadı; farklı hata sınıfı) |
 | 12 | `result_to_natural_language` `bool` sonuçta devrik cümle üretiyor ve ham `True` sızdırıyor | Açık — madde 8 adım 4'ten SONRA |
+| 13 | **Ölçüm altyapısı körlüğü**: tam eval `data_engine`/`code_interpreter` davranışını HİÇ çalıştırmıyor | **Yapısal sınırlama** — her `data_engine` değişikliğinde hatırlanmalı; kapatılacak bir bug değil |
 
 ## Madde 5 — Meta-chunk boost'u
 Sabit `+0.35` meta-chunk boost'u sorgu tipine bakmaksızın uygulanıyor ve RRF
@@ -400,3 +401,55 @@ Ayırmak kod yapısını ayrıştırmayı gerektirir.
 Heuristik yarışına devam edilmemesinin gerekçesi: her katman kendi test yükünü,
 kendi kenar durumlarını ve kendi bakım borcunu getiriyor; çözülen tek vakanın
 (#107) değeri bu maliyeti karşılamıyor.
+
+## Madde 13 — Tam eval'in yeşil olması `data_engine` için kanıt DEĞİLDİR
+Bu bir bug kaydı değil, **ölçüm altyapımızdaki yapısal bir körlüğün** kaydıdır.
+Kapatılmayacak; her `data_engine` / `code_interpreter` değişikliğinde
+hatırlanacak.
+
+### Tespit
+`evaluation/eval_retrieval.py:106` retrieval'ı şöyle çağırıyor:
+
+```python
+retrieved_chunks = retrieve(question, top_k=5, use_reranker=True)   # llm YOK
+```
+
+`src/data_engine.py:658` ise sandbox'a girmek için şunu arıyor:
+
+```python
+if llm is not None:
+```
+
+Yani tam eval koşusunda **`code_interpreter` hiç çalışmaz**, sandbox'a hiç
+girilmez, `data_engine`'in hesaplama yolu hiç yürütülmez. CI rotasına atanan
+sorular sessizce semantik RAG'e düşer.
+
+Ölçülmüş kanıt: madde 8'in B varyantı için konan kapı, tam eval log'unda
+**sıfır** karar üretti (`grep -c kolon_kapisi` → 0), oysa aynı sorular
+`query_tabular_data(q, llm=...)` ile koşulduğunda 16 karar üretti.
+
+### Neden tehlikeli
+Tam eval'in "100/100" çıktısı doğrudur ama YALNIZCA şunu söyler:
+**retrieval sıralamasına sızma olmadı.** `data_engine` veya `code_interpreter`
+davranışı hakkında hiçbir şey söylemez. Bu ayrım yapılmazsa biri "tam eval
+geçti, commit edilebilir" diye yanlış güvenebilir — bu oturumda adım 2 ve adım 4
+için tam olarak bu risk doğdu ve son anda fark edildi.
+
+### Kural
+`data_engine` / `code_interpreter` / sandbox davranışını değiştiren HER
+değişiklik şu iki ölçümle ayrıca doğrulanmalı; tam eval bunların yerini
+TUTMAZ:
+
+1. **test_2'nin `code_interpreter` rotasına giden soruları**, soru bazında
+   önce/sonra (pozitif, hesaplanmış cevap bekleyen tek anlamlı küme).
+2. **test_5** TN/FP (negatif set, halüsinasyon matrisi) —
+   `run_all.py --sets test_5` LLM cevaplarını gerçekten üretir.
+
+Tam eval yine koşulmalı, ama yorumu "retrieval'a sızma yok" ile sınırlı
+kalmalı.
+
+### Neden "düzeltilmiyor"
+`eval_retrieval.py`'a llm bağlamak, retrieval değerlendirmesinin süresini ve
+determinizmini bozar (her CI sorusu için sandbox + düzeltme döngüsü; bkz.
+madde 11'in OOM'u). Ayrı ölçüm zaten mevcut ve yeterli; eksik olan, tam eval'in
+neyi kapsamadığının YAZILI olmasıydı. Bu madde o boşluğu kapatır.
