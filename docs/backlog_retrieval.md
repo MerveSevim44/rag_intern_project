@@ -14,7 +14,7 @@ PR olarak ele alınır.
 | 5 | `$.statistics` / meta-chunk boost'u | Tamam — `eec3c9c`: boost yalnızca meta_query / şema sorusu / kolon adı geçen sorgularda |
 | 6 | Türkçe stemmer (TERM_SYNONYMS'ın yerine) | Tamam — `ed5aeb8` + `0355b2d`. Sözlüğün YERİNİ almadı, yanında duruyor (bkz. Sorun B) |
 | 7 | Cevap sentezinde özne karışıklığı (test_5#115) | Kapandı — #115 artık TN (ölçüm `0355b2d`). Kasıtlı bir düzeltme yapılmadı |
-| 8 | Kolon adı takma ad bağımlılığı (meta-boost kapısı) | Açık |
+| 8 | Var olmayan/yanlış kolon sorulduğunda halüsinasyon | **Kısmi kapandı** — #109 ve #115 çözüldü; #107 kabul edilmiş sınırlama olarak açık |
 | 9 | RRF sıra tabanlı olduğu için BM25'teki güçlü skor marjını düzleştiriyor | Açık — teorik, somut regresyon örneği bekliyor |
 | 10 | Para birimi koruması birimi siliyor ama sayıyı bırakıyor; halüsinasyonu engellemeden denetlenebilirliği azaltıyor | Açık — düşük öncelik |
 | 11 | Düzeltme prompt'u sınırsız büyüyor → Foundry GPU OOM → kullanıcıya 500 | Açık — **ayrıca değerlendirilmeli** (öncelik sırasına sokulmadı; farklı hata sınıfı) |
@@ -360,3 +360,43 @@ neyi etkilediği ayrılamaz. Adım 4 tamamlanıp ölçüldükten sonra ele alın
 Kapsam notu: envanterde yalnızca tek bir `bool` vakası denendi. Ele alınırken
 önce `False` durumu ve "var mı / yok mu" kalıplarının başka biçimleri de
 örneklenmeli; tek örnekten genelleme yapılmamalı.
+
+## Madde 8 — kısmi kapanış ve #107'nin kabul edilmiş sınırlama olarak bırakılması
+Tam kayıt: [implementation_plan_alias_gate.md](implementation_plan_alias_gate.md).
+
+Çözülenler (commit edilmiş, kalıcı):
+- **#109** (`3918a75`) — doğrulama uyarılı sandbox sonucu artık kesin cevap gibi
+  sunulmuyor. FP → TN.
+- **#115** — madde 7'nin konusuydu, retrieval değişikliklerinin yan etkisiyle
+  düzeldi.
+
+Açık bırakılan: **#107** ("ortalama randevu ücreti kaç TL" sorusuna
+`appointmentSettings.defaultDurationMinutes` ortalamasının aktarılması).
+
+### Neden kapatılmadı — kök neden
+Sorunun veriye referans verme biçimleri **açık uçlu**: kolon adı, Türkçe takma
+ad, kolonun bir değeri ("Umut Aslan" → `displayName`), kısmi değer, sayısal
+aralık ifadesi ("30 dakikadan az"), dolaylı referans ("bu kişinin randevu
+ayarları")... Pattern-matching tabanlı bir kapı bunu tam kapatamıyor.
+
+Üç deneme yapıldı, üçü de bir sonraki turda çürüdü:
+1. Prompt'a alan adı verme → model talimatı yoksaydı.
+2. Kolon-soru örtüşme kapısı (alias tabanlı) → alias boşlukları.
+3. Değer farkındalığı → bir yanlış pozitif sınıfını yanlış negatif sınıfıyla
+   takas edeceği öngörüldüğü için denenmedi.
+
+Üçüncü turda ayrıca şu ortaya çıktı: kapı, bir kolonun **filtre** rolüyle
+**hesaplanan büyüklük** rolünü ayırt edemiyor (#39/#42'de `displayName` filtre).
+Ayırmak kod yapısını ayrıştırmayı gerektirir.
+
+### Kalıcı çözüm muhtemelen deterministik değil
+İki seçenek var ve ikisi de şimdi seçilmedi:
+- **Kabul edilebilir kalıntı risk olarak bırakmak** (şu anki karar).
+- İleride **ayrı bir LLM tabanlı doğrulama katmanı** değerlendirmek — kendi
+  maliyeti (ek çağrı, gecikme) ve güvenilirlik ödünleşimiyle. Madde 8 boyunca
+  LLM muhakemesine bel bağlamaktan kaçınıldı çünkü `_semantic_check` #107'de
+  zaten çalışıp itiraz etmemişti; ayrı bir katman bu deneyimi hesaba katmalı.
+
+Heuristik yarışına devam edilmemesinin gerekçesi: her katman kendi test yükünü,
+kendi kenar durumlarını ve kendi bakım borcunu getiriyor; çözülen tek vakanın
+(#107) değeri bu maliyeti karşılamıyor.

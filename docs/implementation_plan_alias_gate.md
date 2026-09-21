@@ -348,3 +348,171 @@ Sonra sırasıyla: test_5 TN/FP (beklenti FP 2/15 → 1/15), test_2
 ### Kapsam dışı (kasıtlı)
 `bool` bozukluğu (madde 12) ve `float` yuvarlaması düzeltilmeyecek, yalnızca
 **ölçülecek**.
+
+## Adım 4 — A BAŞARISIZ, B'ye geçildi
+
+### A'nın sonucu (prompt'a alan adı ekleme)
+Uygulandı, ölçüldü, **geri alındı**. Kolon doğru çıkarıldı ve blok doğru
+eklendi, ama model talimatı yoksaydı:
+
+```
+Blok EKLENDİ, kolon = ['appointmentSettings.defaultDurationMinutes']
+Cümle     : "...ortalama randevu ücreti 45.11675824175824 dir."
+Synthesizer: "...ortalama randevu ücreti 45.11675824175824'dir."
+```
+
+Planın 5. test maddesindeki ölçüte göre (başarı = synthesizer'ın "bulunamadı"
+demesi) **hedef tutmadı**. Ayrıca cevap kötüleşti: `45.12` → tam hassasiyet.
+A'nın varsayımı — "prompt'a alan adı verirsen model onu kullanır" — yanlış
+çıktı. Prompt'u sertleştirmek, adım 1'de `_semantic_check` için reddedilen
+yola (yeni bir LLM muhakemesine bel bağlamak) dönmek olurdu.
+
+A'nın yan ürünleri kayda değer:
+- **`bool` dalı kapsam dışıydı ama değişti** (blok eklendiği için). Kirlenme;
+  bu da B'de `bool`'un açıkça muaf tutulmasının gerekçesi.
+- **Sayı biçimlendirmesi bozuldu**: `float` "12.0" → "12", `np.float64`
+  tam hassasiyete kaydı. İki test kriterinin bağımsızlığı doğrulandı.
+- **Regex eksiği ortaya çıktı** (aşağıda, B'nin ön koşulu).
+
+### B — deterministik kapı
+
+**Ölçüt, soruyu ayrıştırmaz.** "Sorunun ana ismini çıkarmak" bir LLM
+sınıflandırması gerektirirdi ve B'yi A'nın kırılganlığına geri döndürürdü.
+Bunun yerine soru TERSİNE çevrilir:
+
+> Kodun GERÇEKTEN kullandığı kolon, soruda herhangi bir biçimde anılıyor mu?
+
+Bu sorunun cevabı zaten deterministik olarak mevcut: `router.detect_schema_matches`
+(kolon adları + `COLUMN_TR_ALIASES` Türkçe karşılıkları, `_contains_token` ile).
+**Yeni LLM çağrısı YOK.**
+
+```
+used  = koddaki df['...'] adları  ∩  df.columns
+qcols = router.detect_schema_matches(soru, df.columns)   # STRONG + WEAK
+KAPI ATEŞLER  ⇔  used boş DEĞİL  ve  used ∩ qcols boş
+```
+
+Ateşlerse sonuç `result_to_natural_language`'a hiç gitmez; adım 2'de kurulan
+`[DOĞRULANAMAYAN SONUÇ]` yoluna düşer (altyapı hazır, `unverified_result`).
+
+**STRONG + WEAK olması zorunlu.** İlk dry-run yalnızca STRONG ile yapıldı ve
+**3 doğru vakayı yanlışlıkla ateşledi** (`şehir`→`location.city`,
+`deneyim`→`experience.years`; bunlar `EXCLUDED_GENERIC_WORDS` içinde olduğu için
+WEAK sınıfına düşüyor). Bu, ölçütün alias tablosunun kapsamına ne kadar duyarlı
+olduğunun ölçülmüş kanıtıdır ve tasarımın en kırılgan yeri burasıdır.
+
+### B'nin ön koşulu — regex düzeltmesi
+Mevcut çıkarım yalnızca tek köşeli `df['x']` yakalıyor; `df[['x','y']]`
+kaçıyor. Bu yüzden A'nın koşusunda #35 `kolon=[]` verdi ve yanlışlıkla
+"korumasız" kaldı. Kolon çıkarımı hangi tasarımda olursa olsun doğru
+çalışmalı; **ayrı ve önce** ele alınacak:
+`df\s*\[\s*(\[[^\]]*\]|['"][^'"]*['"])\s*\]`
+
+### B'nin 11 envanter vakası + kenar durumlar (DRY RUN, ölçüldü)
+
+| Vaka | Karar | Kesişim |
+|---|---|---|
+| **#107** (hedef) | **ATEŞLER** | `[]` — "ücret" hiçbir kolonla eşleşmiyor |
+| **#108 REFERANS** | ateşlemez | `profileType` |
+| **#35** | ateşlemez | `publicContact.phoneVisible/emailVisible` |
+| `Series` | ateşlemez | `sector` |
+| `DataFrame` | ateşlemez | `location.city` |
+| `list` | ateşlemez | `occupation` |
+| `int` | ateşlemez | `sector` |
+| `float` | ateşlemez | `experience.years` |
+| `str` | ateşlemez | `location.city` |
+| `bool` | ateşlemez (ve zaten MUAF) | `profileType` |
+| #109 | ateşlemez (kolonsuz) | zaten adım 2 kapsıyor |
+
+**Yanlış karar: 0/11.** Etiket taşıyan/taşımayan ayrımı B'yi HİÇ ilgilendirmiyor
+— B kolon-soru örtüşmesine bakıyor, sonucun biçimine değil. Yani adım 4'ün
+(A'nın) korumaya çalıştığı `#108`/`Series`/`DataFrame` yolu B'de zaten
+dokunulmadan kalıyor.
+
+### Yanlış pozitif riski (adım 3'ün kaygısı, burada da geçerli)
+test_2'nin `code_interpreter` soruları dry-run'da: **6/6 ateşlemedi.**
+(#32, #35, #43, #45, #52, #60.)
+
+Yine de risk kapanmış değil: kapı, alias tablosunun o veri seti için yeterli
+olmasına bağlı. Yeni bir veri setinde kullanıcı, `COLUMN_TR_ALIASES`'ta
+karşılığı olmayan bir kelimeyle doğru bir soru sorarsa kapı yanlış ateşler ve
+**doğru hesaplanmış cevap "bulunamadı"ya döner.** Ölçüm planı bu yüzden
+test_1…test_5'in tamamını kapsamalı, yalnızca test_5'i değil.
+
+### Kapsam dışı — açıkça
+- **`bool` (madde 12): MUAF.** Kapı ateşlense de ateşlemese de `bool` dalına
+  dokunulmayacak. A'da tesadüfen değişmişti; B'de bu olmamalı.
+- **Sayı biçimlendirmesi:** B'nin ateşlediği yolda hiç sayı üretilmediği için
+  (çıktı `[DOĞRULANAMAYAN SONUÇ]` gövdesi) sorun OLUŞMAZ. Ama gelecekte tekrar
+  bir "prompt'a blok ekle" senaryosu denenirse A'daki bozulma (12.0 → 12,
+  45.12 → 45.11675824175824) yeniden karşımıza çıkar. Kayda geçiyor.
+
+### Test planı
+1. Ön koşul regex düzeltmesi: birim testi (tek/çift köşeli, `code=None`, boş).
+2. 11 envanter vakası + test_2 CI soruları: kapı kararları (yukarıdaki dry-run
+   canlı kodda tekrarlanmalı).
+3. #107 end-to-end: **başarı ölçütü synthesizer'ın "bulunamadı" demesi**
+   (FP → TN), cümlenin düzelmesi değil.
+4. test_5 TN/FP — beklenti FP 2/15 → 1/15.
+5. Tam eval — 100/100 korunmalı.
+
+## B ÖLÇÜLDÜ VE BIRAKILDI — madde 8 kısmi kapanış
+
+### B'nin ölçümü
+Kapı uygulandı ve 115 sorunun tamamı `query_tabular_data(q, llm=...)` üzerinden
+geçirildi. (Önemli ölçüm notu: **tam eval kapıyı test ETMİYOR** —
+`eval_retrieval.py` `retrieve()`'i `llm` olmadan çağırıyor, `data_engine` ise
+sandbox'a girmek için `llm is not None` arıyor. Tam eval'in 100/100'ü yalnızca
+"retrieval'a sızma yok" der, davranışı doğrulamaz. Adım 2 için de aynısı
+geçerliydi; o değişiklik test_2 CI soruları + test_5 ile ayrıca ölçüldüğü için
+sonucu geçerli.)
+
+Sandbox'a ulaşan 16 soru:
+
+| Karar | Sayı | Vakalar |
+|---|---|---|
+| ATEŞLEDİ | 3 | #107 (doğru), **#39 (yanlış)**, **#42 (yanlış)** |
+| geçti | 7 | #32, #35, #37, #51, #52, #60, #108 — hepsi doğru |
+| kapı-yok | 3 | #44, #45, #109 |
+| HATA (madde 11) | 3 | #43, #53, #57 |
+
+### Neden bırakıldı
+İki yanlış pozitif **alias boşluğu değil**, öngörülmemiş bir sınıf:
+
+```
+#39  "Umut Aslan profilinde services dizisindeki hizmetlerden hangileri Online..."
+#42  "Emre Korkmaz ve Umut Aslan profillerinin minimumNoticeHours ve ..."
+     kullanilan=['displayName']  soruda=[]
+```
+
+Soru kolonu **adıyla değil DEĞERİYLE** anıyor ("Umut Aslan" → `displayName`).
+`COLUMN_TR_ALIASES`'a `displayName → isim/ad` eklemek bunu ÇÖZMEZ; soruda "isim"
+kelimesi de geçmiyor.
+
+Dahası, bu iki vakada `displayName` **filtre** olarak kullanılıyor, cevaplanan
+büyüklük değil. Yani "kullanılan kolon vs. soru" çerçevesi bir kolonun iki farklı
+rolünü (filtre / hesaplanan büyüklük) birbirine karıştırıyor. Ayırmak kod
+yapısını ayrıştırmayı gerektirir — dördüncü bir heuristik katman.
+
+**Üç turdur aynı desen:** A → model prompt'u yoksaydı; B v1 → alias boşluğu;
+B v2 → değer farkındalığı eksik. Her tur bir öncekinin varsayımını çürüttü.
+"Soru veriye nasıl referans verir" listesi açık uçlu (kolon adı, alias, değer,
+kısmi değer, sayısal aralık, dolaylı referans...). Bu çözülebilir bir bug değil,
+açık uçlu bir doğal dil kapsama problemi.
+
+Değer farkındalığı denenmedi çünkü bir yanlış pozitif sınıfını yanlış negatif
+sınıfıyla takas edeceği öngörüldü: `displayName` (728 tekil değer) için
+`_VALUE_VOCAB_MAX_CARDINALITY = 60` sınırını kaldırmak, sık geçen bir değerin
+tesadüfen soruda bulunup kolonu "anılmış" saymasına ve kapının #107'yi
+kaçırmasına yol açar.
+
+### Madde 8'in durumu — KISMİ KAPANIŞ
+- **#109 çözüldü** (`3918a75`): FP → TN. Kalıcı.
+- **#115 çözüldü** (yan etki, `0355b2d` sonrası ölçüldü). Kalıcı.
+- **#107 AÇIK** — bilinen ve kabul edilmiş sınırlama, backlog madde 8'de
+  bırakıldı.
+- **#101 kapsam dışı** — `semantic_rag` rotası, sandbox'a hiç uğramıyor.
+
+Korunan kazanımlar commit edilmiş durumda; B'nin kod değişikliği geri alındı.
+Yalnızca `columns_from_code` (`40b54f3`) tutuldu — bağımsız ve doğru bir
+yardımcı, şu an çağrısız.
