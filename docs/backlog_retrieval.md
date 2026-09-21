@@ -349,6 +349,37 @@ tekrarı fark etmek, OOM'a giden yolu hızlandırıyor.
 Bu bir gözlemdir, çözüm önerisi değil; maddeyi ele alan kişi bu soruyu baştan
 araştırmasın diye kaydedildi.
 
+### Etki alanı ÖLÇÜLDÜ — sanılandan geniş (D ölçümü sırasında)
+Madde 11'in etkisi tek bir sorunun cevabını kaybetmekle sınırlı değil. Üç
+katman ölçüldü:
+
+1. **Sorunun kendi cevabı kayboluyor** (bilinen).
+2. **Servis sonraki istekler için bozuluyor.** test_2'nin 14 CI sorusu sırayla
+   koşulduğunda #43'ün OOM'undan SONRAKİ 9 sorunun hepsi
+   `RuntimeError: Model yanıt veremedi` verdi. Foundry'nin yönetim servisi
+   HTTP 200 dönmeye devam ediyordu (yani "ayakta" görünüyordu) ama model
+   yanıt vermiyordu ve süreç RAM'i 4 GB'a şişmişti. Yani **bir ağır soru,
+   kullanıcının o oturumdaki sonraki TÜM sorularını bozuyor.** Daha önce
+   "#45 toplu koşuda düştü, izole koşuda geçti" gözlemi de bununla açıklanıyor.
+3. **Toparlanma mekanizmasının kendisi güvenilir değil.** `foundry service
+   stop/start` çevrimi bu oturumda **3 kez bağımsız olarak askıda kaldı** ve
+   çağıran süreci kilitledi; D'nin ölçümünü tamamlamak için her seferinde
+   **manuel müdahale** (askıdaki süreçleri sonlandırma) gerekti.
+
+### Sonuç: çözümün kapsamı genişliyor
+Üretimde bu manuel müdahale mümkün olmayabilir. Servis kendi kendine
+toparlanamıyorsa, madde 11'in çözümü yalnızca **"çökmeyi yakala"** olamaz;
+**"toparlanamayan servisi de tespit et ve zorla yeniden başlat"** kısmını da
+içermelidir. Bu, D'nin (istisna yakalama) kapsamının ötesinde ve ayrı bir
+tasarım kararı gerektiriyor.
+
+### D'nin SINIRI — açıkça
+D (`call_llm_text` istisnasını yakalayıp `success: False` dönmek) çökmenin
+kullanıcıya 500 olarak yansımasını engelliyor, **ama servisin bozulmasını
+engellemiyor.** D uygulandıktan sonra bile #43'ten sonraki sorular bozuk
+servise çarpıyor. "D madde 11'i çözdü" diye okunmamalı; D yalnızca 1. katmanı
+kapsıyor.
+
 ### Öncelik notu
 Bu madde diğerleriyle **aynı ölçekte sıralanmamalı.** Madde 8 "yanlış ama
 kendinden emin cevap" sınıfı; bu madde "sistemin tamamen çökmesi" sınıfı.
