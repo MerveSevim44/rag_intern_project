@@ -281,11 +281,37 @@ sistematik olduğunu gösteriyor.
 Madde 8'in adım 3 regresyon koşusu sırasında ortaya çıktı, ama **madde 8 ile
 aynı hata sınıfı değil.** Buraya o yüzden ayrı yazılıyor.
 
-### Kök neden
-`build_correction_prompt` başarısız denemeleri `history` içinde **sınırsız**
-biriktiriyor ve her denemenin kodunu + hata mesajını tam metin olarak prompt'a
-gömüyor (`code_interpreter.py:385-388`). Model aynı hatayı tekrarladığında
-prompt her turda katlanarak büyüyor ve Foundry Local'ın GPU belleğini taşırıyor.
+### Kök neden — DÜZELTİLDİ (ilk kayıt yanlıştı)
+**İlk kayıt "history sınırsız büyüyor, prompt katlanarak şişiyor" diyordu.
+Ölçüm bunu çürüttü ve buraya doğrusu yazıldı.**
+
+Geçmiş sınırsız DEĞİL: `max_retries=3` onu üç girdiyle sınırlıyor. Sentetik
+ölçümde büyüme yalnızca %26 (9.093 → 11.454 karakter) — tek başına 2.27 GB'lık
+bir tahsis talebini açıklamıyor.
+
+Gerçek zincir, `call_llm_text` çağrılarının izlenmesiyle ölçüldü:
+
+| Soru | Yanıt boyutları | Prompt dizisi | Sonuç |
+|---|---|---|---|
+| #32 | 166 / 5 / 72 krk | 9.158 → 962 → 1.105 | ✅ geçti |
+| #57 | 569 / 5 / 118 krk | 9.196 → 1.484 → 1.224 | ✅ geçti |
+| **#43** | 852 / **2.266** krk | 9.178 → 10.735 → **11.970** | ❌ 3. çağrıda 500 |
+| **#53** | **2.322** krk | 9.351 → **12.575** | ❌ 2. çağrıda 500 |
+
+Belirleyici olan **tek bir aşırı uzun model yanıtı**, biriken turlar değil.
+~2.3 KB'lık yanıtlar `MAX_ANSWER_TOKENS = 600` tavanına dayanmış (Türkçe
+token yoğun), yani model kendini kesene kadar yazmış. O yanıt `history`'ye
+aynen gömülünce bir sonraki düzeltme prompt'u ~12 KB'ı aşıyor ve ONNX runtime
+2.27 GB'lık bir tahsis isteyip başarısız oluyor.
+
+Eşik ~12 KB civarında: #53 ikinci çağrıda 12.575 ile, #43 üçüncü çağrıda
+11.970 ile düştü. #57 bu koşuda geçti ama daha önceki toplu koşuda düşmüştü —
+yani eşiğe yakın sorularda sonuç GPU'da o an boşta olan belleğe de bağlı,
+tam deterministik değil.
+
+Not: #32 ve #57'nin 2. ve 3. çağrılarının küçük olması (≈1 KB) yanıltmasın —
+onlar düzeltme prompt'u değil, `_semantic_check` / `result_to_natural_language`
+çağrıları.
 
 Gözlemlenen koşu (test_2 #43, `experience.credentialSummary` / `occupation`
 karşılaştırması):
