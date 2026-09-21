@@ -20,6 +20,7 @@ PR olarak ele alınır.
 | 11 | Düzeltme prompt'u sınırsız büyüyor → Foundry GPU OOM → kullanıcıya 500 | Açık — **ayrıca değerlendirilmeli** (öncelik sırasına sokulmadı; farklı hata sınıfı) |
 | 12 | `result_to_natural_language` `bool` sonuçta devrik cümle üretiyor ve ham `True` sızdırıyor | Açık — madde 8 adım 4'ten SONRA |
 | 13 | **Ölçüm altyapısı körlüğü**: tam eval `data_engine`/`code_interpreter` davranışını HİÇ çalıştırmıyor | **Yapısal sınırlama** — her `data_engine` değişikliğinde hatırlanmalı; kapatılacak bir bug değil |
+| 14 | "Bulunamadı" mesajı iki farklı durumu birleştiriyor: *bilgi yok* ile *şu an işlenemedi* | Açık — **kullanıcı güvenini etkileyen netlik sorunu**, düşük öncelikli değil |
 
 ## Madde 5 — Meta-chunk boost'u
 Sabit `+0.35` meta-chunk boost'u sorgu tipine bakmaksızın uygulanıyor ve RRF
@@ -479,3 +480,45 @@ kalmalı.
 determinizmini bozar (her CI sorusu için sandbox + düzeltme döngüsü; bkz.
 madde 11'in OOM'u). Ayrı ölçüm zaten mevcut ve yeterli; eksik olan, tam eval'in
 neyi kapsamadığının YAZILI olmasıydı. Bu madde o boşluğu kapatır.
+
+## Madde 14 — "Bulunamadı" mesajı iki farklı durumu birleştiriyor
+Madde 11'in D ölçümünde ortaya çıktı (bkz.
+[implementation_plan_retry_oom.md](implementation_plan_retry_oom.md)).
+
+D uygulandıktan sonra test_2 #43 ve #53 artık kullanıcıya 500 vermiyor; sandbox
+çöküşü yakalanıyor, akış semantik RAG'e düşüyor ve synthesizer doğru şekilde
+şunu diyor:
+
+> "Bu bilgi dokümanlarda bulunamadı."
+
+Kullanıcı deneyimi ham bir 500'e göre çok daha iyi ve mesaj sistemin başka
+yerlerde de kullandığı tutarlı ret cümlesi. **Ama cümle teknik olarak yanlış.**
+
+Bilgi dokümanlarda VAR (`experience.credentialSummary`, `occupation` —
+#43'ün sorduğu alanların ikisi de `728_profiles.json` içinde). Bulunamayan
+şey bilgi değil; sistem hesaplayamadı. Aynı cümle şu anda üç farklı durumu
+birden anlatıyor:
+
+1. Sorulan bilgi veri setinde gerçekten yok (test_5 negatif seti — doğru kullanım).
+2. Filtre 0 satır döndürdü (`NO_MATCH_SUMMARY` yolu).
+3. **Sistem teknik bir sebeple işleyemedi** (madde 11 çökmesi — yanlış kullanım).
+
+### Neden düşük öncelikli değil
+Kullanıcı "veri yok" anladığı için **soruyu bir daha sormaz**. Oysa 3. durumda
+tekrar denese çalışabilir: madde 11'in eşiği deterministik değil (#57 bir
+koşuda düştü, diğerinde geçti — GPU'da o an boşta olan belleğe bağlı). Yani
+sistem, geri kazanılabilir bir başarısızlığı kalıcı bir yokluk gibi sunuyor.
+Bu bir kullanıcı güveni / netlik sorunu.
+
+### Kayda geçen ifade
+"Bulunamadı" ile "şu an işlenemedi" arasındaki ayrımın kullanıcıya doğru
+yansıtılması gerekiyor; bu iki farklı durumu aynı cümlede birleştirmek
+yanıltıcıdır.
+
+Çözüm şimdi tasarlanmadı. Ele alınırken dikkat: `EMPTY_RESULT_INSTRUCTION`
+bilinçli olarak ÇIPLAK ret istiyor, çünkü `benchmark_eval`'in
+`check_is_not_found` kontrolü ret cümlesinden sonra 3+ içerik kelimesi kalırsa
+cevabı ret DEĞİL "iddia" sayıyor (bkz. `retrieval.py` içindeki açıklama ve
+negatif set #231). Mesajı zenginleştiren her çözüm bu ölçüm tanımıyla
+çakışabilir — yani düzeltme, ölçüm tarafını da beraberinde düşünmeyi
+gerektiriyor.
