@@ -537,7 +537,26 @@ def code_interpreter_with_retry(
         # Tekrar eden ciktiyi kirmak icin denemeyle birlikte sicakligi artir.
         active_llm = llm if attempt == 1 else _bump_temperature(llm, min(0.2 * attempt, 0.7))
 
-        raw_code = call_llm_text(active_llm, prompt)
+        # LLM servisinin kendisi patlayabilir (baglanti kopmasi, GPU bellek
+        # tahsisi basarisiz -> 500). Bu istisna eskiden hic yakalanmiyor,
+        # query_tabular_data -> retrieve zincirini boydan boya gecip kullaniciya
+        # ham bir 500 olarak yansiyordu (backlog madde 11; test_2 #43 ve #53
+        # olculen ornekler). Burada yakalanip normal "basarisiz" yoluna
+        # cevrilir: cagiran taraf zaten success=False durumunu biliyor ve
+        # semantik RAG'e dusuyor.
+        #
+        # Onceki denemelerden calisan bir sonuc varsa onu kaybetmeyiz: dongu
+        # sonundaki fallback_result / last_error yolu aynen isler.
+        try:
+            raw_code = call_llm_text(active_llm, prompt)
+        except Exception as e:
+            last_error = f"LLM servisi yanit veremedi ({type(e).__name__}): {str(e)[:200]}"
+            if verbose:
+                print(f"[CodeInterpreter] LLM COKTU ({attempt}. deneme): {type(e).__name__}")
+            # Tekrar denemek ayni prompt'la ayni sonucu verir (olculen vakalarda
+            # hata prompt boyutundan kaynaklaniyor ve prompt kuculmuyor), bu
+            # yuzden dongu kirilir.
+            break
         code = clean_python_code(raw_code)
         last_code = code
 
