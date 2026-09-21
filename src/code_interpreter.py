@@ -669,35 +669,6 @@ Cevap:"""
     return None
 
 
-def columns_from_code(code: Optional[str]) -> list:
-    """
-    Uretilen pandas kodunda ADI GECEN kolonlari cikarir.
-
-    Iki bicim de yakalanir:
-        df['x']            -> ['x']
-        df[['x', 'y']]     -> ['x', 'y']
-    Ikinci bicim kacirilirsa cok kolonlu sorgular "kolonsuz" gorunur; test_2
-    #35 (`df[['publicContact.phoneVisible', ...]]`) tam olarak boyle
-    kaybedilmisti.
-
-    DOGRULAMA YAPMAZ: yalnizca kodda gecen adlari toplar. Gercek semayla
-    kesistirme cagiranin isidir (df'e sahip olan taraf), cunku modelin
-    uydurdugu bir ad (ornegin test_5 #109'daki customer_satisfaction_score)
-    gercek kolon sayilmamalidir.
-    """
-    if not code:
-        return []
-    out = []
-    for block in re.findall(r"""df\s*\[\s*(\[[^\]]*\]|['"][^'"]*['"])\s*\]""", code):
-        out.extend(re.findall(r"""['"]([^'"]+)['"]""", block))
-    seen, uniq = set(), []
-    for c in out:
-        if c not in seen:
-            seen.add(c)
-            uniq.append(c)
-    return uniq
-
-
 def result_to_natural_language(question: str, result: Any, llm: Any) -> str:
     """
     Hesaplanan ham Pandas sonucunu (Sayı, Liste, Sözlük, Seri, DataFrame)
