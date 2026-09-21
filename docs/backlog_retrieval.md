@@ -17,10 +17,11 @@ PR olarak ele alınır.
 | 8 | Var olmayan/yanlış kolon sorulduğunda halüsinasyon | **Kısmi kapandı** — #109 ve #115 çözüldü; #107 kabul edilmiş sınırlama olarak açık |
 | 9 | RRF sıra tabanlı olduğu için BM25'teki güçlü skor marjını düzleştiriyor | Açık — teorik, somut regresyon örneği bekliyor |
 | 10 | Para birimi koruması birimi siliyor ama sayıyı bırakıyor; halüsinasyonu engellemeden denetlenebilirliği azaltıyor | Açık — düşük öncelik |
-| 11 | Düzeltme prompt'u sınırsız büyüyor → Foundry GPU OOM → kullanıcıya 500 | Açık — **ayrıca değerlendirilmeli** (öncelik sırasına sokulmadı; farklı hata sınıfı) |
+| 11 | Aşırı uzun model yanıtı prompt'u ~12 KB'a taşıyor → Foundry GPU OOM | **Kısmen ele alındı** — D (`90a08e9`) 1. katmanı kapsıyor; C açık seçenek |
 | 12 | `result_to_natural_language` `bool` sonuçta devrik cümle üretiyor ve ham `True` sızdırıyor | Açık — madde 8 adım 4'ten SONRA |
 | 13 | **Ölçüm altyapısı körlüğü**: tam eval `data_engine`/`code_interpreter` davranışını HİÇ çalıştırmıyor | **Yapısal sınırlama** — her `data_engine` değişikliğinde hatırlanmalı; kapatılacak bir bug değil |
 | 14 | "Bulunamadı" mesajı iki farklı durumu birleştiriyor: *bilgi yok* ile *şu an işlenemedi* | Açık — **kullanıcı güvenini etkileyen netlik sorunu**, düşük öncelikli değil |
+| 15 | Servis süreç yönetimi: OOM sonrası Foundry bozuk kalıyor, toparlanma askıda kalabiliyor | Açık — **işletimsel dayanıklılık**, madde 11'den ayrı problem sınıfı |
 
 ## Madde 5 — Meta-chunk boost'u
 Sabit `+0.35` meta-chunk boost'u sorgu tipine bakmaksızın uygulanıyor ve RRF
@@ -366,6 +367,25 @@ katman ölçüldü:
    çağıran süreci kilitledi; D'nin ölçümünü tamamlamak için her seferinde
    **manuel müdahale** (askıdaki süreçleri sonlandırma) gerekti.
 
+### Seçenek C'nin yeniden konumlandırılması (D ölçümünden sonra)
+C (prompt boyutu tavanı + geçmiş girdilerini kırpma) ilk değerlendirmede
+"düşük öncelikli" bırakılmıştı; gerekçe "yalnızca iki sorunun cevaplanmasını
+sağlar, karşılığında keyfi bir sabit getirir" idi. **Etki alanı ölçüldükten
+sonra bu gerekçe eksik kalıyor:** C, OOM'un OLUŞMA olasılığını azalttığı için
+yalnızca 1. katmanı değil, 2. katmanı da (servisin bozulması) hedefliyor —
+OOM olmazsa servis de bozulmaz.
+
+C ile "toparlanamayan servisi zorla yeniden başlatma" **birbirinin yerine
+geçmez, tamamlayıcıdır**:
+- **C = önleyici** — OOM'un oluşma olasılığını azaltır.
+- **Zorla yeniden başlatma = tepkisel** — OOM oluştuktan sonra sistemin kendini
+  toparlamasını sağlar (bkz. madde 15).
+
+Etiket: **"düşük öncelikli" DEĞİL, "acil" de DEĞİL.** Madde 11'in bir sonraki
+turunda C ile yalnızca-toparlanma-güçlendirme kıyası yeniden yapılmalı, çünkü
+C'nin faydası ilk düşünülenden geniş. Keyfi sabit sorunu ve eşiğin
+deterministik olmaması itirazları hâlâ geçerli.
+
 ### Sonuç: çözümün kapsamı genişliyor
 Üretimde bu manuel müdahale mümkün olmayabilir. Servis kendi kendine
 toparlanamıyorsa, madde 11'in çözümü yalnızca **"çökmeyi yakala"** olamaz;
@@ -553,3 +573,53 @@ cevabı ret DEĞİL "iddia" sayıyor (bkz. `retrieval.py` içindeki açıklama v
 negatif set #231). Mesajı zenginleştiren her çözüm bu ölçüm tanımıyla
 çakışabilir — yani düzeltme, ölçüm tarafını da beraberinde düşünmeyi
 gerektiriyor.
+
+## Madde 15 — Servis süreç yönetimi ve toparlanma güvenilirliği
+Madde 11'den **ayrı bir problem sınıfı.** Madde 11 prompt mühendisliği /
+kaynak yönetimi ("prompt neden ~12 KB'ı aşıyor"); bu madde işletimsel
+dayanıklılık ("servis çöktükten sonra ne oluyor"). Tek maddede tutulursa
+"madde 11 çözüldü" denip toparlanma sorununun unutulması riski var.
+
+### 1. OOM sonrası Foundry bozuk kalıyor
+test_2'nin 14 CI sorusu sırayla koşulduğunda, #43'ün OOM'undan SONRAKİ 9
+sorunun hepsi `RuntimeError: Model yanıt veremedi` verdi. Kritik ayrıntı:
+**yönetim servisi HTTP 200 dönmeye devam ediyordu**, yani dışarıdan "ayakta"
+görünüyordu; ama model yanıt vermiyordu ve süreç RAM'i 4 GB'a şişmişti.
+Basit bir health check (endpoint cevap veriyor mu) bu durumu YAKALAMAZ.
+
+Aynı gözlem daha önce "#45 toplu koşuda düştü, izole koşuda geçti" olarak
+karşımıza çıkmış ama yanlış yorumlanmıştı ("GPU belleği birikiyor").
+
+### 2. Toparlanma mekanizmasının kendisi askıda kalabiliyor
+`foundry service stop/start` çevrimi bu oturumda **3 kez bağımsız olarak**
+askıda kaldı ve çağıran süreci kilitledi (bir kez 30 dakika). Her seferinde
+manuel müdahale (askıdaki `powershell.exe` süreçlerini sonlandırma) gerekti.
+
+**Çözüm bulundu ve çalıştı — sıfırdan başlanmasın:**
+`recover.sh` (ölçüm için yazıldı, repo'da değil):
+- `timeout 30` ile stop/start çevrimine sert tavan,
+- ardından son 2 dakikada başlamış askıda `foundry`/`powershell` süreçlerini
+  zorla temizleme,
+- ardından 15 saniye boyunca servisin GERÇEKTEN cevap verdiğini doğrulama
+  (yeni portu `foundry service status` çıktısından okuyarak).
+
+Bu koruma ile 4. bir manuel müdahale gerekmedi.
+
+### 3. Ollama da düştü — TEK GÖZLEM, doğrulama bekliyor
+Bir koşuda `Embedding olusturulamadi: llama runner process has terminated`
+alındı (test_2 #53), hemen #52'nin OOM'undan sonra. **Tekrarlanmadı**: aynı
+soru temiz servisle koşulduğunda normal çalıştı.
+
+Bu, kararsızlığın Foundry'ye özgü olmayıp genel bir kaynak baskısı olabileceğini
+düşündürüyor, **ama tek örnekten bu iddia kurulamaz.** İkinci bir gözlem
+görülürse buraya eklenmeli; görülmezse bu satır tekil bir olay olarak kalmalı.
+
+### Uzun vadeli çerçeve
+Bu madde muhtemelen bir **process supervisor** tasarımı gerektiriyor:
+- **Health check** — endpoint'in HTTP 200 dönmesi YETMEZ (yukarıdaki 1. madde);
+  modelin gerçekten yanıt verdiğini sınayan bir kontrol gerekir.
+- **Otomatik restart** — bozuk durum tespit edilince, kullanıcıdan bağımsız.
+- **Zaman aşımı** — restart'ın kendisi de askıda kalabildiği için (2. madde).
+
+`recover.sh`'ın 30 saniyelik tavanı bunun ilk parçası sayılabilir; üretime
+taşınacaksa bu üç bileşenle birlikte tasarlanmalı.
