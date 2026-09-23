@@ -55,6 +55,17 @@ UNVERIFIED_RESULT_SUMMARY = (
 )
 
 
+# Ucuncu kardes (backlog madde 14): sorgu HIC calistirilamadi cunku LLM
+# servisi yanit veremedi (madde 11). Digerlerinden farki, veri hakkinda hicbir
+# sey ogrenilmemis olmasi — bilgi veri setinde VAR olabilir. Bu yuzden mesaj
+# "tekrar denenebilir" ipucu tasir.
+SERVICE_FAILURE_SUMMARY = (
+    "Soru veri seti uzerinde HIC calistirilamadi: kod ureten LLM servisi yanit "
+    "veremedi (teknik hata). Bu bir 'veri yok' bildirimi DEGILDIR; sorulan "
+    "bilgi veri setinde mevcut olabilir ama hesaplama yapilamadi."
+)
+
+
 class TabularDataEngine:
     def __init__(self, data_dir: Path = DATA_DIR):
         self.data_dir = Path(data_dir)
@@ -674,6 +685,33 @@ class TabularDataEngine:
                         "route": "code_interpreter",
                         "data_points": raw_res,
                         # "Neden bu dataset / neden bu rota" sorusu loglardan cevaplanabilsin diye
+                        "selected_dataset": selection["selected_dataset"],
+                        "match_score": selection["match_score"],
+                        "selection_debug": selection,
+                        "route_debug": route_info,
+                    }
+
+                # LLM servisi patladiysa (madde 11) bunu SESSIZCE semantik
+                # RAG'e dusurmuyoruz: oradan gelen cevap "bu bilgi yok" diyor,
+                # oysa bilgi VAR olabilir; sadece hesaplanamadi. Ayri bir
+                # bayrakla tasiyoruz ki kullaniciya dogru cumle gitsin
+                # (backlog madde 14). Kodun 3 denemede cozulememesi BU DEGIL —
+                # orada veri hakkinda bir sey ogrendik ve eski davranis
+                # (semantik RAG fallback) korunuyor.
+                if exec_info.get("service_failure"):
+                    return {
+                        "operation": "service_failure",
+                        "result": None,
+                        "summary": SERVICE_FAILURE_SUMMARY,
+                        "service_failure": True,
+                        "empty_result": False,
+                        "unverified_result": False,
+                        "code": exec_info.get("code", ""),
+                        "attempts": exec_info.get("attempts", 0),
+                        "error": exec_info.get("error", ""),
+                        "source_file": source_name,
+                        "route": "code_interpreter",
+                        "data_points": None,
                         "selected_dataset": selection["selected_dataset"],
                         "match_score": selection["match_score"],
                         "selection_debug": selection,

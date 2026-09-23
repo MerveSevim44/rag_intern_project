@@ -529,6 +529,11 @@ def code_interpreter_with_retry(
     seen_codes = set()    # tekrar uretilen kodu yakalamak icin
     last_code = ""
     last_error = ""
+    # LLM servisinin kendisi patladi mi? Kodun 3 denemede cozulememesinden
+    # AYRI bir durum: orada veri hakkinda bir sey ogrendik (kod calisti, hata
+    # verdi), burada hic calistiramadik. Cagiran taraf bu ikisini kullaniciya
+    # farkli cumlelerle bildirebilsin diye ayri bayrak (backlog madde 14).
+    service_failed = False
 
     for attempt in range(1, max_retries + 1):
         if verbose:
@@ -551,6 +556,7 @@ def code_interpreter_with_retry(
             raw_code = call_llm_text(active_llm, prompt)
         except Exception as e:
             last_error = f"LLM servisi yanit veremedi ({type(e).__name__}): {str(e)[:200]}"
+            service_failed = True
             if verbose:
                 print(f"[CodeInterpreter] LLM COKTU ({attempt}. deneme): {type(e).__name__}")
             # Tekrar denemek ayni prompt'la ayni sonucu verir (olculen vakalarda
@@ -638,6 +644,7 @@ def code_interpreter_with_retry(
         "raw_result": None,
         "code": last_code,
         "attempts": max_retries,
+        "service_failure": service_failed,
         "error": f"{max_retries} denemede cozulemedi: {last_error}"
     }
 

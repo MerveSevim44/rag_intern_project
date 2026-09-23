@@ -69,40 +69,73 @@ COMPUTED_RESULT_INSTRUCTION = (
 # durumunda bu talimat tam ters yonde calisiyor ve modeli var olmayan bir
 # varlik hakkinda kesin konusmaya ZORLUYOR.
 #
-# Neden ciplak bir ret isteniyor: degerlendirmedeki check_is_not_found, ret
-# ifadesinden sonra 3+ icerik kelimesi kalirsa cevabi ret DEGIL 'iddia'
-# sayiyor. Yani "ACC-124 hesabina ait kayit bulunamadi" gibi ACIKLAMALI bir
-# ret, halusinasyon ortadan kalkmis olsa bile FP olarak skorlaniyor (negatif
-# set #231 tam olarak boyle kaybedildi). Kullanici acisindan aciklamali ret
-# daha iyi olurdu; olcum tanimiyla uyumlu olan ciplak rettir.
+# Skorlayici kisiti (OLCULDU — bu yorumun onceki hali YANLISTI):
+# Eski hali "check_is_not_found, ret ifadesinden sonra 3+ icerik kelimesi
+# kalirsa cevabi 'iddia' sayar" diyordu. O kural yalnizca LEGACY yolda gecerli.
+# benchmark_eval.py:692 skorlayiciyi `check_is_not_found(prediction, question)`
+# diye cagiriyor; `question` verildigi icin kelime sayisi dali HIC calismiyor.
+# Gercek kural iki kosullu:
+#   1. Cevap _REFUSAL_MARKERS'tan birini ICERMELI (bulunamadi, mevcut degildir,
+#      yer almiyor, ...),
+#   2. Ret disinda kalan icerikte soruda GECMEYEN sayi / kod / ozel isim
+#      olmamali (_new_claims).
+# Yani ACIKLAMALI ret MUMKUN: 7 kelimelik bir gerekce TN olarak skorlaniyor.
+# Bu yuzden cumleler artik gerekceli (backlog madde 14) ama her biri ret
+# isaretiyle BASLIYOR ve hicbir sayi eklemiyor.
 EMPTY_RESULT_INSTRUCTION = (
     "Bağlamdaki '[KAYIT BULUNAMADI]' bloğu, veri seti üzerinde çalıştırılan "
     "sorgunun HİÇBİR KAYITLA eşleşmediğini bildirir. Sorulan varlık veri "
     "setinde mevcut değildir. Bunu kesin bir sayısal sonuç gibi SUNMA; "
     "özellikle '0', 'sıfır', 'boş' gibi bir değeri olgusal bir cevap gibi "
     "aktarma. "
-    "Yanıtın YALNIZCA şu cümle olsun: 'Bu bilgi dokümanlarda bulunamadı.' "
-    "Bu cümlenin dışına çıkma: gerekçe, olası sebep, alternatif bilgi, "
-    "varlık adı, sayı veya ek açıklama EKLEME."
+    "Yanıtın YALNIZCA şu cümle olsun: "
+    "'Bu bilgi dokümanlarda bulunamadı; belirtilen koşullara uyan kayıt yok.' "
+    "Bu cümlenin dışına çıkma: ek gerekçe, alternatif bilgi, varlık adı veya "
+    "SAYI EKLEME."
 )
 
 # EMPTY_RESULT_INSTRUCTION'ın kardeşi. Orada sorgu çalıştı ama 0 satır döndü;
 # burada sonucun soruyu doğru yorumladığı hiç doğrulanamadı (semantik
-# doğrulayıcı itiraz etti, düzeltme denemeleri de tutmadı). İki durumda da
-# kullanıcıya verilecek cevap aynı — "bulunamadı" — ama sebepleri ayrı olduğu
-# için talimatlar da ayrı tutuluyor.
+# doğrulayıcı itiraz etti, düzeltme denemeleri de tutmadı).
+# İki durumda da cevap bir RET'tir, ama sebepleri ayrı olduğu için cümleler de
+# ayrıldı (backlog madde 14): kullanıcı "bilgi yok" ile "hesaplanamadı"yı
+# ayırt edebilmeli.
+#
+# Kalıp neden böyle: benchmark_eval.check_is_not_found bir cevabı ancak
+# _REFUSAL_MARKERS'tan birini İÇERİYORSA ret sayar; "bu soru işlenemedi" gibi
+# işaretsiz bir cümle FP olarak skorlanır. Bu yüzden her cümle ret işaretiyle
+# BAŞLAR, ayrım noktalı virgülden sonra gelir. Skorlayıcıyı bu mesaja göre
+# değiştirmek (markers'ı genişletmek) bilinçli olarak REDDEDİLDİ — geçmiş tüm
+# karşılaştırmaları geçersiz kılardı; bkz.
+# docs/implementation_plan_refusal_clarity.md.
 UNVERIFIED_RESULT_INSTRUCTION = (
     "Bağlamdaki '[DOĞRULANAMAYAN SONUÇ]' bloğu, veri seti üzerinde bir sorgu "
     "çalıştırıldığını ama sonucun soruyu doğru yanıtladığının DOĞRULANAMADIĞINI "
     "bildirir. Bu bir cevap değildir. İçindeki hiçbir sayıyı, oranı veya adı "
     "kullanıcıya aktarma; kesin bir sonuç gibi SUNMA. "
-    "Yanıtın YALNIZCA şu cümle olsun: 'Bu bilgi dokümanlarda bulunamadı.' "
-    "Bu cümlenin dışına çıkma: gerekçe, olası sebep, alternatif bilgi, "
-    "varlık adı, sayı veya ek açıklama EKLEME."
+    "Yanıtın YALNIZCA şu cümle olsun: "
+    "'Bu bilgi dokümanlarda bulunamadı; sonuç doğrulanamadığı için aktarılmadı.' "
+    "Bu cümlenin dışına çıkma: ek gerekçe, alternatif bilgi, varlık adı veya "
+    "SAYI EKLEME."
+)
+
+# Üçüncü kardeş: sorgu HİÇ çalıştırılamadı çünkü LLM servisi yanıt veremedi
+# (backlog madde 11; test_2 #43/#53). Diğer ikisinden farkı, burada veri
+# hakkında hiçbir şey öğrenilmemiş olması — bilgi veri setinde VAR olabilir.
+# Bu yüzden cümle "tekrar denenebilir" ipucunu taşır: madde 11'in eşiği
+# deterministik değil, aynı soru sonraki denemede çalışabilir.
+SERVICE_FAILURE_INSTRUCTION = (
+    "Bağlamdaki '[İŞLENEMEDİ]' bloğu, sorunun veri seti üzerinde HİÇ "
+    "çalıştırılamadığını bildirir: teknik bir sorun nedeniyle hesaplama "
+    "yapılamadı. Bu bir 'veri yok' bildirimi DEĞİLDİR ve bir cevap da değildir. "
+    "Yanıtın YALNIZCA şu cümle olsun: "
+    "'Bu bilgi dokümanlarda bulunamadı; soru şu an işlenemedi, tekrar denenebilir.' "
+    "Bu cümlenin dışına çıkma: ek gerekçe, teknik ayrıntı, alternatif bilgi, "
+    "varlık adı veya SAYI EKLEME."
 )
 
 TOP_K = 8             # Hibrit arama ile seçilecek aday chunk sayısı
-RERANK_TOP_N = 3      # Reranker sonrası döndürülecek nihai sonuç sayısı
+RERANK_TOP_N = 4      # Reranker sonrası döndürülecek nihai sonuç sayısı
 BM25_WEIGHT = 0.35    # (Geriye dönük uyumluluk için korunur — RRF'de kullanılmaz)
 RRF_K = 60            # RRF sabiti: düşük değer üst sıraları güçlendirir (standart: 60)
 KEYWORD_BOOST_MAX = 0.08  # Keyword hit boost tavanı (BM25 en güçlü + tüm terimler KEY alanında)
@@ -566,7 +599,9 @@ def retrieve(query: str, db_path: str = DB_PATH, model: str = EMBED_MODEL,
                 "id": 0,
                 "source": source_file,
                 "page_info": f"{agg_result.get('route', 'data_engine')} ({agg_result['operation']})",
-                "content": (f"[KAYIT BULUNAMADI]\n{agg_result['summary']}"
+                "content": (f"[İŞLENEMEDİ]\n{agg_result['summary']}"
+                            if agg_result.get("service_failure")
+                            else f"[KAYIT BULUNAMADI]\n{agg_result['summary']}"
                             if agg_result.get("empty_result")
                             else f"[DOĞRULANAMAYAN SONUÇ]\n{agg_result['summary']}"
                             if agg_result.get("unverified_result")
@@ -578,7 +613,9 @@ def retrieve(query: str, db_path: str = DB_PATH, model: str = EMBED_MODEL,
                 "data_points": agg_result.get("data_points", agg_result.get("result", None)),
                 "operation": agg_result.get("operation", ""),
                 "route": agg_result.get("route", route),
-                "synthesizer_instruction": (EMPTY_RESULT_INSTRUCTION
+                "synthesizer_instruction": (SERVICE_FAILURE_INSTRUCTION
+                                            if agg_result.get("service_failure")
+                                            else EMPTY_RESULT_INSTRUCTION
                                             if agg_result.get("empty_result")
                                             else UNVERIFIED_RESULT_INSTRUCTION
                                             if agg_result.get("unverified_result")
