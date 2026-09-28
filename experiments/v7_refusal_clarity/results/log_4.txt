@@ -1,0 +1,40 @@
+Soru seti: evaluation\datasets\test_4.csv  (10 soru)
+Model yukleniyor...
+[Foundry] Model yüklendi: qwen2.5-7b-instruct-cuda-gpu:4 | execution provider: CUDAExecutionProvider | cihaz: GPU
+[Foundry] Servis adresi: http://127.0.0.1:58806
+[Foundry] Serviste yüklü modeller: ['qwen2.5-7b-instruct-cuda-gpu:4']
+Model hazir.
+
+[91] Soruluyor: Alis'in çalıştığı kütüphanenin adı nedir?
+[retrieval] Cache yuklendi: 916 chunk, embedding matrisi (916, 1024)
+    -> 47.88 sn
+
+[92] Soruluyor: Anlatıcının Oda No: 304'ü kiraladığı şehir ve mevsim hangisidir?
+    -> 25.87 sn
+
+[93] Soruluyor: Defterin sayfalarında beliren cümlede 'gardiyan' olarak kim gösterilmektedir?
+    -> 17.64 sn
+
+[94] Soruluyor: Alis'in Yasaklı Kanat'a girme kararını tetikleyen olaylar zincirini (ay ışığının yansıması, kapının aralık olması, kalp atışları) sırasıyla açıklayınız.
+    -> 20.3 sn
+
+[95] Soruluyor: Antikacının verdiği pirinç anahtarın hikâyedeki işlevi ile günlükte bahsedilen tıkırtı sesi arasındaki bağlantı nasıl kurulmuştur?
+    -> 20.34 sn
+
+[96] Soruluyor: Defterde Alis'in isminin belirmesinden hemen sonra ortaya çıkan illüstrasyonun içeriği, hikâyenin gerilimini nasıl artırmaktadır?
+    -> 21.79 sn
+
+[97] Soruluyor: Günlükteki 12 Mart ve 28 Mart tarihli kayıtlar arasında bilgi açısından ne gibi bir ilerleme (fısıltıdan koda, kodan antikacıya) yaşanmıştır?
+    -> 21.06 sn
+
+[98] Soruluyor: Anlatıcının saatin 03.13'e gelmesini fark etmesi ile önceki günlük kayıtlarında belirtilen 03.14 tıkırtısı arasındaki zamansal gerilim nasıl kurgulanmıştır?
+    -> 23.32 sn
+
+[99] Soruluyor: 'Geleceği görmek bir lütuf değil, bir hapishanedir' cümlesinin, Usta Magnus'un kimliğine dair ipuçlarıyla birlikte hikâyenin genel gizem yapısına nasıl bir anlam kattığını değerlendiriniz.
+    -> 27.05 sn
+
+[100] Soruluyor: Günlükteki koparılmış yirmi sayfa ile arka kapaktaki kroki/koordinat arasındaki anlatısal boşluk, okuyucuda nasıl bir belirsizlik ve merak etkisi yaratacak şekilde kurgulanmıştır?
+    -> 21.44 sn
+
+
+Tamamlandi. 10 soru. Sonuclar: experiments\v7_refusal_clarity\results\test_4_sonuclari.csv

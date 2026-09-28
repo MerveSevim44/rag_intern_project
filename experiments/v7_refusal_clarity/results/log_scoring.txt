@@ -1,0 +1,159 @@
+
+================================================================================
+🎯 OTOMATİK SKORLAMA & BENCHMARK SONUÇLARI — test_1
+================================================================================
+Toplam Değerlendirilen Soru : 30
+Genel Exact Match (EM)      : %16.7
+Genel Token F1 Skoru        : %49.3
+Genel ROUGE-L Skoru         : %45.8
+Genel Semantik Benzerlik    : %79.1
+Genel Soft Match (Soft EM)  : %20.0
+Retrieval Kaynak Doğruluğu  : %100.0  (MRR %100.0 | Recall@1 %100.0)
+Ortalama Yanıt Süresi       : 32.24 sn
+Halüsinasyon (FP) Oranı     : 0 / 30 (%0.0)
+Cevapsız (FN) kırılımı      : retrieval kaçırdı 0 | doğru kaynak geldi ama cevap yok 3
+--------------------------------------------------------------------------------
+📊 Kategori Bazlı Dağılım:
+  [Kolay   ] EM: % 66.7 | Soft: % 66.7 | F1: % 56.3 | ROUGE-L: % 55.7 | Semantik: % 84.9 | Kaynak: %100.0 | Süre: 22.3s
+  [Orta    ] EM: %  5.0 | Soft: % 10.0 | F1: % 51.2 | ROUGE-L: % 47.8 | Semantik: % 80.5 | Kaynak: %100.0 | Süre: 34.5s
+  [Zor     ] EM: %  0.0 | Soft: %  0.0 | F1: % 29.0 | ROUGE-L: % 21.0 | Semantik: % 63.2 | Kaynak: %100.0 | Süre: 35.7s
+================================================================================
+📁 Kaydedilen Dosyalar:
+  - Scored CSV   : C:\Users\merve\Desktop\rag_project\experiments\v7_refusal_clarity\report\test_1_scored.csv
+  - Summary JSON : C:\Users\merve\Desktop\rag_project\experiments\v7_refusal_clarity\report\test_1_summary.json
+  - Grafikler    : C:\Users\merve\Desktop\rag_project\experiments\v7_refusal_clarity\report\benchmark_charts\test_1
+
+================================================================================
+🎯 OTOMATİK SKORLAMA & BENCHMARK SONUÇLARI — test_2
+================================================================================
+Toplam Değerlendirilen Soru : 30
+Genel Exact Match (EM)      : %0.0
+Genel Token F1 Skoru        : %33.3
+Genel ROUGE-L Skoru         : %29.6
+Genel Semantik Benzerlik    : %75.8
+Genel Soft Match (Soft EM)  : %3.3
+Retrieval Kaynak Doğruluğu  : %100.0  (MRR %100.0 | Recall@1 %100.0)
+Ortalama Yanıt Süresi       : 73.74 sn
+Halüsinasyon (FP) Oranı     : 0 / 30 (%0.0)
+Cevapsız (FN) kırılımı      : retrieval kaçırdı 0 | doğru kaynak geldi ama cevap yok 5
+--------------------------------------------------------------------------------
+📊 Kategori Bazlı Dağılım:
+  [Kolay   ] EM: %  0.0 | Soft: % 16.7 | F1: % 61.8 | ROUGE-L: % 59.9 | Semantik: % 89.6 | Kaynak: %100.0 | Süre: 51.6s
+  [Orta    ] EM: %  0.0 | Soft: %  0.0 | F1: % 31.9 | ROUGE-L: % 28.0 | Semantik: % 76.7 | Kaynak: %100.0 | Süre: 78.9s
+  [Zor     ] EM: %  0.0 | Soft: %  0.0 | F1: % 18.2 | ROUGE-L: % 13.8 | Semantik: % 66.2 | Kaynak: %100.0 | Süre: 79.8s
+================================================================================
+📁 Kaydedilen Dosyalar:
+  - Scored CSV   : C:\Users\merve\Desktop\rag_project\experiments\v7_refusal_clarity\report\test_2_scored.csv
+  - Summary JSON : C:\Users\merve\Desktop\rag_project\experiments\v7_refusal_clarity\report\test_2_summary.json
+  - Grafikler    : C:\Users\merve\Desktop\rag_project\experiments\v7_refusal_clarity\report\benchmark_charts\test_2
+
+================================================================================
+🎯 OTOMATİK SKORLAMA & BENCHMARK SONUÇLARI — test_3
+================================================================================
+Toplam Değerlendirilen Soru : 30
+Genel Exact Match (EM)      : %0.0
+Genel Token F1 Skoru        : %37.5
+Genel ROUGE-L Skoru         : %31.4
+Genel Semantik Benzerlik    : %78.9
+Genel Soft Match (Soft EM)  : %13.3
+Retrieval Kaynak Doğruluğu  : %100.0  (MRR %100.0 | Recall@1 %100.0)
+Ortalama Yanıt Süresi       : 36.37 sn
+Halüsinasyon (FP) Oranı     : 0 / 30 (%0.0)
+Cevapsız (FN) kırılımı      : retrieval kaçırdı 0 | doğru kaynak geldi ama cevap yok 2
+--------------------------------------------------------------------------------
+📊 Kategori Bazlı Dağılım:
+  [Kolay   ] EM: %  0.0 | Soft: % 14.3 | F1: % 40.6 | ROUGE-L: % 32.0 | Semantik: % 80.9 | Kaynak: %100.0 | Süre: 35.1s
+  [Orta    ] EM: %  0.0 | Soft: % 15.8 | F1: % 36.7 | ROUGE-L: % 32.2 | Semantik: % 77.1 | Kaynak: %100.0 | Süre: 34.9s
+  [Zor     ] EM: %  0.0 | Soft: %  0.0 | F1: % 35.6 | ROUGE-L: % 26.4 | Semantik: % 84.3 | Kaynak: %100.0 | Süre: 45.4s
+================================================================================
+📁 Kaydedilen Dosyalar:
+  - Scored CSV   : C:\Users\merve\Desktop\rag_project\experiments\v7_refusal_clarity\report\test_3_scored.csv
+  - Summary JSON : C:\Users\merve\Desktop\rag_project\experiments\v7_refusal_clarity\report\test_3_summary.json
+  - Grafikler    : C:\Users\merve\Desktop\rag_project\experiments\v7_refusal_clarity\report\benchmark_charts\test_3
+
+================================================================================
+🎯 OTOMATİK SKORLAMA & BENCHMARK SONUÇLARI — test_4
+================================================================================
+Toplam Değerlendirilen Soru : 10
+Genel Exact Match (EM)      : %10.0
+Genel Token F1 Skoru        : %18.3
+Genel ROUGE-L Skoru         : %13.6
+Genel Semantik Benzerlik    : %68.5
+Genel Soft Match (Soft EM)  : %10.0
+Retrieval Kaynak Doğruluğu  : %100.0  (MRR %100.0 | Recall@1 %100.0)
+Ortalama Yanıt Süresi       : 24.67 sn
+Halüsinasyon (FP) Oranı     : 0 / 10 (%0.0)
+Cevapsız (FN) kırılımı      : retrieval kaçırdı 0 | doğru kaynak geldi ama cevap yok 3
+--------------------------------------------------------------------------------
+📊 Kategori Bazlı Dağılım:
+  [Kolay   ] EM: % 33.3 | Soft: % 33.3 | F1: %  4.4 | ROUGE-L: %  4.4 | Semantik: % 51.1 | Kaynak: %100.0 | Süre: 30.5s
+  [Orta    ] EM: %  0.0 | Soft: %  0.0 | F1: % 29.1 | ROUGE-L: % 21.2 | Semantik: % 82.0 | Kaynak: %100.0 | Süre: 21.4s
+  [Zor     ] EM: %  0.0 | Soft: %  0.0 | F1: % 12.2 | ROUGE-L: %  8.1 | Semantik: % 60.7 | Kaynak: %100.0 | Süre: 24.2s
+================================================================================
+📁 Kaydedilen Dosyalar:
+  - Scored CSV   : C:\Users\merve\Desktop\rag_project\experiments\v7_refusal_clarity\report\test_4_scored.csv
+  - Summary JSON : C:\Users\merve\Desktop\rag_project\experiments\v7_refusal_clarity\report\test_4_summary.json
+  - Grafikler    : C:\Users\merve\Desktop\rag_project\experiments\v7_refusal_clarity\report\benchmark_charts\test_4
+
+================================================================================
+🎯 OTOMATİK SKORLAMA & BENCHMARK SONUÇLARI — test_5
+================================================================================
+Toplam Değerlendirilen Soru : 15
+Genel Exact Match (EM)      : %86.7
+Genel Token F1 Skoru        : %86.7
+Genel ROUGE-L Skoru         : %86.7
+Genel Semantik Benzerlik    : %86.7
+Genel Soft Match (Soft EM)  : %86.7
+Retrieval Kaynak Doğruluğu  : — (set yalnızca negatif soru içeriyor)
+Ortalama Yanıt Süresi       : 44.09 sn
+Halüsinasyon (FP) Oranı     : 2 / 15 (%13.3)
+--------------------------------------------------------------------------------
+📊 Kategori Bazlı Dağılım:
+  [Negatif ] EM: % 86.7 | Soft: % 86.7 | F1: % 86.7 | ROUGE-L: % 86.7 | Semantik: % 86.7 | Kaynak: %100.0 | Süre: 44.1s
+================================================================================
+📁 Kaydedilen Dosyalar:
+  - Scored CSV   : C:\Users\merve\Desktop\rag_project\experiments\v7_refusal_clarity\report\test_5_scored.csv
+  - Summary JSON : C:\Users\merve\Desktop\rag_project\experiments\v7_refusal_clarity\report\test_5_summary.json
+  - Grafikler    : C:\Users\merve\Desktop\rag_project\experiments\v7_refusal_clarity\report\benchmark_charts\test_5
+
+================================================================================
+🎯 OTOMATİK SKORLAMA & BENCHMARK SONUÇLARI — test_negative
+================================================================================
+Toplam Değerlendirilen Soru : 32
+Genel Exact Match (EM)      : %96.9
+Genel Token F1 Skoru        : %96.9
+Genel ROUGE-L Skoru         : %96.9
+Genel Semantik Benzerlik    : %96.9
+Genel Soft Match (Soft EM)  : %96.9
+Retrieval Kaynak Doğruluğu  : — (set yalnızca negatif soru içeriyor)
+Ortalama Yanıt Süresi       : 43.82 sn
+Halüsinasyon (FP) Oranı     : 1 / 32 (%3.1)
+--------------------------------------------------------------------------------
+📊 Kategori Bazlı Dağılım:
+  [Negatif ] EM: % 96.9 | Soft: % 96.9 | F1: % 96.9 | ROUGE-L: % 96.9 | Semantik: % 96.9 | Kaynak: %100.0 | Süre: 43.8s
+================================================================================
+📁 Kaydedilen Dosyalar:
+  - Scored CSV   : C:\Users\merve\Desktop\rag_project\experiments\v7_refusal_clarity\report\test_negative_scored.csv
+  - Summary JSON : C:\Users\merve\Desktop\rag_project\experiments\v7_refusal_clarity\report\test_negative_summary.json
+  - Grafikler    : C:\Users\merve\Desktop\rag_project\experiments\v7_refusal_clarity\report\benchmark_charts\test_negative
+
+================================================================================================
+GENEL DEĞERLENDİRME — TÜM TEST SETLERİNİN TOPLAMI
+================================================================================================================
+Set         Soru   Ref     EM%   Soft%     F1%    RgL%    Sem%   Retr%    MRR%   TP   TN   FP   FN   Sure(s)
+----------------------------------------------------------------------------------------------------------------
+test_1        30    30    16.7    20.0    49.3    45.8    79.1   100.0   100.0   27    0    0    3     32.24
+test_2        30    30     0.0     3.3    33.3    29.6    75.8   100.0   100.0   25    0    0    5     73.74
+test_3        30    30     0.0    13.3    37.5    31.4    78.9   100.0   100.0   28    0    0    2     36.37
+test_4        10    10    10.0    10.0    18.3    13.6    68.5   100.0   100.0    7    0    0    3     24.67
+test_5        15    15    86.7    86.7    86.7    86.7    86.7   100.0     0.0    0   13    2    0     44.09
+test_negative    32    32    96.9    96.9    96.9    96.9    96.9   100.0     0.0    0   31    1    0     43.82
+----------------------------------------------------------------------------------------------------------------
+GENEL        147   147    34.0    38.1    55.7    52.7    82.3   100.0   100.0   87   44    3   13     44.77
+================================================================================================================
+Halusinasyon (FP) orani     : 3/47 (%6.4) [negatif set uzerinden]
+Negatif test basarisi (TN)  : 44/47 (%93.6)
+Cevapsiz kalma (FN) orani   : 13/147 (%8.8)
+Birlesik CSV  : C:\Users\merve\Desktop\rag_project\experiments\v7_refusal_clarity\report\genel_scored.csv
+Genel ozet    : C:\Users\merve\Desktop\rag_project\experiments\v7_refusal_clarity\report\genel_summary.json
+Genel grafik  : C:\Users\merve\Desktop\rag_project\experiments\v7_refusal_clarity\report\benchmark_charts\genel

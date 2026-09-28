@@ -19,7 +19,8 @@ skorlayiciyla yeniden skorlanmistir** (bkz. v6 bolumu).
 | v2 — baseline + trim duzeltmesi | 23 | 39.6 | **36.6** | 73.9 | 6.1 | 9.2 | 7/32 | superseded |
 | v3 — yumusatma + kirpma | **10** | 32.1 | 27.9 | 75.6 | 3.1 | 12.2 | 8/32 | ❌ alinmadi |
 | v5 — yumusatma + kisalik | 13 | **40.0** | 35.5 | **77.5** | 6.1 | **12.2** | 7/31 | superseded |
-| **v6 — sandbox bos-sonuc korumasi** | 13 | **40.0** | 35.5 | **77.5** | 6.1 | **12.2** | **2/31** | ✅ **aktif** |
+| v6 — sandbox bos-sonuc korumasi | 13 | **40.0** | **35.5** | 77.5 | 6.1 | **12.2** | 2/32 | superseded |
+| **v7 — ret netligi + RERANK 4** | **11** | 38.6 | 34.1 | **77.7** | 6.1 | **12.2** | **1/32** | ⚠️ **aktif, confounded** |
 | v4 — basarisiz kosu | — | — | — | — | — | — | — | ⚠️ gecersiz |
 
 ---
@@ -118,6 +119,7 @@ Klasor: `archive/reports_old/report_v4_invalid/`, `archive/reports_old/results_v
 - **Iki etkinin ayrimi:** skorlayici tek basina 7->6 (yalnizca #231),
   kod duzeltmesi tek basina 6->2. v6'da eski ve yeni skorlayici ayni sonucu
   (2) veriyor.
+- **Durum:** Superseded (v7 tarafindan)
 - **Yan etki taramasi:** ana sette koruma HIC tetiklenmedi (0 kez), yeni FN
   yok, yeni FP yok, cevaplar degismedi.
 - **Durum:** ✅ Aktif
@@ -175,3 +177,43 @@ coreference sorunu. Cozum chunking veya embedding tarafinda aranmali.
    birakma, cunku bir sonraki kisi rakamlari gecerli sanabilir (v4 tam boyleydi).
 6. Ayni anda birden fazla degisken degistirme; degistirdiysen hangisinin neyi
    etkiledigini ayiramazsin.
+
+## v7 — Ret Netligi + Servis Hatasi Ayrimi (aktif, AMA confounded)
+- **Commit:** `27214ff`
+- **Klasor:** `experiments/v7_refusal_clarity/`
+- **Degisiklik (1) — ret netligi (madde 14, asil hedef):** Uc ret durumu artik
+  ayni cumleyi degil ayri gerekceli cumleler donduruyor; ayrica LLM servisi
+  coktugunde devreye giren **yeni ucuncu dal** `[ISLENEMEDI]` eklendi
+  (`code_interpreter.service_failure` -> `data_engine` -> `retrieval`).
+  Her cumle bir ret isaretiyle BASLIYOR ve yeni sayi/isim eklemiyor, yani
+  `check_is_not_found(pred, question)` acisindan TN olarak skorlaniyor.
+- **Degisiklik (2) — `RERANK_TOP_N` 3 -> 4:** Ayni commit'te, hicbir planda
+  gecmeden. Tum sorulari etkiler.
+- **⚠️ BU KOSU TEK DEGISKENLI DEGIL.** 98 cevabin **75'i degisti** (v5->v6'da
+  0 degismisti). Ret netligi ana sette neredeyse hic tetiklenmiyor, yani bu
+  kayma buyuk olcude RERANK'tan geliyor. Asagidaki farklarin hicbiri tek bir
+  degisiklige ATFEDILEMEZ. Ayristirma icin `RERANK_TOP_N = 3` ile ayri bir
+  kosu gerekir.
+- **Sonuc (98 soru):** FN 13->**11**, F1 40.0->38.6, ROUGE-L 35.5->34.1,
+  Semantik 77.5->**77.7**, EM 6.1->6.1, Soft 12.2->12.2
+- **Sonuc (negatif, 32/32 tam kosu):** FP **2/32 -> 1/32**.
+  `#224` kapandi (FP->TN) — ama `#224` sandbox rotasinda DEGIL, yani ret
+  netligi ona dokunmuyor; en olasi sebep RERANK, kanitlanmadi.
+  `#232` aciklinigini koruyor, cevap v6 ile birebir ayni (yanlis sutun:
+  `founded`.idxmax — ayri hata sinifi).
+- **Kosu sagligi:** 147/147 cevap, altyapi hatasi YOK, negatif set 32/32.
+- **Madde 14 dogrulandi:** uc ret varyantinin ucu de canli kosuda tetiklendi
+  (`[ISLENEMEDI]` test_2'de 3, `[KAYIT BULUNAMADI]` negatif sette 6,
+  `[DOGRULANAMAYAN SONUC]` test_5'te 1).
+- **YAN ETKI — olcum tanimini etkiliyor:** `#43`/`#53` v5/v6'da
+  `HATA: Connection error` satiriydi ve cikarilmisti. v7'de servis hala
+  yanit veremiyor ama cevap bir RET cumlesi olarak geliyor; skorlayici
+  bunlari hata satiri saymiyor, ret sayiyor. Ground truth "dokumanda var"
+  oldugu icin dahil edilirlerse 2 FN eklerler (tam ana set n=100: FN 13).
+  Karsilastirma bu yuzden yine 98 soruluk temiz set uzerinden.
+  **`INFRASTRUCTURE_NOTES.md` pratik kural 3 artik tek basina yetersiz:**
+  `HATA:` satiri saymak servis cokmesini tespit etmeye yetmiyor.
+- **test_5:** 15 soru, FP 2 (`#101`, `#107`), TN 13. v6 baseline'i olmadigi
+  icin ozet tabloya girmez.
+- **Durum:** Aktif, ama confounded — bkz.
+  `experiments/v7_refusal_clarity/PROVENANCE.md`.

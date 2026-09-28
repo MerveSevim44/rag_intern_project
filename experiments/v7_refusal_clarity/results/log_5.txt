@@ -1,0 +1,84 @@
+Soru seti: evaluation\datasets\test_5.csv  (15 soru)
+Model yukleniyor...
+[Foundry] Model yüklendi: qwen2.5-7b-instruct-cuda-gpu:4 | execution provider: CUDAExecutionProvider | cihaz: GPU
+[Foundry] Servis adresi: http://127.0.0.1:58806
+[Foundry] Serviste yüklü modeller: ['qwen2.5-7b-instruct-cuda-gpu:4']
+Model hazir.
+
+[101] Soruluyor: Bağlamdan bağımsız dilbilgisini Chomsky normal formuna dönüştürme algoritması hangi adımlardan oluşur?
+[retrieval] Cache yuklendi: 916 chunk, embedding matrisi (916, 1024)
+    -> 61.41 sn
+
+[102] Soruluyor: Bağlamdan bağımsız dilleri tanıyan yığın otomatı (pushdown automaton) nasıl tanımlanır?
+    -> 36.25 sn
+
+[103] Soruluyor: Bağlamdan bağımsız dilbilgisi için pompalama (pumping) lemması nasıl ifade edilir?
+    -> 33.66 sn
+
+[104] Soruluyor: Fourier dönüşümünde Nyquist örnekleme teoremi hangi koşulu gerektirir?
+    -> 33.04 sn
+
+[105] Soruluyor: Dalgacık (wavelet) dönüşümü ile Fourier dönüşümü arasındaki fark dokümanda nasıl açıklanmıştır?
+    -> 24.61 sn
+
+[106] Soruluyor: Hızlı Fourier Dönüşümü (FFT) algoritmasının hesaplama karmaşıklığı kaçtır?
+    -> 23.73 sn
+
+[107] Soruluyor: 728_profiles.json veri setinde profillerin ortalama randevu ücreti kaç TL'dir?
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['appointmentSettings.defaultDurationMinutes'].mean()
+[CodeInterpreter] Basarili! Cikti: 45.11675824175824
+[llm_client] Para birimi duzeltildi: 'TL' -> '(kaldirildi)'
+[llm_client] Para birimi duzeltildi: 'TL' -> '(kaldirildi)'
+    -> 57.08 sn
+
+[108] Soruluyor: 728_profiles.json veri setinde profillerin cinsiyet dağılımı nedir?
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = {
+    'Individual': df[df['profileType'] == 'individual'].shape[0],
+    'Business': df[df['profileType'] == 'business'].shape[0]
+}
+[CodeInterpreter] Basarili! Cikti: {'Individual': 599, 'Business': 129}
+    -> 43.87 sn
+
+[109] Soruluyor: 728_profiles.json veri setindeki profillerin müşteri memnuniyet puanı ortalaması kaçtır?
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df.shape[0] / len(df)
+[CodeInterpreter] Semantik dogrulama itirazi: Koda uygulanan formül, sorudan istenen puanın ortalamasını hesaplamak için gerekli değildir. Verilen kod, veri setinin boyunu kendine bölüyor ve 1.0'u veriyor. Bu, doğru bir sonuç değil. Puanların ortalamasını bulmak için `df[' müşteri memnuniyet puanı'].mean()` şeklinde bir kod kullanmalısınız.
+[CodeInterpreter] Deneme 2/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['müşteri memnuniyet puanı'].mean()
+[CodeInterpreter] Hata alindi (2. deneme): KeyError: 'müşteri memnuniyet puanı'
+[CodeInterpreter] Deneme 3/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['customer_satisfaction_score'].mean()
+[CodeInterpreter] Hata alindi (3. deneme): KeyError: 'customer_satisfaction_score'
+[CodeInterpreter] Dogrulama uyarili sonuc donduruluyor.
+    -> 121.18 sn
+
+[110] Soruluyor: mock-transactions.json dosyasında işlemlerin kredi kartı numaraları hangi alanda tutulmaktadır?
+    -> 35.7 sn
+
+[111] Soruluyor: 728_profiles.json veri setinde profillerin IBAN bilgileri hangi şema alanında saklanır?
+    -> 33.12 sn
+
+[112] Soruluyor: Summer School Foundry Local planında Kubernetes kurulumu hangi adımda anlatılır?
+    -> 53.86 sn
+
+[113] Soruluyor: Summer School Foundry Local planında projenin Kanban panosu hangi araçla yönetilmektedir?
+    -> 55.96 sn
+
+[114] Soruluyor: Unutulmuş Parşömen hikayesinde Alis'in ailesi hangi şehirde yaşamaktadır?
+    -> 16.09 sn
+
+[115] Soruluyor: Oda No: 304 hikayesinde anlatıcının mesleği nedir?
+    -> 31.83 sn
+
+
+Tamamlandi. 15 soru. Sonuclar: experiments\v7_refusal_clarity\results\test_5_sonuclari.csv
