@@ -24,6 +24,13 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 import numpy as np
 
+# Script olarak (evaluation/ sys.path'te) ve paket olarak (tests:
+# `from evaluation.benchmark_eval import ...`) çalışabilmesi için.
+try:
+    from evaluation.gt_utils import GROUND_TRUTH_DIR, load_ground_truth, resolve_reference
+except ImportError:
+    from gt_utils import GROUND_TRUTH_DIR, load_ground_truth, resolve_reference
+
 # Türkçe karakter dönüşüm haritası
 TR_LOWER_MAP = {
     ord("İ"): "i",
@@ -585,16 +592,6 @@ def _set_name_of(path: Path) -> str:
     return stem
 
 
-def _default_gt_for(csv_file: Path) -> str:
-    """Sonuc CSV'sine karsilik gelen test bazli ground truth dosyasini secer."""
-    name = _set_name_of(csv_file)
-    candidate = Path(__file__).resolve().parent / "ground_truth" / f"{name}.json"
-    if candidate.exists():
-        return str(candidate)
-    # Geriye donuk uyumluluk: test bazli dosya yoksa eski tekil GT'ye dus.
-    return "ground_truth.json"
-
-
 def evaluate_dataset(
     csv_path: str = "test_sonuclari.csv",
     ground_truth_path: str | None = None,
@@ -605,9 +602,11 @@ def evaluate_dataset(
     Sonuç CSV dosyasını okuyup ground_truth ile eşleştirerek tüm metrikleri hesaplar.
     """
     csv_file = _resolve_file(csv_path)
-    if ground_truth_path is None:
-        ground_truth_path = _default_gt_for(csv_file)
-    gt_file = _resolve_file(ground_truth_path)
+    # Ground truth: verilmezse ground_truth/*.json birleştirilir ve referans
+    # soru id'siyle bulunur (gt_utils). Eskiden dosya adından set adı türetilip
+    # tanınmayan adlarda (örn. *_ctx.csv) sessizce eski ground_truth.json'a
+    # düşülüyordu — o dosya aynı id'lerde farklı soruların referanslarını taşır.
+    gt_file = _resolve_file(ground_truth_path) if ground_truth_path else None
     set_name = _set_name_of(csv_file)
     
     out_dir = Path(output_dir)
@@ -627,14 +626,13 @@ def evaluate_dataset(
             f"Veya hazır bir sonuç CSV dosyanız varsa yolunu parametre olarak verin:\n"
             f"  → python benchmark_eval.py dosya_yolu.csv"
         )
-    if not gt_file.exists():
+    if gt_file is not None and not gt_file.exists():
         raise FileNotFoundError(
             f"Ground truth dosyası bulunamadı: '{ground_truth_path}'.\n"
-            f"Referans cevapların bulunduğu ground_truth.json dosyasının varlığından emin olun."
+            f"Vermezseniz {GROUND_TRUTH_DIR} altındaki dosyalar id ile eşleştirilir."
         )
 
-    with open(gt_file, "r", encoding="utf-8") as f:
-        ground_truths = json.load(f)
+    ground_truths = load_ground_truth(gt_file)
 
     with open(csv_file, "r", encoding="utf-8-sig") as f:
         reader = csv.DictReader(f)
@@ -668,8 +666,9 @@ def evaluate_dataset(
         except (ValueError, TypeError):
             latency = 0.0
 
-        gt_info = ground_truths.get(q_id, {})
-        ref_answers = gt_info.get("referans_cevaplar", [])
+        # Yalnızca GT: CSV'deki referans_cevap kullanılmaz, çünkü has_reference
+        # aşağıdaki negatiflik/etiket çelişkisi kurallarını etkiliyor.
+        ref_answers = resolve_reference(row, ground_truths, csv_fallback=False)
         # Referans cevabı olmayan sorular EM/F1 ortalamasına KATILMAZ. Eskiden
         # tahminin kendisi referans kabul ediliyordu; bu her soruya EM=1.0
         # vererek skorları yapay olarak şişiriyordu.
@@ -837,7 +836,7 @@ def evaluate_dataset(
     summary = {
         "test_seti": set_name,
         "sonuc_dosyasi": str(csv_file),
-        "ground_truth_dosyasi": str(gt_file),
+        "ground_truth_dosyasi": str(gt_file) if gt_file else f"{GROUND_TRUTH_DIR}/*.json (id ile)",
         "toplam_soru": total_q,
         "referansli_soru": n_acc,
         "referanssiz_soru": total_q - n_acc,
@@ -1320,7 +1319,8 @@ if __name__ == "__main__":
     parser.add_argument("sonuclar_csv", nargs="?", default=None,
                         help="Skorlanacak sonuç CSV dosyası (örn: test_2_sonuclari.csv)")
     parser.add_argument("ground_truth", nargs="?", default=None,
-                        help="Ground Truth JSON (verilmezse evaluation/ground_truth/<set>.json seçilir)")
+                        help="Yalnızca bu Ground Truth JSON'u kullan (verilmezse "
+                             "evaluation/ground_truth/*.json birleştirilir, id ile eşleşir)")
     parser.add_argument("--output-dir", default="report", help="Rapor ve grafiklerin kaydedileceği dizin")
     parser.add_argument("--all", action="store_true",
                         help="test_1..test_4 sonuçlarını tek tek skorlar ve GENEL değerlendirme üretir")

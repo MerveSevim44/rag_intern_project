@@ -73,6 +73,7 @@ except ImportError:
     from llm_client import load_model, truncate_chunk_text, truncate_context
     from retrieval import get_top_chunks
 
+from gt_utils import load_ground_truth, resolve_reference
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_openai import ChatOpenAI
 from openai import RateLimitError
@@ -220,11 +221,6 @@ GROQ_BASE_URL = "https://api.groq.com/openai/v1"
 RATE_LIMIT_RETRIES = 5
 _DAILY_LIMIT_PATTERN = re.compile(r"per day \((?:TPD|RPD)\)")
 
-# Test bazlı ground truth dosyalarının dizini (test_1.json ... test_5.json).
-# Id'ler setler arasında benzersiz olduğu için hepsi tek sözlükte birleştirilir
-# ve referans id ile bulunur — sonuç dosyasının adı (örn. *_ctx.csv) önemsizdir.
-GROUND_TRUTH_DIR = _eval_dir / "ground_truth"
-
 # Judge değerlendirmesi sırasında context'i yeniden mi oluşturalım?
 # True: soruyu tekrar retrieve ederek güncel context ile değerlendirir
 # False: sonuç CSV'deki mevcut kaynakları kullanır (context yeniden oluşturulmaz)
@@ -232,52 +228,6 @@ REBUILD_CONTEXT = True
 
 
 # ─── Yardımcı fonksiyonlar ───────────────────────────────────────────────────
-
-def load_ground_truth(path=None):
-    """
-    Ground truth'u {id: kayıt} olarak yükler.
-
-    `path` verilirse yalnızca o dosya okunur (--ground-truth). Verilmezse
-    GROUND_TRUTH_DIR altındaki tüm JSON'lar birleştirilir; aynı id birden
-    fazla dosyada varsa hangi dosyalarda çakıştığı yazılıp durulur.
-    """
-    if path:
-        gt_path = Path(path)
-        if not gt_path.exists():
-            print(f"[UYARI] Ground truth bulunamadı: {gt_path}")
-            return {}
-        with open(gt_path, "r", encoding="utf-8") as f:
-            return json.load(f)
-
-    merged, origin, conflicts = {}, {}, {}
-    for gt_path in sorted(GROUND_TRUTH_DIR.glob("*.json")):
-        with open(gt_path, "r", encoding="utf-8") as f:
-            for soru_id, entry in json.load(f).items():
-                if soru_id in origin:
-                    conflicts.setdefault(soru_id, [origin[soru_id]]).append(gt_path.name)
-                    continue
-                merged[soru_id] = entry
-                origin[soru_id] = gt_path.name
-    if conflicts:
-        lines = "\n".join(f"  id {soru_id}: {', '.join(files)}"
-                          for soru_id, files in sorted(conflicts.items(),
-                                                       key=lambda kv: int(kv[0]) if kv[0].isdigit() else 0))
-        sys.exit(f"Ground truth dosyalarında çakışan id'ler var ({GROUND_TRUTH_DIR}):\n{lines}")
-    return merged
-
-
-def resolve_reference(row, gt):
-    """
-    Satırın referans cevap(lar)ını bulur: önce ground truth (id ile), yoksa
-    sonuç CSV'sindeki 'referans_cevap' sütunu (test_negative gibi GT dosyası
-    olmayan setler). İkisinde de yoksa boş liste döner.
-    """
-    references = gt.get(row["id"], {}).get("referans_cevaplar") or []
-    if references:
-        return references
-    csv_reference = (row.get("referans_cevap") or "").strip()
-    return [csv_reference] if csv_reference else []
-
 
 def load_judge_model(model=JUDGE_MODEL):
     """
@@ -542,7 +492,11 @@ def run_judge_evaluation(sonuc_csv, output_csv=None, ground_truth_path=None,
         output_csv = sonuc_path.stem + "_judge.csv"
 
     # Ground truth yükle
-    gt = load_ground_truth(ground_truth_path)
+    try:
+        gt = load_ground_truth(ground_truth_path)
+    except FileNotFoundError as e:
+        print(f"[UYARI] {e}")
+        gt = {}
 
     # Sonuç CSV'yi oku
     print(f"Sonuç dosyası: {sonuc_path}")
