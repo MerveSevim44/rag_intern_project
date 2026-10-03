@@ -11,9 +11,14 @@ Kullanım:
   python run_tests.py                          # test_sorulari.csv
   python run_tests.py test_sorulari_json.csv   # başka bir soru seti
   python run_tests.py test_sorulari_json.csv sonuc.csv
+  python run_tests.py test_1.csv --max-consecutive-errors 5   # durma eşiği (vars. 3)
+
+Ardışık N soru HATA ile biterse (altyapı çökmüş: Ollama/Foundry/DB) run durur;
+yarım sonuçlar <çıktı>.partial.csv'ye yazılır, asıl çıktı dosyası oluşturulmaz.
 """
 import argparse
 import csv
+import re
 import sys
 import gc
 import time
@@ -119,6 +124,12 @@ def run_single_test(llm, question, top_k=5, use_reranker=True, retries=1):
     t0 = time.perf_counter()
 
     chunks = get_top_chunks(question, top_k=top_k, use_reranker=use_reranker, llm=llm)
+    # retrieve() veritabanında hiç chunk bulamazsa hata fırlatmadan [] döner.
+    # Boş context'le LLM "bulunamadı" der; bu pozitif soruda FN, negatif soruda
+    # TN (doğru ret) sayılır ve run sessizce makul görünen sayılar üretir.
+    # Hata olarak yukarı fırlatıyoruz: cevap "HATA: ..." olur, skorlanmaz.
+    if not chunks:
+        raise RuntimeError("Retrieval boş döndü (veritabanında chunk yok ya da DB yolu yanlış?)")
     context = build_context(chunks)
 
     # app.py ile BİREBİR aynı mantık: META_QUERY rotasında retrieval, chunk'lara
@@ -162,6 +173,26 @@ def run_single_test(llm, question, top_k=5, use_reranker=True, retries=1):
     }
 
 
+# Ardışık bu kadar soru HATA ile biterse altyapı (Ollama, Foundry, DB) çökmüş
+# demektir; kalan soruları da HATA ile doldurmak yerine run durdurulur.
+DEFAULT_MAX_CONSECUTIVE_ERRORS = 3
+
+
+def error_kind(message):
+    """Hata mesajının kısa tipi: 'Error code: 500', 'Embedding olusturulamadi' gibi."""
+    match = re.search(r"Error code: \d+", message)
+    if match:
+        return match.group(0)
+    return re.split(r"[:.(]", message, maxsplit=1)[0].strip()[:40] or "bilinmeyen hata"
+
+
+def write_results(path, fieldnames, sonuclar):
+    with open(path, "w", encoding="utf-8", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(sonuclar)
+
+
 def default_output_path(input_path):
     """test.csv -> test_sonuclari.csv veya girdi setine göre isim üret."""
     p = Path(input_path)
@@ -188,6 +219,13 @@ def parse_args(argv=None):
         nargs="?",
         default=None,
         help="Sonuç CSV dosyası (varsayılan: girdi adından türetilir, örn: test_sonuclari.csv)",
+    )
+    parser.add_argument(
+        "--max-consecutive-errors",
+        type=int,
+        default=DEFAULT_MAX_CONSECUTIVE_ERRORS,
+        help="Ardışık bu kadar soru HATA ile biterse run durdurulur "
+             f"(varsayılan: {DEFAULT_MAX_CONSECUTIVE_ERRORS}; 0 = hiç durma)",
     )
     args = parser.parse_args(argv)
     if args.cikti is None:
@@ -226,17 +264,31 @@ def main(argv=None):
             f"Bulunan sütunlar: {', '.join(sorular[0].keys())}"
         )
 
+    fieldnames = list(sorular[0].keys()) + ["cevap", "bulunan_kaynaklar", "sure_sn", "context"]
     sonuclar = []
+    ardisik_hatalar = []  # [(id, hata tipi)] — başarılı bir soruda sıfırlanır
     for soru_row in sorular:
         print(f"[{soru_row.get('id', '?')}] Soruluyor: {soru_row['soru']}")
         try:
             sonuc = run_single_test(llm, soru_row["soru"])
+            ardisik_hatalar = []
         except Exception as e:
             sonuc = {"cevap": f"HATA: {e}", "bulunan_kaynaklar": "", "sure_sn": 0,
                      "context": ""}
+            ardisik_hatalar.append((soru_row.get("id", "?"), error_kind(str(e))))
 
         sonuclar.append({**soru_row, **sonuc})
         print(f"    → {sonuc['sure_sn']} sn\n")
+
+        if args.max_consecutive_errors and len(ardisik_hatalar) >= args.max_consecutive_errors:
+            # Yarım sonuçlar asıl çıktı yoluna YAZILMAZ: run_all.py var olan
+            # çıktıyı "tamamlanmış" sayıp atlıyor, yarım dosya skorlanırdı.
+            partial = Path(args.cikti).with_suffix(".partial.csv")
+            write_results(partial, fieldnames, sonuclar)
+            liste = ", ".join(f"#{i} ({tip})" for i, tip in ardisik_hatalar)
+            sys.exit(f"\n{len(ardisik_hatalar)} ardışık hata: {liste} — altyapı kontrolü "
+                     f"gerekiyor, run durduruldu.\n"
+                     f"{len(sonuclar)}/{len(sorular)} soru işlendi; yarım sonuçlar: {partial}")
 
         # Her sorudan sonra GPU belleğini bırak — 8GB VRAM'de reranker'ın
         # tuttuğu cache birikince Foundry uzun context'te yer bulamıyor.
@@ -245,12 +297,7 @@ def main(argv=None):
         # Servise nefes aldır: art arda gelen sorgular bağlantı hatasını tetikliyor.
         time.sleep(1)
 
-    # Sonuçları CSV'ye yaz
-    fieldnames = list(sorular[0].keys()) + ["cevap", "bulunan_kaynaklar", "sure_sn", "context"]
-    with open(args.cikti, "w", encoding="utf-8", newline="") as f:
-        writer = csv.DictWriter(f, fieldnames=fieldnames)
-        writer.writeheader()
-        writer.writerows(sonuclar)
+    write_results(args.cikti, fieldnames, sonuclar)
 
     print(f"\nTamamlandı. {len(sonuclar)} soru test edildi.")
     print(f"Sonuçlar: {args.cikti}")

@@ -564,6 +564,7 @@ def run_judge_evaluation(sonuc_csv, output_csv=None, ground_truth_path=None,
     sira = 0
     missing_references = []
     skipped_errors = []
+    skipped_context = []
 
     for row in rows:
         soru_id = row["id"]
@@ -607,9 +608,26 @@ def run_judge_evaluation(sonuc_csv, output_csv=None, ground_truth_path=None,
             context_kaynagi = "yeniden_olusturuldu"
             try:
                 context = build_context_for_question(question, local_llm)
+                if not context.strip():
+                    raise RuntimeError("Retrieval boş döndü")
             except Exception as e:
-                print(f"  [UYARI] Context oluşturulamadı: {e}")
-                context = "(Context oluşturulamadı)"
+                # Context yoksa judge anlamsız skor üretir (Ollama kapalıyken 30
+                # soru "(Context oluşturulamadı)" bağlamıyla puanlanmıştı). Satır
+                # skorsuz yazılır; skor boş olduğu için resume'da yeniden denenir.
+                skipped_context.append(soru_id)
+                results_by_id[soru_id] = {
+                    "id": soru_id,
+                    "soru": question,
+                    "cevap": answer,
+                    "judge_model": judge_model,
+                    "context_kaynagi": context_kaynagi,
+                    **{key: None for key in SCORE_KEYS},
+                    "reasoning": f"[ATLANDI] context oluşturulamadı: {str(e)[:150]}",
+                }
+                write_results(output_csv, [results_by_id[r["id"]] for r in rows
+                                           if r["id"] in results_by_id])
+                print(f"  → [ATLANDI] context oluşturulamadı ({e}), judge'a gönderilmedi")
+                continue
         else:
             context = row.get("bulunan_kaynaklar", "(Context bilgisi yok)")
             context_kaynagi = "sadece_kaynak_adlari"
@@ -661,6 +679,10 @@ def run_judge_evaluation(sonuc_csv, output_csv=None, ground_truth_path=None,
     if skipped_errors:
         print(f"[UYARI] run_tests HATA'sı olan {len(skipped_errors)} soru judge'a gönderilmedi "
               f"(skorsuz): {', '.join(skipped_errors)}. Bu soruları run_tests ile yeniden çalıştırın.")
+    if skipped_context:
+        print(f"[UYARI] Context oluşturulamayan {len(skipped_context)} soru judge'a gönderilmedi "
+              f"(skorsuz): {', '.join(skipped_context)}. Ollama/Foundry çalışırken aynı komut "
+              f"bunları tamamlar.")
     if missing_references:
         print(f"[UYARI] Referans yok ({len(missing_references)} soru — ne ground truth "
               f"dosyalarında ne CSV'nin referans_cevap sütununda): "
