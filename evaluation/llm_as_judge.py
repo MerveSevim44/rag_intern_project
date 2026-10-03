@@ -18,7 +18,7 @@ Kullanım:
 
 Mimari:
   test_sonuclari.csv  ─┐
-  ground_truth.json   ─┤──▶  Judge LLM  ──▶  Skorlar (CSV + özet)
+  ground_truth/*.json ─┤──▶  Judge LLM  ──▶  Skorlar (CSV + özet)
   (context: CSV'deki  ─┘
    'context' sütunu)
 
@@ -91,7 +91,12 @@ from openai import RateLimitError
 #   {context}           — Cevabın üretildiği bağlam (run_tests.py 'context' sütunu)
 #   {answer}            — RAG pipeline'ının ürettiği cevap
 #   {reference_answer}  — Ground truth referans cevap(lar); judge_single bunu
-#                         gönderir ama template şu an kullanmıyor
+#                         gönderir ama template şu an kullanmıyor.
+#                         NOT: ground_truth/test_5.json'daki 15 sorunun
+#                         (101-115, dokumanda_var_mi=Hayır) referansı bilerek
+#                         boş bırakıldı; çalıştırınca "Referans yok" uyarısı
+#                         verir. Template {reference_answer}'ı kullanmaya
+#                         başlamadan önce test_5.json elle gözden geçirilecek.
 #
 # Judge'dan beklenen çıktı formatı (JSON):
 #   {
@@ -215,8 +220,10 @@ GROQ_BASE_URL = "https://api.groq.com/openai/v1"
 RATE_LIMIT_RETRIES = 5
 _DAILY_LIMIT_PATTERN = re.compile(r"per day \((?:TPD|RPD)\)")
 
-# Ground truth dosyasının yolu
-GROUND_TRUTH_PATH = _eval_dir / "ground_truth.json"
+# Test bazlı ground truth dosyalarının dizini (test_1.json ... test_5.json).
+# Id'ler setler arasında benzersiz olduğu için hepsi tek sözlükte birleştirilir
+# ve referans id ile bulunur — sonuç dosyasının adı (örn. *_ctx.csv) önemsizdir.
+GROUND_TRUTH_DIR = _eval_dir / "ground_truth"
 
 # Judge değerlendirmesi sırasında context'i yeniden mi oluşturalım?
 # True: soruyu tekrar retrieve ederek güncel context ile değerlendirir
@@ -227,13 +234,49 @@ REBUILD_CONTEXT = True
 # ─── Yardımcı fonksiyonlar ───────────────────────────────────────────────────
 
 def load_ground_truth(path=None):
-    """Ground truth JSON dosyasını yükler ve dict olarak döner."""
-    gt_path = Path(path) if path else GROUND_TRUTH_PATH
-    if not gt_path.exists():
-        print(f"[UYARI] Ground truth bulunamadı: {gt_path}")
-        return {}
-    with open(gt_path, "r", encoding="utf-8") as f:
-        return json.load(f)
+    """
+    Ground truth'u {id: kayıt} olarak yükler.
+
+    `path` verilirse yalnızca o dosya okunur (--ground-truth). Verilmezse
+    GROUND_TRUTH_DIR altındaki tüm JSON'lar birleştirilir; aynı id birden
+    fazla dosyada varsa hangi dosyalarda çakıştığı yazılıp durulur.
+    """
+    if path:
+        gt_path = Path(path)
+        if not gt_path.exists():
+            print(f"[UYARI] Ground truth bulunamadı: {gt_path}")
+            return {}
+        with open(gt_path, "r", encoding="utf-8") as f:
+            return json.load(f)
+
+    merged, origin, conflicts = {}, {}, {}
+    for gt_path in sorted(GROUND_TRUTH_DIR.glob("*.json")):
+        with open(gt_path, "r", encoding="utf-8") as f:
+            for soru_id, entry in json.load(f).items():
+                if soru_id in origin:
+                    conflicts.setdefault(soru_id, [origin[soru_id]]).append(gt_path.name)
+                    continue
+                merged[soru_id] = entry
+                origin[soru_id] = gt_path.name
+    if conflicts:
+        lines = "\n".join(f"  id {soru_id}: {', '.join(files)}"
+                          for soru_id, files in sorted(conflicts.items(),
+                                                       key=lambda kv: int(kv[0]) if kv[0].isdigit() else 0))
+        sys.exit(f"Ground truth dosyalarında çakışan id'ler var ({GROUND_TRUTH_DIR}):\n{lines}")
+    return merged
+
+
+def resolve_reference(row, gt):
+    """
+    Satırın referans cevap(lar)ını bulur: önce ground truth (id ile), yoksa
+    sonuç CSV'sindeki 'referans_cevap' sütunu (test_negative gibi GT dosyası
+    olmayan setler). İkisinde de yoksa boş liste döner.
+    """
+    references = gt.get(row["id"], {}).get("referans_cevaplar") or []
+    if references:
+        return references
+    csv_reference = (row.get("referans_cevap") or "").strip()
+    return [csv_reference] if csv_reference else []
 
 
 def load_judge_model(model=JUDGE_MODEL):
@@ -363,7 +406,7 @@ def judge_single(llm, question, answer, context, reference_answer):
 
     # Referans cevapları tek string'e dönüştür
     if isinstance(reference_answer, list):
-        ref_text = " | ".join(reference_answer)
+        ref_text = " | ".join(reference_answer) or "Referans cevap yok"
     else:
         ref_text = str(reference_answer) if reference_answer else "Referans cevap yok"
 
@@ -482,7 +525,8 @@ def run_judge_evaluation(sonuc_csv, output_csv=None, ground_truth_path=None,
     Args:
         sonuc_csv: test_X_sonuclari.csv dosya yolu
         output_csv: Çıktı CSV dosya yolu (varsayılan: sonuc_judge.csv)
-        ground_truth_path: Ground truth JSON yolu (varsayılan: evaluation/ground_truth.json)
+        ground_truth_path: Ground truth JSON yolu (varsayılan: evaluation/ground_truth/
+            altındaki tüm dosyalar, id ile eşleşir; bulunamazsa CSV'deki referans_cevap)
         judge_model: Groq'taki judge model adı (varsayılan: JUDGE_MODEL)
         only_ids: Yalnızca değerlendirilecek soru id'leri (None: eksik/hatalı olanlar)
 
@@ -560,6 +604,7 @@ def run_judge_evaluation(sonuc_csv, output_csv=None, ground_truth_path=None,
                      if row["id"] not in todo and row["id"] in existing}
     toplam = len(todo)
     sira = 0
+    missing_references = []
 
     for row in rows:
         soru_id = row["id"]
@@ -572,8 +617,9 @@ def run_judge_evaluation(sonuc_csv, output_csv=None, ground_truth_path=None,
         print(f"[{sira}/{toplam}] Soru #{soru_id}: {question[:60]}...")
 
         # Ground truth'tan referans cevap
-        gt_entry = gt.get(str(soru_id), {})
-        reference_answer = gt_entry.get("referans_cevaplar", [])
+        reference_answer = resolve_reference(row, gt)
+        if not reference_answer:
+            missing_references.append(soru_id)
 
         # Context: önce run_tests.py'nin kaydettiği, cevabın gerçekten üretildiği
         # context. Yalnızca o sütun olmayan eski CSV'lerde yeniden oluşturulur.
@@ -635,6 +681,10 @@ def run_judge_evaluation(sonuc_csv, output_csv=None, ground_truth_path=None,
     print(f"Judge değerlendirmesi tamamlandı: {toplam} soru değerlendirildi, "
           f"çıktıda {len(results)} soru")
     print(f"Sonuçlar: {output_csv}")
+    if missing_references:
+        print(f"[UYARI] Referans yok ({len(missing_references)} soru — ne ground truth "
+              f"dosyalarında ne CSV'nin referans_cevap sütununda): "
+              f"{', '.join(missing_references)}")
 
     # ─── Özet istatistikler ───────────────────────────────────────────────
     print_summary(results)
@@ -691,7 +741,8 @@ def parse_args(argv=None):
     parser.add_argument(
         "--ground-truth", "-gt",
         default=None,
-        help="Ground truth JSON dosyası (varsayılan: evaluation/ground_truth.json)",
+        help="Yalnızca bu ground truth JSON dosyasını kullan (varsayılan: "
+             "evaluation/ground_truth/*.json birleştirilir, id ile eşleşir)",
     )
     parser.add_argument(
         "--judge-model",
