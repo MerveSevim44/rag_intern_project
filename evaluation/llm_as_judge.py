@@ -73,7 +73,7 @@ except ImportError:
     from llm_client import load_model, truncate_chunk_text, truncate_context
     from retrieval import get_top_chunks
 
-from gt_utils import load_ground_truth, resolve_reference
+from gt_utils import is_run_error, load_ground_truth, resolve_reference
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_openai import ChatOpenAI
 from openai import RateLimitError
@@ -449,6 +449,10 @@ def is_complete(existing, answer, judge_model):
     """
     if existing is None:
         return False
+    # run_tests HATA satırı zaten atlanmış olarak yazıldıysa tamamdır; cevap
+    # değişirse (run_tests yeniden çalıştı) aşağıdaki kontrol onu yeniden açar.
+    if is_run_error(answer) and existing.get("cevap", "") == answer:
+        return True
     if existing.get("cevap", "") != answer or existing.get("judge_model") != judge_model:
         return False
     return all(existing.get(key) is not None for key in SCORE_KEYS)
@@ -559,6 +563,7 @@ def run_judge_evaluation(sonuc_csv, output_csv=None, ground_truth_path=None,
     toplam = len(todo)
     sira = 0
     missing_references = []
+    skipped_errors = []
 
     for row in rows:
         soru_id = row["id"]
@@ -569,6 +574,24 @@ def run_judge_evaluation(sonuc_csv, output_csv=None, ground_truth_path=None,
         answer = row.get("cevap", "")
 
         print(f"[{sira}/{toplam}] Soru #{soru_id}: {question[:60]}...")
+
+        # run_tests.py'nin "HATA: ..." yazdığı satır bir cevap değil: judge'a
+        # gönderilmez (token harcanmaz), skorsuz ve [ATLANDI] olarak yazılır.
+        if is_run_error(answer):
+            skipped_errors.append(soru_id)
+            results_by_id[soru_id] = {
+                "id": soru_id,
+                "soru": question,
+                "cevap": answer,
+                "judge_model": judge_model,
+                "context_kaynagi": "",
+                **{key: None for key in SCORE_KEYS},
+                "reasoning": f"[ATLANDI] run_tests hatası: {answer[:150]}",
+            }
+            write_results(output_csv, [results_by_id[r["id"]] for r in rows
+                                       if r["id"] in results_by_id])
+            print("  → [ATLANDI] run_tests hatası, judge'a gönderilmedi")
+            continue
 
         # Ground truth'tan referans cevap
         reference_answer = resolve_reference(row, gt)
@@ -635,6 +658,9 @@ def run_judge_evaluation(sonuc_csv, output_csv=None, ground_truth_path=None,
     print(f"Judge değerlendirmesi tamamlandı: {toplam} soru değerlendirildi, "
           f"çıktıda {len(results)} soru")
     print(f"Sonuçlar: {output_csv}")
+    if skipped_errors:
+        print(f"[UYARI] run_tests HATA'sı olan {len(skipped_errors)} soru judge'a gönderilmedi "
+              f"(skorsuz): {', '.join(skipped_errors)}. Bu soruları run_tests ile yeniden çalıştırın.")
     if missing_references:
         print(f"[UYARI] Referans yok ({len(missing_references)} soru — ne ground truth "
               f"dosyalarında ne CSV'nin referans_cevap sütununda): "

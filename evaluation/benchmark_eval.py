@@ -27,9 +27,9 @@ import numpy as np
 # Script olarak (evaluation/ sys.path'te) ve paket olarak (tests:
 # `from evaluation.benchmark_eval import ...`) çalışabilmesi için.
 try:
-    from evaluation.gt_utils import GROUND_TRUTH_DIR, load_ground_truth, resolve_reference
+    from evaluation.gt_utils import GROUND_TRUTH_DIR, is_run_error, load_ground_truth, resolve_reference
 except ImportError:
-    from gt_utils import GROUND_TRUTH_DIR, load_ground_truth, resolve_reference
+    from gt_utils import GROUND_TRUTH_DIR, is_run_error, load_ground_truth, resolve_reference
 
 # Türkçe karakter dönüşüm haritası
 TR_LOWER_MAP = {
@@ -639,6 +639,10 @@ def evaluate_dataset(
         results = list(reader)
 
     scored_records = []
+    # run_tests.py'nin "HATA: ..." yazdığı satırlar: cevap değil, çalışma hatası.
+    # Hiçbir metriğe (EM/F1/süre/sınıflandırma/retrieval) girmez; scored CSV'de
+    # siniflandirma="HATA" olarak görünür ve özette ayrıca raporlanır.
+    error_records = []
     category_stats = {
         "Kolay": {"total": 0, "scored": 0, "em": 0, "em_soft": 0, "f1_sum": 0.0, "p_sum": 0.0, "r_sum": 0.0, "rouge_sum": 0.0, "sem_sum": 0.0, "retrieval_ok": 0, "latencies": []},
         "Orta": {"total": 0, "scored": 0, "em": 0, "em_soft": 0, "f1_sum": 0.0, "p_sum": 0.0, "r_sum": 0.0, "rouge_sum": 0.0, "sem_sum": 0.0, "retrieval_ok": 0, "latencies": []},
@@ -665,6 +669,18 @@ def evaluate_dataset(
             latency = float(row.get("sure_sn", 0.0))
         except (ValueError, TypeError):
             latency = 0.0
+
+        if is_run_error(prediction):
+            error_records.append({
+                "id": q_id,
+                "zorluk": difficulty,
+                "soru": question,
+                "beklenen_kaynak": expected_src,
+                "dokumanda_var_mi": doc_exists,
+                "cevap": prediction,
+                "siniflandirma": "HATA",
+            })
+            continue
 
         # Yalnızca GT: CSV'deki referans_cevap kullanılmaz, çünkü has_reference
         # aşağıdaki negatiflik/etiket çelişkisi kurallarını etkiliyor.
@@ -789,8 +805,9 @@ def evaluate_dataset(
             "sure_sn": latency,
         })
 
-    # Genel Özet Hesaplama
-    total_q = len(results)
+    # Genel Özet Hesaplama — oranlar yalnızca hatasız satırlar üzerinden
+    total_q = len(scored_records)
+    error_ids = [r["id"] for r in error_records]
     if not scored_records:
         raise ValueError(f"Sonuç dosyası boş veya okunamadı: {csv_file}")
 
@@ -837,9 +854,11 @@ def evaluate_dataset(
         "test_seti": set_name,
         "sonuc_dosyasi": str(csv_file),
         "ground_truth_dosyasi": str(gt_file) if gt_file else f"{GROUND_TRUTH_DIR}/*.json (id ile)",
-        "toplam_soru": total_q,
+        "toplam_soru": len(results),
         "referansli_soru": n_acc,
         "referanssiz_soru": total_q - n_acc,
+        "hatali_soru_sayisi": len(error_ids),
+        "hatali_soru_idleri": error_ids,
         "genel_metrikler": {
             "exact_match_yuzde": round(overall_em, 2),
             "soft_match_yuzde": round(overall_em_soft, 2),
@@ -866,9 +885,10 @@ def evaluate_dataset(
     scored_csv_path = out_dir / f"{set_name}_scored.csv"
     fieldnames = list(scored_records[0].keys())
     with open(scored_csv_path, "w", encoding="utf-8-sig", newline="") as f:
-        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer = csv.DictWriter(f, fieldnames=fieldnames, restval="")
         writer.writeheader()
         writer.writerows(scored_records)
+        writer.writerows({**r, "kategori": "HATA"} for r in error_records)
 
     # JSON Dışa Aktarım
     summary_json_path = out_dir / f"{set_name}_summary.json"
@@ -881,7 +901,8 @@ def evaluate_dataset(
     print("\n" + "=" * 80)
     print(f"🎯 OTOMATİK SKORLAMA & BENCHMARK SONUÇLARI — {set_name}")
     print("=" * 80)
-    print(f"Toplam Değerlendirilen Soru : {total_q}")
+    print(f"Toplam Değerlendirilen Soru : {total_q}"
+          + (f"  (+{len(error_ids)} HATA satırı hariç)" if error_ids else ""))
     print(f"Genel Exact Match (EM)      : %{summary['genel_metrikler']['exact_match_yuzde']:.1f}")
     print(f"Genel Token F1 Skoru        : %{summary['genel_metrikler']['f1_skor_yuzde']:.1f}")
     print(f"Genel ROUGE-L Skoru         : %{summary['genel_metrikler']['rouge_l_yuzde']:.1f}")
@@ -906,6 +927,9 @@ def evaluate_dataset(
               f"beklenen_kaynak dolu ve referans cevap var. Bunlar POZİTİF sayıldı "
               f"(id: {', '.join(conflicts[:10])}{'...' if len(conflicts) > 10 else ''}). "
               f"Gerçek negatif soruda 'beklenen_kaynak' sütunu '-' olmalıdır.")
+    if error_ids:
+        print(f"⚠️  run_tests HATA'sı olan {len(error_ids)} soru hiçbir metriğe dahil edilmedi "
+              f"(id: {', '.join(error_ids)}). Bu soruları yeniden çalıştırın.")
     if total_q - n_acc:
         print(f"⚠️  Referans cevabı olmayan {total_q - n_acc} soru EM/F1 ortalamasına dahil edilmedi "
               f"(doldurmak icin: python evaluation/make_ground_truth.py --status).")
@@ -947,7 +971,7 @@ def generate_benchmark_charts(summary: dict, scored_records: list[dict], output_
     ax.set_facecolor("#F8FAFC")
 
     x_labels = [f"{c}\n(n={cat_summary.get(c, {}).get('toplam_soru', 0)})" for c in categories] + [
-        f"GENEL\n(n={summary['toplam_soru']})"
+        f"GENEL\n(n={summary['toplam_soru'] - summary.get('hatali_soru_sayisi', 0)})"
     ]
     x = np.arange(len(x_labels))
     width = 0.26
@@ -1081,7 +1105,7 @@ def generate_benchmark_charts(summary: dict, scored_records: list[dict], output_
         at.set_fontsize(8.5)
         at.set_fontweight("bold")
 
-    ax_donut.set_title(f"Test Sınıflandırma Dağılımı\n(Toplam {summary['toplam_soru']} Soru)", fontsize=11.5, fontweight="bold", pad=10, color="#0F172A")
+    ax_donut.set_title(f"Test Sınıflandırma Dağılımı\n(Toplam {summary['toplam_soru'] - summary.get('hatali_soru_sayisi', 0)} Soru)", fontsize=11.5, fontweight="bold", pad=10, color="#0F172A")
     ax_donut.legend(wedges, labels, loc="lower center", bbox_to_anchor=(0.5, -0.15), ncol=2, fontsize=8, frameon=False)
 
     # KPI Kartları
@@ -1240,6 +1264,11 @@ def evaluate_all(sets=None, output_dir: str = "report", results_dir: str = ".") 
     overall["negatif_set_olculdu"] = (_nc["TN"] + _nc["FP"]) > 0
     overall["negatif_soru_sayisi"] = _nc["TN"] + _nc["FP"]
     overall["eksik_setler"] = missing
+    # HATA satırları kayıtlara girmez (bkz. evaluate_dataset); toplamda görünsünler.
+    overall["toplam_soru"] += sum(sm["hatali_soru_sayisi"] for sm in per_set.values())
+    overall["hatali_soru_sayisi"] = sum(sm["hatali_soru_sayisi"] for sm in per_set.values())
+    overall["hatali_soru_idleri"] = {name: sm["hatali_soru_idleri"]
+                                     for name, sm in per_set.items() if sm["hatali_soru_idleri"]}
     overall["set_bazli"] = {
         name: {
             "toplam_soru": sm["toplam_soru"],
@@ -1287,7 +1316,8 @@ def evaluate_all(sets=None, output_dir: str = "report", results_dir: str = ".") 
           f"{g['retrieval_dogruluk_yuzde']:>8.1f}{g['retrieval_mrr_yuzde']:>8.1f}"
           f"{conf['TP']:>5}{conf['TN']:>5}{conf['FP']:>5}{conf['FN']:>5}{g['ortalama_sure_sn']:>10.2f}")
     print("=" * 112)
-    tq = overall["toplam_soru"]
+    # Oranlar yalnızca skorlanan (HATA olmayan) sorular üzerinden.
+    tq = overall["toplam_soru"] - overall["hatali_soru_sayisi"]
     neg_total = conf["TN"] + conf["FP"]
     if neg_total:
         print(f"Halusinasyon (FP) orani     : {conf['FP']}/{neg_total} (%{conf['FP'] / neg_total * 100:.1f}) [negatif set uzerinden]")
@@ -1297,6 +1327,9 @@ def evaluate_all(sets=None, output_dir: str = "report", results_dir: str = ".") 
         print("Negatif test basarisi (TN)  : Olculmedi (n=0) - once negatif seti calistirin:")
         print("  -> python run_tests.py evaluation/datasets/test_negative.csv test_negative_sonuclari.csv")
     print(f"Cevapsiz kalma (FN) orani   : {conf['FN']}/{tq} (%{conf['FN'] / tq * 100:.1f})")
+    if overall["hatali_soru_sayisi"]:
+        print(f"UYARI: {overall['hatali_soru_sayisi']} soruda run_tests HATA'sı var - hicbir metrige girmedi: "
+              + "; ".join(f"{k}: {', '.join(v)}" for k, v in overall["hatali_soru_idleri"].items()))
     if overall["referanssiz_soru"]:
         print(f"UYARI: {overall['referanssiz_soru']} soruda referans cevap yok - EM/F1 ortalamasina girmedi. "
               f"Durum icin: python evaluation/make_ground_truth.py --status")

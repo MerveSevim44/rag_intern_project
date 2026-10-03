@@ -1,5 +1,5 @@
 """
-gt_utils.py — Ground truth (referans cevap) yükleme yardımcıları.
+gt_utils.py — Ground truth (referans cevap) yükleme ve sonuç satırı yardımcıları.
 
 benchmark_eval.py ve llm_as_judge.py ortak kullanır. Eskiden her script
 ground truth dosyasını kendi seçiyordu: llm_as_judge sabit
@@ -51,6 +51,16 @@ def load_ground_truth(path=None):
                                                        key=lambda kv: int(kv[0]) if kv[0].isdigit() else 0))
         sys.exit(f"Ground truth dosyalarında çakışan id'ler var ({GROUND_TRUTH_DIR}):\n{lines}")
     return merged
+
+
+# run_tests.py bir soruda LLM/retrieval hatası alınca cevap sütununa
+# f"HATA: {e}" yazar. Bu satırlar bir cevap değildir: skorlanmaz, ayrıca raporlanır.
+RUN_ERROR_PREFIX = "HATA:"
+
+
+def is_run_error(answer):
+    """Cevap, run_tests.py'nin yazdığı bir çalışma hatası mı?"""
+    return (answer or "").lstrip().startswith(RUN_ERROR_PREFIX)
 
 
 def resolve_reference(row, gt, csv_fallback=True):
