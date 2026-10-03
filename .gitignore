@@ -179,3 +179,6 @@ archive/
 # EXPERIMENTS.md'de bir bolumle eslesir. Yeni kosular icin bkz. EXPERIMENTS.md
 # "Yeni deney nasil eklenir".
 !experiments/
+
+# llm_as_judge.py ciktilari: veri niteliginde, sik degisir — repoya girmez.
+*_judge.csv

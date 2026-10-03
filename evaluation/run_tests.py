@@ -5,7 +5,7 @@ Her soru için:
   1. retrieval.py ile ilgili chunk'ları bulur
   2. Context oluşturur
   3. LLM'den cevap alır
-  4. Sonucu (soru, cevap, kaynaklar, süre) kaydeder
+  4. Sonucu (soru, cevap, kaynaklar, süre, LLM'e giden context) kaydeder
 
 Kullanım:
   python run_tests.py                          # test_sorulari.csv
@@ -156,6 +156,9 @@ def run_single_test(llm, question, top_k=5, use_reranker=True, retries=1):
         "cevap": answer,
         "bulunan_kaynaklar": kaynaklar,
         "sure_sn": round(elapsed, 2),
+        # LLM'e giden bağlamın birebir kopyası — llm_as_judge.py cevabı
+        # yeniden retrieve edilmiş değil, bu bağlama göre değerlendirir.
+        "context": context,
     }
 
 
@@ -229,7 +232,8 @@ def main(argv=None):
         try:
             sonuc = run_single_test(llm, soru_row["soru"])
         except Exception as e:
-            sonuc = {"cevap": f"HATA: {e}", "bulunan_kaynaklar": "", "sure_sn": 0}
+            sonuc = {"cevap": f"HATA: {e}", "bulunan_kaynaklar": "", "sure_sn": 0,
+                     "context": ""}
 
         sonuclar.append({**soru_row, **sonuc})
         print(f"    → {sonuc['sure_sn']} sn\n")
@@ -242,7 +246,7 @@ def main(argv=None):
         time.sleep(1)
 
     # Sonuçları CSV'ye yaz
-    fieldnames = list(sorular[0].keys()) + ["cevap", "bulunan_kaynaklar", "sure_sn"]
+    fieldnames = list(sorular[0].keys()) + ["cevap", "bulunan_kaynaklar", "sure_sn", "context"]
     with open(args.cikti, "w", encoding="utf-8", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
