@@ -38,14 +38,10 @@ def gt_path(name: str) -> Path:
 
 
 def load_existing(name: str) -> dict:
-    """Var olan GT dosyasını, yoksa eski tekil ground_truth.json'ı okur."""
+    """Var olan GT dosyasını okur (yoksa boş)."""
     p = gt_path(name)
     if p.exists():
         with open(p, "r", encoding="utf-8") as f:
-            return json.load(f)
-    legacy = EVAL_DIR / "ground_truth.json"
-    if legacy.exists():
-        with open(legacy, "r", encoding="utf-8") as f:
             return json.load(f)
     return {}
 
