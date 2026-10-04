@@ -23,6 +23,7 @@ PR olarak ele alınır.
 | 14 | "Bulunamadı" mesajı iki farklı durumu birleştiriyor: *bilgi yok* ile *şu an işlenemedi* | Açık — **kullanıcı güvenini etkileyen netlik sorunu**, düşük öncelikli değil |
 | 15 | Servis süreç yönetimi: OOM sonrası Foundry bozuk kalıyor, toparlanma askıda kalabiliyor | Açık — **işletimsel dayanıklılık**, madde 11'den ayrı problem sınıfı |
 | 16 | Semantik doğrulayıcının LLM çağrısı çökünce sonuç doğrulanmış gibi `[KESİN HESAPLAMA SONUCU]` olarak gidiyor | **A (görünürlük) uygulandı**; B (davranış) ölçüme bağlı — bkz. [implementation_plan_validator_failure.md](implementation_plan_validator_failure.md) |
+| 17 | `test_visualization::test_data_engine_end_to_end_visualization` kırık: rule engine karşılaştırma sorusunu tek sektör sayımına eşliyor | Açık — **bilinen kırık test**, `10f5efc` öncesinden beri; ne zaman başladığı bilinmiyor |
 
 ## Madde 5 — Meta-chunk boost'u
 Sabit `+0.35` meta-chunk boost'u sorgu tipine bakmaksızın uygulanıyor ve RRF
@@ -643,3 +644,26 @@ chunk'ına kadar taşındı. Çökme `verbose`'dan bağımsız
 `[DOĞRULANAMAYAN SONUÇ]` mı, tek retry mı) ölçüm sonrasında kararlaştırılacak.
 Plan, ölçüm ve okuma kuralı:
 [implementation_plan_validator_failure.md](implementation_plan_validator_failure.md).
+
+## Madde 17 — Bilinen kırık test: `test_data_engine_end_to_end_visualization`
+
+Validator A (`10f5efc`) sırasında tam test paketi koşulurken fark edildi; o
+değişiklik geri alınınca da aynı şekilde kırık, yani **önceden var**. Ne zaman
+kırıldığı bilinmiyor (test dosyası `22028c4`'ten beri değişmedi).
+
+Hata:
+
+```
+AssertionError: Sorgu için chart_data üretilemedi: Psikoloji ve Danışmanlık ve
+Ağız ve Diş Sağlığı sektörlerindeki 45 dk üzeri seans oranları karşılaştırması
+```
+
+Kök neden testte değil, rule engine'de: soru beklenen
+`service_duration_sector_comparison` kuralı yerine `filtered_count_sector`
+kuralına eşleşiyor ve yalnızca `{'sector': 'Ağız ve Diş Sağlığı', 'count': 32}`
+dönüyor. Tek veri noktasıyla grafik çizilemediği için `chart_data` None.
+Kullanıcı açısından bu bir **yanlış cevap**: iki sektörün 45 dk üzeri seans
+oranı sorulmuş, bir sektörün toplam profil sayısı veriliyor.
+
+Kural: tam paket koşulduğunda bu tek hata beklenen durumdur; başka bir
+kırmızı test yeni bir regresyondur. Düzeltilince bu madde kapatılmalı.
