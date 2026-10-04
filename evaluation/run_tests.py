@@ -130,6 +130,13 @@ def run_single_test(llm, question, top_k=5, use_reranker=True, retries=1):
     # Hata olarak yukarı fırlatıyoruz: cevap "HATA: ..." olur, skorlanmaz.
     if not chunks:
         raise RuntimeError("Retrieval boş döndü (veritabanında chunk yok ya da DB yolu yanlış?)")
+    # Kod üreten LLM servisi yanıt veremediyse retrieval "[İŞLENEMEDİ]" bloğu
+    # döner ve synthesizer "bulunamadı; tekrar denenebilir" der (backlog madde
+    # 14). Bu kullanıcı için doğru cümle ama eval için cevap değil, altyapı
+    # hatası: skorlansaydı test_2 #43/#53 gibi judge'da F=1-2 alıp ortalamayı
+    # haksız düşürüyordu. Boş retrieval gibi HATA yoluna çevrilir.
+    if any(c.get("operation") == "service_failure" for c in chunks):
+        raise RuntimeError("service_failure: code_interpreter LLM servisi yanıt veremedi")
     context = build_context(chunks)
 
     # app.py ile BİREBİR aynı mantık: META_QUERY rotasında retrieval, chunk'lara
