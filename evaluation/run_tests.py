@@ -5,7 +5,9 @@ Her soru için:
   1. retrieval.py ile ilgili chunk'ları bulur
   2. Context oluşturur
   3. LLM'den cevap alır
-  4. Sonucu (soru, cevap, kaynaklar, süre, LLM'e giden context) kaydeder
+  4. Sonucu (soru, cevap, kaynaklar, süre, LLM'e giden context, sandbox
+     sonucunun semantik doğrulama durumu) kaydeder; run sonunda doğrulama
+     durumu özeti basar
 
 Kullanım:
   python run_tests.py                          # test_sorulari.csv
@@ -177,7 +179,45 @@ def run_single_test(llm, question, top_k=5, use_reranker=True, retries=1):
         # LLM'e giden bağlamın birebir kopyası — llm_as_judge.py cevabı
         # yeniden retrieve edilmiş değil, bu bağlama göre değerlendirir.
         "context": context,
+        "dogrulama_durumu": validation_label(chunks),
     }
+
+
+def validation_label(chunks):
+    """
+    Sandbox sonucunun semantik doğrulama durumu (validator A ölçümü):
+    "ok" / "objection" / "not_run" / "failed (<hata>)". Sandbox chunk'ı yoksa
+    (semantik RAG cevabı) boş string. Faithfulness bunu yakalayamadığı için
+    ayrı sütunda tutulur (docs/implementation_plan_validator_failure.md).
+    """
+    chunk = next((c for c in chunks if c.get("validation_status")), None)
+    if chunk is None:
+        return ""
+    status = chunk["validation_status"]
+    if status == "failed" and chunk.get("validation_error"):
+        return f"failed ({chunk['validation_error']})"
+    return status
+
+
+def validation_summary(sonuclar):
+    """Run sonu özeti: sandbox sorularının doğrulama durumu dağılımı."""
+    by_status = {}
+    for row in sonuclar:
+        label = row.get("dogrulama_durumu") or ""
+        if label:
+            by_status.setdefault(label.split(" ", 1)[0], []).append(row)
+    if not by_status:
+        return None
+    toplam = sum(len(rows) for rows in by_status.values())
+    sayim = " ".join(f"{s}={len(by_status.get(s, []))}"
+                     for s in ("ok", "objection", "failed", "not_run"))
+    lines = [f"Semantik doğrulama ({toplam} sandbox sorusu): {sayim}"]
+    for row in by_status.get("failed", []):
+        hata = row["dogrulama_durumu"][len("failed ("):].split(":", 1)[0]
+        lines.append(f"  failed : #{row.get('id', '?')} ({hata})")
+    if by_status.get("not_run"):
+        lines.append("  not_run: " + ", ".join(f"#{r.get('id', '?')}" for r in by_status["not_run"]))
+    return "\n".join(lines)
 
 
 # Ardışık bu kadar soru HATA ile biterse altyapı (Ollama, Foundry, DB) çökmüş
@@ -271,7 +311,8 @@ def main(argv=None):
             f"Bulunan sütunlar: {', '.join(sorular[0].keys())}"
         )
 
-    fieldnames = list(sorular[0].keys()) + ["cevap", "bulunan_kaynaklar", "sure_sn", "context"]
+    fieldnames = list(sorular[0].keys()) + ["cevap", "bulunan_kaynaklar", "sure_sn", "context",
+                                            "dogrulama_durumu"]
     sonuclar = []
     ardisik_hatalar = []  # [(id, hata tipi)] — başarılı bir soruda sıfırlanır
     for soru_row in sorular:
@@ -281,10 +322,14 @@ def main(argv=None):
             ardisik_hatalar = []
         except Exception as e:
             sonuc = {"cevap": f"HATA: {e}", "bulunan_kaynaklar": "", "sure_sn": 0,
-                     "context": ""}
+                     "context": "", "dogrulama_durumu": ""}
             ardisik_hatalar.append((soru_row.get("id", "?"), error_kind(str(e))))
 
         sonuclar.append({**soru_row, **sonuc})
+        if sonuc["dogrulama_durumu"] not in ("", "ok"):
+            # Sandbox chunk'ı build_context'te hep [1]; etiket içeriğin ilk satırı.
+            etiket = (sonuc["context"].split("\n", 2) + [""])[1]
+            print(f"    ! doğrulama: {sonuc['dogrulama_durumu']} — context [1] {etiket}")
         print(f"    → {sonuc['sure_sn']} sn\n")
 
         if args.max_consecutive_errors and len(ardisik_hatalar) >= args.max_consecutive_errors:
@@ -308,6 +353,9 @@ def main(argv=None):
 
     print(f"\nTamamlandı. {len(sonuclar)} soru test edildi.")
     print(f"Sonuçlar: {args.cikti}")
+    ozet = validation_summary(sonuclar)
+    if ozet:
+        print(ozet)
 
 
 if __name__ == "__main__":

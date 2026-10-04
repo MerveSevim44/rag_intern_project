@@ -142,3 +142,60 @@ def test_data_engine_ve_retrieval_durumu_tasir(monkeypatch, profiles):
     assert chunks[0]["validation_status"] == "failed"
     assert chunks[0]["validation_error"] == "RuntimeError: Error code: 500"
     assert chunks[0]["content"].startswith("[KESİN HESAPLAMA SONUCU]")
+
+
+# ─── run_tests: dogrulama_durumu sutunu + run sonu ozeti ───────────────────
+
+def _sandbox_chunk(status, error=None, label="[KESİN HESAPLAMA SONUCU]"):
+    return {"source": "data/728_profiles.json", "page_info": "code_interpreter (x)",
+            "content": f"{label}\nToplam 17.", "operation": "code_interpreter_sandbox",
+            "validation_status": status, "validation_error": error}
+
+
+def test_validation_label():
+    import evaluation.run_tests as rt  # kökteki run_tests.py bir wrapper; mock gerçek modüle
+    assert rt.validation_label([{"source": "a.pdf", "content": "metin"}]) == ""
+    assert rt.validation_label([_sandbox_chunk("ok")]) == "ok"
+    assert rt.validation_label([_sandbox_chunk("not_run")]) == "not_run"
+    assert rt.validation_label([_sandbox_chunk("failed", "OpenAIAPIError: Error code: 500")]) \
+        == "failed (OpenAIAPIError: Error code: 500)"
+
+
+def test_main_sutun_ve_ozet(monkeypatch, tmp_path, capsys):
+    import csv
+    import evaluation.run_tests as rt  # kökteki run_tests.py bir wrapper; mock gerçek modüle
+
+    chunks_by_question = {
+        "s1": [_sandbox_chunk("ok")],
+        "s2": [_sandbox_chunk("failed", "OpenAIAPIError: Error code: 500")],
+        "s3": [_sandbox_chunk("not_run")],
+        "s4": [{"source": "data/x.pdf", "page_info": "sayfa 1", "content": "pdf metni"}],
+    }
+    monkeypatch.setattr(rt, "load_model", lambda: object())
+    monkeypatch.setattr(rt, "get_top_chunks", lambda q, **k: chunks_by_question[q])
+    monkeypatch.setattr(rt, "ask", lambda *a, **k: "cevap")
+    monkeypatch.setattr(rt, "free_gpu_memory", lambda: None)
+    monkeypatch.setattr(rt.time, "sleep", lambda s: None)
+
+    sorular = tmp_path / "sorular.csv"
+    with open(sorular, "w", encoding="utf-8", newline="") as f:
+        w = csv.writer(f)
+        w.writerow(["id", "soru"])
+        for i, q in enumerate(chunks_by_question, 41):
+            w.writerow([i, q])
+    cikti = tmp_path / "sonuc.csv"
+    rt.main([str(sorular), str(cikti)])
+
+    with open(cikti, encoding="utf-8") as f:
+        rows = {r["id"]: r for r in csv.DictReader(f)}
+    assert rows["41"]["dogrulama_durumu"] == "ok"
+    assert rows["42"]["dogrulama_durumu"] == "failed (OpenAIAPIError: Error code: 500)"
+    assert rows["43"]["dogrulama_durumu"] == "not_run"
+    assert rows["44"]["dogrulama_durumu"] == ""   # sandbox disi satir
+
+    out = capsys.readouterr().out
+    assert "! doğrulama: failed (OpenAIAPIError: Error code: 500) — context [1] [KESİN HESAPLAMA SONUCU]" in out
+    assert "! doğrulama: ok" not in out
+    assert "Semantik doğrulama (3 sandbox sorusu): ok=1 objection=0 failed=1 not_run=1" in out
+    assert "  failed : #42 (OpenAIAPIError)" in out
+    assert "  not_run: #43" in out
