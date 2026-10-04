@@ -1,11 +1,165 @@
-id,zorluk,soru,beklenen_kaynak,dokumanda_var_mi,cevap,bulunan_kaynaklar,sure_sn
-91,Kolay,Alis'in çalıştığı kütüphanenin adı nedir?,test1.txt,Evet,Bu bilgi dokümanlarda bulunamadı.,test1.txt (paragraf 2); test1.txt (paragraf 7); test1.txt (paragraf 3),18.29
-92,Kolay,Anlatıcının Oda No: 304'ü kiraladığı şehir ve mevsim hangisidir?,test2.txt,Evet,Adana ve mevsim Yüreğir.,728_profiles.json (code_interpreter (code_interpreter_sandbox)),37.46
-93,Kolay,Defterin sayfalarında beliren cümlede 'gardiyan' olarak kim gösterilmektedir?,test1.txt,Evet,Bu bilgi dokümanlarda bulunamadı.,test1.txt (paragraf 6); test1.txt (paragraf 5); 728_profiles.json ($.safetyAndDataQuality),14.56
-94,Orta,"Alis'in Yasaklı Kanat'a girme kararını tetikleyen olaylar zincirini (ay ışığının yansıması, kapının aralık olması, kalp atışları) sırasıyla açıklayınız.",test1.txt,Evet,"Ay ışığı, tavanlardan süzüldüğünde zemin kattaki mermerlerde garip bir yansıma oluşturdu. Bu ışık, Yasaklı Kanatın demir kapısını işaret ettiğinde Alis'in kalbi hızlı atışlar yapmaya başladı. Kapının uzun yıllardır kapalı olduğu halinde bu gece bir parmak kalınlığında aralığının açılması, Alis'in kararını vermesine neden oldu. Bu olayların zincirini şöyledir: ay ışığının yansıması, kapının aralığının açılması, kalbinin hızla atışları.",test1.txt (paragraf 3); test1.txt (paragraf 2); 728_profiles.json ($.safetyAndDataQuality),17.71
-95,Orta,Antikacının verdiği pirinç anahtarın hikâyedeki işlevi ile günlükte bahsedilen tıkırtı sesi arasındaki bağlantı nasıl kurulmuştur?,test2.txt,Evet,Bu bilgi dokümanlarda bulunamadı.,test2.txt (paragraf 5); test2.txt (paragraf 3); 728_profiles.json ($.safetyAndDataQuality),92.55
-96,Orta,"Defterde Alis'in isminin belirmesinden hemen sonra ortaya çıkan illüstrasyonun içeriği, hikâyenin gerilimini nasıl artırmaktadır?",test1.txt,Evet,"Yarının tarihi ve kütüphanenin büyük bir yangınla kül olacağını gösteren küçük, hareketli bir illüstrasyon, Alis'in kaderinin tehlikeli olduğunu vurgulayarak hikâyenin gerilimini artırır.",test1.txt (paragraf 7); test1.txt (paragraf 2); test1.txt (paragraf 9),15.79
-97,Orta,"Günlükteki 12 Mart ve 28 Mart tarihli kayıtlar arasında bilgi açısından ne gibi bir ilerleme (fısıltıdan koda, kodan antikacıya) yaşanmıştır?",test2.txt,Evet,Bu bilgi dokümanlarda bulunamadı.,test2.txt (paragraf 8); test2.txt (paragraf 5); 728_profiles.json ($.statistics),64.42
-98,Orta,Anlatıcının saatin 03.13'e gelmesini fark etmesi ile önceki günlük kayıtlarında belirtilen 03.14 tıkırtısı arasındaki zamansal gerilim nasıl kurgulanmıştır?,test2.txt,Evet,"HATA: Error code: 500 - {'type': 'https://tools.ietf.org/html/rfc9110#section-15.6.1', 'title': 'Failed to handle openAI completion', 'status': 500, 'detail': 'E:\\_work\\1\\s\\onnxruntime\\core\\framework\\bfc_arena.cc:359 onnxruntime::BFCArena::AllocateRawInternal Failed to allocate memory for requested buffer of size 1356106752\n'}",,0
-99,Zor,"'Geleceği görmek bir lütuf değil, bir hapishanedir' cümlesinin, Usta Magnus'un kimliğine dair ipuçlarıyla birlikte hikâyenin genel gizem yapısına nasıl bir anlam kattığını değerlendiriniz.",test1.txt,Evet,Bu bilgi dokümanlarda bulunamadı.,test1.txt (paragraf 6); test1.txt (paragraf 7); test1.txt (paragraf 8),13.57
-100,Zor,"Günlükteki koparılmış yirmi sayfa ile arka kapaktaki kroki/koordinat arasındaki anlatısal boşluk, okuyucuda nasıl bir belirsizlik ve merak etkisi yaratacak şekilde kurgulanmıştır?",test2.txt,Evet,Bu bilgi dokümanlarda bulunamadı.,728_profiles.json (code_interpreter (code_interpreter_sandbox)),30.96
+id,zorluk,soru,beklenen_kaynak,dokumanda_var_mi,cevap,bulunan_kaynaklar,sure_sn,context
+91,Kolay,Alis'in çalıştığı kütüphanenin adı nedir?,test1.txt,Evet,Bu bilgi dokümanlarda bulunamadı.,test1.txt (paragraf 2); test1.txt (paragraf 7); test1.txt (paragraf 3); test1.txt (paragraf 8),76.34,"[1] Kaynak: test1.txt, paragraf 2
+Alis, bu kütüphanede çalışan genç bir çıraktı. Görevi basitti: Yıpranmış sayfaları onarmak, rafların tozunu almak ve asla ama asla ""Yasaklı Kanat"" olarak bilinen, kütüphanenin en alt katındaki demir kapıdan içeri adım atmamak. Ancak merak, Alis’in ruhuna bir kere işlemişti.
+
+[2] Kaynak: test1.txt, paragraf 7
+Alis nefesini tuttu. Bu yazı, kütüphanenin baş yöneticisi ve kendisinin de akıl hocası olan Usta Magnus’un el yazısıydı. Ama gizem burada bitmiyordu. Sayfa yavaşça çevrildi ve bu kez Alis’in kendi ismi belirdi. İsminin hemen altında ise yarının tarihi ve kütüphanenin büyük bir yangınla kül olacağını gösteren küçük, hareketli bir illüstrasyon vardı.
+
+[3] Kaynak: test1.txt, paragraf 3
+Bir gece, kütüphanenin tavanındaki devasa cam fenerlerden süzülen ay ışığı, zemin kattaki mermerlerin üzerinde garip bir yansıma oluşturdu. Işık, sanki bir pusula iğnesi gibi Yasaklı Kanat’ın paslı demir kapısını işaret ediyordu. Alis, kalbinin göğüs kafesini döven sesini dinleyerek kapıya yaklaştı. Garip olan şuydu; yıllardır sımsıkı kapalı olan o devasa kapı, bu gece bir parmak kalınlığında aralık kalmıştı.
+
+[4] Kaynak: test1.txt, paragraf 8
+Alis, yıllardır koruyucusu olarak gördüğü Usta Magnus’un aslında neyin peşinde olduğunu, bu defterin neden saklandığını ve en önemlisi; geleceği değiştirip değiştiremeyeceğini çözmek zorundaydı. Zamanı azalıyordu ve ilk saat kulesinin çanları çalmaya başlamıştı..."
+92,Kolay,Anlatıcının Oda No: 304'ü kiraladığı şehir ve mevsim hangisidir?,test2.txt,Evet,Bu bilgi dokümanlarda bulunamadı.,test2.txt (paragraf 1); 728_profiles.json ($.fieldGuide); lsarSist-H9_ZTransform.pdf (sayfa 15); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 6),35.6,"[1] Kaynak: test2.txt, paragraf 1
+Oda No: 304 ve Sarı Yapraklar
+Her şey, İstanbul’un o meşhur, yağmurlu kasım sabahlarından birinde başladı. İstiklal Caddesi’nin ara sokaklarında, zamanın teğet geçtiği o eski apartmanlardan birinde küçük bir daire kiralamıştım: Oda No: 304. Ev sahibi, antikacı bir amcaydı ve evi bana teslim ederken tek bir şey söylemişti: ""Eşyaların bazıları bir önceki kiracıdan kaldı, istersen atabilirsin.""
+
+[2] Kaynak: 728_profiles.json, $.fieldGuide
+displayName: Public-facing profile/business name.
+professionalName: Synthetic responsible professional name.
+sector: Primary appointment sector.
+occupation: Service provider role.
+headline: Short public profile headline.
+about: Short realistic profile description.
+location: Country/city/district and service area; no exact address.
+serviceModes: Face-to-face, online or on-site mode.
+services: Appointment services with duration and short description.
+appointmentSettings: Duration, notice, cancellation and auto-approval settings.
+weeklyAvailability: Representative weekly working hours.
+displayName: Public-facing profile/business name.
+professionalName: Synthetic responsible professional name.
+sector: Primary appointment sector.
+occupation: Service provider role.
+headline: Short public profile headline.
+about: Short realistic profile description.
+location: Country/city/district and service area; no exact address.
+serviceModes: Face-to-face, online or on-site mode.
+services: Appointment services with duration and short description.
+appointmentSettings: Duration, notice, cancellation and auto-approval settings.
+weeklyAvailability: Representative weekly working hours.
+profileCode: Synthetic DateBind-style identifier; does not imply a live account.
+publicContact: Public contact visibility; intentionally no real phone/email.
+
+[3] Kaynak: lsarSist-H9_ZTransform.pdf, sayfa 15
+Z-transform Properties
+• Right shift (delay)
+x  n − m  u  n − m   z − m X ( z )
+ m 
+x  n − m  u  n   z − m X ( z ) + z − m l x  − l  z l
+= 1
+Second property used in solving difference equations
+Second property derived in Appendix N of course reader
+by decomposing the left-hand side as follows:
+x[n-m] u[n] = x[n-m] (u[n] – u[n-m]) + x[n-m] u[n-m]
+15 11.11.2025 KOÜ-Bilgisayar Müh.
+
+[4] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 6
+Örnek 4.4
+G4.4=<VN, VT, P, S>
+VN= { S, A}
+VT={0, 1}
+P: S=> 0S0 | 1S1 |0A0 |1A1
+A=> 0A1 | 1A0 |01 |10
+G4.4 tarafından türetilen tümcelerden biri bulunmak istendiğinde:
+S=> 0S0 => 01A10 => 010A110 => 01010110
+S=> 0S0 => 01S10 => 011S110 => 0110A1110 => 01100A11110 => 011001011110
+S=> 0S0 => 00S00 => 000S000 => 0001A1000 => 00010A11000 => 000100A111000 =>
+0001000A1111000 => 00010001011111000
+Yukarıdaki örneklerden bu bağlamdan bağımsız dilbilgisi tarafından L(G4.2) dili aşağıdaki gibi
+tanımlanabilir:
+L(G4.3) ={uv(v’)RuR | u,v ε(0+1)*, |u|≥1, |v|≥1}
+uR u’nun tersi(reverse)
+(v’)R V’nin tümlerinin tersi"
+93,Kolay,Defterin sayfalarında beliren cümlede 'gardiyan' olarak kim gösterilmektedir?,test1.txt,Evet,"Kütüphanecinin ta kendisi gösterilmektedir. Bu ifade, test1.txt dosyasındaki paragraf 6'da verilmiştir.",test1.txt (paragraf 6); test1.txt (paragraf 5); test1.txt (paragraf 7); test2.txt (paragraf 6),31.51,"[1] Kaynak: test1.txt, paragraf 6
+""Geleceği görmek bir lütuf değil, bir hapishanedir. Ve gardiyan, kütüphanecinin ta kendisidir.""
+
+[2] Kaynak: test1.txt, paragraf 5
+Alis masaya yaklaştı ve parmaklarını defterin üzerinde gezdirdi. Dokunduğu an, odadaki tüm ışıklar söndü. Sadece defterin sayfalarından yükselen zümrüt yeşili bir ışık etrafı aydınlatmaya başladı. Defter kendi kendine açıldı ve boş sayfalarında, altın sarısı mürekkeple bir cümle belirdi:
+
+[3] Kaynak: test1.txt, paragraf 7
+Alis nefesini tuttu. Bu yazı, kütüphanenin baş yöneticisi ve kendisinin de akıl hocası olan Usta Magnus’un el yazısıydı. Ama gizem burada bitmiyordu. Sayfa yavaşça çevrildi ve bu kez Alis’in kendi ismi belirdi. İsminin hemen altında ise yarının tarihi ve kütüphanenin büyük bir yangınla kül olacağını gösteren küçük, hareketli bir illüstrasyon vardı.
+
+[4] Kaynak: test2.txt, paragraf 6
+Günlük burada aniden kesiliyordu. Sonraki yaklaşık yirmi sayfa koparılmıştı. Defterin en arka kapağının içine ise kurşun kalemle küçük bir harita ve bir koordinat çizilmişti. Tam olarak şu an oturduğum salonun krokisiydi bu. Krokiye göre, salonun hemen sağ köşesindeki şöminenin iç duvarında bir çarpı işareti vardı."
+94,Orta,"Alis'in Yasaklı Kanat'a girme kararını tetikleyen olaylar zincirini (ay ışığının yansıması, kapının aralık olması, kalp atışları) sırasıyla açıklayınız.",test1.txt,Evet,"Ay ışığı, karanlıkta tavanlardan süzüldüğünde zemin kattaki demir kapıda bir yansıma oluşturdu. Kapı, yıllardır kapalı olduğu halde bu gece bir parmak kalınlığında aralıklı kaldı. Alis, kalbinin atışlarını duyurarak kapıya yaklaştı. Bu olayların zinciri, Alis'in Yasaklı Kanat'a girmeyi denemeye karar vermesine yol açtı.",test1.txt (paragraf 3); test1.txt (paragraf 2); test1.txt (paragraf 5); test1.txt (paragraf 7),36.59,"[1] Kaynak: test1.txt, paragraf 3
+Bir gece, kütüphanenin tavanındaki devasa cam fenerlerden süzülen ay ışığı, zemin kattaki mermerlerin üzerinde garip bir yansıma oluşturdu. Işık, sanki bir pusula iğnesi gibi Yasaklı Kanat’ın paslı demir kapısını işaret ediyordu. Alis, kalbinin göğüs kafesini döven sesini dinleyerek kapıya yaklaştı. Garip olan şuydu; yıllardır sımsıkı kapalı olan o devasa kapı, bu gece bir parmak kalınlığında aralık kalmıştı.
+
+[2] Kaynak: test1.txt, paragraf 2
+Alis, bu kütüphanede çalışan genç bir çıraktı. Görevi basitti: Yıpranmış sayfaları onarmak, rafların tozunu almak ve asla ama asla ""Yasaklı Kanat"" olarak bilinen, kütüphanenin en alt katındaki demir kapıdan içeri adım atmamak. Ancak merak, Alis’in ruhuna bir kere işlemişti.
+
+[3] Kaynak: test1.txt, paragraf 5
+Alis masaya yaklaştı ve parmaklarını defterin üzerinde gezdirdi. Dokunduğu an, odadaki tüm ışıklar söndü. Sadece defterin sayfalarından yükselen zümrüt yeşili bir ışık etrafı aydınlatmaya başladı. Defter kendi kendine açıldı ve boş sayfalarında, altın sarısı mürekkeple bir cümle belirdi:
+
+[4] Kaynak: test1.txt, paragraf 7
+Alis nefesini tuttu. Bu yazı, kütüphanenin baş yöneticisi ve kendisinin de akıl hocası olan Usta Magnus’un el yazısıydı. Ama gizem burada bitmiyordu. Sayfa yavaşça çevrildi ve bu kez Alis’in kendi ismi belirdi. İsminin hemen altında ise yarının tarihi ve kütüphanenin büyük bir yangınla kül olacağını gösteren küçük, hareketli bir illüstrasyon vardı."
+95,Orta,Antikacının verdiği pirinç anahtarın hikâyedeki işlevi ile günlükte bahsedilen tıkırtı sesi arasındaki bağlantı nasıl kurulmuştur?,test2.txt,Evet,"Antikacı tarafından verilen pirinç anahtarının işlevi, hikayedeki tıkırtı sesinin bir kod olduğunu göstermektedir. İlk kelime ""Korev"" olarak çözüldüğünde, anahtarın da tıkırtının bir kod olduğunu ima eder. Bu nedenle, anahtarın ve tıkırtının ikisi de hikayenin gizli mesajını temsil etmektedir.",test2.txt (paragraf 5); test2.txt (paragraf 4); test2.txt (paragraf 6); test2.txt (paragraf 3),36.0,"[1] Kaynak: test2.txt, paragraf 5
+28 Mart 2024
+""Korev bir isim değilmiş. Bir antikacının adıymış. Galata’daki o dar sokakta, hani şu devasa çınar ağacının arkasındaki dükkan. Adam beni gördüğünde yüzü kireç gibi oldu. Bana pirinç bir anahtar uzattı ve 'Bunu sana vermemi o söyledi' dedi. Kim? Kim söyledi? Cevap vermedi. Anahtar şu an masamın üzerinde duruyor. Ama bu evdeki hiçbir kilide uymuyor. Yarın duvarı kazacağım. Tıkırtının geldiği yeri.""
+
+[2] Kaynak: test2.txt, paragraf 4
+Tüylerim diken diken olmuştu. Saate baktım; öğleden sonra ikiydi. Önce bunun eski bir kiracının şakası ya da bitmemiş bir roman denemesi olduğunu düşündüm. Ancak sayfaları çevirdikçe işin rengi değişti. Günlük, sıradan bir insanın akıl sağlığını yavaş yavaş kaybedişini ya da gerçekten çok büyük bir sırrı çözüşünü adım adım anlatıyordu.
+
+[3] Kaynak: test2.txt, paragraf 6
+Günlük burada aniden kesiliyordu. Sonraki yaklaşık yirmi sayfa koparılmıştı. Defterin en arka kapağının içine ise kurşun kalemle küçük bir harita ve bir koordinat çizilmişti. Tam olarak şu an oturduğum salonun krokisiydi bu. Krokiye göre, salonun hemen sağ köşesindeki şöminenin iç duvarında bir çarpı işareti vardı.
+
+[4] Kaynak: test2.txt, paragraf 3
+12 Mart 2024
+""Eğer bu satırları okuyorsan, muhtemelen ben çoktan gitmişimdir. Ya da gitmek zorunda kalmışımdır. Bu evde bir şey var. Eşyaların yerini değiştiren cinsten bir şey değil, hayır. Duvarların arkasından gelen bir fısıltı... Her gece tam 03.14’te başlayan bir tıkırtı. Alt kat boş, üst kat boş. Bu tıkırtı bir kod. Ve ben ilk kelimeyi çözdüm: 'Korev'."""
+96,Orta,"Defterde Alis'in isminin belirmesinden hemen sonra ortaya çıkan illüstrasyonun içeriği, hikâyenin gerilimini nasıl artırmaktadır?",test1.txt,Evet,"Defterde Alis'in ismini yazdığı sayfanın altında yer alan illüstrasyon, kütüphanenin büyük bir yangınla kül olacağını göstererek hikâyenin gerilimini artırır. Illüstrasyon, Alis'in kendi ismini yazdığı sayfayı bulmasıyla birlikte gelecekteki bir olayı öne süren bir gizemli ipucu olarak işlev gören bir gerilim kaynağı oluşturur.",test1.txt (paragraf 7); test1.txt (paragraf 5); test1.txt (paragraf 8); test1.txt (paragraf 2),44.4,"[1] Kaynak: test1.txt, paragraf 7
+Alis nefesini tuttu. Bu yazı, kütüphanenin baş yöneticisi ve kendisinin de akıl hocası olan Usta Magnus’un el yazısıydı. Ama gizem burada bitmiyordu. Sayfa yavaşça çevrildi ve bu kez Alis’in kendi ismi belirdi. İsminin hemen altında ise yarının tarihi ve kütüphanenin büyük bir yangınla kül olacağını gösteren küçük, hareketli bir illüstrasyon vardı.
+
+[2] Kaynak: test1.txt, paragraf 5
+Alis masaya yaklaştı ve parmaklarını defterin üzerinde gezdirdi. Dokunduğu an, odadaki tüm ışıklar söndü. Sadece defterin sayfalarından yükselen zümrüt yeşili bir ışık etrafı aydınlatmaya başladı. Defter kendi kendine açıldı ve boş sayfalarında, altın sarısı mürekkeple bir cümle belirdi:
+
+[3] Kaynak: test1.txt, paragraf 8
+Alis, yıllardır koruyucusu olarak gördüğü Usta Magnus’un aslında neyin peşinde olduğunu, bu defterin neden saklandığını ve en önemlisi; geleceği değiştirip değiştiremeyeceğini çözmek zorundaydı. Zamanı azalıyordu ve ilk saat kulesinin çanları çalmaya başlamıştı...
+
+[4] Kaynak: test1.txt, paragraf 2
+Alis, bu kütüphanede çalışan genç bir çıraktı. Görevi basitti: Yıpranmış sayfaları onarmak, rafların tozunu almak ve asla ama asla ""Yasaklı Kanat"" olarak bilinen, kütüphanenin en alt katındaki demir kapıdan içeri adım atmamak. Ancak merak, Alis’in ruhuna bir kere işlemişti."
+97,Orta,"Günlükteki 12 Mart ve 28 Mart tarihli kayıtlar arasında bilgi açısından ne gibi bir ilerleme (fısıltıdan koda, kodan antikacıya) yaşanmıştır?",test2.txt,Evet,"12 Mart 2024 tarihli günlükte, fısıltının tıkırtı olarak algılandığı ve ""Korev"" kodunun ilk kelimesi çözüldüğü bilgi ile başlar. Ancak 28 Mart 2024 tarihli günlükte, antikacıdan bir anahtar alındığı ve bu anahtarın evin kilidlerine uymadığı bilgi verilir. Bu anahtarın evdeki bir kodun açılıp açılmamasına bağlı olduğunu anlatır. Bu ilerlemeyi fısıltıdan koduna, koddan antikacıya doğru gösterir.",test2.txt (paragraf 8); test2.txt (paragraf 5); test2.txt (paragraf 3); test2.txt (paragraf 6),39.84,"[1] Kaynak: test2.txt, paragraf 8
+Elimdeki günlüğü masaya bıraktım. Kalbim hızla çarpıyordu. O an fark ettim ki, o gün 12 Mart ya da 28 Mart değildi; ama saat tam olarak 03.13’e gelmişti. Evin içinde çıt çıkmıyordu.
+
+[2] Kaynak: test2.txt, paragraf 5
+28 Mart 2024
+""Korev bir isim değilmiş. Bir antikacının adıymış. Galata’daki o dar sokakta, hani şu devasa çınar ağacının arkasındaki dükkan. Adam beni gördüğünde yüzü kireç gibi oldu. Bana pirinç bir anahtar uzattı ve 'Bunu sana vermemi o söyledi' dedi. Kim? Kim söyledi? Cevap vermedi. Anahtar şu an masamın üzerinde duruyor. Ama bu evdeki hiçbir kilide uymuyor. Yarın duvarı kazacağım. Tıkırtının geldiği yeri.""
+
+[3] Kaynak: test2.txt, paragraf 3
+12 Mart 2024
+""Eğer bu satırları okuyorsan, muhtemelen ben çoktan gitmişimdir. Ya da gitmek zorunda kalmışımdır. Bu evde bir şey var. Eşyaların yerini değiştiren cinsten bir şey değil, hayır. Duvarların arkasından gelen bir fısıltı... Her gece tam 03.14’te başlayan bir tıkırtı. Alt kat boş, üst kat boş. Bu tıkırtı bir kod. Ve ben ilk kelimeyi çözdüm: 'Korev'.""
+
+[4] Kaynak: test2.txt, paragraf 6
+Günlük burada aniden kesiliyordu. Sonraki yaklaşık yirmi sayfa koparılmıştı. Defterin en arka kapağının içine ise kurşun kalemle küçük bir harita ve bir koordinat çizilmişti. Tam olarak şu an oturduğum salonun krokisiydi bu. Krokiye göre, salonun hemen sağ köşesindeki şöminenin iç duvarında bir çarpı işareti vardı."
+98,Orta,Anlatıcının saatin 03.13'e gelmesini fark etmesi ile önceki günlük kayıtlarında belirtilen 03.14 tıkırtısı arasındaki zamansal gerilim nasıl kurgulanmıştır?,test2.txt,Evet,"Anlatıcının saatin 03.13'e gelmesini fark etmesi, 03.14'teki tıkırtının bir önceki günlük kayıtlarda belirtilmediği ve anlatıcının saatin 03.13'e geldiğinde şaşkınlık duyduğu bir durumu gösterir. Bu, 03.14 tıkırtısının bir ön sembol veya bir kod olduğunu anlatıcının aklına getirerek zamansal gerilimi artırır. Cevabı kısaltarak söylemek gerekirse: 03.13 saati fark etmesi, 03.14 tıkırtısının ön sembolüne işaret eder ve zamansal gerilimi artırır.",test2.txt (paragraf 8); test2.txt (paragraf 3); test1.txt (paragraf 8); test2.txt (paragraf 4),47.76,"[1] Kaynak: test2.txt, paragraf 8
+Elimdeki günlüğü masaya bıraktım. Kalbim hızla çarpıyordu. O an fark ettim ki, o gün 12 Mart ya da 28 Mart değildi; ama saat tam olarak 03.13’e gelmişti. Evin içinde çıt çıkmıyordu.
+
+[2] Kaynak: test2.txt, paragraf 3
+12 Mart 2024
+""Eğer bu satırları okuyorsan, muhtemelen ben çoktan gitmişimdir. Ya da gitmek zorunda kalmışımdır. Bu evde bir şey var. Eşyaların yerini değiştiren cinsten bir şey değil, hayır. Duvarların arkasından gelen bir fısıltı... Her gece tam 03.14’te başlayan bir tıkırtı. Alt kat boş, üst kat boş. Bu tıkırtı bir kod. Ve ben ilk kelimeyi çözdüm: 'Korev'.""
+
+[3] Kaynak: test1.txt, paragraf 8
+Alis, yıllardır koruyucusu olarak gördüğü Usta Magnus’un aslında neyin peşinde olduğunu, bu defterin neden saklandığını ve en önemlisi; geleceği değiştirip değiştiremeyeceğini çözmek zorundaydı. Zamanı azalıyordu ve ilk saat kulesinin çanları çalmaya başlamıştı...
+
+[4] Kaynak: test2.txt, paragraf 4
+Tüylerim diken diken olmuştu. Saate baktım; öğleden sonra ikiydi. Önce bunun eski bir kiracının şakası ya da bitmemiş bir roman denemesi olduğunu düşündüm. Ancak sayfaları çevirdikçe işin rengi değişti. Günlük, sıradan bir insanın akıl sağlığını yavaş yavaş kaybedişini ya da gerçekten çok büyük bir sırrı çözüşünü adım adım anlatıyordu."
+99,Zor,"'Geleceği görmek bir lütuf değil, bir hapishanedir' cümlesinin, Usta Magnus'un kimliğine dair ipuçlarıyla birlikte hikâyenin genel gizem yapısına nasıl bir anlam kattığını değerlendiriniz.",test1.txt,Evet,"Usta Magnus'un gerçek kimliği ve geleceğe bakma yeteneğine sahip olması, hikâyeye bir gizem katıyor. Gelecek izlemek hapisheneye benzetilmiştir çünkü onu karanlık ve kısıtlayan bir deneyim olarak tasvir edilmiştir. Bu, geleceğe bakmanın zararlı ve kontrolsüz olabileceğini ima eder. Usta Magnus'un bu yeteneğine sahip olması, hikâyedeki karakterlerin geleceğe bakma konusundaki endişelerini ve sorunlarını da yansıtır. Bu, Alis'in kütüphanenin baş yöneticisi ve akıl hocası olmasıyla birlikte daha da karmaşıklaştırılır çünkü onun da geleceğe bakma yeteneğine sahip olması gerekecektir. Bu durum, geleceğin değiştirilebilir olup olamayacağı konusunda karara varma sürecini zorlaştırabilir. Cümle, geleceğin ne kadar kontrol edilebilir olduğuna dair bir hapisheneye benzer deneyimi vurgular ve hikâyede geleceğe bakma yeteneğinin tehlikeli olabileceği düşüncesiyle birlikte karakterlerin iç çatışmalarını ve kararlarını zorlaştırır.",test1.txt (paragraf 6); test1.txt (paragraf 7); test1.txt (paragraf 8); test1.txt (paragraf 9),54.43,"[1] Kaynak: test1.txt, paragraf 6
+""Geleceği görmek bir lütuf değil, bir hapishanedir. Ve gardiyan, kütüphanecinin ta kendisidir.""
+
+[2] Kaynak: test1.txt, paragraf 7
+Alis nefesini tuttu. Bu yazı, kütüphanenin baş yöneticisi ve kendisinin de akıl hocası olan Usta Magnus’un el yazısıydı. Ama gizem burada bitmiyordu. Sayfa yavaşça çevrildi ve bu kez Alis’in kendi ismi belirdi. İsminin hemen altında ise yarının tarihi ve kütüphanenin büyük bir yangınla kül olacağını gösteren küçük, hareketli bir illüstrasyon vardı.
+
+[3] Kaynak: test1.txt, paragraf 8
+Alis, yıllardır koruyucusu olarak gördüğü Usta Magnus’un aslında neyin peşinde olduğunu, bu defterin neden saklandığını ve en önemlisi; geleceği değiştirip değiştiremeyeceğini çözmek zorundaydı. Zamanı azalıyordu ve ilk saat kulesinin çanları çalmaya başlamıştı...
+
+[4] Kaynak: test1.txt, paragraf 9
+Hikayenin bu noktasında gizem kapıları iyice aralandı. Sence Alis şimdi ne yapmalı?"
+100,Zor,"Günlükteki koparılmış yirmi sayfa ile arka kapaktaki kroki/koordinat arasındaki anlatısal boşluk, okuyucuda nasıl bir belirsizlik ve merak etkisi yaratacak şekilde kurgulanmıştır?",test2.txt,Evet,Bu bilgi dokümanlarda bulunamadı.,test2.txt (paragraf 6); test2.txt (paragraf 4); test1.txt (paragraf 2); test1.txt (paragraf 7),32.29,"[1] Kaynak: test2.txt, paragraf 6
+Günlük burada aniden kesiliyordu. Sonraki yaklaşık yirmi sayfa koparılmıştı. Defterin en arka kapağının içine ise kurşun kalemle küçük bir harita ve bir koordinat çizilmişti. Tam olarak şu an oturduğum salonun krokisiydi bu. Krokiye göre, salonun hemen sağ köşesindeki şöminenin iç duvarında bir çarpı işareti vardı.
+
+[2] Kaynak: test2.txt, paragraf 4
+Tüylerim diken diken olmuştu. Saate baktım; öğleden sonra ikiydi. Önce bunun eski bir kiracının şakası ya da bitmemiş bir roman denemesi olduğunu düşündüm. Ancak sayfaları çevirdikçe işin rengi değişti. Günlük, sıradan bir insanın akıl sağlığını yavaş yavaş kaybedişini ya da gerçekten çok büyük bir sırrı çözüşünü adım adım anlatıyordu.
+
+[3] Kaynak: test1.txt, paragraf 2
+Alis, bu kütüphanede çalışan genç bir çıraktı. Görevi basitti: Yıpranmış sayfaları onarmak, rafların tozunu almak ve asla ama asla ""Yasaklı Kanat"" olarak bilinen, kütüphanenin en alt katındaki demir kapıdan içeri adım atmamak. Ancak merak, Alis’in ruhuna bir kere işlemişti.
+
+[4] Kaynak: test1.txt, paragraf 7
+Alis nefesini tuttu. Bu yazı, kütüphanenin baş yöneticisi ve kendisinin de akıl hocası olan Usta Magnus’un el yazısıydı. Ama gizem burada bitmiyordu. Sayfa yavaşça çevrildi ve bu kez Alis’in kendi ismi belirdi. İsminin hemen altında ise yarının tarihi ve kütüphanenin büyük bir yangınla kül olacağını gösteren küçük, hareketli bir illüstrasyon vardı."

@@ -1,17 +1,1000 @@
-id,zorluk,soru,beklenen_kaynak,dokumanda_var_mi,cevap,bulunan_kaynaklar,sure_sn
-101,Kolay,Bağlamdan bağımsız dilbilgisini Chomsky normal formuna dönüştürme algoritması hangi adımlardan oluşur?,-,Hayır,"Bağlamdan bağımsız dilbilgisini Chomsky normal formuna dönüştürme algoritması, yararsız değişken ve kuralların atılması adımlarını içerir ve iki adımdan oluşur: 1. Uç simge dizgisi türeten değişkenler kümesinin bulunması.
-2. Başlangıç değişkeninden ulaşılabildiği değişkenlerin bulunması. Bu adımlar, verilen bağlamdaki algoritmalar 4.5 ve 4.6'ya dayanarak gerçekleştirilir.",8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 18); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 19); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 2),120.69
-102,Kolay,Bağlamdan bağımsız dilleri tanıyan yığın otomatı (pushdown automaton) nasıl tanımlanır?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 2); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 1); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 18),34.79
-103,Orta,Bağlamdan bağımsız dilbilgisi için pompalama (pumping) lemması nasıl ifade edilir?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 16); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 2); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 18),40.07
-104,Kolay,Fourier dönüşümünde Nyquist örnekleme teoremi hangi koşulu gerektirir?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,lsarSist-H8_FourierTransform.pdf (sayfa 2); lsarSist-H8_FourierTransform.pdf (sayfa 6); lsarSist-H8_FourierTransform.pdf (sayfa 5),27.25
-105,Orta,Dalgacık (wavelet) dönüşümü ile Fourier dönüşümü arasındaki fark dokümanda nasıl açıklanmıştır?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,lsarSist-H8_FourierTransform.pdf (sayfa 4); lsarSist-H8_FourierTransform.pdf (sayfa 5); lsarSist-H8_FourierTransform.pdf (sayfa 6),25.98
-106,Zor,Hızlı Fourier Dönüşümü (FFT) algoritmasının hesaplama karmaşıklığı kaçtır?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,lsarSist-H8_FourierTransform.pdf (sayfa 6); lsarSist-H8_FourierTransform.pdf (sayfa 5); lsarSist-H8_FourierTransform.pdf (sayfa 4),26.66
-107,Kolay,728_profiles.json veri setinde profillerin ortalama randevu ücreti kaç TL'dir?,-,Hayır,728_profiles.json veri setinde profillerin ortalama randevu ücreti 45.12'dir.,728_profiles.json (code_interpreter (code_interpreter_sandbox)),50.94
-108,Kolay,728_profiles.json veri setinde profillerin cinsiyet dağılımı nedir?,-,Hayır,Veri setindeki profillerin cinsiyet dağılımı konusunda bilgi bulunamadı.,728_profiles.json (code_interpreter (code_interpreter_sandbox)),47.29
-109,Orta,728_profiles.json veri setindeki profillerin müşteri memnuniyet puanı ortalaması kaçtır?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,728_profiles.json (code_interpreter (code_interpreter_sandbox)),125.89
-110,Orta,mock-transactions.json dosyasında işlemlerin kredi kartı numaraları hangi alanda tutulmaktadır?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,728_profiles.json ($.profiles[477]); 728_profiles.json ($.profiles[641]); 728_profiles.json ($.profiles[472]),41.56
-111,Zor,728_profiles.json veri setinde profillerin IBAN bilgileri hangi şema alanında saklanır?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,728_profiles.json ($.profiles[395]); 728_profiles.json ($.profiles[396]); 728_profiles.json ($.profiles[399]),40.94
-112,Kolay,Summer School Foundry Local planında Kubernetes kurulumu hangi adımda anlatılır?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,Summer School Foundry Local Plan.docx (bölüm 5); Summer School Foundry Local Plan.docx (bölüm 3); Summer School Foundry Local Plan.docx (bölüm 2),53.93
-113,Orta,Summer School Foundry Local planında projenin Kanban panosu hangi araçla yönetilmektedir?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,Summer School Foundry Local Plan.docx (bölüm 5); Summer School Foundry Local Plan.docx (bölüm 3); Summer School Foundry Local Plan.docx (bölüm 2),56.39
-114,Zor,Unutulmuş Parşömen hikayesinde Alis'in ailesi hangi şehirde yaşamaktadır?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,test1.txt (paragraf 1); test1.txt (paragraf 8); test1.txt (paragraf 2),19.87
-115,Orta,Oda No: 304 hikayesinde anlatıcının mesleği nedir?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,test2.txt (paragraf 1); 728_profiles.json ($.profiles[314]); 728_profiles.json ($.profiles[500]),36.51
+id,zorluk,soru,beklenen_kaynak,dokumanda_var_mi,cevap,bulunan_kaynaklar,sure_sn,context
+101,Kolay,Bağlamdan bağımsız dilbilgisini Chomsky normal formuna dönüştürme algoritması hangi adımlardan oluşur?,-,Hayır,"Bağlamdan bağımsız dilbilgisini Chomsky normal formuna dönüştürme algoritması, yararsız değişken ve kuralların atılması adımlarını içerir. Bu adımlar: 1. Uç simge dizgisi türeten değişkenler kümesinin bulunması.
+2. Başlangıç değişkeninden ulaşılabildiği değişkenlerin bulunması.",8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 18); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 19); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 2); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 16),66.52,"[1] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 18
+4.3.4.1. Yararsız Değişken ve Kuralların Atılması
+• Bağlamdan-bağımsız bir dilbilgisi (G) verildiğinde, yararsız değişken ve kurallar
+atılarak eşdeğer bir dilbilgisinin bulunması iki adımda gerçekleştirilir.
+• Birinci adımda, algoritma 4.5 kullanılarak uç simge dizgisi türeten değişkenler
+kümesi bulunur. Bu kümede yer almayan değişkenler yararsız değişkenlerdir.
+Dilbilgisinden bu değişkenler ile bu değişkenlerin yer aldığı kurallar çıkarılarak
+eşdeğer bir dilbilgisi (G’) bulunur.
+• Algoritma 4.5. Uç simge dizgisi türeten değişkenler kümesinin bulunması:
+1. TD={A | (A=>w) ε P ve w ε VT* };
+2. (T=Teski) oluncaya kadar aşağıdaki işlemleri tekrarla:
+2.1 Teski=TD;
+2.2 Dilbilgisindeki her değişken (A) için aşağıdaki işlemleri tekrarla:
+2.2.1 Her (A=>β) kuralı için aşağıdaki işlemleri tekrarla:
+eğer β ε (TeskiU VT)* ise A’yı TD’ye ekle
+Son 2.2.1:
+Son 2.2
+Son 2.
+
+[2] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 19
+-4.3.4.1. Yararsız Değişken ve
+Kuralların Atılması
+• İkinci adımda, algoritma 4.6 kullanılarak, birinci adımda bulunan
+dilbilgisindeki (G’) değişkenlerden hangilerine başlangıç değişkeninden
+ulaşılabildiği bulunur. Başlangıç değişkeninden ulaşılamayan değişkenler de yararsız
+değişkenlerdir. Dilbilgisinden (G’) bu değişkenler ile bu değişkenlerin yer aldığı
+kurallar çıkarılarak eşdeğer dilbilgisi (G’’) bulunur.
+• Algoritma 4.6.
+1. TU={S};
+2. Teski=Φ;
+3. (TU=TEski) oluncuya kadar aşağıdaki işlemleri tekrarla:
+3.1. Tyeni=TU-Teski;
+3.2. TEski=TU;
+3.3 Tyeni’deki her değişken için aşağıdaki işlemleri tekrarla:
+3.3.1 Her (A=>β) yeniden yazma kuralı için aşağıdaki işlemleri tekrarla:
+β’daki tüm değişkenleri TU’ya ekle;
+Son 3.3.1;
+Son 3.3.1;
+Son 3;
+
+[3] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 2
+4.BAĞLAMDAN-BAĞIMSIZ DİLBİLGİSİ
+• Programlama dilleri, derleyiciler, yorumlayıcılar, sözdizim
+çözümleyiciler, aritmetik deyimler, ..vb. birçok yazılım bileşeninin
+bünyesinde yer aldığı için bağlamdan-bağımsız dilbilgisi ve diller ile
+bu dilleri tanıyan makine modeli bilgisayar bilimleri ve mühendisliği
+açısından önem taşır.
+• Bağlamdan bağımsız dilbilgisi bir dörtlüdür.
+VN= Sözdizim değişkenleri kümesi(sonlu bir küme)
+VT=Uç simgeler kümesi (sonlu bir küme)
+VN ve VT ayrık kümelerdir. VN Π VT=Ø
+S: Başlangıç değişkeni S ε VN
+P: Yeniden yazma ya da türetme kuralları
+A=>b A ε VN b ε V*
+
+[4] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 16
+4.3 Dilbilgisinin Yalınlaştırılması
+• Bağlamdan bağımsız bir dilbilgisi verildiğinde, bu dilbilgisinin daha az
+sayıda değişken ve kural içeren ve belirli biçimdeki kuralları içermeyen bir
+dilbilgisine dönüştürülmesine dilbilgisinin yalınlaştırılması denilir.
+• 4.3.4. Yararsız Değişken, Simge ve Kurallar
+• Eğer bir dilbilgininin uç simgelerinden biri, bu dilbilgisi tarafından türetilen
+tümcelerden hiçbirinde yer almıyorsa, bu uç simgeye yararsız simge
+(useless symbol) denilir.
+• Eğer bir dilbilgisinin değişkenlerinden biri (A), en az bir tümce türetilirken
+elde edilen tümcesel yapıların en az birinde yer alıyorsa
+• S=> α1 Aα2 => w
+• Bu değişken yararlı (usefull) bir değişkendir. Bu özelliği taşımayan
+değişkenlere ise yararsız değişken (useless variable) denilir. Yararsız
+değişken hiçbir tümcenin türetilmesinde kullanılmayan; kullanıldığı
+türetmelerin hiçbirinin sonunda ise bir tümce elde edilemeyen
+değişkendir."
+102,Kolay,Bağlamdan bağımsız dilleri tanıyan yığın otomatı (pushdown automaton) nasıl tanımlanır?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 2); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 1); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 18); 728_profiles.json ($.profiles[324]),37.99,"[1] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 2
+4.BAĞLAMDAN-BAĞIMSIZ DİLBİLGİSİ
+• Programlama dilleri, derleyiciler, yorumlayıcılar, sözdizim
+çözümleyiciler, aritmetik deyimler, ..vb. birçok yazılım bileşeninin
+bünyesinde yer aldığı için bağlamdan-bağımsız dilbilgisi ve diller ile
+bu dilleri tanıyan makine modeli bilgisayar bilimleri ve mühendisliği
+açısından önem taşır.
+• Bağlamdan bağımsız dilbilgisi bir dörtlüdür.
+VN= Sözdizim değişkenleri kümesi(sonlu bir küme)
+VT=Uç simgeler kümesi (sonlu bir küme)
+VN ve VT ayrık kümelerdir. VN Π VT=Ø
+S: Başlangıç değişkeni S ε VN
+P: Yeniden yazma ya da türetme kuralları
+A=>b A ε VN b ε V*
+
+[2] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 1
+Otomata Teorisi Bölüm 4
+Bağlamdan Bağımsız Dilbilgisi –Tür 2
+
+[3] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 18
+4.3.4.1. Yararsız Değişken ve Kuralların Atılması
+• Bağlamdan-bağımsız bir dilbilgisi (G) verildiğinde, yararsız değişken ve kurallar
+atılarak eşdeğer bir dilbilgisinin bulunması iki adımda gerçekleştirilir.
+• Birinci adımda, algoritma 4.5 kullanılarak uç simge dizgisi türeten değişkenler
+kümesi bulunur. Bu kümede yer almayan değişkenler yararsız değişkenlerdir.
+Dilbilgisinden bu değişkenler ile bu değişkenlerin yer aldığı kurallar çıkarılarak
+eşdeğer bir dilbilgisi (G’) bulunur.
+• Algoritma 4.5. Uç simge dizgisi türeten değişkenler kümesinin bulunması:
+1. TD={A | (A=>w) ε P ve w ε VT* };
+2. (T=Teski) oluncaya kadar aşağıdaki işlemleri tekrarla:
+2.1 Teski=TD;
+2.2 Dilbilgisindeki her değişken (A) için aşağıdaki işlemleri tekrarla:
+2.2.1 Her (A=>β) kuralı için aşağıdaki işlemleri tekrarla:
+eğer β ε (TeskiU VT)* ise A’yı TD’ye ekle
+Son 2.2.1:
+Son 2.2
+Son 2.
+
+[4] Kaynak: 728_profiles.json, $.profiles[324]
+profileCode: DB-HDDKCHUV
+synthetic: True
+profileType: individual
+displayName: Defne Önal
+professionalName: Defne Önal
+sector: Dil Eğitimi
+occupation: Almanca Öğretmeni
+headline: Başlangıç ve orta düzey Almanca özel ders
+location.country: Türkiye
+location.city: Sakarya
+location.district: Adapazarı
+location.serviceArea: Türkiye geneli (online)
+location.exactAddressPublic: False
+serviceModes[0]: Online
+services[0].name: Dil bilgisi dersi
+services[0].durationMinutes: 60
+services[0].description: Dil bilgisi dersi için önceden planlanan birebir randevu.
+services[0].appointmentMode: Online
+services[1].name: Seviye tespit
+services[1].durationMinutes: 45
+services[1].description: Seviye tespit için önceden planlanan birebir randevu.
+services[1].appointmentMode: Online
+experience.years: 4
+experience.credentialSummary: Almanca öğretmenliği veya dil eğitimi
+languages[0]: Türkçe
+languages[1]: İngilizce
+appointmentSettings.defaultDurationMinutes: 45
+appointmentSettings.minimumNoticeHours: 12
+appointmentSettings.cancellationNoticeHours: 12
+appointmentSettings.autoApproveRequests: False
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 17:00
+weeklyAvailability[0].end: 21:00
+weeklyAvailability[1].day: Salı
+weeklyAvailability[1].active: True
+weeklyAvailability[1].start: 17:00
+weeklyAvailability[1].end: 21:00
+weeklyAvailability[2].day: Çarşamba
+weeklyAvailability[2].active: True
+weeklyAvailability[2].start: 17:00
+weeklyAvailability[2].end: […kısaltıldı]"
+103,Orta,Bağlamdan bağımsız dilbilgisi için pompalama (pumping) lemması nasıl ifade edilir?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 16); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 2); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 18); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 17),33.96,"[1] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 16
+4.3 Dilbilgisinin Yalınlaştırılması
+• Bağlamdan bağımsız bir dilbilgisi verildiğinde, bu dilbilgisinin daha az
+sayıda değişken ve kural içeren ve belirli biçimdeki kuralları içermeyen bir
+dilbilgisine dönüştürülmesine dilbilgisinin yalınlaştırılması denilir.
+• 4.3.4. Yararsız Değişken, Simge ve Kurallar
+• Eğer bir dilbilgininin uç simgelerinden biri, bu dilbilgisi tarafından türetilen
+tümcelerden hiçbirinde yer almıyorsa, bu uç simgeye yararsız simge
+(useless symbol) denilir.
+• Eğer bir dilbilgisinin değişkenlerinden biri (A), en az bir tümce türetilirken
+elde edilen tümcesel yapıların en az birinde yer alıyorsa
+• S=> α1 Aα2 => w
+• Bu değişken yararlı (usefull) bir değişkendir. Bu özelliği taşımayan
+değişkenlere ise yararsız değişken (useless variable) denilir. Yararsız
+değişken hiçbir tümcenin türetilmesinde kullanılmayan; kullanıldığı
+türetmelerin hiçbirinin sonunda ise bir tümce elde edilemeyen
+değişkendir.
+
+[2] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 2
+4.BAĞLAMDAN-BAĞIMSIZ DİLBİLGİSİ
+• Programlama dilleri, derleyiciler, yorumlayıcılar, sözdizim
+çözümleyiciler, aritmetik deyimler, ..vb. birçok yazılım bileşeninin
+bünyesinde yer aldığı için bağlamdan-bağımsız dilbilgisi ve diller ile
+bu dilleri tanıyan makine modeli bilgisayar bilimleri ve mühendisliği
+açısından önem taşır.
+• Bağlamdan bağımsız dilbilgisi bir dörtlüdür.
+VN= Sözdizim değişkenleri kümesi(sonlu bir küme)
+VT=Uç simgeler kümesi (sonlu bir küme)
+VN ve VT ayrık kümelerdir. VN Π VT=Ø
+S: Başlangıç değişkeni S ε VN
+P: Yeniden yazma ya da türetme kuralları
+A=>b A ε VN b ε V*
+
+[3] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 18
+4.3.4.1. Yararsız Değişken ve Kuralların Atılması
+• Bağlamdan-bağımsız bir dilbilgisi (G) verildiğinde, yararsız değişken ve kurallar
+atılarak eşdeğer bir dilbilgisinin bulunması iki adımda gerçekleştirilir.
+• Birinci adımda, algoritma 4.5 kullanılarak uç simge dizgisi türeten değişkenler
+kümesi bulunur. Bu kümede yer almayan değişkenler yararsız değişkenlerdir.
+Dilbilgisinden bu değişkenler ile bu değişkenlerin yer aldığı kurallar çıkarılarak
+eşdeğer bir dilbilgisi (G’) bulunur.
+• Algoritma 4.5. Uç simge dizgisi türeten değişkenler kümesinin bulunması:
+1. TD={A | (A=>w) ε P ve w ε VT* };
+2. (T=Teski) oluncaya kadar aşağıdaki işlemleri tekrarla:
+2.1 Teski=TD;
+2.2 Dilbilgisindeki her değişken (A) için aşağıdaki işlemleri tekrarla:
+2.2.1 Her (A=>β) kuralı için aşağıdaki işlemleri tekrarla:
+eğer β ε (TeskiU VT)* ise A’yı TD’ye ekle
+Son 2.2.1:
+Son 2.2
+Son 2.
+
+[4] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 17
+4.3.4. Yararsız Değişken, Simge ve
+Kurallar
+• Eğer bir dilbilgisinin yeniden yazma kurallarından biri (A=> β ), en az bir
+tümcenin türetilmesi sırasında kullanılıyorsa, bu
+kural yararlı bir kuraldır(usefull rule). Hiçbir tümcenin türetilmesinde
+kullanılmayan kurallara ise yararsız kurallar (useless rules) adı verilir.
+• Eğer bağlamdan-bağımsız bir dilbilgisi yararsız değişken, uç simge ya da
+kural içeriyorsa, bu dilbilgisine eşdeğer olan ve yararsız uç simge, değişken
+ve kural içermeyen bir dilbilgisi bulunabilir. Bunun için de öncelikle
+değişkenlerden hangilerinin yararlı olduğunun bulunması gerekir. Bir
+değişkenin (A) yararlı bir değişken olabilmesi için:
+1. Bu değişkenden başlanarak, en az bir uç simge dizisinin türetilebilmesi:
+A=>u u ε VT* (u : dilin bir tümcesi olması şart değil)
+2. Başlangıç değişkeninden bu değişkene ulaşmanın mümkün olması:
+S=> α1 A α2
+Bağlamdan-bağımsız bir dilbilgisi (G) verildiğinde, yararsız değişken ve kurallar
+atılarak eşdeğer bir dilbilgisinin bulunması iki adımda gerçekleştirilir."
+104,Kolay,Fourier dönüşümünde Nyquist örnekleme teoremi hangi koşulu gerektirir?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,lsarSist-H8_FourierTransform.pdf (sayfa 2); lsarSist-H8_FourierTransform.pdf (sayfa 6); lsarSist-H8_FourierTransform.pdf (sayfa 5); lsarSist-H8_FourierTransform.pdf (sayfa 4),33.14,"[1] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 2
+Fourier Integral
+ 
+       
+G f   g t e j2 f t dt X    x t e j  t dt
+ 
+ 1 
+       
+g t   G f e j2 f t df x t   X  e j  t d
+ 2 
+Communication Systems Signal Processing
+• Conditions for Fourier transform of x(t) to exist
+x(t) is single-valued with finite maxima and minima in
+any finite time interval
+x(t) is piecewise continuous; i.e., it has a finite number of
+discontinuities in any finite time interval
+x(t) is absolutely integrable 
+ 
+ g t dt  
+• Conditions not obeyed for cos(t), sin(t) and u(t)
+We’ll find ways to define Fourier transforms for them
+2
+
+[2] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 6
+Fourier Dönüşüm Çiftleri
+(Fourier Transform Pairs)
+1  1
+     jt
+F 1 0   0 e jtd e 0
+2  2
+1
+jt   jt  
+e 0 0 or e 0  2 0
+2
+1  
+  jt  jt
+Since cos 0t  e 0  e 0
+2
+      
+cos 0t 0 0
+F()
+f(t)
+() ()
+F
+t
+
+0  0 
+0 0
+6
+
+[3] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 5
+Fourier Dönüşüm Çiftleri
+(Fourier Transform Pairs)
+  t  /2
+ 
+F    rect ejtdt   ejtdt
+  /2
+  
+sin  sin 
+1  j/2 j/2  2   2 
+  e  e  2   sinc 
+j    2
+ 
+ 2
+F()
+f(t)
+
+F
+1
+
+t
+-/2 0 /2    0   
+5
+
+[4] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 4
+Fourier Dönüşüm Çiftleri
+(Fourier Transform Pairs)
+• From the sifting property of the Dirac delta,
+
+    
+F  t    t e j  tdt  e j0 1
+
+• Consider a Dirac delta in the Fourier domain
+1  1 1
+    
+F 1     e j  td e j0t 
+2  2 2
+Using linearity property, F{ 1 } = 2 ()
+x(t) = 1
+X() = 2 ()
+1 F (2)
+t 
+0 0
+(2) means that the area under the Dirac delta is (2) 4"
+105,Orta,Dalgacık (wavelet) dönüşümü ile Fourier dönüşümü arasındaki fark dokümanda nasıl açıklanmıştır?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,lsarSist-H8_FourierTransform.pdf (sayfa 4); lsarSist-H8_FourierTransform.pdf (sayfa 5); lsarSist-H8_FourierTransform.pdf (sayfa 6); lsarSist-H8_FourierTransform.pdf (sayfa 3),31.26,"[1] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 4
+Fourier Dönüşüm Çiftleri
+(Fourier Transform Pairs)
+• From the sifting property of the Dirac delta,
+
+    
+F  t    t e j  tdt  e j0 1
+
+• Consider a Dirac delta in the Fourier domain
+1  1 1
+    
+F 1     e j  td e j0t 
+2  2 2
+Using linearity property, F{ 1 } = 2 ()
+x(t) = 1
+X() = 2 ()
+1 F (2)
+t 
+0 0
+(2) means that the area under the Dirac delta is (2) 4
+
+[2] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 5
+Fourier Dönüşüm Çiftleri
+(Fourier Transform Pairs)
+  t  /2
+ 
+F    rect ejtdt   ejtdt
+  /2
+  
+sin  sin 
+1  j/2 j/2  2   2 
+  e  e  2   sinc 
+j    2
+ 
+ 2
+F()
+f(t)
+
+F
+1
+
+t
+-/2 0 /2    0   
+5
+
+[3] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 6
+Fourier Dönüşüm Çiftleri
+(Fourier Transform Pairs)
+1  1
+     jt
+F 1 0   0 e jtd e 0
+2  2
+1
+jt   jt  
+e 0 0 or e 0  2 0
+2
+1  
+  jt  jt
+Since cos 0t  e 0  e 0
+2
+      
+cos 0t 0 0
+F()
+f(t)
+() ()
+F
+t
+
+0  0 
+0 0
+6
+
+[4] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 3
+Sürekli Zamanlı Fourier Dönüşümü
+(Continuous-Time Fourier Transform)
+
+• Forward direction  jt
+X( j)   x(t)e dt
+Analysis: extracts spectrum information from the signal x(t)
+1 
+ jt
+• Ters Yönde (Inverse x(t)  X( j)e d
+direction) 2 
+Synthesis: creates time-domain signal x(t) from its spectral info
+3"
+106,Zor,Hızlı Fourier Dönüşümü (FFT) algoritmasının hesaplama karmaşıklığı kaçtır?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,lsarSist-H8_FourierTransform.pdf (sayfa 6); lsarSist-H8_FourierTransform.pdf (sayfa 5); lsarSist-H8_FourierTransform.pdf (sayfa 4); lsarSist-H8_FourierTransform.pdf (sayfa 3),31.56,"[1] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 6
+Fourier Dönüşüm Çiftleri
+(Fourier Transform Pairs)
+1  1
+     jt
+F 1 0   0 e jtd e 0
+2  2
+1
+jt   jt  
+e 0 0 or e 0  2 0
+2
+1  
+  jt  jt
+Since cos 0t  e 0  e 0
+2
+      
+cos 0t 0 0
+F()
+f(t)
+() ()
+F
+t
+
+0  0 
+0 0
+6
+
+[2] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 5
+Fourier Dönüşüm Çiftleri
+(Fourier Transform Pairs)
+  t  /2
+ 
+F    rect ejtdt   ejtdt
+  /2
+  
+sin  sin 
+1  j/2 j/2  2   2 
+  e  e  2   sinc 
+j    2
+ 
+ 2
+F()
+f(t)
+
+F
+1
+
+t
+-/2 0 /2    0   
+5
+
+[3] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 4
+Fourier Dönüşüm Çiftleri
+(Fourier Transform Pairs)
+• From the sifting property of the Dirac delta,
+
+    
+F  t    t e j  tdt  e j0 1
+
+• Consider a Dirac delta in the Fourier domain
+1  1 1
+    
+F 1     e j  td e j0t 
+2  2 2
+Using linearity property, F{ 1 } = 2 ()
+x(t) = 1
+X() = 2 ()
+1 F (2)
+t 
+0 0
+(2) means that the area under the Dirac delta is (2) 4
+
+[4] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 3
+Sürekli Zamanlı Fourier Dönüşümü
+(Continuous-Time Fourier Transform)
+
+• Forward direction  jt
+X( j)   x(t)e dt
+Analysis: extracts spectrum information from the signal x(t)
+1 
+ jt
+• Ters Yönde (Inverse x(t)  X( j)e d
+direction) 2 
+Synthesis: creates time-domain signal x(t) from its spectral info
+3"
+107,Kolay,728_profiles.json veri setinde profillerin ortalama randevu ücreti kaç TL'dir?,-,Hayır,728_profiles.json veri setinde profillerin ortalama randevu ücreti 45.12'dir.,728_profiles.json (code_interpreter (code_interpreter_sandbox)),51.18,"[1] Kaynak: 728_profiles.json, code_interpreter (code_interpreter_sandbox)
+[KESİN HESAPLAMA SONUCU]
+728_profiles.json veri setinde profillerin ortalama randevu ücreti 45.12'dir."
+108,Kolay,728_profiles.json veri setinde profillerin cinsiyet dağılımı nedir?,-,Hayır,Veri setindeki profillerin cinsiyet dağılımı konusunda bilgi bulunamadı.,728_profiles.json (code_interpreter (code_interpreter_sandbox)),46.7,"[1] Kaynak: 728_profiles.json, code_interpreter (code_interpreter_sandbox)
+[KESİN HESAPLAMA SONUCU]
+Individual profil sayısı 599'dur, Business profil sayısı 129'tür."
+109,Orta,728_profiles.json veri setindeki profillerin müşteri memnuniyet puanı ortalaması kaçtır?,-,Hayır,Bu bilgi dokümanlarda bulunamadı; sonuç doğrulanamadığı için aktarılmadı.,728_profiles.json (code_interpreter (code_interpreter_sandbox)),143.36,"[1] Kaynak: 728_profiles.json, code_interpreter (code_interpreter_sandbox)
+[DOĞRULANAMAYAN SONUÇ]
+Sorgu veri seti uzerinde calistirildi ancak uretilen kodun soruyu dogru yorumladigi DOGRULANAMADI: semantik dogrulayici itiraz etti ve izleyen duzeltme denemeleri de basarisiz oldu. Elde kalan sonuc guvenilir degil; sorulan buyukluk veri setinde mevcut olmayabilir."
+110,Orta,mock-transactions.json dosyasında işlemlerin kredi kartı numaraları hangi alanda tutulmaktadır?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,728_profiles.json ($.profiles[477]); 728_profiles.json ($.profiles[641]); 728_profiles.json ($.profiles[472]); 728_profiles.json ($.profiles[476]),58.78,"[1] Kaynak: 728_profiles.json, $.profiles[477]
+profileCode: DB-P4XQE34B
+synthetic: True
+profileType: individual
+displayName: Umut Şahin
+professionalName: Umut Şahin
+sector: Hukuk ve Mali Hizmetler
+occupation: Avukat
+headline: Hukuki ön görüşme ve dosya değerlendirmesi
+location.country: Türkiye
+location.city: Manisa
+location.district: Yunusemre
+location.serviceArea: Yunusemre / online
+location.exactAddressPublic: False
+serviceModes[0]: Yüz yüze
+serviceModes[1]: Online
+services[0].name: Sözleşme görüşmesi
+services[0].durationMinutes: 30
+services[0].description: Sözleşme görüşmesi için önceden planlanan birebir randevu.
+services[0].appointmentMode: Yüz yüze
+services[1].name: Hukuki ön görüşme
+services[1].durationMinutes: 30
+services[1].description: Hukuki ön görüşme için önceden planlanan birebir randevu.
+services[1].appointmentMode: Yüz yüze
+services[2].name: Dosya değerlendirme
+services[2].durationMinutes: 60
+services[2].description: Dosya değerlendirme için önceden planlanan birebir randevu.
+services[2].appointmentMode: Yüz yüze
+experience.years: 5
+experience.credentialSummary: Hukuk lisans eğitimi ve mesleki yetkinlik
+languages[0]: Türkçe
+appointmentSettings.defaultDurationMinutes: 30
+appointmentSettings.minimumNoticeHours: 2
+appointmentSettings.cancellationNoticeHours: 4
+appointmentSettings.autoApproveRequests: False
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 10:00
+weeklyAvailability[0].end: 18:30
+weeklyAvailability[1].day: Salı
+weeklyAvailability[1].active: […kısaltıldı]
+
+[2] Kaynak: 728_profiles.json, $.profiles[641]
+profileCode: DB-NK9LN6NP
+synthetic: True
+profileType: business
+displayName: Odak Kurumsal Etkinlik Sorumlusu Care
+professionalName: Elif Kara
+sector: Etkinlik ve Organizasyon
+occupation: Kurumsal Etkinlik Sorumlusu
+headline: Toplantı, seminer ve kurumsal etkinlik planlama
+location.country: Türkiye
+location.city: Mersin
+location.district: Yenişehir
+location.serviceArea: Yenişehir / online
+location.exactAddressPublic: False
+serviceModes[0]: Yüz yüze
+serviceModes[1]: Online
+services[0].name: Operasyon planlama
+services[0].durationMinutes: 60
+services[0].description: Operasyon planlama için önceden planlanan birebir randevu.
+services[0].appointmentMode: Online
+services[1].name: Etkinlik ihtiyaç analizi
+services[1].durationMinutes: 60
+services[1].appointmentMode: Yüz yüze
+services[2].name: Tedarikçi görüşmesi
+services[2].durationMinutes: 90
+services[2].description: Tedarikçi görüşmesi için önceden planlanan birebir randevu.
+services[2].appointmentMode: Yüz yüze
+experience.years: 7
+experience.credentialSummary: Kurumsal etkinlik deneyimi
+languages[0]: Türkçe
+languages[1]: İngilizce
+appointmentSettings.defaultDurationMinutes: 60
+appointmentSettings.minimumNoticeHours: 6
+appointmentSettings.cancellationNoticeHours: 12
+appointmentSettings.autoApproveRequests: False
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 10:00
+weeklyAvailability[0].end: 18:30
+weeklyAvailability[1].day: Salı
+weeklyAvailability[1].active: […kısaltıldı]
+
+[3] Kaynak: 728_profiles.json, $.profiles[472]
+profileCode: DB-PP5MU2EJ
+synthetic: True
+profileType: individual
+displayName: Kaan Kılıç
+professionalName: Kaan Kılıç
+sector: Hukuk ve Mali Hizmetler
+occupation: Avukat
+headline: Hukuki ön görüşme ve dosya değerlendirmesi
+location.country: Türkiye
+location.city: Bursa
+location.district: Osmangazi
+location.serviceArea: Osmangazi / online
+location.exactAddressPublic: False
+serviceModes[0]: Yüz yüze
+serviceModes[1]: Online
+services[0].name: Sözleşme görüşmesi
+services[0].durationMinutes: 60
+services[0].description: Sözleşme görüşmesi için önceden planlanan birebir randevu.
+services[0].appointmentMode: Online
+services[1].name: Hukuki ön görüşme
+services[1].durationMinutes: 45
+services[1].description: Hukuki ön görüşme için önceden planlanan birebir randevu.
+services[1].appointmentMode: Yüz yüze
+services[2].name: Dosya değerlendirme
+services[2].durationMinutes: 60
+services[2].description: Dosya değerlendirme için önceden planlanan birebir randevu.
+services[2].appointmentMode: Online
+experience.years: 2
+experience.credentialSummary: Hukuk lisans eğitimi ve mesleki yetkinlik
+languages[0]: Türkçe
+languages[1]: İngilizce
+appointmentSettings.defaultDurationMinutes: 45
+appointmentSettings.minimumNoticeHours: 24
+appointmentSettings.cancellationNoticeHours: 4
+appointmentSettings.autoApproveRequests: False
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 09:30
+weeklyAvailability[0].end: 18:00
+weeklyAvailability[1].day: […kısaltıldı]
+
+[4] Kaynak: 728_profiles.json, $.profiles[476]
+profileCode: DB-GNEFTBDD
+synthetic: True
+profileType: individual
+displayName: Defne Acar
+professionalName: Defne Acar
+sector: Hukuk ve Mali Hizmetler
+occupation: Avukat
+headline: Hukuki ön görüşme ve dosya değerlendirmesi
+location.country: Türkiye
+location.city: Konya
+location.district: Selçuklu
+location.serviceArea: Selçuklu / online
+location.exactAddressPublic: False
+serviceModes[0]: Yüz yüze
+serviceModes[1]: Online
+services[0].name: Dosya değerlendirme
+services[0].durationMinutes: 45
+services[0].description: Dosya değerlendirme için önceden planlanan birebir randevu.
+services[0].appointmentMode: Online
+services[1].name: Hukuki ön görüşme
+services[1].durationMinutes: 45
+services[1].description: Hukuki ön görüşme için önceden planlanan birebir randevu.
+services[1].appointmentMode: Online
+experience.years: 3
+experience.credentialSummary: Hukuk lisans eğitimi ve mesleki yetkinlik
+languages[0]: Türkçe
+languages[1]: İngilizce
+appointmentSettings.defaultDurationMinutes: 45
+appointmentSettings.minimumNoticeHours: 24
+appointmentSettings.cancellationNoticeHours: 6
+appointmentSettings.autoApproveRequests: False
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 09:00
+weeklyAvailability[0].end: 17:00
+weeklyAvailability[1].day: Salı
+weeklyAvailability […kısaltıldı]"
+111,Zor,728_profiles.json veri setinde profillerin IBAN bilgileri hangi şema alanında saklanır?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,728_profiles.json ($.profiles[395]); 728_profiles.json ($.profiles[396]); 728_profiles.json ($.profiles[399]); 728_profiles.json ($.sourceReference),42.29,"[1] Kaynak: 728_profiles.json, $.profiles[395]
+profileCode: DB-D44RAXGA
+synthetic: True
+profileType: individual
+displayName: İlayda Aksoy
+professionalName: İlayda Aksoy
+sector: Teknoloji ve Yazılım
+occupation: Veri Bilimi Danışmanı
+headline: Veri analitiği ve makine öğrenmesi proje danışmanlığı
+location.country: Türkiye
+location.city: Kocaeli
+location.district: Kartepe
+location.serviceArea: Türkiye geneli (online)
+location.exactAddressPublic: False
+serviceModes[0]: Online
+services[0].name: Proje keşif görüşmesi
+services[0].durationMinutes: 60
+services[0].appointmentMode: Online
+services[1].name: Veri stratejisi görüşmesi
+services[1].durationMinutes: 90
+services[1].appointmentMode: Online
+services[2].name: Model değerlendirme
+services[2].durationMinutes: 90
+services[2].description: Model değerlendirme için önceden planlanan birebir randevu.
+services[2].appointmentMode: Online
+experience.years: 8
+experience.credentialSummary: Veri bilimi alanında eğitim ve deneyim
+languages[0]: Türkçe
+appointmentSettings.defaultDurationMinutes: 60
+appointmentSettings.minimumNoticeHours: 24
+appointmentSettings.cancellationNoticeHours: 12
+appointmentSettings.autoApproveRequests: True
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 09:00
+weeklyAvailability[0].end: 17:00
+weeklyAvailability[1].day: Salı
+weeklyAvailability[1].active: True
+weeklyAvailability[1].start: 09:00
+weeklyAvailability[1].end: 17:00
+weeklyAvailability[2].day: Çarşamba
+weeklyAvailability[2].active: […kısaltıldı]
+
+[2] Kaynak: 728_profiles.json, $.profiles[396]
+profileCode: DB-2MA65X8Z
+synthetic: True
+profileType: individual
+displayName: Beyza Aslan
+professionalName: Beyza Aslan
+sector: Teknoloji ve Yazılım
+occupation: Veri Bilimi Danışmanı
+headline: Veri analitiği ve makine öğrenmesi proje danışmanlığı
+location.country: Türkiye
+location.city: İstanbul
+location.district: Beylikdüzü
+location.serviceArea: Türkiye geneli (online)
+location.exactAddressPublic: False
+serviceModes[0]: Online
+services[0].name: Proje keşif görüşmesi
+services[0].durationMinutes: 60
+services[0].appointmentMode: Online
+services[1].name: Veri stratejisi görüşmesi
+services[1].durationMinutes: 45
+services[1].appointmentMode: Online
+experience.years: 13
+experience.credentialSummary: Veri bilimi alanında eğitim ve deneyim
+languages[0]: Türkçe
+appointmentSettings.defaultDurationMinutes: 45
+appointmentSettings.minimumNoticeHours: 6
+appointmentSettings.cancellationNoticeHours: 24
+appointmentSettings.autoApproveRequests: False
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 09:00
+weeklyAvailability[0].end: 17:00
+weeklyAvailability[1].day: Salı
+weeklyAvailability[1].active: True
+weeklyAvailability[1].start: 09:00
+weeklyAvailability[1].end: 17:00
+weeklyAvailability[2].day: Çarşamba
+weeklyAvailability[2].active: True
+weeklyAvailability[2].start: 09:00
+weeklyAvailability[2].end: 17:00
+weeklyAvailability[3].day: Perşembe
+weeklyAvailability[3].active: True
+weeklyAvailability[3].start: 09:00
+weeklyAvailability[3].end: […kısaltıldı]
+
+[3] Kaynak: 728_profiles.json, $.profiles[399]
+profileCode: DB-G6PCW7U9
+synthetic: True
+profileType: individual
+displayName: Ahmet Sezer
+professionalName: Ahmet Sezer
+sector: Teknoloji ve Yazılım
+occupation: Veri Bilimi Danışmanı
+headline: Veri analitiği ve makine öğrenmesi proje danışmanlığı
+location.country: Türkiye
+location.city: İstanbul
+location.district: Kadıköy
+location.serviceArea: Türkiye geneli (online)
+location.exactAddressPublic: False
+serviceModes[0]: Online
+services[0].name: Veri stratejisi görüşmesi
+services[0].durationMinutes: 90
+services[0].appointmentMode: Online
+services[1].name: Model değerlendirme
+services[1].durationMinutes: 45
+services[1].description: Model değerlendirme için önceden planlanan birebir randevu.
+services[1].appointmentMode: Online
+experience.years: 6
+experience.credentialSummary: Veri bilimi alanında eğitim ve deneyim
+languages[0]: Türkçe
+appointmentSettings.defaultDurationMinutes: 45
+appointmentSettings.minimumNoticeHours: 24
+appointmentSettings.cancellationNoticeHours: 6
+appointmentSettings.autoApproveRequests: True
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 09:30
+weeklyAvailability[0].end: 18:00
+weeklyAvailability[1].day: Salı
+weeklyAvailability[1].active: True
+weeklyAvailability[1].start: 09:30
+weeklyAvailability[1].end: 18:00
+weeklyAvailability[2].day: Çarşamba
+weeklyAvailability[2].active: True
+weeklyAvailability[2].start: 09:30
+weeklyAvailability[2].end: 18:00
+weeklyAvailability[3].day: […kısaltıldı]
+
+[4] Kaynak: 728_profiles.json, $.sourceReference
+publicProfileUrl: https://datebind.com/tr/public-profile/DB-56GYXCDN
+dateBindSite: https://datebind.com/
+publicProfileUrl: https://datebind.com/tr/public-profile/DB-56GYXCDN
+dateBindSite: https://datebind.com/
+note: Public profile page is JavaScript-rendered. Dataset is a realistic synthetic superset designed for DateBind demo/test population and is not a list of verified real people or businesses."
+112,Kolay,Summer School Foundry Local planında Kubernetes kurulumu hangi adımda anlatılır?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,Summer School Foundry Local Plan.docx (bölüm 5); Summer School Foundry Local Plan.docx (bölüm 3); Summer School Foundry Local Plan.docx (bölüm 2); Summer School Foundry Local Plan.docx (bölüm 8),57.01,"[1] Kaynak: Summer School Foundry Local Plan.docx, bölüm 5
+Phase 1 (Weeks 1–2): Foundational Learning
+Objectives: Build a strong conceptual foundation in RAG and local AI tools. By end of Week 2, students should understand how RAG works and be comfortable with the basic technologies and development environment. They’ll have Foundry Local installed and tested on their laptops (both Windows & macOS), a sample SQLite database created, and perhaps small test programs run (embedding generation and vector similarity search).
+Week 1: RAG Concept & Local AI Setup
+Topics & Activities:
+Intro to RAG (Retrieval-Augmented Generation): Start by explaining the problem that RAG solves. Use simple examples: ask a general LLM about a specific domain question (likely gets it wrong), then explain how RAG can incorporate external knowledge to improve answers. Cover RAG’s “retrieve, augment, generate” steps and the resulting benefits (more accurate answers, reduced hallucinations). [azurefeeds.com]
+Resource: Microsoft Tech Community blog post “Building Your First Local RAG Application with Foundry Local” – read the introduction and “What is RAG” section for an accessible overview (community content). [azurefeeds.com]
+Exercise: Q&A role-play: Provide a short document or knowledge base (1 page) and have students simulate RAG manually – one acts as the “retriever” (finding the relevant paragraph), another as the “LLM” (formulating an answer using that info). This illustrates how adding context helps answer questions.
+Understanding Foundry Local & […kısaltıldı]
+
+[2] Kaynak: Summer School Foundry Local Plan.docx, bölüm 3
+Project Overview & Key Technologies
+Before diving into the weekly plan, let’s clarify the project and its components:
+Project Aim: Build a local document Q&A assistant – a simple chatbot that runs entirely on a student’s computer. It uses Retrieval-Augmented Generation (RAG) to answer user questions by retrieving relevant content from a local knowledge base of documents and feeding it to a local LLM for answer generation. This results in fewer hallucinations and more accurate, source-grounded answers. The assistant can run offline (no internet needed) via Microsoft Foundry Local, which provides an on-device LLM runtime. [azurefeeds.com]
+Foundry Local: What is it? Foundry Local is an end-to-end local AI solution that provides a lightweight runtime and SDK for running large language models completely on a user’s device, with a curated catalog of optimized models. No cloud account or GPU is required – Foundry Local automatically downloads & manages models and runs inference with CPU/NPU acceleration, so apps can deliver local, offline AI with zero network calls. This is key to our project, as it lets students experiment with an LLM (e.g. a smaller GPT variant) locally. [learn.microsoft.com] [azurefeeds.com]
+Retrieval-Augmented Generation (RAG): RAG is an AI design pattern where you Retrieve relevant information from a document set, Augment the model’s input prompt with that info as context, then have the model Generate an answer. The model’s responses are thus grounded in your […kısaltıldı]
+
+[3] Kaynak: Summer School Foundry Local Plan.docx, bölüm 2
+The goal is to guide beginner computer science students through a full-time, one-month summer program in which they build a local Q&A/knowledge assistant using Microsoft Foundry Local for offline model inference and the RAG (Retrieval-Augmented Generation) pattern. The final project is inspired by the Microsoft Tech Community example of a local RAG support agent that answers questions from documents with zero Internet dependency. By the program’s end, each student team will have a working offline Q&A chatbot that can answer questions about a small document collection (e.g. course notes, manuals, FAQs) by retrieving information locally and integrating it into a large language model’s responses. [azurefeeds.com]
+Program Structure: We divide the month into three phases, each focusing on specific skills and deliverables:
+Phase 1 – Foundational Learning (Weeks 1–2): Introduction to RAG concepts, Foundry Local, embeddings, vector search, SQLite, and prompt engineering fundamentals.
+Phase 2 – Project Implementation (Weeks 3–4): Hands-on development of the RAG application, from data ingestion and retrieval pipeline to app integration with the on-device LLM (Large Language Model).
+Phase 3 – Testing & Documentation (Week 5, and optionally Week 6): System testing and evaluation, performance tuning, and preparing project documentation and final presentations.
+Below, each phase is broken down by week with learning objectives, resources, hands-on exercises, and milestones. The schedule is […kısaltıldı]
+
+[4] Kaynak: Summer School Foundry Local Plan.docx, bölüm 8
+Throughout the program, emphasis is on hands-on learning reinforced by curated resources. By following Microsoft’s official guidance (installation instructions, tutorials) combined with practical coding exercises, students gradually build confidence and competence in each component before integrating them into the final project. By the end of the month, they will have a functional, offline AI Q&A system – and a solid understanding of how modern AI applications can be built by combining retrieval (search) and generation (LLM) capabilities and running them locally.
+This plan ensures that the core topics – Foundry Local, RAG, embeddings, vector search, data management, and prompt engineering – are introduced early and then applied in a stepwise fashion, giving beginners the knowledge and experience to successfully implement and showcase their first local RAG application."
+113,Orta,Summer School Foundry Local planında projenin Kanban panosu hangi araçla yönetilmektedir?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,Summer School Foundry Local Plan.docx (bölüm 5); Summer School Foundry Local Plan.docx (bölüm 3); Summer School Foundry Local Plan.docx (bölüm 2); Summer School Foundry Local Plan.docx (bölüm 8),72.19,"[1] Kaynak: Summer School Foundry Local Plan.docx, bölüm 5
+Phase 1 (Weeks 1–2): Foundational Learning
+Objectives: Build a strong conceptual foundation in RAG and local AI tools. By end of Week 2, students should understand how RAG works and be comfortable with the basic technologies and development environment. They’ll have Foundry Local installed and tested on their laptops (both Windows & macOS), a sample SQLite database created, and perhaps small test programs run (embedding generation and vector similarity search).
+Week 1: RAG Concept & Local AI Setup
+Topics & Activities:
+Intro to RAG (Retrieval-Augmented Generation): Start by explaining the problem that RAG solves. Use simple examples: ask a general LLM about a specific domain question (likely gets it wrong), then explain how RAG can incorporate external knowledge to improve answers. Cover RAG’s “retrieve, augment, generate” steps and the resulting benefits (more accurate answers, reduced hallucinations). [azurefeeds.com]
+Resource: Microsoft Tech Community blog post “Building Your First Local RAG Application with Foundry Local” – read the introduction and “What is RAG” section for an accessible overview (community content). [azurefeeds.com]
+Exercise: Q&A role-play: Provide a short document or knowledge base (1 page) and have students simulate RAG manually – one acts as the “retriever” (finding the relevant paragraph), another as the “LLM” (formulating an answer using that info). This illustrates how adding context helps answer questions.
+Understanding Foundry Local & […kısaltıldı]
+
+[2] Kaynak: Summer School Foundry Local Plan.docx, bölüm 3
+Project Overview & Key Technologies
+Before diving into the weekly plan, let’s clarify the project and its components:
+Project Aim: Build a local document Q&A assistant – a simple chatbot that runs entirely on a student’s computer. It uses Retrieval-Augmented Generation (RAG) to answer user questions by retrieving relevant content from a local knowledge base of documents and feeding it to a local LLM for answer generation. This results in fewer hallucinations and more accurate, source-grounded answers. The assistant can run offline (no internet needed) via Microsoft Foundry Local, which provides an on-device LLM runtime. [azurefeeds.com]
+Foundry Local: What is it? Foundry Local is an end-to-end local AI solution that provides a lightweight runtime and SDK for running large language models completely on a user’s device, with a curated catalog of optimized models. No cloud account or GPU is required – Foundry Local automatically downloads & manages models and runs inference with CPU/NPU acceleration, so apps can deliver local, offline AI with zero network calls. This is key to our project, as it lets students experiment with an LLM (e.g. a smaller GPT variant) locally. [learn.microsoft.com] [azurefeeds.com]
+Retrieval-Augmented Generation (RAG): RAG is an AI design pattern where you Retrieve relevant information from a document set, Augment the model’s input prompt with that info as context, then have the model Generate an answer. The model’s responses are thus grounded in your […kısaltıldı]
+
+[3] Kaynak: Summer School Foundry Local Plan.docx, bölüm 2
+The goal is to guide beginner computer science students through a full-time, one-month summer program in which they build a local Q&A/knowledge assistant using Microsoft Foundry Local for offline model inference and the RAG (Retrieval-Augmented Generation) pattern. The final project is inspired by the Microsoft Tech Community example of a local RAG support agent that answers questions from documents with zero Internet dependency. By the program’s end, each student team will have a working offline Q&A chatbot that can answer questions about a small document collection (e.g. course notes, manuals, FAQs) by retrieving information locally and integrating it into a large language model’s responses. [azurefeeds.com]
+Program Structure: We divide the month into three phases, each focusing on specific skills and deliverables:
+Phase 1 – Foundational Learning (Weeks 1–2): Introduction to RAG concepts, Foundry Local, embeddings, vector search, SQLite, and prompt engineering fundamentals.
+Phase 2 – Project Implementation (Weeks 3–4): Hands-on development of the RAG application, from data ingestion and retrieval pipeline to app integration with the on-device LLM (Large Language Model).
+Phase 3 – Testing & Documentation (Week 5, and optionally Week 6): System testing and evaluation, performance tuning, and preparing project documentation and final presentations.
+Below, each phase is broken down by week with learning objectives, resources, hands-on exercises, and milestones. The schedule is […kısaltıldı]
+
+[4] Kaynak: Summer School Foundry Local Plan.docx, bölüm 8
+Throughout the program, emphasis is on hands-on learning reinforced by curated resources. By following Microsoft’s official guidance (installation instructions, tutorials) combined with practical coding exercises, students gradually build confidence and competence in each component before integrating them into the final project. By the end of the month, they will have a functional, offline AI Q&A system – and a solid understanding of how modern AI applications can be built by combining retrieval (search) and generation (LLM) capabilities and running them locally.
+This plan ensures that the core topics – Foundry Local, RAG, embeddings, vector search, data management, and prompt engineering – are introduced early and then applied in a stepwise fashion, giving beginners the knowledge and experience to successfully implement and showcase their first local RAG application."
+114,Zor,Unutulmuş Parşömen hikayesinde Alis'in ailesi hangi şehirde yaşamaktadır?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,test1.txt (paragraf 1); test1.txt (paragraf 8); test1.txt (paragraf 2); test1.txt (paragraf 7),24.89,"[1] Kaynak: test1.txt, paragraf 1
+Unutulmuş Parşömen
+Zamanın durduğu, gökyüzünün ise her daim mor bir alacakaranlığa büründüğü Eloria kentinde, devasa bir kütüphane yükselirdi: Gümüş Yaprak. Bu kütüphane, sadece kitapların değil, krallıkların kaderini değiştiren sırların da saklandığı bir labirent gibiydi.
+
+[2] Kaynak: test1.txt, paragraf 8
+Alis, yıllardır koruyucusu olarak gördüğü Usta Magnus’un aslında neyin peşinde olduğunu, bu defterin neden saklandığını ve en önemlisi; geleceği değiştirip değiştiremeyeceğini çözmek zorundaydı. Zamanı azalıyordu ve ilk saat kulesinin çanları çalmaya başlamıştı...
+
+[3] Kaynak: test1.txt, paragraf 2
+Alis, bu kütüphanede çalışan genç bir çıraktı. Görevi basitti: Yıpranmış sayfaları onarmak, rafların tozunu almak ve asla ama asla ""Yasaklı Kanat"" olarak bilinen, kütüphanenin en alt katındaki demir kapıdan içeri adım atmamak. Ancak merak, Alis’in ruhuna bir kere işlemişti.
+
+[4] Kaynak: test1.txt, paragraf 7
+Alis nefesini tuttu. Bu yazı, kütüphanenin baş yöneticisi ve kendisinin de akıl hocası olan Usta Magnus’un el yazısıydı. Ama gizem burada bitmiyordu. Sayfa yavaşça çevrildi ve bu kez Alis’in kendi ismi belirdi. İsminin hemen altında ise yarının tarihi ve kütüphanenin büyük bir yangınla kül olacağını gösteren küçük, hareketli bir illüstrasyon vardı."
+115,Orta,Oda No: 304 hikayesinde anlatıcının mesleği nedir?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,test2.txt (paragraf 1); 728_profiles.json ($.profiles[314]); 728_profiles.json ($.profiles[500]); 728_profiles.json ($.profiles[502]),42.5,"[1] Kaynak: test2.txt, paragraf 1
+Oda No: 304 ve Sarı Yapraklar
+Her şey, İstanbul’un o meşhur, yağmurlu kasım sabahlarından birinde başladı. İstiklal Caddesi’nin ara sokaklarında, zamanın teğet geçtiği o eski apartmanlardan birinde küçük bir daire kiralamıştım: Oda No: 304. Ev sahibi, antikacı bir amcaydı ve evi bana teslim ederken tek bir şey söylemişti: ""Eşyaların bazıları bir önceki kiracıdan kaldı, istersen atabilirsin.""
+
+[2] Kaynak: 728_profiles.json, $.profiles[314]
+profileCode: DB-TEGJDSPB
+synthetic: True
+profileType: individual
+displayName: Pınar Yıldız
+professionalName: Pınar Yıldız
+sector: Dil Eğitimi
+occupation: İngilizce Öğretmeni
+headline: Birebir İngilizce konuşma ve akademik destek
+location.country: Türkiye
+location.city: Ankara
+location.district: Yenimahalle
+location.serviceArea: Türkiye geneli (online)
+location.exactAddressPublic: False
+serviceModes[0]: Online
+services[0].name: Konuşma dersi
+services[0].durationMinutes: 45
+services[0].description: Konuşma dersi için önceden planlanan birebir randevu.
+services[0].appointmentMode: Online
+services[1].name: Okul destek dersi
+services[1].durationMinutes: 45
+services[1].description: Okul destek dersi için önceden planlanan birebir randevu.
+services[1].appointmentMode: Online
+experience.years: 5
+experience.credentialSummary: İngilizce öğretmenliği veya dil eğitimi
+languages[0]: Türkçe
+appointmentSettings.defaultDurationMinutes: 45
+appointmentSettings.minimumNoticeHours: 4
+appointmentSettings.cancellationNoticeHours: 24
+appointmentSettings.autoApproveRequests: False
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 17:00
+weeklyAvailability[0].end: 21:00
+weeklyAvailability[1].day: Salı
+weeklyAvailability[1].active: True
+weeklyAvailability[1].start: 17:00
+weeklyAvailability[1].end: 21:00
+weeklyAvailability[2].day: Çarşamba
+weeklyAvailability[2].active: True
+weeklyAvailability[2].start: 17:00
+weeklyAvailability[2].end: […kısaltıldı]
+
+[3] Kaynak: 728_profiles.json, $.profiles[500]
+profileCode: DB-3ZRNBR5H
+synthetic: True
+profileType: individual
+displayName: Umut Özer
+professionalName: Umut Özer
+sector: Hukuk ve Mali Hizmetler
+occupation: Gayrimenkul Danışmanı
+headline: Satış, kiralama ve portföy görüşmeleri
+location.country: Türkiye
+location.city: Bursa
+location.district: Yıldırım
+location.serviceArea: Yıldırım, Bursa
+location.exactAddressPublic: False
+serviceModes[0]: Yüz yüze
+services[0].name: Portföy tanışma
+services[0].durationMinutes: 60
+services[0].description: Portföy tanışma için önceden planlanan birebir randevu.
+services[0].appointmentMode: Yüz yüze
+services[1].name: Mülk değerlendirme
+services[1].durationMinutes: 30
+services[1].description: Mülk değerlendirme için önceden planlanan birebir randevu.
+services[1].appointmentMode: Yüz yüze
+experience.years: 16
+experience.credentialSummary: Gayrimenkul danışmanlığı deneyimi
+languages[0]: Türkçe
+appointmentSettings.defaultDurationMinutes: 30
+appointmentSettings.minimumNoticeHours: 24
+appointmentSettings.cancellationNoticeHours: 24
+appointmentSettings.autoApproveRequests: True
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 10:00
+weeklyAvailability[0].end: 18:30
+weeklyAvailability[1].day: Salı
+weeklyAvailability[1].active: True
+weeklyAvailability[1].start: 10:00
+weeklyAvailability[1].end: 18:30
+weeklyAvailability[2].day: Çarşamba
+weeklyAvailability[2].active: True
+weeklyAvailability[2].start: 10:00
+weeklyAvailability[2].end: […kısaltıldı]
+
+[4] Kaynak: 728_profiles.json, $.profiles[502]
+profileCode: DB-PXXVR69C
+synthetic: True
+profileType: individual
+displayName: Ahmet Özdemir
+professionalName: Ahmet Özdemir
+sector: Hukuk ve Mali Hizmetler
+occupation: Gayrimenkul Danışmanı
+headline: Satış, kiralama ve portföy görüşmeleri
+location.country: Türkiye
+location.city: Adana
+location.district: Çukurova
+location.serviceArea: Çukurova, Adana
+location.exactAddressPublic: False
+serviceModes[0]: Yüz yüze
+services[0].name: Yer gösterme randevusu
+services[0].durationMinutes: 30
+services[0].appointmentMode: Yüz yüze
+services[1].name: Mülk değerlendirme
+services[1].durationMinutes: 60
+services[1].description: Mülk değerlendirme için önceden planlanan birebir randevu.
+services[1].appointmentMode: Yüz yüze
+experience.years: 7
+experience.credentialSummary: Gayrimenkul danışmanlığı deneyimi
+languages[0]: Türkçe
+languages[1]: İngilizce
+appointmentSettings.defaultDurationMinutes: 30
+appointmentSettings.minimumNoticeHours: 12
+appointmentSettings.cancellationNoticeHours: 4
+appointmentSettings.autoApproveRequests: True
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 09:30
+weeklyAvailability[0].end: 18:00
+weeklyAvailability[1].day: Salı
+weeklyAvailability[1].active: True
+weeklyAvailability[1].start: 09:30
+weeklyAvailability[1].end: 18:00
+weeklyAvailability[2].day: Çarşamba
+weeklyAvailability[2].active: True
+weeklyAvailability[2].start: 09:30
+weeklyAvailability[2].end: 18:00
+weeklyAvailability[3].day: […kısaltıldı]"
