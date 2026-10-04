@@ -22,6 +22,7 @@ PR olarak ele alınır.
 | 13 | **Ölçüm altyapısı körlüğü**: tam eval `data_engine`/`code_interpreter` davranışını HİÇ çalıştırmıyor | **Yapısal sınırlama** — her `data_engine` değişikliğinde hatırlanmalı; kapatılacak bir bug değil |
 | 14 | "Bulunamadı" mesajı iki farklı durumu birleştiriyor: *bilgi yok* ile *şu an işlenemedi* | Açık — **kullanıcı güvenini etkileyen netlik sorunu**, düşük öncelikli değil |
 | 15 | Servis süreç yönetimi: OOM sonrası Foundry bozuk kalıyor, toparlanma askıda kalabiliyor | Açık — **işletimsel dayanıklılık**, madde 11'den ayrı problem sınıfı |
+| 16 | Semantik doğrulayıcının LLM çağrısı çökünce sonuç doğrulanmış gibi `[KESİN HESAPLAMA SONUCU]` olarak gidiyor | **A (görünürlük) uygulandı**; B (davranış) ölçüme bağlı — bkz. [implementation_plan_validator_failure.md](implementation_plan_validator_failure.md) |
 
 ## Madde 5 — Meta-chunk boost'u
 Sabit `+0.35` meta-chunk boost'u sorgu tipine bakmaksızın uygulanıyor ve RRF
@@ -623,3 +624,22 @@ Bu madde muhtemelen bir **process supervisor** tasarımı gerektiriyor:
 
 `recover.sh`'ın 30 saniyelik tavanı bunun ilk parçası sayılabilir; üretime
 taşınacaksa bu üç bileşenle birlikte tasarlanmalı.
+
+## Madde 16 — Semantik doğrulayıcının sessiz çökmesi
+
+`code_interpreter._semantic_check` LLM çağrısı istisna fırlatınca `None`
+("itiraz yok") dönüyordu. Doğrulanmamış sonuç `[KESİN HESAPLAMA SONUCU]`
+etiketiyle synthesizer'a gidiyor ve log'da "TAMAM" ile aynı izi bırakıyordu.
+Ayrıca son denemenin sonucu tasarım gereği hiç doğrulanmıyor.
+
+Faithfulness bunu yakalayamaz: yanlış sayı context'te `KESİN` olarak durduğu
+için cevap onu sadakatle tekrarlar ve F=5 alır. Ground truth'a karşı doğruluk
+gerekir.
+
+**A aşaması (davranış değişmez):** dönen sonuca `validation_status`
+(`ok` / `objection` / `failed` / `not_run`) eklendi ve data_engine → retrieval
+chunk'ına kadar taşındı. Çökme `verbose`'dan bağımsız
+`DOGRULAYICI CALISMADI` satırıyla log'a yazılıyor. **B** (`failed` →
+`[DOĞRULANAMAYAN SONUÇ]` mı, tek retry mı) ölçüm sonrasında kararlaştırılacak.
+Plan, ölçüm ve okuma kuralı:
+[implementation_plan_validator_failure.md](implementation_plan_validator_failure.md).

@@ -612,6 +612,10 @@ def retrieve(query: str, db_path: str = DB_PATH, model: str = EMBED_MODEL,
                 "raw_result": agg_result.get("result", None),
                 "data_points": agg_result.get("data_points", agg_result.get("result", None)),
                 "operation": agg_result.get("operation", ""),
+                # Semantik doğrulayıcının durumu (ok/objection/failed/not_run);
+                # etiket seçimini etkilemez, eval'de ölçülsün diye taşınır.
+                "validation_status": agg_result.get("validation_status"),
+                "validation_error": agg_result.get("validation_error"),
                 "route": agg_result.get("route", route),
                 "synthesizer_instruction": (SERVICE_FAILURE_INSTRUCTION
                                             if agg_result.get("service_failure")

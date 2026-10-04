@@ -590,8 +590,28 @@ def code_interpreter_with_retry(
         # etiketlerinin ters atanmasi, istenen filtrenin uygulanmamasi gibi).
         # Bu kontrol veri setinden bagimsizdir: yalnizca soru + kod + sonuc
         # uclusunun tutarliligina bakar.
+        #
+        # validation_status, donen sonucun dogrulama durumunu kaydeder:
+        # ok / objection / failed / not_run. Dogrulayicinin LLM cagrisi
+        # patlarsa sonuc eskiden oldugu gibi dogrulanmis sayilip doner; "TAMAM"
+        # ile ayni izi biraktigi icin bu hic gorulmuyordu. Davranis (henuz)
+        # degismiyor, yalnizca olculebilir hale geliyor
+        # (docs/implementation_plan_validator_failure.md, A asamasi).
+        validation_status = "not_run"
+        validation_error = None
         if self_check and attempt < max_retries:
-            issue = _semantic_check(question, code, exec_result, llm, verbose=verbose)
+            check_meta: Dict[str, Any] = {}
+            issue = _semantic_check(question, code, exec_result, llm, verbose=verbose,
+                                    info=check_meta)
+            if check_meta.get("error"):
+                validation_status = "failed"
+                validation_error = check_meta["error"]
+                # verbose'dan bagimsiz: olcumun kaynagi bu satir.
+                print(f"[CodeInterpreter] DOGRULAYICI CALISMADI (deneme {attempt}/{max_retries}): "
+                      f"{validation_error} | soru=\"{question[:60]}...\" "
+                      f"-> sonuc dogrulanmadan donuyor")
+            else:
+                validation_status = "ok"
             if issue:
                 history.append((code, f"Kod calisti ama sonuc soruyla tutarsiz: {issue}"))
                 prompt = build_correction_prompt(question, df, history, repeated=repeated)
@@ -610,6 +630,8 @@ def code_interpreter_with_retry(
                                        "code": code, "attempts": attempt, "error": None,
                                        "warning": issue,
                                        "validation_warning": True,
+                                       "validation_status": "objection",
+                                       "validation_error": None,
                                        "empty_result": is_no_match_result(
                                            exec_result,
                                            exec_meta.get("empty_filter", False))}
@@ -629,6 +651,8 @@ def code_interpreter_with_retry(
             "attempts": attempt,
             "error": None,
             "empty_result": empty,
+            "validation_status": validation_status,
+            "validation_error": validation_error,
         }
 
     # Dogrulama uyarili ama calisan bir sonuc varsa onu dondur (fallback'e dusme).
@@ -650,13 +674,18 @@ def code_interpreter_with_retry(
 
 
 def _semantic_check(question: str, code: str, result: Any, llm: Any,
-                    verbose: bool = True) -> Optional[str]:
+                    verbose: bool = True,
+                    info: Optional[Dict[str, Any]] = None) -> Optional[str]:
     """
     Hatasiz calisan kodun soruyu DOGRU yorumlayip yorumlamadigini denetler.
     Sorun yoksa None, varsa kisa bir aciklama doner.
 
     Muhafazakar tasarim: model kararsizsa None doner (dogru sonucu bosa
     harcamamak icin); yalnizca cevap 'SORUN:' ile basliyorsa itiraz sayilir.
+
+    `info` verilirse (safe_execute'taki gibi) LLM cagrisi patladiginda
+    info["error"] doldurulur. Donus yine None'dir; cagiran taraf "itiraz yok"
+    ile "denetlenemedi"yi bu alandan ayirt eder.
     """
     preview = str(result)
     if len(preview) > 1200:
@@ -684,7 +713,9 @@ Somut ve kesin bir hata varsa "SORUN: <tek cumle>" yaz. Emin degilsen "TAMAM" ya
 Cevap:"""
     try:
         verdict = call_llm_text(llm, prompt).strip()
-    except Exception:
+    except Exception as e:
+        if info is not None:
+            info["error"] = f"{type(e).__name__}: {str(e)[:150]}"
         return None
 
     if verdict.upper().startswith("SORUN"):

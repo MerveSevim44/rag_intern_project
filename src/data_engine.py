@@ -679,6 +679,10 @@ class TabularDataEngine:
                         "empty_result": bool(exec_info.get("empty_result")),
                         "unverified_result": unverified,
                         "validation_warning": exec_info.get("warning"),
+                        # Yalnizca olcum icin tasinir; unverified hesabina
+                        # girmez (validator A asamasi, davranis degismez).
+                        "validation_status": exec_info.get("validation_status"),
+                        "validation_error": exec_info.get("validation_error"),
                         "code": exec_info.get("code", ""),
                         "attempts": exec_info.get("attempts", 1),
                         "source_file": source_name,
