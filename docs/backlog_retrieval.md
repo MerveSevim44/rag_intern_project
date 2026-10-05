@@ -22,8 +22,9 @@ PR olarak ele alınır.
 | 13 | **Ölçüm altyapısı körlüğü**: tam eval `data_engine`/`code_interpreter` davranışını HİÇ çalıştırmıyor | **Yapısal sınırlama** — her `data_engine` değişikliğinde hatırlanmalı; kapatılacak bir bug değil |
 | 14 | "Bulunamadı" mesajı iki farklı durumu birleştiriyor: *bilgi yok* ile *şu an işlenemedi* | Açık — **kullanıcı güvenini etkileyen netlik sorunu**, düşük öncelikli değil |
 | 15 | Servis süreç yönetimi: OOM sonrası Foundry bozuk kalıyor, toparlanma askıda kalabiliyor | Açık — **işletimsel dayanıklılık**, madde 11'den ayrı problem sınıfı |
-| 16 | Semantik doğrulayıcının LLM çağrısı çökünce sonuç doğrulanmış gibi `[KESİN HESAPLAMA SONUCU]` olarak gidiyor | **A (görünürlük) uygulandı**; B (davranış) ölçüme bağlı — bkz. [implementation_plan_validator_failure.md](implementation_plan_validator_failure.md) |
+| 16 | Semantik doğrulayıcının LLM çağrısı çökünce sonuç doğrulanmış gibi `[KESİN HESAPLAMA SONUCU]` olarak gidiyor | **A uygulandı ve ölçüldü** — izole koşuda `failed` 0/26; B düşük öncelik (gözlenmiş vaka yok, asıl sorun madde 18). Bkz. [implementation_plan_validator_failure.md](implementation_plan_validator_failure.md) §9 |
 | 17 | `test_visualization::test_data_engine_end_to_end_visualization` kırık: rule engine karşılaştırma sorusunu tek sektör sayımına eşliyor | Açık — **bilinen kırık test**, `10f5efc` öncesinden beri; ne zaman başladığı bilinmiyor |
+| 18 | Semantik doğrulayıcı gevşek: "emin değilsen TAMAM" yanlış hesapları `ok` ile geçiriyor | Açık — **4 deterministik test vakası** (#44, #51, #57, #107); madde 16'nın asıl sorunu |
 
 ## Madde 5 — Meta-chunk boost'u
 Sabit `+0.35` meta-chunk boost'u sorgu tipine bakmaksızın uygulanıyor ve RRF
@@ -667,3 +668,40 @@ oranı sorulmuş, bir sektörün toplam profil sayısı veriliyor.
 
 Kural: tam paket koşulduğunda bu tek hata beklenen durumdur; başka bir
 kırmızı test yeni bir regresyondur. Düzeltilince bu madde kapatılmalı.
+
+## Madde 18 — Semantik doğrulayıcının gevşekliği ("emin değilsen TAMAM")
+
+Madde 16'nın A ölçümünde ortaya çıktı
+([implementation_plan_validator_failure.md](implementation_plan_validator_failure.md) §9,
+veri: [experiments/validator_A/](../experiments/validator_A/PROVENANCE.md)).
+
+Yanlış hesaplanıp `[KESİN HESAPLAMA SONUCU]` olarak giden dört cevabın dördü
+de `validation_status = ok`: doğrulayıcı **çalıştı ve onayladı**. Çökme
+(madde 16) değil, kabul eşiği sorunu. `_semantic_check` prompt'u bilinçli
+olarak muhafazakâr: *"Somut ve kesin bir hata varsa SORUN yaz. Emin
+değilsen TAMAM yaz."* Bu, doğru sonucu boşa harcamamak için seçilmişti
+ama aşağıdaki türleri geçiriyor:
+
+| # | Set | Hata türü | F1 | Judge F |
+|---|---|---|---|---|
+| 44 | test_2 | **Soru türü uyuşmazlığı:** kavramsal ayrım soruluyor, kod iki kolonun farkını/std'sini hesaplıyor ("-1.95 saat") | 13.3 | 5 |
+| 51 | test_2 | **Eksik sonuç:** döküm (19×32 + 3×40) isteniyor, sonuç yalnızca `true` | 13.7 | 5 |
+| 57 | test_2 | **Yanlış formül:** referans 91/22 ≈ 4.14; kod 33.09 / 1.50 üretiyor | 22.8 | 5 |
+| 107 | test_5 | **Veride olmayan kavram:** negatif soru, kod başka bir kolondan "ortalama ücret 45.12" türetiyor (FP; madde 8'de kabul edilmiş sınırlama olarak da geçiyor) | 0 | 5 |
+
+### Neden önemli
+- **Judge bunları göremez.** Yanlış sonuç context'te `KESİN` etiketiyle
+  durduğu için cevap onu sadakatle tekrarlıyor ve faithfulness 5 alıyor. Bu
+  sınıf yalnızca ground truth'a karşı doğrulukla yakalanıyor.
+- **Tekrar üretilebilir.** Üç koşuda (2026-10-03 ana koşu + 2026-10-05 iki
+  geçiş) cevap ve context bayt bayt aynı. Dört vaka, doğrulayıcıda yapılacak
+  her değişiklik için hazır regresyon seti.
+
+### Dikkat (çözüm tasarlanırken)
+- Eşiği sıkılaştırmak `objection` sayısını artırır. Düzeltme denemesi
+  tutmazsa sonuç `[DOĞRULANAMAYAN SONUÇ]` olur ve kullanıcı "bulunamadı"
+  görür. Doğru cevapları da reddetme riski var: 13 adaydan bu dördü ve
+  context'ten sapan #37/#45 dışındaki 7'si (#32, #35, #39, #42, #52, #60,
+  #108) `ok` kalmalı.
+- Ölçüm: dört vaka + yedi "kalmalı" vaka birlikte koşulmalı; tam eval bu
+  katmanı tek başına yeterince ölçmez (madde 13).

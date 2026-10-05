@@ -1,0 +1,14 @@
+id,f1_score,rouge_l,siniflandirma,faithfulness_score,answer_relevance_score,task_performance_score,alignment_score,dogrulama_gecis_1,dogrulama_gecis_2
+32,84.2,84.2,TP,5.0,5.0,5.0,5.0,ok,ok
+35,45.7,34.3,TP,5.0,5.0,5.0,5.0,ok,ok
+37,83.9,81.1,TP,2.0,5.0,3.0,5.0,ok,ok
+39,77.3,77.3,TP,5.0,5.0,5.0,5.0,ok,ok
+42,37.3,37.3,TP,5.0,5.0,5.0,5.0,ok,ok
+44,13.3,11.4,TP,5.0,4.0,5.0,5.0,ok,ok
+45,30.3,22.2,TP,1.0,2.0,2.0,5.0,ok,ok
+51,13.7,12.0,TP,5.0,5.0,5.0,5.0,ok,ok
+52,18.9,11.3,TP,5.0,5.0,4.0,5.0,ok,ok
+57,22.8,15.8,TP,5.0,2.0,2.0,4.0,ok,ok
+60,25.4,19.0,TP,5.0,5.0,5.0,5.0,not_run,not_run
+107,0.0,0.0,FP,5.0,5.0,5.0,5.0,ok,ok
+108,100.0,100.0,TN,5.0,4.0,4.0,5.0,ok,ok

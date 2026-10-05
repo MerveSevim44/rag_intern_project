@@ -1,0 +1,14 @@
+id,zorluk,soru,beklenen_kaynak,dokumanda_var_mi
+32,Kolay,"statistics bölümüne göre veri setinde toplam kaç profil (profileCount), kaç sektör (sectorCount) ve kaç meslek (occupationCount) bulunmaktadır?",728_profiles.json,Evet
+35,Kolay,publicContact alanı altında phoneVisible ve emailVisible değerleri örnek profillerde genellikle nasıl ayarlanmıştır?,728_profiles.json,Evet
+37,Orta,sectorDistribution içindeki 22 sektörün profil sayılarını bir çubuk grafikle karşılaştırdığınızda hangi üç sektör diğerlerinden (32 profil) daha fazla temsil edilmektedir?,728_profiles.json,Evet
+39,Orta,"Umut Aslan profilinde services dizisindeki hizmetlerden hangileri Online, hangileri Yüz yüze modda sunulmaktadır?",728_profiles.json,Evet
+42,Orta,Emre Korkmaz ve Umut Aslan profillerinin minimumNoticeHours ve cancellationNoticeHours değerlerini bir çubuk grafikle karşılaştırdığınızda nasıl bir fark ortaya çıkar?,728_profiles.json,Evet
+44,Orta,appointmentSettings içindeki minimumNoticeHours ile cancellationNoticeHours kavramsal olarak birbirinden nasıl ayrılmaktadır?,728_profiles.json,Evet
+45,Orta,slug alanı displayName ve profileCode alanlarından nasıl bir kurala göre oluşturulmuş görünmektedir? Örnek profil üzerinden gösterin.,728_profiles.json,Evet
+51,Zor,sectorDistribution içindeki 22 sektörün profil sayılarını gösteren bir grafik oluşturduğunuzda toplamın statistics.profileCount değeri olan 728'e eşit olup olmadığı nasıl doğrulanır?,728_profiles.json,Evet
+52,Zor,"22 sektörden 3 tanesinin (Sağlık, Spor ve Fitness, Eğitim ve Özel Ders) 40 profille diğerlerinden fazla temsil edilmesini bir dağılım grafiğinde görselleştirdiğinizde, bu dengesizliğin veri setinin sektörel analizine olası etkisi nedir?",728_profiles.json,Evet
+57,Zor,"728 profil içinde her sektördeki ortalama meslek (occupation) sayısını bir grafikle gösterdiğinizde, occupationCount/sectorCount oranı sektörler arasında nasıl bir dağılım gösterir?",728_profiles.json,Evet
+60,Zor,Profillerin deneyim yıllarını (experience.years) bir histogramla görselleştirdiğinizde veri setindeki deneyim dağılımı nasıl bir eğilim göstermektedir?,728_profiles.json,Evet
+107,Kolay,728_profiles.json veri setinde profillerin ortalama randevu ücreti kaç TL'dir?,-,Hayır
+108,Kolay,728_profiles.json veri setinde profillerin cinsiyet dağılımı nedir?,-,Hayır

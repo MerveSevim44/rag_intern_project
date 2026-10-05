@@ -115,6 +115,9 @@ sorundan etkilenmiş olabilecek **tek** satırlar:
 
 - **Ayrı çıktıya yazılır**: `evaluation/datasets/olcum_validator_A.csv`. Ana
   sonuç CSV'leri ölçüm yüzünden değişmez. Birleştirme ayrı bir karar.
+  **Sapma:** gerçekte `experiments/validator_A/` kullanıldı (repodaki deney
+  düzeni: `experiments/v7_.../results/`). Ana sonuçlar yine değişmedi;
+  bkz. bölüm 9.
 - **İki geçiş.** Madde 11'in çökme eşiği deterministik değil; tek geçişte
   `failed=0` görmek "hiç olmuyor" demek değil.
 - **Sınır, açıkça:** Bu ölçüm, **bugünkü** sıklığı izole koşulda gösterir. Eski
@@ -190,3 +193,58 @@ Mevcut test paketi (`pytest tests/`) yeşil kalmalı.
   (servis bozuk) retry işe yaramaz, `unverified` doğru olur. İzole ve geçici
   ise tek retry yeterli olabilir.
 - `not_run` (son denemenin doğrulanmaması) ayrı bir soru olarak kalır.
+
+## 9. Sonuç — A ölçümü (2026-10-05, commit `39e7801`)
+
+Veri ve koşu ayrıntısı: [experiments/validator_A/](../experiments/validator_A/PROVENANCE.md).
+
+### Plandan sapmalar
+- **Çıktı yeri:** bölüm 4'teki `evaluation/datasets/olcum_validator_A.csv`
+  yerine `experiments/validator_A/` (sorular, iki geçişin CSV'si ve log'u,
+  doğruluk tablosu). Ana sonuç CSV'leri değişmedi.
+- **Judge yeniden alınmadı** (bölüm 4 son madde): ölçüm cevapları ana
+  cevaplarla bayt bayt aynı çıktı, mevcut skorlar geçerli.
+- **Semantik benzerlik yok** (bölüm 5): Ollama kapalıydı. F1/ROUGE-L kullanıldı.
+
+### Doğrulama durumu (2 geçiş × 13 soru)
+
+| | Geçiş 1 | Geçiş 2 |
+|---|---|---|
+| ok | 12 | 12 |
+| objection | 0 | 0 |
+| **failed** | **0** | **0** |
+| not_run | 1 (#60) | 1 (#60) |
+
+- **Tam deterministik:** cevap ve context, ana koşu (2026-10-03) ve iki geçişte
+  13/13 bayt bayt aynı. #60 her seferinde 3. denemede çözülüyor, bu yüzden
+  doğrulanmıyor.
+- **Doğrulayıcı çökmesi izole koşulda hiç görülmedi** (0/26 çağrı). Bölüm 4'teki
+  sınır geçerli: madde 11'in tam koşudaki zinciri burada üretilmedi. Gerçekçi
+  sayı, `dogrulama_durumu` sütunuyla yapılacak ilk tam koşudan gelecek.
+
+### Doğruluk (bölüm 5 okuma kuralı)
+
+Yüksek judge F + düşük doğruluk veren dört satırın **dördü de `ok`**:
+
+| # | F1 | Judge F | Durum | Ne yanlış |
+|---|---|---|---|---|
+| 44 | 13.3 | 5 | ok | Kavramsal ayrım soruluyor; cevap hesaplanmış "-1.95 saat fark, std 10.90" |
+| 51 | 13.7 | 5 | ok | Referans 19×32 + 3×40 = 728 dökümü; cevap yalnızca yöntemi anlatıyor |
+| 57 | 22.8 | 5 | ok | Referans oran 91/22 ≈ 4.14; cevap 33.09 / 1.50 |
+| 107 | 0 (FP) | 5 | ok | Negatif soru; cevap "hesaplanmış" ortalama ücret 45.12 |
+
+#37 ve #45 düşük F aldı (cevap context'ten saptı); okuma kuralına göre bu
+sorunla ilgisiz. #52 ve #60'ın F1'i de düşük (18.9 / 25.4) ama cevapları
+yoruma dayalı ve referansla karşılaştırma tek başına yanlışlık göstermiyor;
+aday listesine alınmadı.
+
+### Karar için anlamı
+1. **Gözlenen yanlış hesapların nedeni çökme değil, doğrulayıcının
+   gevşekliği.** Doğrulayıcı çalıştı ve onayladı ("emin değilsen TAMAM").
+   B'nin planlanan hâli (`failed` → unverified) bu dört vakanın **hiçbirini**
+   düzeltmezdi.
+2. `failed` için B ucuz bir emniyet olarak geçerliliğini koruyor ama gözlenmiş
+   vakası yok; önceliği düşük.
+3. Asıl iş ayrı bir maddeye taşındı: backlog **madde 18** (doğrulayıcı
+   gevşekliği). Sonuçlar deterministik olduğu için #44, #51, #57, #107 hazır
+   tekrar üretilebilir test vakaları.
