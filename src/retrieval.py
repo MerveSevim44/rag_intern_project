@@ -216,7 +216,16 @@ def _base_tokens(text: str) -> List[str]:
     NFC, ayrışık (NFD) gelen "I + U+0307" dizisini tek "İ" harfine birleştirir.
     """
     text = unicodedata.normalize("NFC", text or "")
-    return re.findall(r"\w+", _tr_lower(text))
+    lowered = _tr_lower(text)
+    tokens = re.findall(r"\w+", lowered)
+    # Noktalı tanımlayıcılar ("G4.1", "G4.2") \w+ ile "g4" + "1" diye bölünür;
+    # "g4" tüm örneklerde geçtiği için BM25 hangi örneğin sorulduğunu ayırt
+    # edemiyordu ("G4.1 ... VT" sorusunda Örnek 4.1 chunk'ı 8. sıraya düşüp
+    # top_k=5'te hiç adaya girmiyordu). Parçalar korunur, bütün hâli EK token
+    # olarak eklenir. Harfle başlama şartı, saf ondalık sayıları ("3.200")
+    # kapsam dışı tutar — tablo/finans verisinin BM25 dağılımı değişmez.
+    tokens.extend(re.findall(r"[^\W\d_]+\d+(?:\.\d+)+", lowered))
+    return tokens
 
 
 def _base_tokens_folded(text: str) -> List[str]:
