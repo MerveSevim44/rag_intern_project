@@ -156,6 +156,19 @@ COMPLEXITY_SIGNALS = [
     "medyan",
     "std",
     "sapma",
+    # Görsel istekler: grafik/histogram bir dağılım hesabı ister. Bu liste
+    # olmadan "Deneyim yılları histogramı" semantik RAG'e düşüp "bulunamadı"
+    # dönüyordu. Dataset sinyali yine şart — "Fourier grafiği" sandbox'a gitmez.
+    # _contains_token iki tarafı da normalize ettiği için aksansız kopya
+    # gerekmez; ancak k→ğ yumuşaması önek eşleşmesini bozduğundan
+    # ("grafiği" → grafigi, "çubuğu" → cubugu) yumuşamış kökler ayrıca yazılır.
+    "histogram",
+    "grafik",
+    "grafiğ",
+    "görselleştir",
+    "pasta",
+    "çubuk",
+    "çubuğ",
 ]
 
 # ─── 5. Kolon Adı → Türkçe Karşılıklar ───
@@ -404,8 +417,17 @@ def is_meta_query(question: str) -> bool:
     return any(re.search(pat, q, re.IGNORECASE) for pat in META_QUERY_PATTERNS)
 
 
-def _analyze(question: str, df_schema: Any = None) -> Dict[str, Any]:
-    """route_query'nin tüm sinyallerini hesaplayan ortak çekirdek (debug çıktısının kaynağı)."""
+def _analyze(question: str, df_schema: Any = None,
+             selected_dataset: Optional[str] = None) -> Dict[str, Any]:
+    """
+    route_query'nin tüm sinyallerini hesaplayan ortak çekirdek (debug çıktısının kaynağı).
+
+    selected_dataset: Kullanıcının arayüzde seçtiği TABLOSAL dataset (çağıran
+        taraf PDF gibi tablosal olmayan seçimlerde None geçer). Seçim, sorudaki
+        kelimelerden bağımsız kesin bir veri-seti sinyalidir: "Deneyim yılları
+        histogramı" sorusunda "deneyim" yalnızca zayıf alias olduğundan, seçim
+        hesaba katılmazsa soru semantik RAG'e düşüp "bulunamadı" dönüyordu.
+    """
     q_raw = question.strip()
     q_low = q_raw.lower()
     q_norm = _normalize(q_raw)
@@ -425,7 +447,8 @@ def _analyze(question: str, df_schema: Any = None) -> Dict[str, Any]:
     # "FFT'nin hesaplama karmaşıklığı" sorusu account_id~hesap yüzünden pandas
     # sandbox'ına gitmesin diye.
     has_dataset_signal = (
-        bool(strong_schema)
+        bool(selected_dataset)
+        or bool(strong_schema)
         or bool(matched_generic)
         or (bool(weak_schema) and dataset_context)
     )
@@ -474,11 +497,13 @@ def _analyze(question: str, df_schema: Any = None) -> Dict[str, Any]:
         "strong_schema_columns": strong_schema,
         "weak_schema_columns": weak_schema,
         "dataset_context": dataset_context,
+        "selected_dataset": selected_dataset,
         "schema_columns_seen": _iter_schema_columns(df_schema),
     }
 
 
-def route_query(question: str, df_schema: Optional[Any] = None, debug: bool = False):
+def route_query(question: str, df_schema: Optional[Any] = None, debug: bool = False,
+                selected_dataset: Optional[str] = None):
     """
     Kullanıcı sorusunu 4'lü mimariye göre yönlendirir.
 
@@ -495,16 +520,18 @@ def route_query(question: str, df_schema: Optional[Any] = None, debug: bool = Fa
         df_schema: Yüklü dataset(ler)in kolon şeması. Tek şema, çoklu şema veya düz
                    kolon listesi kabul eder; çoklu ise tüm kolonlar birleştirilir.
         debug:     True ise str yerine tüm sinyalleri içeren dict döner.
+        selected_dataset: Arayüzde seçili tablosal dataset (bkz. _analyze).
 
     Returns:
         str ("rule_engine" | "code_interpreter" | "semantic_rag" | "meta_query"),
         debug=True ise Dict[str, Any].
     """
-    info = _analyze(question, df_schema)
+    info = _analyze(question, df_schema, selected_dataset=selected_dataset)
     return info if debug else info["target"]
 
 
-def classify_query(query: str, df_schema: Optional[Any] = None, debug: bool = False) -> Dict[str, Any]:
+def classify_query(query: str, df_schema: Optional[Any] = None, debug: bool = False,
+                   selected_dataset: Optional[str] = None) -> Dict[str, Any]:
     """
     Detaylı rota bilgisi döner (geriye dönük uyumlu: 'target', 'intent', 'query' korunur).
 
@@ -513,7 +540,7 @@ def classify_query(query: str, df_schema: Optional[Any] = None, debug: bool = Fa
     kolonlarının soruda geçtiği (matched_schema_columns) raporlanır —
     "neden bu soru şuraya yönlendirildi" sorusu loglardan cevaplanabilsin diye.
     """
-    info = _analyze(query, df_schema)
+    info = _analyze(query, df_schema, selected_dataset=selected_dataset)
     target = info["target"]
 
     result: Dict[str, Any] = {

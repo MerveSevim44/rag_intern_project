@@ -102,7 +102,7 @@ init_session()
 
 # build_context dışındaki yardımcı/UI fonksiyonları components.py modülüne taşındı.
 
-def build_context(chunks: list[dict]) -> str:
+def build_context(chunks: list[dict], question: str | None = None) -> str:
     """Chunk listesinden numaralandırılmış bağlam metni oluşturur."""
     parts = []
     for i, chunk in enumerate(chunks, 1):
@@ -111,8 +111,9 @@ def build_context(chunks: list[dict]) -> str:
         score = chunk.get("score", 0.0)
         # Uzun chunk'lar prompt'u şişirip GPU belleğini taşırıyor (bkz.
         # llm_client.MAX_CHUNK_CHARS). Kaynak kartlarında tam metin gösterilmeye
-        # devam eder; sadece LLM'e giden kopya kırpılır.
-        content = truncate_chunk_text(chunk["content"])
+        # devam eder; sadece LLM'e giden kopya kırpılır. Soru verilince sorguyla
+        # eşleşen satırlar kırpmadan korunur (profil sonundaki searchKeywords gibi).
+        content = truncate_chunk_text(chunk["content"], query=question)
         parts.append(f"[{i}] Kaynak: {source}, {page_info} (skor: {score:.3f})\n{content}")
     return truncate_context("\n\n".join(parts))
 
@@ -529,7 +530,7 @@ if question:
             "source_filter": source_filter,
         }
     else:
-        context = build_context(chunks)
+        context = build_context(chunks, question)
 
         # LLM yanıtı
         with st.spinner(f"{len(chunks)} parça bulundu, yanıt oluşturuluyor…"):

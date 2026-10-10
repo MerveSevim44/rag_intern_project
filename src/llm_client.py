@@ -53,16 +53,91 @@ MAX_CONTEXT_CHARS = 6000
 _TRUNCATION_MARKER = " […kısaltıldı]"
 
 
-def truncate_chunk_text(text, max_chars=MAX_CHUNK_CHARS):
+def _drop_leading_block_repeat(lines):
+    """
+    Baştaki satır bloğu hemen ardından aynen tekrarlanıyorsa ikinci kopyayı atar.
+
+    JSON ingest KEY satırlarını embedding'de kimlik sinyalini güçlendirmek için
+    BİLİNÇLİ olarak iki kez yazar (ingest.py, "KEY (×2)"). Bu tekrar embedding
+    için yararlı, LLM'e giden kopyada ise kırpma bütçesini boşa harcar.
+    """
+    for k in range(len(lines) // 2, 1, -1):
+        if lines[:k] == lines[k:2 * k]:
+            return lines[:k] + lines[2 * k:]
+    return lines
+
+
+def _line_matches_query(line, query_terms, tokenize):
+    return bool(query_terms & set(tokenize(line)))
+
+
+def _query_aware_truncate(text, max_chars, query):
+    """
+    Satır bazlı kırpma: sorguyla eşleşen satırlar önce ayrılır, kalan bütçe
+    baştan sırayla doldurulur; çıktıda orijinal satır sırası korunur.
+
+    Neden: baştan kesme, profil chunk'larının sonundaki alanları
+    (searchKeywords 1698–2250. karakterde) HİÇBİR soruda modele ulaştırmıyordu.
+    Eşleşen satır yoksa ya da metin tek satırsa None döner (çağıran baştan keser).
+    """
+    try:
+        from retrieval import _tokenize
+    except ImportError:
+        from src.retrieval import _tokenize
+
+    # Tek karakterli ve saf sayısal token'lar ("0", "1") her alan yolunda
+    # geçtiği için eşleşme sayılmaz.
+    query_terms = {t for t in _tokenize(query) if len(t) > 1 and not t.isdigit()}
+    lines = text.split("\n")
+    if not query_terms or len(lines) < 2:
+        return None
+    matched = [i for i, line in enumerate(lines)
+               if _line_matches_query(line, query_terms, _tokenize)]
+    if not matched:
+        return None
+
+    budget = max_chars - len(_TRUNCATION_MARKER)
+    keep, used = set(), 0
+    for i in matched:
+        cost = len(lines[i]) + 1
+        if used + cost <= budget:
+            keep.add(i)
+            used += cost
+    for i, line in enumerate(lines):
+        if i in keep:
+            continue
+        cost = len(line) + 1
+        if used + cost > budget:
+            break
+        keep.add(i)
+        used += cost
+    if not keep:
+        return None
+    return "\n".join(lines[i] for i in sorted(keep)).rstrip() + _TRUNCATION_MARKER
+
+
+def truncate_chunk_text(text, max_chars=MAX_CHUNK_CHARS, query=None):
     """
     Tek bir chunk metnini `max_chars` karaktere kırpar.
 
     Kelime ortasında kesmemek için son boşluktan böler (boşluk yoksa sert
     keser). Kırpıldığı, sona eklenen işaretle belli olur — böylece modelin
     yarım kalmış bir cümleyi tam sanması engellenir.
+
+    query verilirse (arayüz ve benchmark bağlamı): önce baştaki tekrar bloğu
+    atılır, metin hâlâ sığmıyorsa sorguyla eşleşen satırlar öncelikli tutulur
+    (bkz. _query_aware_truncate). query=None iken davranış eskisiyle aynıdır.
     """
     if not text or len(text) <= max_chars:
         return text
+
+    if query:
+        text = "\n".join(_drop_leading_block_repeat(text.split("\n")))
+        if len(text) <= max_chars:
+            return text
+        selected = _query_aware_truncate(text, max_chars, query)
+        if selected is not None:
+            return selected
 
     cut = text[:max_chars]
     last_space = cut.rfind(" ")

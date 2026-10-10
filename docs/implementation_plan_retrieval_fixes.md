@@ -68,3 +68,15 @@ Arayüzde cevabı veritabanında (ya da veri setinde) bulunan dört soru "Bu bil
 - Her adım sonrası: `python -m pytest -q tests` (beklenen tek başarısız test: `test_visualization`, backlog 17).
 - Dört örnek soru, uygulama yeniden başlatılarak arayüzde tekrar sorulur.
 - Adım 5 ve 6 sonrası tam benchmark + negatif set (Adım 7).
+
+## Uygulama durumu (2026-10-10)
+
+| Adım | Durum | Not |
+|---|---|---|
+| 1 | ✅ commit `2d5a42a` | |
+| 2 | ✅ commit `20f4a92` | |
+| 3 | ✅ | 147 benchmark sorusunda rota değişimi 0 |
+| 4 | ✅ | `selected_dataset` hem `retrieval.retrieve` hem `data_engine.execute_smart_query` (router'ı ikinci kez çağırıyor) tarafından geçiriliyor. Tablosal dosyalı 30 soruda rota değişimi 0 |
+| 5 | ✅ | Profil chunk'larında `searchKeywords` artık modele ulaşıyor (≤1500 karakter). Yan bulgu: backlog madde 19 ("deneyim" → `de` stopword) |
+| 6 | ✅ kod / ⏳ yeniden ingest | Resimler tek tek kendi bbox'ıyla kırpılıp OCR'lanıyor (tam sayfa raster Cevap 8a satırını bozuyordu); iki sütun ayrıştırılıyor. Üst simgeler düzleşiyor (`b2k+1`); Cevap 2/6, Örnek 7 kısmen bozuk |
+| 7 | ✅ backlog (madde 19–21) / ⏳ benchmark | Benchmark ve yeniden ingest Ollama + Foundry servislerini gerektiriyor |

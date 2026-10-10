@@ -555,7 +555,11 @@ def retrieve(query: str, db_path: str = DB_PATH, model: str = EMBED_MODEL,
     except Exception:
         df_schema = None
 
-    classification = classify_query(query, df_schema=df_schema, debug=debug)
+    # Seçili kaynak tablosal bir dataset'se router'a kesin veri-seti sinyali
+    # olarak geçer; PDF gibi tablosal olmayan seçimlerde None kalır.
+    selected_dataset = _resolve_dataset_name(source_filter) if source_filter else None
+    classification = classify_query(query, df_schema=df_schema, debug=debug,
+                                    selected_dataset=selected_dataset)
     route = classification["target"]
     # meta_query dışındaki rotalarda None kalır. Router'ın sözleşme metnine
     # (META_QUERY_INSTRUCTION) synthesizer'ın uygulayabileceği biçim iskeleti eklenir.
@@ -593,7 +597,7 @@ def retrieve(query: str, db_path: str = DB_PATH, model: str = EMBED_MODEL,
         # semantik aramaya düşeriz.
         tabular_filename = None
         if source_filter:
-            tabular_filename = _resolve_dataset_name(source_filter)
+            tabular_filename = selected_dataset
             if tabular_filename is None:
                 agg_result = None
             else:

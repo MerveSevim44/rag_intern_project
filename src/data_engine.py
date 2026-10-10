@@ -615,7 +615,11 @@ class TabularDataEngine:
         # Router'a TÜM dataset şemalarını ver (tek bir dataset'e kilitlenmemek için);
         # seçilen dataset'in kolonları da bu birleşik şemanın içinde yer alır.
         df_schema = self.get_schemas()
-        route_info = route_query(query, df_schema=df_schema, debug=True)
+        # filename yalnızca kullanıcı tablosal bir dataset seçtiğinde dolu gelir
+        # (retrieval._resolve_dataset_name); retrieval'daki rota kararıyla aynı
+        # sinyali kullanmazsak soru burada tekrar semantik RAG'e düşer.
+        route_info = route_query(query, df_schema=df_schema, debug=True,
+                                 selected_dataset=filename)
         route = route_info["target"]
 
         print(f"[data_engine] route={route} ({route_info['reason']}) | "

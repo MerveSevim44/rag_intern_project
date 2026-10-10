@@ -102,14 +102,15 @@ def free_gpu_memory():
         torch.cuda.ipc_collect()
 
 
-def build_context(chunks):
+def build_context(chunks, question=None):
     """app.py'daki build_context ile aynı mantık — LLM'e giden bağlamı oluşturur."""
     parts = []
     for i, chunk in enumerate(chunks, 1):
         source = Path(chunk["source"]).name
         page_info = chunk.get("page_info", "")
-        # Uzun chunk'lar prompt'u şişirip VRAM'i taşırıyor — kırp.
-        content = truncate_chunk_text(chunk["content"])
+        # Uzun chunk'lar prompt'u şişirip VRAM'i taşırıyor — kırp (soruyla
+        # eşleşen satırlar öncelikli; app.py ile aynı).
+        content = truncate_chunk_text(chunk["content"], query=question)
         parts.append(f"[{i}] Kaynak: {source}, {page_info}\n{content}")
     return truncate_context("\n\n".join(parts))
 
@@ -139,7 +140,7 @@ def run_single_test(llm, question, top_k=5, use_reranker=True, retries=1):
     # haksız düşürüyordu. Boş retrieval gibi HATA yoluna çevrilir.
     if any(c.get("operation") == "service_failure" for c in chunks):
         raise RuntimeError("service_failure: code_interpreter LLM servisi yanıt veremedi")
-    context = build_context(chunks)
+    context = build_context(chunks, question)
 
     # app.py ile BİREBİR aynı mantık: META_QUERY rotasında retrieval, chunk'lara
     # "açık bilgi vs. çıkarım" talimatını iliştirir. Bu talimat synthesizer'a

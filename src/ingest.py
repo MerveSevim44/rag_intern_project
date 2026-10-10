@@ -3,6 +3,7 @@ import json
 import sqlite3
 import argparse
 import statistics
+import unicodedata
 from contextlib import closing
 from pathlib import Path
 try:
@@ -173,15 +174,117 @@ def _page_text_with_subscripts(page) -> str:
     return pdfplumber_extract_text(chars) or ""
 
 
+# A page whose text layer is shorter than this but which carries images is
+# treated as a scanned/slide-image page and OCR'd. 8-Baglamdan_bagimsiz_
+# dilbilgisi.pdf pages 22-31 (exercise slides) hold only their 14-char heading
+# as text; the grammars and answers are embedded images.
+OCR_MAX_TEXT_CHARS = 50
+OCR_RESOLUTION = 300
+
+_ocr_engine = None
+
+
+def _get_ocr_engine():
+    """Lazily loads RapidOCR; returns None (and warns once) if unavailable."""
+    global _ocr_engine
+    if _ocr_engine is None:
+        try:
+            from rapidocr_onnxruntime import RapidOCR
+            _ocr_engine = RapidOCR()
+        except Exception as e:
+            print(f"[ingest] OCR kullanilamiyor ({e}); resimli sayfalar yalniz metin katmaniyla alinir.")
+            _ocr_engine = False
+    return _ocr_engine or None
+
+
+def _order_ocr_lines(result, width) -> list[str]:
+    """
+    Orders OCR boxes into reading order, keeping two-column slides apart.
+
+    RapidOCR sorts boxes top-to-bottom, so on a slide with "a)" and "b)" side
+    by side the two grammars' rules came out interleaved line by line. A
+    vertical split with boxes on both sides is searched for; full-width boxes
+    (titles, instructions) crossing it act as section breaks, and within each
+    section the left column is emitted before the right one.
+    """
+    items = [(min(p[0] for p in box), min(p[1] for p in box), max(p[0] for p in box), text)
+             for box, text, _ in result]
+    best = None
+    for pct in range(30, 71):
+        x = width * pct / 100
+        crossing = sum(1 for x0, _, x1, _ in items if x0 < x < x1)
+        left = sum(1 for _, _, x1, _ in items if x1 <= x)
+        right = sum(1 for x0, _, _, _ in items if x0 >= x)
+        if left >= 3 and right >= 3 and (best is None or crossing < best[0]):
+            best = (crossing, x)
+    items.sort(key=lambda item: item[1])
+    if best is None:
+        return [item[3] for item in items]
+
+    split = best[1]
+    lines, left, right = [], [], []
+    for x0, _, x1, text in items:
+        if x0 < split < x1:
+            lines += left + right + [text]
+            left, right = [], []
+        elif x1 <= split:
+            left.append(text)
+        else:
+            right.append(text)
+    return lines + left + right
+
+
+def _ocr_page_images(page) -> str:
+    """
+    OCRs each embedded image of a page separately and returns the text.
+
+    Each image is cropped by its own bbox: OCR'ing the whole page raster
+    garbled small answer lines ("L_S.4.8.1 = {...}" came out as noise),
+    while the cropped image read correctly. NFKC folds full-width
+    punctuation ("，") the model would otherwise copy into answers.
+    """
+    engine = _get_ocr_engine()
+    if engine is None:
+        return ""
+    blocks = []
+    for im in page.images:
+        bbox = (max(0, im["x0"]), max(0, im["top"]),
+                min(page.width, im["x1"]), min(page.height, im["bottom"]))
+        if bbox[2] - bbox[0] < 5 or bbox[3] - bbox[1] < 5:
+            continue
+        try:
+            import numpy as np
+            img = page.crop(bbox).to_image(resolution=OCR_RESOLUTION).original.convert("RGB")
+            result, _ = engine(np.array(img))
+        except Exception as e:
+            print(f"[ingest] OCR basarisiz (sayfa {page.page_number}): {e}")
+            continue
+        lines = _order_ocr_lines(result or [], img.width)
+        if lines:
+            blocks.append("\n".join(unicodedata.normalize("NFKC", line) for line in lines))
+    return "\n".join(blocks)
+
+
 def extract_chunks_from_pdf(file_path: Path) -> list[tuple[str, str]]:
     """
     Reads a PDF file, extracts text page by page, and splits by double newline.
+    Image-only pages (see OCR_MAX_TEXT_CHARS) are OCR'd and the text is added
+    under the page's own heading, as one chunk.
     Returns list of (chunk_text, page_info) tuples.
     """
     chunks = []
     with pdfplumber.open(file_path) as pdf:
         for page_num, page in enumerate(pdf.pages, start=1):
             page_text = _page_text_with_subscripts(page)
+            if len(page_text.strip()) < OCR_MAX_TEXT_CHARS and page.images:
+                ocr_text = _ocr_page_images(page)
+                if ocr_text:
+                    print(f"[ingest] sayfa {page_num}: metin katmani bos, OCR ile "
+                          f"{len(ocr_text)} karakter eklendi")
+                    page_text = f"{page_text.strip()}\n{ocr_text}".strip()
+                else:
+                    print(f"[ingest] UYARI sayfa {page_num}: metin katmani yok, resim var "
+                          "ve OCR metin uretmedi — icerik indekslenmeyecek")
             if page_text:
                 paragraphs = page_text.split("\n\n")
                 for p in paragraphs:

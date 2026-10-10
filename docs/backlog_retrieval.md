@@ -705,3 +705,61 @@ ama aşağıdaki türleri geçiriyor:
   #108) `ok` kalmalı.
 - Ölçüm: dört vaka + yedi "kalmalı" vaka birlikte koşulmalı; tam eval bu
   katmanı tek başına yeterince ölçmez (madde 13).
+
+## Madde 19 — Snowball "deneyim" → "de" ve stopword çakışması
+
+[implementation_plan_retrieval_fixes.md](implementation_plan_retrieval_fixes.md)
+Adım 5 sırasında ortaya çıktı. Snowball Türkçe stemmer'ı `deneyim` kelimesini
+`de` köküne indiriyor. `de` `_STOPWORDS` içinde olduğu için **"deneyim" BM25'ten
+tamamen siliniyor**: hem sorguda hem corpus'ta (`deneyimi` → `deney`,
+`deneyimimle` → `deneyim` ise kalıyor; çekime göre tutarsız).
+
+`_STOPWORDS` stopword'lerin stem'lerinden derlendiği için başka gerçek
+kelimelerle de çakışıyor: `is` (iş), `il`, `on`, `am`, `ba`, `be`, `di`, `i`, `p`.
+
+### Etki
+- "deneyim" geçen sorularda BM25 bu terimden hiç katkı almıyor (dense yine çalışıyor).
+- Soruya duyarlı kırpma (`llm_client._query_aware_truncate`) `_tokenize`
+  kullandığı için "deneyim" satırlarını öncelikleyemiyor; eşleşme yoksa eski
+  baştan kesmeye düşüyor (gerileme değil, kazanç yok).
+
+### Dikkat (çözüm tasarlanırken)
+- Stopword filtresi stem ÖNCESİ yüzey biçimine uygulanırsa çakışma kalkar,
+  ama BM25 dağılımı tüm corpus için değişir: tam benchmark + 32 soruluk
+  negatif setle ölçülmeli.
+
+## Madde 20 — Router: kolon parçası eşleşmesi (2b) ve benchmark top_k
+
+1. **2b ertelendi:** "Deneyim yılları histogramı" filtresiz sorulduğunda hâlâ
+   semantik RAG'e gidiyor ("deneyim" zayıf alias, bağlam kelimesi yok). Aynı
+   kolonun iki parçası birlikte eşleşince (deneyim + yıl → `experience.years`)
+   zayıf eşleşmeyi güçlü saymak çözer; router'ın genel davranışını değiştirdiği
+   için negatif setle ayrıca ölçülmeli. (Not: madde 19 düzelmeden "deneyim"
+   BM25'e de katkı vermiyor.)
+2. **Benchmark `top_k=5`:** `evaluation/run_tests.py::run_single_test`
+   varsayılanı 5; arayüz artık `retrieval.TOP_K` (8) kullanıyor. Benchmark
+   arayüzün davranışını ölçmüyor. Eşitlemek önceki koşularla karşılaştırmayı
+   bozacağı için ayrı bir koşu/karar olarak bırakıldı.
+
+## Madde 21 — LLM-judge yanlış retleri "dürüst ret" diye ödüllendiriyor
+
+test_1 #24–#29 (resimli PDF sayfaları, ground truth'ta cevabı var) "Bu bilgi
+dokümanlarda bulunamadı." cevabıyla judge'dan 5/4/4/5 aldı: gerekçe "bağlamda
+bilgi yok, dürüst ret". Bağlama göre doğru, ama soru açısından FN. Judge
+yalnızca bağlama bakınca **ingest/retrieval kaynaklı FN'leri görünmez kılıyor**.
+Pozitif (ground truth'u olan) sorularda ret, judge skorundan bağımsız olarak
+ayrı bir FN sayacıyla raporlanmalı.
+
+## Madde 22 — OCR'lı "Cevap N" sayfaları retrieval'a gelmiyor
+
+OCR sonrası (plan Adım 6) test_1 #24–#29'da soru sayfası ("Örnek N") artık
+geliyor, ama cevabın durduğu "Cevap N" sayfası gelmiyor (#29: sayfa 30 1. sırada,
+sayfa 31 yok; #26: Örnek 5 var, asıl cevap olan Cevap 5 / sayfa 25 yok).
+Cevap sayfası yalnızca başlık + formül taşıyor; soruda geçen "Örnek 8",
+"dilbilgisi", "türettiği" kelimeleri orada yok. Sonuç: model ret yerine kendi
+akıl yürütmesiyle cevap veriyor ve #29'da yanlış ("üs 4 olur…").
+
+Çözüm adayı: ardışık "Örnek N" / "Cevap N" sayfalarını ingest'te tek chunk'ta
+birleştirmek ya da cevap chunk'ına önceki sayfanın başlığını bağlam olarak
+eklemek. Belgeye özel olmaması için kural "metni çok kısa OCR sayfası, önceki
+sayfayla aynı bölüm numarasını taşıyor" gibi genel tanımlanmalı.
