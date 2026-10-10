@@ -1,0 +1,13 @@
+id,zorluk,soru,beklenen_kaynak,dokumanda_var_mi
+301,Kolay,Damla Akın hangi şehirde hizmet veriyor?,728_profiles.json,Evet
+302,Kolay,Deniz Akın'ın mesleği nedir?,728_profiles.json,Evet
+303,Kolay,Deniz Çelik hangi hizmetleri sunuyor?,728_profiles.json,Evet
+304,Orta,Ön değerlendirme hizmeti hangi meslekteki uzmanlar tarafından veriliyor?,728_profiles.json,Evet
+305,Orta,Çekim ön görüşmesi yapan uzmanlar hangi meslekten?,728_profiles.json,Evet
+306,Kolay,İş modeli görüşmesi sunan danışmanların mesleği nedir?,728_profiles.json,Evet
+307,Orta,İç mimarlar hangi hizmetleri sunuyor?,728_profiles.json,Evet
+308,Kolay,Aracın iç detay temizliğini hangi uzman yapıyor?,728_profiles.json,Evet
+309,Kolay,Çevrim içi Türkçe dersi veren eğitmenlerin mesleği nedir?,728_profiles.json,Evet
+310,Orta,Vatandaş danışma birimi hangi hizmetleri veriyor?,728_profiles.json,Evet
+311,Kolay,Öğrenci işleri görüşmesi hangi danışma biriminde sunuluyor?,728_profiles.json,Evet
+312,Orta,Girişimcilik ve iş geliştirme deneyimi olan uzmanlar hangi meslekte?,728_profiles.json,Evet

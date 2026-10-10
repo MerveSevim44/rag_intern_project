@@ -1,0 +1,18 @@
+[Foundry] Model yüklendi: qwen2.5-7b-instruct-cuda-gpu:4 | execution provider: CUDAExecutionProvider | cihaz: GPU
+[Foundry] Servis adresi: http://127.0.0.1:62063
+[Foundry] Serviste yüklü modeller: ['qwen2.5-7b-instruct-cuda-gpu:4']
+[retrieval] Cache yuklendi: 916 chunk, embedding matrisi (916, 1024)
+#301 hibrit=3 (dense 1, bm25 42) | final8 hedef=1 | ikisi de geliyor | recall=1.0
+#302 hibrit=3 (dense 1, bm25 53) | final8 hedef=1 | ikisi de geliyor | recall=1.0
+#303 hibrit=6 (dense 1, bm25 15) | final8 hedef=1 | ikisi de geliyor | recall=1.0
+#304 hibrit=7 (dense 21, bm25 13) | final8 hedef=0 | recall=0.0
+#305 hibrit=1 (dense 1, bm25 1) | final8 hedef=4 | recall=0.5
+#306 hibrit=1 (dense 1, bm25 14) | final8 hedef=3 | recall=1.0
+#307 hibrit=1 (dense 2, bm25 5) | final8 hedef=4 | recall=0.667
+#308 hibrit=1 (dense 1, bm25 2) | final8 hedef=4 | recall=0.0
+#309 hibrit=1 (dense 1, bm25 1) | final8 hedef=4 | recall=1.0
+#310 hibrit=1 (dense 2, bm25 1) | final8 hedef=4 | recall=1.0
+#311 hibrit=1 (dense 3, bm25 2) | final8 hedef=4 | recall=0.0
+#312 hibrit=1 (dense 1, bm25 1) | final8 hedef=4 | recall=0.0
+
+12 soru, 779 sn -> experiments\stopword_baseline\sonuclar.csv

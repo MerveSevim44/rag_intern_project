@@ -1,0 +1,368 @@
+{
+  "301": {
+    "soru": "Damla Akın hangi şehirde hizmet veriyor?",
+    "zorluk": "Kolay",
+    "beklenen_kaynak": "728_profiles.json",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Mersin"
+    ],
+    "anahtar_kelimeler": [
+      "Mersin"
+    ],
+    "dusen_kelimeler": [
+      "damla"
+    ],
+    "turetme": "displayName == \"Damla Akın\" -> location.city",
+    "hedef_profiller": [
+      "$.profiles[34]"
+    ],
+    "karistirici_profiller": [
+      "$.profiles[84]",
+      "$.profiles[103]",
+      "$.profiles[156]",
+      "$.profiles[216]",
+      "$.profiles[239]",
+      "$.profiles[241]",
+      "$.profiles[414]",
+      "$.profiles[689]",
+      "$.profiles[712]"
+    ]
+  },
+  "302": {
+    "soru": "Deniz Akın'ın mesleği nedir?",
+    "zorluk": "Kolay",
+    "beklenen_kaynak": "728_profiles.json",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Sağlıklı Yaşam Koçu"
+    ],
+    "anahtar_kelimeler": [
+      "Sağlıklı Yaşam Koçu"
+    ],
+    "dusen_kelimeler": [
+      "deniz"
+    ],
+    "turetme": "displayName == \"Deniz Akın\" -> occupation",
+    "hedef_profiller": [
+      "$.profiles[156]"
+    ],
+    "karistirici_profiller": [
+      "$.profiles[34]",
+      "$.profiles[84]",
+      "$.profiles[103]",
+      "$.profiles[216]",
+      "$.profiles[239]",
+      "$.profiles[241]",
+      "$.profiles[414]",
+      "$.profiles[689]",
+      "$.profiles[712]"
+    ]
+  },
+  "303": {
+    "soru": "Deniz Çelik hangi hizmetleri sunuyor?",
+    "zorluk": "Kolay",
+    "beklenen_kaynak": "728_profiles.json",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Başlangıç seansı, Birebir pilates, Postür değerlendirmesi",
+      "Başlangıç seansı",
+      "Birebir pilates",
+      "Postür değerlendirmesi"
+    ],
+    "anahtar_kelimeler": [
+      "Başlangıç seansı",
+      "Birebir pilates",
+      "Postür değerlendirmesi"
+    ],
+    "dusen_kelimeler": [
+      "deniz"
+    ],
+    "turetme": "displayName == \"Deniz Çelik\" -> services[].name",
+    "hedef_profiller": [
+      "$.profiles[245]"
+    ],
+    "karistirici_profiller": [
+      "$.profiles[17]",
+      "$.profiles[25]",
+      "$.profiles[91]",
+      "$.profiles[131]",
+      "$.profiles[297]",
+      "$.profiles[347]",
+      "$.profiles[384]",
+      "$.profiles[407]",
+      "$.profiles[485]",
+      "$.profiles[614]"
+    ]
+  },
+  "304": {
+    "soru": "Ön değerlendirme hizmeti hangi meslekteki uzmanlar tarafından veriliyor?",
+    "zorluk": "Orta",
+    "beklenen_kaynak": "728_profiles.json",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Emzirme Danışmanı, Sosyal Hizmet Danışmanı",
+      "Emzirme Danışmanı",
+      "Sosyal Hizmet Danışmanı"
+    ],
+    "anahtar_kelimeler": [
+      "Emzirme Danışmanı",
+      "Sosyal Hizmet Danışmanı"
+    ],
+    "dusen_kelimeler": [
+      "ön"
+    ],
+    "turetme": "\"Ön değerlendirme\" in services[].name -> occupation",
+    "hedef_profiller": [
+      "$.profiles[160]",
+      "$.profiles[161]",
+      "$.profiles[162]",
+      "$.profiles[163]",
+      "$.profiles[164]",
+      "$.profiles[166]",
+      "$.profiles[167]",
+      "$.profiles[672]",
+      "$.profiles[673]",
+      "$.profiles[674]",
+      "$.profiles[675]",
+      "$.profiles[677]",
+      "$.profiles[678]",
+      "$.profiles[679]"
+    ],
+    "karistirici_profiller": []
+  },
+  "305": {
+    "soru": "Çekim ön görüşmesi yapan uzmanlar hangi meslekten?",
+    "zorluk": "Orta",
+    "beklenen_kaynak": "728_profiles.json",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Fotoğrafçı, Organizasyon Fotoğrafçısı",
+      "Fotoğrafçı",
+      "Organizasyon Fotoğrafçısı"
+    ],
+    "anahtar_kelimeler": [
+      "Fotoğrafçı",
+      "Organizasyon Fotoğrafçısı"
+    ],
+    "dusen_kelimeler": [
+      "ön"
+    ],
+    "turetme": "\"Çekim ön görüşmesi\" in services[].name -> occupation",
+    "hedef_profiller": [
+      "$.profiles[432]",
+      "$.profiles[433]",
+      "$.profiles[435]",
+      "$.profiles[436]",
+      "$.profiles[437]",
+      "$.profiles[438]",
+      "$.profiles[439]",
+      "$.profiles[656]",
+      "$.profiles[657]",
+      "$.profiles[658]",
+      "$.profiles[659]",
+      "$.profiles[660]",
+      "$.profiles[661]",
+      "$.profiles[662]",
+      "$.profiles[663]"
+    ],
+    "karistirici_profiller": []
+  },
+  "306": {
+    "soru": "İş modeli görüşmesi sunan danışmanların mesleği nedir?",
+    "zorluk": "Kolay",
+    "beklenen_kaynak": "728_profiles.json",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Girişim Mentoru"
+    ],
+    "anahtar_kelimeler": [
+      "Girişim Mentoru"
+    ],
+    "dusen_kelimeler": [
+      "iş"
+    ],
+    "turetme": "\"İş modeli görüşmesi\" in services[].name -> occupation",
+    "hedef_profiller": [
+      "$.profiles[464]",
+      "$.profiles[465]",
+      "$.profiles[466]",
+      "$.profiles[467]",
+      "$.profiles[468]",
+      "$.profiles[470]",
+      "$.profiles[471]"
+    ],
+    "karistirici_profiller": []
+  },
+  "307": {
+    "soru": "İç mimarlar hangi hizmetleri sunuyor?",
+    "zorluk": "Orta",
+    "beklenen_kaynak": "728_profiles.json",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Mekân ön değerlendirmesi, Proje sunum görüşmesi, İhtiyaç analizi",
+      "Mekân ön değerlendirmesi",
+      "Proje sunum görüşmesi",
+      "İhtiyaç analizi"
+    ],
+    "anahtar_kelimeler": [
+      "Mekân ön değerlendirmesi",
+      "Proje sunum görüşmesi",
+      "İhtiyaç analizi"
+    ],
+    "dusen_kelimeler": [
+      "iç",
+      "ön"
+    ],
+    "turetme": "occupation == \"İç Mimar\" -> services[].name",
+    "hedef_profiller": [
+      "$.profiles[424]",
+      "$.profiles[425]",
+      "$.profiles[426]",
+      "$.profiles[427]",
+      "$.profiles[428]",
+      "$.profiles[429]",
+      "$.profiles[430]",
+      "$.profiles[431]"
+    ],
+    "karistirici_profiller": []
+  },
+  "308": {
+    "soru": "Aracın iç detay temizliğini hangi uzman yapıyor?",
+    "zorluk": "Kolay",
+    "beklenen_kaynak": "728_profiles.json",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Oto Detaylı Temizlik Uzmanı"
+    ],
+    "anahtar_kelimeler": [
+      "Oto Detaylı Temizlik Uzmanı"
+    ],
+    "dusen_kelimeler": [
+      "iç"
+    ],
+    "turetme": "\"İç detay temizlik\" in services[].name -> occupation",
+    "hedef_profiller": [
+      "$.profiles[585]",
+      "$.profiles[587]",
+      "$.profiles[589]",
+      "$.profiles[590]",
+      "$.profiles[591]"
+    ],
+    "karistirici_profiller": []
+  },
+  "309": {
+    "soru": "Çevrim içi Türkçe dersi veren eğitmenlerin mesleği nedir?",
+    "zorluk": "Kolay",
+    "beklenen_kaynak": "728_profiles.json",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Yabancılara Türkçe Eğitmeni"
+    ],
+    "anahtar_kelimeler": [
+      "Yabancılara Türkçe Eğitmeni"
+    ],
+    "dusen_kelimeler": [
+      "içi"
+    ],
+    "turetme": "\"çevrim içi\" in headline -> occupation",
+    "hedef_profiller": [
+      "$.profiles[336]",
+      "$.profiles[337]",
+      "$.profiles[338]",
+      "$.profiles[339]",
+      "$.profiles[340]",
+      "$.profiles[341]",
+      "$.profiles[342]",
+      "$.profiles[343]"
+    ],
+    "karistirici_profiller": []
+  },
+  "310": {
+    "soru": "Vatandaş danışma birimi hangi hizmetleri veriyor?",
+    "zorluk": "Orta",
+    "beklenen_kaynak": "728_profiles.json",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Başvuru ön görüşmesi, Bilgilendirme randevusu, Evrak danışma görüşmesi",
+      "Başvuru ön görüşmesi",
+      "Bilgilendirme randevusu",
+      "Evrak danışma görüşmesi"
+    ],
+    "anahtar_kelimeler": [
+      "Başvuru ön görüşmesi",
+      "Bilgilendirme randevusu",
+      "Evrak danışma görüşmesi"
+    ],
+    "dusen_kelimeler": [
+      "birimi",
+      "ön"
+    ],
+    "turetme": "occupation == \"Vatandaş Danışma Birimi\" -> services[].name",
+    "hedef_profiller": [
+      "$.profiles[664]",
+      "$.profiles[665]",
+      "$.profiles[666]",
+      "$.profiles[667]",
+      "$.profiles[668]",
+      "$.profiles[669]",
+      "$.profiles[670]",
+      "$.profiles[671]"
+    ],
+    "karistirici_profiller": []
+  },
+  "311": {
+    "soru": "Öğrenci işleri görüşmesi hangi danışma biriminde sunuluyor?",
+    "zorluk": "Kolay",
+    "beklenen_kaynak": "728_profiles.json",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Üniversite Öğrenci Danışma Birimi"
+    ],
+    "anahtar_kelimeler": [
+      "Üniversite Öğrenci Danışma Birimi"
+    ],
+    "dusen_kelimeler": [
+      "işleri"
+    ],
+    "turetme": "\"Öğrenci işleri görüşmesi\" in services[].name -> occupation",
+    "hedef_profiller": [
+      "$.profiles[688]",
+      "$.profiles[690]",
+      "$.profiles[691]",
+      "$.profiles[692]",
+      "$.profiles[693]",
+      "$.profiles[694]",
+      "$.profiles[695]"
+    ],
+    "karistirici_profiller": []
+  },
+  "312": {
+    "soru": "Girişimcilik ve iş geliştirme deneyimi olan uzmanlar hangi meslekte?",
+    "zorluk": "Orta",
+    "beklenen_kaynak": "728_profiles.json",
+    "dokumanda_var_mi": "Evet",
+    "referans_cevaplar": [
+      "Girişim Mentoru"
+    ],
+    "anahtar_kelimeler": [
+      "Girişim Mentoru"
+    ],
+    "dusen_kelimeler": [
+      "iş",
+      "deneyim"
+    ],
+    "turetme": "\"Girişimcilik ve iş geliştirme\" in experience.credentialSummary -> occupation",
+    "hedef_profiller": [
+      "$.profiles[464]",
+      "$.profiles[465]",
+      "$.profiles[466]",
+      "$.profiles[467]",
+      "$.profiles[468]",
+      "$.profiles[469]",
+      "$.profiles[470]",
+      "$.profiles[471]"
+    ],
+    "karistirici_profiller": []
+  }
+}
