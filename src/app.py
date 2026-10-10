@@ -26,7 +26,7 @@ import streamlit as st
 
 try:
     from src.llm_client import load_model, ask, truncate_chunk_text, truncate_context
-    from src.retrieval import get_top_chunks, RERANK_TOP_N
+    from src.retrieval import get_top_chunks, RERANK_TOP_N, TOP_K
     from src.ingest import ingest_single_file, list_ingested_sources, delete_source, DATA_DIR, init_db
     from src.visualizer import extract_chart_data, render_chart_block
     from src.styles import inject_custom_css
@@ -37,7 +37,7 @@ try:
     )
 except ImportError:
     from llm_client import load_model, ask, truncate_chunk_text, truncate_context
-    from retrieval import get_top_chunks, RERANK_TOP_N
+    from retrieval import get_top_chunks, RERANK_TOP_N, TOP_K
     from ingest import ingest_single_file, list_ingested_sources, delete_source, DATA_DIR, init_db
     from visualizer import extract_chart_data, render_chart_block
     from styles import inject_custom_css
@@ -314,9 +314,12 @@ with st.sidebar:
 
     # Retrieval ayarları
     st.markdown("### 🔎 Retrieval")
+    # Varsayılan retrieval.TOP_K'ya bağlı: ayrı bir sabit (5) tutulduğunda
+    # reranker'ın 1. sıraya koyacağı chunk (ör. "G4.1 ... VT" sorusunda
+    # hibritte 8. sıradaki Örnek 4.1) aday listesine hiç girmiyordu.
     top_k = st.slider(
         "Top-K (aday chunk sayısı)",
-        min_value=1, max_value=15, value=5, step=1,
+        min_value=1, max_value=15, value=TOP_K, step=1,
         help=(
             "İlk aşamada cosine similarity ile kaç aday doküman parçası çekileceği. "
             "Yüksek değer kapsamı artırır ama yavaşlar ve alakasız parça riskini yükseltir."
