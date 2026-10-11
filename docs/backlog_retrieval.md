@@ -25,6 +25,13 @@ PR olarak ele alınır.
 | 16 | Semantik doğrulayıcının LLM çağrısı çökünce sonuç doğrulanmış gibi `[KESİN HESAPLAMA SONUCU]` olarak gidiyor | **A uygulandı ve ölçüldü** — izole koşuda `failed` 0/26; B düşük öncelik (gözlenmiş vaka yok, asıl sorun madde 18). Bkz. [implementation_plan_validator_failure.md](implementation_plan_validator_failure.md) §9 |
 | 17 | `test_visualization::test_data_engine_end_to_end_visualization` kırık: rule engine karşılaştırma sorusunu tek sektör sayımına eşliyor | Açık — **bilinen kırık test**, `10f5efc` öncesinden beri; ne zaman başladığı bilinmiyor |
 | 18 | Semantik doğrulayıcı gevşek: "emin değilsen TAMAM" yanlış hesapları `ok` ile geçiriyor | Açık — **4 deterministik test vakası** (#44, #51, #57, #107); madde 16'nın asıl sorunu |
+| 19 | Snowball stem'i stopword'e çakışan gerçek kelimeler BM25'ten düşüyor ("deneyim" → "de", "Damla" → "da") | **Düzeltildi** — yüzey stopword filtresi + çakışma koruması; bkz. [implementation_plan_bm25_stopword.md](implementation_plan_bm25_stopword.md) §9 |
+| 20 | Router kolon parçası eşleşmesi (2b) ve benchmark `top_k=5` ≠ arayüz `TOP_K=8` | Açık |
+| 21 | LLM-judge, ground truth'u olan sorulardaki retleri "dürüst ret" diye ödüllendiriyor | Açık — ölçüm körlüğü |
+| 22 | OCR'lı "Cevap N" sayfaları retrieval'a gelmiyor | Açık — madde 24 ile aynı kök (OCR sayfa yapısı) |
+| 23 | Madde 19 korumasındaki kelimelerin çekimleri farklı token'a düşüyor ("deneyim" / "deneyimi") | Açık — bilinen sınır; bugünden kötü değil |
+| 24 | OCR'lı alıştırma sayfaları negatif sorularda bağlama girip uydurma prosedür ürettiriyor | Açık — **gözlenmiş gerileme**: negatif FP 1/32 → 3/32'nin 2'si (#224; test_5 #103), `dffb6a5` kaynaklı |
+| 25 | Ret tespiti yarım "…bulunmadığından" cevabını tanımıyor (skorlama + üretim) | Açık — v8 negatif #222 yapay FP |
 
 ## Madde 5 — Meta-chunk boost'u
 Sabit `+0.35` meta-chunk boost'u sorgu tipine bakmaksızın uygulanıyor ve RRF
@@ -728,6 +735,67 @@ kelimelerle de çakışıyor: `is` (iş), `il`, `on`, `am`, `ba`, `be`, `di`, `i
   ama BM25 dağılımı tüm corpus için değişir: tam benchmark + 32 soruluk
   negatif setle ölçülmeli.
 
+### Kapsam ölçümü (2026-10-10)
+
+Script: [evaluation/stopword_collision.py](../evaluation/stopword_collision.py).
+Stemmer, `TURKISH_STOPWORDS`, `_tokenize` değişince ya da yeniden ingest
+sonrası tekrar koşulur.
+
+- **Corpus:** 39 kelime çakışıyor; 17'si işlev kelimesi (`nedir`, `nelerdir`,
+  `içindeki`… — düşmeleri istenen davranış), **29'u içerik kelimesi, ~970
+  geçiş**. En büyükleri: `ön` 443 (140/916 chunk), `iş`/`işi`/`işleri` ~250,
+  `iç`/`içi` ~60, `birimi`/`birim` 56, `damla` 29, `deneyim` 24, `deniz` 23.
+  %85'i 728_profiles.json'da (hizmet adları, sektör/meslek adları, kişi adları).
+- **Mevcut test seti:** 115 pozitif sorunun yalnızca **6'sında** (#49, #60,
+  #61, #76, #92, #115), 32 negatifin 1'inde (#211) içerik kelimesi düşüyor.
+  Altısında da beklenen kaynak retrieval'da 1. sırada (v7): sorular teknik
+  alan adlarıyla (`experience.years`, `forward`, `seed`) yazıldığı için BM25
+  başka terimlerle ayakta kalıyor. **Şimdiye kadarki F1/faithfulness
+  sonuçlarına etkisi pratikte yok** (en kötü 1–2 soru).
+- **Asıl risk test setinin kör olduğu yerde:** alan adı içermeyen doğal
+  sorularda düşen kelime çoğu zaman sorunun TEK ayırt edici terimi.
+- Çekince: `retrieval_match` doküman seviyesinde; 728 profil tek kaynak
+  olduğundan profil sorularında doğru *profilin* gelip gelmediğini göstermez.
+
+### Hedefli set (taslak — `test_stopword`)
+
+Kural: **alan adı İÇERMEYEN doğal dil soruları**; her soruda ayırt edici
+terim çakışan kelimedir. 12 sorunun hepsi şu an `semantic_rag`'e gidiyor
+(router doğrulandı), yani gerçekten BM25'i sınıyor.
+
+Ground truth **mevcut 728_profiles.json'dan deterministik filtreyle**
+türetilir, yeni senaryo yazılmaz:
+- Yeni doküman eklemek corpus'u ve BM25 IDF'lerini değiştirir; ölçmek
+  istediğimiz etkiyi kendi değişikliğimizle karıştırırız.
+- Profiller yapısal; her cevap tek bir filtreyle tekrar üretilebilir
+  (aşağıdaki "türetme" sütunu), elle yorum gerekmez.
+
+| # | Soru | Düşen kelime | Ground truth | Türetme (`profiles` üzerinde) |
+|---|---|---|---|---|
+| 1 | Damla Akın hangi şehirde hizmet veriyor? | damla | Mersin (Mezitli) | `displayName == "Damla Akın"` → `location` |
+| 2 | Deniz Akın'ın mesleği nedir? | deniz | Sağlıklı Yaşam Koçu | `displayName == "Deniz Akın"` → `occupation` |
+| 3 | Deniz Çelik hangi hizmetleri sunuyor? | deniz | Birebir pilates, Başlangıç seansı, Postür değerlendirmesi | `displayName == "Deniz Çelik"` → `services[].name` |
+| 4 | Ön değerlendirme hizmeti hangi meslekteki uzmanlar tarafından veriliyor? | ön | Emzirme Danışmanı, Sosyal Hizmet Danışmanı | `"Ön değerlendirme" in services[].name` → `occupation` kümesi |
+| 5 | Çekim ön görüşmesi yapan uzmanlar hangi meslekten? | ön | Fotoğrafçı, Organizasyon Fotoğrafçısı | `"Çekim ön görüşmesi" in services[].name` |
+| 6 | İş modeli görüşmesi sunan danışmanların mesleği nedir? | iş | Girişim Mentoru | `"İş modeli görüşmesi" in services[].name` |
+| 7 | İç mimarlar hangi hizmetleri sunuyor? | iç, ön | İhtiyaç analizi, Mekân ön değerlendirmesi, Proje sunum görüşmesi | `occupation == "İç Mimar"` → `services[].name` kümesi |
+| 8 | Aracın iç detay temizliğini hangi uzman yapıyor? | iç | Oto Detaylı Temizlik Uzmanı | `"İç detay temizlik" in services[].name` |
+| 9 | Çevrim içi Türkçe dersi veren eğitmenlerin mesleği nedir? | içi | Yabancılara Türkçe Eğitmeni | `"çevrim içi" in headline` |
+| 10 | Vatandaş danışma birimi hangi hizmetleri veriyor? | birimi, ön | Başvuru ön görüşmesi, Bilgilendirme randevusu, Evrak danışma görüşmesi | `occupation == "Vatandaş Danışma Birimi"` → `services[].name` kümesi |
+| 11 | Öğrenci işleri görüşmesi hangi danışma biriminde sunuluyor? | işleri | Üniversite Öğrenci Danışma Birimi | `"Öğrenci işleri görüşmesi" in services[].name` |
+| 12 | Girişimcilik ve iş geliştirme deneyimi olan uzmanlar hangi meslekte? | iş, deneyim | Girişim Mentoru | `"Girişimcilik ve iş geliştirme" in experience.credentialSummary` |
+
+En güçlü vakalar 1–3: iki kişinin ilk adı da düşüyor ("Damla Akın" /
+"Deniz Akın"), BM25'te geriye ikisinde ortak `akın` kalıyor.
+
+Ölçüm sırası:
+1. Set `evaluation/datasets/test_stopword.csv` + ground truth JSON olarak
+   yazılır, türetme bir script'le (elle değil) üretilir.
+2. **Düzeltmeden ÖNCE** koşulur (baz çizgi). Metrik: chunk seviyesinde
+   doğru profil top-k'da mı + cevap doğruluğu. Doküman seviyesindeki
+   `retrieval_match` burada yetmez (hepsi aynı kaynak).
+3. Düzeltme sonrası aynı set + tam benchmark + 32 negatif.
+
 ## Madde 20 — Router: kolon parçası eşleşmesi (2b) ve benchmark top_k
 
 1. **2b ertelendi:** "Deneyim yılları histogramı" filtresiz sorulduğunda hâlâ
@@ -763,3 +831,69 @@ akıl yürütmesiyle cevap veriyor ve #29'da yanlış ("üs 4 olur…").
 birleştirmek ya da cevap chunk'ına önceki sayfanın başlığını bağlam olarak
 eklemek. Belgeye özel olmaması için kural "metni çok kısa OCR sayfası, önceki
 sayfayla aynı bölüm numarasını taşıyor" gibi genel tanımlanmalı.
+
+## Madde 23 — Korunan kelimelerin çekimleri farklı token'a düşüyor
+
+Madde 19 düzeltmesinin (plan: [implementation_plan_bm25_stopword.md](implementation_plan_bm25_stopword.md),
+varyant V3) bilinen sınırı. V3, stem'i bir stopword stem'ine denk gelen
+kelimede stem yerine fold'lu yüzey biçimini kullanıyor; kural **yalnız o
+biçime** uygulanıyor. Aynı kelimenin diğer çekimleri ya normal stem'e ya da
+kendi yüzey biçimine gidiyor, yani tek bir token'da buluşmuyor:
+
+| Yüzey | Snowball stem | V3 token |
+|---|---|---|
+| deneyim | `de` (stopword stem'i) | `deneyim` |
+| deneyimi | `deney` | `deney` |
+| deneyimle | `deney` | `deney` |
+| deneyimli | `deneyimli` | `deneyimli` |
+| deneyimimle / deneyimini | `deneyim` | `deneyim` |
+| deniz | `de` | `deniz` |
+| denizi | `de` | `denizi` |
+
+Sonuç: "deneyim" sorgusu `deneyimimle`/`deneyimini` geçen chunk'larla
+eşleşir, `deneyimi`/`deneyimle`/`deneyimli` geçenlerle eşleşmez; "deniz"
+sorgusu "denizi" ile eşleşmez. Bugünkü durumdan (V0'da bu kelimeler hiç yok)
+kötü değil, ama BM25 geri kazanımı kısmi.
+
+### Çözüm adayları
+- Snowball'un aşırı kısalttığı (stem ≤ 2 harf) kelimeler için en uzun ortak
+  önek / sözlük tabanlı lemma. V2 ("3 harften kısa her stem → yüzey") 37
+  benchmark sorusunu değiştirip ek kazanç getirmediği için genel kısa-stem
+  kuralı reddedilmişti; çözüm yalnız stopword stem'ine çakışan kelime
+  ailesini hedeflemeli.
+- Ölçüm: `evaluation/stopword_collision.py`'ye çekim ailesi raporu
+  (aynı kökten gelen yüzeylerin kaç farklı token'a dağıldığı).
+
+## Madde 24 — OCR'lı alıştırma sayfaları negatif sette FP üretiyor
+
+v8 koşusunda ([experiments/v8_bm25_stopword/PROVENANCE.md](../experiments/v8_bm25_stopword/PROVENANCE.md))
+ortaya çıktı. `dffb6a5` ile resimli PDF sayfaları (22–31) OCR'lanınca
+alıştırma metinleri corpus'a girdi; bunlar konuyu ANAN ama cevabı içermeyen
+metinler. Negatif sorularda dolgu parçası olarak bağlama giriyor ve model
+alıştırma metninden prosedür uyduruyor:
+
+| # | Soru | Bağlama giren OCR sayfası | v7 → v8 |
+|---|---|---|---|
+| 224 | Chomsky normal formuna dönüştürme adımları | sayfa 22 ("…Chomsky normal biçimine (CNF) dönüştürünüz") | TN → FP |
+| 103 (test_5) | Pompalama lemması nasıl ispatlanır | sayfa 24, 28 | TN → FP |
+
+Tokenizer değişikliğiyle ilgisi yok: iki soruda da bağlam eski/yeni tokenizer'da
+bayt bayt aynı. `dffb6a5` benchmark'lanmadan commit edildiği için ilk kez v8'de
+görüldü. Madde 22 (Cevap sayfaları gelmiyor) ile aynı kökten: OCR sayfaları
+"soru" metni taşıyor, "cevap" bağlamı taşımıyor.
+
+Çözüm adayları: OCR chunk'larını `[alıştırma — çözüm içermez]` gibi bir
+işaretle ingest etmek; ya da Örnek/Cevap sayfalarını birleştirip (madde 22)
+soru metnini cevabıyla aynı chunk'ta tutmak. Ölçüm: negatif set tam koşu.
+
+## Madde 25 — Ret tespiti yarım kalmış "bulunmadığından" cevabını kaçırıyor
+
+v8 negatif #222: cevap "Z-Dönüşümü ders notlarında 12. haftanın konu başlığına
+herhangi bir bilgi bulunmadığından" (cümle yarım). Uydurma bilgi yok, anlamca
+ret; `benchmark_eval.check_is_not_found` `bulunamad[ıi]` kalıbına baktığı için
+`bulunmadığından` biçimini tanımıyor ve FP sayıyor. İki ayrı sorun:
+1. Skorlama: ret kalıbı `bulunma(dı|dığı|dığından|mış)` çekimlerini de kapsamalı
+   (negatif sette FP'yi yapay olarak artırıyor).
+2. Üretim: model cümleyi yarıda bırakıyor; `NOT_FOUND_ANSWER` tek cümlesi
+   yerine serbest biçimli ret üretiyor (llm_client `_trim_after_not_found`
+   bu biçimi de tanımıyor).
