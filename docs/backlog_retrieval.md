@@ -31,7 +31,10 @@ PR olarak ele alınır.
 | 22 | OCR'lı "Cevap N" sayfaları retrieval'a gelmiyor | Açık — madde 24 ile aynı kök (OCR sayfa yapısı) |
 | 23 | Madde 19 korumasındaki kelimelerin çekimleri farklı token'a düşüyor ("deneyim" / "deneyimi") | Açık — bilinen sınır; bugünden kötü değil |
 | 24 | OCR'lı alıştırma sayfaları negatif sorularda bağlama girip uydurma prosedür ürettiriyor | Açık — **gözlenmiş gerileme**: negatif FP 1/32 → 3/32'nin 2'si (#224; test_5 #103), `dffb6a5` kaynaklı |
-| 25 | Ret tespiti yarım "…bulunmadığından" cevabını tanımıyor (skorlama + üretim) | Açık — v8 negatif #222 yapay FP |
+| 25 | Ret tespiti yarım "…bulunmadığından" cevabını tanımıyor (skorlama + üretim) | **Skorlama düzeltildi** — `f888033` (ret çerçevesi, #222 FP→TN) + `8b5d26f` (tanımlayıcı yankısı, v3 #26 TP→FN); üretim kısmı → madde 26, kalan açık → madde 28 |
+| 26 | Üretim: model serbest biçimli reddi yarıda bırakıyor ("…bulunmadığından") | Açık — düşük öncelik; v8'de 1/144 (#222) |
+| 27 | bge-m3 bazı metinlere NaN embedding döndürüyor; `semantic_sim` sessizce 0.0 yazıp ortalamaya katıyor | Açık — ölçüm körlüğü; v7 test_2 #36 (86.7 → 0.0) |
+| 28 | Ret tespitinin ikinci aşaması içerik miktarına bakmıyor; ret kapısından geçen içerik cevapları yalnız tesadüfi "iddia"larla TP kalıyor | Açık — v3 #29 gizli FN; madde 25 Adım 3'te bilinçli bırakıldı |
 
 ### Öncelik sırası (2026-10-11)
 
@@ -910,3 +913,50 @@ ret; `benchmark_eval.check_is_not_found` `bulunamad[ıi]` kalıbına baktığı 
 2. Üretim: model cümleyi yarıda bırakıyor; `NOT_FOUND_ANSWER` tek cümlesi
    yerine serbest biçimli ret üretiyor (llm_client `_trim_after_not_found`
    bu biçimi de tanımıyor).
+
+Durum (2026-10-11): 1. kısım düzeltildi, bkz.
+[experiments/madde25_ret_tespiti/README.md](../experiments/madde25_ret_tespiti/README.md).
+2. kısım madde 26'ya taşındı.
+
+## Madde 26 — Üretim: serbest biçimli ret yarıda kalıyor
+
+Madde 25'in 2. kısmı. Model `NOT_FOUND_ANSWER` yerine kendi cümlesiyle
+reddediyor ve cümleyi yarıda bırakıyor (v8 negatif #222: "…herhangi bir bilgi
+bulunmadığından"). `llm_client._trim_after_not_found` yalnız sabit kalıbı
+tanıdığı için bu biçimi normalize etmiyor. Kullanıcı yarım cümle görüyor ama
+uydurma bilgi yok. Sıklık düşük: v8'de noktalamasız biten 9/144 cevabın
+gerçekten yarım kalan tek örneği bu (diğerleri formül / kaynak atfıyla biten
+meşru cevap). Skorlama artık bu cevabı ret sayıyor (`f888033`), yani ölçüm
+etkilenmiyor. Düşük öncelik.
+
+## Madde 27 — NaN embedding `semantic_sim`'i sessizce 0.0 yapıyor
+
+Madde 25 Adım 2'deki yeniden skorlamada çıktı: v7 test_2 #36'da `semantic_sim`
+86.7 → 0.0. Ollama 0.21.2 bge-m3 bu cevap metni için NaN embedding döndürüyor
+(`json: unsupported value: NaN`, HTTP 500); 3/3 tekrarlanabilir.
+`benchmark_eval.compute_semantic_similarity` her istisnada `0.0` döndürüyor
+(`except Exception` → `return 0.0`) ve bu değer "çok kötü cevap" gibi
+ortalamaya giriyor. Hesaplanamayan skor 0 değil, eksik (`None`/NaN) olarak
+kaydedilmeli, ortalamadan çıkarılıp ayrıca sayılmalı.
+
+Not: bunun v7 #36'ya özgü tek seferlik bir durum mu, yoksa bge-m3'ün belirli
+uzunluktaki ya da belirli karakterler içeren başka metinlerde de tetiklediği
+bilinen bir sorun mu olduğu bilinmiyor; ileride bakılacak.
+
+## Madde 28 — Ret tespitinin ikinci aşaması içerik miktarına bakmıyor
+
+`check_is_not_found` ret kapısından geçen cevabı yalnız "yeni iddia" (soruda
+geçmeyen sayı / kod / özel isim) varsa ret saymıyor; cevabın ne kadar içerik
+taşıdığına bakmıyor. İki yönlü sonuç:
+- **v3 #29 gizli FN:** saf ret, ama formüldeki `bbBdd` içinde kelime ortasında
+  büyük harfle başlayan `Bdd` özel isim sayılıyor → TP.
+- **Tesadüfi TP'ler:** v3 #56, v7 #47, v8 #49, #59 gerçek içerik cevabı ama
+  ret kapısından geçiyor ("bulunmamaktadır" vb.). Bugün yalnız kelime ortası
+  taramanın ürettiği "iddialar" (`schemaVersion` → `Version`) sayesinde TP.
+  Kelime sınırı düzeltmesi #29'u düzeltip bu 4'ünü FN yapıyordu
+  (`experiments/madde25_ret_tespiti/sonuc_kalip_b_ilk_deneme_kelime_siniri.txt`).
+
+İkisi birlikte çözülmeli: ret ifadesi ve gerekçesi düşüldükten sonra kalan
+içerik miktarı (ya da cevabın soruya yanıt veren bir cümle taşıyıp taşımadığı)
+ikinci aşamaya eklenmeden kelime ortası tarama değiştirilmemeli. Ölçüm:
+`kalip_b_olcum.py` ile 845 satır, negatif sette FP→TN olmamalı.
