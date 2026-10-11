@@ -135,3 +135,32 @@ def test_cerceve_bulunmadi_yakalar():
 def test_cerceve_baglam_sozcugu_olmadan_eslesmez():
     """Olumsuzluk yuklemi tek basina yetmez; neyin bulunmadigi soylenmeli."""
     assert not _has_refusal_frame("Bu düğümün kardeşi bulunmamalıdır.")
+
+
+# --- Madde 25 Kalip B: sorudaki tanimlayicinin yankisi iddia degildir --------
+
+Q_26 = ("Örnek 5'teki G_4.5.1 dilbilgisinin kuralları, L_4.5.1={a^2k b^n c^2n d^k | k≥1, n≥1} "
+        "dilini nasıl üretir?")
+
+
+def test_26_tanimlayici_yankisi_ret_sayilir():
+    """v3 #26: soru "G_4.5.1" derken cevap "G4.5.1" yaziyor; eskiden 'yeni iddia' -> TP (gizli FN)."""
+    cevap = ("Bu bilgi dokümanlarda bulunamadı. Bu bağlamda G4.5.1 dilbilgisinin kuralları ve "
+             "L_4.5.1 dilini nasıl ürettiği hakkında hiçbir bilgi verilmemiştir.")
+    assert _new_claims(cevap, Q_26) == []
+    assert check_is_not_found(cevap, Q_26)
+
+
+@pytest.mark.parametrize("uydurma", ["G4.7.2", "G4.1"])
+def test_soruda_olmayan_yeni_tanimlayici_iddia_kalir(uydurma):
+    """Yanki TANIMLAYICININ TAMAMI uzerinden: "G4.1"in parcalari (g4, 1) soruda gecse de
+    butun hali ("g41") sorudaki "g451" ile eslesmez -> iddia."""
+    cevap = f"Bu bilgi dokümanlarda bulunamadı, ancak {uydurma} dilbilgisi bu dili üretir."
+    assert "G4" in _new_claims(cevap, Q_26)
+    assert not check_is_not_found(cevap, Q_26)
+
+
+def test_duz_ozel_isim_tesadufi_alt_dizgi_ile_yanki_sayilmaz():
+    """'Ali' sorudaki 'kurallari' icinde gecse de yanki DEGIL — yalniz tanimlayicilara uygulanir."""
+    cevap = "Bu bilgi dokümanlarda bulunamadı, ancak bu kuralları Ali tanımlamıştır."
+    assert "Ali" in _new_claims(cevap, Q_26)

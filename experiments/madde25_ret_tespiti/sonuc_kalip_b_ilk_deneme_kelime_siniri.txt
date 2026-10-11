@@ -1,0 +1,26 @@
+v2_baseline_trim             satir=100 degisen=0
+v3_soften_and_chunk          satir= 97 degisen=3
+    test_1#26: TP -> FN
+      eski iddia=['g4', 'G4', 'L_4'] yeni iddia=[]
+      'Bu bilgi dokümanlarda bulunamadı. Bu bağlamda G4.5.1 dilbilgisinin kuralları ve L_4.5.1 dilini nasıl ürettiği hakkında hiçbir bilgi verilmemiştir. Dilbilgi kuralları ve ürettiği di'
+    test_1#29: TP -> FN
+      eski iddia=['G_S', 'L_S', 'Bdd', 'Bdd'] yeni iddia=[]
+      "Bu bilgi dokümanlarda bulunamadı. Örnek 8'deki G_S.4.8.1 dilbilgisinin türettiği L_S.4.8.1 dilinde üs olarak 2k+1 kullanıldığına dair doğrudan bir bilgi verilmedi. Aynı zamanda B=>"
+    test_2#56: TP -> FN
+      eski iddia=['Version'] yeni iddia=[]
+      'schemaVersion 1.1 olarak belirtilmiş olması, veri setinin gelecekte daha fazla bilgi altyapısı veya özellikler eklenmesine, mevcut özelliklerin güncellenmesine veya değiştirilmesin'
+v5_soften_and_brevity        satir= 98 degisen=0
+v5_soften_and_brevity+neg    satir=129 degisen=0
+v6_sandbox_empty_guard       satir=130 degisen=0
+v7_refusal_clarity           satir=147 degisen=1
+    test_2#47: TP -> FN
+      eski iddia=['Contact', 'Contact', 'Contact'] yeni iddia=[]
+      'Tutarlı değildir. FieldGuide bölümündeki publicContact açıklamasında publicContact nesnesinin içeriği bilgi sahibi olmamaktadır (phone:null, email:null), ancak örnek profillerdeki '
+v8_bm25_stopword             satir=144 degisen=2
+    test_2#49: TP -> FN
+      eski iddia=['Use', 'Only'] yeni iddia=[]
+      "'intendedUse' listesinde belirtilen kullanım amaçları, 'syntheticOnly: True' ayarıyla tutarlıdır çünkü tüm amaçlar synthetıc veri üretimi ve test için tasarlanmış olup, gerçek kişi"
+    test_2#59: TP -> FN
+      eski iddia=['AddressPublic', 'Area'] yeni iddia=[]
+      'Gizlilik ilkelerini yansıtmak için exactAddressPublic:False ayarı kullanıldığından, kullanıcıların tam adres bilgilerinin gösterilmesini engelleyerek gizliliği korumaktadır. Bunun '
+toplam satir: 845

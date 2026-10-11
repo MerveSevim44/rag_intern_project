@@ -81,3 +81,32 @@ Diğer farklar ret tespitiyle ilgisiz:
   metni için NaN embedding döndürüyor (`json: unsupported value: NaN`, 500);
   tekrarlanabilir (3/3). `compute_semantic_similarity` istisnada sessizce 0.0
   yazıyor ve bu 0 ortalamaya giriyor → ayrı backlog maddesi.
+
+## Adım 3 — Kalıp B: sorudaki tanımlayıcının yankısı
+
+`kalip_b_olcum.py` → `sonuc_kalip_b.txt`: commit edilmiş skorlayıcı (`f888033`)
+ile yeni skorlayıcının 845 satırdaki sınıf farkı.
+
+**Sonuç: tek değişiklik v3 test_1 #26 TP → FN** (gizli FN açığa çıktı). Negatif
+sette değişiklik 0 (gizlenen halüsinasyon yok).
+
+Kural: cevaptaki tanımlayıcı (`[harf][\w.]*rakam…`: G4.5.1, L_4.5.1, G_S.4.8.1)
+**bütün olarak**, noktalama/alt çizgi atılmış biçimde (`g451`) sorunun aynı
+biçiminde geçiyorsa yankıdır; onun parçaları ("g4", "5", "1") ve içindeki büyük
+harfli parçalar ("L_4") iddia sayılmaz. Uydurma "G4.1" (`g41`) eşleşmez.
+
+Denenip reddedilenler (ikisi de ölçüldü):
+1. **Parça bazlı önek eşleşmesi** ("g4" sorudaki "g451" içinde geçiyor mu): fazla
+   gevşek — uydurma "G4.1"in bütün parçaları soruda geçtiği için yankı sayılırdı
+   (testte yakalandı).
+2. **Özel isim taramasına kelime sınırı** (`bbBdd` içindeki `Bdd`):
+   `sonuc_kalip_b_ilk_deneme_kelime_siniri.txt` — #29'u düzeltiyor ama 4 doğru
+   içerik cevabını FN yapıyor (v3 #56, v7 #47, v8 #49, #59). Bu cevaplar ret
+   kapısından geçiyor ("bulunmamaktadır" vb.) ve kelime ortası taramanın
+   tesadüfen ürettiği "iddialar" (`schemaVersion` → `Version`) onları TP'de
+   tutuyor. İkinci aşama içerik miktarına bakmadığı için kaldırılmadı.
+
+**Kalan açık:** v3 #29 hâlâ TP (gizli FN) — `bbBdd` içindeki `Bdd` iddia
+sayılıyor. Kök neden ikinci aşamanın içerik miktarına bakmaması; ret kapısından
+geçen ama yeni iddia taşımayan içerik cevapları (yukarıdaki 4) bugün yalnız
+tesadüfen TP kalıyor. Ayrı bir tasarım konusu (backlog).

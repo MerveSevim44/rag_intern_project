@@ -466,6 +466,36 @@ def _question_tokens(question: str) -> set:
     return toks
 
 
+def _canonical(token: str) -> str:
+    """Aksan katlanmis, yalniz harf+rakam: 'G_4.5.1' / 'G4.5.1' / 'g 4 5 1' -> 'g451'."""
+    return re.sub(r"[^0-9a-z]", "", _fold_tr(token))
+
+
+# Harfle baslayan, en az bir rakam iceren tanimlayici: G4.5.1, L_4.5.1, G_S.4.8.1.
+_IDENTIFIER_SPAN_RE = re.compile(r"[^\W\d_][\w.]*\d[\w.]*")
+
+
+def _echoed_identifier_spans(raw: str, question_compact: str) -> list:
+    """
+    Cevapta, sorudaki bir tanimlayicinin BUTUN olarak yankisi olan araliklar.
+
+    Kalip B (madde 25): soru "G_4.5.1" derken cevap "G4.5.1" yazinca
+    normalizasyon iki tarafi farkli bolup ("g 4 5 1" / "g4 5 1") yankiyi
+    "yeni iddia" sayiyordu; saf bir ret TP (gizli FN) oluyordu (v3 #26).
+    Karsilastirma tanimlayicinin TAMAMI uzerinden, noktalama/alt cizgi
+    atilmis bicimde yapilir: "G4.5.1" -> "g451" sorudaki "g451" ile eslesir,
+    uydurma "G4.1" -> "g41" eslesmez (parca bazli onek eslesmesi bunu
+    kacirirdi). Duz kelimelere (ozel isimler) uygulanmaz.
+    """
+    spans = []
+    for m in _IDENTIFIER_SPAN_RE.finditer(raw or ""):
+        span = m.group(0).rstrip(".")
+        canon = _canonical(span)
+        if len(canon) >= 2 and canon in question_compact:
+            spans.append((m.start(), m.start() + len(span), span))
+    return spans
+
+
 def _new_claims(text: str, question: str) -> list:
     """
     Ret ifadesinden arta kalan icerikte, soruda GECMEYEN yeni iddialar.
@@ -479,22 +509,35 @@ def _new_claims(text: str, question: str) -> list:
     if not residual:
         return []
     qtokens = _question_tokens(question)
+    echoed = _echoed_identifier_spans(text, _canonical(question or ""))
+    # Yanki tanimlayicilarin normalize parcalari ("G4.5.1" -> "g4", "5", "1").
+    echoed_parts = {t for _, _, span in echoed for t in _fold_tr(normalize_text_tr(span)).split()}
 
     claims = []
     for tok in residual.split():
         if tok in qtokens:
             continue                      # soruyu tekrarlamak iddia degil
+        if tok in echoed_parts:
+            continue                      # "g4" <- cevaptaki "G4.5.1" <- sorudaki "G_4.5.1"
         if any(ch.isdigit() for ch in tok):
             claims.append(tok)            # yeni sayi / kod
 
     # Ozel isimler icin ORIJINAL buyuk-kucuk harf bilgisi gerekli; residual
     # kucuk harfli oldugu icin ham metin uzerinden ayrica tararız.
+    # NOT: tarama kelime ORTASINDAKI buyuk harfi de yakalar ("schemaVersion"
+    # -> "Version", "bbBdd" -> "Bdd"). Bu bilincli olarak DUZELTILMEDI: kelime
+    # siniri sarti icerik cevaplarini (v3 #56, v7 #47, v8 #49, #59) ret saydi —
+    # ikinci asama icerik miktarina bakmadigi icin bu tesadufi "iddialar" onlari
+    # TP'de tutuyor (experiments/madde25_ret_tespiti/
+    # sonuc_kalip_b_ilk_deneme_kelime_siniri.txt).
     raw = text or ""
     for m in re.finditer(r"[A-ZÇĞİÖŞÜ][\wçğıöşüÇĞİÖŞÜ]+", raw):
         word = m.group(0)
         folded = _fold_tr(word.lower())
         if folded in qtokens or folded in _NOT_PROPER_NOUN:
             continue
+        if any(start <= m.start() < end for start, end, _ in echoed):
+            continue                      # yanki tanimlayicinin icinde ("L_4" <- "L_4.5.1")
         if _SENTENCE_START_RE.search(raw[:m.start()]):
             continue                      # cumle basi -> ozel isim degil
         claims.append(word)

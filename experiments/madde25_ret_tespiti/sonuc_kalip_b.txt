@@ -1,0 +1,11 @@
+v2_baseline_trim             satir=100 degisen=0
+v3_soften_and_chunk          satir= 97 degisen=1
+    test_1#26: TP -> FN
+      eski iddia=['g4', 'G4', 'L_4'] yeni iddia=[]
+      'Bu bilgi dokümanlarda bulunamadı. Bu bağlamda G4.5.1 dilbilgisinin kuralları ve L_4.5.1 dilini nasıl ürettiği hakkında hiçbir bilgi verilmemiştir. Dilbilgi kuralları ve ürettiği di'
+v5_soften_and_brevity        satir= 98 degisen=0
+v5_soften_and_brevity+neg    satir=129 degisen=0
+v6_sandbox_empty_guard       satir=130 degisen=0
+v7_refusal_clarity           satir=147 degisen=0
+v8_bm25_stopword             satir=144 degisen=0
+toplam satir: 845
