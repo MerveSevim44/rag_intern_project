@@ -1,0 +1,122 @@
+tarama: 7 koşu
+
+=== A) KAPIDAN GEÇEMEYEN (ret kalıbı yok) ama olumsuzluk taşıyan TP/FP cevaplar: 81
+   (farklı cevap metni: 50)
+--- test_1#2 TP [icermektedir] koşular=v3_soften_and_chunk
+    'P, yeniden yazma ya da türetme kuralları kümesini temsil eder. Bağlamdan bağımsız dilbilgisinde P, G=<VN, VT, P, S> şeklinde tanımlanırken, P kümesi yeniden yazma ya da türetme kuralları içermektedir. Bu kurallar, VN kümesindeki değişkenlerin VT kümesindeki si'
+--- test_1#11 TP [belirsiz] koşular=v7_refusal_clarity
+    'Bir dilin belirgin olması, dilin her bir tümcesine sadece bir türetme ağacı karşılık geleceğinden kaynaklanır ve bu durum dilbilgisinde önemli bir özelliktir. Belirgin bir dil, uygulamada belirli bir anlamda tekerga eşdeğer tümcesel yapılar oluşturur ve bu ned'
+--- test_1#11 TP [belirsiz] koşular=v8_bm25_stopword
+    'Bir dilin belirgin olması, dilin her bir tümcesine sadece bir türetme ağacı karşılık geleceğinden kaynaklanır ve bu durumda dilin anlamları belirgin ve belirsizlik olmaz. Bu, dilbilgisinde temel bir özelliktir ve dilin kullanımında netlik sağlar.'
+--- test_1#12 TP [yoktur] koşular=v2_baseline_trim
+    'Belirgin olmayan dillerin uygulamada hiçbir değeri yoktur, çünkü tümceleri birden çok anlam taşıyarak sistemlerde belirsizlik yaratabilirler ve bu belirsizliği kabul etmek güvenliği ve doğruluğu riskine yol açar. Bu nedenle, kullanılan dillerin tümünün belirgi'
+--- test_1#12 TP [belirsiz] koşular=v3_soften_and_chunk
+    'Belirgin olmayan dillerin uygulamada hiçbir değeri olmadığı belirtilmiştir çünkü tümceleri birden çok anlam taşıyan diller, uygulamada istenmeyen belirsizlik ve yanıltıcı anlamlara yol açabilir. Bu nedenle, kullanılan dillerin tümünün belirginlik özelliğini sa'
+--- test_1#12 TP [yoktur] koşular=v5_soften_and_brevity,v5_soften_and_brevity+neg,v6_sandbox_empty_guard
+    'Belirgin olmayan dillerin uygulamada hiçbir değeri yoktur, çünkü tümceleri birden çok anlam taşıyarak hatasız anlaşılmaları zorlaştırır.'
+--- test_1#12 TP [yoktur] koşular=v7_refusal_clarity,v8_bm25_stopword
+    'Belirgin olmayan dillerin uygulamada hiçbir değeri yoktur çünkü tümceleri birden çok anlam taşıyarlarsa, bu dillerin anlamlarının belirlenmesi zorlaşır ve uygulamada kullanılması zorlaşır. Bu nedenle, kullanılan dillerin tümünün belirginlik özelliğini sağladığ'
+--- test_1#13 TP [bulunmamalidir] koşular=v2_baseline_trim,v5_soften_and_brevity,v5_soften_and_brevity+neg,v6_sandbox_empty_guard
+    'Bu düğüm bir uç düğüm(yaprak) olmalı ve bu düğümün kardeşi bulunmamalıdır.'
+--- test_1#13 TP [bulunmamalidir] koşular=v3_soften_and_chunk
+    'Bu düğüm bir uç düğüm(yaprak) olmalı ve bu düğümün kardeşi bulunmamalıdır. Bu durum Türetme ya da Ayrıştırma Ağacının tanımına göre doğrudur.'
+--- test_1#13 TP [bulunmamalidir] koşular=v7_refusal_clarity,v8_bm25_stopword
+    'Bu düğüm bir yaprak olmalı ve bu düğümün kardeşi bulunmamalıdır. Bu durumda düğümün etiketi λ olduğu koşulu sağlar.'
+--- test_1#15 TP [bulunmaz] koşular=v2_baseline_trim
+    'Yararsız simge, bir dilbilgininin uç simgelerinden biri olarak tanımlanır ve bu dilbilgisi tarafından türetilen tüm cesitli tümcelerden hiçbiri içinde bulunmaz.'
+--- test_1#15 TP [yer almayan] koşular=v3_soften_and_chunk
+    'Yararsız simge, bir dilbilginin uç simgelerinden biri olarak tanımlanırken, bu dilbilgisi tarafından türetilen tüm celerden hiçbirinde yer almayan bir uç simgedir. Bu, dilbilginin yapısında kullanılmayan ve herhangi bir tümcenin oluşturulmasında görünmeyen bir'
+--- test_1#15 TP [yer almayan] koşular=v5_soften_and_brevity,v5_soften_and_brevity+neg,v6_sandbox_empty_guard
+    'Yararsız simge, bir dilbilginin uç simgelerinden biri olarak tanımlanırken, bu dilbilgisi tarafından türetilen tüm celerden hiçbirinde yer almayan simgedir. Bu, dilbilginin yapısında kullanılmayan ve herhangi bir tümcenin oluşturulmasında görünmeyen bir simge '
+--- test_1#17 TP [icermemektedir] koşular=v3_soften_and_chunk
+    'Algoritma 4.5, bağlamdan bağımsız bir dilbilgisinde yararsız değişkenleri ve kuralları temizlemek için kullanılır. Bu işlem, dilbilgisinin basitleştirilmesine ve optimize edilmesine yardımcı olur. Sonuç olarak, algoritma 4.5, uç simge dizgisi türeten değişkenl'
+--- test_1#18 TP [ulasilamayan] koşular=v2_baseline_trim
+    'Algoritma 4.6, dilbilgisindeki yararsız değişkenleri ve kuralları tespit etmek ve çıkararak eşdeğer bir dilbilgisine ulaşmak için kullanılır. Sonucunda elde edilen küme, başlangıç değişkeninden ulaşılamayan değişkenler ve bunların yer aldığı kuralların silinmi'
+--- test_1#18 TP [ulasilamayan] koşular=v3_soften_and_chunk
+    'Algoritma 4.6, dilbilgisindeki değişkenlerin başlangıç değişkeninden ulaşılabilir olup olmadığına karar vermek için kullanılır. Sonucunda elde edilen küme, başlangıç değişkeninden ulaşılamayan (yararsız) değişkenlerin ve bunların yer aldığı kuralların bulunmas'
+--- test_1#18 TP [ulasilamayan] koşular=v5_soften_and_brevity,v5_soften_and_brevity+neg,v6_sandbox_empty_guard
+    'Algoritma 4.6, dilbilgisindeki yararsız değişkenleri ve kuralları tespit etmek ve atmak için kullanılır. Sonucunda elde edilen küme, başlangıç değişkeninden ulaşılamayan değişkenleri ve kuralları içermeyen bir dilbilgisidir.'
+--- test_1#18 TP [icermeyen] koşular=v7_refusal_clarity,v8_bm25_stopword
+    'Algoritma 4.6, dilbilgisindeki yararsız değişkenleri ve kuralları tespit etmek ve atmak için kullanılır. Sonucunda elde edilen küme, yararsız değişken ve kural içermeyen eşdeğer bir dilbilgisi bulunur.'
+--- test_1#19 TP [yer almayan] koşular=v3_soften_and_chunk
+    "G4.7 dilbilgisinde uç simge dizgisi türeten değişkenler kümesi (TD) algoritma 4.5 ile aşağıdaki şekilde bulunur: TD = { S, A, B, E, F } Bu kümenin yer almayan ve yararsız değişkenler kümesi şöyledir: { C, D } Algoritma 4.5'ye göre:\n1. TD = { A | (A => w) ∈ P v"
+--- test_1#19 TP [yer almayan] koşular=v7_refusal_clarity,v8_bm25_stopword
+    'TD = {S, A, B} G4.7 dilbilgisindeki yararsız değişkenler kümesi: C, D, E, F Algoritma 4.5 kullanılarak uç simge dizgisi türeten değişkenler kümesi bulunur ve bu kümede yer almayan C ve D değişkenleri yararsız değişkenlerdir. A ve B uç simge dizgisi türetecek n'
+--- test_1#21 TP [icermeyen] koşular=v5_soften_and_brevity,v5_soften_and_brevity+neg,v6_sandbox_empty_guard
+    'G" =<V, V, P, S>\n4.7 N T çıkarıldığında a simgesinin de yararsız bir\nV = { S, B}\nN simge olduğu görülür. Bu simge de\nVT={b} çıkarıldığında (G4.7)’ye eşdeğer; yararsız\nP: S=> B |BS\nsimge, değişken ve kural içermeyen\nB=>b\naşağıdaki dilbilgisi bulunur:'
+--- test_1#21 TP [icermeyen] koşular=v7_refusal_clarity
+    'G" =<V, V, P, S>\n4.7 N T çıkarıldığında a simgesinin de yararsız bir\nV = { S, B}\nN simge olduğu görülür. Bu simge de\nVT={b} çıkarıldığında (G4.7)’ye eşdeğer; yararsız\nP: S=> B |B simge, değişken ve kural içermeyen\nB=>b Algoritma 4.6 ve 4.5 kullanılarak G4.7\'de'
+--- test_1#22 TP [yer almayan] koşular=v2_baseline_trim
+    'Dilbilgisinin yalınlaştırılması, iki adımda gerçekleştirilir. İlk adımda, algoritma 4.5 kullanılarak uç simge dizgisi türeten değişkenler kümesi bulunur ve bu kümede yer almayan değişkenler yararsız değişkenler olarak kabul edilir. İkinci adımda, algoritma 4.6'
+--- test_1#22 TP [yer almayan] koşular=v3_soften_and_chunk
+    'Dilbilgisinin yalınlaştırılması, iki adımda gerçekleştirilir. İlk adımda, algoritma 4.5 kullanılarak uç simge dizgisi türeten değişkenler kümesi bulunur ve bu kümede yer almayan değişkenler yararsız değişkenler olarak kabul edilir. İkinci adımda, algoritma 4.6'
+--- test_1#22 TP [yer almayan] koşular=v5_soften_and_brevity,v5_soften_and_brevity+neg,v6_sandbox_empty_guard
+    'Dilbilgisinin yalınlaştırılması, iki adımda gerçekleştirilir. İlk adımda, algoritma 4.5 kullanılarak uç simge dizgisi türeten değişkenler kümesi bulunur ve bu kümede yer almayan değişkenler yararsız değişkenler olarak kabul edilir. İkinci adımda, algoritma 4.6'
+--- test_1#22 TP [yer almayan] koşular=v7_refusal_clarity,v8_bm25_stopword
+    'Dilbilgisinin yalınlaştırılması, yararsız değişken ve kuralların atılması işlemi iki adımda gerçekleştirilir. İlk adımda, algoritma 4.5 kullanılarak uç simge dizgisi türeten değişkenler kümesi bulunur ve bu kümede yer almayan değişkenler yararsız değişkenler o'
+--- test_1#27 TP [icermesini] koşular=v3_soften_and_chunk
+    "L(G4.4) dili tanımı L(G4.4) = {uv(v')^R u^R | u,v ∈ (0+1)^*, |u|≥1, |v|≥1} şeklindedir. Bu gösterimde:\n- u ve v, 0 ve 1 karakterlerinden oluşan herhangi bir dizidir.\n- |u| ≥ 1 ve |v| ≥ 1 koşulları, u ve v dizilerinin boş olmamasını ve en az bir karakter içerme"
+--- test_2#33 TP [bulunmadigini] koşular=v2_baseline_trim
+    'realPhoneNumbersIncluded ve realEmailsIncluded alanları False değerini taşımaktadır. Bu, veri setinde gerçek telefon numaraları veya gerçek e-posta adresleri bulunmadığını gösterir.'
+--- test_2#33 TP [bulunmadigini] koşular=v3_soften_and_chunk
+    'realPhoneNumbersIncluded ve realEmailsIncluded alanları False değerlerini taşımaktadır. Bu, veri setinde gerçek telefon numaraları veya gerçek e-posta adresleri bulunmadığını gösterir. Kaynak: [1]'
+--- test_2#33 TP [bulunmadigini] koşular=v7_refusal_clarity
+    'realPhoneNumbersIncluded ve realEmailsIncluded alanları False değerini taşımaktadır. Bu, veri setinde gerçek telefon numaraları veya e-posta adresleri bulunmadığını gösterir.'
+--- test_2#36 TP [icermektedir] koşular=v3_soften_and_chunk
+    'weeklyAvailability dizisinde her gün nesne aşağıdaki alanları içermektedir: day, active, start ve end.'
+--- test_2#36 TP [icermektedir] koşular=v7_refusal_clarity
+    'Gün nesnesi, "day", "active", "start" ve "end" alanlarını içermektedir.'
+--- test_2#36 TP [icermektedir] koşular=v8_bm25_stopword
+    'Gün nesneleri following bilgileri içermektedir: day, active, start, end.'
+--- test_2#46 TP [icermemektedir] koşular=v8_bm25_stopword
+    "Dataset, doğrulanmış gerçek kişiler veya işletmeleri içermemektedir. Bu bilgi, kaynak [3] ve [4]'de açıkça belirtilmiştir."
+--- test_2#47 TP [icermedigini] koşular=v5_soften_and_brevity,v5_soften_and_brevity+neg,v6_sandbox_empty_guard
+    'Tutarlı değildir. Bağlamda publicContact açıklamasında "Public contact visibility; intentionally no real phone/email" yazmaktadır. Bu, publicContact nesnesinin gerçek telefon numarası ve e-posta adresi içermediğini göstermektedir. Örnek profilde de publicConta'
+--- test_2#49 TP [icermemekle] koşular=v7_refusal_clarity
+    'SyntheticOnly=true ayarı, profiles JSON dosyasındaki intendedUse listesinde belirtilen kullanım amaçlarının tamamının synthetik veri olduğunu göstermektedir. Bu, gerçek kişiler veya iş yerleri hakkında bilgi içermemekle birlikte, demo, test, sembütik veri ve k'
+--- test_2#50 TP [yoktur] koşular=v5_soften_and_brevity,v5_soften_and_brevity+neg,v6_sandbox_empty_guard
+    'Hayır, örnek profillerde hafta sonu çalışan profil örneği yoktur. Tüm örnek profillerde `weeklyAvailability` dizisi Pazartesi-Cuma günleri arasında aktif olarak gösterilmiştir.'
+--- test_2#50 TP [yoktur] koşular=v7_refusal_clarity
+    'Hayır, örnek profillerde hafta sonu çalışan profil örneği yoktur. Tüm örnek profillerde hafta sonu günde aktiflik yoktur. Cevap: Tamamıyla Pazartesi-Cuma günleri aktif görünmektedir.'
+--- test_2#55 TP [verilmedi] koşular=v5_soften_and_brevity,v5_soften_and_brevity+neg,v6_sandbox_empty_guard
+    "Özge Taş ve Mert Keskin'in profil bazında aşağıdaki alanlar farklılaştırılmıştır: 1. Deneyim Yılı (experience.years): Mert Keskin 13 yıllık deneyimi belirtirken, Özge Taş sadece 3 yıllık deneyime sahip. 2. Randevu Süresi (appointmentSettings.defaultDurationMin"
+--- test_2#59 TP [yer almasi] koşular=v8_bm25_stopword
+    "Gizlilik ilkelerini yansıtmak için exactAddressPublic:False ayarı kullanıldığından, kullanıcıların tam adres bilgilerinin gösterilmesini engelleyerek gizliliği korumaktadır. Bunun yanı sıra, serviceArea alanında genel bölge bilgisi (örneğin 'Yüreğir, Adana') y"
+--- test_3#62 TP [yer almaz] koşular=v2_baseline_trim
+    '1/2π çarpanı ters Fourier dönüşümü formülünde yer almaz.'
+--- test_3#62 TP [bulunmamaktir] koşular=v3_soften_and_chunk
+    'Ters Fourier dönüşümü formülünde 1/2π çarpanı x(t) fonksiyonunun türevinin integralinde yer alır. Bağlamda verilen ters yönde Fourier dönüşümü formülü şöyledir: 1 \uf0a5\nx(t) \uf03d X( j\uf077)e j\uf077t d\uf077 Bu formülde 1/2π çarpanı bulunmamaktır. Çarpanın orijinal Fourier dönüşüm'
+--- test_3#62 TP [yer almaz] koşular=v5_soften_and_brevity,v5_soften_and_brevity+neg,v6_sandbox_empty_guard
+    'Ters Fourier dönüşümü formülünde 1/2π çarpanı yer almaz. Çarpan, analiz adımda yer alır.'
+--- test_3#67 TP [icermeyen] koşular=v7_refusal_clarity,v8_bm25_stopword
+    'cos(t), sin(t) ve u(t) işaretleri klasik Fourier dönüşüm koşullarını sağlamaz çünkü: 1. cos(t) ve sin(t) sonsuz süreli işaretlerdir ve bu nedenle sınırlı maksimum ve minimum değerler içermeyen ve mutlak olarak integrallenebilen özellikte değildirler. 2. u(t), '
+--- test_3#74 TP [yoktur] koşular=v7_refusal_clarity,v8_bm25_stopword
+    'Fourier dönüşümünün "memoryless", "causal" ve "linear" sistem özelliklerinin açıklaması şöyledir: - Memoryless özelliği yoktur. Fourier dönüşümü actually infinite memory gerektirir.\n- Causal özelliği de yoktur. - Lineer özelliği var ve Fourier dönüşümü lineer '
+--- test_4#95 TP [belirtilmemis] koşular=v3_soften_and_chunk
+    'Antikacının verdiği pirinç anahtarın işlevi ve günlükte bahsedilen tıkırtı sesi arasında bir bağlantı belirtilmemiş. Bu nedenle:'
+--- test_4#98 TP [belirtilmedigi] koşular=v7_refusal_clarity,v8_bm25_stopword
+    "Anlatıcının saatin 03.13'e gelmesini fark etmesi, 03.14'teki tıkırtının bir önceki günlük kayıtlarda belirtilmediği ve anlatıcının saatin 03.13'e geldiğinde şaşkınlık duyduğu bir durumu gösterir. Bu, 03.14 tıkırtısının bir ön sembol veya bir kod olduğunu anlat"
+--- test_4#99 TP [verilmedigi] koşular=v5_soften_and_brevity,v5_soften_and_brevity+neg,v6_sandbox_empty_guard
+    'Usta Magnus\'un gerçek kimliği ve amaçları hakkında belirgin bir ipucu verilmediği için, "Geleceği görmek bir lütuf değil, bir hapishanedir" cümlesi, hikâyenin genel gizem yapısında geleceğin incelenmesinin zor ve korkunç bir deneyim olduğunu vurgulamaktadır. B'
+--- test_5#103 FP [verilmemistir] koşular=v8_bm25_stopword
+    "Bağlamdan bağımsız dilbilgisinin pompalama lemma'sı, bir dilin bağlamdan bağımsız olduğunu göstermek için kullanılan bir yöntemdir. Bu lemma, bir dizinin uzunluğunu belirli bir şekilde böldüğünde, her parçasının hala dilin bir üyesi olduğunu garantierler. Lemm"
+--- test_negative#222 FP [bulunmadigindan] koşular=v8_bm25_stopword
+    'Z-Dönüşümü ders notlarında 12. haftanın konu başlığına herhangi bir bilgi bulunmadığından'
+
+=== B) KAPIDAN GEÇEN ama 'yeni iddia' filtresi ret SAYMAYAN: 8
+--- test_1#26 TP iddia=['g4', 'G4', 'L_4'] koşular=v3_soften_and_chunk
+    'Bu bilgi dokümanlarda bulunamadı. Bu bağlamda G4.5.1 dilbilgisinin kuralları ve L_4.5.1 dilini nasıl ürettiği hakkında hiçbir bilgi verilmemiştir. Dilbilgi kuralları ve ürettiği dilin özelliklerini belirlemek için daha fazla bilgi gerekmektedir.'
+--- test_1#28 TP iddia=['g4', 'g4', '1', '1', '1', '3', '3', 'Acc', 'G4', 'Acc', 'Acc', 'Acc', 'Acc', 'Acc', 'Acc'] koşular=v3_soften_and_chunk
+    "Bu bilgi dokümanlarda bulunamadı. G4.7 dilbilgisinin kurallarından S=>aAcc kuralı L(G4.7.2)={a^n b^m c^k | n>0, m>0, k=2n+m} dilini şu şekilde üretir: 1. S=>aAcc başlangıç durumunda bir 'a' simgesi üretilir ve k=2n+m denkleminde n=1 ve m=1 olduğu varsayılırken"
+--- test_1#29 TP iddia=['G_S', 'L_S', 'Bdd', 'Bdd'] koşular=v3_soften_and_chunk
+    "Bu bilgi dokümanlarda bulunamadı. Örnek 8'deki G_S.4.8.1 dilbilgisinin türettiği L_S.4.8.1 dilinde üs olarak 2k+1 kullanıldığına dair doğrudan bir bilgi verilmedi. Aynı zamanda B=>bbBdd|C kuralının bu tercihi nasıl sağladığını doğrudan açıklamak için de belirl"
+--- test_2#47 TP iddia=['Contact', 'Contact', 'Contact'] koşular=v7_refusal_clarity
+    'Tutarlı değildir. FieldGuide bölümündeki publicContact açıklamasında publicContact nesnesinin içeriği bilgi sahibi olmamaktadır (phone:null, email:null), ancak örnek profillerdeki publicContact nesnesinde gerçek telefon veya e-posta bilgisi bulunmamaktadır. Bu'
+--- test_2#49 TP iddia=['Use', 'Only'] koşular=v8_bm25_stopword
+    "'intendedUse' listesinde belirtilen kullanım amaçları, 'syntheticOnly: True' ayarıyla tutarlıdır çünkü tüm amaçlar synthetıc veri üretimi ve test için tasarlanmış olup, gerçek kişilere veya işletmelere atıfta bulunmamaktadır."
+--- test_2#50 TP iddia=['Cumartesi', 'Pazar'] koşular=v3_soften_and_chunk
+    'Örnek profillerde yalnızca Pazartesi-Cuma günleri aktif görünmektedir. Hafta sonu (Cumartesi-Pazar) çalışan profil örneği bulunmamaktadır.'
+--- test_2#56 TP iddia=['Version'] koşular=v3_soften_and_chunk
+    'schemaVersion 1.1 olarak belirtilmiş olması, veri setinin gelecekte daha fazla bilgi altyapısı veya özellikler eklenmesine, mevcut özelliklerin güncellenmesine veya değiştirilmesine olanak tanır. Ancak, bağlamda hangi alanlarda versiyon değişikliğine gidebilec'
+--- test_negative#231 FP iddia=[] koşular=v5_soften_and_brevity+neg
+    'Bulunamadı Not: Veri setinde 2026 güncellemesinde eklenen havaalanları bulamadım. Havaalanlarının listesi verilmediği için kesin bir cevap veremem.'

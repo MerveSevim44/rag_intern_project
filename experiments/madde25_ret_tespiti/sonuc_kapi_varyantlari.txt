@@ -1,0 +1,15 @@
+v2_baseline_trim             naif     degisen= 3 test_1#12:TP->FN test_1#13:TP->FN test_1#15:TP->FN
+v2_baseline_trim             cerceve  degisen= 0 
+v3_soften_and_chunk          naif     degisen= 1 test_4#95:TP->FN
+v3_soften_and_chunk          cerceve  degisen= 0 
+v5_soften_and_brevity        naif     degisen= 2 test_1#12:TP->FN test_1#13:TP->FN
+v5_soften_and_brevity        cerceve  degisen= 0 
+v5_soften_and_brevity+neg    naif     degisen= 2 test_1#12:TP->FN test_1#13:TP->FN
+v5_soften_and_brevity+neg    cerceve  degisen= 0 
+v5_soften_and_brevity+neg    (not: kayıtlı sınıftan farklı yeniden skor 1: [('test_negative', '231')])
+v6_sandbox_empty_guard       naif     degisen= 2 test_1#12:TP->FN test_1#13:TP->FN
+v6_sandbox_empty_guard       cerceve  degisen= 0 
+v7_refusal_clarity           naif     degisen= 4 test_1#12:TP->FN test_1#13:TP->FN test_2#50:TP->FN test_4#98:TP->FN
+v7_refusal_clarity           cerceve  degisen= 0 
+v8_bm25_stopword             naif     degisen= 4 test_1#12:TP->FN test_1#13:TP->FN test_4#98:TP->FN test_negative#222:FP->TN
+v8_bm25_stopword             cerceve  degisen= 1 test_negative#222:FP->TN
