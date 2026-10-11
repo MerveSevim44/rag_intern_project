@@ -1,0 +1,29 @@
+bitti: V0_mevcut
+bitti: V1_yuzey_stop
+bitti: V2_yuzey_stop+kisa_stem
+
+=== test_stopword: hedef hibrit sırası (bm25 sırası) | önde karıştırıcı
+301 V0 3 (bm25 42) k2 | V1 1 (bm25 1) k0 | V2 1 (bm25 1) k0 | damla akin hangi sehir hizmet veriyor
+302 V0 3 (bm25 53) k2 | V1 1 (bm25 1) k0 | V2 1 (bm25 1) k0 | deniz akin in meslek nedir
+303 V0 6 (bm25 15) k5 | V1 1 (bm25 2) k0 | V2 1 (bm25 1) k0 | deniz celik hangi hizmet sunuyor
+304 V0 7 (bm25 13) k0 | V1 7 (bm25 13) k0 | V2 7 (bm25 13) k0 | on degerlendirme hizmet hangi meslek uzman taraf veriliyor
+305 V0 1 (bm25 1) k0 | V1 1 (bm25 1) k0 | V2 1 (bm25 1) k0 | cek on gorusmes yapa uzman hangi meslek
+306 V0 1 (bm25 14) k0 | V1 1 (bm25 2) k0 | V2 1 (bm25 2) k0 | is model gorusmes suna danisma meslek nedir
+307 V0 1 (bm25 5) k0 | V1 1 (bm25 2) k0 | V2 1 (bm25 2) k0 | ic mimar hangi hizmet sunuyor
+308 V0 1 (bm25 2) k0 | V1 1 (bm25 3) k0 | V2 1 (bm25 3) k0 | arac ic detay temizlik hangi uzma yapiyor
+309 V0 1 (bm25 1) k0 | V1 1 (bm25 1) k0 | V2 1 (bm25 1) k0 | cevr ici turkce dersi vere egitme meslek nedir
+310 V0 1 (bm25 1) k0 | V1 1 (bm25 1) k0 | V2 1 (bm25 1) k0 | vatandas danisma bir hangi hizmet veriyor
+311 V0 1 (bm25 2) k0 | V1 1 (bm25 2) k0 | V2 1 (bm25 2) k0 | ogrenci isleri gorusmes hangi danisma birim sunuluyor
+312 V0 1 (bm25 1) k0 | V1 1 (bm25 1) k0 | V2 1 (bm25 1) k0 | girisimcilik is gelistirme deney uzman hangi meslek
+
+=== benchmark V1_yuzey_stop: semantic soru 121 | top8 aday kümesi değişen 14 | top5 değişen 10
+  beklenen kaynağın ilk sırası kötüleşen: []
+  iyileşen: []
+  top5'ten beklenen kaynağı kaybeden: []
+  top8 kümesi değişenler: [('test_1', '11'), ('test_2', '34'), ('test_2', '36'), ('test_2', '41'), ('test_2', '47'), ('test_2', '50'), ('test_3', '66'), ('test_3', '76'), ('test_3', '87'), ('test_4', '92'), ('test_5', '115'), ('test_negative', '207'), ('test_negative', '220'), ('test_negative', '229')]
+
+=== benchmark V2_yuzey_stop+kisa_stem: semantic soru 121 | top8 aday kümesi değişen 37 | top5 değişen 31
+  beklenen kaynağın ilk sırası kötüleşen: []
+  iyileşen: []
+  top5'ten beklenen kaynağı kaybeden: []
+  top8 kümesi değişenler: [('test_1', '7'), ('test_1', '9'), ('test_1', '11'), ('test_1', '14'), ('test_1', '17'), ('test_1', '18'), ('test_1', '23'), ('test_1', '24'), ('test_1', '25'), ('test_1', '30'), ('test_2', '34'), ('test_2', '36'), ('test_2', '38'), ('test_2', '41'), ('test_2', '46'), ('test_2', '47'), ('test_2', '49'), ('test_2', '59'), ('test_3', '63'), ('test_3', '66'), ('test_3', '71'), ('test_3', '72'), ('test_3', '77'), ('test_3', '78'), ('test_3', '84'), ('test_3', '85'), ('test_3', '87'), ('test_4', '91'), ('test_4', '92'), ('test_4', '96'), ('test_4', '97'), ('test_4', '99'), ('test_negative', '205'), ('test_negative', '207'), ('test_negative', '220'), ('test_negative', '221'), ('test_negative', '229')]

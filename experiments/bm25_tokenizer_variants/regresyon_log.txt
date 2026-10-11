@@ -1,0 +1,31 @@
+ara kayıttan yüklenen: 0
+  eski: 20/159 (605 sn)
+  eski: 40/159 (1043 sn)
+  eski: 60/159 (1501 sn)
+  eski: 80/159 (1908 sn)
+  eski: 100/159 (2292 sn)
+  eski: 120/159 (2952 sn)
+  eski: 140/159 (3411 sn)
+'(ProtocolError('Connection aborted.', RemoteDisconnected('Remote end closed connection without response')), '(Request ID: c69372f2-a313-4f88-856e-30db6d4b72f8)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/config.json
+Retrying in 1s [Retry 1/5].
+bitti: eski
+  yeni: 20/159 (4743 sn)
+  yeni: 40/159 (5081 sn)
+  yeni: 60/159 (5472 sn)
+  yeni: 80/159 (5779 sn)
+  yeni: 100/159 (6066 sn)
+  yeni: 120/159 (6633 sn)
+  yeni: 140/159 (6994 sn)
+bitti: yeni
+# Regresyon katman 1 — final 4 parça / bağlam karşılaştırması
+
+Soru: 159 (semantic_rag: 133, tablosal atlanan: 26); süre 7444 sn.
+
+| k | aday kümesi değişen | final kümesi değişen | final sırası değişen | bağlam değişen | beklenen kaynağı final'den KAYBEDEN | kazanan |
+|---|---|---|---|---|---|---|
+| 5 | 15 | 13 | 13 | 17 | 0 | 0 |
+| 8 | 17 | 12 | 12 | 14 | 0 | 0 |
+
+## test_stopword — hedef profil final'de (eski → yeni)
+
+| # | k=5 | k=8 |
