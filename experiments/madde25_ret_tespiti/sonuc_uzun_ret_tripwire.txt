@@ -1,0 +1,10 @@
+v2_baseline_trim             eslesme=1
+    test_negative#231 len=147: 'Bulunamadı Not: Veri setinde 2026 güncellemesinde eklenen havaalanları bulamadım. Havaalanlarının listesi verilmediği için kesin bir cevap veremem.'
+v3_soften_and_chunk          eslesme=1
+    test_negative#231 len=147: 'Bulunamadı Not: Veri setinde 2026 güncellemesinde eklenen havaalanları bulamadım. Havaalanlarının listesi verilmediği için kesin bir cevap veremem.'
+v5_soften_and_brevity        eslesme=1
+    test_negative#231 len=147: 'Bulunamadı Not: Veri setinde 2026 güncellemesinde eklenen havaalanları bulamadım. Havaalanlarının listesi verilmediği için kesin bir cevap veremem.'
+v6_sandbox_empty_guard       eslesme=0
+v7_refusal_clarity           eslesme=0
+v8_bm25_stopword             eslesme=0
+validator_A                  eslesme=0

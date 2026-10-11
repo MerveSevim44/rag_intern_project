@@ -1,0 +1,20 @@
+== v7_refusal_clarity
+   test_negative #204 TN   sayfalar=[10] ocr=-  Kubernetes'te pod autoscaling eşik değerleri nasıl yapılandırılır?
+   test_negative #217 TN   sayfalar=[2, 16, 18, 17] ocr=-  Bağlamdan bağımsız dilbilgisi dokümanında anlatılan "Tür 3 düzenli dil
+   test_negative #224 TN   sayfalar=[18, 2, 16, 19] ocr=-  Bağlamdan bağımsız dilbilgisi dokümanında anlatılan Chomsky normal for
+   test_5        #101 FP   sayfalar=[18, 19, 2, 16] ocr=-  Bağlamdan bağımsız dilbilgisini Chomsky normal formuna dönüştürme algo
+   test_5        #102 TN   sayfalar=[2, 1, 18] ocr=-  Bağlamdan bağımsız dilleri tanıyan yığın otomatı (pushdown automaton) 
+   test_5        #103 TN   sayfalar=[16, 2, 18, 17] ocr=-  Bağlamdan bağımsız dilbilgisi için pompalama (pumping) lemması nasıl i
+   negatif soru=47  gramer PDF'i baglamda=6  OCR sayfasi baglamda=0  FP toplam=3  FP (OCR baglamda)=0
+   tripwire (madde 28): eslesme=0
+
+== v8_bm25_stopword
+   test_negative #204 TN   sayfalar=[10] ocr=-  Kubernetes'te pod autoscaling eşik değerleri nasıl yapılandırılır?
+   test_negative #217 TN   sayfalar=[2, 22, 16, 17] ocr=[22]  Bağlamdan bağımsız dilbilgisi dokümanında anlatılan "Tür 3 düzenli dil
+   test_negative #224 FP   sayfalar=[22, 18, 2, 16] ocr=[22]  Bağlamdan bağımsız dilbilgisi dokümanında anlatılan Chomsky normal for
+   test_5        #101 FP   sayfalar=[18, 22, 19, 2] ocr=[22]  Bağlamdan bağımsız dilbilgisini Chomsky normal formuna dönüştürme algo
+   test_5        #102 TN   sayfalar=[2, 1, 22, 18] ocr=[22]  Bağlamdan bağımsız dilleri tanıyan yığın otomatı (pushdown automaton) 
+   test_5        #103 FP   sayfalar=[16, 2, 24, 28] ocr=[24, 28]  Bağlamdan bağımsız dilbilgisi için pompalama (pumping) lemması nasıl i
+   negatif soru=47  gramer PDF'i baglamda=6  OCR sayfasi baglamda=5  FP toplam=5  FP (OCR baglamda)=3
+   tripwire (madde 28): eslesme=0
+
