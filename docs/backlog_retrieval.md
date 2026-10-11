@@ -35,10 +35,11 @@ PR olarak ele alınır.
 | 26 | Üretim: model serbest biçimli reddi yarıda bırakıyor ("…bulunmadığından") | Açık — düşük öncelik; v8'de 1/144 (#222) |
 | 27 | bge-m3 bazı metinlere NaN embedding döndürüyor; `semantic_sim` sessizce 0.0 yazıp ortalamaya katıyor | Açık — ölçüm körlüğü; v7 test_2 #36 (86.7 → 0.0) |
 | 28 | Ret tespitinin ikinci aşaması içerik miktarına bakmıyor; ret kapısından geçen içerik cevapları yalnız tesadüfi "iddia"larla TP kalıyor | Açık — v3 #29 gizli FN; madde 25 Adım 3'te bilinçli bırakıldı |
+| 29 | Ollama bge-m3 embedding güvenilirliği: oturumlar arası sayısal kayma sınırdaki retrieval'ı değiştiriyor | Açık — doğrulanmamış hipotez (cihaz farkı); madde 27 ile ortak kök olabilir |
 
 ### Öncelik sırası (2026-10-11)
 
-Açık retrieval/değerlendirme maddeleri için sıra: **25 (skorlama) ✅ → 24 → 22 → 27 → 20 → 21 → 28 → 26.**
+Açık retrieval/değerlendirme maddeleri için sıra: **25 (skorlama) ✅ → 24 → 22 → 27 → 29 → 20 → 21 → 28 → 26.**
 
 - **25 önce:** madde 24'ün başarı ölçütü negatif set FP sayısı; skorlayıcı yarım
   retleri FP saydığı sürece (#222) bu sayı yapay olarak şişik ve 24'ün etkisi
@@ -51,6 +52,8 @@ Açık retrieval/değerlendirme maddeleri için sıra: **25 (skorlama) ✅ → 2
 - **27:** "sessizce yanlış ortalama" ailesinden (`HATA:` satırlarının F1'i
   bozması gibi); düzeltmesi küçük ve yalnız skorlayıcıda. 24'ün ölçütü (negatif
   FP sayısı) `semantic_sim`'e dayanmadığı için 24'ün önüne alınmadı.
+- **29:** 27'nin yanında — ikisi de Ollama bge-m3 embedding üretimi; aynı kökten
+  geliyorsa biri araştırılırken diğeri de aydınlanır.
 - **28:** bilinen etkisi tek gizli FN (v3 #29); 21 ise #24–#29'un hepsini
   görünmez kıldığı için önce 21. 24'ün ölçümünü bugün etkilemiyor (bkz. madde 24
   ölçüm notu); etkilemeye başlarsa 24'ün hemen arkasına alınır.
@@ -958,7 +961,8 @@ kaydedilmeli, ortalamadan çıkarılıp ayrıca sayılmalı.
 
 Not: bunun v7 #36'ya özgü tek seferlik bir durum mu, yoksa bge-m3'ün belirli
 uzunluktaki ya da belirli karakterler içeren başka metinlerde de tetiklediği
-bilinen bir sorun mu olduğu bilinmiyor; ileride bakılacak.
+bilinen bir sorun mu olduğu bilinmiyor; ileride bakılacak. Embedding
+güvenilirliğinin genel hâli: madde 29.
 
 ## Madde 28 — Ret tespitinin ikinci aşaması içerik miktarına bakmıyor
 
@@ -977,3 +981,38 @@ taşıdığına bakmıyor. İki yönlü sonuç:
 içerik miktarı (ya da cevabın soruya yanıt veren bir cümle taşıyıp taşımadığı)
 ikinci aşamaya eklenmeden kelime ortası tarama değiştirilmemeli. Ölçüm:
 `kalip_b_olcum.py` ile 845 satır, negatif sette FP→TN olmamalı.
+
+## Madde 29 — Ollama bge-m3 embedding güvenilirliği
+
+Madde 27 (NaN embedding) ile aynı şemsiye: Ollama 0.21.2 üzerindeki bge-m3'ün
+ürettiği embedding'ler her koşulda aynı ve geçerli değil. İki gözlem:
+
+1. **Oturumlar arası retrieval kayması** (madde 24 Adım 0,
+   [experiments/madde24_ocr_alistirma/sonuc_etkilenen_set.txt](../experiments/madde24_ocr_alistirma/sonuc_etkilenen_set.txt)):
+   `src/` v8'den beri retrieval açısından aynıyken 3 `semantic_rag` sorusunda
+   (test_2 #36, test_4 #93, negatif #217) son 1–2 kaynak v8'dekinden farklı.
+   Bugün 3/3 tekrarda kararlı, yani oturum içi gürültü değil. Fark hep hibrit
+   sıralamanın neredeyse eşit skorlu sınırında (#217: 5–7. sıra RRF 0.9307 /
+   0.9303 / 0.9250; v8'de sayfa 17, bugün sayfa 28 giriyor).
+2. **`semantic_sim` gürültüsü** (madde 25 Adım 2): aynı cevap metinleri yeniden
+   skorlandığında `semantic_sim` ±0.1–0.2 oynuyor (v7'de 12, v8'de 10 hücre).
+
+**Doğrulanmamış hipotez:** benchmark sırasında Foundry Local modeli GPU'dayken
+Ollama bge-m3'ü farklı bir cihazda / bölüşümde (CPU ya da kısmi GPU) koşuyor ve
+sayısal sonuç değişiyor. Doğrulama: aynı sorgunun embedding'i Foundry yüklü ve
+yüklü değilken alınıp karşılaştırılır; `ollama ps` çıktısındaki işlemci
+bilgisi kaydedilir.
+
+**Açık soru:** madde 27'deki NaN (v7 test_2 #36, 3/3 tekrarlanabilir) aynı
+kökten mi geliyor? Cihaz/sayısal hassasiyet farkı NaN'ı da açıklayabilir;
+ya da metne özgü ayrı bir sorundur. İkisi birlikte araştırılmalı.
+Not: test_2 #36 iki yerde de geçiyor, ama farklı metinler üzerinden: madde
+27'de NaN'a yol açan **cevap metninin** embedding'i, burada kayan
+**sorgunun** retrieval sonucu. Bu yüzden çakışma muhtemelen tesadüf;
+araştırma sırasında yine de kontrol edilmeli (ör. sorgunun embedding'inde
+NaN'a yakın / aşırı değerler var mı).
+
+**Ölçüme etkisi:** koşular arası karşılaştırmada sınırdaki sorular işaret ya da
+kod değişikliğinden bağımsız olarak kayabilir. Bu yüzden madde 24 Adım 2 aynı
+oturumda A/B koşuluyor; diğer ölçümler de aynı yaklaşımı ya da kaymanın ayrı
+raporlanmasını gerektirebilir.
