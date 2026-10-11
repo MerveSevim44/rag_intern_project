@@ -1,0 +1,80 @@
+== A) Korpus taramasi: isaretlenen 5 / 916 chunk
+   id=4317 8-Baglamdan_bagimsiz_dilbilgisi.pdf | sayfa 22 | fiiller=['olusturunuz', 'donusturunuz', 'adlandiriniz', 'yaziniz']
+   id=4319 8-Baglamdan_bagimsiz_dilbilgisi.pdf | sayfa 24 | fiiller=['tanimlayiniz']
+   id=4321 8-Baglamdan_bagimsiz_dilbilgisi.pdf | sayfa 26 | fiiller=['veriniz']
+   id=4323 8-Baglamdan_bagimsiz_dilbilgisi.pdf | sayfa 28 | fiiller=['tanimlayiniz']
+   id=4325 8-Baglamdan_bagimsiz_dilbilgisi.pdf | sayfa 30 | fiiller=['veriniz']
+   beklenmeyen (yanlis pozitif adayi): 0
+   beklenip isaretlenmeyen: 0
+
+== B) Benchmark sorulari: 147 soru, baglaminda isaretli chunk olan 16
+   test_1        #1   isaretli=[sayfa 26]  G4.1 dilbilgisinde VT kümesinin elemanları nelerdir?
+   test_1        #2   isaretli=[sayfa 26; sayfa 30; sayfa 22]  Bağlamdan bağımsız dilbilgisinde P harfi neyi temsil eder?
+   test_1        #4   isaretli=[sayfa 26]  VN ve VT kümeleri arasındaki ilişki nedir (ayrık mıdır kesişir mi)?
+   test_1        #8   isaretli=[sayfa 24]  L(G4.2) dili nasıl tanımlanmıştır; n, m, p, k parametreleri arasındaki koşullar 
+   test_1        #9   isaretli=[sayfa 22]  G4.3 dilbilgisi tarafından türetilen L(G4.3) dilinin küme tanımını yazınız.
+   test_1        #24  isaretli=[sayfa 22; sayfa 26; sayfa 30]  G_S.4.2 dilbilgisinde L_S.4.2 dilinin küme tanımı nedir?
+   test_1        #25  isaretli=[sayfa 26; sayfa 30; sayfa 22]  Örnek 6'daki G_S.4.6.1 dilbilgisinin türettiği dilin (L_S.4.6.1) küme tanımı ned
+   test_1        #26  isaretli=[sayfa 24]  Örnek 5'teki G_4.5.1 dilbilgisinin kuralları, L_4.5.1={a^2k b^n c^2n d^k | k≥1, 
+   test_1        #28  isaretli=[sayfa 28]  G_S.4.7.2 dilbilgisi L_S.4.7.2={a^n b^m c^k | n>0, m>0, k=2n+m} dilini nasıl üre
+   test_1        #29  isaretli=[sayfa 30; sayfa 26]  Örnek 8'deki G_S.4.8.1 dilbilgisinin türettiği L_S.4.8.1 dilinde üs olarak neden
+   test_1        #30  isaretli=[sayfa 24]  G4.3 dilbilgisinde X=>aXbb|aZbb|abb ve Z=>Zb|Xb kuralları birlikte çalışarak L(G
+   test_5        #101 isaretli=[sayfa 22]  Bağlamdan bağımsız dilbilgisini Chomsky normal formuna dönüştürme algoritması ha
+   test_5        #102 isaretli=[sayfa 22]  Bağlamdan bağımsız dilleri tanıyan yığın otomatı (pushdown automaton) nasıl tanı
+   test_5        #103 isaretli=[sayfa 24; sayfa 28]  Bağlamdan bağımsız dilbilgisi için pompalama (pumping) lemması nasıl ifade edili
+   test_negative #217 isaretli=[sayfa 22; sayfa 28]  Bağlamdan bağımsız dilbilgisi dokümanında anlatılan "Tür 3 düzenli dilbilgisi" t
+   test_negative #224 isaretli=[sayfa 22]  Bağlamdan bağımsız dilbilgisi dokümanında anlatılan Chomsky normal formuna dönüş
+
+   v8 kaynak listesinden farkli ya da hatali: 26
+   test_2        #32  route=code_interpreter hata=-
+      simdi: 728_profiles.json ($.statistics); 728_profiles.json ($.fieldGuide); 728_profiles.json ($.profiles[393]); 728_profiles.json ($.profiles[395])
+   test_2        #35  route=code_interpreter hata=-
+      simdi: 728_profiles.json ($.profiles[439]); 728_profiles.json ($.profiles[283]); 728_profiles.json ($.fieldGuide); 728_profiles.json ($.safetyAndDataQuality)
+   test_2        #36  route=semantic_rag hata=-
+      simdi: 728_profiles.json ($.profiles[311]); 728_profiles.json ($.profiles[307]); 728_profiles.json ($.profiles[395]); 728_profiles.json ($.profiles[148])
+   test_2        #37  route=code_interpreter hata=-
+      simdi: 728_profiles.json ($.statistics); 728_profiles.json ($.fieldGuide); 728_profiles.json ($.profiles[412]); 728_profiles.json ($.profiles[409])
+   test_2        #39  route=code_interpreter hata=-
+      simdi: 728_profiles.json ($.profiles[726]); 728_profiles.json ($.profiles[95]); 728_profiles.json ($.profiles[477]); 728_profiles.json ($.profiles[623])
+   test_2        #42  route=code_interpreter hata=-
+      simdi: 728_profiles.json ($.profiles[726]); 728_profiles.json ($.profiles[727]); 728_profiles.json ($.profiles[33]); 728_profiles.json ($.profiles[411])
+   test_2        #43  route=code_interpreter hata=-
+      simdi: 728_profiles.json ($.profiles[726]); 728_profiles.json ($.profiles[725]); 728_profiles.json ($.profiles[721]); 728_profiles.json ($.profiles[724])
+   test_2        #44  route=code_interpreter hata=-
+      simdi: 728_profiles.json ($.profiles[82]); 728_profiles.json ($.profiles[463]); 728_profiles.json ($.profiles[312]); 728_profiles.json ($.profiles[718])
+   test_2        #45  route=code_interpreter hata=-
+      simdi: 728_profiles.json ($.fieldGuide); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 20); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 17); 728_profiles.json ($.sourceReference)
+   test_2        #51  route=code_interpreter hata=-
+      simdi: 728_profiles.json ($.statistics); 728_profiles.json ($.fieldGuide); 728_profiles.json ($.profiles[413]); 728_profiles.json ($.profiles[415])
+   test_2        #52  route=code_interpreter hata=-
+      simdi: 728_profiles.json ($.statistics); 728_profiles.json ($.profiles[239]); 728_profiles.json ($.profiles[233]); 728_profiles.json ($.profiles[234])
+   test_2        #53  route=code_interpreter hata=-
+      simdi: 728_profiles.json ($.profiles[725]); 728_profiles.json ($.profiles[726]); 728_profiles.json ($.profiles[714]); 728_profiles.json ($.profiles[701])
+   test_2        #57  route=code_interpreter hata=-
+      simdi: 728_profiles.json ($.statistics); 728_profiles.json ($.fieldGuide); 728_profiles.json ($.profiles[415]); 728_profiles.json ($.profiles[411])
+   test_2        #60  route=code_interpreter hata=-
+      simdi: 728_profiles.json ($.profiles[397]); 728_profiles.json ($.profiles[395]); 728_profiles.json ($.profiles[399]); 728_profiles.json ($.profiles[396])
+   test_4        #93  route=semantic_rag hata=-
+      simdi: test1.txt (paragraf 6); test1.txt (paragraf 5); test2.txt (paragraf 6); test1.txt (paragraf 2)
+   test_5        #107 route=code_interpreter hata=-
+      simdi: 728_profiles.json ($.profiles[397]); 728_profiles.json ($.profiles[395]); 728_profiles.json ($.profiles[393]); 728_profiles.json ($.profiles[396])
+   test_5        #108 route=code_interpreter hata=-
+      simdi: 728_profiles.json ($.statistics); 728_profiles.json ($.profiles[397]); 728_profiles.json ($.profiles[396]); 728_profiles.json ($.sourceReference)
+   test_5        #109 route=code_interpreter hata=-
+      simdi: 728_profiles.json ($.statistics); 728_profiles.json ($.profiles[397]); 728_profiles.json ($.profiles[394]); 728_profiles.json ($.profiles[395])
+   test_negative #211 route=code_interpreter hata=-
+      simdi: 728_profiles.json ($.profiles[445]); 728_profiles.json ($.profiles[394]); 728_profiles.json ($.profiles[387]); 728_profiles.json ($.profiles[386])
+   test_negative #212 route=code_interpreter hata=-
+      simdi: 728_profiles.json ($.statistics); 728_profiles.json ($.profiles[561]); 728_profiles.json ($.profiles[560]); 728_profiles.json ($.profiles[493])
+   test_negative #217 route=semantic_rag hata=-
+      simdi: 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 2); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 22); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 16); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 28)
+   test_negative #218 route=code_interpreter hata=-
+      simdi: mock-transactions.json ($.transactions[8]); mock-transactions.json ($.transactions[0]); mock-transactions.json ($.transactions[1]); mock-transactions.json ($.transactions[3])
+   test_negative #225 route=code_interpreter hata=-
+      simdi: mock-transactions.json ($.transactions[1]); mock-transactions.json ($.transactions[0]); 728_profiles.json ($.profiles[392]); 728_profiles.json ($.profiles[397])
+   test_negative #228 route=code_interpreter hata=-
+      simdi: 728_profiles.json ($.statistics); 728_profiles.json ($.profiles[397]); 728_profiles.json ($.profiles[398]); 728_profiles.json ($.sourceReference)
+   test_negative #231 route=code_interpreter hata=-
+      simdi: 728_profiles.json ($.metadata); 728_profiles.json ($.profiles[393]); 728_profiles.json ($.profiles[397]); 728_profiles.json ($.profiles[396])
+   test_negative #232 route=code_interpreter hata=-
+      simdi: 728_profiles.json ($.profiles[399]); 728_profiles.json ($.profiles[395]); 728_profiles.json ($.profiles[397]); airports.json ($.airports[3])

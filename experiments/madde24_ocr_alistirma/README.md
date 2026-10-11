@@ -7,6 +7,7 @@ skorlayıcıyla yeniden hesaplanır. Servis gerektirmez.
 | Dosya | Ne yapar |
 |---|---|
 | `kapsam.py` → `sonuc_kapsam.txt` | Gramer PDF'i / OCR sayfası (22–31) bağlama giren negatif sorular ve sınıfları; sonda madde 28 tripwire'ı |
+| `etkilenen_set.py` → `sonuc_etkilenen_set.txt`, `etkilenen_set.csv` | Plan Adım 0: (A) işaretlenen chunk'ların tam listesi + beklenmeyenler, (B) bağlamında işaretli chunk olan benchmark soruları (retrieve top_k=5, LLM'siz) ve v8 kaynak listesiyle fark. Sonuç yorumu: [plan §5](../../docs/implementation_plan_madde24_ocr_isaret.md) |
 | `../madde25_ret_tespiti/uzun_ret_tripwire.py` → `../madde25_ret_tespiti/sonuc_uzun_ret_tripwire.txt` | Negatif sette ret sayılan ve 120 karakterden uzun cevaplar (madde 28 koruması); taban: tek eşleşme v5 #231 |
 
 ## OCR değişikliği (`dffb6a5`) ne yaptı
