@@ -1,0 +1,3 @@
+id,zorluk,soru,beklenen_kaynak,dokumanda_var_mi,cevap,bulunan_kaynaklar,sure_sn,context,dogrulama_durumu
+43,Orta,experience.credentialSummary alanı occupation türüne göre nasıl değişmektedir; Aile Hekimliği Uzmanı ile Yetenek Yönetimi Uzmanı örnekleri üzerinden karşılaştırın.,728_profiles.json,Evet,HATA: service_failure: code_interpreter LLM servisi yanıt veremedi,,0,,
+44,Orta,appointmentSettings içindeki minimumNoticeHours ile cancellationNoticeHours kavramsal olarak birbirinden nasıl ayrılmaktadır?,728_profiles.json,Evet,HATA: service_failure: code_interpreter LLM servisi yanıt veremedi,,0,,

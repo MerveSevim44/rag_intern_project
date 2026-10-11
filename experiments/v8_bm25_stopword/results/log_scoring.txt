@@ -1,0 +1,160 @@
+
+================================================================================
+🎯 OTOMATİK SKORLAMA & BENCHMARK SONUÇLARI — test_1
+================================================================================
+Toplam Değerlendirilen Soru : 30
+Genel Exact Match (EM)      : %16.7
+Genel Token F1 Skoru        : %54.9
+Genel ROUGE-L Skoru         : %50.6
+Genel Semantik Benzerlik    : %84.5
+Genel Soft Match (Soft EM)  : %26.7
+Retrieval Kaynak Doğruluğu  : %100.0  (MRR %100.0 | Recall@1 %100.0)
+Ortalama Yanıt Süresi       : 16.79 sn
+Halüsinasyon (FP) Oranı     : 0 / 30 (%0.0)
+--------------------------------------------------------------------------------
+📊 Kategori Bazlı Dağılım:
+  [Kolay   ] EM: % 66.7 | Soft: % 83.3 | F1: % 65.6 | ROUGE-L: % 64.9 | Semantik: % 88.2 | Kaynak: %100.0 | Süre: 19.4s
+  [Orta    ] EM: %  5.0 | Soft: % 15.0 | F1: % 56.1 | ROUGE-L: % 51.6 | Semantik: % 84.1 | Kaynak: %100.0 | Süre: 15.7s
+  [Zor     ] EM: %  0.0 | Soft: %  0.0 | F1: % 33.0 | ROUGE-L: % 23.8 | Semantik: % 80.8 | Kaynak: %100.0 | Süre: 18.3s
+================================================================================
+📁 Kaydedilen Dosyalar:
+  - Scored CSV   : C:\Users\merve\Desktop\rag_project\..\experiments\v8_bm25_stopword\report\test_1_scored.csv
+  - Summary JSON : C:\Users\merve\Desktop\rag_project\..\experiments\v8_bm25_stopword\report\test_1_summary.json
+  - Grafikler    : C:\Users\merve\Desktop\rag_project\..\experiments\v8_bm25_stopword\report\benchmark_charts\test_1
+
+================================================================================
+🎯 OTOMATİK SKORLAMA & BENCHMARK SONUÇLARI — test_2
+================================================================================
+Toplam Değerlendirilen Soru : 27  (+3 HATA satırı hariç)
+Genel Exact Match (EM)      : %0.0
+Genel Token F1 Skoru        : %37.4
+Genel ROUGE-L Skoru         : %32.9
+Genel Semantik Benzerlik    : %80.3
+Genel Soft Match (Soft EM)  : %3.7
+Retrieval Kaynak Doğruluğu  : %100.0  (MRR %100.0 | Recall@1 %100.0)
+Ortalama Yanıt Süresi       : 31.91 sn
+Halüsinasyon (FP) Oranı     : 0 / 27 (%0.0)
+Cevapsız (FN) kırılımı      : retrieval kaçırdı 0 | doğru kaynak geldi ama cevap yok 2
+⚠️  run_tests HATA'sı olan 3 soru hiçbir metriğe dahil edilmedi (id: 43, 44, 53). Bu soruları yeniden çalıştırın.
+--------------------------------------------------------------------------------
+📊 Kategori Bazlı Dağılım:
+  [Kolay   ] EM: %  0.0 | Soft: % 16.7 | F1: % 57.1 | ROUGE-L: % 55.2 | Semantik: % 88.9 | Kaynak: %100.0 | Süre: 23.2s
+  [Orta    ] EM: %  0.0 | Soft: %  0.0 | F1: % 38.7 | ROUGE-L: % 34.3 | Semantik: % 81.0 | Kaynak: %100.0 | Süre: 29.2s
+  [Zor     ] EM: %  0.0 | Soft: %  0.0 | F1: % 22.4 | ROUGE-L: % 16.2 | Semantik: % 73.7 | Kaynak: %100.0 | Süre: 41.3s
+================================================================================
+📁 Kaydedilen Dosyalar:
+  - Scored CSV   : C:\Users\merve\Desktop\rag_project\..\experiments\v8_bm25_stopword\report\test_2_scored.csv
+  - Summary JSON : C:\Users\merve\Desktop\rag_project\..\experiments\v8_bm25_stopword\report\test_2_summary.json
+  - Grafikler    : C:\Users\merve\Desktop\rag_project\..\experiments\v8_bm25_stopword\report\benchmark_charts\test_2
+
+================================================================================
+🎯 OTOMATİK SKORLAMA & BENCHMARK SONUÇLARI — test_3
+================================================================================
+Toplam Değerlendirilen Soru : 30
+Genel Exact Match (EM)      : %0.0
+Genel Token F1 Skoru        : %37.5
+Genel ROUGE-L Skoru         : %31.4
+Genel Semantik Benzerlik    : %78.9
+Genel Soft Match (Soft EM)  : %13.3
+Retrieval Kaynak Doğruluğu  : %100.0  (MRR %100.0 | Recall@1 %100.0)
+Ortalama Yanıt Süresi       : 25.84 sn
+Halüsinasyon (FP) Oranı     : 0 / 30 (%0.0)
+Cevapsız (FN) kırılımı      : retrieval kaçırdı 0 | doğru kaynak geldi ama cevap yok 2
+--------------------------------------------------------------------------------
+📊 Kategori Bazlı Dağılım:
+  [Kolay   ] EM: %  0.0 | Soft: % 14.3 | F1: % 40.6 | ROUGE-L: % 32.0 | Semantik: % 80.9 | Kaynak: %100.0 | Süre: 29.3s
+  [Orta    ] EM: %  0.0 | Soft: % 15.8 | F1: % 36.7 | ROUGE-L: % 32.2 | Semantik: % 77.1 | Kaynak: %100.0 | Süre: 22.3s
+  [Zor     ] EM: %  0.0 | Soft: %  0.0 | F1: % 35.6 | ROUGE-L: % 26.4 | Semantik: % 84.3 | Kaynak: %100.0 | Süre: 36.5s
+================================================================================
+📁 Kaydedilen Dosyalar:
+  - Scored CSV   : C:\Users\merve\Desktop\rag_project\..\experiments\v8_bm25_stopword\report\test_3_scored.csv
+  - Summary JSON : C:\Users\merve\Desktop\rag_project\..\experiments\v8_bm25_stopword\report\test_3_summary.json
+  - Grafikler    : C:\Users\merve\Desktop\rag_project\..\experiments\v8_bm25_stopword\report\benchmark_charts\test_3
+
+================================================================================
+🎯 OTOMATİK SKORLAMA & BENCHMARK SONUÇLARI — test_4
+================================================================================
+Toplam Değerlendirilen Soru : 10
+Genel Exact Match (EM)      : %10.0
+Genel Token F1 Skoru        : %22.1
+Genel ROUGE-L Skoru         : %17.3
+Genel Semantik Benzerlik    : %71.7
+Genel Soft Match (Soft EM)  : %10.0
+Retrieval Kaynak Doğruluğu  : %100.0  (MRR %100.0 | Recall@1 %100.0)
+Ortalama Yanıt Süresi       : 19.94 sn
+Halüsinasyon (FP) Oranı     : 0 / 10 (%0.0)
+Cevapsız (FN) kırılımı      : retrieval kaçırdı 0 | doğru kaynak geldi ama cevap yok 2
+--------------------------------------------------------------------------------
+📊 Kategori Bazlı Dağılım:
+  [Kolay   ] EM: % 33.3 | Soft: % 33.3 | F1: % 16.9 | ROUGE-L: % 16.9 | Semantik: % 61.6 | Kaynak: %100.0 | Süre: 26.1s
+  [Orta    ] EM: %  0.0 | Soft: %  0.0 | F1: % 29.1 | ROUGE-L: % 21.2 | Semantik: % 82.0 | Kaynak: %100.0 | Süre: 17.1s
+  [Zor     ] EM: %  0.0 | Soft: %  0.0 | F1: % 12.2 | ROUGE-L: %  8.1 | Semantik: % 60.7 | Kaynak: %100.0 | Süre: 17.7s
+================================================================================
+📁 Kaydedilen Dosyalar:
+  - Scored CSV   : C:\Users\merve\Desktop\rag_project\..\experiments\v8_bm25_stopword\report\test_4_scored.csv
+  - Summary JSON : C:\Users\merve\Desktop\rag_project\..\experiments\v8_bm25_stopword\report\test_4_summary.json
+  - Grafikler    : C:\Users\merve\Desktop\rag_project\..\experiments\v8_bm25_stopword\report\benchmark_charts\test_4
+
+================================================================================
+🎯 OTOMATİK SKORLAMA & BENCHMARK SONUÇLARI — test_5
+================================================================================
+Toplam Değerlendirilen Soru : 15
+Genel Exact Match (EM)      : %80.0
+Genel Token F1 Skoru        : %80.0
+Genel ROUGE-L Skoru         : %80.0
+Genel Semantik Benzerlik    : %80.0
+Genel Soft Match (Soft EM)  : %80.0
+Retrieval Kaynak Doğruluğu  : — (set yalnızca negatif soru içeriyor)
+Ortalama Yanıt Süresi       : 29.59 sn
+Halüsinasyon (FP) Oranı     : 3 / 15 (%20.0)
+--------------------------------------------------------------------------------
+📊 Kategori Bazlı Dağılım:
+  [Negatif ] EM: % 80.0 | Soft: % 80.0 | F1: % 80.0 | ROUGE-L: % 80.0 | Semantik: % 80.0 | Kaynak: %100.0 | Süre: 29.6s
+================================================================================
+📁 Kaydedilen Dosyalar:
+  - Scored CSV   : C:\Users\merve\Desktop\rag_project\..\experiments\v8_bm25_stopword\report\test_5_scored.csv
+  - Summary JSON : C:\Users\merve\Desktop\rag_project\..\experiments\v8_bm25_stopword\report\test_5_summary.json
+  - Grafikler    : C:\Users\merve\Desktop\rag_project\..\experiments\v8_bm25_stopword\report\benchmark_charts\test_5
+
+================================================================================
+🎯 OTOMATİK SKORLAMA & BENCHMARK SONUÇLARI — test_negative
+================================================================================
+Toplam Değerlendirilen Soru : 32
+Genel Exact Match (EM)      : %90.6
+Genel Token F1 Skoru        : %90.6
+Genel ROUGE-L Skoru         : %90.6
+Genel Semantik Benzerlik    : %90.6
+Genel Soft Match (Soft EM)  : %90.6
+Retrieval Kaynak Doğruluğu  : — (set yalnızca negatif soru içeriyor)
+Ortalama Yanıt Süresi       : 26.85 sn
+Halüsinasyon (FP) Oranı     : 3 / 32 (%9.4)
+--------------------------------------------------------------------------------
+📊 Kategori Bazlı Dağılım:
+  [Negatif ] EM: % 90.6 | Soft: % 90.6 | F1: % 90.6 | ROUGE-L: % 90.6 | Semantik: % 90.6 | Kaynak: %100.0 | Süre: 26.9s
+================================================================================
+📁 Kaydedilen Dosyalar:
+  - Scored CSV   : C:\Users\merve\Desktop\rag_project\..\experiments\v8_bm25_stopword\report\test_negative_scored.csv
+  - Summary JSON : C:\Users\merve\Desktop\rag_project\..\experiments\v8_bm25_stopword\report\test_negative_summary.json
+  - Grafikler    : C:\Users\merve\Desktop\rag_project\..\experiments\v8_bm25_stopword\report\benchmark_charts\test_negative
+
+================================================================================================
+GENEL DEĞERLENDİRME — TÜM TEST SETLERİNİN TOPLAMI
+================================================================================================================
+Set         Soru   Ref     EM%   Soft%     F1%    RgL%    Sem%   Retr%    MRR%   TP   TN   FP   FN   Sure(s)
+----------------------------------------------------------------------------------------------------------------
+test_1        30    30    16.7    26.7    54.9    50.6    84.5   100.0   100.0   30    0    0    0     16.79
+test_2        30    27     0.0     3.7    37.4    32.9    80.3   100.0   100.0   25    0    0    2     31.91
+test_3        30    30     0.0    13.3    37.5    31.4    78.9   100.0   100.0   28    0    0    2     25.84
+test_4        10    10    10.0    10.0    22.1    17.3    71.7   100.0   100.0    8    0    0    2     19.94
+test_5        15    15    80.0    80.0    80.0    80.0    80.0   100.0     0.0    0   12    3    0     29.59
+test_negative    32    32    90.6    90.6    90.6    90.6    90.6   100.0     0.0    0   29    3    0     26.85
+----------------------------------------------------------------------------------------------------------------
+GENEL        147   144    32.6    38.2    56.2    52.9    82.5   100.0   100.0   91   41    6    6     25.30
+================================================================================================================
+Halusinasyon (FP) orani     : 6/47 (%12.8) [negatif set uzerinden]
+Negatif test basarisi (TN)  : 41/47 (%87.2)
+Cevapsiz kalma (FN) orani   : 6/144 (%4.2)
+UYARI: 3 soruda run_tests HATA'sı var - hicbir metrige girmedi: test_2: 43, 44, 53
+Birlesik CSV  : C:\Users\merve\Desktop\rag_project\..\experiments\v8_bm25_stopword\report\genel_scored.csv
+Genel ozet    : C:\Users\merve\Desktop\rag_project\..\experiments\v8_bm25_stopword\report\genel_summary.json
+Genel grafik  : C:\Users\merve\Desktop\rag_project\..\experiments\v8_bm25_stopword\report\benchmark_charts\genel

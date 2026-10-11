@@ -1,0 +1,65 @@
+Soru seti: C:\Users\merve\Desktop\rag_project\evaluation\datasets\test_2.csv  (2 soru)
+Model yukleniyor...
+[Foundry] Model yüklendi: qwen2.5-7b-instruct-cuda-gpu:4 | execution provider: CUDAExecutionProvider | cihaz: GPU
+[Foundry] Servis adresi: http://127.0.0.1:63683
+[Foundry] Serviste yüklü modeller: ['qwen2.5-7b-instruct-cuda-gpu:4']
+[43] Soruluyor: experience.credentialSummary alanı occupation türüne göre nasıl değişmektedir; Aile Hekimliği Uzmanı ile Yetenek Yönetimi Uzmanı örnekleri üzerinden karşılaştırın.
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['occupation', 'experience.years~experience', 'experience.credentialSummary', 'profileType~tür', 'type~tür']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+# Aile Hekimliği Uzmanı ve Yetenek Yönetimi Uzmanı olan kayıtları filtrele
+medics = df[df['occupation'] == 'Aile Hekimliği Uzmanı']
+hr_experts = df[df['occupation'] == 'Yetenek Yönetimi Uzmanı']
+
+# Credential Summary bilgilerini getir
+medics_credential_summary = medics['experience.credentialSummary'].values
+hr_experts_credential_summary = hr_experts['experience.credentialSummary'].values
+
+# Credential Summary bilgilerini karşılaştır ve farkları hesapla
+result = {
+    'Aile Hekimliği Uzmanı Credential Summary': medics_credential_summary.tolist(),
+    'Yetenek Yönetimi Uzmanı Credential Summary': hr_experts_credential_summary.tolist(),
+    'Credential Summary Farkı (%)': [
+        percent_change(medics_credential_summary[i], hr_experts_credential_summary[i]) 
+        for i in range(len(medics_credential_summary))
+    ]
+}
+
+result
+[CodeInterpreter] Hata alindi (1. deneme): ValueError: could not convert string to float: 'Tıp eğitimi ve uzmanlık'
+[CodeInterpreter] Deneme 2/3...
+[CodeInterpreter] Uretilen Kod:
+# Aile Hekimliği Uzmanı ve Yetenek Yönetimi Uzmanı olan kayıtları filtrele
+medics = df[df['occupation'] == 'Aile Hekimliği Uzmanı']
+hr_experts = df[df['occupation'] == 'Yetenek Yönetimi Uzmanı']
+
+# Credential Summary bilgilerini getir
+medics_credential_summary = medics['experience.credentialSummary'].values
+hr_experts_credential_summary = hr_experts['experience.credentialSummary'].values
+
+# Credential Summary bilgilerini karşılaştır ve farkları hesapla
+result = {
+    'Aile Hekimliği Uzmanı Credential Summary': medics_credential_summary.tolist(),
+    'Yetenek Yönetimi Uzmanı Credential Summary': hr_experts_credential_summary.tolist(),
+    'Credential Summary Farkı (%)': [
+        percent_change(medics_credential_summary[i], hr_experts_credential_summary[i]) 
+        for i in range(len(medics_credential_summary))
+    ]
+}
+
+result
+[CodeInterpreter] Hata alindi (2. deneme): ValueError: could not convert string to float: 'Tıp eğitimi ve uzmanlık'
+[CodeInterpreter] Deneme 3/3...
+[CodeInterpreter] LLM COKTU (3. deneme): OpenAIAPIError
+[CodeInterpreter] 3 deneme basarisiz oldu. Son hata: LLM servisi yanit veremedi (OpenAIAPIError): Error code: 500 - {'type': 'https://tools.ietf.org/html/rfc9110#section-15.6.1', 'title': 'Failed to handle openAI completion', 'status': 500, 'detail': 'E:\\_work\\1\\s\\onnxruntime\\core\\framework\
+    -> 0 sn
+
+[44] Soruluyor: appointmentSettings içindeki minimumNoticeHours ile cancellationNoticeHours kavramsal olarak birbirinden nasıl ayrılmaktadır?
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['appointmentSettings.defaultDurationMinutes~appointmentSettings', 'appointmentSettings.minimumNoticeHours~appointmentSettings', 'appointmentSettings.cancellationNoticeHours~appointmentSettings', 'appointmentSettings.autoApproveRequests~appointmentSettings']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] LLM COKTU (1. deneme): OpenAIAPIError
+[CodeInterpreter] 3 deneme basarisiz oldu. Son hata: LLM servisi yanit veremedi (OpenAIAPIError): Error code: 500 - {'type': 'https://tools.ietf.org/html/rfc9110#section-15.6.1', 'title': 'Failed to handle openAI completion', 'status': 500, 'detail': 'E:\\_work\\1\\s\\onnxruntime\\core\\framework\
+    -> 0 sn
+
+
+Tamamlandi. 2 soru, 1.7 dk. Sonuclar: C:\Users\merve\Desktop\rag_project\experiments\v8_bm25_stopword\results\retry_test_2_43_44.csv

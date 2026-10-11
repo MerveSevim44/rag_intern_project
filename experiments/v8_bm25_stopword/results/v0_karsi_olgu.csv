@@ -1,0 +1,1001 @@
+set,id,soru,cevap,bulunan_kaynaklar,sure_sn,context,dogrulama_durumu,baglam_katman1_eski_ile_ayni
+test_1,1,G4.1 dilbilgisinde VT kümesinin elemanları nelerdir?,"G4.1 dilbilgisinde VT kümesinin elemanları {+, -, *, /, (, ), v, c} dir.",8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 3); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 21); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 26); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 6),45.23,"[1] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 3
+Örnek 4.1
+G4.1=<VN, VT, P, S>
+VN= { S }
+VT={+, -, *, /, (, ), v, c }
+P: S=> S+S| S-S |S*S |S/S | (S) | v | c
+G4.1 tarafından türetilen tümcelerden biri bulunmak istendiğinde:
+S=> S*S => S*(S) => S*(S-S) => v*(S-S) => v*(v-S) =>v*(v-c)
+S=>S*S =>(S)*S =>(S)*(S) => (S+S)*(S) => (S+S)*(S-S) => (S+S)*(S-S/S)
+=>(v+S)*(S-S/S) => (v+c)*(S-S/S) => (v+c)*(v-S/S) => (v+c)*(v-v/S)
+=> (v+c)*(v-v/c)
+S=> S+S => S*S +S => (S)*S+S => (S/S)*S+S => (S/(S))*S+S
+Þ (S/(S-S))*S+S => (v/(S-S))*S+S => (v/(v-S))*S+S=> (v/(v-c))*S+S
+Þ => (v/(v-c))*v+S =>(v/(v-c))*v+c
+
+[2] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 21
+Örnek 4.7
+G’4.7=<VN, VT, P, S> • Şimdi de (G’4.7)’deki değişkenlerden
+VN= { S, A, B, C, D, E, F } hangilerinin S’den ulaşılabilen değişkenler
+olduğunu bulmak gerekir. S’den
+VT={a, b}
+ulaşılabilen değişkenler kümesi algoritma
+P: S=> B |BS
+4.6 kullanılarak aşağıdaki gibi bulunur:
+A=> aA | aF
+• T = { S, B }
+B=>b U
+• Yukarıdaki kümede yer almayan A,
+E=> aA | BSA
+E ve F değişkenleri yararsız değişkenlerdir.
+F=> bB |b
+Dilbilgisinden bu üç değişken ile bu
+______________________
+değişkenlerin yer aldığı kurallar
+G” =<V , V , P, S>
+4.7 N T çıkarıldığında a simgesinin de yararsız bir
+V = { S, B}
+N simge olduğu görülür. Bu simge de
+VT={b} çıkarıldığında (G4.7)’ye eşdeğer; yararsız
+P: S=> B |BS simge, değişken ve kural içermeyen
+aşağıdaki dilbilgisi bulunur:
+B=>b
+
+[3] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 26
+4.5.6. Örnek 6
+Omek 6
+Asagidaki baglamdan-bagimsiz her dilbilgisinin turettigi dilin kume tanimini
+veriniz.
+a) Gs.4.6.1 = ≤VN,VT,P, S >
+VN = {S,A, B, C}
+Vt = {a, b }
+P:S ==> aS|aA
+A==>aA|bB
+B ==>aBbC
+C ==> aC|a
+b)Gs.4.6.2 = <VN,VT,P. S >
+V= {S,X,Y}
+V = {a, b, c, d, e }
+P:S ==>aSeXY
+X==> aXc|b
+Y ==> cYe| d
+
+[4] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 6
+Örnek 4.4
+G4.4=<VN, VT, P, S>
+VN= { S, A}
+VT={0, 1}
+P: S=> 0S0 | 1S1 |0A0 |1A1
+A=> 0A1 | 1A0 |01 |10
+G4.4 tarafından türetilen tümcelerden biri bulunmak istendiğinde:
+S=> 0S0 => 01A10 => 010A110 => 01010110
+S=> 0S0 => 01S10 => 011S110 => 0110A1110 => 01100A11110 => 011001011110
+S=> 0S0 => 00S00 => 000S000 => 0001A1000 => 00010A11000 => 000100A111000 =>
+0001000A1111000 => 00010001011111000
+Yukarıdaki örneklerden bu bağlamdan bağımsız dilbilgisi tarafından L(G4.2) dili aşağıdaki gibi
+tanımlanabilir:
+L(G4.3) ={uv(v’)RuR | u,v ε(0+1)*, |u|≥1, |v|≥1}
+uR u’nun tersi(reverse)
+(v’)R V’nin tümlerinin tersi",,False
+test_1,6,G4.2 dilbilgisinin uç simgeler (VT) kümesi nelerdir?,"G4.2 dilbilgisinin uç simgeler (VT) kümesi {a, b, c, d} dir.",8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 4); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 18); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 21); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 20),16.25,"[1] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 4
+Örnek 4.2
+G4.2=<VN, VT, P, S>
+VN= { S, A, B }
+VT={a, b, c, d}
+P: S=> aAdd
+A=> aAd |Ad |bBcc
+B=>bBc |Bc |λ
+G4.2 tarafından türetilen tümcelerden biri bulunmak istendiğinde:
+S=> aAdd =>abBccdd =>abccdd
+S=> aAdd =>aaAddd => aabBccddd =>aabccddd
+S=>aAdd =>aaAddd => aaAdddd => aaaAddddd=> aaabBccddddd =>
+aaabBccccdddddd = > aaabbccccddddd
+Yukarıdaki örneklerden bu bağlamdan bağımsız dilbilgisi tarafından L(G4.2) dili
+aşağıdaki gibi tanımlanabilir:
+L(G4.2) ={anbmckdp | n,m,p,k ≥1, p>n , k>m}
+
+[2] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 18
+4.3.4.1. Yararsız Değişken ve Kuralların Atılması
+• Bağlamdan-bağımsız bir dilbilgisi (G) verildiğinde, yararsız değişken ve kurallar
+atılarak eşdeğer bir dilbilgisinin bulunması iki adımda gerçekleştirilir.
+• Birinci adımda, algoritma 4.5 kullanılarak uç simge dizgisi türeten değişkenler
+kümesi bulunur. Bu kümede yer almayan değişkenler yararsız değişkenlerdir.
+Dilbilgisinden bu değişkenler ile bu değişkenlerin yer aldığı kurallar çıkarılarak
+eşdeğer bir dilbilgisi (G’) bulunur.
+• Algoritma 4.5. Uç simge dizgisi türeten değişkenler kümesinin bulunması:
+1. TD={A | (A=>w) ε P ve w ε VT* };
+2. (T=Teski) oluncaya kadar aşağıdaki işlemleri tekrarla:
+2.1 Teski=TD;
+2.2 Dilbilgisindeki her değişken (A) için aşağıdaki işlemleri tekrarla:
+2.2.1 Her (A=>β) kuralı için aşağıdaki işlemleri tekrarla:
+eğer β ε (TeskiU VT)* ise A’yı TD’ye ekle
+Son 2.2.1:
+Son 2.2
+Son 2.
+
+[3] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 21
+Örnek 4.7
+G’4.7=<VN, VT, P, S> • Şimdi de (G’4.7)’deki değişkenlerden
+VN= { S, A, B, C, D, E, F } hangilerinin S’den ulaşılabilen değişkenler
+olduğunu bulmak gerekir. S’den
+VT={a, b}
+ulaşılabilen değişkenler kümesi algoritma
+P: S=> B |BS
+4.6 kullanılarak aşağıdaki gibi bulunur:
+A=> aA | aF
+• T = { S, B }
+B=>b U
+• Yukarıdaki kümede yer almayan A,
+E=> aA | BSA
+E ve F değişkenleri yararsız değişkenlerdir.
+F=> bB |b
+Dilbilgisinden bu üç değişken ile bu
+______________________
+değişkenlerin yer aldığı kurallar
+G” =<V , V , P, S>
+4.7 N T çıkarıldığında a simgesinin de yararsız bir
+V = { S, B}
+N simge olduğu görülür. Bu simge de
+VT={b} çıkarıldığında (G4.7)’ye eşdeğer; yararsız
+P: S=> B |BS simge, değişken ve kural içermeyen
+aşağıdaki dilbilgisi bulunur:
+B=>b
+
+[4] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 20
+Örnek 4.7
+G4.7=<VN, VT, P, S> • (G4.7)’ye eşdeğer; yararsız
+değişken, simge ve kural
+VN= { S, A, B, C, D,
+içermeyen bir dilbilgisi bulmak
+E, F }
+için önce (G4.7)’deki
+V ={a, b}
+T değişkenlerden hangilerinin uç
+simge dizgisi türeten
+P: S=> B | AC
+değişkenler olduğunu bulmak
+|BS
+gerekir. Uç simge dizgisi türeten
+A=> aA | aF
+değişkenler kümesi algoritma
+B=>CF | b 4.5 ile aşağıdaki gibi bulunur:
+C=> cC |D • TD = { S, A, B, E, F }
+D=> C | aD • Yukarıdaki kümede yer
+almayan C ve D değişkenleri
+|BD
+yararsız değişkenlerdir.
+E=> aA | BSA
+F=> bB |b",,True
+test_1,7,G4.1 dilbilgisinde S=>S*S=>S*(S)=>S*(S-S)=>v*(S-S)=>v*(v-S)=>v*(v-c) türetmesi sonunda hangi tümce elde edilmiştir?,v*(v-c) Bu türetme sonunda elde edilen tümce,8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 3); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 6); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 15); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 12),15.78,"[1] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 3
+Örnek 4.1
+G4.1=<VN, VT, P, S>
+VN= { S }
+VT={+, -, *, /, (, ), v, c }
+P: S=> S+S| S-S |S*S |S/S | (S) | v | c
+G4.1 tarafından türetilen tümcelerden biri bulunmak istendiğinde:
+S=> S*S => S*(S) => S*(S-S) => v*(S-S) => v*(v-S) =>v*(v-c)
+S=>S*S =>(S)*S =>(S)*(S) => (S+S)*(S) => (S+S)*(S-S) => (S+S)*(S-S/S)
+=>(v+S)*(S-S/S) => (v+c)*(S-S/S) => (v+c)*(v-S/S) => (v+c)*(v-v/S)
+=> (v+c)*(v-v/c)
+S=> S+S => S*S +S => (S)*S+S => (S/S)*S+S => (S/(S))*S+S
+Þ (S/(S-S))*S+S => (v/(S-S))*S+S => (v/(v-S))*S+S=> (v/(v-c))*S+S
+Þ => (v/(v-c))*v+S =>(v/(v-c))*v+c
+
+[2] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 6
+Örnek 4.4
+G4.4=<VN, VT, P, S>
+VN= { S, A}
+VT={0, 1}
+P: S=> 0S0 | 1S1 |0A0 |1A1
+A=> 0A1 | 1A0 |01 |10
+G4.4 tarafından türetilen tümcelerden biri bulunmak istendiğinde:
+S=> 0S0 => 01A10 => 010A110 => 01010110
+S=> 0S0 => 01S10 => 011S110 => 0110A1110 => 01100A11110 => 011001011110
+S=> 0S0 => 00S00 => 000S000 => 0001A1000 => 00010A11000 => 000100A111000 =>
+0001000A1111000 => 00010001011111000
+Yukarıdaki örneklerden bu bağlamdan bağımsız dilbilgisi tarafından L(G4.2) dili aşağıdaki gibi
+tanımlanabilir:
+L(G4.3) ={uv(v’)RuR | u,v ε(0+1)*, |u|≥1, |v|≥1}
+uR u’nun tersi(reverse)
+(v’)R V’nin tümlerinin tersi
+
+[3] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 15
+w =v/(v-c)+v*(v+c) soldan ve sağdan
+2
+türetme
+a) w2’in soldan türetilmesi:
+b) w ’in sağdan türetilmesi:
+S=>S+S 2
+S=> S+S
+=>S/S+S
+ÞS+S*S
+=>v/S*S
+ÞS+S*(S)
+=> v/(S)+S
+ÞS+S*(S+S)
+=>v/(S-S)+S
+ÞS+S*(S+c)
+=>v/(v-S)+S
+ÞS+S*(v+c)
+=> v/(v-c)+S
+ÞS+v*(v+c)
+=> v/(v-c)+S*S
+ÞS/S + v*(v+c)
+=>v/(v-c)+v*S
+ÞS/(S-S) + v*(v+c)
+=>v/(v-c)+v*(S)
+ÞS/(S-c) + v*(v+c)
+=>v/(v-c)+v*(S+S)
+ÞS/(v-c) + v*(v+c)
+=> v/(v-c)+v*(v+S)
+Þv/(v-c) + v*(v+c)
+Þ v/(v-c)+v*(v+c)
+
+[4] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 12
+Türetme ağacı:
+w1=(v+c)*(v-c)
+S
+S * S
+)
+( S ( S )
+S + S S - S
+v c v c",,True
+test_1,29,Örnek 8'deki G_S.4.8.1 dilbilgisinin türettiği L_S.4.8.1 dilinde üs olarak neden 2k+1 kullanılmıştır; B=>bbBdd|C kuralı bunu nasıl sağlar?,"B=>bbBdd|C kuralı, S => aSaaB kuralından elde edilen terimlerde üs olarak 2k+1",8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 30); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 21); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 4); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 20),19.16,"[1] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 30
+4.5.8. Örnek 8
+Omek8
+Asagidaki baglamdan-bagimsiz her dilbilgisinin turettigi dilin kume tanimini
+veriniz.
+a) Gs.4.8.1 = <VN, Vt. P, S >
+V={S,B,C}
+V = {a, b, d }
+P:S ==>aSaaB
+B ==>bbBdd|C
+C ==> bd
+b) Gs.4.6.2 = <Vn, Vt, P, S >
+V={S,A}
+V = { a, b, c, d }
+P:S ==>abSdcA
+A==> cdAba
+
+[2] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 21
+Örnek 4.7
+G’4.7=<VN, VT, P, S> • Şimdi de (G’4.7)’deki değişkenlerden
+VN= { S, A, B, C, D, E, F } hangilerinin S’den ulaşılabilen değişkenler
+olduğunu bulmak gerekir. S’den
+VT={a, b}
+ulaşılabilen değişkenler kümesi algoritma
+P: S=> B |BS
+4.6 kullanılarak aşağıdaki gibi bulunur:
+A=> aA | aF
+• T = { S, B }
+B=>b U
+• Yukarıdaki kümede yer almayan A,
+E=> aA | BSA
+E ve F değişkenleri yararsız değişkenlerdir.
+F=> bB |b
+Dilbilgisinden bu üç değişken ile bu
+______________________
+değişkenlerin yer aldığı kurallar
+G” =<V , V , P, S>
+4.7 N T çıkarıldığında a simgesinin de yararsız bir
+V = { S, B}
+N simge olduğu görülür. Bu simge de
+VT={b} çıkarıldığında (G4.7)’ye eşdeğer; yararsız
+P: S=> B |BS simge, değişken ve kural içermeyen
+aşağıdaki dilbilgisi bulunur:
+B=>b
+
+[3] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 4
+Örnek 4.2
+G4.2=<VN, VT, P, S>
+VN= { S, A, B }
+VT={a, b, c, d}
+P: S=> aAdd
+A=> aAd |Ad |bBcc
+B=>bBc |Bc |λ
+G4.2 tarafından türetilen tümcelerden biri bulunmak istendiğinde:
+S=> aAdd =>abBccdd =>abccdd
+S=> aAdd =>aaAddd => aabBccddd =>aabccddd
+S=>aAdd =>aaAddd => aaAdddd => aaaAddddd=> aaabBccddddd =>
+aaabBccccdddddd = > aaabbccccddddd
+Yukarıdaki örneklerden bu bağlamdan bağımsız dilbilgisi tarafından L(G4.2) dili
+aşağıdaki gibi tanımlanabilir:
+L(G4.2) ={anbmckdp | n,m,p,k ≥1, p>n , k>m}
+
+[4] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 20
+Örnek 4.7
+G4.7=<VN, VT, P, S> • (G4.7)’ye eşdeğer; yararsız
+değişken, simge ve kural
+VN= { S, A, B, C, D,
+içermeyen bir dilbilgisi bulmak
+E, F }
+için önce (G4.7)’deki
+V ={a, b}
+T değişkenlerden hangilerinin uç
+simge dizgisi türeten
+P: S=> B | AC
+değişkenler olduğunu bulmak
+|BS
+gerekir. Uç simge dizgisi türeten
+A=> aA | aF
+değişkenler kümesi algoritma
+B=>CF | b 4.5 ile aşağıdaki gibi bulunur:
+C=> cC |D • TD = { S, A, B, E, F }
+D=> C | aD • Yukarıdaki kümede yer
+almayan C ve D değişkenleri
+|BD
+yararsız değişkenlerdir.
+E=> aA | BSA
+F=> bB |b",,True
+test_2,40,"location.serviceArea alanı bazı profillerde 'district, city' formatındayken bazılarında 'district / online' formatında görünmektedir; bu farkın nedeni serviceModes alanıyla nasıl ilişkilidir?","location.serviceArea alanı 'district / online' formatında görünmesi, serviceModes alanındaki ""Online"" seçeneğinin olduğuna dayanabilir. Eğer bir profesyonelin hizmet modellerinde online hizmet sunmuşsa, location.serviceArea alanı 'district / online' olarak belirtilmiş olabilir. Bu durumda, profesyonelin hizmet alanı belirli bir semtte yerelleşmiş bir hizmet sunırken, aynı zamanda çevrimiçi olarak da hizmet verebileceği anlatılmaktadır. Öte yandan, location.serviceArea alanı 'district' formatında görünmesi, profesyonelin sadece belirli bir semtte yerelleşmiş bir hizmet suntuğunu ifade edebilir. Bu durumda, serviceModes alanında online hizmet sunma seçeneği bulunmamaktadır. Bu fark, profesyonelin hizmet modelini yansıtmaktadır.",728_profiles.json ($.fieldGuide); 728_profiles.json ($.profiles[461]); 728_profiles.json ($.profiles[377]); 728_profiles.json ($.statistics),26.75,"[1] Kaynak: 728_profiles.json, $.fieldGuide
+displayName: Public-facing profile/business name.
+professionalName: Synthetic responsible professional name.
+sector: Primary appointment sector.
+occupation: Service provider role.
+headline: Short public profile headline.
+about: Short realistic profile description.
+location: Country/city/district and service area; no exact address.
+serviceModes: Face-to-face, online or on-site mode.
+services: Appointment services with duration and short description.
+appointmentSettings: Duration, notice, cancellation and auto-approval settings.
+weeklyAvailability: Representative weekly working hours.
+displayName: Public-facing profile/business name.
+professionalName: Synthetic responsible professional name.
+sector: Primary appointment sector.
+occupation: Service provider role.
+headline: Short public profile headline.
+about: Short realistic profile description.
+location: Country/city/district and service area; no exact address.
+serviceModes: Face-to-face, online or on-site mode.
+services: Appointment services with duration and short description.
+appointmentSettings: Duration, notice, cancellation and auto-approval settings.
+weeklyAvailability: Representative weekly working hours.
+profileCode: Synthetic DateBind-style identifier; does not imply a live account.
+publicContact: Public contact visibility; intentionally no real phone/email.
+
+[2] Kaynak: 728_profiles.json, $.profiles[461]
+profileCode: DB-ZAD9FUWP
+synthetic: True
+profileType: individual
+displayName: Seda Özdemir
+professionalName: Seda Özdemir
+sector: İş ve Kariyer
+occupation: Yönetim Danışmanı
+headline: KOBİ ve girişimler için yönetim danışmanlığı
+location.country: Türkiye
+location.city: Sakarya
+location.district: Adapazarı
+location.serviceArea: Adapazarı / online
+location.exactAddressPublic: False
+serviceModes[0]: Yüz yüze
+serviceModes[1]: Online
+services[0].name: Süreç iyileştirme
+services[0].durationMinutes: 60
+services[0].description: Süreç iyileştirme için önceden planlanan birebir randevu.
+services[0].appointmentMode: Online
+services[1].name: İş analizi görüşmesi
+services[1].durationMinutes: 45
+services[1].description: İş analizi görüşmesi için önceden planlanan birebir randevu.
+services[1].appointmentMode: Online
+services[2].name: Strateji görüşmesi
+services[2].durationMinutes: 90
+services[2].description: Strateji görüşmesi için önceden planlanan birebir randevu.
+services[2].appointmentMode: Online
+experience.years: 21
+experience.credentialSummary: Yönetim ve danışmanlık deneyimi
+languages[0]: Türkçe
+appointmentSettings.defaultDurationMinutes: 45
+appointmentSettings.minimumNoticeHours: 4
+appointmentSettings.cancellationNoticeHours: 6
+appointmentSettings.autoApproveRequests: False
+about: Adapazarı, Sakarya merkezli olarak yönetim danışmanı alanında 21 yıldır çalışıyorum. Randevularımı düzenli, zamanında ve ihtiyaca göre yapılandırılmış şekilde yürütüyorum. […kısaltıldı]
+
+[3] Kaynak: 728_profiles.json, $.profiles[377]
+profileCode: DB-N33PBZD4
+synthetic: True
+profileType: individual
+displayName: Defne Şimşek
+professionalName: Defne Şimşek
+sector: Teknoloji ve Yazılım
+occupation: Yazılım Danışmanı
+headline: Yazılım mimarisi ve proje teknik danışmanlığı
+location.country: Türkiye
+location.city: Gaziantep
+location.district: Şehitkamil
+location.serviceArea: Türkiye geneli (online)
+location.exactAddressPublic: False
+serviceModes[0]: Online
+services[0].name: Teknik ön görüşme
+services[0].durationMinutes: 90
+services[0].description: Teknik ön görüşme için önceden planlanan birebir randevu.
+services[0].appointmentMode: Online
+services[1].name: Mimari değerlendirme
+services[1].durationMinutes: 30
+services[1].description: Mimari değerlendirme için önceden planlanan birebir randevu.
+services[1].appointmentMode: Online
+experience.years: 10
+experience.credentialSummary: Bilgisayar/yazılım alanında eğitim ve deneyim
+languages[0]: Türkçe
+appointmentSettings.defaultDurationMinutes: 30
+appointmentSettings.minimumNoticeHours: 4
+appointmentSettings.cancellationNoticeHours: 6
+appointmentSettings.autoApproveRequests: False
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 09:30
+weeklyAvailability[0].end: 18:00
+weeklyAvailability[1].day: Salı
+about: 10 yıllık deneyimimle yazılım danışmanı alanında bireysel hizmet sunuyorum. İlk görüşmede ihtiyacı değerlendiriyor, sonraki adımları açık ve planlı biçimde belirliyorum. […kısaltıldı]
+
+[4] Kaynak: 728_profiles.json, $.statistics
+profileCount: 728
+sectorCount: 22
+occupationCount: 91
+sectorDistribution.Ağız ve Diş Sağlığı: 32
+sectorDistribution.Beslenme ve Sağlıklı Yaşam: 32
+sectorDistribution.Dil Eğitimi: 32
+sectorDistribution.Etkinlik ve Organizasyon: 32
+sectorDistribution.Ev ve Yerinde Hizmet: 32
+sectorDistribution.Evcil Hayvan Hizmetleri: 32
+sectorDistribution.Eğitim ve Özel Ders: 40
+sectorDistribution.Fizyoterapi ve Rehabilitasyon: 32
+sectorDistribution.Güzellik ve Kişisel Bakım: 32
+sectorDistribution.Hukuk ve Mali Hizmetler: 32
+sectorDistribution.Kamu ve STK: 32
+sectorDistribution.Kreatif ve Tasarım: 32
+sectorDistribution.Kuaför ve Berber: 32
+sectorDistribution.Otomotiv: 32
+sectorDistribution.Psikoloji ve Danışmanlık: 32
+sectorDistribution.Sanat ve Hobi: 32
+sectorDistribution.Sağlık: 40
+sectorDistribution.Spor ve Fitness: 40
+sectorDistribution.Teknik Servis ve Bakım: 32
+sectorDistribution.Teknoloji ve Yazılım: 32
+sectorDistribution.İş ve Kariyer: 32
+sectorDistribution.İşe Alım ve Görüşme: 32",,True
+test_2,47,"fieldGuide bölümündeki 'publicContact' açıklaması ile örnek profillerdeki publicContact nesnesinin (phone:null, email:null) içeriği birbiriyle tutarlı mıdır?","Evet, örnek profillerdeki publicContact nesnesinin içeriği 'publicContact' açıklamasına (phone:False, email:False) göre tutarlıdır.",728_profiles.json ($.fieldGuide); 728_profiles.json ($.profiles[469]); 728_profiles.json ($.profiles[471]); 728_profiles.json ($.safetyAndDataQuality),21.19,"[1] Kaynak: 728_profiles.json, $.fieldGuide
+displayName: Public-facing profile/business name.
+professionalName: Synthetic responsible professional name.
+sector: Primary appointment sector.
+occupation: Service provider role.
+headline: Short public profile headline.
+about: Short realistic profile description.
+location: Country/city/district and service area; no exact address.
+serviceModes: Face-to-face, online or on-site mode.
+services: Appointment services with duration and short description.
+appointmentSettings: Duration, notice, cancellation and auto-approval settings.
+weeklyAvailability: Representative weekly working hours.
+displayName: Public-facing profile/business name.
+professionalName: Synthetic responsible professional name.
+sector: Primary appointment sector.
+occupation: Service provider role.
+headline: Short public profile headline.
+about: Short realistic profile description.
+location: Country/city/district and service area; no exact address.
+serviceModes: Face-to-face, online or on-site mode.
+services: Appointment services with duration and short description.
+appointmentSettings: Duration, notice, cancellation and auto-approval settings.
+weeklyAvailability: Representative weekly working hours.
+profileCode: Synthetic DateBind-style identifier; does not imply a live account.
+publicContact: Public contact visibility; intentionally no real phone/email.
+
+[2] Kaynak: 728_profiles.json, $.profiles[469]
+profileCode: DB-H23AAHY7
+synthetic: True
+profileType: individual
+displayName: Oğuz Taş
+professionalName: Oğuz Taş
+sector: İş ve Kariyer
+occupation: Girişim Mentoru
+headline: Erken aşama girişimler için birebir mentorluk
+location.country: Türkiye
+location.city: İstanbul
+location.district: Başakşehir
+location.serviceArea: Türkiye geneli (online)
+location.exactAddressPublic: False
+serviceModes[0]: Online
+services[0].name: Pazar doğrulama
+services[0].durationMinutes: 60
+services[0].description: Pazar doğrulama için önceden planlanan birebir randevu.
+services[0].appointmentMode: Online
+services[1].name: Yol haritası görüşmesi
+services[1].durationMinutes: 45
+services[1].appointmentMode: Online
+experience.years: 10
+experience.credentialSummary: Girişimcilik ve iş geliştirme deneyimi
+languages[0]: Türkçe
+appointmentSettings.defaultDurationMinutes: 45
+appointmentSettings.minimumNoticeHours: 24
+appointmentSettings.cancellationNoticeHours: 6
+appointmentSettings.autoApproveRequests: False
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 09:00
+weeklyAvailability[0].end: 17:00
+weeklyAvailability[1].day: Salı
+weeklyAvailability[1].active: True
+weeklyAvailability[1].start: 09:00
+weeklyAvailability[1].end: 17:00
+weeklyAvailability[2].day: Çarşamba
+weeklyAvailability[2].active: True
+weeklyAvailability[2].start: 09:00
+weeklyAvailability[2].end: 17:00
+publicContact.phoneVisible: False
+publicContact.emailVisible: False […kısaltıldı]
+
+[3] Kaynak: 728_profiles.json, $.profiles[471]
+profileCode: DB-FWFEWYJ2
+synthetic: True
+profileType: individual
+displayName: Hakan Karaca
+professionalName: Hakan Karaca
+sector: İş ve Kariyer
+occupation: Girişim Mentoru
+headline: Erken aşama girişimler için birebir mentorluk
+location.country: Türkiye
+location.city: Kocaeli
+location.district: İzmit
+location.serviceArea: Türkiye geneli (online)
+location.exactAddressPublic: False
+serviceModes[0]: Online
+services[0].name: İş modeli görüşmesi
+services[0].durationMinutes: 45
+services[0].description: İş modeli görüşmesi için önceden planlanan birebir randevu.
+services[0].appointmentMode: Online
+services[1].name: Pazar doğrulama
+services[1].durationMinutes: 60
+services[1].description: Pazar doğrulama için önceden planlanan birebir randevu.
+services[1].appointmentMode: Online
+experience.years: 6
+experience.credentialSummary: Girişimcilik ve iş geliştirme deneyimi
+languages[0]: Türkçe
+appointmentSettings.defaultDurationMinutes: 45
+appointmentSettings.minimumNoticeHours: 24
+appointmentSettings.cancellationNoticeHours: 6
+appointmentSettings.autoApproveRequests: False
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 09:00
+weeklyAvailability[0].end: 17:00
+weeklyAvailability[1].day: Salı
+weeklyAvailability[1].active: True
+weeklyAvailability[1].start: 09:00
+weeklyAvailability[1].end: 17:00
+weeklyAvailability[2].day: Çarşamba
+publicContact.phoneVisible: False
+publicContact.emailVisible: False […kısaltıldı]
+
+[4] Kaynak: 728_profiles.json, $.safetyAndDataQuality
+syntheticOnly: True
+realPersonVerificationClaimed: False
+realBusinessVerificationClaimed: False
+exactStreetAddressesIncluded: False
+realPhoneNumbersIncluded: False
+realEmailsIncluded: False
+intendedUse[0]: demo
+intendedUse[1]: test
+intendedUse[2]: seed data
+intendedUse[3]: UI population
+syntheticOnly: True
+realPersonVerificationClaimed: False
+realBusinessVerificationClaimed: False
+exactStreetAddressesIncluded: False
+realPhoneNumbersIncluded: False
+realEmailsIncluded: False
+intendedUse[0]: demo
+intendedUse[1]: test
+intendedUse[2]: seed data
+intendedUse[3]: UI population",,True
+test_2,49,"intendedUse listesinde belirtilen 'demo', 'test', 'seed data', 'UI population' kullanım amaçları syntheticOnly=true ayarıyla nasıl bir tutarlılık göstermektedir?","'intendedUse' listesinde belirtilen kullanım amaçları ('demo', 'test', 'seed data', 'UI population') syntheticOnly=true ayarı ile tutarlıdır, çünkü tüm bunlar simüle verilerin ve test senaryolarının bir parçası olduğunu gösterir. Bu amaçlar, gerçek kullanıcı verilerinin yerine yapay verilerin kullanılmasını sağlar ve sistemın veya uygulamanın test edilmesini ve popülasyonun doldurulmasını kolaylaştırır. Bu kullanım amaçları, verilerin gerçek kişilerden veya işletmelerden elde edilmemiş olduğunu ve sadece test ve demo amacıyla oluşturulduğunu vurgular.",728_profiles.json ($.safetyAndDataQuality); 728_profiles.json ($.profiles[423]); 728_profiles.json ($.sourceReference); Summer School Foundry Local Plan.docx (bölüm 7),32.81,"[1] Kaynak: 728_profiles.json, $.safetyAndDataQuality
+syntheticOnly: True
+realPersonVerificationClaimed: False
+realBusinessVerificationClaimed: False
+exactStreetAddressesIncluded: False
+realPhoneNumbersIncluded: False
+realEmailsIncluded: False
+intendedUse[0]: demo
+intendedUse[1]: test
+intendedUse[2]: seed data
+intendedUse[3]: UI population
+syntheticOnly: True
+realPersonVerificationClaimed: False
+realBusinessVerificationClaimed: False
+exactStreetAddressesIncluded: False
+realPhoneNumbersIncluded: False
+realEmailsIncluded: False
+intendedUse[0]: demo
+intendedUse[1]: test
+intendedUse[2]: seed data
+intendedUse[3]: UI population
+
+[2] Kaynak: 728_profiles.json, $.profiles[423]
+profileCode: DB-48NYVFWV
+synthetic: True
+profileType: individual
+displayName: Sude Güneş
+professionalName: Sude Güneş
+sector: Kreatif ve Tasarım
+occupation: UX/UI Tasarımcısı
+headline: Dijital ürün deneyimi ve arayüz tasarımı
+location.country: Türkiye
+location.city: Ankara
+location.district: Mamak
+location.serviceArea: Türkiye geneli (online)
+location.exactAddressPublic: False
+serviceModes[0]: Online
+services[0].name: Kullanılabilirlik görüşmesi
+services[0].durationMinutes: 60
+services[0].appointmentMode: Online
+services[1].name: Arayüz değerlendirme
+services[1].durationMinutes: 60
+services[1].description: Arayüz değerlendirme için önceden planlanan birebir randevu.
+services[1].appointmentMode: Online
+services[2].name: UX keşif görüşmesi
+services[2].durationMinutes: 45
+services[2].description: UX keşif görüşmesi için önceden planlanan birebir randevu.
+services[2].appointmentMode: Online
+experience.years: 22
+experience.credentialSummary: UX/UI tasarım deneyimi
+languages[0]: Türkçe
+languages[1]: İngilizce
+appointmentSettings.defaultDurationMinutes: 45
+weeklyAvailability[0].active: True
+weeklyAvailability[1].active: True
+weeklyAvailability[2].active: True
+weeklyAvailability[3].active: True
+weeklyAvailability[4].active: True
+searchKeywords[6]: UX/UI Tasarımcısı
+about: UX/UI Tasarımcısı olarak 22 yıllık mesleki deneyimle Mamak, Ankara bölgesinde randevulu hizmet veriyorum. Görüşmelerde ihtiyacı netleştirip uygulanabilir bir plan oluşturmaya önem veriyorum. […kısaltıldı]
+
+[3] Kaynak: 728_profiles.json, $.sourceReference
+publicProfileUrl: https://datebind.com/tr/public-profile/DB-56GYXCDN
+dateBindSite: https://datebind.com/
+publicProfileUrl: https://datebind.com/tr/public-profile/DB-56GYXCDN
+dateBindSite: https://datebind.com/
+note: Public profile page is JavaScript-rendered. Dataset is a realistic synthetic superset designed for DateBind demo/test population and is not a list of verified real people or businesses.
+
+[4] Kaynak: Summer School Foundry Local Plan.docx, bölüm 7
+Phase 3 (Week 5–6): Testing, Evaluation & Documentation
+Objectives: In the final phase, students will refine and test their applications, evaluate performance and accuracy, and produce documentation and a presentation. By the end of this phase, projects should be polished and ready to demonstrate.
+Week 5: System Testing & Evaluation
+Topics & Activities:
+Functional Testing: Students develop test cases to ensure their assistant works for a variety of queries (both queries it can answer and ones it should not be able to). They should verify that:
+It handles edge cases (like empty query input, or very general questions).   *Approach:* Students can compile a small set of Q\&As (some answerable from the docs, some unanswerable) to systematically test their bots. If possible, swap test questions between teams to simulate “real users.” They should run their program for each test query and capture the outputs.
+Milestone by mid Week 5: Test results documented – a list of queries attempted and whether the responses were correct/appropriate. Students should identify any shortcomings and plan final adjustments.
+Final Presentation Prep: Each group will give a short demo and presentation of their local RAG assistant at the end of the program. Guide them to highlight:
+Live Demo: Show the assistant answering a few sample questions, including one where it cites a source or says it doesn’t know (to prove it handles uncertain queries responsibly). […kısaltıldı]",,True
+test_4,92,Anlatıcının Oda No: 304'ü kiraladığı şehir ve mevsim hangisidir?,Bu bilgi dokümanlarda bulunamadı.,test2.txt (paragraf 1); 728_profiles.json ($.fieldGuide); lsarSist-H9_ZTransform.pdf (sayfa 15); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 6),14.86,"[1] Kaynak: test2.txt, paragraf 1
+Oda No: 304 ve Sarı Yapraklar
+Her şey, İstanbul’un o meşhur, yağmurlu kasım sabahlarından birinde başladı. İstiklal Caddesi’nin ara sokaklarında, zamanın teğet geçtiği o eski apartmanlardan birinde küçük bir daire kiralamıştım: Oda No: 304. Ev sahibi, antikacı bir amcaydı ve evi bana teslim ederken tek bir şey söylemişti: ""Eşyaların bazıları bir önceki kiracıdan kaldı, istersen atabilirsin.""
+
+[2] Kaynak: 728_profiles.json, $.fieldGuide
+displayName: Public-facing profile/business name.
+professionalName: Synthetic responsible professional name.
+sector: Primary appointment sector.
+occupation: Service provider role.
+headline: Short public profile headline.
+about: Short realistic profile description.
+location: Country/city/district and service area; no exact address.
+serviceModes: Face-to-face, online or on-site mode.
+services: Appointment services with duration and short description.
+appointmentSettings: Duration, notice, cancellation and auto-approval settings.
+weeklyAvailability: Representative weekly working hours.
+displayName: Public-facing profile/business name.
+professionalName: Synthetic responsible professional name.
+sector: Primary appointment sector.
+occupation: Service provider role.
+headline: Short public profile headline.
+about: Short realistic profile description.
+location: Country/city/district and service area; no exact address.
+serviceModes: Face-to-face, online or on-site mode.
+services: Appointment services with duration and short description.
+appointmentSettings: Duration, notice, cancellation and auto-approval settings.
+weeklyAvailability: Representative weekly working hours.
+profileCode: Synthetic DateBind-style identifier; does not imply a live account.
+publicContact: Public contact visibility; intentionally no real phone/email.
+
+[3] Kaynak: lsarSist-H9_ZTransform.pdf, sayfa 15
+Z-transform Properties
+• Right shift (delay)
+x  n − m  u  n − m   z − m X ( z )
+ m 
+x  n − m  u  n   z − m X ( z ) + z − m l x  − l  z l
+= 1
+Second property used in solving difference equations
+Second property derived in Appendix N of course reader
+by decomposing the left-hand side as follows:
+x[n-m] u[n] = x[n-m] (u[n] – u[n-m]) + x[n-m] u[n-m]
+15 11.11.2025 KOÜ-Bilgisayar Müh.
+
+[4] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 6
+Örnek 4.4
+G4.4=<VN, VT, P, S>
+VN= { S, A}
+VT={0, 1}
+P: S=> 0S0 | 1S1 |0A0 |1A1
+A=> 0A1 | 1A0 |01 |10
+G4.4 tarafından türetilen tümcelerden biri bulunmak istendiğinde:
+S=> 0S0 => 01A10 => 010A110 => 01010110
+S=> 0S0 => 01S10 => 011S110 => 0110A1110 => 01100A11110 => 011001011110
+S=> 0S0 => 00S00 => 000S000 => 0001A1000 => 00010A11000 => 000100A111000 =>
+0001000A1111000 => 00010001011111000
+Yukarıdaki örneklerden bu bağlamdan bağımsız dilbilgisi tarafından L(G4.2) dili aşağıdaki gibi
+tanımlanabilir:
+L(G4.3) ={uv(v’)RuR | u,v ε(0+1)*, |u|≥1, |v|≥1}
+uR u’nun tersi(reverse)
+(v’)R V’nin tümlerinin tersi",,True
+test_5,115,Oda No: 304 hikayesinde anlatıcının mesleği nedir?,Bu bilgi dokümanlarda bulunamadı.,test2.txt (paragraf 1); 728_profiles.json ($.profiles[314]); 728_profiles.json ($.profiles[500]); 728_profiles.json ($.profiles[502]),20.29,"[1] Kaynak: test2.txt, paragraf 1
+Oda No: 304 ve Sarı Yapraklar
+Her şey, İstanbul’un o meşhur, yağmurlu kasım sabahlarından birinde başladı. İstiklal Caddesi’nin ara sokaklarında, zamanın teğet geçtiği o eski apartmanlardan birinde küçük bir daire kiralamıştım: Oda No: 304. Ev sahibi, antikacı bir amcaydı ve evi bana teslim ederken tek bir şey söylemişti: ""Eşyaların bazıları bir önceki kiracıdan kaldı, istersen atabilirsin.""
+
+[2] Kaynak: 728_profiles.json, $.profiles[314]
+profileCode: DB-TEGJDSPB
+synthetic: True
+profileType: individual
+displayName: Pınar Yıldız
+professionalName: Pınar Yıldız
+sector: Dil Eğitimi
+occupation: İngilizce Öğretmeni
+headline: Birebir İngilizce konuşma ve akademik destek
+location.country: Türkiye
+location.city: Ankara
+location.district: Yenimahalle
+location.serviceArea: Türkiye geneli (online)
+location.exactAddressPublic: False
+serviceModes[0]: Online
+services[0].name: Konuşma dersi
+services[0].durationMinutes: 45
+services[0].description: Konuşma dersi için önceden planlanan birebir randevu.
+services[0].appointmentMode: Online
+services[1].name: Okul destek dersi
+services[1].durationMinutes: 45
+services[1].description: Okul destek dersi için önceden planlanan birebir randevu.
+services[1].appointmentMode: Online
+experience.years: 5
+experience.credentialSummary: İngilizce öğretmenliği veya dil eğitimi
+languages[0]: Türkçe
+appointmentSettings.defaultDurationMinutes: 45
+appointmentSettings.minimumNoticeHours: 4
+appointmentSettings.cancellationNoticeHours: 24
+appointmentSettings.autoApproveRequests: False
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 17:00
+weeklyAvailability[0].end: 21:00
+weeklyAvailability[1].day: Salı
+weeklyAvailability[1].active: True
+about: İngilizce Öğretmeni olarak 5 yıllık mesleki deneyimle Yenimahalle, Ankara bölgesinde randevulu hizmet veriyorum. Görüşmelerde ihtiyacı netleştirip uygulanabilir bir plan oluşturmaya önem veriyorum. […kısaltıldı]
+
+[3] Kaynak: 728_profiles.json, $.profiles[500]
+profileCode: DB-3ZRNBR5H
+synthetic: True
+profileType: individual
+displayName: Umut Özer
+professionalName: Umut Özer
+sector: Hukuk ve Mali Hizmetler
+occupation: Gayrimenkul Danışmanı
+headline: Satış, kiralama ve portföy görüşmeleri
+location.country: Türkiye
+location.city: Bursa
+location.district: Yıldırım
+location.serviceArea: Yıldırım, Bursa
+location.exactAddressPublic: False
+serviceModes[0]: Yüz yüze
+services[0].name: Portföy tanışma
+services[0].durationMinutes: 60
+services[0].description: Portföy tanışma için önceden planlanan birebir randevu.
+services[0].appointmentMode: Yüz yüze
+services[1].name: Mülk değerlendirme
+services[1].durationMinutes: 30
+services[1].description: Mülk değerlendirme için önceden planlanan birebir randevu.
+services[1].appointmentMode: Yüz yüze
+experience.years: 16
+experience.credentialSummary: Gayrimenkul danışmanlığı deneyimi
+languages[0]: Türkçe
+appointmentSettings.defaultDurationMinutes: 30
+appointmentSettings.minimumNoticeHours: 24
+appointmentSettings.cancellationNoticeHours: 24
+appointmentSettings.autoApproveRequests: True
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 10:00
+weeklyAvailability[0].end: 18:30
+weeklyAvailability[1].day: Salı
+weeklyAvailability[1].active: True
+about: Gayrimenkul Danışmanı olarak 16 yıllık mesleki deneyimle Yıldırım, Bursa bölgesinde randevulu hizmet veriyorum. Görüşmelerde ihtiyacı netleştirip uygulanabilir bir plan oluşturmaya önem veriyorum. […kısaltıldı]
+
+[4] Kaynak: 728_profiles.json, $.profiles[502]
+profileCode: DB-PXXVR69C
+synthetic: True
+profileType: individual
+displayName: Ahmet Özdemir
+professionalName: Ahmet Özdemir
+sector: Hukuk ve Mali Hizmetler
+occupation: Gayrimenkul Danışmanı
+headline: Satış, kiralama ve portföy görüşmeleri
+location.country: Türkiye
+location.city: Adana
+location.district: Çukurova
+location.serviceArea: Çukurova, Adana
+location.exactAddressPublic: False
+serviceModes[0]: Yüz yüze
+services[0].name: Yer gösterme randevusu
+services[0].durationMinutes: 30
+services[0].appointmentMode: Yüz yüze
+services[1].name: Mülk değerlendirme
+services[1].durationMinutes: 60
+services[1].description: Mülk değerlendirme için önceden planlanan birebir randevu.
+services[1].appointmentMode: Yüz yüze
+experience.years: 7
+experience.credentialSummary: Gayrimenkul danışmanlığı deneyimi
+languages[0]: Türkçe
+languages[1]: İngilizce
+appointmentSettings.defaultDurationMinutes: 30
+appointmentSettings.minimumNoticeHours: 12
+appointmentSettings.cancellationNoticeHours: 4
+appointmentSettings.autoApproveRequests: True
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 09:30
+weeklyAvailability[0].end: 18:00
+weeklyAvailability[1].day: Salı
+weeklyAvailability[1].active: True
+weeklyAvailability[1].start: 09:30
+about: Gayrimenkul Danışmanı olarak 7 yıllık mesleki deneyimle Çukurova, Adana bölgesinde randevulu hizmet veriyorum. Görüşmelerde ihtiyacı netleştirip uygulanabilir bir plan oluşturmaya önem veriyorum. […kısaltıldı]",,True
+test_negative,229,Summer School programının 2027 yılı kayıt takvimi nasıldır?,Bu bilgi dokümanlarda bulunamadı.,728_profiles.json ($.profiles[692]); 728_profiles.json ($.profiles[321]); 728_profiles.json ($.profiles[333]); 728_profiles.json ($.profiles[360]),20.63,"[1] Kaynak: 728_profiles.json, $.profiles[692]
+profileCode: DB-N2J89RFG
+synthetic: True
+profileType: individual
+displayName: Deniz Bayraktar
+professionalName: Deniz Bayraktar
+sector: Kamu ve STK
+occupation: Üniversite Öğrenci Danışma Birimi
+headline: Öğrenci süreçleri için randevulu danışmanlık
+location.country: Türkiye
+location.city: Mersin
+location.district: Yenişehir
+location.serviceArea: Yenişehir, Mersin
+location.exactAddressPublic: False
+serviceModes[0]: Yüz yüze
+services[0].name: Yönlendirme randevusu
+services[0].durationMinutes: 20
+services[0].appointmentMode: Yüz yüze
+services[1].name: Öğrenci işleri görüşmesi
+services[1].durationMinutes: 20
+services[1].appointmentMode: Yüz yüze
+experience.years: 4
+experience.credentialSummary: Kurumsal öğrenci hizmetleri
+languages[0]: Türkçe
+appointmentSettings.defaultDurationMinutes: 20
+appointmentSettings.minimumNoticeHours: 12
+appointmentSettings.cancellationNoticeHours: 4
+appointmentSettings.autoApproveRequests: True
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 09:00
+weeklyAvailability[0].end: 17:00
+weeklyAvailability[1].day: Salı
+weeklyAvailability[1].active: True
+weeklyAvailability[1].start: 09:00
+weeklyAvailability[1].end: 17:00
+weeklyAvailability[2].day: Çarşamba
+weeklyAvailability[2].active: True
+about: Yenişehir, Mersin merkezli olarak üniversite öğrenci danışma birimi alanında 4 yıldır çalışıyorum. Randevularımı düzenli, zamanında ve ihtiyaca göre yapılandırılmış şekilde yürütüyorum. […kısaltıldı]
+
+[2] Kaynak: 728_profiles.json, $.profiles[321]
+profileCode: DB-G3Y39FYF
+synthetic: True
+profileType: individual
+displayName: Aylin Işık
+professionalName: Aylin Işık
+sector: Dil Eğitimi
+occupation: Almanca Öğretmeni
+headline: Başlangıç ve orta düzey Almanca özel ders
+location.country: Türkiye
+location.city: Ankara
+location.district: Yenimahalle
+location.serviceArea: Türkiye geneli (online)
+location.exactAddressPublic: False
+serviceModes[0]: Online
+services[0].name: Konuşma pratiği
+services[0].durationMinutes: 45
+services[0].description: Konuşma pratiği için önceden planlanan birebir randevu.
+services[0].appointmentMode: Online
+services[1].name: Seviye tespit
+services[1].durationMinutes: 60
+services[1].description: Seviye tespit için önceden planlanan birebir randevu.
+services[1].appointmentMode: Online
+experience.years: 15
+experience.credentialSummary: Almanca öğretmenliği veya dil eğitimi
+languages[0]: Türkçe
+appointmentSettings.defaultDurationMinutes: 45
+appointmentSettings.minimumNoticeHours: 6
+appointmentSettings.cancellationNoticeHours: 24
+appointmentSettings.autoApproveRequests: False
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 17:00
+weeklyAvailability[0].end: 21:00
+weeklyAvailability[1].day: Salı
+weeklyAvailability[1].active: True
+weeklyAvailability[1].start: 17:00
+about: Yenimahalle, Ankara merkezli olarak almanca öğretmeni alanında 15 yıldır çalışıyorum. Randevularımı düzenli, zamanında ve ihtiyaca göre yapılandırılmış şekilde yürütüyorum. […kısaltıldı]
+
+[3] Kaynak: 728_profiles.json, $.profiles[333]
+profileCode: DB-GVYPCWHM
+synthetic: True
+profileType: individual
+displayName: Can Şahin
+professionalName: Can Şahin
+sector: Dil Eğitimi
+occupation: Fransızca Öğretmeni
+headline: Birebir Fransızca öğrenme programı
+location.country: Türkiye
+location.city: Bursa
+location.district: Yıldırım
+location.serviceArea: Türkiye geneli (online)
+location.exactAddressPublic: False
+serviceModes[0]: Online
+services[0].name: Seviye tespit
+services[0].durationMinutes: 60
+services[0].description: Seviye tespit için önceden planlanan birebir randevu.
+services[0].appointmentMode: Online
+services[1].name: Başlangıç dersi
+services[1].durationMinutes: 45
+services[1].description: Başlangıç dersi için önceden planlanan birebir randevu.
+services[1].appointmentMode: Online
+experience.years: 17
+experience.credentialSummary: Fransızca öğretmenliği veya dil eğitimi
+languages[0]: Türkçe
+appointmentSettings.defaultDurationMinutes: 45
+appointmentSettings.minimumNoticeHours: 6
+appointmentSettings.cancellationNoticeHours: 4
+appointmentSettings.autoApproveRequests: False
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 17:00
+weeklyAvailability[0].end: 21:00
+weeklyAvailability[1].day: Salı
+weeklyAvailability[1].active: True
+weeklyAvailability[1].start: 17:00
+about: Yıldırım, Bursa merkezli olarak fransızca öğretmeni alanında 17 yıldır çalışıyorum. Randevularımı düzenli, zamanında ve ihtiyaca göre yapılandırılmış şekilde yürütüyorum. […kısaltıldı]
+
+[4] Kaynak: 728_profiles.json, $.profiles[360]
+profileCode: DB-8PRAGWPS
+synthetic: True
+profileType: individual
+displayName: Tuğçe Şahin
+professionalName: Tuğçe Şahin
+sector: Sanat ve Hobi
+occupation: Resim Eğitmeni
+headline: Çocuk ve yetişkinler için birebir resim çalışmaları
+location.country: Türkiye
+location.city: Mersin
+location.district: Akdeniz
+location.serviceArea: Akdeniz, Mersin
+location.exactAddressPublic: False
+serviceModes[0]: Yüz yüze
+services[0].name: Renk çalışması
+services[0].durationMinutes: 90
+services[0].description: Renk çalışması için önceden planlanan birebir randevu.
+services[0].appointmentMode: Yüz yüze
+services[1].name: Çizim dersi
+services[1].durationMinutes: 90
+services[1].description: Çizim dersi için önceden planlanan birebir randevu.
+services[1].appointmentMode: Yüz yüze
+experience.years: 21
+experience.credentialSummary: Güzel sanatlar eğitimi
+languages[0]: Türkçe
+appointmentSettings.defaultDurationMinutes: 90
+appointmentSettings.minimumNoticeHours: 12
+appointmentSettings.cancellationNoticeHours: 24
+appointmentSettings.autoApproveRequests: False
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 17:00
+weeklyAvailability[0].end: 21:00
+weeklyAvailability[1].day: Salı
+weeklyAvailability[1].active: True
+weeklyAvailability[1].start: 17:00
+about: Akdeniz, Mersin merkezli olarak resim eğitmeni ala […kısaltıldı]",,True

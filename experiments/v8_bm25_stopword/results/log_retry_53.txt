@@ -1,0 +1,54 @@
+Soru seti: C:\Users\merve\Desktop\rag_project\evaluation\datasets\test_2.csv  (1 soru)
+Model yukleniyor...
+[Foundry] Model yüklendi: qwen2.5-7b-instruct-cuda-gpu:4 | execution provider: CUDAExecutionProvider | cihaz: GPU
+[Foundry] Servis adresi: http://127.0.0.1:63683
+[Foundry] Serviste yüklü modeller: ['qwen2.5-7b-instruct-cuda-gpu:4']
+[53] Soruluyor: Aynı occupation'a (Yetenek Yönetimi Uzmanı) sahip Sinem Arslan, Umut Aslan ve Emre Korkmaz profillerinin appointmentSettings değerlerini (minimumNoticeHours, cancellationNoticeHours, autoApproveRequests) gruplu bir çubuk grafikle karşılaştırdığınızda ortaya çıkan varyasyon veri setinin gerçekçilik tasarımına nasıl katkı sağlamaktadır?
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=8.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'occupation', 'appointmentSettings.defaultDurationMinutes~appointmentSettings', 'appointmentSettings.minimumNoticeHours~appointmentSettings', 'appointmentSettings.cancellationNoticeHours~cancellationNoticeHours']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+# Sinem Arslan, Umut Aslan ve Emre Korkmaz'ın profillerini filtreleyelim
+sinem_profile = df[(df['displayName'] == 'Sinem Arslan') & (df['occupation'] == 'Yetenek Yönetimi Uzmanı')]
+umut_profile = df[(df['displayName'] == 'Umut Aslan') & (df['occupation'] == 'Yetenek Yönetimi Uzmanı')]
+emre_profile = df[(df['displayName'] == 'Emre Korkmaz') & (df['occupation'] == 'Yetenek Yönetimi Uzmanı')]
+
+# Filtrlenmiş profilleri birleştirerek minimumNoticeHours, cancellationNoticeHours ve autoApproveRequests değerlerini alalım
+profiles = [sinem_profile, umut_profile, emre_profile]
+result = {
+    'displayName': [sinem_profile['displayName'].iloc[0], umut_profile['displayName'].iloc[0], emre_profile['displayName'].iloc[0]],
+    'minimumNoticeHours': [sinem_profile['appointmentSettings.minimumNoticeHours'].iloc[0], umut_profile['appointmentSettings.minimumNoticeHours'].iloc[0], emre_profile['appointmentSettings.minimumNoticeHours'].iloc[0]],
+    'cancellationNoticeHours': [sinem_profile['appointmentSettings.cancellationNoticeHours'].iloc[0], umut_profile['appointmentSettings.cancellationNoticeHours'].iloc[0], emre_profile['appointmentSettings.cancellationNoticeHours'].iloc[0]],
+    'autoApproveRequests': [sinem_profile['appointmentSettings.autoApproveRequests'].iloc[0], umut_profile['appointmentSettings.autoApproveRequests'].iloc[0], emre_profile['appointmentSettings.autoApproveRequests'].iloc[0]]
+}
+
+# Sonuçları bir DataFrame'e dönüştürelim
+result_df = pd.DataFrame(result)
+
+# Gruplu çubuk grafiği için minimumNoticeHours, cancellationNoticeHours ve autoApproveRequests değerlerini ayıralım
+min_notice_hours = result_df['minimumNoticeHours'].values
+cancellation_notice_hours = result_df['cancellationNoticeHours'].values
+auto_approve_requests = result_df['autoApproveRequests'].values
+
+# Çubuk grafiği için verileri hazırlayalım
+bar_data = {
+    'DisplayName': result_df['displayName'],
+    'Minimum Notice Hours': min_notice_hours,
+    'Cancellation Notice Hours': cancellation_notice_hours,
+    'Auto Approve Requests': auto_approve_requests
+}
+
+# Çubuk grafiği için DataFrame oluşturun
+bar_df = pd.DataFrame(bar_data)
+
+# Çubuk grafiğini çizelim
+import matplotlib.pyplot as plt
+plt.figure(figsize=(10, 6))
+barplot = bar_df.plot(kind='bar', x='DisplayName', y=['Minimum Notice Hours', 'Cancellation Notice
+[CodeInterpreter] Hata alindi (1. deneme): SyntaxError (Sözdizimi Hatası): unterminated string literal (detected at line 37) (Satır 37)
+[CodeInterpreter] Deneme 2/3...
+[CodeInterpreter] LLM COKTU (2. deneme): OpenAIAPIError
+[CodeInterpreter] 3 deneme basarisiz oldu. Son hata: LLM servisi yanit veremedi (OpenAIAPIError): Error code: 500 - {'type': 'https://tools.ietf.org/html/rfc9110#section-15.6.1', 'title': 'Failed to handle openAI completion', 'status': 500, 'detail': 'E:\\_work\\1\\s\\onnxruntime\\core\\framework\
+    -> 0 sn
+
+
+Tamamlandi. 1 soru, 0.8 dk. Sonuclar: C:\Users\merve\Desktop\rag_project\experiments\v8_bm25_stopword\results\retry_test_2_53.csv

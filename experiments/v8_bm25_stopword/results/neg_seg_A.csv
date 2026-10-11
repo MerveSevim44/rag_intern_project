@@ -1,0 +1,1754 @@
+id,zorluk,kategori,soru,beklenen_kaynak,dokumanda_var_mi,referans_cevap,cevap,bulunan_kaynaklar,sure_sn,context,dogrulama_durumu
+201,Negatif,Kapsam Disi,Blockchain tabanlı akıllı sözleşmelerde gaz (gas) ücreti nasıl hesaplanır?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,Bu bilgi dokümanlarda bulunamadı.,728_profiles.json ($.profiles[477]); mock-transactions.json ($.transactions[6]); 728_profiles.json ($.profiles[472]); 728_profiles.json ($.profiles[479]),64.63,"[1] Kaynak: 728_profiles.json, $.profiles[477]
+profileCode: DB-P4XQE34B
+synthetic: True
+profileType: individual
+displayName: Umut Şahin
+professionalName: Umut Şahin
+sector: Hukuk ve Mali Hizmetler
+occupation: Avukat
+headline: Hukuki ön görüşme ve dosya değerlendirmesi
+location.country: Türkiye
+location.city: Manisa
+location.district: Yunusemre
+location.serviceArea: Yunusemre / online
+location.exactAddressPublic: False
+serviceModes[0]: Yüz yüze
+serviceModes[1]: Online
+services[0].name: Sözleşme görüşmesi
+services[0].durationMinutes: 30
+services[0].description: Sözleşme görüşmesi için önceden planlanan birebir randevu.
+services[0].appointmentMode: Yüz yüze
+services[1].name: Hukuki ön görüşme
+services[1].durationMinutes: 30
+services[1].description: Hukuki ön görüşme için önceden planlanan birebir randevu.
+services[1].appointmentMode: Yüz yüze
+services[2].name: Dosya değerlendirme
+services[2].durationMinutes: 60
+services[2].description: Dosya değerlendirme için önceden planlanan birebir randevu.
+services[2].appointmentMode: Yüz yüze
+experience.years: 5
+experience.credentialSummary: Hukuk lisans eğitimi ve mesleki yetkinlik
+languages[0]: Türkçe
+appointmentSettings.defaultDurationMinutes: 30
+appointmentSettings.minimumNoticeHours: 2
+appointmentSettings.cancellationNoticeHours: 4
+appointmentSettings.autoApproveRequests: False
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 10:00
+weeklyAvailability[0].end: 18:30
+searchKeywords[5]: Sözleşme görüşmesi […kısaltıldı]
+
+[2] Kaynak: mock-transactions.json, $.transactions[6]
+id: TXN-007
+account_id: ACC-123
+type: debit
+amount: 32.5
+currency: USD
+description: Gas station
+category: transportation
+date: 2024-01-09
+status: completed
+id: TXN-007
+account_id: ACC-123
+type: debit
+amount: 32.5
+currency: USD
+description: Gas station
+category: transportation
+date: 2024-01-09
+status: completed
+
+[3] Kaynak: 728_profiles.json, $.profiles[472]
+profileCode: DB-PP5MU2EJ
+synthetic: True
+profileType: individual
+displayName: Kaan Kılıç
+professionalName: Kaan Kılıç
+sector: Hukuk ve Mali Hizmetler
+occupation: Avukat
+headline: Hukuki ön görüşme ve dosya değerlendirmesi
+location.country: Türkiye
+location.city: Bursa
+location.district: Osmangazi
+location.serviceArea: Osmangazi / online
+location.exactAddressPublic: False
+serviceModes[0]: Yüz yüze
+serviceModes[1]: Online
+services[0].name: Sözleşme görüşmesi
+services[0].durationMinutes: 60
+services[0].description: Sözleşme görüşmesi için önceden planlanan birebir randevu.
+services[0].appointmentMode: Online
+services[1].name: Hukuki ön görüşme
+services[1].durationMinutes: 45
+services[1].description: Hukuki ön görüşme için önceden planlanan birebir randevu.
+services[1].appointmentMode: Yüz yüze
+services[2].name: Dosya değerlendirme
+services[2].durationMinutes: 60
+services[2].description: Dosya değerlendirme için önceden planlanan birebir randevu.
+services[2].appointmentMode: Online
+experience.years: 2
+experience.credentialSummary: Hukuk lisans eğitimi ve mesleki yetkinlik
+languages[0]: Türkçe
+languages[1]: İngilizce
+appointmentSettings.defaultDurationMinutes: 45
+appointmentSettings.minimumNoticeHours: 24
+appointmentSettings.cancellationNoticeHours: 4
+appointmentSettings.autoApproveRequests: False
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 09:30
+searchKeywords[6]: Sözleşme görüşmesi […kısaltıldı]
+
+[4] Kaynak: 728_profiles.json, $.profiles[479]
+profileCode: DB-URE9NQ8V
+synthetic: True
+profileType: individual
+displayName: Derya Işık
+professionalName: Derya Işık
+sector: Hukuk ve Mali Hizmetler
+occupation: Avukat
+headline: Hukuki ön görüşme ve dosya değerlendirmesi
+location.country: Türkiye
+location.city: Sakarya
+location.district: Adapazarı
+location.serviceArea: Adapazarı / online
+location.exactAddressPublic: False
+serviceModes[0]: Yüz yüze
+serviceModes[1]: Online
+services[0].name: Sözleşme görüşmesi
+services[0].durationMinutes: 60
+services[0].description: Sözleşme görüşmesi için önceden planlanan birebir randevu.
+services[0].appointmentMode: Online
+services[1].name: Hukuki ön görüşme
+services[1].durationMinutes: 30
+services[1].description: Hukuki ön görüşme için önceden planlanan birebir randevu.
+services[1].appointmentMode: Yüz yüze
+experience.years: 6
+experience.credentialSummary: Hukuk lisans eğitimi ve mesleki yetkinlik
+languages[0]: Türkçe
+appointmentSettings.defaultDurationMinutes: 30
+appointmentSettings.minimumNoticeHours: 6
+appointmentSettings.cancellationNoticeHours: 24
+appointmentSettings.autoApproveRequests: False
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 09:30
+weeklyAvailability[0].end: 18:00
+weeklyAvailability[1].day: Salı
+weeklyAvailability[1].active: True
+weeklyAvailability[1].start: 09:30
+weeklyAvailability[1].end: 18:00
+weeklyAvailability[2].day: Çarşamba
+weeklyAvailability[2].active: True
+searchKeywords[5]: Sözleşme görüşmesi […kısaltıldı]",
+202,Negatif,Kapsam Disi,Kuantum dolanıklığının kübit hata oranlarına etkisi nedir?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,Bu bilgi dokümanlarda bulunamadı.,lsarSist-H8_FourierTransform.pdf (sayfa 7); 728_profiles.json ($.profiles[388]); 728_profiles.json ($.profiles[580]); 728_profiles.json ($.profiles[577]),28.21,"[1] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 7
+Nedensel Üstel İşaret
+(Causal Exponential Signal)
+w = -8 : 0.01 : 8;
+• Formula: at
+x(t)  e u(t) H = 1 ./ (1 + j*w);
+(aj)t ù  Hmag = abs(H);
+  e
+ at jt  (aj)t
+X( j)  e u(t)e dt  e dt  Hphase = phase(H);
+ú
+ 0 a jû0 figure;
+plot(w, Hmag);
+ (aj)t    title('Magnitude Response');
+e 1 1 at jt 1
+ lim    lime e  ylim( [-0.0 1.1] );
+ t® a j a j  a jt®  a j figure;
+plot(w, Hphase);
+title('Phase Response');
+1
+ if Re{a} > 0
+Decays if Oscillates
+a j
+Re{a} > 0
+Magnitude-Phase form
+1 1 1
+X(j)   
+a j a j Re{a}2 (Im{a})2
+ 
+Im{a} a = 1
+ÐX(j)  Ð1Ð(a j)  tan1  
+ Re{a} 
+7
+
+[2] Kaynak: 728_profiles.json, $.profiles[388]
+profileCode: DB-6MSBN3VW
+synthetic: True
+profileType: individual
+displayName: Aylin Duman
+professionalName: Aylin Duman
+sector: Teknoloji ve Yazılım
+occupation: Siber Güvenlik Danışmanı
+headline: Kurumsal siber güvenlik farkındalığı ve teknik değerlendirme
+location.country: Türkiye
+location.city: İzmir
+location.district: Karşıyaka
+location.serviceArea: Türkiye geneli (online)
+location.exactAddressPublic: False
+serviceModes[0]: Online
+services[0].name: Teknik danışmanlık
+services[0].durationMinutes: 60
+services[0].description: Teknik danışmanlık için önceden planlanan birebir randevu.
+services[0].appointmentMode: Online
+services[1].name: Güvenlik ön görüşmesi
+services[1].durationMinutes: 45
+services[1].appointmentMode: Online
+services[2].name: Risk değerlendirme toplantısı
+services[2].durationMinutes: 90
+services[2].appointmentMode: Online
+experience.years: 18
+experience.credentialSummary: Siber güvenlik alanında eğitim ve deneyim
+languages[0]: Türkçe
+appointmentSettings.defaultDurationMinutes: 45
+appointmentSettings.minimumNoticeHours: 12
+appointmentSettings.cancellationNoticeHours: 6
+appointmentSettings.autoApproveRequests: True
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 09:30
+weeklyAvailability[0].end: 18:00
+weeklyAvailability[1].day: Salı
+weeklyAvailability[1].active: True
+weeklyAvailability[1].start: 09:30
+weeklyAvailability[1].end: 18:00
+weeklyAvailability[2].day: Çarşamba
+weeklyAvailability[2].active: […kısaltıldı]
+
+[3] Kaynak: 728_profiles.json, $.profiles[580]
+profileCode: DB-EBXKBAGM
+synthetic: True
+profileType: business
+displayName: Kent Oto Ekspertiz House
+professionalName: Nisa Erdem
+sector: Otomotiv
+occupation: Oto Ekspertiz Uzmanı
+headline: İkinci el araç ekspertiz randevusu
+location.country: Türkiye
+location.city: İstanbul
+location.district: Beşiktaş
+location.serviceArea: Beşiktaş, İstanbul
+location.exactAddressPublic: False
+serviceModes[0]: Yüz yüze
+services[0].name: Detaylı ekspertiz
+services[0].durationMinutes: 45
+services[0].description: Detaylı ekspertiz için önceden planlanan birebir randevu.
+services[0].appointmentMode: Yüz yüze
+services[1].name: Kaporta-boya kontrolü
+services[1].durationMinutes: 45
+services[1].appointmentMode: Yüz yüze
+experience.years: 13
+experience.credentialSummary: Otomotiv ekspertiz deneyimi
+languages[0]: Türkçe
+appointmentSettings.defaultDurationMinutes: 45
+appointmentSettings.minimumNoticeHours: 12
+appointmentSettings.cancellationNoticeHours: 12
+appointmentSettings.autoApproveRequests: False
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 09:30
+weeklyAvailability[0].end: 18:00
+weeklyAvailability[1].day: Salı
+weeklyAvailability[1].active: True
+weeklyAvailability[1].start: 09:30
+weeklyAvailability[1].end: 18:00
+weeklyAvailability[2].day: Çarşamba
+weeklyAvailability[2].active: True
+weeklyAvailability[2].start: 09:30
+weeklyAvailability[2].end: 18:00
+weeklyAvailability[3].day: Perşembe
+weeklyAvailability[3].active: […kısaltıldı]
+
+[4] Kaynak: 728_profiles.json, $.profiles[577]
+profileCode: DB-9BSM66TN
+synthetic: True
+profileType: individual
+displayName: Yağmur Korkmaz
+professionalName: Yağmur Korkmaz
+sector: Otomotiv
+occupation: Oto Ekspertiz Uzmanı
+headline: İkinci el araç ekspertiz randevusu
+location.country: Türkiye
+location.city: Samsun
+location.district: Canik
+location.serviceArea: Canik, Samsun
+location.exactAddressPublic: False
+serviceModes[0]: Yüz yüze
+services[0].name: Kaporta-boya kontrolü
+services[0].durationMinutes: 90
+services[0].appointmentMode: Yüz yüze
+services[1].name: Detaylı ekspertiz
+services[1].durationMinutes: 45
+services[1].description: Detaylı ekspertiz için önceden planlanan birebir randevu.
+services[1].appointmentMode: Yüz yüze
+services[2].name: Standart ekspertiz
+services[2].durationMinutes: 90
+services[2].description: Standart ekspertiz için önceden planlanan birebir randevu.
+services[2].appointmentMode: Yüz yüze
+experience.years: 22
+experience.credentialSummary: Otomotiv ekspertiz deneyimi
+languages[0]: Türkçe
+appointmentSettings.defaultDurationMinutes: 45
+appointmentSettings.minimumNoticeHours: 6
+appointmentSettings.cancellationNoticeHours: 4
+appointmentSettings.autoApproveRequests: False
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 09:00
+weeklyAvailability[0].end: 17:00
+weeklyAvailability[1].day: Salı
+weeklyAvailability[1].active: True
+weeklyAvailability[1].start: 09:00
+weeklyAvailability[1].end: 17:00
+weeklyAvailability[2].day: […kısaltıldı]",
+203,Negatif,Kapsam Disi,GDPR kapsamında kişisel verilerin azami saklama süresi ne kadardır?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,Bu bilgi dokümanlarda bulunamadı.,728_profiles.json ($.profiles[397]); 728_profiles.json ($.profiles[396]); 728_profiles.json ($.profiles[392]); 728_profiles.json ($.profiles[399]),26.54,"[1] Kaynak: 728_profiles.json, $.profiles[397]
+profileCode: DB-MR88GBNQ
+synthetic: True
+profileType: individual
+displayName: Gökçe Efe
+professionalName: Gökçe Efe
+sector: Teknoloji ve Yazılım
+occupation: Veri Bilimi Danışmanı
+headline: Veri analitiği ve makine öğrenmesi proje danışmanlığı
+location.country: Türkiye
+location.city: Mersin
+location.district: Yenişehir
+location.serviceArea: Türkiye geneli (online)
+location.exactAddressPublic: False
+serviceModes[0]: Online
+services[0].name: Proje keşif görüşmesi
+services[0].durationMinutes: 45
+services[0].appointmentMode: Online
+services[1].name: Model değerlendirme
+services[1].durationMinutes: 45
+services[1].description: Model değerlendirme için önceden planlanan birebir randevu.
+services[1].appointmentMode: Online
+services[2].name: Veri stratejisi görüşmesi
+services[2].durationMinutes: 60
+services[2].appointmentMode: Online
+experience.years: 19
+experience.credentialSummary: Veri bilimi alanında eğitim ve deneyim
+languages[0]: Türkçe
+appointmentSettings.defaultDurationMinutes: 45
+appointmentSettings.minimumNoticeHours: 24
+appointmentSettings.cancellationNoticeHours: 6
+searchKeywords[4]: Veri Bilimi Danışmanı
+searchKeywords[5]: Veri stratejisi görüşmesi
+about: Yenişehir, Mersin merkezli olarak veri bilimi danışmanı alanında 19 yıldır çalışıyorum. Randevularımı düzenli, zamanında ve ihtiyaca göre yapılandırılmış şekilde yürütüyorum.
+services[2].description: Veri stratejisi görüşmesi için önceden planlanan birebir randevu. […kısaltıldı]
+
+[2] Kaynak: 728_profiles.json, $.profiles[396]
+profileCode: DB-2MA65X8Z
+synthetic: True
+profileType: individual
+displayName: Beyza Aslan
+professionalName: Beyza Aslan
+sector: Teknoloji ve Yazılım
+occupation: Veri Bilimi Danışmanı
+headline: Veri analitiği ve makine öğrenmesi proje danışmanlığı
+location.country: Türkiye
+location.city: İstanbul
+location.district: Beylikdüzü
+location.serviceArea: Türkiye geneli (online)
+location.exactAddressPublic: False
+serviceModes[0]: Online
+services[0].name: Proje keşif görüşmesi
+services[0].durationMinutes: 60
+services[0].appointmentMode: Online
+services[1].name: Veri stratejisi görüşmesi
+services[1].durationMinutes: 45
+services[1].appointmentMode: Online
+experience.years: 13
+experience.credentialSummary: Veri bilimi alanında eğitim ve deneyim
+languages[0]: Türkçe
+appointmentSettings.defaultDurationMinutes: 45
+appointmentSettings.minimumNoticeHours: 6
+appointmentSettings.cancellationNoticeHours: 24
+appointmentSettings.autoApproveRequests: False
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 09:00
+weeklyAvailability[0].end: 17:00
+weeklyAvailability[1].day: Salı
+searchKeywords[3]: Veri Bilimi Danışmanı
+searchKeywords[4]: Veri stratejisi görüşmesi
+about: 13 yıllık deneyimimle veri bilimi danışmanı alanında bireysel hizmet sunuyorum. İlk görüşmede ihtiyacı değerlendiriyor, sonraki adımları açık ve planlı biçimde belirliyorum.
+services[1].description: Veri stratejisi görüşmesi için önceden planlanan birebir randevu. […kısaltıldı]
+
+[3] Kaynak: 728_profiles.json, $.profiles[392]
+profileCode: DB-J9YD7C29
+synthetic: True
+profileType: individual
+displayName: Onur Öztürk
+professionalName: Onur Öztürk
+sector: Teknoloji ve Yazılım
+occupation: Veri Bilimi Danışmanı
+headline: Veri analitiği ve makine öğrenmesi proje danışmanlığı
+location.country: Türkiye
+location.city: İstanbul
+location.district: Beşiktaş
+location.serviceArea: Türkiye geneli (online)
+location.exactAddressPublic: False
+serviceModes[0]: Online
+services[0].name: Proje keşif görüşmesi
+services[0].durationMinutes: 45
+services[0].appointmentMode: Online
+services[1].name: Veri stratejisi görüşmesi
+services[1].durationMinutes: 45
+services[1].appointmentMode: Online
+experience.years: 13
+experience.credentialSummary: Veri bilimi alanında eğitim ve deneyim
+languages[0]: Türkçe
+languages[1]: İngilizce
+appointmentSettings.defaultDurationMinutes: 45
+appointmentSettings.minimumNoticeHours: 24
+appointmentSettings.cancellationNoticeHours: 24
+appointmentSettings.autoApproveRequests: True
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 09:30
+weeklyAvailability[0].end: 18:00
+searchKeywords[3]: Veri Bilimi Danışmanı
+searchKeywords[4]: Veri stratejisi görüşmesi
+about: 13 yıllık deneyimimle veri bilimi danışmanı alanında bireysel hizmet sunuyorum. İlk görüşmede ihtiyacı değerlendiriyor, sonraki adımları açık ve planlı biçimde belirliyorum.
+services[1].description: Veri stratejisi görüşmesi için önceden planlanan birebir randevu. […kısaltıldı]
+
+[4] Kaynak: 728_profiles.json, $.profiles[399]
+profileCode: DB-G6PCW7U9
+synthetic: True
+profileType: individual
+displayName: Ahmet Sezer
+professionalName: Ahmet Sezer
+sector: Teknoloji ve Yazılım
+occupation: Veri Bilimi Danışmanı
+headline: Veri analitiği ve makine öğrenmesi proje danışmanlığı
+location.country: Türkiye
+location.city: İstanbul
+location.district: Kadıköy
+location.serviceArea: Türkiye geneli (online)
+location.exactAddressPublic: False
+serviceModes[0]: Online
+services[0].name: Veri stratejisi görüşmesi
+services[0].durationMinutes: 90
+services[0].appointmentMode: Online
+services[1].name: Model değerlendirme
+services[1].durationMinutes: 45
+services[1].description: Model değerlendirme için önceden planlanan birebir randevu.
+services[1].appointmentMode: Online
+experience.years: 6
+experience.credentialSummary: Veri bilimi alanında eğitim ve deneyim
+languages[0]: Türkçe
+appointmentSettings.defaultDurationMinutes: 45
+appointmentSettings.minimumNoticeHours: 24
+appointmentSettings.cancellationNoticeHours: 6
+appointmentSettings.autoApproveRequests: True
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+searchKeywords[3]: Veri Bilimi Danışmanı
+searchKeywords[4]: Veri stratejisi görüşmesi
+about: 6 yıllık deneyimimle veri bilimi danışmanı alanında bireysel hizmet sunuyorum. İlk görüşmede ihtiyacı değerlendiriyor, sonraki adımları açık ve planlı biçimde belirliyorum.
+services[0].descr […kısaltıldı]",
+204,Negatif,Kapsam Disi,Kubernetes'te pod autoscaling eşik değerleri nasıl yapılandırılır?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,Bu bilgi dokümanlarda bulunamadı.,Summer School Foundry Local Plan.docx (bölüm 6); 728_profiles.json ($.profiles[311]); 728_profiles.json ($.profiles[378]); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 10),40.58,"[1] Kaynak: Summer School Foundry Local Plan.docx, bölüm 6
+Phase 2 (Weeks 3–4): Project Implementation
+Objectives: Over ~2 weeks, students will develop a functional local RAG application. They will apply what they learned to implement each component: document ingestion, vectorization, retrieval, and LLM integration. By the end of Phase 2, each student (or team) will have a working offline Q&A chatbot that can answer questions by retrieving info from its local document store before invoking the model.
+Week 3: Data Ingestion & Retrieval Pipeline
+Topics & Activities:
+Designing the Knowledge Base & Data Prep: Decide on the small set of documents for the Q&A assistant (e.g. 5–10 short documents such as technical articles, product FAQs, or course notes – provided by the instructor or chosen by students). Discuss strategies for splitting documents into chunks (as RAG typically works at passage-level chunks, e.g., ~1–3 paragraphs each). Students will implement a data ingestion script to: [azurefeeds.com]
+Chunk their documents into smaller passages.
+Compute an embedding for each chunk using Foundry Local’s embedding model.
+Store each chunk and its embedding vector in SQLite for later retrieval.
+Resource: Microsoft Learn – “Build a RAG application” (official). Follow the sections on creating a knowledge base and generating embeddings. The tutorial’s sample code (Python) can be adapted: it shows reading documents, generating embeddings in batch, and saving them in a Python list (we’ll extend this to saving in SQLite). [learn.microsoft.com], […kısaltıldı]
+
+[2] Kaynak: 728_profiles.json, $.profiles[311]
+profileCode: DB-PYGYHKVP
+synthetic: True
+profileType: individual
+displayName: Merve Şimşek
+professionalName: Merve Şimşek
+sector: Eğitim ve Özel Ders
+occupation: Robotik Kodlama Eğitmeni
+headline: Çocuklar için birebir robotik ve kodlama
+location.country: Türkiye
+location.city: İzmir
+location.district: Bornova
+location.serviceArea: Bornova / online
+location.exactAddressPublic: False
+serviceModes[0]: Yüz yüze
+serviceModes[1]: Online
+services[0].name: Algoritmik düşünme çalışması
+services[0].durationMinutes: 60
+services[0].appointmentMode: Online
+services[1].name: Robotik başlangıç
+services[1].durationMinutes: 45
+services[1].description: Robotik başlangıç için önceden planlanan birebir randevu.
+services[1].appointmentMode: Yüz yüze
+services[2].name: Scratch dersi
+services[2].durationMinutes: 60
+services[2].description: Scratch dersi için önceden planlanan birebir randevu.
+services[2].appointmentMode: Online
+experience.years: 10
+experience.credentialSummary: Bilgisayar/teknoloji alanında eğitim
+languages[0]: Türkçe
+appointmentSettings.defaultDurationMinutes: 45
+appointmentSettings.minimumNoticeHours: 4
+appointmentSettings.cancellationNoticeHours: 24
+appointmentSettings.autoApproveRequests: False
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 17:00
+weeklyAvailability[0].end: 21:00
+weeklyAvailability[1].day: Salı
+weeklyAvailability[1].active: True
+weeklyAvailability[1].start: 17:00
+weeklyAvailability[1].end: […kısaltıldı]
+
+[3] Kaynak: 728_profiles.json, $.profiles[378]
+profileCode: DB-V57WKKQK
+synthetic: True
+profileType: individual
+displayName: Esra Acar
+professionalName: Esra Acar
+sector: Teknoloji ve Yazılım
+occupation: Yazılım Danışmanı
+headline: Yazılım mimarisi ve proje teknik danışmanlığı
+location.country: Türkiye
+location.city: Adana
+location.district: Çukurova
+location.serviceArea: Türkiye geneli (online)
+location.exactAddressPublic: False
+serviceModes[0]: Online
+services[0].name: Teknik ön görüşme
+services[0].durationMinutes: 90
+services[0].description: Teknik ön görüşme için önceden planlanan birebir randevu.
+services[0].appointmentMode: Online
+services[1].name: Kod inceleme görüşmesi
+services[1].durationMinutes: 30
+services[1].appointmentMode: Online
+services[2].name: Mimari değerlendirme
+services[2].durationMinutes: 60
+services[2].description: Mimari değerlendirme için önceden planlanan birebir randevu.
+services[2].appointmentMode: Online
+experience.years: 15
+experience.credentialSummary: Bilgisayar/yazılım alanında eğitim ve deneyim
+languages[0]: Türkçe
+appointmentSettings.defaultDurationMinutes: 30
+appointmentSettings.minimumNoticeHours: 6
+appointmentSettings.cancellationNoticeHours: 12
+appointmentSettings.autoApproveRequests: False
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 09:00
+weeklyAvailability[0].end: 17:00
+weeklyAvailability[1].day: Salı
+weeklyAvailability[1].active: True
+weeklyAvailability[1].start: 09:00
+weeklyAvailability[1].end: […kısaltıldı]
+
+[4] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 10
+Soldan ve Sağdan Türetme
+• Yapraklarının etiketleri uç simgeler olan her türetme ağacına dilin
+bir tümcesi karşı gelir. Eğer dil belirgin (unambiguous) bir dil ise
+de, dilin her tümcesine bir türetme ağacı karşı gelir. Eğer dilin bir
+tümcesine birden çok türetme ağacı karşı geliyorsa, dil belirgin
+olmayan (ambiguous) bir dildir. Belirginlik dilbilgisinin ve dilin en
+temel özelliklerinden biridir.
+• Tümceleri birden çok anlam taşıyan belirgin olmayan dillerin
+uygulamada hiçbir değeri yoktur. Bu nedenle, kullanılan dillerin
+tümünün belirginlik özelliğini sağladığı varsayılacaktır. Buna göre
+dilin her tümcesine bir türetme ağacı, yapraklarının etiketleri uç
+simgeler olan her türetme ağacına da bir tümce karşı geldiğini
+söyleyebiliriz.
+• Dilin her tümcesine bir türetme ağacı karşı geldiği gibi, bir soldan
+türetme, bir de sağdan türetme karşı gelir.",
+205,Negatif,Kapsam Disi,Porter'ın beş güç analizi bir pazara nasıl uygulanır?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,Bu bilgi dokümanlarda bulunamadı.,lsarSist-H9_ZTransform.pdf (sayfa 8); 728_profiles.json ($.profiles[454]); 728_profiles.json ($.profiles[488]); 728_profiles.json ($.profiles[449]),23.42,"[1] Kaynak: lsarSist-H9_ZTransform.pdf, sayfa 8
+Applying Z-transform Definition
+• Finite extent signal
+h[n]
+5
+ 5
+4
+   −n    −n
+H(z) = h n z = h n z
+n=− n=0 3
+2 − 1 − 2 − 3 − 4 − 5
+H ( z ) = 0 + z + 2 z + 3 z + 4 z + 5 z
+1
+Polynomial in z-1
+1 2 3 4 5 n
+• Five-tap delay line
+h[n] = n ( u[n] – u[n-6] )
+Impulse response h[n]
+n = -1:6;
+Transfer function H(z)
+h = n .* ( stepfun(n,0) - stepfun(n-6,0) );
+stem(n, h);
+8 11.11.2025 KOÜ-Bilgisayar Müh.
+
+[2] Kaynak: 728_profiles.json, $.profiles[454]
+profileCode: DB-TJAE3R7S
+synthetic: True
+profileType: individual
+displayName: Onur Koç
+professionalName: Onur Koç
+sector: İş ve Kariyer
+occupation: İnsan Kaynakları Danışmanı
+headline: İşe alım ve insan kaynakları süreç danışmanlığı
+location.country: Türkiye
+location.city: Antalya
+location.district: Alanya
+location.serviceArea: Türkiye geneli (online)
+location.exactAddressPublic: False
+serviceModes[0]: Online
+services[0].name: İK ihtiyaç analizi
+services[0].durationMinutes: 60
+services[0].description: İK ihtiyaç analizi için önceden planlanan birebir randevu.
+services[0].appointmentMode: Online
+services[1].name: Yetkinlik modeli danışmanlığı
+services[1].durationMinutes: 45
+services[1].appointmentMode: Online
+services[2].name: İşe alım süreci görüşmesi
+services[2].durationMinutes: 45
+services[2].appointmentMode: Online
+experience.years: 11
+experience.credentialSummary: İnsan kaynakları deneyimi
+languages[0]: Türkçe
+languages[1]: İngilizce
+appointmentSettings.defaultDurationMinutes: 45
+appointmentSettings.minimumNoticeHours: 12
+appointmentSettings.cancellationNoticeHours: 12
+appointmentSettings.autoApproveRequests: False
+weeklyAvailability[0].day: Pazartesi
+searchKeywords[3]: İK ihtiyaç analizi
+searchKeywords[4]: İnsan Kaynakları Danışmanı
+about: İnsan Kaynakları Danışmanı olarak 11 yıllık mesleki deneyimle Alanya, Antalya bölgesinde randevulu hizmet veriyorum. Görüşmelerde ihtiyacı netleştirip uygulanabilir bir plan oluşturmaya önem veriyorum. […kısaltıldı]
+
+[3] Kaynak: 728_profiles.json, $.profiles[488]
+profileCode: DB-MHD5CC83
+synthetic: True
+profileType: individual
+displayName: Oğuz Erdem
+professionalName: Oğuz Erdem
+sector: Hukuk ve Mali Hizmetler
+occupation: Sigorta Danışmanı
+headline: Bireysel ve kurumsal poliçe ihtiyaç analizi
+location.country: Türkiye
+location.city: Ankara
+location.district: Keçiören
+location.serviceArea: Keçiören / online
+location.exactAddressPublic: False
+serviceModes[0]: Yüz yüze
+serviceModes[1]: Online
+services[0].name: İhtiyaç analizi
+services[0].durationMinutes: 45
+services[0].description: İhtiyaç analizi için önceden planlanan birebir randevu.
+services[0].appointmentMode: Yüz yüze
+services[1].name: Poliçe değerlendirme
+services[1].durationMinutes: 30
+services[1].description: Poliçe değerlendirme için önceden planlanan birebir randevu.
+services[1].appointmentMode: Online
+experience.years: 13
+experience.credentialSummary: Sigortacılık deneyimi
+languages[0]: Türkçe
+languages[1]: İngilizce
+appointmentSettings.defaultDurationMinutes: 30
+appointmentSettings.minimumNoticeHours: 24
+appointmentSettings.cancellationNoticeHours: 12
+appointmentSettings.autoApproveRequests: False
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 10:00
+weeklyAvailability[0].end: 18:30
+weeklyAvailability[1].day: Salı
+weeklyAvailability[1].active: True
+weeklyAvailability[1].start: 10:00
+weeklyAvailability[1].end: 18:30
+weeklyAvailability[2].day: Çarşamba
+searchKeywords[5]: İhtiyaç analizi […kısaltıldı]
+
+[4] Kaynak: 728_profiles.json, $.profiles[449]
+profileCode: DB-GYAPAHRU
+synthetic: True
+profileType: individual
+displayName: Tuğçe Bayraktar
+professionalName: Tuğçe Bayraktar
+sector: İş ve Kariyer
+occupation: İnsan Kaynakları Danışmanı
+headline: İşe alım ve insan kaynakları süreç danışmanlığı
+location.country: Türkiye
+location.city: Gaziantep
+location.district: Şahinbey
+location.serviceArea: Türkiye geneli (online)
+location.exactAddressPublic: False
+serviceModes[0]: Online
+services[0].name: İK ihtiyaç analizi
+services[0].durationMinutes: 90
+services[0].description: İK ihtiyaç analizi için önceden planlanan birebir randevu.
+services[0].appointmentMode: Online
+services[1].name: İşe alım süreci görüşmesi
+services[1].durationMinutes: 90
+services[1].appointmentMode: Online
+experience.years: 2
+experience.credentialSummary: İnsan kaynakları deneyimi
+languages[0]: Türkçe
+appointmentSettings.defaultDurationMinutes: 90
+appointmentSettings.minimumNoticeHours: 4
+appointmentSettings.cancellationNoticeHours: 12
+appointmentSettings.autoApproveRequests: False
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 09:00
+weeklyAvailability[0].end: 17:00
+weeklyAvailability[1].day: Salı
+searchKeywords[1]: İK ihtiyaç analizi
+searchKeywords[2]: İnsan Kaynakları Danışmanı
+about: İnsan Kaynakları Danışmanı olarak 2 yıllık mesleki deneyimle Şahinbey, Gaziantep bölgesinde randevulu hizmet veriyorum. Görüşmelerde ihtiyacı netleştirip uygulanabilir bir plan oluşturmaya önem veriyorum. […kısaltıldı]",
+206,Negatif,Kapsam Disi,Fotosentezde Calvin döngüsünün ATP tüketimi nedir?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,Bu bilgi dokümanlarda bulunamadı.,728_profiles.json ($.profiles[150]); 728_profiles.json ($.profiles[151]); 728_profiles.json ($.profiles[143]); 728_profiles.json ($.profiles[149]),21.95,"[1] Kaynak: 728_profiles.json, $.profiles[150]
+profileCode: DB-UX2RFVRN
+synthetic: True
+profileType: individual
+displayName: Özge Yıldız
+professionalName: Özge Yıldız
+sector: Beslenme ve Sağlıklı Yaşam
+occupation: Sporcu Beslenmesi Danışmanı
+headline: Aktif yaşam ve sporcu beslenmesi danışmanlığı
+location.country: Türkiye
+location.city: Trabzon
+location.district: Ortahisar
+location.serviceArea: Ortahisar / online
+location.exactAddressPublic: False
+serviceModes[0]: Yüz yüze
+serviceModes[1]: Online
+services[0].name: Sporcu beslenme analizi
+services[0].durationMinutes: 45
+services[0].appointmentMode: Online
+services[1].name: Takip görüşmesi
+services[1].durationMinutes: 45
+services[1].description: Takip görüşmesi için önceden planlanan birebir randevu.
+services[1].appointmentMode: Yüz yüze
+services[2].name: Yarışma dönemi planlaması
+services[2].durationMinutes: 30
+services[2].appointmentMode: Online
+experience.years: 17
+experience.credentialSummary: Beslenme alanında eğitim
+languages[0]: Türkçe
+languages[1]: İngilizce
+appointmentSettings.defaultDurationMinutes: 30
+appointmentSettings.minimumNoticeHours: 24
+appointmentSettings.cancellationNoticeHours: 12
+appointmentSettings.autoApproveRequests: False
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 09:30
+weeklyAvailability[0].end: 18:00
+weeklyAvailability[1].day: Salı
+weeklyAvailability[1].active: True
+weeklyAvailability[1].start: 09:30
+weeklyAvailability[1].end: 18:00
+weeklyAvailability[2].day: […kısaltıldı]
+
+[2] Kaynak: 728_profiles.json, $.profiles[151]
+profileCode: DB-7JXW6EPJ
+synthetic: True
+profileType: individual
+displayName: Tuğçe Yalçın
+professionalName: Tuğçe Yalçın
+sector: Beslenme ve Sağlıklı Yaşam
+occupation: Sporcu Beslenmesi Danışmanı
+headline: Aktif yaşam ve sporcu beslenmesi danışmanlığı
+location.country: Türkiye
+location.city: Kocaeli
+location.district: İzmit
+location.serviceArea: İzmit / online
+location.exactAddressPublic: False
+serviceModes[0]: Yüz yüze
+serviceModes[1]: Online
+services[0].name: Sporcu beslenme analizi
+services[0].durationMinutes: 30
+services[0].appointmentMode: Yüz yüze
+services[1].name: Takip görüşmesi
+services[1].durationMinutes: 30
+services[1].description: Takip görüşmesi için önceden planlanan birebir randevu.
+services[1].appointmentMode: Online
+experience.years: 19
+experience.credentialSummary: Beslenme alanında eğitim
+languages[0]: Türkçe
+appointmentSettings.defaultDurationMinutes: 30
+appointmentSettings.minimumNoticeHours: 12
+appointmentSettings.cancellationNoticeHours: 24
+appointmentSettings.autoApproveRequests: False
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 09:30
+weeklyAvailability[0].end: 18:00
+weeklyAvailability[1].day: Salı
+weeklyAvailability[1].active: True
+weeklyAvailability[1].start: 09:30
+weeklyAvailability[1].end: 18:00
+weeklyAvailability[2].day: Çarşamba
+weeklyAvailability[2].active: True
+weeklyAvailability[2].start: 09:30
+weeklyAvailability[2].end: 18:00
+weeklyAvailability[3].day: […kısaltıldı]
+
+[3] Kaynak: 728_profiles.json, $.profiles[143]
+profileCode: DB-68LTGFMP
+synthetic: True
+profileType: individual
+displayName: Ahmet Kurt
+professionalName: Ahmet Kurt
+sector: Beslenme ve Sağlıklı Yaşam
+occupation: Diyetisyen
+headline: Kişiye özel beslenme danışmanlığı
+location.country: Türkiye
+location.city: Kocaeli
+location.district: Derince
+location.serviceArea: Derince / online
+location.exactAddressPublic: False
+serviceModes[0]: Yüz yüze
+serviceModes[1]: Online
+services[0].name: Kontrol görüşmesi
+services[0].durationMinutes: 30
+services[0].description: Kontrol görüşmesi için önceden planlanan birebir randevu.
+services[0].appointmentMode: Yüz yüze
+services[1].name: Beslenme planı değerlendirmesi
+services[1].durationMinutes: 30
+services[1].appointmentMode: Yüz yüze
+experience.years: 2
+experience.credentialSummary: Beslenme ve diyetetik lisans eğitimi
+languages[0]: Türkçe
+languages[1]: İngilizce
+appointmentSettings.defaultDurationMinutes: 30
+appointmentSettings.minimumNoticeHours: 2
+appointmentSettings.cancellationNoticeHours: 4
+appointmentSettings.autoApproveRequests: False
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 09:00
+weeklyAvailability[0].end: 17:00
+weeklyAvailability[1].day: Salı
+weeklyAvailability[1].active: True
+weeklyAvailability[1].start: 09:00
+weeklyAvailability[1].end: 17:00
+weeklyAvailability[2].day: Çarşamba
+weeklyAvailability[2].active: True
+weeklyAvailability[2].start: 09:00
+weeklyAvailability[2].end: 17:00
+weeklyAvailability[3].day: […kısaltıldı]
+
+[4] Kaynak: 728_profiles.json, $.profiles[149]
+profileCode: DB-JW6SXDDL
+synthetic: True
+profileType: individual
+displayName: Özge Çetin
+professionalName: Özge Çetin
+sector: Beslenme ve Sağlıklı Yaşam
+occupation: Sporcu Beslenmesi Danışmanı
+headline: Aktif yaşam ve sporcu beslenmesi danışmanlığı
+location.country: Türkiye
+location.city: Trabzon
+location.district: Ortahisar
+location.serviceArea: Ortahisar / online
+location.exactAddressPublic: False
+serviceModes[0]: Yüz yüze
+serviceModes[1]: Online
+services[0].name: Yarışma dönemi planlaması
+services[0].durationMinutes: 45
+services[0].appointmentMode: Yüz yüze
+services[1].name: Sporcu beslenme analizi
+services[1].durationMinutes: 45
+services[1].appointmentMode: Online
+experience.years: 12
+experience.credentialSummary: Beslenme alanında eğitim
+languages[0]: Türkçe
+appointmentSettings.defaultDurationMinutes: 45
+appointmentSettings.minimumNoticeHours: 6
+appointmentSettings.cancellationNoticeHours: 6
+appointmentSettings.autoApproveRequests: False
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 09:00
+weeklyAvailability[0].end: 17:00
+weeklyAvailability[1].day: Salı
+weeklyAvailability[1].active: True
+weeklyAvailability[1].start: 09:00
+weeklyAvailability[1].end: 17:00
+weeklyAvailability[2].day: Çarşamba
+weeklyAvailability[2].active: True
+weeklyAvailability[2].start: 09:00
+weeklyAv […kısaltıldı]",
+207,Negatif,Kapsam Disi,Wavelet dönüşümünün zaman-frekans çözünürlüğü avantajı nedir?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,Bu bilgi dokümanlarda bulunamadı.,lsarSist-H8_FourierTransform.pdf (sayfa 14); lsarSist-H8_FourierTransform.pdf (sayfa 11); 728_profiles.json ($.profiles[205]); 728_profiles.json ($.profiles[170]),23.27,"[1] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 14
+Frekans-Kaydırma Özelliği
+(Frequency-shifting Property)
+j  t    
+e 0 f t  2 F 0
+ j  t    
+e 0 f t  2 F 0
+1
+        
+cos 0t f t  F 0 F 0
+2
+1 1
+       
+cos 0t f t  F 0  F 0
+2 2
+1
+        
+sin 0t f t  jF 0  jF 0
+2
+j j
+       
+sin 0t f t  F 0  F 0
+2 2
+14
+
+[2] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 11
+Zamanda Kaydırma
+(Shifting in Time)
+• Shift in time
+   j  t  
+f t  t0  e 0 F 
+Does not change magnitude of the Fourier transform
+Shifts phase of Fourier transform by -t0
+(so t0 is the slope of the linear phase)
+• Derivation 
+ 
+F f (t  t0)   f (t  t0)e j  tdt
+
+Let u = t – t0, so du = dt and integration limits stay same
+ 
+ 
+F f (t  t0)   f (u)ej  (ut0)du  e j  t0  f (u)e j  udu  ej  t0 F()
+ 
+11
+
+[3] Kaynak: 728_profiles.json, $.profiles[205]
+profileCode: DB-XMD2MJVM
+synthetic: True
+profileType: business
+displayName: Vizyon Kadın Kuaförü Care
+professionalName: Beyza Başar
+sector: Kuaför ve Berber
+occupation: Kadın Kuaförü
+headline: Kesim, şekillendirme ve saç bakımı
+location.country: Türkiye
+location.city: Balıkesir
+location.district: Edremit
+location.serviceArea: Edremit, Balıkesir
+location.exactAddressPublic: False
+serviceModes[0]: Yüz yüze
+services[0].name: Saç kesimi
+services[0].durationMinutes: 60
+services[0].description: Saç kesimi için önceden planlanan birebir randevu.
+services[0].appointmentMode: Yüz yüze
+services[1].name: Fön ve şekillendirme
+services[1].durationMinutes: 60
+services[1].description: Fön ve şekillendirme için önceden planlanan birebir randevu.
+services[1].appointmentMode: Yüz yüze
+experience.years: 21
+experience.credentialSummary: Kuaförlük mesleki eğitimi
+languages[0]: Türkçe
+appointmentSettings.defaultDurationMinutes: 60
+appointmentSettings.minimumNoticeHours: 6
+appointmentSettings.cancellationNoticeHours: 4
+appointmentSettings.autoApproveRequests: True
+weeklyAvailability[0].day: Salı
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 10:00
+weeklyAvailability[0].end: 19:00
+weeklyAvailability[1].day: Çarşamba
+about: Vizyon Kadın Kuaförü Care, Edremit, Balıkesir bölgesinde kadın kuaförü alanında randevulu hizmet sunar. Hizmetler planlı zaman aralıklarıyla yürütülür; ilk görüşmede ihtiyaç ve uygun hizmet seçeneği birlikte netleştirilir. […kısaltıldı]
+
+[4] Kaynak: 728_profiles.json, $.profiles[170]
+profileCode: DB-EC655F4S
+synthetic: True
+profileType: business
+displayName: Rota Güzellik Point
+professionalName: Pınar Çelik
+sector: Güzellik ve Kişisel Bakım
+occupation: Güzellik Uzmanı
+headline: Cilt bakımı ve kişisel bakım uygulamaları
+location.country: Türkiye
+location.city: İstanbul
+location.district: Beşiktaş
+location.serviceArea: Beşiktaş, İstanbul
+location.exactAddressPublic: False
+serviceModes[0]: Yüz yüze
+services[0].name: Cilt analizi
+services[0].durationMinutes: 60
+services[0].description: Cilt analizi için önceden planlanan birebir randevu.
+services[0].appointmentMode: Yüz yüze
+services[1].name: Klasik cilt bakımı
+services[1].durationMinutes: 75
+services[1].description: Klasik cilt bakımı için önceden planlanan birebir randevu.
+services[1].appointmentMode: Yüz yüze
+experience.years: 10
+experience.credentialSummary: Güzellik uzmanlığı eğitimi
+languages[0]: Türkçe
+appointmentSettings.defaultDurationMinutes: 60
+appointmentSettings.minimumNoticeHours: 4
+appointmentSettings.cancellationNoticeHours: 6
+appointmentSettings.autoApproveRequests: False
+weeklyAvailability[0].day: Salı
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 10:00
+weeklyAvailability[0].end: 19:00
+weeklyAvailability[1].day: Çarşamba
+about: Rota Güzellik Point, Beşiktaş, İstanbul bölgesinde güzellik uzmanı alanında randevulu hizmet sunar. Hizmetler planlı zaman aralıklarıyla yürütülür; ilk görüşmede ihtiyaç ve uygun hizmet seçeneği birlikte netleştirilir. […kısaltıldı]",
+208,Negatif,Kapsam Disi,Dizel motorlarda ortak hat (common rail) yakıt enjeksiyon basıncı kaç bardır?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,Bu bilgi dokümanlarda bulunamadı.,lsarSist-H9_ZTransform.pdf (sayfa 10); 728_profiles.json ($.profiles[575]); 728_profiles.json ($.profiles[569]); 728_profiles.json ($.profiles[570]),22.99,"[1] Kaynak: lsarSist-H9_ZTransform.pdf, sayfa 10
+Inverse z-transform
+1
+• Definition
+h[n] = 2  j R H(z) z−n+1dz
+• Using the definition requires a contour
+integration in the complex z-plane
+Use Cauchy residue theorem (from complex analysis) OR
+Use transform tables and transform pairs?
+• Fortunately, we tend to be interested in only a
+few basic signals (pulse, step, etc.)
+Virtually all signals can be built from these basic signals
+For common signals, z-transform pairs have been tabulated
+11.11.2025 KOÜ-Bilgisayar Müh. 10
+
+[2] Kaynak: 728_profiles.json, $.profiles[575]
+profileCode: DB-D7DENMQ5
+synthetic: True
+profileType: individual
+displayName: Mert Önal
+professionalName: Mert Önal
+sector: Otomotiv
+occupation: Oto Bakım Servisi
+headline: Periyodik bakım ve mekanik kontrol
+location.country: Türkiye
+location.city: Kocaeli
+location.district: Gölcük
+location.serviceArea: Gölcük, Kocaeli
+location.exactAddressPublic: False
+serviceModes[0]: Yüz yüze
+services[0].name: Bakım ön kabul
+services[0].durationMinutes: 120
+services[0].description: Bakım ön kabul için önceden planlanan birebir randevu.
+services[0].appointmentMode: Yüz yüze
+services[1].name: Periyodik bakım
+services[1].durationMinutes: 60
+services[1].description: Periyodik bakım için önceden planlanan birebir randevu.
+services[1].appointmentMode: Yüz yüze
+services[2].name: Genel kontrol
+services[2].durationMinutes: 30
+services[2].description: Genel kontrol için önceden planlanan birebir randevu.
+services[2].appointmentMode: Yüz yüze
+experience.years: 13
+experience.credentialSummary: Otomotiv servis deneyimi
+languages[0]: Türkçe
+languages[1]: İngilizce
+appointmentSettings.defaultDurationMinutes: 30
+appointmentSettings.minimumNoticeHours: 24
+appointmentSettings.cancellationNoticeHours: 6
+appointmentSettings.autoApproveRequests: False
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 10:00
+weeklyAvailability[0].end: 18:30
+weeklyAvailability[1].day: Salı
+weeklyAvailability[1].active: True
+weeklyAvailability[1].start: […kısaltıldı]
+
+[3] Kaynak: 728_profiles.json, $.profiles[569]
+profileCode: DB-YUDPLTPZ
+synthetic: True
+profileType: individual
+displayName: Damla Özer
+professionalName: Damla Özer
+sector: Otomotiv
+occupation: Oto Bakım Servisi
+headline: Periyodik bakım ve mekanik kontrol
+location.country: Türkiye
+location.city: Ankara
+location.district: Etimesgut
+location.serviceArea: Etimesgut, Ankara
+location.exactAddressPublic: False
+serviceModes[0]: Yüz yüze
+services[0].name: Genel kontrol
+services[0].durationMinutes: 120
+services[0].description: Genel kontrol için önceden planlanan birebir randevu.
+services[0].appointmentMode: Yüz yüze
+services[1].name: Periyodik bakım
+services[1].durationMinutes: 60
+services[1].description: Periyodik bakım için önceden planlanan birebir randevu.
+services[1].appointmentMode: Yüz yüze
+services[2].name: Bakım ön kabul
+services[2].durationMinutes: 60
+services[2].description: Bakım ön kabul için önceden planlanan birebir randevu.
+services[2].appointmentMode: Yüz yüze
+experience.years: 9
+experience.credentialSummary: Otomotiv servis deneyimi
+languages[0]: Türkçe
+appointmentSettings.defaultDurationMinutes: 60
+appointmentSettings.minimumNoticeHours: 6
+appointmentSettings.cancellationNoticeHours: 6
+appointmentSettings.autoApproveRequests: False
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 09:00
+weeklyAvailability[0].end: 17:00
+weeklyAvailability[1].day: Salı
+weeklyAvailability[1].active: True
+weeklyAvailability[1].start: 09:00
+weeklyAvailability[1].end: […kısaltıldı]
+
+[4] Kaynak: 728_profiles.json, $.profiles[570]
+profileCode: DB-3PSG3WLH
+synthetic: True
+profileType: individual
+displayName: Melis Ekinci
+professionalName: Melis Ekinci
+sector: Otomotiv
+occupation: Oto Bakım Servisi
+headline: Periyodik bakım ve mekanik kontrol
+location.country: Türkiye
+location.city: İstanbul
+location.district: Beşiktaş
+location.serviceArea: Beşiktaş, İstanbul
+location.exactAddressPublic: False
+serviceModes[0]: Yüz yüze
+services[0].name: Genel kontrol
+services[0].durationMinutes: 60
+services[0].description: Genel kontrol için önceden planlanan birebir randevu.
+services[0].appointmentMode: Yüz yüze
+services[1].name: Bakım ön kabul
+services[1].durationMinutes: 30
+services[1].description: Bakım ön kabul için önceden planlanan birebir randevu.
+services[1].appointmentMode: Yüz yüze
+experience.years: 10
+experience.credentialSummary: Otomotiv servis deneyimi
+languages[0]: Türkçe
+appointmentSettings.defaultDurationMinutes: 30
+appointmentSettings.minimumNoticeHours: 6
+appointmentSettings.cancellationNoticeHours: 24
+appointmentSettings.autoApproveRequests: False
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 09:00
+weeklyAvailability[0].end: 17:00
+weeklyAvailability[1].day: Salı
+weeklyAvailability[1].active: True
+weeklyAvailability[1].start: 09:00
+weeklyAvailability[1].end: 17:00
+weeklyAvailability[2].day: Çarşamba
+weeklyAvailability[2].active: True
+weeklyAvailability[2].start: 09:00
+weeklyAvailability[2].end: 17:00
+weeklyAvailability[3].day: […kısaltıldı]",
+209,Negatif,Yakin-Gurultulu,ACC-456 hesabının Ocak 2024 dönemindeki toplam harcaması nedir?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,Bu bilgi dokümanlarda bulunamadı.,mock-transactions.json ($.transactions[4]); mock-transactions.json ($.transactions[0]); mock-transactions.json ($.transactions[1]); mock-transactions.json ($.transactions[8]),11.14,"[1] Kaynak: mock-transactions.json, $.transactions[4]
+id: TXN-005
+account_id: ACC-123
+type: debit
+amount: 125.0
+currency: USD
+description: Electric bill
+category: utilities
+date: 2024-01-07
+status: completed
+id: TXN-005
+account_id: ACC-123
+type: debit
+amount: 125.0
+currency: USD
+description: Electric bill
+category: utilities
+date: 2024-01-07
+status: completed
+
+[2] Kaynak: mock-transactions.json, $.transactions[0]
+id: TXN-001
+account_id: ACC-123
+type: credit
+amount: 2500.0
+currency: USD
+description: Salary deposit
+category: income
+date: 2024-01-01
+status: completed
+id: TXN-001
+account_id: ACC-123
+type: credit
+amount: 2500.0
+currency: USD
+description: Salary deposit
+category: income
+date: 2024-01-01
+status: completed
+
+[3] Kaynak: mock-transactions.json, $.transactions[1]
+id: TXN-002
+account_id: ACC-123
+type: debit
+amount: 85.5
+currency: USD
+description: Grocery store
+category: food
+date: 2024-01-02
+status: completed
+id: TXN-002
+account_id: ACC-123
+type: debit
+amount: 85.5
+currency: USD
+description: Grocery store
+category: food
+date: 2024-01-02
+status: completed
+
+[4] Kaynak: mock-transactions.json, $.transactions[8]
+id: TXN-009
+account_id: ACC-123
+type: debit
+amount: 67.8
+currency: USD
+description: Restaurant
+category: food
+date: 2024-01-12
+status: completed
+id: TXN-009
+account_id: ACC-123
+type: debit
+amount: 67.8
+currency: USD
+description: Restaurant
+category: food
+date: 2024-01-12
+status: completed",
+210,Negatif,Yakin-Gurultulu,TXN-020 numaralı işlemin tutarı ve kategorisi nedir?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,Bu bilgi dokümanlarda bulunamadı.,mock-transactions.json ($.transactions[1]); mock-transactions.json ($.transactions[4]); mock-transactions.json ($.transactions[8]); mock-transactions.json ($.transactions[0]),11.35,"[1] Kaynak: mock-transactions.json, $.transactions[1]
+id: TXN-002
+account_id: ACC-123
+type: debit
+amount: 85.5
+currency: USD
+description: Grocery store
+category: food
+date: 2024-01-02
+status: completed
+id: TXN-002
+account_id: ACC-123
+type: debit
+amount: 85.5
+currency: USD
+description: Grocery store
+category: food
+date: 2024-01-02
+status: completed
+
+[2] Kaynak: mock-transactions.json, $.transactions[4]
+id: TXN-005
+account_id: ACC-123
+type: debit
+amount: 125.0
+currency: USD
+description: Electric bill
+category: utilities
+date: 2024-01-07
+status: completed
+id: TXN-005
+account_id: ACC-123
+type: debit
+amount: 125.0
+currency: USD
+description: Electric bill
+category: utilities
+date: 2024-01-07
+status: completed
+
+[3] Kaynak: mock-transactions.json, $.transactions[8]
+id: TXN-009
+account_id: ACC-123
+type: debit
+amount: 67.8
+currency: USD
+description: Restaurant
+category: food
+date: 2024-01-12
+status: completed
+id: TXN-009
+account_id: ACC-123
+type: debit
+amount: 67.8
+currency: USD
+description: Restaurant
+category: food
+date: 2024-01-12
+status: completed
+
+[4] Kaynak: mock-transactions.json, $.transactions[0]
+id: TXN-001
+account_id: ACC-123
+type: credit
+amount: 2500.0
+currency: USD
+description: Salary deposit
+category: income
+date: 2024-01-01
+status: completed
+id: TXN-001
+account_id: ACC-123
+type: credit
+amount: 2500.0
+currency: USD
+description: Salary deposit
+category: income
+date: 2024-01-01
+status: completed",
+211,Negatif,Yakin-Gurultulu,"""Havacılık ve Uzay"" sektöründeki profillerin ortalama deneyim yılı kaçtır?",-,Hayır,Bu bilgi dokümanlarda bulunamadı.,Bu bilgi dokümanlarda bulunamadı; belirtilen koşullara uyan kayıt yok.,728_profiles.json (code_interpreter (code_interpreter_sandbox)),8.26,"[1] Kaynak: 728_profiles.json, code_interpreter (code_interpreter_sandbox)
+[KAYIT BULUNAMADI]
+Sorgu veri seti uzerinde calistirildi ancak belirtilen filtreye uyan HICBIR KAYIT (0 satir) bulunamadi. Sorulan varlik (hesap, sehir, tarih vb.) veri setinde mevcut degil.",ok
+212,Negatif,Yakin-Gurultulu,Erzurum şehrinde hizmet veren kaç profil bulunmaktadır?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,Bu bilgi dokümanlarda bulunamadı; belirtilen koşullara uyan kayıt yok.,728_profiles.json (code_interpreter (code_interpreter_sandbox)),6.82,"[1] Kaynak: 728_profiles.json, code_interpreter (code_interpreter_sandbox)
+[KAYIT BULUNAMADI]
+Sorgu veri seti uzerinde calistirildi ancak belirtilen filtreye uyan HICBIR KAYIT (0 satir) bulunamadi. Sorulan varlik (hesap, sehir, tarih vb.) veri setinde mevcut degil.",ok
+213,Negatif,Yakin-Gurultulu,"""Ahmet Yıldırım"" adlı profilin uzmanlık alanı ve şehri nedir?",-,Hayır,Bu bilgi dokümanlarda bulunamadı.,Bu bilgi dokümanlarda bulunamadı.,728_profiles.json ($.profiles[500]); 728_profiles.json ($.profiles[280]); 728_profiles.json ($.profiles[304]); 728_profiles.json ($.profiles[399]),22.27,"[1] Kaynak: 728_profiles.json, $.profiles[500]
+profileCode: DB-3ZRNBR5H
+synthetic: True
+profileType: individual
+displayName: Umut Özer
+professionalName: Umut Özer
+sector: Hukuk ve Mali Hizmetler
+occupation: Gayrimenkul Danışmanı
+headline: Satış, kiralama ve portföy görüşmeleri
+location.country: Türkiye
+location.city: Bursa
+location.district: Yıldırım
+location.serviceArea: Yıldırım, Bursa
+location.exactAddressPublic: False
+serviceModes[0]: Yüz yüze
+services[0].name: Portföy tanışma
+services[0].durationMinutes: 60
+services[0].description: Portföy tanışma için önceden planlanan birebir randevu.
+services[0].appointmentMode: Yüz yüze
+services[1].name: Mülk değerlendirme
+services[1].durationMinutes: 30
+services[1].description: Mülk değerlendirme için önceden planlanan birebir randevu.
+services[1].appointmentMode: Yüz yüze
+experience.years: 16
+experience.credentialSummary: Gayrimenkul danışmanlığı deneyimi
+languages[0]: Türkçe
+appointmentSettings.defaultDurationMinutes: 30
+appointmentSettings.minimumNoticeHours: 24
+appointmentSettings.cancellationNoticeHours: 24
+appointmentSettings.autoApproveRequests: True
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 10:00
+weeklyAvailability[0].end: 18:30
+weeklyAvailability[1].day: Salı
+searchKeywords[5]: Yıldırım
+about: Gayrimenkul Danışmanı olarak 16 yıllık mesleki deneyimle Yıldırım, Bursa bölgesinde randevulu hizmet veriyorum. Görüşmelerde ihtiyacı netleştirip uygulanabilir bir plan oluşturmaya önem veriyorum. […kısaltıldı]
+
+[2] Kaynak: 728_profiles.json, $.profiles[280]
+profileCode: DB-XZGMT8GY
+synthetic: True
+profileType: individual
+displayName: Yağmur Arslan
+professionalName: Yağmur Arslan
+sector: Eğitim ve Özel Ders
+occupation: Fen Bilimleri Öğretmeni
+headline: Ortaokul düzeyinde fen bilimleri özel dersi
+location.country: Türkiye
+location.city: Bursa
+location.district: Yıldırım
+location.serviceArea: Yıldırım / online
+location.exactAddressPublic: False
+serviceModes[0]: Yüz yüze
+serviceModes[1]: Online
+services[0].name: Konu tekrarı
+services[0].durationMinutes: 45
+services[0].description: Konu tekrarı için önceden planlanan birebir randevu.
+services[0].appointmentMode: Online
+services[1].name: Soru çözümü
+services[1].durationMinutes: 45
+services[1].description: Soru çözümü için önceden planlanan birebir randevu.
+services[1].appointmentMode: Online
+services[2].name: LGS hazırlık dersi
+services[2].durationMinutes: 45
+services[2].description: LGS hazırlık dersi için önceden planlanan birebir randevu.
+services[2].appointmentMode: Online
+experience.years: 11
+experience.credentialSummary: Öğretmenlik veya alan lisans eğitimi
+languages[0]: Türkçe
+languages[1]: İngilizce
+appointmentSettings.defaultDurationMinutes: 45
+appointmentSettings.minimumNoticeHours: 4
+appointmentSettings.cancellationNoticeHours: 4
+searchKeywords[6]: Yıldırım
+about: Fen Bilimleri Öğretmeni olarak 11 yıllık mesleki deneyimle Yıldırım, Bursa bölgesinde randevulu hizmet veriyorum. Görüşmelerde ihtiyacı netleştirip uygulanabilir bir plan oluşturmaya önem veriyorum. […kısaltıldı]
+
+[3] Kaynak: 728_profiles.json, $.profiles[304]
+profileCode: DB-8ZYM584K
+synthetic: True
+profileType: individual
+displayName: Kerem Uçar
+professionalName: Kerem Uçar
+sector: Eğitim ve Özel Ders
+occupation: Robotik Kodlama Eğitmeni
+headline: Çocuklar için birebir robotik ve kodlama
+location.country: Türkiye
+location.city: Bursa
+location.district: Yıldırım
+location.serviceArea: Yıldırım / online
+location.exactAddressPublic: False
+serviceModes[0]: Yüz yüze
+serviceModes[1]: Online
+services[0].name: Robotik başlangıç
+services[0].durationMinutes: 60
+services[0].description: Robotik başlangıç için önceden planlanan birebir randevu.
+services[0].appointmentMode: Online
+services[1].name: Algoritmik düşünme çalışması
+services[1].durationMinutes: 45
+services[1].appointmentMode: Online
+experience.years: 15
+experience.credentialSummary: Bilgisayar/teknoloji alanında eğitim
+languages[0]: Türkçe
+appointmentSettings.defaultDurationMinutes: 45
+appointmentSettings.minimumNoticeHours: 4
+appointmentSettings.cancellationNoticeHours: 4
+appointmentSettings.autoApproveRequests: False
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 17:00
+weeklyAvailability[0].end: 21:00
+weeklyAvailability[1].day: Salı
+weeklyAvailability[1].active: True
+searchKeywords[5]: Yıldırım
+about: Robotik Kodlama Eğitmeni olarak 15 yıllık mesleki deneyimle Yıldırım, Bursa bölgesinde randevulu hizmet veriyorum. Görüşmelerde ihtiyacı netleştirip uygulanabilir bir plan oluşturmaya önem veriyorum. […kısaltıldı]
+
+[4] Kaynak: 728_profiles.json, $.profiles[399]
+profileCode: DB-G6PCW7U9
+synthetic: True
+profileType: individual
+displayName: Ahmet Sezer
+professionalName: Ahmet Sezer
+sector: Teknoloji ve Yazılım
+occupation: Veri Bilimi Danışmanı
+headline: Veri analitiği ve makine öğrenmesi proje danışmanlığı
+location.country: Türkiye
+location.city: İstanbul
+location.district: Kadıköy
+location.serviceArea: Türkiye geneli (online)
+location.exactAddressPublic: False
+serviceModes[0]: Online
+services[0].name: Veri stratejisi görüşmesi
+services[0].durationMinutes: 90
+services[0].appointmentMode: Online
+services[1].name: Model değerlendirme
+services[1].durationMinutes: 45
+services[1].description: Model değerlendirme için önceden planlanan birebir randevu.
+services[1].appointmentMode: Online
+experience.years: 6
+experience.credentialSummary: Veri bilimi alanında eğitim ve deneyim
+languages[0]: Türkçe
+appointmentSettings.defaultDurationMinutes: 45
+appointmentSettings.minimumNoticeHours: 24
+appointmentSettings.cancellationNoticeHours: 6
+appointmentSettings.autoApproveRequests: True
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 09:30
+weeklyAvailability[0].end: 18:00
+weeklyAvailability[1].day: Salı
+weeklyAvailability[1].active: True
+weeklyAvailability[1].start: 09:30
+weeklyAvailability[1].end: 18:00
+weeklyAvailability[2].day: Çarşamba […kısaltıldı]",
+214,Negatif,Yakin-Gurultulu,airports.json veri setindeki Türkiye'ye ait havaalanlarının IATA kodları nelerdir?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,Bu bilgi dokümanlarda bulunamadı.,728_profiles.json ($.profiles[393]); 728_profiles.json ($.profiles[397]); 728_profiles.json ($.profiles[399]); 728_profiles.json ($.profiles[396]),24.84,"[1] Kaynak: 728_profiles.json, $.profiles[393]
+profileCode: DB-GEUFBB5C
+synthetic: True
+profileType: individual
+displayName: Derya Karaca
+professionalName: Derya Karaca
+sector: Teknoloji ve Yazılım
+occupation: Veri Bilimi Danışmanı
+headline: Veri analitiği ve makine öğrenmesi proje danışmanlığı
+location.country: Türkiye
+location.city: Kayseri
+location.district: Talas
+location.serviceArea: Türkiye geneli (online)
+location.exactAddressPublic: False
+serviceModes[0]: Online
+services[0].name: Proje keşif görüşmesi
+services[0].durationMinutes: 90
+services[0].appointmentMode: Online
+services[1].name: Veri stratejisi görüşmesi
+services[1].durationMinutes: 60
+services[1].appointmentMode: Online
+services[2].name: Model değerlendirme
+services[2].durationMinutes: 45
+services[2].description: Model değerlendirme için önceden planlanan birebir randevu.
+services[2].appointmentMode: Online
+experience.years: 15
+experience.credentialSummary: Veri bilimi alanında eğitim ve deneyim
+languages[0]: Türkçe
+languages[1]: Rusça
+appointmentSettings.defaultDurationMinutes: 45
+appointmentSettings.minimumNoticeHours: 4
+appointmentSettings.cancellationNoticeHours: 4
+searchKeywords[5]: Veri Bilimi Danışmanı
+searchKeywords[6]: Veri stratejisi görüşmesi
+about: 15 yıllık deneyimimle veri bilimi danışmanı alanında bireysel hizmet sunuyorum. İlk görüşmede ihtiyacı değerlendiriyor, sonraki adımları açık ve planlı biçimde belirliyorum.
+services[1].description: Veri stratejisi görüşmesi için önceden planlanan birebir randevu. […kısaltıldı]
+
+[2] Kaynak: 728_profiles.json, $.profiles[397]
+profileCode: DB-MR88GBNQ
+synthetic: True
+profileType: individual
+displayName: Gökçe Efe
+professionalName: Gökçe Efe
+sector: Teknoloji ve Yazılım
+occupation: Veri Bilimi Danışmanı
+headline: Veri analitiği ve makine öğrenmesi proje danışmanlığı
+location.country: Türkiye
+location.city: Mersin
+location.district: Yenişehir
+location.serviceArea: Türkiye geneli (online)
+location.exactAddressPublic: False
+serviceModes[0]: Online
+services[0].name: Proje keşif görüşmesi
+services[0].durationMinutes: 45
+services[0].appointmentMode: Online
+services[1].name: Model değerlendirme
+services[1].durationMinutes: 45
+services[1].description: Model değerlendirme için önceden planlanan birebir randevu.
+services[1].appointmentMode: Online
+services[2].name: Veri stratejisi görüşmesi
+services[2].durationMinutes: 60
+services[2].appointmentMode: Online
+experience.years: 19
+experience.credentialSummary: Veri bilimi alanında eğitim ve deneyim
+languages[0]: Türkçe
+appointmentSettings.defaultDurationMinutes: 45
+appointmentSettings.minimumNoticeHours: 24
+appointmentSettings.cancellationNoticeHours: 6
+searchKeywords[4]: Veri Bilimi Danışmanı
+searchKeywords[5]: Veri stratejisi görüşmesi
+about: Yenişehir, Mersin merkezli olarak veri bilimi danışmanı alanında 19 yıldır çalışıyorum. Randevularımı düzenli, zamanında ve ihtiyaca göre yapılandırılmış şekilde yürütüyorum.
+services[2].description: Veri stratejisi görüşmesi için önceden planlanan birebir randevu. […kısaltıldı]
+
+[3] Kaynak: 728_profiles.json, $.profiles[399]
+profileCode: DB-G6PCW7U9
+synthetic: True
+profileType: individual
+displayName: Ahmet Sezer
+professionalName: Ahmet Sezer
+sector: Teknoloji ve Yazılım
+occupation: Veri Bilimi Danışmanı
+headline: Veri analitiği ve makine öğrenmesi proje danışmanlığı
+location.country: Türkiye
+location.city: İstanbul
+location.district: Kadıköy
+location.serviceArea: Türkiye geneli (online)
+location.exactAddressPublic: False
+serviceModes[0]: Online
+services[0].name: Veri stratejisi görüşmesi
+services[0].durationMinutes: 90
+services[0].appointmentMode: Online
+services[1].name: Model değerlendirme
+services[1].durationMinutes: 45
+services[1].description: Model değerlendirme için önceden planlanan birebir randevu.
+services[1].appointmentMode: Online
+experience.years: 6
+experience.credentialSummary: Veri bilimi alanında eğitim ve deneyim
+languages[0]: Türkçe
+appointmentSettings.defaultDurationMinutes: 45
+appointmentSettings.minimumNoticeHours: 24
+appointmentSettings.cancellationNoticeHours: 6
+appointmentSettings.autoApproveRequests: True
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+searchKeywords[3]: Veri Bilimi Danışmanı
+searchKeywords[4]: Veri stratejisi görüşmesi
+about: 6 yıllık deneyimimle veri bilimi danışmanı alanında bireysel hizmet sunuyorum. İlk görüşmede ihtiyacı değerlendiriyor, sonraki adımları açık ve planlı biçimde belirliyorum.
+services[0].description: Veri stratejisi görüşmesi için önceden planlanan birebir randevu. […kısaltıldı]
+
+[4] Kaynak: 728_profiles.json, $.profiles[396]
+profileCode: DB-2MA65X8Z
+synthetic: True
+profileType: individual
+displayName: Beyza Aslan
+professionalName: Beyza Aslan
+sector: Teknoloji ve Yazılım
+occupation: Veri Bilimi Danışmanı
+headline: Veri analitiği ve makine öğrenmesi proje danışmanlığı
+location.country: Türkiye
+location.city: İstanbul
+location.district: Beylikdüzü
+location.serviceArea: Türkiye geneli (online)
+location.exactAddressPublic: False
+serviceModes[0]: Online
+services[0].name: Proje keşif görüşmesi
+services[0].durationMinutes: 60
+services[0].appointmentMode: Online
+services[1].name: Veri stratejisi görüşmesi
+services[1].durationMinutes: 45
+services[1].appointmentMode: Online
+experience.years: 13
+experience.credentialSummary: Veri bilimi alanında eğitim ve deneyim
+languages[0]: Türkçe
+appointmentSettings.defaultDurationMinutes: 45
+appointmentSettings.minimumNoticeHours: 6
+appointmentSettings.cancellationNoticeHours: 24
+appointmentSettings.autoApproveRequests: False
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 09:00
+weeklyAvailability[0].end: 17:00
+weeklyAvailability[1].day: Salı
+searchKeywords[3]: Veri Bilimi Danışmanı
+searchKeywords[4]: Veri stratejisi görüşmesi
+about: 13 yıllık deneyimimle veri bilimi danışmanı alanında bireysel hizmet sunuyorum. İlk görüşmede ihtiyacı değerlendiriyor, sonraki adımları açık ve planlı biçimde belirliyorum.
+services[1].descript […kısaltıldı]",
+215,Negatif,Yakin-Gurultulu,us-states veri setinde her eyaletin nüfusu kaç olarak belirtilmiştir?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,Bu bilgi dokümanlarda bulunamadı.,728_profiles.json ($.profiles[393]); 728_profiles.json ($.profiles[395]); 728_profiles.json ($.profiles[399]); 728_profiles.json ($.profiles[396]),33.55,"[1] Kaynak: 728_profiles.json, $.profiles[393]
+profileCode: DB-GEUFBB5C
+synthetic: True
+profileType: individual
+displayName: Derya Karaca
+professionalName: Derya Karaca
+sector: Teknoloji ve Yazılım
+occupation: Veri Bilimi Danışmanı
+headline: Veri analitiği ve makine öğrenmesi proje danışmanlığı
+location.country: Türkiye
+location.city: Kayseri
+location.district: Talas
+location.serviceArea: Türkiye geneli (online)
+location.exactAddressPublic: False
+serviceModes[0]: Online
+services[0].name: Proje keşif görüşmesi
+services[0].durationMinutes: 90
+services[0].appointmentMode: Online
+services[1].name: Veri stratejisi görüşmesi
+services[1].durationMinutes: 60
+services[1].appointmentMode: Online
+services[2].name: Model değerlendirme
+services[2].durationMinutes: 45
+services[2].description: Model değerlendirme için önceden planlanan birebir randevu.
+services[2].appointmentMode: Online
+experience.years: 15
+experience.credentialSummary: Veri bilimi alanında eğitim ve deneyim
+languages[0]: Türkçe
+languages[1]: Rusça
+appointmentSettings.defaultDurationMinutes: 45
+appointmentSettings.minimumNoticeHours: 4
+appointmentSettings.cancellationNoticeHours: 4
+searchKeywords[5]: Veri Bilimi Danışmanı
+searchKeywords[6]: Veri stratejisi görüşmesi
+about: 15 yıllık deneyimimle veri bilimi danışmanı alanında bireysel hizmet sunuyorum. İlk görüşmede ihtiyacı değerlendiriyor, sonraki adımları açık ve planlı biçimde belirliyorum.
+services[1].description: Veri stratejisi görüşmesi için önceden planlanan birebir randevu. […kısaltıldı]
+
+[2] Kaynak: 728_profiles.json, $.profiles[395]
+profileCode: DB-D44RAXGA
+synthetic: True
+profileType: individual
+displayName: İlayda Aksoy
+professionalName: İlayda Aksoy
+sector: Teknoloji ve Yazılım
+occupation: Veri Bilimi Danışmanı
+headline: Veri analitiği ve makine öğrenmesi proje danışmanlığı
+location.country: Türkiye
+location.city: Kocaeli
+location.district: Kartepe
+location.serviceArea: Türkiye geneli (online)
+location.exactAddressPublic: False
+serviceModes[0]: Online
+services[0].name: Proje keşif görüşmesi
+services[0].durationMinutes: 60
+services[0].appointmentMode: Online
+services[1].name: Veri stratejisi görüşmesi
+services[1].durationMinutes: 90
+services[1].appointmentMode: Online
+services[2].name: Model değerlendirme
+services[2].durationMinutes: 90
+services[2].description: Model değerlendirme için önceden planlanan birebir randevu.
+services[2].appointmentMode: Online
+experience.years: 8
+experience.credentialSummary: Veri bilimi alanında eğitim ve deneyim
+languages[0]: Türkçe
+appointmentSettings.defaultDurationMinutes: 60
+appointmentSettings.minimumNoticeHours: 24
+appointmentSettings.cancellationNoticeHours: 12
+searchKeywords[5]: Veri Bilimi Danışmanı
+searchKeywords[6]: Veri stratejisi görüşmesi
+about: Kartepe, Kocaeli merkezli olarak veri bilimi danışmanı alanında 8 yıldır çalışıyorum. Randevularımı düzenli, zamanında ve ihtiyaca göre yapılandırılmış şekilde yürütüyorum.
+services[1].description: Veri stratejisi görüşmesi için önceden planlanan birebir randevu. […kısaltıldı]
+
+[3] Kaynak: 728_profiles.json, $.profiles[399]
+profileCode: DB-G6PCW7U9
+synthetic: True
+profileType: individual
+displayName: Ahmet Sezer
+professionalName: Ahmet Sezer
+sector: Teknoloji ve Yazılım
+occupation: Veri Bilimi Danışmanı
+headline: Veri analitiği ve makine öğrenmesi proje danışmanlığı
+location.country: Türkiye
+location.city: İstanbul
+location.district: Kadıköy
+location.serviceArea: Türkiye geneli (online)
+location.exactAddressPublic: False
+serviceModes[0]: Online
+services[0].name: Veri stratejisi görüşmesi
+services[0].durationMinutes: 90
+services[0].appointmentMode: Online
+services[1].name: Model değerlendirme
+services[1].durationMinutes: 45
+services[1].description: Model değerlendirme için önceden planlanan birebir randevu.
+services[1].appointmentMode: Online
+experience.years: 6
+experience.credentialSummary: Veri bilimi alanında eğitim ve deneyim
+languages[0]: Türkçe
+appointmentSettings.defaultDurationMinutes: 45
+appointmentSettings.minimumNoticeHours: 24
+appointmentSettings.cancellationNoticeHours: 6
+appointmentSettings.autoApproveRequests: True
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+searchKeywords[3]: Veri Bilimi Danışmanı
+searchKeywords[4]: Veri stratejisi görüşmesi
+about: 6 yıllık deneyimimle veri bilimi danışmanı alanında bireysel hizmet sunuyorum. İlk görüşmede ihtiyacı değerlendiriyor, sonraki adımları açık ve planlı biçimde belirliyorum.
+services[0].description: Veri stratejisi görüşmesi için önceden planlanan birebir randevu. […kısaltıldı]
+
+[4] Kaynak: 728_profiles.json, $.profiles[396]
+profileCode: DB-2MA65X8Z
+synthetic: True
+profileType: individual
+displayName: Beyza Aslan
+professionalName: Beyza Aslan
+sector: Teknoloji ve Yazılım
+occupation: Veri Bilimi Danışmanı
+headline: Veri analitiği ve makine öğrenmesi proje danışmanlığı
+location.country: Türkiye
+location.city: İstanbul
+location.district: Beylikdüzü
+location.serviceArea: Türkiye geneli (online)
+location.exactAddressPublic: False
+serviceModes[0]: Online
+services[0].name: Proje keşif görüşmesi
+services[0].durationMinutes: 60
+services[0].appointmentMode: Online
+services[1].name: Veri stratejisi görüşmesi
+services[1].durationMinutes: 45
+services[1].appointmentMode: Online
+experience.years: 13
+experience.credentialSummary: Veri bilimi alanında eğitim ve deneyim
+languages[0]: Türkçe
+appointmentSettings.defaultDurationMinutes: 45
+appointmentSettings.minimumNoticeHours: 6
+appointmentSettings.cancellationNoticeHours: 24
+appointmentSettings.autoApproveRequests: False
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 09:00
+weeklyAvailability[0].end: 17:00
+weeklyAvailability[1].day: Salı
+searchKeywords[3]: Veri Bilimi Danışmanı
+searchKeywords[4]: Veri stratejisi görüşmesi
+about: 13 yıllık deneyimimle veri bilimi danışmanı alanında bireysel hizmet sunuyorum. İlk görüşmede ihtiyacı değerlendiriyor, sonraki adımları açık ve planlı biçimde belirliyorum.
+services[1].descr […kısaltıldı]",

@@ -1,0 +1,2358 @@
+id,zorluk,soru,beklenen_kaynak,dokumanda_var_mi,cevap,bulunan_kaynaklar,sure_sn,context,dogrulama_durumu
+1,Kolay,G4.1 dilbilgisinde VT kümesinin elemanları nelerdir?,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet,"G4.1 dilbilgisinde VT kümesinin elemanları {+, -, *, /, (, ), v, c} dir.",8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 3); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 21); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 18); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 26),49.38,"[1] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 3
+Örnek 4.1
+G4.1=<VN, VT, P, S>
+VN= { S }
+VT={+, -, *, /, (, ), v, c }
+P: S=> S+S| S-S |S*S |S/S | (S) | v | c
+G4.1 tarafından türetilen tümcelerden biri bulunmak istendiğinde:
+S=> S*S => S*(S) => S*(S-S) => v*(S-S) => v*(v-S) =>v*(v-c)
+S=>S*S =>(S)*S =>(S)*(S) => (S+S)*(S) => (S+S)*(S-S) => (S+S)*(S-S/S)
+=>(v+S)*(S-S/S) => (v+c)*(S-S/S) => (v+c)*(v-S/S) => (v+c)*(v-v/S)
+=> (v+c)*(v-v/c)
+S=> S+S => S*S +S => (S)*S+S => (S/S)*S+S => (S/(S))*S+S
+Þ (S/(S-S))*S+S => (v/(S-S))*S+S => (v/(v-S))*S+S=> (v/(v-c))*S+S
+Þ => (v/(v-c))*v+S =>(v/(v-c))*v+c
+
+[2] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 21
+Örnek 4.7
+G’4.7=<VN, VT, P, S> • Şimdi de (G’4.7)’deki değişkenlerden
+VN= { S, A, B, C, D, E, F } hangilerinin S’den ulaşılabilen değişkenler
+olduğunu bulmak gerekir. S’den
+VT={a, b}
+ulaşılabilen değişkenler kümesi algoritma
+P: S=> B |BS
+4.6 kullanılarak aşağıdaki gibi bulunur:
+A=> aA | aF
+• T = { S, B }
+B=>b U
+• Yukarıdaki kümede yer almayan A,
+E=> aA | BSA
+E ve F değişkenleri yararsız değişkenlerdir.
+F=> bB |b
+Dilbilgisinden bu üç değişken ile bu
+______________________
+değişkenlerin yer aldığı kurallar
+G” =<V , V , P, S>
+4.7 N T çıkarıldığında a simgesinin de yararsız bir
+V = { S, B}
+N simge olduğu görülür. Bu simge de
+VT={b} çıkarıldığında (G4.7)’ye eşdeğer; yararsız
+P: S=> B |BS simge, değişken ve kural içermeyen
+aşağıdaki dilbilgisi bulunur:
+B=>b
+
+[3] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 18
+4.3.4.1. Yararsız Değişken ve Kuralların Atılması
+• Bağlamdan-bağımsız bir dilbilgisi (G) verildiğinde, yararsız değişken ve kurallar
+atılarak eşdeğer bir dilbilgisinin bulunması iki adımda gerçekleştirilir.
+• Birinci adımda, algoritma 4.5 kullanılarak uç simge dizgisi türeten değişkenler
+kümesi bulunur. Bu kümede yer almayan değişkenler yararsız değişkenlerdir.
+Dilbilgisinden bu değişkenler ile bu değişkenlerin yer aldığı kurallar çıkarılarak
+eşdeğer bir dilbilgisi (G’) bulunur.
+• Algoritma 4.5. Uç simge dizgisi türeten değişkenler kümesinin bulunması:
+1. TD={A | (A=>w) ε P ve w ε VT* };
+2. (T=Teski) oluncaya kadar aşağıdaki işlemleri tekrarla:
+2.1 Teski=TD;
+2.2 Dilbilgisindeki her değişken (A) için aşağıdaki işlemleri tekrarla:
+2.2.1 Her (A=>β) kuralı için aşağıdaki işlemleri tekrarla:
+eğer β ε (TeskiU VT)* ise A’yı TD’ye ekle
+Son 2.2.1:
+Son 2.2
+Son 2.
+
+[4] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 26
+4.5.6. Örnek 6
+Omek 6
+Asagidaki baglamdan-bagimsiz her dilbilgisinin turettigi dilin kume tanimini
+veriniz.
+a) Gs.4.6.1 = ≤VN,VT,P, S >
+VN = {S,A, B, C}
+Vt = {a, b }
+P:S ==> aS|aA
+A==>aA|bB
+B ==>aBbC
+C ==> aC|a
+b)Gs.4.6.2 = <VN,VT,P. S >
+V= {S,X,Y}
+V = {a, b, c, d, e }
+P:S ==>aSeXY
+X==> aXc|b
+Y ==> cYe| d",
+2,Kolay,Bağlamdan bağımsız dilbilgisinde P harfi neyi temsil eder?,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet,"P, yeniden yazma ya da türetme kuralları temsil eder. Bağlamdan bağımsız dilbilgisinde P kümesi, grammatikteki tüm yeniden yazma kurallarını içerir. Bu kurallar, bir değişkenin başka bir veya daha fazla değişken ve simge grubuna eşitlenmesini sağlar.",8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 2); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 26); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 30); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 22),14.9,"[1] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 2
+4.BAĞLAMDAN-BAĞIMSIZ DİLBİLGİSİ
+• Programlama dilleri, derleyiciler, yorumlayıcılar, sözdizim
+çözümleyiciler, aritmetik deyimler, ..vb. birçok yazılım bileşeninin
+bünyesinde yer aldığı için bağlamdan-bağımsız dilbilgisi ve diller ile
+bu dilleri tanıyan makine modeli bilgisayar bilimleri ve mühendisliği
+açısından önem taşır.
+• Bağlamdan bağımsız dilbilgisi bir dörtlüdür.
+VN= Sözdizim değişkenleri kümesi(sonlu bir küme)
+VT=Uç simgeler kümesi (sonlu bir küme)
+VN ve VT ayrık kümelerdir. VN Π VT=Ø
+S: Başlangıç değişkeni S ε VN
+P: Yeniden yazma ya da türetme kuralları
+A=>b A ε VN b ε V*
+
+[2] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 26
+4.5.6. Örnek 6
+Omek 6
+Asagidaki baglamdan-bagimsiz her dilbilgisinin turettigi dilin kume tanimini
+veriniz.
+a) Gs.4.6.1 = ≤VN,VT,P, S >
+VN = {S,A, B, C}
+Vt = {a, b }
+P:S ==> aS|aA
+A==>aA|bB
+B ==>aBbC
+C ==> aC|a
+b)Gs.4.6.2 = <VN,VT,P. S >
+V= {S,X,Y}
+V = {a, b, c, d, e }
+P:S ==>aSeXY
+X==> aXc|b
+Y ==> cYe| d
+
+[3] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 30
+4.5.8. Örnek 8
+Omek8
+Asagidaki baglamdan-bagimsiz her dilbilgisinin turettigi dilin kume tanimini
+veriniz.
+a) Gs.4.8.1 = <VN, Vt. P, S >
+V={S,B,C}
+V = {a, b, d }
+P:S ==>aSaaB
+B ==>bbBdd|C
+C ==> bd
+b) Gs.4.6.2 = <Vn, Vt, P, S >
+V={S,A}
+V = { a, b, c, d }
+P:S ==>abSdcA
+A==> cdAba
+
+[4] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 22
+4.5.2. Örnek 2
+Omek 2
+Baglamdan-bagimsiz Gs.4.2 dilbilgisi asagidaki gibi tanimlaniyor.
+Gs.4.2 = VN,VT,P, S >
+V = { S, D, E}
+Vt = { a, b, c }
+P:S ==>aaSIaaD
+D==>bEbccD
+E ==> bEbI c
+a) Gs.4.2 tarafindan taninan baglamdan-bagimsiz dilin (Ls.4.2) kume tanimini
+olusturunuz.
+b) Gs.42'yi Chomsky normal bicimine (CNF) donusturunuz. Donusturme
+sirasinda kullanacaginiz yeni degiskenleri A, B, C, ve X, Xz, X3, ... diye
+adlandiriniz. Olusturdugunuz CNF dilbilgisinin tanimini eksiksiz ve duzenli
+bicimde yaziniz.",
+3,Kolay,Başlangıç değişkeni hangi sembolle gösterilir ve hangi kümenin elemanıdır?,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet,Başlangıç değişkeni S gösterilir ve VN kümenin elemanıdır.,8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 2); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 19); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 21); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 20),13.61,"[1] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 2
+4.BAĞLAMDAN-BAĞIMSIZ DİLBİLGİSİ
+• Programlama dilleri, derleyiciler, yorumlayıcılar, sözdizim
+çözümleyiciler, aritmetik deyimler, ..vb. birçok yazılım bileşeninin
+bünyesinde yer aldığı için bağlamdan-bağımsız dilbilgisi ve diller ile
+bu dilleri tanıyan makine modeli bilgisayar bilimleri ve mühendisliği
+açısından önem taşır.
+• Bağlamdan bağımsız dilbilgisi bir dörtlüdür.
+VN= Sözdizim değişkenleri kümesi(sonlu bir küme)
+VT=Uç simgeler kümesi (sonlu bir küme)
+VN ve VT ayrık kümelerdir. VN Π VT=Ø
+S: Başlangıç değişkeni S ε VN
+P: Yeniden yazma ya da türetme kuralları
+A=>b A ε VN b ε V*
+
+[2] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 19
+-4.3.4.1. Yararsız Değişken ve
+Kuralların Atılması
+• İkinci adımda, algoritma 4.6 kullanılarak, birinci adımda bulunan
+dilbilgisindeki (G’) değişkenlerden hangilerine başlangıç değişkeninden
+ulaşılabildiği bulunur. Başlangıç değişkeninden ulaşılamayan değişkenler de yararsız
+değişkenlerdir. Dilbilgisinden (G’) bu değişkenler ile bu değişkenlerin yer aldığı
+kurallar çıkarılarak eşdeğer dilbilgisi (G’’) bulunur.
+• Algoritma 4.6.
+1. TU={S};
+2. Teski=Φ;
+3. (TU=TEski) oluncuya kadar aşağıdaki işlemleri tekrarla:
+3.1. Tyeni=TU-Teski;
+3.2. TEski=TU;
+3.3 Tyeni’deki her değişken için aşağıdaki işlemleri tekrarla:
+3.3.1 Her (A=>β) yeniden yazma kuralı için aşağıdaki işlemleri tekrarla:
+β’daki tüm değişkenleri TU’ya ekle;
+Son 3.3.1;
+Son 3.3.1;
+Son 3;
+
+[3] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 21
+Örnek 4.7
+G’4.7=<VN, VT, P, S> • Şimdi de (G’4.7)’deki değişkenlerden
+VN= { S, A, B, C, D, E, F } hangilerinin S’den ulaşılabilen değişkenler
+olduğunu bulmak gerekir. S’den
+VT={a, b}
+ulaşılabilen değişkenler kümesi algoritma
+P: S=> B |BS
+4.6 kullanılarak aşağıdaki gibi bulunur:
+A=> aA | aF
+• T = { S, B }
+B=>b U
+• Yukarıdaki kümede yer almayan A,
+E=> aA | BSA
+E ve F değişkenleri yararsız değişkenlerdir.
+F=> bB |b
+Dilbilgisinden bu üç değişken ile bu
+______________________
+değişkenlerin yer aldığı kurallar
+G” =<V , V , P, S>
+4.7 N T çıkarıldığında a simgesinin de yararsız bir
+V = { S, B}
+N simge olduğu görülür. Bu simge de
+VT={b} çıkarıldığında (G4.7)’ye eşdeğer; yararsız
+P: S=> B |BS simge, değişken ve kural içermeyen
+aşağıdaki dilbilgisi bulunur:
+B=>b
+
+[4] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 20
+Örnek 4.7
+G4.7=<VN, VT, P, S> • (G4.7)’ye eşdeğer; yararsız
+değişken, simge ve kural
+VN= { S, A, B, C, D,
+içermeyen bir dilbilgisi bulmak
+E, F }
+için önce (G4.7)’deki
+V ={a, b}
+T değişkenlerden hangilerinin uç
+simge dizgisi türeten
+P: S=> B | AC
+değişkenler olduğunu bulmak
+|BS
+gerekir. Uç simge dizgisi türeten
+A=> aA | aF
+değişkenler kümesi algoritma
+B=>CF | b 4.5 ile aşağıdaki gibi bulunur:
+C=> cC |D • TD = { S, A, B, E, F }
+D=> C | aD • Yukarıdaki kümede yer
+almayan C ve D değişkenleri
+|BD
+yararsız değişkenlerdir.
+E=> aA | BSA
+F=> bB |b",
+4,Kolay,VN ve VT kümeleri arasındaki ilişki nedir (ayrık mıdır kesişir mi)?,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet,"AYRIK kümelerdir. VN ve VT kümeleri ayrık kümelerdir ve birbirleriyle kesişmez. Bu durum, bağlamdan bağımsız dilbilgisi tanımlarında belirtilmiştir: ""VN ve VT ayrık kümelerdir. VN Π VT=Ø""",8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 2); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 26); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 25); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 29),13.72,"[1] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 2
+4.BAĞLAMDAN-BAĞIMSIZ DİLBİLGİSİ
+• Programlama dilleri, derleyiciler, yorumlayıcılar, sözdizim
+çözümleyiciler, aritmetik deyimler, ..vb. birçok yazılım bileşeninin
+bünyesinde yer aldığı için bağlamdan-bağımsız dilbilgisi ve diller ile
+bu dilleri tanıyan makine modeli bilgisayar bilimleri ve mühendisliği
+açısından önem taşır.
+• Bağlamdan bağımsız dilbilgisi bir dörtlüdür.
+VN= Sözdizim değişkenleri kümesi(sonlu bir küme)
+VT=Uç simgeler kümesi (sonlu bir küme)
+VN ve VT ayrık kümelerdir. VN Π VT=Ø
+S: Başlangıç değişkeni S ε VN
+P: Yeniden yazma ya da türetme kuralları
+A=>b A ε VN b ε V*
+
+[2] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 26
+4.5.6. Örnek 6
+Omek 6
+Asagidaki baglamdan-bagimsiz her dilbilgisinin turettigi dilin kume tanimini
+veriniz.
+a) Gs.4.6.1 = ≤VN,VT,P, S >
+VN = {S,A, B, C}
+Vt = {a, b }
+P:S ==> aS|aA
+A==>aA|bB
+B ==>aBbC
+C ==> aC|a
+b)Gs.4.6.2 = <VN,VT,P. S >
+V= {S,X,Y}
+V = {a, b, c, d, e }
+P:S ==>aSeXY
+X==> aXc|b
+Y ==> cYe| d
+
+[3] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 25
+4.5.5. Cevap 5
+a) G 4.5.1 = < VN, VT, P, S >
+VN={S,A}
+VT = {a, b, c, d }
+P :S  aaSdIaaAd
+A=bAcc|bcc
+b) G 4.5.2 = < Vn, Vt, P, S >
+VN ={S,A,B }
+V = { a, b, c, d }
+P:S aSdd|A
+A=aAc|B
+B=bBc|1
+
+[4] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 29
+4.5.7. Cevap 7
+a) Gs.4.7.1 = <Vn,Vt, P S >
+VN = { S,A, B }
+VT = { a, b, c }
+P : S ==> aaAc
+A ==> aAc|aA| aBb
+B ==>aBb|aB|1
+b) Gs4.7.2 = <Vn, Vt, P, S >
+Vn = { S,A, B }
+Vr = {a. b, c }
+P : S ==> aAcc
+A ==>aAccbBc
+B ==>bBc17",
+5,Kolay,Bir türetme ağacının kökünün etiketi ne olmalıdır?,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet,Bir türetme ağacının kökünün etiketi S olmalıdır.,8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 9); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 10); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 7); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 14),12.05,"[1] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 9
+Türetme ya da Ayrıştırma Ağacının
+Tanımı
+a) Ağacın kökünün etiketi S’dir.
+b) Kök dışındaki ara düğümlerin etiketleri sözdizim değişkenleridir
+(AεVN).
+c) Eğer ağaç bir tümcesel yapıya karşı geliyorsa, yaprakların etiketleri
+sözdizim değişkenleri ya da uç simgeler olabilir (XεV). Eğer ağaç bir
+tümceye karşı geliyorsa yaprakların etiketleri yalnız uç simgeler
+(aεVT) olabilir.
+d) Eğer ara bir düğümün etiketi A, bu ara düğümün hemen altındaki
+düğümlerin etiketleri ise soldan sağa X1, X2, X3,…, Xk ise,
+dilbilgisinin yeniden yazma kuralları arasında
+A= X1X2X3… Xk
+X1, X2, X3,…, Xk ε V kuralı yer almalıdır.
+e) Eğer bir düğümün etiketi λ ise, bu düğüm bir uç düğüm(yaprak)
+olmalı ve bu düğümün kardeşi bulunmamalıdır.
+
+[2] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 10
+Soldan ve Sağdan Türetme
+• Yapraklarının etiketleri uç simgeler olan her türetme ağacına dilin
+bir tümcesi karşı gelir. Eğer dil belirgin (unambiguous) bir dil ise
+de, dilin her tümcesine bir türetme ağacı karşı gelir. Eğer dilin bir
+tümcesine birden çok türetme ağacı karşı geliyorsa, dil belirgin
+olmayan (ambiguous) bir dildir. Belirginlik dilbilgisinin ve dilin en
+temel özelliklerinden biridir.
+• Tümceleri birden çok anlam taşıyan belirgin olmayan dillerin
+uygulamada hiçbir değeri yoktur. Bu nedenle, kullanılan dillerin
+tümünün belirginlik özelliğini sağladığı varsayılacaktır. Buna göre
+dilin her tümcesine bir türetme ağacı, yapraklarının etiketleri uç
+simgeler olan her türetme ağacına da bir tümce karşı geldiğini
+söyleyebiliriz.
+• Dilin her tümcesine bir türetme ağacı karşı geldiği gibi, bir soldan
+türetme, bir de sağdan türetme karşı gelir.
+
+[3] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 7
+4.2 Türetme Ağacı
+• Bir dilbilgisi tarafından türetilen tümcesel yapı ve
+tümceler aşağıdaki gibi gösterilebilir:
+S=>β1=>β2=>β3........ =>βn-1=>βn=>w βi ε V* , w εVT*
+• Bağlamdan-bağımsız dillerin her tümcesel yapısına ve
+her tümcesine bir türetme ya da ayrıştırma ağacı
+(derivation or parsing tree) karşı gelir.
+Örneğin G4.4 tarafından türetilen:
+β = 010A010 tümcesel yapısı ile
+w = 0010100100 tümcesine
+karşı gelen türetme ağaçları Çizim 4.1’de görülmektedir.
+
+[4] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 14
+Türetme ağacı:
+w2=v/(v-c)+v*(v+c)
+S
+S
++ S
+S / S
+S * S
+v ( S )
+v ( S )
+S - S S S
++
+v c
+v c",
+6,Kolay,G4.2 dilbilgisinin uç simgeler (VT) kümesi nelerdir?,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet,"VT = {a, b, c, d}",8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 2); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 4); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 18); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 21),13.02,"[1] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 2
+4.BAĞLAMDAN-BAĞIMSIZ DİLBİLGİSİ
+• Programlama dilleri, derleyiciler, yorumlayıcılar, sözdizim
+çözümleyiciler, aritmetik deyimler, ..vb. birçok yazılım bileşeninin
+bünyesinde yer aldığı için bağlamdan-bağımsız dilbilgisi ve diller ile
+bu dilleri tanıyan makine modeli bilgisayar bilimleri ve mühendisliği
+açısından önem taşır.
+• Bağlamdan bağımsız dilbilgisi bir dörtlüdür.
+VN= Sözdizim değişkenleri kümesi(sonlu bir küme)
+VT=Uç simgeler kümesi (sonlu bir küme)
+VN ve VT ayrık kümelerdir. VN Π VT=Ø
+S: Başlangıç değişkeni S ε VN
+P: Yeniden yazma ya da türetme kuralları
+A=>b A ε VN b ε V*
+
+[2] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 4
+Örnek 4.2
+G4.2=<VN, VT, P, S>
+VN= { S, A, B }
+VT={a, b, c, d}
+P: S=> aAdd
+A=> aAd |Ad |bBcc
+B=>bBc |Bc |λ
+G4.2 tarafından türetilen tümcelerden biri bulunmak istendiğinde:
+S=> aAdd =>abBccdd =>abccdd
+S=> aAdd =>aaAddd => aabBccddd =>aabccddd
+S=>aAdd =>aaAddd => aaAdddd => aaaAddddd=> aaabBccddddd =>
+aaabBccccdddddd = > aaabbccccddddd
+Yukarıdaki örneklerden bu bağlamdan bağımsız dilbilgisi tarafından L(G4.2) dili
+aşağıdaki gibi tanımlanabilir:
+L(G4.2) ={anbmckdp | n,m,p,k ≥1, p>n , k>m}
+
+[3] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 18
+4.3.4.1. Yararsız Değişken ve Kuralların Atılması
+• Bağlamdan-bağımsız bir dilbilgisi (G) verildiğinde, yararsız değişken ve kurallar
+atılarak eşdeğer bir dilbilgisinin bulunması iki adımda gerçekleştirilir.
+• Birinci adımda, algoritma 4.5 kullanılarak uç simge dizgisi türeten değişkenler
+kümesi bulunur. Bu kümede yer almayan değişkenler yararsız değişkenlerdir.
+Dilbilgisinden bu değişkenler ile bu değişkenlerin yer aldığı kurallar çıkarılarak
+eşdeğer bir dilbilgisi (G’) bulunur.
+• Algoritma 4.5. Uç simge dizgisi türeten değişkenler kümesinin bulunması:
+1. TD={A | (A=>w) ε P ve w ε VT* };
+2. (T=Teski) oluncaya kadar aşağıdaki işlemleri tekrarla:
+2.1 Teski=TD;
+2.2 Dilbilgisindeki her değişken (A) için aşağıdaki işlemleri tekrarla:
+2.2.1 Her (A=>β) kuralı için aşağıdaki işlemleri tekrarla:
+eğer β ε (TeskiU VT)* ise A’yı TD’ye ekle
+Son 2.2.1:
+Son 2.2
+Son 2.
+
+[4] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 21
+Örnek 4.7
+G’4.7=<VN, VT, P, S> • Şimdi de (G’4.7)’deki değişkenlerden
+VN= { S, A, B, C, D, E, F } hangilerinin S’den ulaşılabilen değişkenler
+olduğunu bulmak gerekir. S’den
+VT={a, b}
+ulaşılabilen değişkenler kümesi algoritma
+P: S=> B |BS
+4.6 kullanılarak aşağıdaki gibi bulunur:
+A=> aA | aF
+• T = { S, B }
+B=>b U
+• Yukarıdaki kümede yer almayan A,
+E=> aA | BSA
+E ve F değişkenleri yararsız değişkenlerdir.
+F=> bB |b
+Dilbilgisinden bu üç değişken ile bu
+______________________
+değişkenlerin yer aldığı kurallar
+G” =<V , V , P, S>
+4.7 N T çıkarıldığında a simgesinin de yararsız bir
+V = { S, B}
+N simge olduğu görülür. Bu simge de
+VT={b} çıkarıldığında (G4.7)’ye eşdeğer; yararsız
+P: S=> B |BS simge, değişken ve kural içermeyen
+aşağıdaki dilbilgisi bulunur:
+B=>b",
+7,Orta,G4.1 dilbilgisinde S=>S*S=>S*(S)=>S*(S-S)=>v*(S-S)=>v*(v-S)=>v*(v-c) türetmesi sonunda hangi tümce elde edilmiştir?,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet,v*(v-c),8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 3); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 6); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 15); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 13),14.73,"[1] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 3
+Örnek 4.1
+G4.1=<VN, VT, P, S>
+VN= { S }
+VT={+, -, *, /, (, ), v, c }
+P: S=> S+S| S-S |S*S |S/S | (S) | v | c
+G4.1 tarafından türetilen tümcelerden biri bulunmak istendiğinde:
+S=> S*S => S*(S) => S*(S-S) => v*(S-S) => v*(v-S) =>v*(v-c)
+S=>S*S =>(S)*S =>(S)*(S) => (S+S)*(S) => (S+S)*(S-S) => (S+S)*(S-S/S)
+=>(v+S)*(S-S/S) => (v+c)*(S-S/S) => (v+c)*(v-S/S) => (v+c)*(v-v/S)
+=> (v+c)*(v-v/c)
+S=> S+S => S*S +S => (S)*S+S => (S/S)*S+S => (S/(S))*S+S
+Þ (S/(S-S))*S+S => (v/(S-S))*S+S => (v/(v-S))*S+S=> (v/(v-c))*S+S
+Þ => (v/(v-c))*v+S =>(v/(v-c))*v+c
+
+[2] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 6
+Örnek 4.4
+G4.4=<VN, VT, P, S>
+VN= { S, A}
+VT={0, 1}
+P: S=> 0S0 | 1S1 |0A0 |1A1
+A=> 0A1 | 1A0 |01 |10
+G4.4 tarafından türetilen tümcelerden biri bulunmak istendiğinde:
+S=> 0S0 => 01A10 => 010A110 => 01010110
+S=> 0S0 => 01S10 => 011S110 => 0110A1110 => 01100A11110 => 011001011110
+S=> 0S0 => 00S00 => 000S000 => 0001A1000 => 00010A11000 => 000100A111000 =>
+0001000A1111000 => 00010001011111000
+Yukarıdaki örneklerden bu bağlamdan bağımsız dilbilgisi tarafından L(G4.2) dili aşağıdaki gibi
+tanımlanabilir:
+L(G4.3) ={uv(v’)RuR | u,v ε(0+1)*, |u|≥1, |v|≥1}
+uR u’nun tersi(reverse)
+(v’)R V’nin tümlerinin tersi
+
+[3] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 15
+w =v/(v-c)+v*(v+c) soldan ve sağdan
+2
+türetme
+a) w2’in soldan türetilmesi:
+b) w ’in sağdan türetilmesi:
+S=>S+S 2
+S=> S+S
+=>S/S+S
+ÞS+S*S
+=>v/S*S
+ÞS+S*(S)
+=> v/(S)+S
+ÞS+S*(S+S)
+=>v/(S-S)+S
+ÞS+S*(S+c)
+=>v/(v-S)+S
+ÞS+S*(v+c)
+=> v/(v-c)+S
+ÞS+v*(v+c)
+=> v/(v-c)+S*S
+ÞS/S + v*(v+c)
+=>v/(v-c)+v*S
+ÞS/(S-S) + v*(v+c)
+=>v/(v-c)+v*(S)
+ÞS/(S-c) + v*(v+c)
+=>v/(v-c)+v*(S+S)
+ÞS/(v-c) + v*(v+c)
+=> v/(v-c)+v*(v+S)
+Þv/(v-c) + v*(v+c)
+Þ v/(v-c)+v*(v+c)
+
+[4] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 13
+w =(v+c)*(v-c) soldan ve sağdan
+1
+türetme
+a) w ’in soldan
+1 b) w ’in sağdan
+türetilmesi: 1
+türetilmesi:
+S=>S*S
+S=>S*S
+=>(S)*S
+=>S*(S)
+=>(S+S)*S
+=>S*(S-S)
+=>(v+S)*S
+=> (v+c)*S ÞS*(S-c)
+=> (v+c)*(S) ÞS*(v-c)
+=>(v+c)*(S-S)
+Þ(S)*(v-c)
+=>(v+c)*(v-S)
+Þ(S+S)*(v-c)
+=> (v+c) *(v-c)
+=> (S+c)*(v-c) => (v+c)(v-c)",
+8,Orta,"L(G4.2) dili nasıl tanımlanmıştır; n, m, p, k parametreleri arasındaki koşullar nelerdir?",8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet,"L(G4.2) dili aşağıdaki gibi tanımlanabilir:
+L(G4.2) = {anbmckdp | n,m,p,k ≥1, p>n, k>m} Burada n, m ve k pozitif tam sayılar olmak üzere, p'nin n'den büyük olması ve k'nin m'den büyük olması gerekmektedir.",8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 4); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 5); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 6); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 24),14.34,"[1] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 4
+Örnek 4.2
+G4.2=<VN, VT, P, S>
+VN= { S, A, B }
+VT={a, b, c, d}
+P: S=> aAdd
+A=> aAd |Ad |bBcc
+B=>bBc |Bc |λ
+G4.2 tarafından türetilen tümcelerden biri bulunmak istendiğinde:
+S=> aAdd =>abBccdd =>abccdd
+S=> aAdd =>aaAddd => aabBccddd =>aabccddd
+S=>aAdd =>aaAddd => aaAdddd => aaaAddddd=> aaabBccddddd =>
+aaabBccccdddddd = > aaabbccccddddd
+Yukarıdaki örneklerden bu bağlamdan bağımsız dilbilgisi tarafından L(G4.2) dili
+aşağıdaki gibi tanımlanabilir:
+L(G4.2) ={anbmckdp | n,m,p,k ≥1, p>n , k>m}
+
+[2] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 5
+Örnek 4.3
+G4.3=<VN, VT, P, S>
+VN= { S, X, Y, Z}
+VT={a, b, c}
+P: S=> XY
+X=> aXbb |aZbb |abb
+Y=>cY |c
+Z=>Zb |Xb
+G4.3 tarafından türetilen tümcelerden biri bulunmak istendiğinde:
+S=> XY => abbY => abbcY =>abbcc
+S=>XY => aXbbY=> aaZbbbbY => aaZbbbbbY=> aaXbbbbbbY => aaabbbbbbbbY
+=>aaabbbbbbbbc
+Yukarıdaki örneklerden bu bağlamdan bağımsız dilbilgisi tarafından L(G4.2) dili
+aşağıdaki gibi tanımlanabilir:
+L(G4.3) ={anbmck | n≥1 , k≥1 m≥2n}
+
+[3] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 6
+Örnek 4.4
+G4.4=<VN, VT, P, S>
+VN= { S, A}
+VT={0, 1}
+P: S=> 0S0 | 1S1 |0A0 |1A1
+A=> 0A1 | 1A0 |01 |10
+G4.4 tarafından türetilen tümcelerden biri bulunmak istendiğinde:
+S=> 0S0 => 01A10 => 010A110 => 01010110
+S=> 0S0 => 01S10 => 011S110 => 0110A1110 => 01100A11110 => 011001011110
+S=> 0S0 => 00S00 => 000S000 => 0001A1000 => 00010A11000 => 000100A111000 =>
+0001000A1111000 => 00010001011111000
+Yukarıdaki örneklerden bu bağlamdan bağımsız dilbilgisi tarafından L(G4.2) dili aşağıdaki gibi
+tanımlanabilir:
+L(G4.3) ={uv(v’)RuR | u,v ε(0+1)*, |u|≥1, |v|≥1}
+uR u’nun tersi(reverse)
+(v’)R V’nin tümlerinin tersi
+
+[4] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 24
+4.5.5. Örnek 5
+Omek5
+Asagida tanimlanan baglamdan-bagimsiz dillerin her birini tureten baglamdan
+bagimsiz bir dilbilgisi tanimlayiniz.
+a)L 4.5.1 = { a2k bn c2n dk1k ≥ 1 , n ≥ 1 }
+b)L 4.52 = {an+m bk cm+k d2n I n , m , k ≥ 0 }",
+9,Orta,G4.3 dilbilgisi tarafından türetilen L(G4.3) dilinin küme tanımını yazınız.,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet,"L(G4.3) = {anbmck | n≥1, k≥1, m≥2n}",8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 5); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 6); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 4); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 22),13.62,"[1] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 5
+Örnek 4.3
+G4.3=<VN, VT, P, S>
+VN= { S, X, Y, Z}
+VT={a, b, c}
+P: S=> XY
+X=> aXbb |aZbb |abb
+Y=>cY |c
+Z=>Zb |Xb
+G4.3 tarafından türetilen tümcelerden biri bulunmak istendiğinde:
+S=> XY => abbY => abbcY =>abbcc
+S=>XY => aXbbY=> aaZbbbbY => aaZbbbbbY=> aaXbbbbbbY => aaabbbbbbbbY
+=>aaabbbbbbbbc
+Yukarıdaki örneklerden bu bağlamdan bağımsız dilbilgisi tarafından L(G4.2) dili
+aşağıdaki gibi tanımlanabilir:
+L(G4.3) ={anbmck | n≥1 , k≥1 m≥2n}
+
+[2] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 6
+Örnek 4.4
+G4.4=<VN, VT, P, S>
+VN= { S, A}
+VT={0, 1}
+P: S=> 0S0 | 1S1 |0A0 |1A1
+A=> 0A1 | 1A0 |01 |10
+G4.4 tarafından türetilen tümcelerden biri bulunmak istendiğinde:
+S=> 0S0 => 01A10 => 010A110 => 01010110
+S=> 0S0 => 01S10 => 011S110 => 0110A1110 => 01100A11110 => 011001011110
+S=> 0S0 => 00S00 => 000S000 => 0001A1000 => 00010A11000 => 000100A111000 =>
+0001000A1111000 => 00010001011111000
+Yukarıdaki örneklerden bu bağlamdan bağımsız dilbilgisi tarafından L(G4.2) dili aşağıdaki gibi
+tanımlanabilir:
+L(G4.3) ={uv(v’)RuR | u,v ε(0+1)*, |u|≥1, |v|≥1}
+uR u’nun tersi(reverse)
+(v’)R V’nin tümlerinin tersi
+
+[3] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 4
+Örnek 4.2
+G4.2=<VN, VT, P, S>
+VN= { S, A, B }
+VT={a, b, c, d}
+P: S=> aAdd
+A=> aAd |Ad |bBcc
+B=>bBc |Bc |λ
+G4.2 tarafından türetilen tümcelerden biri bulunmak istendiğinde:
+S=> aAdd =>abBccdd =>abccdd
+S=> aAdd =>aaAddd => aabBccddd =>aabccddd
+S=>aAdd =>aaAddd => aaAdddd => aaaAddddd=> aaabBccddddd =>
+aaabBccccdddddd = > aaabbccccddddd
+Yukarıdaki örneklerden bu bağlamdan bağımsız dilbilgisi tarafından L(G4.2) dili
+aşağıdaki gibi tanımlanabilir:
+L(G4.2) ={anbmckdp | n,m,p,k ≥1, p>n , k>m}
+
+[4] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 22
+4.5.2. Örnek 2
+Omek 2
+Baglamdan-bagimsiz Gs.4.2 dilbilgisi asagidaki gibi tanimlaniyor.
+Gs.4.2 = VN,VT,P, S >
+V = { S, D, E}
+Vt = { a, b, c }
+P:S ==>aaSIaaD
+D==>bEbccD
+E ==> bEbI c
+a) Gs.4.2 tarafindan taninan baglamdan-bagimsiz dilin (Ls.4.2) kume tanimini
+olusturunuz.
+b) Gs.42'yi Chomsky normal bicimine (CNF) donusturunuz. Donusturme
+sirasinda kullanacaginiz yeni degiskenleri A, B, C, ve X, Xz, X3, ... diye
+adlandiriniz. Olusturdugunuz CNF dilbilgisinin tanimini eksiksiz ve duzenli
+bicimde yaziniz.",
+10,Orta,Soldan türetme ile sağdan türetme arasındaki temel fark nedir?,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet,"Soldan türetme ve sağdan türetme arasındaki temel fark, her adımda hangi değişkene türetme uygulanacağına bağlıdır. Soldan türetme her adımda en soldaki değişkene türetme uygularken, sağdan türetme her adımda en sağdaki değişkene türetme uygular. Bu nedenle, aynı gramarın farklı türetme yolları verebilir. Bu farklı türetme yolları, dilin belirginliğini etkiler. Belirgin bir dilde her tümcesine sadece bir türetme yolu olmalıdır.",8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 11); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 10); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 13); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 15),16.36,"[1] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 11
+Soldan veya Sağdan Türetme
+• Eğer bir tümce türetilirken, her adımda en soldaki
+değişkene bir türetme uygulanıyorsa, yapılan
+türetmeye soldan türetme (leftmost derivation) denir.
+Soldan türetmenin her ara adımında, eğer tümcesel
+yapı birden çok değişken içeriyorsa, öncelik en soldaki
+değişkene verilir.
+• Eğer bir tümce türetilirken, her adımda en sağdaki
+değişkene bir türetme uygulanıyorsa, yapılan
+türetmeye sağdan türetme (rightmost
+derivation) denir. Sağdan türetmenin her ara adımında,
+eğer tümcesel yapı birden çok değişken içeriyorsa,
+öncelik en sağdaki değişkene verilir.
+
+[2] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 10
+Soldan ve Sağdan Türetme
+• Yapraklarının etiketleri uç simgeler olan her türetme ağacına dilin
+bir tümcesi karşı gelir. Eğer dil belirgin (unambiguous) bir dil ise
+de, dilin her tümcesine bir türetme ağacı karşı gelir. Eğer dilin bir
+tümcesine birden çok türetme ağacı karşı geliyorsa, dil belirgin
+olmayan (ambiguous) bir dildir. Belirginlik dilbilgisinin ve dilin en
+temel özelliklerinden biridir.
+• Tümceleri birden çok anlam taşıyan belirgin olmayan dillerin
+uygulamada hiçbir değeri yoktur. Bu nedenle, kullanılan dillerin
+tümünün belirginlik özelliğini sağladığı varsayılacaktır. Buna göre
+dilin her tümcesine bir türetme ağacı, yapraklarının etiketleri uç
+simgeler olan her türetme ağacına da bir tümce karşı geldiğini
+söyleyebiliriz.
+• Dilin her tümcesine bir türetme ağacı karşı geldiği gibi, bir soldan
+türetme, bir de sağdan türetme karşı gelir.
+
+[3] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 13
+w =(v+c)*(v-c) soldan ve sağdan
+1
+türetme
+a) w ’in soldan
+1 b) w ’in sağdan
+türetilmesi: 1
+türetilmesi:
+S=>S*S
+S=>S*S
+=>(S)*S
+=>S*(S)
+=>(S+S)*S
+=>S*(S-S)
+=>(v+S)*S
+=> (v+c)*S ÞS*(S-c)
+=> (v+c)*(S) ÞS*(v-c)
+=>(v+c)*(S-S)
+Þ(S)*(v-c)
+=>(v+c)*(v-S)
+Þ(S+S)*(v-c)
+=> (v+c) *(v-c)
+=> (S+c)*(v-c) => (v+c)(v-c)
+
+[4] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 15
+w =v/(v-c)+v*(v+c) soldan ve sağdan
+2
+türetme
+a) w2’in soldan türetilmesi:
+b) w ’in sağdan türetilmesi:
+S=>S+S 2
+S=> S+S
+=>S/S+S
+ÞS+S*S
+=>v/S*S
+ÞS+S*(S)
+=> v/(S)+S
+ÞS+S*(S+S)
+=>v/(S-S)+S
+ÞS+S*(S+c)
+=>v/(v-S)+S
+ÞS+S*(v+c)
+=> v/(v-c)+S
+ÞS+v*(v+c)
+=> v/(v-c)+S*S
+ÞS/S + v*(v+c)
+=>v/(v-c)+v*S
+ÞS/(S-S) + v*(v+c)
+=>v/(v-c)+v*(S)
+ÞS/(S-c) + v*(v+c)
+=>v/(v-c)+v*(S+S)
+ÞS/(v-c) + v*(v+c)
+=> v/(v-c)+v*(v+S)
+Þv/(v-c) + v*(v+c)
+Þ v/(v-c)+v*(v+c)",
+11,Orta,Bir dilin belirgin (unambiguous) olması ne anlama gelir?,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet,"Bir dilin belirgin olması, dilin her bir tümcesine sadece bir türetme ağacı karşılık geleceğinden kaynaklanır ve bu durumda dilin anlamları belirgin ve belirsizlik olmaz. Bu, dilbilgisinde temel bir özelliktir ve dilin kullanımında netlik sağlar.",8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 10); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 7); 728_profiles.json ($.profiles[294]); 728_profiles.json ($.profiles[288]),21.81,"[1] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 10
+Soldan ve Sağdan Türetme
+• Yapraklarının etiketleri uç simgeler olan her türetme ağacına dilin
+bir tümcesi karşı gelir. Eğer dil belirgin (unambiguous) bir dil ise
+de, dilin her tümcesine bir türetme ağacı karşı gelir. Eğer dilin bir
+tümcesine birden çok türetme ağacı karşı geliyorsa, dil belirgin
+olmayan (ambiguous) bir dildir. Belirginlik dilbilgisinin ve dilin en
+temel özelliklerinden biridir.
+• Tümceleri birden çok anlam taşıyan belirgin olmayan dillerin
+uygulamada hiçbir değeri yoktur. Bu nedenle, kullanılan dillerin
+tümünün belirginlik özelliğini sağladığı varsayılacaktır. Buna göre
+dilin her tümcesine bir türetme ağacı, yapraklarının etiketleri uç
+simgeler olan her türetme ağacına da bir tümce karşı geldiğini
+söyleyebiliriz.
+• Dilin her tümcesine bir türetme ağacı karşı geldiği gibi, bir soldan
+türetme, bir de sağdan türetme karşı gelir.
+
+[2] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 7
+4.2 Türetme Ağacı
+• Bir dilbilgisi tarafından türetilen tümcesel yapı ve
+tümceler aşağıdaki gibi gösterilebilir:
+S=>β1=>β2=>β3........ =>βn-1=>βn=>w βi ε V* , w εVT*
+• Bağlamdan-bağımsız dillerin her tümcesel yapısına ve
+her tümcesine bir türetme ya da ayrıştırma ağacı
+(derivation or parsing tree) karşı gelir.
+Örneğin G4.4 tarafından türetilen:
+β = 010A010 tümcesel yapısı ile
+w = 0010100100 tümcesine
+karşı gelen türetme ağaçları Çizim 4.1’de görülmektedir.
+
+[3] Kaynak: 728_profiles.json, $.profiles[294]
+profileCode: DB-HABGHQQ3
+synthetic: True
+profileType: individual
+displayName: Selin Dinç
+professionalName: Selin Dinç
+sector: Eğitim ve Özel Ders
+occupation: Türkçe Öğretmeni
+headline: Türkçe, okuduğunu anlama ve sınav hazırlığı
+location.country: Türkiye
+location.city: Ankara
+location.district: Etimesgut
+location.serviceArea: Etimesgut / online
+location.exactAddressPublic: False
+serviceModes[0]: Yüz yüze
+serviceModes[1]: Online
+services[0].name: Sınav hazırlık
+services[0].durationMinutes: 45
+services[0].description: Sınav hazırlık için önceden planlanan birebir randevu.
+services[0].appointmentMode: Yüz yüze
+services[1].name: Dil bilgisi dersi
+services[1].durationMinutes: 60
+services[1].description: Dil bilgisi dersi için önceden planlanan birebir randevu.
+services[1].appointmentMode: Online
+services[2].name: Okuduğunu anlama
+services[2].durationMinutes: 45
+services[2].description: Okuduğunu anlama için önceden planlanan birebir randevu.
+services[2].appointmentMode: Yüz yüze
+experience.years: 3
+experience.credentialSummary: Türkçe öğretmenliği eğitimi
+languages[0]: Türkçe
+languages[1]: İngilizce
+appointmentSettings.defaultDurationMinutes: 45
+appointmentSettings.minimumNoticeHours: 24
+appointmentSettings.cancellationNoticeHours: 6
+appointmentSettings.autoApproveRequests: False
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 17:00
+searchKeywords[1]: Dil bilgisi dersi
+searchKeywords[4]: Okuduğunu anlama […kısaltıldı]
+
+[4] Kaynak: 728_profiles.json, $.profiles[288]
+profileCode: DB-5482E3PT
+synthetic: True
+profileType: individual
+displayName: Pınar Doğan
+professionalName: Pınar Doğan
+sector: Eğitim ve Özel Ders
+occupation: Türkçe Öğretmeni
+headline: Türkçe, okuduğunu anlama ve sınav hazırlığı
+location.country: Türkiye
+location.city: Eskişehir
+location.district: Odunpazarı
+location.serviceArea: Odunpazarı / online
+location.exactAddressPublic: False
+serviceModes[0]: Yüz yüze
+serviceModes[1]: Online
+services[0].name: Sınav hazırlık
+services[0].durationMinutes: 60
+services[0].description: Sınav hazırlık için önceden planlanan birebir randevu.
+services[0].appointmentMode: Online
+services[1].name: Dil bilgisi dersi
+services[1].durationMinutes: 60
+services[1].description: Dil bilgisi dersi için önceden planlanan birebir randevu.
+services[1].appointmentMode: Yüz yüze
+services[2].name: Okuduğunu anlama
+services[2].durationMinutes: 60
+services[2].description: Okuduğunu anlama için önceden planlanan birebir randevu.
+services[2].appointmentMode: Online
+experience.years: 5
+experience.credentialSummary: Türkçe öğretmenliği eğitimi
+languages[0]: Türkçe
+appointmentSettings.defaultDurationMinutes: 60
+appointmentSettings.minimumNoticeHours: 2
+appointmentSettings.cancellationNoticeHours: 4
+appointmentSettings.autoApproveRequests: False
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 17:00
+searchKeywords[0]: Dil bilgisi dersi
+searchKeywords[4]: Okuduğunu anlama […kısaltıldı]",
+12,Orta,Belirgin olmayan (ambiguous) dillerin uygulamada neden değeri olmadığı belirtilmiştir?,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet,"Belirgin olmayan dillerin uygulamada hiçbir değeri yoktur çünkü tümceleri birden çok anlam taşıyarlarsa, bu dillerin anlamlarının belirlenmesi zorlaşır ve uygulamada kullanılması zorlaşır. Bu nedenle, kullanılan dillerin tümünün belirginlik özelliğini sağladığı varsayılacaktır.",8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 10); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 2); 728_profiles.json ($.profiles[320]); 728_profiles.json ($.profiles[325]),22.21,"[1] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 10
+Soldan ve Sağdan Türetme
+• Yapraklarının etiketleri uç simgeler olan her türetme ağacına dilin
+bir tümcesi karşı gelir. Eğer dil belirgin (unambiguous) bir dil ise
+de, dilin her tümcesine bir türetme ağacı karşı gelir. Eğer dilin bir
+tümcesine birden çok türetme ağacı karşı geliyorsa, dil belirgin
+olmayan (ambiguous) bir dildir. Belirginlik dilbilgisinin ve dilin en
+temel özelliklerinden biridir.
+• Tümceleri birden çok anlam taşıyan belirgin olmayan dillerin
+uygulamada hiçbir değeri yoktur. Bu nedenle, kullanılan dillerin
+tümünün belirginlik özelliğini sağladığı varsayılacaktır. Buna göre
+dilin her tümcesine bir türetme ağacı, yapraklarının etiketleri uç
+simgeler olan her türetme ağacına da bir tümce karşı geldiğini
+söyleyebiliriz.
+• Dilin her tümcesine bir türetme ağacı karşı geldiği gibi, bir soldan
+türetme, bir de sağdan türetme karşı gelir.
+
+[2] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 2
+4.BAĞLAMDAN-BAĞIMSIZ DİLBİLGİSİ
+• Programlama dilleri, derleyiciler, yorumlayıcılar, sözdizim
+çözümleyiciler, aritmetik deyimler, ..vb. birçok yazılım bileşeninin
+bünyesinde yer aldığı için bağlamdan-bağımsız dilbilgisi ve diller ile
+bu dilleri tanıyan makine modeli bilgisayar bilimleri ve mühendisliği
+açısından önem taşır.
+• Bağlamdan bağımsız dilbilgisi bir dörtlüdür.
+VN= Sözdizim değişkenleri kümesi(sonlu bir küme)
+VT=Uç simgeler kümesi (sonlu bir küme)
+VN ve VT ayrık kümelerdir. VN Π VT=Ø
+S: Başlangıç değişkeni S ε VN
+P: Yeniden yazma ya da türetme kuralları
+A=>b A ε VN b ε V*
+
+[3] Kaynak: 728_profiles.json, $.profiles[320]
+profileCode: DB-KJKRG8SL
+synthetic: True
+profileType: individual
+displayName: Yağmur Taş
+professionalName: Yağmur Taş
+sector: Dil Eğitimi
+occupation: Almanca Öğretmeni
+headline: Başlangıç ve orta düzey Almanca özel ders
+location.country: Türkiye
+location.city: Ankara
+location.district: Mamak
+location.serviceArea: Türkiye geneli (online)
+location.exactAddressPublic: False
+serviceModes[0]: Online
+services[0].name: Dil bilgisi dersi
+services[0].durationMinutes: 45
+services[0].description: Dil bilgisi dersi için önceden planlanan birebir randevu.
+services[0].appointmentMode: Online
+services[1].name: Seviye tespit
+services[1].durationMinutes: 45
+services[1].description: Seviye tespit için önceden planlanan birebir randevu.
+services[1].appointmentMode: Online
+services[2].name: Konuşma pratiği
+services[2].durationMinutes: 60
+services[2].description: Konuşma pratiği için önceden planlanan birebir randevu.
+services[2].appointmentMode: Online
+experience.years: 14
+experience.credentialSummary: Almanca öğretmenliği veya dil eğitimi
+languages[0]: Türkçe
+languages[1]: İngilizce
+appointmentSettings.defaultDurationMinutes: 45
+appointmentSettings.minimumNoticeHours: 12
+appointmentSettings.cancellationNoticeHours: 4
+appointmentSettings.autoApproveRequests: False
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 17:00
+weeklyAvailability[0].end: 21:00
+searchKeywords[2]: Dil Eğitimi
+searchKeywords[3]: Dil bilgisi dersi […kısaltıldı]
+
+[4] Kaynak: 728_profiles.json, $.profiles[325]
+profileCode: DB-WJ66JVE6
+synthetic: True
+profileType: individual
+displayName: Kerem Acar
+professionalName: Kerem Acar
+sector: Dil Eğitimi
+occupation: Almanca Öğretmeni
+headline: Başlangıç ve orta düzey Almanca özel ders
+location.country: Türkiye
+location.city: Bursa
+location.district: Mudanya
+location.serviceArea: Türkiye geneli (online)
+location.exactAddressPublic: False
+serviceModes[0]: Online
+services[0].name: Seviye tespit
+services[0].durationMinutes: 45
+services[0].description: Seviye tespit için önceden planlanan birebir randevu.
+services[0].appointmentMode: Online
+services[1].name: Konuşma pratiği
+services[1].durationMinutes: 60
+services[1].description: Konuşma pratiği için önceden planlanan birebir randevu.
+services[1].appointmentMode: Online
+services[2].name: Dil bilgisi dersi
+services[2].durationMinutes: 60
+services[2].description: Dil bilgisi dersi için önceden planlanan birebir randevu.
+services[2].appointmentMode: Online
+experience.years: 4
+experience.credentialSummary: Almanca öğretmenliği veya dil eğitimi
+languages[0]: Türkçe
+languages[1]: İngilizce
+appointmentSettings.defaultDurationMinutes: 45
+appointmentSettings.minimumNoticeHours: 24
+appointmentSettings.cancellationNoticeHours: 4
+appointmentSettings.autoApproveRequests: False
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 17:00
+weeklyAvailability[0].end: 21:00
+searchKeywords[2]: Dil Eğitimi
+searchKeywords[3]: Dil bilgisi dersi […kısaltıldı]",
+13,Orta,Türetme ağacında bir düğümün etiketi λ ise bu düğümle ilgili hangi koşullar sağlanmalıdır?,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet,Bu düğüm bir yaprak olmalı ve bu düğümün kardeşi bulunmamalıdır. Bu durumda düğümün etiketi λ olduğu koşulu sağlar.,8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 9); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 10); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 7); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 14),12.63,"[1] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 9
+Türetme ya da Ayrıştırma Ağacının
+Tanımı
+a) Ağacın kökünün etiketi S’dir.
+b) Kök dışındaki ara düğümlerin etiketleri sözdizim değişkenleridir
+(AεVN).
+c) Eğer ağaç bir tümcesel yapıya karşı geliyorsa, yaprakların etiketleri
+sözdizim değişkenleri ya da uç simgeler olabilir (XεV). Eğer ağaç bir
+tümceye karşı geliyorsa yaprakların etiketleri yalnız uç simgeler
+(aεVT) olabilir.
+d) Eğer ara bir düğümün etiketi A, bu ara düğümün hemen altındaki
+düğümlerin etiketleri ise soldan sağa X1, X2, X3,…, Xk ise,
+dilbilgisinin yeniden yazma kuralları arasında
+A= X1X2X3… Xk
+X1, X2, X3,…, Xk ε V kuralı yer almalıdır.
+e) Eğer bir düğümün etiketi λ ise, bu düğüm bir uç düğüm(yaprak)
+olmalı ve bu düğümün kardeşi bulunmamalıdır.
+
+[2] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 10
+Soldan ve Sağdan Türetme
+• Yapraklarının etiketleri uç simgeler olan her türetme ağacına dilin
+bir tümcesi karşı gelir. Eğer dil belirgin (unambiguous) bir dil ise
+de, dilin her tümcesine bir türetme ağacı karşı gelir. Eğer dilin bir
+tümcesine birden çok türetme ağacı karşı geliyorsa, dil belirgin
+olmayan (ambiguous) bir dildir. Belirginlik dilbilgisinin ve dilin en
+temel özelliklerinden biridir.
+• Tümceleri birden çok anlam taşıyan belirgin olmayan dillerin
+uygulamada hiçbir değeri yoktur. Bu nedenle, kullanılan dillerin
+tümünün belirginlik özelliğini sağladığı varsayılacaktır. Buna göre
+dilin her tümcesine bir türetme ağacı, yapraklarının etiketleri uç
+simgeler olan her türetme ağacına da bir tümce karşı geldiğini
+söyleyebiliriz.
+• Dilin her tümcesine bir türetme ağacı karşı geldiği gibi, bir soldan
+türetme, bir de sağdan türetme karşı gelir.
+
+[3] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 7
+4.2 Türetme Ağacı
+• Bir dilbilgisi tarafından türetilen tümcesel yapı ve
+tümceler aşağıdaki gibi gösterilebilir:
+S=>β1=>β2=>β3........ =>βn-1=>βn=>w βi ε V* , w εVT*
+• Bağlamdan-bağımsız dillerin her tümcesel yapısına ve
+her tümcesine bir türetme ya da ayrıştırma ağacı
+(derivation or parsing tree) karşı gelir.
+Örneğin G4.4 tarafından türetilen:
+β = 010A010 tümcesel yapısı ile
+w = 0010100100 tümcesine
+karşı gelen türetme ağaçları Çizim 4.1’de görülmektedir.
+
+[4] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 14
+Türetme ağacı:
+w2=v/(v-c)+v*(v+c)
+S
+S
++ S
+S / S
+S * S
+v ( S )
+v ( S )
+S - S S S
++
+v c
+v c",
+14,Orta,Bir A değişkeninin yararlı (useful) bir değişken olabilmesi için sağlaması gereken iki koşul nedir?,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet,"Bir A değişkeninin yararlı bir değişken olabilmesi için:
+1. Bu değişkenden başlanarak, en az bir uç simge dizisinin türetilebilmesi: A=>u u ε VT*
+2. Başlangıç değişkeninden bu değişkene ulaşmanın mümkün olması: S=> α1 A α2",8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 17); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 16); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 18); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 19),16.51,"[1] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 17
+4.3.4. Yararsız Değişken, Simge ve
+Kurallar
+• Eğer bir dilbilgisinin yeniden yazma kurallarından biri (A=> β ), en az bir
+tümcenin türetilmesi sırasında kullanılıyorsa, bu
+kural yararlı bir kuraldır(usefull rule). Hiçbir tümcenin türetilmesinde
+kullanılmayan kurallara ise yararsız kurallar (useless rules) adı verilir.
+• Eğer bağlamdan-bağımsız bir dilbilgisi yararsız değişken, uç simge ya da
+kural içeriyorsa, bu dilbilgisine eşdeğer olan ve yararsız uç simge, değişken
+ve kural içermeyen bir dilbilgisi bulunabilir. Bunun için de öncelikle
+değişkenlerden hangilerinin yararlı olduğunun bulunması gerekir. Bir
+değişkenin (A) yararlı bir değişken olabilmesi için:
+1. Bu değişkenden başlanarak, en az bir uç simge dizisinin türetilebilmesi:
+A=>u u ε VT* (u : dilin bir tümcesi olması şart değil)
+2. Başlangıç değişkeninden bu değişkene ulaşmanın mümkün olması:
+S=> α1 A α2
+Bağlamdan-bağımsız bir dilbilgisi (G) verildiğinde, yararsız değişken ve kurallar
+atılarak eşdeğer bir dilbilgisinin bulunması iki adımda gerçekleştirilir.
+
+[2] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 16
+4.3 Dilbilgisinin Yalınlaştırılması
+• Bağlamdan bağımsız bir dilbilgisi verildiğinde, bu dilbilgisinin daha az
+sayıda değişken ve kural içeren ve belirli biçimdeki kuralları içermeyen bir
+dilbilgisine dönüştürülmesine dilbilgisinin yalınlaştırılması denilir.
+• 4.3.4. Yararsız Değişken, Simge ve Kurallar
+• Eğer bir dilbilgininin uç simgelerinden biri, bu dilbilgisi tarafından türetilen
+tümcelerden hiçbirinde yer almıyorsa, bu uç simgeye yararsız simge
+(useless symbol) denilir.
+• Eğer bir dilbilgisinin değişkenlerinden biri (A), en az bir tümce türetilirken
+elde edilen tümcesel yapıların en az birinde yer alıyorsa
+• S=> α1 Aα2 => w
+• Bu değişken yararlı (usefull) bir değişkendir. Bu özelliği taşımayan
+değişkenlere ise yararsız değişken (useless variable) denilir. Yararsız
+değişken hiçbir tümcenin türetilmesinde kullanılmayan; kullanıldığı
+türetmelerin hiçbirinin sonunda ise bir tümce elde edilemeyen
+değişkendir.
+
+[3] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 18
+4.3.4.1. Yararsız Değişken ve Kuralların Atılması
+• Bağlamdan-bağımsız bir dilbilgisi (G) verildiğinde, yararsız değişken ve kurallar
+atılarak eşdeğer bir dilbilgisinin bulunması iki adımda gerçekleştirilir.
+• Birinci adımda, algoritma 4.5 kullanılarak uç simge dizgisi türeten değişkenler
+kümesi bulunur. Bu kümede yer almayan değişkenler yararsız değişkenlerdir.
+Dilbilgisinden bu değişkenler ile bu değişkenlerin yer aldığı kurallar çıkarılarak
+eşdeğer bir dilbilgisi (G’) bulunur.
+• Algoritma 4.5. Uç simge dizgisi türeten değişkenler kümesinin bulunması:
+1. TD={A | (A=>w) ε P ve w ε VT* };
+2. (T=Teski) oluncaya kadar aşağıdaki işlemleri tekrarla:
+2.1 Teski=TD;
+2.2 Dilbilgisindeki her değişken (A) için aşağıdaki işlemleri tekrarla:
+2.2.1 Her (A=>β) kuralı için aşağıdaki işlemleri tekrarla:
+eğer β ε (TeskiU VT)* ise A’yı TD’ye ekle
+Son 2.2.1:
+Son 2.2
+Son 2.
+
+[4] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 19
+-4.3.4.1. Yararsız Değişken ve
+Kuralların Atılması
+• İkinci adımda, algoritma 4.6 kullanılarak, birinci adımda bulunan
+dilbilgisindeki (G’) değişkenlerden hangilerine başlangıç değişkeninden
+ulaşılabildiği bulunur. Başlangıç değişkeninden ulaşılamayan değişkenler de yararsız
+değişkenlerdir. Dilbilgisinden (G’) bu değişkenler ile bu değişkenlerin yer aldığı
+kurallar çıkarılarak eşdeğer dilbilgisi (G’’) bulunur.
+• Algoritma 4.6.
+1. TU={S};
+2. Teski=Φ;
+3. (TU=TEski) oluncuya kadar aşağıdaki işlemleri tekrarla:
+3.1. Tyeni=TU-Teski;
+3.2. TEski=TU;
+3.3 Tyeni’deki her değişken için aşağıdaki işlemleri tekrarla:
+3.3.1 Her (A=>β) yeniden yazma kuralı için aşağıdaki işlemleri tekrarla:
+β’daki tüm değişkenleri TU’ya ekle;
+Son 3.3.1;
+Son 3.3.1;
+Son 3;",
+15,Orta,Yararsız simge (useless symbol) kavramı nasıl tanımlanmıştır?,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet,"Yararsız simge, bir dilbilginin tarafından türetilen tüm celerde hiç yer alan uç simgedir. Bu tanım, bağlamdan bağımsız bir dilbilgisinde yararsız bir uç simgenin hiçbir zaman kullanılmaması anlamına gelir.",8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 16); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 17); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 21); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 20),15.62,"[1] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 16
+4.3 Dilbilgisinin Yalınlaştırılması
+• Bağlamdan bağımsız bir dilbilgisi verildiğinde, bu dilbilgisinin daha az
+sayıda değişken ve kural içeren ve belirli biçimdeki kuralları içermeyen bir
+dilbilgisine dönüştürülmesine dilbilgisinin yalınlaştırılması denilir.
+• 4.3.4. Yararsız Değişken, Simge ve Kurallar
+• Eğer bir dilbilgininin uç simgelerinden biri, bu dilbilgisi tarafından türetilen
+tümcelerden hiçbirinde yer almıyorsa, bu uç simgeye yararsız simge
+(useless symbol) denilir.
+• Eğer bir dilbilgisinin değişkenlerinden biri (A), en az bir tümce türetilirken
+elde edilen tümcesel yapıların en az birinde yer alıyorsa
+• S=> α1 Aα2 => w
+• Bu değişken yararlı (usefull) bir değişkendir. Bu özelliği taşımayan
+değişkenlere ise yararsız değişken (useless variable) denilir. Yararsız
+değişken hiçbir tümcenin türetilmesinde kullanılmayan; kullanıldığı
+türetmelerin hiçbirinin sonunda ise bir tümce elde edilemeyen
+değişkendir.
+
+[2] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 17
+4.3.4. Yararsız Değişken, Simge ve
+Kurallar
+• Eğer bir dilbilgisinin yeniden yazma kurallarından biri (A=> β ), en az bir
+tümcenin türetilmesi sırasında kullanılıyorsa, bu
+kural yararlı bir kuraldır(usefull rule). Hiçbir tümcenin türetilmesinde
+kullanılmayan kurallara ise yararsız kurallar (useless rules) adı verilir.
+• Eğer bağlamdan-bağımsız bir dilbilgisi yararsız değişken, uç simge ya da
+kural içeriyorsa, bu dilbilgisine eşdeğer olan ve yararsız uç simge, değişken
+ve kural içermeyen bir dilbilgisi bulunabilir. Bunun için de öncelikle
+değişkenlerden hangilerinin yararlı olduğunun bulunması gerekir. Bir
+değişkenin (A) yararlı bir değişken olabilmesi için:
+1. Bu değişkenden başlanarak, en az bir uç simge dizisinin türetilebilmesi:
+A=>u u ε VT* (u : dilin bir tümcesi olması şart değil)
+2. Başlangıç değişkeninden bu değişkene ulaşmanın mümkün olması:
+S=> α1 A α2
+Bağlamdan-bağımsız bir dilbilgisi (G) verildiğinde, yararsız değişken ve kurallar
+atılarak eşdeğer bir dilbilgisinin bulunması iki adımda gerçekleştirilir.
+
+[3] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 21
+Örnek 4.7
+G’4.7=<VN, VT, P, S> • Şimdi de (G’4.7)’deki değişkenlerden
+VN= { S, A, B, C, D, E, F } hangilerinin S’den ulaşılabilen değişkenler
+olduğunu bulmak gerekir. S’den
+VT={a, b}
+ulaşılabilen değişkenler kümesi algoritma
+P: S=> B |BS
+4.6 kullanılarak aşağıdaki gibi bulunur:
+A=> aA | aF
+• T = { S, B }
+B=>b U
+• Yukarıdaki kümede yer almayan A,
+E=> aA | BSA
+E ve F değişkenleri yararsız değişkenlerdir.
+F=> bB |b
+Dilbilgisinden bu üç değişken ile bu
+______________________
+değişkenlerin yer aldığı kurallar
+G” =<V , V , P, S>
+4.7 N T çıkarıldığında a simgesinin de yararsız bir
+V = { S, B}
+N simge olduğu görülür. Bu simge de
+VT={b} çıkarıldığında (G4.7)’ye eşdeğer; yararsız
+P: S=> B |BS simge, değişken ve kural içermeyen
+aşağıdaki dilbilgisi bulunur:
+B=>b
+
+[4] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 20
+Örnek 4.7
+G4.7=<VN, VT, P, S> • (G4.7)’ye eşdeğer; yararsız
+değişken, simge ve kural
+VN= { S, A, B, C, D,
+içermeyen bir dilbilgisi bulmak
+E, F }
+için önce (G4.7)’deki
+V ={a, b}
+T değişkenlerden hangilerinin uç
+simge dizgisi türeten
+P: S=> B | AC
+değişkenler olduğunu bulmak
+|BS
+gerekir. Uç simge dizgisi türeten
+A=> aA | aF
+değişkenler kümesi algoritma
+B=>CF | b 4.5 ile aşağıdaki gibi bulunur:
+C=> cC |D • TD = { S, A, B, E, F }
+D=> C | aD • Yukarıdaki kümede yer
+almayan C ve D değişkenleri
+|BD
+yararsız değişkenlerdir.
+E=> aA | BSA
+F=> bB |b",
+16,Orta,Yararsız kural (useless rule) ne demektir?,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet,"Yararsız bir kural, en az bir tümcenin türetilmesi sırasında kullanılmayan kuralıdır. Bu tür kurallar dilbilgisinden çıkarılarak daha basit ve etkili bir dilbilgisine sahip olunabilir.",8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 17); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 16); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 18); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 21),14.96,"[1] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 17
+4.3.4. Yararsız Değişken, Simge ve
+Kurallar
+• Eğer bir dilbilgisinin yeniden yazma kurallarından biri (A=> β ), en az bir
+tümcenin türetilmesi sırasında kullanılıyorsa, bu
+kural yararlı bir kuraldır(usefull rule). Hiçbir tümcenin türetilmesinde
+kullanılmayan kurallara ise yararsız kurallar (useless rules) adı verilir.
+• Eğer bağlamdan-bağımsız bir dilbilgisi yararsız değişken, uç simge ya da
+kural içeriyorsa, bu dilbilgisine eşdeğer olan ve yararsız uç simge, değişken
+ve kural içermeyen bir dilbilgisi bulunabilir. Bunun için de öncelikle
+değişkenlerden hangilerinin yararlı olduğunun bulunması gerekir. Bir
+değişkenin (A) yararlı bir değişken olabilmesi için:
+1. Bu değişkenden başlanarak, en az bir uç simge dizisinin türetilebilmesi:
+A=>u u ε VT* (u : dilin bir tümcesi olması şart değil)
+2. Başlangıç değişkeninden bu değişkene ulaşmanın mümkün olması:
+S=> α1 A α2
+Bağlamdan-bağımsız bir dilbilgisi (G) verildiğinde, yararsız değişken ve kurallar
+atılarak eşdeğer bir dilbilgisinin bulunması iki adımda gerçekleştirilir.
+
+[2] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 16
+4.3 Dilbilgisinin Yalınlaştırılması
+• Bağlamdan bağımsız bir dilbilgisi verildiğinde, bu dilbilgisinin daha az
+sayıda değişken ve kural içeren ve belirli biçimdeki kuralları içermeyen bir
+dilbilgisine dönüştürülmesine dilbilgisinin yalınlaştırılması denilir.
+• 4.3.4. Yararsız Değişken, Simge ve Kurallar
+• Eğer bir dilbilgininin uç simgelerinden biri, bu dilbilgisi tarafından türetilen
+tümcelerden hiçbirinde yer almıyorsa, bu uç simgeye yararsız simge
+(useless symbol) denilir.
+• Eğer bir dilbilgisinin değişkenlerinden biri (A), en az bir tümce türetilirken
+elde edilen tümcesel yapıların en az birinde yer alıyorsa
+• S=> α1 Aα2 => w
+• Bu değişken yararlı (usefull) bir değişkendir. Bu özelliği taşımayan
+değişkenlere ise yararsız değişken (useless variable) denilir. Yararsız
+değişken hiçbir tümcenin türetilmesinde kullanılmayan; kullanıldığı
+türetmelerin hiçbirinin sonunda ise bir tümce elde edilemeyen
+değişkendir.
+
+[3] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 18
+4.3.4.1. Yararsız Değişken ve Kuralların Atılması
+• Bağlamdan-bağımsız bir dilbilgisi (G) verildiğinde, yararsız değişken ve kurallar
+atılarak eşdeğer bir dilbilgisinin bulunması iki adımda gerçekleştirilir.
+• Birinci adımda, algoritma 4.5 kullanılarak uç simge dizgisi türeten değişkenler
+kümesi bulunur. Bu kümede yer almayan değişkenler yararsız değişkenlerdir.
+Dilbilgisinden bu değişkenler ile bu değişkenlerin yer aldığı kurallar çıkarılarak
+eşdeğer bir dilbilgisi (G’) bulunur.
+• Algoritma 4.5. Uç simge dizgisi türeten değişkenler kümesinin bulunması:
+1. TD={A | (A=>w) ε P ve w ε VT* };
+2. (T=Teski) oluncaya kadar aşağıdaki işlemleri tekrarla:
+2.1 Teski=TD;
+2.2 Dilbilgisindeki her değişken (A) için aşağıdaki işlemleri tekrarla:
+2.2.1 Her (A=>β) kuralı için aşağıdaki işlemleri tekrarla:
+eğer β ε (TeskiU VT)* ise A’yı TD’ye ekle
+Son 2.2.1:
+Son 2.2
+Son 2.
+
+[4] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 21
+Örnek 4.7
+G’4.7=<VN, VT, P, S> • Şimdi de (G’4.7)’deki değişkenlerden
+VN= { S, A, B, C, D, E, F } hangilerinin S’den ulaşılabilen değişkenler
+olduğunu bulmak gerekir. S’den
+VT={a, b}
+ulaşılabilen değişkenler kümesi algoritma
+P: S=> B |BS
+4.6 kullanılarak aşağıdaki gibi bulunur:
+A=> aA | aF
+• T = { S, B }
+B=>b U
+• Yukarıdaki kümede yer almayan A,
+E=> aA | BSA
+E ve F değişkenleri yararsız değişkenlerdir.
+F=> bB |b
+Dilbilgisinden bu üç değişken ile bu
+______________________
+değişkenlerin yer aldığı kurallar
+G” =<V , V , P, S>
+4.7 N T çıkarıldığında a simgesinin de yararsız bir
+V = { S, B}
+N simge olduğu görülür. Bu simge de
+VT={b} çıkarıldığında (G4.7)’ye eşdeğer; yararsız
+P: S=> B |BS simge, değişken ve kural içermeyen
+aşağıdaki dilbilgisi bulunur:
+B=>b",
+17,Orta,Algoritma 4.5 hangi amaçla kullanılır ve sonucunda hangi küme elde edilir?,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet,"Algoritma 4.5, uç simge dizgisi türeten değişkenler kümesini bulmak için kullanılır ve sonucunda TD kümesi elde edilir. Bu küme, dilbilgisinde uç simge dizgisi türeten değişkenleri içerir.",8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 18); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 20); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 19); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 21),13.16,"[1] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 18
+4.3.4.1. Yararsız Değişken ve Kuralların Atılması
+• Bağlamdan-bağımsız bir dilbilgisi (G) verildiğinde, yararsız değişken ve kurallar
+atılarak eşdeğer bir dilbilgisinin bulunması iki adımda gerçekleştirilir.
+• Birinci adımda, algoritma 4.5 kullanılarak uç simge dizgisi türeten değişkenler
+kümesi bulunur. Bu kümede yer almayan değişkenler yararsız değişkenlerdir.
+Dilbilgisinden bu değişkenler ile bu değişkenlerin yer aldığı kurallar çıkarılarak
+eşdeğer bir dilbilgisi (G’) bulunur.
+• Algoritma 4.5. Uç simge dizgisi türeten değişkenler kümesinin bulunması:
+1. TD={A | (A=>w) ε P ve w ε VT* };
+2. (T=Teski) oluncaya kadar aşağıdaki işlemleri tekrarla:
+2.1 Teski=TD;
+2.2 Dilbilgisindeki her değişken (A) için aşağıdaki işlemleri tekrarla:
+2.2.1 Her (A=>β) kuralı için aşağıdaki işlemleri tekrarla:
+eğer β ε (TeskiU VT)* ise A’yı TD’ye ekle
+Son 2.2.1:
+Son 2.2
+Son 2.
+
+[2] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 20
+Örnek 4.7
+G4.7=<VN, VT, P, S> • (G4.7)’ye eşdeğer; yararsız
+değişken, simge ve kural
+VN= { S, A, B, C, D,
+içermeyen bir dilbilgisi bulmak
+E, F }
+için önce (G4.7)’deki
+V ={a, b}
+T değişkenlerden hangilerinin uç
+simge dizgisi türeten
+P: S=> B | AC
+değişkenler olduğunu bulmak
+|BS
+gerekir. Uç simge dizgisi türeten
+A=> aA | aF
+değişkenler kümesi algoritma
+B=>CF | b 4.5 ile aşağıdaki gibi bulunur:
+C=> cC |D • TD = { S, A, B, E, F }
+D=> C | aD • Yukarıdaki kümede yer
+almayan C ve D değişkenleri
+|BD
+yararsız değişkenlerdir.
+E=> aA | BSA
+F=> bB |b
+
+[3] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 19
+-4.3.4.1. Yararsız Değişken ve
+Kuralların Atılması
+• İkinci adımda, algoritma 4.6 kullanılarak, birinci adımda bulunan
+dilbilgisindeki (G’) değişkenlerden hangilerine başlangıç değişkeninden
+ulaşılabildiği bulunur. Başlangıç değişkeninden ulaşılamayan değişkenler de yararsız
+değişkenlerdir. Dilbilgisinden (G’) bu değişkenler ile bu değişkenlerin yer aldığı
+kurallar çıkarılarak eşdeğer dilbilgisi (G’’) bulunur.
+• Algoritma 4.6.
+1. TU={S};
+2. Teski=Φ;
+3. (TU=TEski) oluncuya kadar aşağıdaki işlemleri tekrarla:
+3.1. Tyeni=TU-Teski;
+3.2. TEski=TU;
+3.3 Tyeni’deki her değişken için aşağıdaki işlemleri tekrarla:
+3.3.1 Her (A=>β) yeniden yazma kuralı için aşağıdaki işlemleri tekrarla:
+β’daki tüm değişkenleri TU’ya ekle;
+Son 3.3.1;
+Son 3.3.1;
+Son 3;
+
+[4] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 21
+Örnek 4.7
+G’4.7=<VN, VT, P, S> • Şimdi de (G’4.7)’deki değişkenlerden
+VN= { S, A, B, C, D, E, F } hangilerinin S’den ulaşılabilen değişkenler
+olduğunu bulmak gerekir. S’den
+VT={a, b}
+ulaşılabilen değişkenler kümesi algoritma
+P: S=> B |BS
+4.6 kullanılarak aşağıdaki gibi bulunur:
+A=> aA | aF
+• T = { S, B }
+B=>b U
+• Yukarıdaki kümede yer almayan A,
+E=> aA | BSA
+E ve F değişkenleri yararsız değişkenlerdir.
+F=> bB |b
+Dilbilgisinden bu üç değişken ile bu
+______________________
+değişkenlerin yer aldığı kurallar
+G” =<V , V , P, S>
+4.7 N T çıkarıldığında a simgesinin de yararsız bir
+V = { S, B}
+N simge olduğu görülür. Bu simge de
+VT={b} çıkarıldığında (G4.7)’ye eşdeğer; yararsız
+P: S=> B |BS simge, değişken ve kural içermeyen
+aşağıdaki dilbilgisi bulunur:
+B=>b",
+18,Orta,Algoritma 4.6 hangi amaçla kullanılır ve sonucunda hangi küme elde edilir?,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet,"Algoritma 4.6, dilbilgisindeki yararsız değişkenleri ve kuralları tespit etmek ve atmak için kullanılır. Sonucunda elde edilen küme, yararsız değişken ve kural içermeyen eşdeğer bir dilbilgisi bulunur.",8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 19); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 21); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 18); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 20),14.11,"[1] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 19
+-4.3.4.1. Yararsız Değişken ve
+Kuralların Atılması
+• İkinci adımda, algoritma 4.6 kullanılarak, birinci adımda bulunan
+dilbilgisindeki (G’) değişkenlerden hangilerine başlangıç değişkeninden
+ulaşılabildiği bulunur. Başlangıç değişkeninden ulaşılamayan değişkenler de yararsız
+değişkenlerdir. Dilbilgisinden (G’) bu değişkenler ile bu değişkenlerin yer aldığı
+kurallar çıkarılarak eşdeğer dilbilgisi (G’’) bulunur.
+• Algoritma 4.6.
+1. TU={S};
+2. Teski=Φ;
+3. (TU=TEski) oluncuya kadar aşağıdaki işlemleri tekrarla:
+3.1. Tyeni=TU-Teski;
+3.2. TEski=TU;
+3.3 Tyeni’deki her değişken için aşağıdaki işlemleri tekrarla:
+3.3.1 Her (A=>β) yeniden yazma kuralı için aşağıdaki işlemleri tekrarla:
+β’daki tüm değişkenleri TU’ya ekle;
+Son 3.3.1;
+Son 3.3.1;
+Son 3;
+
+[2] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 21
+Örnek 4.7
+G’4.7=<VN, VT, P, S> • Şimdi de (G’4.7)’deki değişkenlerden
+VN= { S, A, B, C, D, E, F } hangilerinin S’den ulaşılabilen değişkenler
+olduğunu bulmak gerekir. S’den
+VT={a, b}
+ulaşılabilen değişkenler kümesi algoritma
+P: S=> B |BS
+4.6 kullanılarak aşağıdaki gibi bulunur:
+A=> aA | aF
+• T = { S, B }
+B=>b U
+• Yukarıdaki kümede yer almayan A,
+E=> aA | BSA
+E ve F değişkenleri yararsız değişkenlerdir.
+F=> bB |b
+Dilbilgisinden bu üç değişken ile bu
+______________________
+değişkenlerin yer aldığı kurallar
+G” =<V , V , P, S>
+4.7 N T çıkarıldığında a simgesinin de yararsız bir
+V = { S, B}
+N simge olduğu görülür. Bu simge de
+VT={b} çıkarıldığında (G4.7)’ye eşdeğer; yararsız
+P: S=> B |BS simge, değişken ve kural içermeyen
+aşağıdaki dilbilgisi bulunur:
+B=>b
+
+[3] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 18
+4.3.4.1. Yararsız Değişken ve Kuralların Atılması
+• Bağlamdan-bağımsız bir dilbilgisi (G) verildiğinde, yararsız değişken ve kurallar
+atılarak eşdeğer bir dilbilgisinin bulunması iki adımda gerçekleştirilir.
+• Birinci adımda, algoritma 4.5 kullanılarak uç simge dizgisi türeten değişkenler
+kümesi bulunur. Bu kümede yer almayan değişkenler yararsız değişkenlerdir.
+Dilbilgisinden bu değişkenler ile bu değişkenlerin yer aldığı kurallar çıkarılarak
+eşdeğer bir dilbilgisi (G’) bulunur.
+• Algoritma 4.5. Uç simge dizgisi türeten değişkenler kümesinin bulunması:
+1. TD={A | (A=>w) ε P ve w ε VT* };
+2. (T=Teski) oluncaya kadar aşağıdaki işlemleri tekrarla:
+2.1 Teski=TD;
+2.2 Dilbilgisindeki her değişken (A) için aşağıdaki işlemleri tekrarla:
+2.2.1 Her (A=>β) kuralı için aşağıdaki işlemleri tekrarla:
+eğer β ε (TeskiU VT)* ise A’yı TD’ye ekle
+Son 2.2.1:
+Son 2.2
+Son 2.
+
+[4] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 20
+Örnek 4.7
+G4.7=<VN, VT, P, S> • (G4.7)’ye eşdeğer; yararsız
+değişken, simge ve kural
+VN= { S, A, B, C, D,
+içermeyen bir dilbilgisi bulmak
+E, F }
+için önce (G4.7)’deki
+V ={a, b}
+T değişkenlerden hangilerinin uç
+simge dizgisi türeten
+P: S=> B | AC
+değişkenler olduğunu bulmak
+|BS
+gerekir. Uç simge dizgisi türeten
+A=> aA | aF
+değişkenler kümesi algoritma
+B=>CF | b 4.5 ile aşağıdaki gibi bulunur:
+C=> cC |D • TD = { S, A, B, E, F }
+D=> C | aD • Yukarıdaki kümede yer
+almayan C ve D değişkenleri
+|BD
+yararsız değişkenlerdir.
+E=> aA | BSA
+F=> bB |b",
+19,Orta,G4.7 dilbilgisinde uç simge dizgisi türeten değişkenler kümesi (TD) nedir ve hangi değişkenler yararsız bulunur?,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet,"TD = {S, A, B} G4.7 dilbilgisindeki yararsız değişkenler kümesi: C, D, E, F Algoritma 4.5 kullanılarak uç simge dizgisi türeten değişkenler kümesi bulunur ve bu kümede yer almayan C ve D değişkenleri yararsız değişkenlerdir. A ve B uç simge dizgisi türetecek nesne dillerindeki temel ifadelerdir ve yararsız değildir. E ve F de yararsız değişkenlerdir.",8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 20); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 18); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 21); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 16),17.3,"[1] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 20
+Örnek 4.7
+G4.7=<VN, VT, P, S> • (G4.7)’ye eşdeğer; yararsız
+değişken, simge ve kural
+VN= { S, A, B, C, D,
+içermeyen bir dilbilgisi bulmak
+E, F }
+için önce (G4.7)’deki
+V ={a, b}
+T değişkenlerden hangilerinin uç
+simge dizgisi türeten
+P: S=> B | AC
+değişkenler olduğunu bulmak
+|BS
+gerekir. Uç simge dizgisi türeten
+A=> aA | aF
+değişkenler kümesi algoritma
+B=>CF | b 4.5 ile aşağıdaki gibi bulunur:
+C=> cC |D • TD = { S, A, B, E, F }
+D=> C | aD • Yukarıdaki kümede yer
+almayan C ve D değişkenleri
+|BD
+yararsız değişkenlerdir.
+E=> aA | BSA
+F=> bB |b
+
+[2] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 18
+4.3.4.1. Yararsız Değişken ve Kuralların Atılması
+• Bağlamdan-bağımsız bir dilbilgisi (G) verildiğinde, yararsız değişken ve kurallar
+atılarak eşdeğer bir dilbilgisinin bulunması iki adımda gerçekleştirilir.
+• Birinci adımda, algoritma 4.5 kullanılarak uç simge dizgisi türeten değişkenler
+kümesi bulunur. Bu kümede yer almayan değişkenler yararsız değişkenlerdir.
+Dilbilgisinden bu değişkenler ile bu değişkenlerin yer aldığı kurallar çıkarılarak
+eşdeğer bir dilbilgisi (G’) bulunur.
+• Algoritma 4.5. Uç simge dizgisi türeten değişkenler kümesinin bulunması:
+1. TD={A | (A=>w) ε P ve w ε VT* };
+2. (T=Teski) oluncaya kadar aşağıdaki işlemleri tekrarla:
+2.1 Teski=TD;
+2.2 Dilbilgisindeki her değişken (A) için aşağıdaki işlemleri tekrarla:
+2.2.1 Her (A=>β) kuralı için aşağıdaki işlemleri tekrarla:
+eğer β ε (TeskiU VT)* ise A’yı TD’ye ekle
+Son 2.2.1:
+Son 2.2
+Son 2.
+
+[3] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 21
+Örnek 4.7
+G’4.7=<VN, VT, P, S> • Şimdi de (G’4.7)’deki değişkenlerden
+VN= { S, A, B, C, D, E, F } hangilerinin S’den ulaşılabilen değişkenler
+olduğunu bulmak gerekir. S’den
+VT={a, b}
+ulaşılabilen değişkenler kümesi algoritma
+P: S=> B |BS
+4.6 kullanılarak aşağıdaki gibi bulunur:
+A=> aA | aF
+• T = { S, B }
+B=>b U
+• Yukarıdaki kümede yer almayan A,
+E=> aA | BSA
+E ve F değişkenleri yararsız değişkenlerdir.
+F=> bB |b
+Dilbilgisinden bu üç değişken ile bu
+______________________
+değişkenlerin yer aldığı kurallar
+G” =<V , V , P, S>
+4.7 N T çıkarıldığında a simgesinin de yararsız bir
+V = { S, B}
+N simge olduğu görülür. Bu simge de
+VT={b} çıkarıldığında (G4.7)’ye eşdeğer; yararsız
+P: S=> B |BS simge, değişken ve kural içermeyen
+aşağıdaki dilbilgisi bulunur:
+B=>b
+
+[4] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 16
+4.3 Dilbilgisinin Yalınlaştırılması
+• Bağlamdan bağımsız bir dilbilgisi verildiğinde, bu dilbilgisinin daha az
+sayıda değişken ve kural içeren ve belirli biçimdeki kuralları içermeyen bir
+dilbilgisine dönüştürülmesine dilbilgisinin yalınlaştırılması denilir.
+• 4.3.4. Yararsız Değişken, Simge ve Kurallar
+• Eğer bir dilbilgininin uç simgelerinden biri, bu dilbilgisi tarafından türetilen
+tümcelerden hiçbirinde yer almıyorsa, bu uç simgeye yararsız simge
+(useless symbol) denilir.
+• Eğer bir dilbilgisinin değişkenlerinden biri (A), en az bir tümce türetilirken
+elde edilen tümcesel yapıların en az birinde yer alıyorsa
+• S=> α1 Aα2 => w
+• Bu değişken yararlı (usefull) bir değişkendir. Bu özelliği taşımayan
+değişkenlere ise yararsız değişken (useless variable) denilir. Yararsız
+değişken hiçbir tümcenin türetilmesinde kullanılmayan; kullanıldığı
+türetmelerin hiçbirinin sonunda ise bir tümce elde edilemeyen
+değişkendir.",
+20,Orta,G'4.7 dilbilgisinde başlangıç değişkeninden ulaşılabilen değişkenler kümesi (TU) nedir?,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet,"TU = { S, B, A, F }",8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 19); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 21); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 20); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 18),13.87,"[1] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 19
+-4.3.4.1. Yararsız Değişken ve
+Kuralların Atılması
+• İkinci adımda, algoritma 4.6 kullanılarak, birinci adımda bulunan
+dilbilgisindeki (G’) değişkenlerden hangilerine başlangıç değişkeninden
+ulaşılabildiği bulunur. Başlangıç değişkeninden ulaşılamayan değişkenler de yararsız
+değişkenlerdir. Dilbilgisinden (G’) bu değişkenler ile bu değişkenlerin yer aldığı
+kurallar çıkarılarak eşdeğer dilbilgisi (G’’) bulunur.
+• Algoritma 4.6.
+1. TU={S};
+2. Teski=Φ;
+3. (TU=TEski) oluncuya kadar aşağıdaki işlemleri tekrarla:
+3.1. Tyeni=TU-Teski;
+3.2. TEski=TU;
+3.3 Tyeni’deki her değişken için aşağıdaki işlemleri tekrarla:
+3.3.1 Her (A=>β) yeniden yazma kuralı için aşağıdaki işlemleri tekrarla:
+β’daki tüm değişkenleri TU’ya ekle;
+Son 3.3.1;
+Son 3.3.1;
+Son 3;
+
+[2] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 21
+Örnek 4.7
+G’4.7=<VN, VT, P, S> • Şimdi de (G’4.7)’deki değişkenlerden
+VN= { S, A, B, C, D, E, F } hangilerinin S’den ulaşılabilen değişkenler
+olduğunu bulmak gerekir. S’den
+VT={a, b}
+ulaşılabilen değişkenler kümesi algoritma
+P: S=> B |BS
+4.6 kullanılarak aşağıdaki gibi bulunur:
+A=> aA | aF
+• T = { S, B }
+B=>b U
+• Yukarıdaki kümede yer almayan A,
+E=> aA | BSA
+E ve F değişkenleri yararsız değişkenlerdir.
+F=> bB |b
+Dilbilgisinden bu üç değişken ile bu
+______________________
+değişkenlerin yer aldığı kurallar
+G” =<V , V , P, S>
+4.7 N T çıkarıldığında a simgesinin de yararsız bir
+V = { S, B}
+N simge olduğu görülür. Bu simge de
+VT={b} çıkarıldığında (G4.7)’ye eşdeğer; yararsız
+P: S=> B |BS simge, değişken ve kural içermeyen
+aşağıdaki dilbilgisi bulunur:
+B=>b
+
+[3] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 20
+Örnek 4.7
+G4.7=<VN, VT, P, S> • (G4.7)’ye eşdeğer; yararsız
+değişken, simge ve kural
+VN= { S, A, B, C, D,
+içermeyen bir dilbilgisi bulmak
+E, F }
+için önce (G4.7)’deki
+V ={a, b}
+T değişkenlerden hangilerinin uç
+simge dizgisi türeten
+P: S=> B | AC
+değişkenler olduğunu bulmak
+|BS
+gerekir. Uç simge dizgisi türeten
+A=> aA | aF
+değişkenler kümesi algoritma
+B=>CF | b 4.5 ile aşağıdaki gibi bulunur:
+C=> cC |D • TD = { S, A, B, E, F }
+D=> C | aD • Yukarıdaki kümede yer
+almayan C ve D değişkenleri
+|BD
+yararsız değişkenlerdir.
+E=> aA | BSA
+F=> bB |b
+
+[4] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 18
+4.3.4.1. Yararsız Değişken ve Kuralların Atılması
+• Bağlamdan-bağımsız bir dilbilgisi (G) verildiğinde, yararsız değişken ve kurallar
+atılarak eşdeğer bir dilbilgisinin bulunması iki adımda gerçekleştirilir.
+• Birinci adımda, algoritma 4.5 kullanılarak uç simge dizgisi türeten değişkenler
+kümesi bulunur. Bu kümede yer almayan değişkenler yararsız değişkenlerdir.
+Dilbilgisinden bu değişkenler ile bu değişkenlerin yer aldığı kurallar çıkarılarak
+eşdeğer bir dilbilgisi (G’) bulunur.
+• Algoritma 4.5. Uç simge dizgisi türeten değişkenler kümesinin bulunması:
+1. TD={A | (A=>w) ε P ve w ε VT* };
+2. (T=Teski) oluncaya kadar aşağıdaki işlemleri tekrarla:
+2.1 Teski=TD;
+2.2 Dilbilgisindeki her değişken (A) için aşağıdaki işlemleri tekrarla:
+2.2.1 Her (A=>β) kuralı için aşağıdaki işlemleri tekrarla:
+eğer β ε (TeskiU VT)* ise A’yı TD’ye ekle
+Son 2.2.1:
+Son 2.2
+Son 2.",
+21,Orta,G4.7'nin yalınlaştırılmış son hali olan G''4.7 dilbilgisinin kuralları nelerdir?,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet,"G''4.7=<V', V', P', S> ve P' = { S => B | BS, B => b } Bu dilbilgisinde yalnızca S => B | BS ve B => b kuralı kalıyor. Bu kuralların S'den ulaşılabilen ve uç simge dizgisi türettiği B değişkenini gösteriyor.",8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 20); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 21); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 18); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 19),14.98,"[1] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 20
+Örnek 4.7
+G4.7=<VN, VT, P, S> • (G4.7)’ye eşdeğer; yararsız
+değişken, simge ve kural
+VN= { S, A, B, C, D,
+içermeyen bir dilbilgisi bulmak
+E, F }
+için önce (G4.7)’deki
+V ={a, b}
+T değişkenlerden hangilerinin uç
+simge dizgisi türeten
+P: S=> B | AC
+değişkenler olduğunu bulmak
+|BS
+gerekir. Uç simge dizgisi türeten
+A=> aA | aF
+değişkenler kümesi algoritma
+B=>CF | b 4.5 ile aşağıdaki gibi bulunur:
+C=> cC |D • TD = { S, A, B, E, F }
+D=> C | aD • Yukarıdaki kümede yer
+almayan C ve D değişkenleri
+|BD
+yararsız değişkenlerdir.
+E=> aA | BSA
+F=> bB |b
+
+[2] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 21
+Örnek 4.7
+G’4.7=<VN, VT, P, S> • Şimdi de (G’4.7)’deki değişkenlerden
+VN= { S, A, B, C, D, E, F } hangilerinin S’den ulaşılabilen değişkenler
+olduğunu bulmak gerekir. S’den
+VT={a, b}
+ulaşılabilen değişkenler kümesi algoritma
+P: S=> B |BS
+4.6 kullanılarak aşağıdaki gibi bulunur:
+A=> aA | aF
+• T = { S, B }
+B=>b U
+• Yukarıdaki kümede yer almayan A,
+E=> aA | BSA
+E ve F değişkenleri yararsız değişkenlerdir.
+F=> bB |b
+Dilbilgisinden bu üç değişken ile bu
+______________________
+değişkenlerin yer aldığı kurallar
+G” =<V , V , P, S>
+4.7 N T çıkarıldığında a simgesinin de yararsız bir
+V = { S, B}
+N simge olduğu görülür. Bu simge de
+VT={b} çıkarıldığında (G4.7)’ye eşdeğer; yararsız
+P: S=> B |BS simge, değişken ve kural içermeyen
+aşağıdaki dilbilgisi bulunur:
+B=>b
+
+[3] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 18
+4.3.4.1. Yararsız Değişken ve Kuralların Atılması
+• Bağlamdan-bağımsız bir dilbilgisi (G) verildiğinde, yararsız değişken ve kurallar
+atılarak eşdeğer bir dilbilgisinin bulunması iki adımda gerçekleştirilir.
+• Birinci adımda, algoritma 4.5 kullanılarak uç simge dizgisi türeten değişkenler
+kümesi bulunur. Bu kümede yer almayan değişkenler yararsız değişkenlerdir.
+Dilbilgisinden bu değişkenler ile bu değişkenlerin yer aldığı kurallar çıkarılarak
+eşdeğer bir dilbilgisi (G’) bulunur.
+• Algoritma 4.5. Uç simge dizgisi türeten değişkenler kümesinin bulunması:
+1. TD={A | (A=>w) ε P ve w ε VT* };
+2. (T=Teski) oluncaya kadar aşağıdaki işlemleri tekrarla:
+2.1 Teski=TD;
+2.2 Dilbilgisindeki her değişken (A) için aşağıdaki işlemleri tekrarla:
+2.2.1 Her (A=>β) kuralı için aşağıdaki işlemleri tekrarla:
+eğer β ε (TeskiU VT)* ise A’yı TD’ye ekle
+Son 2.2.1:
+Son 2.2
+Son 2.
+
+[4] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 19
+-4.3.4.1. Yararsız Değişken ve
+Kuralların Atılması
+• İkinci adımda, algoritma 4.6 kullanılarak, birinci adımda bulunan
+dilbilgisindeki (G’) değişkenlerden hangilerine başlangıç değişkeninden
+ulaşılabildiği bulunur. Başlangıç değişkeninden ulaşılamayan değişkenler de yararsız
+değişkenlerdir. Dilbilgisinden (G’) bu değişkenler ile bu değişkenlerin yer aldığı
+kurallar çıkarılarak eşdeğer dilbilgisi (G’’) bulunur.
+• Algoritma 4.6.
+1. TU={S};
+2. Teski=Φ;
+3. (TU=TEski) oluncuya kadar aşağıdaki işlemleri tekrarla:
+3.1. Tyeni=TU-Teski;
+3.2. TEski=TU;
+3.3 Tyeni’deki her değişken için aşağıdaki işlemleri tekrarla:
+3.3.1 Her (A=>β) yeniden yazma kuralı için aşağıdaki işlemleri tekrarla:
+β’daki tüm değişkenleri TU’ya ekle;
+Son 3.3.1;
+Son 3.3.1;
+Son 3;",
+22,Orta,Dilbilgisinin yalınlaştırılması (yararsız öğelerin atılması) kaç adımda gerçekleştirilir ve bu adımlarda ne yapılır?,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet,"Dilbilgisinin yalınlaştırılması, yararsız değişken ve kuralların atılması işlemi iki adımda gerçekleştirilir. İlk adımda, algoritma 4.5 kullanılarak uç simge dizgisi türeten değişkenler kümesi bulunur ve bu kümede yer almayan değişkenler yararsız değişkenler olarak kabul edilir. İkinci adımda, algoritma 4.6 kullanılarak başlangıç değişkeninden ulaşılan değişkenler bulunur ve ulaşılamayanlar yararsız değişkenler olarak kabul edilir.",8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 18); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 19); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 16); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 17),16.7,"[1] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 18
+4.3.4.1. Yararsız Değişken ve Kuralların Atılması
+• Bağlamdan-bağımsız bir dilbilgisi (G) verildiğinde, yararsız değişken ve kurallar
+atılarak eşdeğer bir dilbilgisinin bulunması iki adımda gerçekleştirilir.
+• Birinci adımda, algoritma 4.5 kullanılarak uç simge dizgisi türeten değişkenler
+kümesi bulunur. Bu kümede yer almayan değişkenler yararsız değişkenlerdir.
+Dilbilgisinden bu değişkenler ile bu değişkenlerin yer aldığı kurallar çıkarılarak
+eşdeğer bir dilbilgisi (G’) bulunur.
+• Algoritma 4.5. Uç simge dizgisi türeten değişkenler kümesinin bulunması:
+1. TD={A | (A=>w) ε P ve w ε VT* };
+2. (T=Teski) oluncaya kadar aşağıdaki işlemleri tekrarla:
+2.1 Teski=TD;
+2.2 Dilbilgisindeki her değişken (A) için aşağıdaki işlemleri tekrarla:
+2.2.1 Her (A=>β) kuralı için aşağıdaki işlemleri tekrarla:
+eğer β ε (TeskiU VT)* ise A’yı TD’ye ekle
+Son 2.2.1:
+Son 2.2
+Son 2.
+
+[2] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 19
+-4.3.4.1. Yararsız Değişken ve
+Kuralların Atılması
+• İkinci adımda, algoritma 4.6 kullanılarak, birinci adımda bulunan
+dilbilgisindeki (G’) değişkenlerden hangilerine başlangıç değişkeninden
+ulaşılabildiği bulunur. Başlangıç değişkeninden ulaşılamayan değişkenler de yararsız
+değişkenlerdir. Dilbilgisinden (G’) bu değişkenler ile bu değişkenlerin yer aldığı
+kurallar çıkarılarak eşdeğer dilbilgisi (G’’) bulunur.
+• Algoritma 4.6.
+1. TU={S};
+2. Teski=Φ;
+3. (TU=TEski) oluncuya kadar aşağıdaki işlemleri tekrarla:
+3.1. Tyeni=TU-Teski;
+3.2. TEski=TU;
+3.3 Tyeni’deki her değişken için aşağıdaki işlemleri tekrarla:
+3.3.1 Her (A=>β) yeniden yazma kuralı için aşağıdaki işlemleri tekrarla:
+β’daki tüm değişkenleri TU’ya ekle;
+Son 3.3.1;
+Son 3.3.1;
+Son 3;
+
+[3] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 16
+4.3 Dilbilgisinin Yalınlaştırılması
+• Bağlamdan bağımsız bir dilbilgisi verildiğinde, bu dilbilgisinin daha az
+sayıda değişken ve kural içeren ve belirli biçimdeki kuralları içermeyen bir
+dilbilgisine dönüştürülmesine dilbilgisinin yalınlaştırılması denilir.
+• 4.3.4. Yararsız Değişken, Simge ve Kurallar
+• Eğer bir dilbilgininin uç simgelerinden biri, bu dilbilgisi tarafından türetilen
+tümcelerden hiçbirinde yer almıyorsa, bu uç simgeye yararsız simge
+(useless symbol) denilir.
+• Eğer bir dilbilgisinin değişkenlerinden biri (A), en az bir tümce türetilirken
+elde edilen tümcesel yapıların en az birinde yer alıyorsa
+• S=> α1 Aα2 => w
+• Bu değişken yararlı (usefull) bir değişkendir. Bu özelliği taşımayan
+değişkenlere ise yararsız değişken (useless variable) denilir. Yararsız
+değişken hiçbir tümcenin türetilmesinde kullanılmayan; kullanıldığı
+türetmelerin hiçbirinin sonunda ise bir tümce elde edilemeyen
+değişkendir.
+
+[4] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 17
+4.3.4. Yararsız Değişken, Simge ve
+Kurallar
+• Eğer bir dilbilgisinin yeniden yazma kurallarından biri (A=> β ), en az bir
+tümcenin türetilmesi sırasında kullanılıyorsa, bu
+kural yararlı bir kuraldır(usefull rule). Hiçbir tümcenin türetilmesinde
+kullanılmayan kurallara ise yararsız kurallar (useless rules) adı verilir.
+• Eğer bağlamdan-bağımsız bir dilbilgisi yararsız değişken, uç simge ya da
+kural içeriyorsa, bu dilbilgisine eşdeğer olan ve yararsız uç simge, değişken
+ve kural içermeyen bir dilbilgisi bulunabilir. Bunun için de öncelikle
+değişkenlerden hangilerinin yararlı olduğunun bulunması gerekir. Bir
+değişkenin (A) yararlı bir değişken olabilmesi için:
+1. Bu değişkenden başlanarak, en az bir uç simge dizisinin türetilebilmesi:
+A=>u u ε VT* (u : dilin bir tümcesi olması şart değil)
+2. Başlangıç değişkeninden bu değişkene ulaşmanın mümkün olması:
+S=> α1 A α2
+Bağlamdan-bağımsız bir dilbilgisi (G) verildiğinde, yararsız değişken ve kurallar
+atılarak eşdeğer bir dilbilgisinin bulunması iki adımda gerçekleştirilir.",
+23,Orta,w1=(v+c)*(v-c) tümcesinin soldan türetilmesindeki ilk üç adımı yazınız.,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet,"a) w1'in soldan türetilmesi: S => S * S
+S => S * S
+S => (S + S) * S Bu adımlar, w1 = (v+c)*(v-c) ifadesinin soldan türetilmesindeki ilk üç adımıdır.",8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 15); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 13); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 12); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 14),14.45,"[1] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 15
+w =v/(v-c)+v*(v+c) soldan ve sağdan
+2
+türetme
+a) w2’in soldan türetilmesi:
+b) w ’in sağdan türetilmesi:
+S=>S+S 2
+S=> S+S
+=>S/S+S
+ÞS+S*S
+=>v/S*S
+ÞS+S*(S)
+=> v/(S)+S
+ÞS+S*(S+S)
+=>v/(S-S)+S
+ÞS+S*(S+c)
+=>v/(v-S)+S
+ÞS+S*(v+c)
+=> v/(v-c)+S
+ÞS+v*(v+c)
+=> v/(v-c)+S*S
+ÞS/S + v*(v+c)
+=>v/(v-c)+v*S
+ÞS/(S-S) + v*(v+c)
+=>v/(v-c)+v*(S)
+ÞS/(S-c) + v*(v+c)
+=>v/(v-c)+v*(S+S)
+ÞS/(v-c) + v*(v+c)
+=> v/(v-c)+v*(v+S)
+Þv/(v-c) + v*(v+c)
+Þ v/(v-c)+v*(v+c)
+
+[2] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 13
+w =(v+c)*(v-c) soldan ve sağdan
+1
+türetme
+a) w ’in soldan
+1 b) w ’in sağdan
+türetilmesi: 1
+türetilmesi:
+S=>S*S
+S=>S*S
+=>(S)*S
+=>S*(S)
+=>(S+S)*S
+=>S*(S-S)
+=>(v+S)*S
+=> (v+c)*S ÞS*(S-c)
+=> (v+c)*(S) ÞS*(v-c)
+=>(v+c)*(S-S)
+Þ(S)*(v-c)
+=>(v+c)*(v-S)
+Þ(S+S)*(v-c)
+=> (v+c) *(v-c)
+=> (S+c)*(v-c) => (v+c)(v-c)
+
+[3] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 12
+Türetme ağacı:
+w1=(v+c)*(v-c)
+S
+S * S
+)
+( S ( S )
+S + S S - S
+v c v c
+
+[4] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 14
+Türetme ağacı:
+w2=v/(v-c)+v*(v+c)
+S
+S
++ S
+S / S
+S * S
+v ( S )
+v ( S )
+S - S S S
++
+v c
+v c",
+24,Orta,G_S.4.2 dilbilgisinde L_S.4.2 dilinin küme tanımı nedir?,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet,"L_Gs.4.2 = {a^n b^m c^k d^p | n, m, p, k ≥ 1, p > n, k > m}",8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 22); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 4); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 26); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 30),14.59,"[1] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 22
+4.5.2. Örnek 2
+Omek 2
+Baglamdan-bagimsiz Gs.4.2 dilbilgisi asagidaki gibi tanimlaniyor.
+Gs.4.2 = VN,VT,P, S >
+V = { S, D, E}
+Vt = { a, b, c }
+P:S ==>aaSIaaD
+D==>bEbccD
+E ==> bEbI c
+a) Gs.4.2 tarafindan taninan baglamdan-bagimsiz dilin (Ls.4.2) kume tanimini
+olusturunuz.
+b) Gs.42'yi Chomsky normal bicimine (CNF) donusturunuz. Donusturme
+sirasinda kullanacaginiz yeni degiskenleri A, B, C, ve X, Xz, X3, ... diye
+adlandiriniz. Olusturdugunuz CNF dilbilgisinin tanimini eksiksiz ve duzenli
+bicimde yaziniz.
+
+[2] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 4
+Örnek 4.2
+G4.2=<VN, VT, P, S>
+VN= { S, A, B }
+VT={a, b, c, d}
+P: S=> aAdd
+A=> aAd |Ad |bBcc
+B=>bBc |Bc |λ
+G4.2 tarafından türetilen tümcelerden biri bulunmak istendiğinde:
+S=> aAdd =>abBccdd =>abccdd
+S=> aAdd =>aaAddd => aabBccddd =>aabccddd
+S=>aAdd =>aaAddd => aaAdddd => aaaAddddd=> aaabBccddddd =>
+aaabBccccdddddd = > aaabbccccddddd
+Yukarıdaki örneklerden bu bağlamdan bağımsız dilbilgisi tarafından L(G4.2) dili
+aşağıdaki gibi tanımlanabilir:
+L(G4.2) ={anbmckdp | n,m,p,k ≥1, p>n , k>m}
+
+[3] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 26
+4.5.6. Örnek 6
+Omek 6
+Asagidaki baglamdan-bagimsiz her dilbilgisinin turettigi dilin kume tanimini
+veriniz.
+a) Gs.4.6.1 = ≤VN,VT,P, S >
+VN = {S,A, B, C}
+Vt = {a, b }
+P:S ==> aS|aA
+A==>aA|bB
+B ==>aBbC
+C ==> aC|a
+b)Gs.4.6.2 = <VN,VT,P. S >
+V= {S,X,Y}
+V = {a, b, c, d, e }
+P:S ==>aSeXY
+X==> aXc|b
+Y ==> cYe| d
+
+[4] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 30
+4.5.8. Örnek 8
+Omek8
+Asagidaki baglamdan-bagimsiz her dilbilgisinin turettigi dilin kume tanimini
+veriniz.
+a) Gs.4.8.1 = <VN, Vt. P, S >
+V={S,B,C}
+V = {a, b, d }
+P:S ==>aSaaB
+B ==>bbBdd|C
+C ==> bd
+b) Gs.4.6.2 = <Vn, Vt, P, S >
+V={S,A}
+V = { a, b, c, d }
+P:S ==>abSdcA
+A==> cdAba",
+25,Orta,Örnek 6'daki G_S.4.6.1 dilbilgisinin türettiği dilin (L_S.4.6.1) küme tanımı nedir?,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet,"L_S.4.6.1 = {a^n b^n | n ≥ 1} Bu küme tanımı, Gs.4.6.1 tarafından üretilen dilde her a ile eş sayıda b'nin olduğu tüm dizileri temsil eder. Bağlamdaki örneklerden çıkarılarak bu sonuç elde edilmiştir.",8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 26); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 30); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 6); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 22),15.47,"[1] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 26
+4.5.6. Örnek 6
+Omek 6
+Asagidaki baglamdan-bagimsiz her dilbilgisinin turettigi dilin kume tanimini
+veriniz.
+a) Gs.4.6.1 = ≤VN,VT,P, S >
+VN = {S,A, B, C}
+Vt = {a, b }
+P:S ==> aS|aA
+A==>aA|bB
+B ==>aBbC
+C ==> aC|a
+b)Gs.4.6.2 = <VN,VT,P. S >
+V= {S,X,Y}
+V = {a, b, c, d, e }
+P:S ==>aSeXY
+X==> aXc|b
+Y ==> cYe| d
+
+[2] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 30
+4.5.8. Örnek 8
+Omek8
+Asagidaki baglamdan-bagimsiz her dilbilgisinin turettigi dilin kume tanimini
+veriniz.
+a) Gs.4.8.1 = <VN, Vt. P, S >
+V={S,B,C}
+V = {a, b, d }
+P:S ==>aSaaB
+B ==>bbBdd|C
+C ==> bd
+b) Gs.4.6.2 = <Vn, Vt, P, S >
+V={S,A}
+V = { a, b, c, d }
+P:S ==>abSdcA
+A==> cdAba
+
+[3] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 6
+Örnek 4.4
+G4.4=<VN, VT, P, S>
+VN= { S, A}
+VT={0, 1}
+P: S=> 0S0 | 1S1 |0A0 |1A1
+A=> 0A1 | 1A0 |01 |10
+G4.4 tarafından türetilen tümcelerden biri bulunmak istendiğinde:
+S=> 0S0 => 01A10 => 010A110 => 01010110
+S=> 0S0 => 01S10 => 011S110 => 0110A1110 => 01100A11110 => 011001011110
+S=> 0S0 => 00S00 => 000S000 => 0001A1000 => 00010A11000 => 000100A111000 =>
+0001000A1111000 => 00010001011111000
+Yukarıdaki örneklerden bu bağlamdan bağımsız dilbilgisi tarafından L(G4.2) dili aşağıdaki gibi
+tanımlanabilir:
+L(G4.3) ={uv(v’)RuR | u,v ε(0+1)*, |u|≥1, |v|≥1}
+uR u’nun tersi(reverse)
+(v’)R V’nin tümlerinin tersi
+
+[4] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 22
+4.5.2. Örnek 2
+Omek 2
+Baglamdan-bagimsiz Gs.4.2 dilbilgisi asagidaki gibi tanimlaniyor.
+Gs.4.2 = VN,VT,P, S >
+V = { S, D, E}
+Vt = { a, b, c }
+P:S ==>aaSIaaD
+D==>bEbccD
+E ==> bEbI c
+a) Gs.4.2 tarafindan taninan baglamdan-bagimsiz dilin (Ls.4.2) kume tanimini
+olusturunuz.
+b) Gs.42'yi Chomsky normal bicimine (CNF) donusturunuz. Donusturme
+sirasinda kullanacaginiz yeni degiskenleri A, B, C, ve X, Xz, X3, ... diye
+adlandiriniz. Olusturdugunuz CNF dilbilgisinin tanimini eksiksiz ve duzenli
+bicimde yaziniz.",
+26,Orta,"Örnek 5'teki G_4.5.1 dilbilgisinin kuralları, L_4.5.1={a^2k b^n c^2n d^k | k≥1, n≥1} dilini nasıl üretir?",8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet,"G4.5.1 tarafından türetilen tüm cümleler L4.5.1={a^2k b^n c^2n d^k | k≥1, n≥1} dilini üretebilir. Bu dil, a ve d karakterlerinin sayısının eşit olması ve b ve c karakterlerinin sayısının eşit olması koşullarını karşılar. Cümlelerin a ve d karakterleri arasındaki boşlukta b ve c karakterleri yer alır ve bu karakterlerin sayısı da eşittir. Bu durumu G4.5.1'nin kurallarıyla doğrulayabiliriz: S => a2k b^n c2n d^k şeklinde türetilir.",8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 24); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 5); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 4); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 27),16.58,"[1] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 24
+4.5.5. Örnek 5
+Omek5
+Asagida tanimlanan baglamdan-bagimsiz dillerin her birini tureten baglamdan
+bagimsiz bir dilbilgisi tanimlayiniz.
+a)L 4.5.1 = { a2k bn c2n dk1k ≥ 1 , n ≥ 1 }
+b)L 4.52 = {an+m bk cm+k d2n I n , m , k ≥ 0 }
+
+[2] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 5
+Örnek 4.3
+G4.3=<VN, VT, P, S>
+VN= { S, X, Y, Z}
+VT={a, b, c}
+P: S=> XY
+X=> aXbb |aZbb |abb
+Y=>cY |c
+Z=>Zb |Xb
+G4.3 tarafından türetilen tümcelerden biri bulunmak istendiğinde:
+S=> XY => abbY => abbcY =>abbcc
+S=>XY => aXbbY=> aaZbbbbY => aaZbbbbbY=> aaXbbbbbbY => aaabbbbbbbbY
+=>aaabbbbbbbbc
+Yukarıdaki örneklerden bu bağlamdan bağımsız dilbilgisi tarafından L(G4.2) dili
+aşağıdaki gibi tanımlanabilir:
+L(G4.3) ={anbmck | n≥1 , k≥1 m≥2n}
+
+[3] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 4
+Örnek 4.2
+G4.2=<VN, VT, P, S>
+VN= { S, A, B }
+VT={a, b, c, d}
+P: S=> aAdd
+A=> aAd |Ad |bBcc
+B=>bBc |Bc |λ
+G4.2 tarafından türetilen tümcelerden biri bulunmak istendiğinde:
+S=> aAdd =>abBccdd =>abccdd
+S=> aAdd =>aaAddd => aabBccddd =>aabccddd
+S=>aAdd =>aaAddd => aaAdddd => aaaAddddd=> aaabBccddddd =>
+aaabBccccdddddd = > aaabbccccddddd
+Yukarıdaki örneklerden bu bağlamdan bağımsız dilbilgisi tarafından L(G4.2) dili
+aşağıdaki gibi tanımlanabilir:
+L(G4.2) ={anbmckdp | n,m,p,k ≥1, p>n , k>m}
+
+[4] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 27
+4.5.6. Cevap 6
+a) Ls.4.6.1 = { an b am b a* 
+k>1}
+m>0.
+n21
+b) Ls.4.6.2 = { am+m
+n b cm+k d ek+n
+1 n, m, k>0 }",
+27,Zor,G4.4 dilbilgisi tarafından türetilen L(G4.4) dili uv(v')^R u^R biçiminde tanımlanmıştır; u ve v üzerindeki kısıtlar nelerdir ve bu gösterim ne anlama gelir?,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet,"u ve v, (0+1)* kümesinin bir elemanı olmalı ve uzunluğu 1'den büyük olmalı. Bu gösterim, L(G4.4) dili içindeki her bir kelimenin iki parçaya ayrılması ve bu parçaların tersini alıp birleştirerek oluşturduğunu gösterir. Bu parçaların birleşiminde, u parçasının tersi ve v parçasının tamamlanmış tersinin birleşimi, orijinal kelimeden türetildiği bir diziye karşılık gelir. Bu dizi, G4.4 grammatikinden türetilmiş bir dizidir ve bu gösterim, bu dizilerin nasıl oluşturulduklarını temsil eder.",8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 6); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 5); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 4); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 3),19.3,"[1] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 6
+Örnek 4.4
+G4.4=<VN, VT, P, S>
+VN= { S, A}
+VT={0, 1}
+P: S=> 0S0 | 1S1 |0A0 |1A1
+A=> 0A1 | 1A0 |01 |10
+G4.4 tarafından türetilen tümcelerden biri bulunmak istendiğinde:
+S=> 0S0 => 01A10 => 010A110 => 01010110
+S=> 0S0 => 01S10 => 011S110 => 0110A1110 => 01100A11110 => 011001011110
+S=> 0S0 => 00S00 => 000S000 => 0001A1000 => 00010A11000 => 000100A111000 =>
+0001000A1111000 => 00010001011111000
+Yukarıdaki örneklerden bu bağlamdan bağımsız dilbilgisi tarafından L(G4.2) dili aşağıdaki gibi
+tanımlanabilir:
+L(G4.3) ={uv(v’)RuR | u,v ε(0+1)*, |u|≥1, |v|≥1}
+uR u’nun tersi(reverse)
+(v’)R V’nin tümlerinin tersi
+
+[2] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 5
+Örnek 4.3
+G4.3=<VN, VT, P, S>
+VN= { S, X, Y, Z}
+VT={a, b, c}
+P: S=> XY
+X=> aXbb |aZbb |abb
+Y=>cY |c
+Z=>Zb |Xb
+G4.3 tarafından türetilen tümcelerden biri bulunmak istendiğinde:
+S=> XY => abbY => abbcY =>abbcc
+S=>XY => aXbbY=> aaZbbbbY => aaZbbbbbY=> aaXbbbbbbY => aaabbbbbbbbY
+=>aaabbbbbbbbc
+Yukarıdaki örneklerden bu bağlamdan bağımsız dilbilgisi tarafından L(G4.2) dili
+aşağıdaki gibi tanımlanabilir:
+L(G4.3) ={anbmck | n≥1 , k≥1 m≥2n}
+
+[3] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 4
+Örnek 4.2
+G4.2=<VN, VT, P, S>
+VN= { S, A, B }
+VT={a, b, c, d}
+P: S=> aAdd
+A=> aAd |Ad |bBcc
+B=>bBc |Bc |λ
+G4.2 tarafından türetilen tümcelerden biri bulunmak istendiğinde:
+S=> aAdd =>abBccdd =>abccdd
+S=> aAdd =>aaAddd => aabBccddd =>aabccddd
+S=>aAdd =>aaAddd => aaAdddd => aaaAddddd=> aaabBccddddd =>
+aaabBccccdddddd = > aaabbccccddddd
+Yukarıdaki örneklerden bu bağlamdan bağımsız dilbilgisi tarafından L(G4.2) dili
+aşağıdaki gibi tanımlanabilir:
+L(G4.2) ={anbmckdp | n,m,p,k ≥1, p>n , k>m}
+
+[4] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 3
+Örnek 4.1
+G4.1=<VN, VT, P, S>
+VN= { S }
+VT={+, -, *, /, (, ), v, c }
+P: S=> S+S| S-S |S*S |S/S | (S) | v | c
+G4.1 tarafından türetilen tümcelerden biri bulunmak istendiğinde:
+S=> S*S => S*(S) => S*(S-S) => v*(S-S) => v*(v-S) =>v*(v-c)
+S=>S*S =>(S)*S =>(S)*(S) => (S+S)*(S) => (S+S)*(S-S) => (S+S)*(S-S/S)
+=>(v+S)*(S-S/S) => (v+c)*(S-S/S) => (v+c)*(v-S/S) => (v+c)*(v-v/S)
+=> (v+c)*(v-v/c)
+S=> S+S => S*S +S => (S)*S+S => (S/S)*S+S => (S/(S))*S+S
+Þ (S/(S-S))*S+S => (v/(S-S))*S+S => (v/(v-S))*S+S=> (v/(v-c))*S+S
+Þ => (v/(v-c))*v+S =>(v/(v-c))*v+c",
+28,Zor,"G_S.4.7.2 dilbilgisi L_S.4.7.2={a^n b^m c^k | n>0, m>0, k=2n+m} dilini nasıl üretir; S=>aAcc kuralının bu eşitlikteki rolü nedir?",8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet,"S=>aAcc kuralı L_S.4.7.2 dilinin yapısını reflekt eder ve kuralın role göre: S => aAcc => a^(n-1) b^m c^(2n+m) Bu kuralın rolü, a'nın sayısını n-1 olarak ayarlar ve c'nin sayısını 2n+m olarak artırır. Ancak orijinal dilde k=n ve m=m olduğu için, S=>aAcc kuralının doğrultusunda c'nin sayısının 2n+m olması gerekmektedir. Bu durumda, orijinal dildeki m ve n değerleriyle uyum sağlamak için gerekli düzenlemeler yapılır. Bu bağlamdan bağımsız dilbilgisinin S=>aAcc kuralı, dildeki a ve c karakterlerinin sayısını doğru şekilde ayarlamak için kullanılır. Ancak tam olarak L_S.4.7.2 dilini üretmek için S=>aAcc kuralı yalnızca bir parçasıdır ve diğer kurallar da kullanılmalıdır. Cevap verilemedi çünkü S=>aAcc kuralı L_S.4.7.2 dilini tam olarak üretmez. Dilbilgisini tam olarak tanımlamak için daha fazla kural gereklidir.",8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 4); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 5); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 28); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 27),19.49,"[1] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 4
+Örnek 4.2
+G4.2=<VN, VT, P, S>
+VN= { S, A, B }
+VT={a, b, c, d}
+P: S=> aAdd
+A=> aAd |Ad |bBcc
+B=>bBc |Bc |λ
+G4.2 tarafından türetilen tümcelerden biri bulunmak istendiğinde:
+S=> aAdd =>abBccdd =>abccdd
+S=> aAdd =>aaAddd => aabBccddd =>aabccddd
+S=>aAdd =>aaAddd => aaAdddd => aaaAddddd=> aaabBccddddd =>
+aaabBccccdddddd = > aaabbccccddddd
+Yukarıdaki örneklerden bu bağlamdan bağımsız dilbilgisi tarafından L(G4.2) dili
+aşağıdaki gibi tanımlanabilir:
+L(G4.2) ={anbmckdp | n,m,p,k ≥1, p>n , k>m}
+
+[2] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 5
+Örnek 4.3
+G4.3=<VN, VT, P, S>
+VN= { S, X, Y, Z}
+VT={a, b, c}
+P: S=> XY
+X=> aXbb |aZbb |abb
+Y=>cY |c
+Z=>Zb |Xb
+G4.3 tarafından türetilen tümcelerden biri bulunmak istendiğinde:
+S=> XY => abbY => abbcY =>abbcc
+S=>XY => aXbbY=> aaZbbbbY => aaZbbbbbY=> aaXbbbbbbY => aaabbbbbbbbY
+=>aaabbbbbbbbc
+Yukarıdaki örneklerden bu bağlamdan bağımsız dilbilgisi tarafından L(G4.2) dili
+aşağıdaki gibi tanımlanabilir:
+L(G4.3) ={anbmck | n≥1 , k≥1 m≥2n}
+
+[3] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 28
+4.5.7. Örnek 7
+Omek7
+Asagida tanimlanan baglamdan-bagimsiz dillerin her birini tureten baglamdan
+bagimsiz bir dilbilgisi tanimlayiniz.
+m>0,k>0,n>m+k}
+a) Ls.4.7.1 = { an bm ck
+b) Ls.4.7.2 = { an bm ck
+
+[4] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 27
+4.5.6. Cevap 6
+a) Ls.4.6.1 = { an b am b a* 
+k>1}
+m>0.
+n21
+b) Ls.4.6.2 = { am+m
+n b cm+k d ek+n
+1 n, m, k>0 }",
+29,Zor,Örnek 8'deki G_S.4.8.1 dilbilgisinin türettiği L_S.4.8.1 dilinde üs olarak neden 2k+1 kullanılmıştır; B=>bbBdd|C kuralı bunu nasıl sağlar?,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet,"B => bbBdd | C kuralı, 2k+1 formunda üslere sahip olmasının nedenini açıklar. Çünkü bu kural, B'nin kendisini tekrar ederken, çift sayıda 'b' ve 'd' ekler. Eğer k=0 ise, B => C olur. Eğer k=1 ise, B => bbBdd olur. Böylece her k değeri için 2k+1 formunda üslere sahip olma koşulu karşılanır.",8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 30); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 26); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 21); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 20),15.29,"[1] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 30
+4.5.8. Örnek 8
+Omek8
+Asagidaki baglamdan-bagimsiz her dilbilgisinin turettigi dilin kume tanimini
+veriniz.
+a) Gs.4.8.1 = <VN, Vt. P, S >
+V={S,B,C}
+V = {a, b, d }
+P:S ==>aSaaB
+B ==>bbBdd|C
+C ==> bd
+b) Gs.4.6.2 = <Vn, Vt, P, S >
+V={S,A}
+V = { a, b, c, d }
+P:S ==>abSdcA
+A==> cdAba
+
+[2] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 26
+4.5.6. Örnek 6
+Omek 6
+Asagidaki baglamdan-bagimsiz her dilbilgisinin turettigi dilin kume tanimini
+veriniz.
+a) Gs.4.6.1 = ≤VN,VT,P, S >
+VN = {S,A, B, C}
+Vt = {a, b }
+P:S ==> aS|aA
+A==>aA|bB
+B ==>aBbC
+C ==> aC|a
+b)Gs.4.6.2 = <VN,VT,P. S >
+V= {S,X,Y}
+V = {a, b, c, d, e }
+P:S ==>aSeXY
+X==> aXc|b
+Y ==> cYe| d
+
+[3] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 21
+Örnek 4.7
+G’4.7=<VN, VT, P, S> • Şimdi de (G’4.7)’deki değişkenlerden
+VN= { S, A, B, C, D, E, F } hangilerinin S’den ulaşılabilen değişkenler
+olduğunu bulmak gerekir. S’den
+VT={a, b}
+ulaşılabilen değişkenler kümesi algoritma
+P: S=> B |BS
+4.6 kullanılarak aşağıdaki gibi bulunur:
+A=> aA | aF
+• T = { S, B }
+B=>b U
+• Yukarıdaki kümede yer almayan A,
+E=> aA | BSA
+E ve F değişkenleri yararsız değişkenlerdir.
+F=> bB |b
+Dilbilgisinden bu üç değişken ile bu
+______________________
+değişkenlerin yer aldığı kurallar
+G” =<V , V , P, S>
+4.7 N T çıkarıldığında a simgesinin de yararsız bir
+V = { S, B}
+N simge olduğu görülür. Bu simge de
+VT={b} çıkarıldığında (G4.7)’ye eşdeğer; yararsız
+P: S=> B |BS simge, değişken ve kural içermeyen
+aşağıdaki dilbilgisi bulunur:
+B=>b
+
+[4] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 20
+Örnek 4.7
+G4.7=<VN, VT, P, S> • (G4.7)’ye eşdeğer; yararsız
+değişken, simge ve kural
+VN= { S, A, B, C, D,
+içermeyen bir dilbilgisi bulmak
+E, F }
+için önce (G4.7)’deki
+V ={a, b}
+T değişkenlerden hangilerinin uç
+simge dizgisi türeten
+P: S=> B | AC
+değişkenler olduğunu bulmak
+|BS
+gerekir. Uç simge dizgisi türeten
+A=> aA | aF
+değişkenler kümesi algoritma
+B=>CF | b 4.5 ile aşağıdaki gibi bulunur:
+C=> cC |D • TD = { S, A, B, E, F }
+D=> C | aD • Yukarıdaki kümede yer
+almayan C ve D değişkenleri
+|BD
+yararsız değişkenlerdir.
+E=> aA | BSA
+F=> bB |b",
+30,Zor,"G4.3 dilbilgisinde X=>aXbb|aZbb|abb ve Z=>Zb|Xb kuralları birlikte çalışarak L(G4.3)={a^n b^m c^k | n≥1, k≥1, m≥2n} koşulunu nasıl sağlar?",8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet,"X ve Z kuralları birlikte çalışarak L(G4.3)={a^n b^m c^k | n≥1, k≥1, m≥2n} koşulunu şu şekilde sağlar: 1. X => aXbb veya X => aZbb kuralları a ve bb'yi eklerken, Z => Zb veya Z => Xb kuralları b'yi eklerken, n adet a ve 2n adet b'yi oluşturur. 2. X => abb veya Z => Xb kuralları k adet c'yi eklerken, k en az 1 olmalıdır. Bu süreçte m = 2n olurken, n en az 1 ve k en az 1 olmalıdır. Yani, L(G4.3) kümesindeki her bir dizide a'nın sayısı, b'nin sayısının iki katı ve c'nin sayısı en az 1 olduğundan emin oluruz.",8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 5); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 6); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 4); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 24),18.97,"[1] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 5
+Örnek 4.3
+G4.3=<VN, VT, P, S>
+VN= { S, X, Y, Z}
+VT={a, b, c}
+P: S=> XY
+X=> aXbb |aZbb |abb
+Y=>cY |c
+Z=>Zb |Xb
+G4.3 tarafından türetilen tümcelerden biri bulunmak istendiğinde:
+S=> XY => abbY => abbcY =>abbcc
+S=>XY => aXbbY=> aaZbbbbY => aaZbbbbbY=> aaXbbbbbbY => aaabbbbbbbbY
+=>aaabbbbbbbbc
+Yukarıdaki örneklerden bu bağlamdan bağımsız dilbilgisi tarafından L(G4.2) dili
+aşağıdaki gibi tanımlanabilir:
+L(G4.3) ={anbmck | n≥1 , k≥1 m≥2n}
+
+[2] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 6
+Örnek 4.4
+G4.4=<VN, VT, P, S>
+VN= { S, A}
+VT={0, 1}
+P: S=> 0S0 | 1S1 |0A0 |1A1
+A=> 0A1 | 1A0 |01 |10
+G4.4 tarafından türetilen tümcelerden biri bulunmak istendiğinde:
+S=> 0S0 => 01A10 => 010A110 => 01010110
+S=> 0S0 => 01S10 => 011S110 => 0110A1110 => 01100A11110 => 011001011110
+S=> 0S0 => 00S00 => 000S000 => 0001A1000 => 00010A11000 => 000100A111000 =>
+0001000A1111000 => 00010001011111000
+Yukarıdaki örneklerden bu bağlamdan bağımsız dilbilgisi tarafından L(G4.2) dili aşağıdaki gibi
+tanımlanabilir:
+L(G4.3) ={uv(v’)RuR | u,v ε(0+1)*, |u|≥1, |v|≥1}
+uR u’nun tersi(reverse)
+(v’)R V’nin tümlerinin tersi
+
+[3] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 4
+Örnek 4.2
+G4.2=<VN, VT, P, S>
+VN= { S, A, B }
+VT={a, b, c, d}
+P: S=> aAdd
+A=> aAd |Ad |bBcc
+B=>bBc |Bc |λ
+G4.2 tarafından türetilen tümcelerden biri bulunmak istendiğinde:
+S=> aAdd =>abBccdd =>abccdd
+S=> aAdd =>aaAddd => aabBccddd =>aabccddd
+S=>aAdd =>aaAddd => aaAdddd => aaaAddddd=> aaabBccddddd =>
+aaabBccccdddddd = > aaabbccccddddd
+Yukarıdaki örneklerden bu bağlamdan bağımsız dilbilgisi tarafından L(G4.2) dili
+aşağıdaki gibi tanımlanabilir:
+L(G4.2) ={anbmckdp | n,m,p,k ≥1, p>n , k>m}
+
+[4] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 24
+4.5.5. Örnek 5
+Omek5
+Asagida tanimlanan baglamdan-bagimsiz dillerin her birini tureten baglamdan
+bagimsiz bir dilbilgisi tanimlayiniz.
+a)L 4.5.1 = { a2k bn c2n dk1k ≥ 1 , n ≥ 1 }
+b)L 4.52 = {an+m bk cm+k d2n I n , m , k ≥ 0 }",

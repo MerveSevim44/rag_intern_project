@@ -1,0 +1,27 @@
+[Foundry] Model yüklendi: qwen2.5-7b-instruct-cuda-gpu:4 | execution provider: CUDAExecutionProvider | cihaz: GPU
+[Foundry] Servis adresi: http://127.0.0.1:63683
+[Foundry] Serviste yüklü modeller: ['qwen2.5-7b-instruct-cuda-gpu:4']
+[test_1 #1] G4.1 dilbilgisinde VT kümesinin elemanları nelerdir?
+[retrieval] Cache yuklendi: 916 chunk, embedding matrisi (916, 1024)
+    -> 45.23 sn | bağlam katman-1 eski ile aynı: False
+[test_1 #6] G4.2 dilbilgisinin uç simgeler (VT) kümesi nelerdir?
+    -> 16.25 sn | bağlam katman-1 eski ile aynı: True
+[test_1 #7] G4.1 dilbilgisinde S=>S*S=>S*(S)=>S*(S-S)=>v*(S-S)=>v*(v-S)=>v*(v-c) türetmesi sonunda hangi tümce elde edilmiştir?
+[llm_client] Yabanci alfabe parcasi temizlendi (48 -> 44 karakter)
+    -> 15.78 sn | bağlam katman-1 eski ile aynı: True
+[test_1 #29] Örnek 8'deki G_S.4.8.1 dilbilgisinin türettiği L_S.4.8.1 dilinde üs olarak neden 2k+1 kullanılmıştır; B=>bbBdd|C kuralı bunu nasıl sağlar?
+[llm_client] Yabanci alfabe parcasi temizlendi (338 -> 78 karakter)
+    -> 19.16 sn | bağlam katman-1 eski ile aynı: True
+[test_2 #40] location.serviceArea alanı bazı profillerde 'district, city' formatındayken bazılarında 'district / online' formatında görünmektedir; bu farkın nedeni serviceModes alanıyla nasıl ilişkilidir?
+    -> 26.75 sn | bağlam katman-1 eski ile aynı: True
+[test_2 #47] fieldGuide bölümündeki 'publicContact' açıklaması ile örnek profillerdeki publicContact nesnesinin (phone:null, email:null) içeriği birbiriyle tutarlı mıdır?
+    -> 21.19 sn | bağlam katman-1 eski ile aynı: True
+[test_2 #49] intendedUse listesinde belirtilen 'demo', 'test', 'seed data', 'UI population' kullanım amaçları syntheticOnly=true ayarıyla nasıl bir tutarlılık göstermektedir?
+    -> 32.81 sn | bağlam katman-1 eski ile aynı: True
+[test_4 #92] Anlatıcının Oda No: 304'ü kiraladığı şehir ve mevsim hangisidir?
+    -> 14.86 sn | bağlam katman-1 eski ile aynı: True
+[test_5 #115] Oda No: 304 hikayesinde anlatıcının mesleği nedir?
+    -> 20.29 sn | bağlam katman-1 eski ile aynı: True
+[test_negative #229] Summer School programının 2027 yılı kayıt takvimi nasıldır?
+    -> 20.63 sn | bağlam katman-1 eski ile aynı: True
+Sonuclar: C:\Users\merve\Desktop\rag_project\experiments\v8_bm25_stopword\results\v0_karsi_olgu.csv
