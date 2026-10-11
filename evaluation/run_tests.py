@@ -37,10 +37,10 @@ for _p in [str(_src_dir), str(_eval_dir), str(_root_dir)]:
 
 try:
     from src.retrieval import get_top_chunks
-    from src.llm_client import load_model, ask, truncate_chunk_text, truncate_context
+    from src.llm_client import load_model, ask, truncate_chunk_text, truncate_context, task_instruction_note
 except ImportError:
     from retrieval import get_top_chunks
-    from llm_client import load_model, ask, truncate_chunk_text, truncate_context
+    from llm_client import load_model, ask, truncate_chunk_text, truncate_context, task_instruction_note
 
 
 def _resolve_file(file_path: str) -> Path:
@@ -102,8 +102,11 @@ def free_gpu_memory():
         torch.cuda.ipc_collect()
 
 
-def build_context(chunks, question=None):
-    """app.py'daki build_context ile aynı mantık — LLM'e giden bağlamı oluşturur."""
+def build_context(chunks, question=None, task_notes=True):
+    """app.py'daki build_context ile aynı mantık — LLM'e giden bağlamı oluşturur.
+
+    task_notes=False yalnız madde 24 A/B ölçümü için (işaretsiz kontrol kolu).
+    """
     parts = []
     for i, chunk in enumerate(chunks, 1):
         source = Path(chunk["source"]).name
@@ -111,11 +114,13 @@ def build_context(chunks, question=None):
         # Uzun chunk'lar prompt'u şişirip VRAM'i taşırıyor — kırp (soruyla
         # eşleşen satırlar öncelikli; app.py ile aynı).
         content = truncate_chunk_text(chunk["content"], query=question)
-        parts.append(f"[{i}] Kaynak: {source}, {page_info}\n{content}")
+        note = task_instruction_note(chunk["content"]) if task_notes else None
+        header = f"[{i}] Kaynak: {source}, {page_info}"
+        parts.append(f"{header}\n{note}\n{content}" if note else f"{header}\n{content}")
     return truncate_context("\n\n".join(parts))
 
 
-def run_single_test(llm, question, top_k=5, use_reranker=True, retries=1):
+def run_single_test(llm, question, top_k=5, use_reranker=True, retries=1, task_notes=True):
     """
     Tek bir soruyu çalıştırır, sonucu dict olarak döner.
 
@@ -140,7 +145,7 @@ def run_single_test(llm, question, top_k=5, use_reranker=True, retries=1):
     # haksız düşürüyordu. Boş retrieval gibi HATA yoluna çevrilir.
     if any(c.get("operation") == "service_failure" for c in chunks):
         raise RuntimeError("service_failure: code_interpreter LLM servisi yanıt veremedi")
-    context = build_context(chunks, question)
+    context = build_context(chunks, question, task_notes=task_notes)
 
     # app.py ile BİREBİR aynı mantık: META_QUERY rotasında retrieval, chunk'lara
     # "açık bilgi vs. çıkarım" talimatını iliştirir. Bu talimat synthesizer'a

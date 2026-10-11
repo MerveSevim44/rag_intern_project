@@ -153,6 +153,53 @@ def truncate_context(context, max_chars=MAX_CONTEXT_CHARS):
         return context
     return context[:max_chars].rstrip() + _TRUNCATION_MARKER
 
+
+# ─── Görev/talimat parçası işareti (backlog madde 24) ────────────────────────
+# OCR'lanan alıştırma sayfaları ("…Chomsky normal biçimine (CNF)
+# dönüştürünüz") negatif sorularda bağlama giriyor ve model görevi "belgede
+# anlatılan konu" gibi okuyup prosedür uyduruyordu (#224, test_5 #103). Böyle
+# parçaların başına bir not satırı eklenir; chunk metni, DB ve retrieval
+# DEĞİŞMEZ. Plan: docs/implementation_plan_madde24_ocr_isaret.md.
+#
+# Kural belgeye özel değil: cümle/satır sonunda biten 2. çoğul emir kipi
+# (-(y)InIz / -(y)UnUz). Cümle sonu şartı iyelik ekli biçimleri
+# ("kullanacağınız", "oluşturduğunuz" — cümle ortasında) dışarıda tutar.
+# Korpus ölçümü (916 chunk): tam 5 Örnek sayfası, yanlış pozitif 0
+# (experiments/madde24_ocr_alistirma/sonuc_etkilenen_set.txt).
+_TASK_FOLD = str.maketrans("ıüöşğçâîû", "iuosgcaiu")
+_TASK_VERB_RE = re.compile(r"[a-z]{3,}?y?(?:in|un)(?:iz|uz)")
+_TASK_WORD_RE = re.compile(r"\w+")
+_TASK_SENTENCE_END = ".:;!?)\n\r"
+
+
+def task_instruction_verbs(text):
+    """Cümle/satır sonundaki emir fiillerinin yüzey biçimleri (metindeki sırayla)."""
+    verbs = []
+    for m in _TASK_WORD_RE.finditer(text or ""):
+        # "İ".lower() iki karakter üretir ("i̇"); önce düz "i"ye çevrilir.
+        folded = m.group().replace("İ", "i").lower().translate(_TASK_FOLD)
+        if not _TASK_VERB_RE.fullmatch(folded):
+            continue
+        rest = text[m.end():].lstrip(" \t")
+        if not rest or rest[0] in _TASK_SENTENCE_END:
+            verbs.append(m.group())
+    return verbs
+
+
+def task_instruction_note(text):
+    """
+    Parça okuyucuya bir görev veriyorsa bağlama eklenecek not satırı, yoksa None.
+
+    "Tanımlar yine kullanılabilir" bilinçli: test_1 #24–#29 tam olarak bu
+    sayfalardaki dilbilgilerini soruyor; not "bu parçayı kullanma" dememeli.
+    """
+    verbs = task_instruction_verbs(text)
+    if not verbs:
+        return None
+    return (f'[Not: Bu parça okuyucuya verilen bir görev/alıştırma içerir ("{verbs[0]}"). '
+            "Görevde adı geçen işlemin belgede ANLATILDIĞINI göstermez; parçadaki tanımlar "
+            "(dilbilgisi, küme vb.) yine kullanılabilir.]")
+
 # Foundry Local servisinin dinlediği adres. Port her açılışta değişebildiği
 # için normalde otomatik bulunur; gerekirse bu ortam değişkeniyle sabitlenir.
 ENDPOINT_ENV_VAR = "FOUNDRY_LOCAL_ENDPOINT"

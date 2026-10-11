@@ -1,0 +1,8 @@
+== A) Korpus taramasi: isaretlenen 5 / 916 chunk
+   id=4317 8-Baglamdan_bagimsiz_dilbilgisi.pdf | sayfa 22 | fiiller=['olusturunuz', 'donusturunuz', 'adlandiriniz', 'yaziniz']
+   id=4319 8-Baglamdan_bagimsiz_dilbilgisi.pdf | sayfa 24 | fiiller=['tanimlayiniz']
+   id=4321 8-Baglamdan_bagimsiz_dilbilgisi.pdf | sayfa 26 | fiiller=['veriniz']
+   id=4323 8-Baglamdan_bagimsiz_dilbilgisi.pdf | sayfa 28 | fiiller=['tanimlayiniz']
+   id=4325 8-Baglamdan_bagimsiz_dilbilgisi.pdf | sayfa 30 | fiiller=['veriniz']
+   beklenmeyen (yanlis pozitif adayi): 0
+   beklenip isaretlenmeyen: 0
