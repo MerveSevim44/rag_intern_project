@@ -33,6 +33,19 @@ PR olarak ele alınır.
 | 24 | OCR'lı alıştırma sayfaları negatif sorularda bağlama girip uydurma prosedür ürettiriyor | Açık — **gözlenmiş gerileme**: negatif FP 1/32 → 3/32'nin 2'si (#224; test_5 #103), `dffb6a5` kaynaklı |
 | 25 | Ret tespiti yarım "…bulunmadığından" cevabını tanımıyor (skorlama + üretim) | Açık — v8 negatif #222 yapay FP |
 
+### Öncelik sırası (2026-10-11)
+
+Açık retrieval/değerlendirme maddeleri için sıra: **25 (skorlama) → 24 → 22 → 20 → 21.**
+
+- **25 önce:** madde 24'ün başarı ölçütü negatif set FP sayısı; skorlayıcı yarım
+  retleri FP saydığı sürece (#222) bu sayı yapay olarak şişik ve 24'ün etkisi
+  ölçülemez. Yalnız skorlama kısmı; üretim kısmı ayrıca değerlendirilir.
+- **24:** gözlenmiş kullanıcıya görünür gerileme (uydurma prosedür; negatif FP
+  1/32 → 3/32'nin 2'si), kaynağı main'de olan commit (`dffb6a5`, benchmark'lanmadan girdi).
+- **22:** 24 ile aynı kök (OCR sayfa yapısı); çözümler birlikte tasarlanır ama
+  24'ün ölçümü ayrı tutulur (Örnek/Cevap birleştirme 22'yi çözer, 24'ü tek başına çözmeyebilir).
+- **20, 21:** sistemin cevaplarını değiştirmiyor (benchmark ayarı / ölçüm körlüğü).
+
 ## Madde 5 — Meta-chunk boost'u
 Sabit `+0.35` meta-chunk boost'u sorgu tipine bakmaksızın uygulanıyor ve RRF
 ölçeğini domine ediyor (normalize RRF [0..1] aralığının ~⅓'ü). Örnek: "dişçi
