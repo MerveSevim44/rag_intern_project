@@ -176,6 +176,14 @@ TURKISH_STOPWORDS = {
     # sorgu kalıpları
     "arıyorum", "istiyorum", "lazım", "bul", "bulur", "öner", "önerir",
     "musun", "misin", "müsün", "mısın",
+    # Soru ekleri ve edat çekimleri. Filtre stem'e uygulanırken bunlar
+    # stem'leri ("nedir" -> "ne", "içinde" -> "ic") stopword'e denk geldiği için
+    # TESADÜFEN düşüyordu; filtre yüzey biçimine taşınınca (madde 19) açıkça
+    # listelenmeleri gerekti, yoksa her soruda BM25 terimi olarak kalırlar.
+    "nedir", "nelerdir", "neler", "neyi", "nasıldır", "kadardır",
+    "midir", "mıdır", "mudur", "müdür",
+    "içinde", "içindeki", "bazında", "önce", "vardı",
+    "biri", "birinde", "birini", "birden",
 }
 
 
@@ -259,6 +267,11 @@ _SYNONYM_RULES = sorted(
     ((tuple(_base_tokens_folded(k)), _tokenize_key(v)) for k, v in TERM_SYNONYMS.items()),
     key=lambda rule: len(rule[0]), reverse=True,
 )
+# Stopword filtresi YÜZEY biçimine (stem öncesi, fold'lu) uygulanır.
+_SURFACE_STOPWORDS = {t for w in TURKISH_STOPWORDS for t in _base_tokens_folded(w)}
+# Stopword'lerin stem'leri artık filtre DEĞİL, çakışma tespiti için kullanılır:
+# stem'i bunlardan birine denk gelen gerçek kelime ("deneyim" -> "de",
+# "Damla" -> "da") stem yerine yüzey biçimiyle temsil edilir (_apply_synonyms).
 _STOPWORDS = {t for w in TURKISH_STOPWORDS for t in _tokenize_key(w)}
 
 
@@ -273,6 +286,14 @@ def _apply_synonyms(folded: List[str], natural: List[str]) -> List[str]:
         stemmer'ı ünlü uyumuna dayanır ve aksansız ASCII girdide çöker
         (bkz. _tokenize docstring'indeki sıra notu).
     Kanonik değerler zaten stem'li + fold'lu olduğundan oldukları gibi geçer.
+
+    Çakışma koruması (madde 19): Snowball bazı gerçek kelimeleri bir
+    stopword'ün stem'ine indiriyor ("deneyim"/"deniz" -> "de", "Damla"/"data"
+    -> "da"). Bu kelimeler stem yerine fold'lu YÜZEY biçimiyle temsil edilir;
+    aksi hâlde birbirleriyle aynı token'a düşüp ayırt edilemezler. Kontrol
+    token başına burada yapılır: eş anlamlı kural birden fazla token
+    ürettiğinde (kbb -> "kulak burun boğaz") çıktı ile girdi dizileri hizasız
+    kalır, sonradan sıra sıra eşlemek yanlış olur.
     """
     out: List[str] = []
     i = 0
@@ -286,23 +307,31 @@ def _apply_synonyms(folded: List[str], natural: List[str]) -> List[str]:
                 i += n
                 break
         else:
-            out.append(_accent_fold(_stem(natural[i])))
+            stem = _accent_fold(_stem(natural[i]))
+            out.append(folded[i] if stem in _STOPWORDS else stem)
             i += 1
     return out
 
 
 def _tokenize(text: str) -> List[str]:
     """
-    BM25 token'ları: normalize → eş anlamlılar → snowball → aksan katlama → stopword.
+    BM25 token'ları: normalize → stopword → eş anlamlılar → snowball → aksan katlama.
 
-    Pipeline (v3 — stem_before_fold):
+    Pipeline (v4 — surface_stopwords):
       1. _base_tokens        : NFC normalize + Türkçe-güvenli küçük harf + tokenize
                                (AKSANLAR KORUNUR — stem'in ihtiyacı var)
          _accent_fold        : yalnızca eşleşme için fold'lu bir kopya çıkarılır
-      2. _apply_synonyms     : eş anlamlılar fold'lu kopya üzerinde eşleştirilir,
+      2. stopword filtre     : İşlev kelimeleri ve sorgu kalıpları YÜZEY biçimine
+                               göre dışlanır (stem'e göre değil — bkz. aşağı)
+      3. _apply_synonyms     : eş anlamlılar fold'lu kopya üzerinde eşleştirilir,
                                kanonik biçimle değiştirilir ("dişçi" → "dis hek");
                                eşleşmeyen token AKSANLI biçiminden stem'lenir
-      3. stopword filtre     : İşlev kelimelerini ve sorgu kalıplarını dışla
+
+    Stopword neden yüzeye uygulanıyor (madde 19): filtre stem'e uygulanınca
+    stem'i tesadüfen bir stopword stem'ine denk gelen GERÇEK kelimeler de
+    siliniyordu ("deneyim" -> "de", "Damla" -> "da", "iş" -> "is"). "Damla Akın"
+    sorgusu BM25'e yalnızca "ak" olarak gidiyor, aynı soyadlı 10 kişi eşit
+    sayılıyordu.
 
     Sıra neden önemli: Snowball Türkçe stemmer'ı ünlü uyumuna dayanır. Aksan
     katlama stem'den ÖNCE uygulanırsa ("çocuğum" → "cocugum") stemmer ekleri
@@ -312,13 +341,15 @@ def _tokenize(text: str) -> List[str]:
     geçerli. Bu sıra baştan belgelenmişti ama kod tersini yapıyordu.
 
     Simetri: Hem sorgu hem corpus aynı pipeline'dan geçer;
-    _SYNONYM_RULES anahtarları ve _STOPWORDS de _base_tokens_folded / _tokenize_key
-    ile derlendiğinden eşleşme tutarlıdır.
+    _SYNONYM_RULES anahtarları ve _SURFACE_STOPWORDS _base_tokens_folded ile,
+    çakışma tespitindeki _STOPWORDS _tokenize_key ile derlendiğinden eşleşme
+    tutarlıdır.
     """
-    natural = _base_tokens(text)                    # aksanlı, stem öncesi
+    natural = [t for t in _base_tokens(text)        # aksanlı, stem öncesi
+               if _accent_fold(t) not in _SURFACE_STOPWORDS]
     folded = [_accent_fold(t) for t in natural]     # yalnızca eşleşme için
     # Eş anlamlılar fold'lu kopyada eşleşir; kalanlar aksanlı biçimden stem'lenir.
-    return [t for t in _apply_synonyms(folded, natural) if t not in _STOPWORDS]
+    return _apply_synonyms(folded, natural)
 
 
 
