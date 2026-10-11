@@ -1,0 +1,55 @@
+{
+  "test_seti": "test_5",
+  "sonuc_dosyasi": "..\\experiments\\v7_refusal_clarity\\results\\test_5_sonuclari.csv",
+  "ground_truth_dosyasi": "C:\\Users\\merve\\Desktop\\rag_project\\evaluation\\ground_truth/*.json (id ile)",
+  "toplam_soru": 15,
+  "referansli_soru": 15,
+  "referanssiz_soru": 0,
+  "hatali_soru_sayisi": 0,
+  "hatali_soru_idleri": [],
+  "genel_metrikler": {
+    "exact_match_yuzde": 86.67,
+    "soft_match_yuzde": 86.67,
+    "f1_skor_yuzde": 86.67,
+    "rouge_l_yuzde": 86.67,
+    "semantik_benzerlik_yuzde": 86.67,
+    "precision_yuzde": 86.67,
+    "recall_yuzde": 86.67,
+    "retrieval_dogruluk_yuzde": 100.0,
+    "retrieval_mrr_yuzde": 0.0,
+    "retrieval_recall_at_1_yuzde": 0.0,
+    "ortalama_sure_sn": 44.09,
+    "medyan_sure_sn": 35.7,
+    "min_sure_sn": 16.09,
+    "max_sure_sn": 121.18
+  },
+  "siniflandirma_matrisi": {
+    "TP": 0,
+    "TN": 13,
+    "FP": 2,
+    "FN": 0
+  },
+  "fn_kirilimi": {
+    "retrieval_kacirdi": 0,
+    "dogru_kaynak_ama_cevap_yok": 0
+  },
+  "etiket_celiskisi_olan_sorular": [],
+  "kategori_bazli": {
+    "Negatif": {
+      "toplam_soru": 15,
+      "referansli_soru": 15,
+      "exact_match_yuzde": 86.67,
+      "soft_match_yuzde": 86.67,
+      "f1_skor_yuzde": 86.67,
+      "rouge_l_yuzde": 86.67,
+      "semantik_benzerlik_yuzde": 86.67,
+      "precision_yuzde": 86.67,
+      "recall_yuzde": 86.67,
+      "retrieval_dogruluk_yuzde": 100.0,
+      "ortalama_sure_sn": 44.09,
+      "medyan_sure_sn": 35.7,
+      "min_sure_sn": 16.09,
+      "max_sure_sn": 121.18
+    }
+  }
+}

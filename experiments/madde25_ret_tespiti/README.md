@@ -61,3 +61,23 @@ Noktalamasız biten cevap: v2 9/100, v3 14/97, v5 9/98, v6 9/130, v7 11/147,
 v8 9/144. Bunların neredeyse tamamı formül (`VT = {a, b, c, d}`) ya da kaynak
 atfı ("Kaynak: …, sayfa 7") ile biten meşru cevap. v8'de **gerçekten yarım
 kalan tek cevap #222.**
+
+## Adım 2 — çerçeve kuralı uygulandı, v7 ve v8 yeniden skorlandı
+
+`benchmark_eval._has_refusal_frame` + `check_is_not_found` kapısına ek yol
+(simülasyondaki mantığın aynısı; ikinci aşama değişmedi). Yeniden skor:
+`evaluate_all(results_dir=experiments/<v>/results, output_dir=experiments/madde25_ret_tespiti/yeniden_skor_<v>)`.
+Cevap metinleri kayıtlı skorlarla 147/147 (v7) ve 144/144 (v8) aynı — doğru
+dosyalar skorlandı.
+
+| | sınıf değişen | not |
+|---|---|---|
+| v7 | **0** | simülasyonla aynı |
+| v8 | **1: negatif #222 FP → TN** | satırın 8 metrik hücresi 0 → 100; negatif FP 3/32 → 2/32 |
+
+Diğer farklar ret tespitiyle ilgisiz:
+- `semantic_sim` ±0.1–0.2 (embedding sayısal gürültüsü, v7'de 12 / v8'de 10 hücre).
+- **v7 test_2 #36 `semantic_sim` 86.7 → 0.0:** Ollama bge-m3 (0.21.2) bu cevap
+  metni için NaN embedding döndürüyor (`json: unsupported value: NaN`, 500);
+  tekrarlanabilir (3/3). `compute_semantic_similarity` istisnada sessizce 0.0
+  yazıyor ve bu 0 ortalamaya giriyor → ayrı backlog maddesi.

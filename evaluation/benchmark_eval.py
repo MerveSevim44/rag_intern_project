@@ -369,6 +369,32 @@ _EVAL_REFUSAL_FRAME_WORDS = {
 # Matematik/sembolik icerik — kelime sayaci bunlari goremez ama bunlar icerik.
 _EVAL_MATH_RE = re.compile(r"[∫∞∑∏√±≤≥≠∈∩∪δωπ]|\\int|\\infty|\\omega")
 
+# Ret CERCEVESI (madde 25): sabit _REFUSAL_MARKERS listesi Turkce cekimleri
+# kapsayamiyor — "...herhangi bir bilgi bulunmadigindan" (negatif #222) ret
+# sayilmayip FP oluyordu. Listeyi cekimlerle genisletmek ise dogru icerik
+# cevaplarini bozuyordu ("kardesi bulunmamalidir", "hicbir degeri yoktur"
+# her kosuda 2-4 TP -> FN; experiments/madde25_ret_tespiti). Cunku ikinci
+# asama (_new_claims) icerik MIKTARINA degil yalniz yeni sayi/isim'e bakar.
+#
+# Bu yuzden ek yol bir CERCEVE ister: olumsuzluk yuklemi + AYNI cumlede neyin
+# bulunmadigini soyleyen baglam sozcugu (src/llm_client.py
+# _is_not_found_sentence ile ayni mantik; uretim ve degerlendirme ayrismasin).
+# Olumsuzluk eki ZORUNLU: -ma/-me'den sonra d/m/y/z/s gelmeli; olumlu
+# "bulun-mak-tadir", "yer al-mak-tadir" eslesmez.
+_REFUSAL_PREDICATE_RE = re.compile(
+    r"bulun(a)?ma[dmyzs]\w*|bulunamad\w*|bulunmuyor|yer alma[dmyzs]\w*|"
+    r"belirtilme[dmyzs]\w*|gecme[dmyzs]\w*|mevcut degil\w*|\byok(tur)?\b")
+_REFUSAL_CONTEXT_RE = re.compile(
+    r"\bbilgi\w*|dokuman\w*|belge\w*|baglam\w*|metin\w*|kaynak\w*|ders not\w*")
+
+
+def _has_refusal_frame(text: str) -> bool:
+    """Herhangi bir cumlede olumsuzluk yuklemi ile baglam sozcugu BIRLIKTE geciyor mu?"""
+    for sentence in re.split(r"(?<=[.!?])\s+|\n+", _fold_tr(text or "")):
+        if _REFUSAL_PREDICATE_RE.search(sentence) and _REFUSAL_CONTEXT_RE.search(sentence):
+            return True
+    return False
+
 
 def _fold_tr(text: str) -> str:
     """Turkce aksanlari duzler: 'dokümanlarda' ile 'dokumanlarda' esitlensin.
@@ -491,7 +517,9 @@ def check_is_not_found(text: str, question: str = None) -> bool:
     if not text or not text.strip():
         return False
     norm = _fold_tr(normalize_text_tr(text))
-    if not any(m in norm for m in _REFUSAL_MARKERS):
+    # Kapi: sabit ret kaliplari VEYA ret cercevesi (cekimli bicimler, bkz.
+    # _has_refusal_frame). Ikinci asama (yeni iddia suzgeci) iki yol icin ayni.
+    if not any(m in norm for m in _REFUSAL_MARKERS) and not _has_refusal_frame(text):
         return False
     residual = _refusal_residual_content(text)
     if _EVAL_MATH_RE.search(text):
