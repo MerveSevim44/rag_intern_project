@@ -38,7 +38,7 @@ PR olarak ele alınır.
 
 ### Öncelik sırası (2026-10-11)
 
-Açık retrieval/değerlendirme maddeleri için sıra: **25 (skorlama) → 24 → 22 → 20 → 21.**
+Açık retrieval/değerlendirme maddeleri için sıra: **25 (skorlama) ✅ → 24 → 22 → 27 → 20 → 21 → 28 → 26.**
 
 - **25 önce:** madde 24'ün başarı ölçütü negatif set FP sayısı; skorlayıcı yarım
   retleri FP saydığı sürece (#222) bu sayı yapay olarak şişik ve 24'ün etkisi
@@ -48,6 +48,13 @@ Açık retrieval/değerlendirme maddeleri için sıra: **25 (skorlama) → 24 �
 - **22:** 24 ile aynı kök (OCR sayfa yapısı); çözümler birlikte tasarlanır ama
   24'ün ölçümü ayrı tutulur (Örnek/Cevap birleştirme 22'yi çözer, 24'ü tek başına çözmeyebilir).
 - **20, 21:** sistemin cevaplarını değiştirmiyor (benchmark ayarı / ölçüm körlüğü).
+- **27:** "sessizce yanlış ortalama" ailesinden (`HATA:` satırlarının F1'i
+  bozması gibi); düzeltmesi küçük ve yalnız skorlayıcıda. 24'ün ölçütü (negatif
+  FP sayısı) `semantic_sim`'e dayanmadığı için 24'ün önüne alınmadı.
+- **28:** bilinen etkisi tek gizli FN (v3 #29); 21 ise #24–#29'un hepsini
+  görünmez kıldığı için önce 21. 24'ün ölçümünü bugün etkilemiyor (bkz. madde 24
+  ölçüm notu); etkilemeye başlarsa 24'ün hemen arkasına alınır.
+- **26:** ölçümü etkilemiyor (skorlama `f888033`'ten beri bu cevabı ret sayıyor).
 
 ## Madde 5 — Meta-chunk boost'u
 Sabit `+0.35` meta-chunk boost'u sorgu tipine bakmaksızın uygulanıyor ve RRF
@@ -901,6 +908,16 @@ görüldü. Madde 22 (Cevap sayfaları gelmiyor) ile aynı kökten: OCR sayfalar
 Çözüm adayları: OCR chunk'larını `[alıştırma — çözüm içermez]` gibi bir
 işaretle ingest etmek; ya da Örnek/Cevap sayfalarını birleştirip (madde 22)
 soru metnini cevabıyla aynı chunk'ta tutmak. Ölçüm: negatif set tam koşu.
+
+**Ölçüm notu (madde 28 koruması):** 24'ün FP'leri (#224, #103) sayı / özel
+isim taşımayan prosedür metinleri. Düzeltme sonrası model "bilgi
+bulunmamaktadır, ancak genel olarak şu adımlar…" gibi melez bir cevaba
+kayarsa, ret tespitinin ikinci aşaması içerik miktarına bakmadığı için (madde
+28) bu cevap TN sayılır ve FP sayısı yapay olarak iyileşmiş görünür. Bu yüzden
+koşudan sonra: negatif sette `check_is_not_found` ile ret sayılan ve 120
+karakterden uzun cevaplar yeniden taranır. 2026-10-11 taramasında 7 koşuda tek
+eşleşme v5 #231 (dürüst ret). Yeni eşleşme çıkarsa elle incelenir; uydurma
+içerik taşıyorsa madde 28 öne alınır, 24'ün sonucu 28'den sonra yeniden ölçülür.
 
 ## Madde 25 — Ret tespiti yarım kalmış "bulunmadığından" cevabını kaçırıyor
 
