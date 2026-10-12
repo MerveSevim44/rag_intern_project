@@ -1,4 +1,5 @@
 import os
+import re
 import json
 import sqlite3
 import argparse
@@ -265,33 +266,77 @@ def _ocr_page_images(page) -> str:
     return "\n".join(blocks)
 
 
+# A page's leading section number ("4.5.2. Cevap 2" -> "4.5.2"). A leading
+# "-" occurs in this corpus ("-4.3.4.1. Yararsız…", page 19).
+_SECTION_NUMBER_RE = re.compile(r"^\s*-?(\d+(?:\.\d+)+)\.?\s")
+
+
+def _section_number(text: str):
+    first = (text or "").strip().split("\n", 1)[0]
+    m = _SECTION_NUMBER_RE.match(first)
+    return m.group(1) if m else None
+
+
+def _merge_continuation_pages(pages: list[tuple[int, str, bool]]) -> list[tuple[str, str]]:
+    """
+    Turns (page_num, page_text, was_ocrd) into (chunk_text, page_info) chunks.
+
+    Each page is split by double newline, as before. Exception (backlog item
+    22): an OCR'd page whose leading section number equals the previous
+    page's is appended to the previous page's last chunk, and that chunk's
+    page_info becomes "sayfa N-M". In 8-Baglamdan_bagimsiz_dilbilgisi.pdf the
+    "Cevap N" slides (answer: heading + formula only) never reached the
+    context on their own, because the question's words ("Örnek 8",
+    "dilbilgisi") live on the preceding "Örnek N" slide. Text-layer pages are
+    never merged (pages 18/19 share 4.3.4.1 but stay separate).
+    Plan: docs/implementation_plan_madde22_ornek_cevap.md.
+    """
+    chunks = []
+    prev_num, prev_section, run_start = None, None, None
+    for page_num, page_text, was_ocrd in pages:
+        section = _section_number(page_text)
+        if (was_ocrd and chunks and section and section == prev_section
+                and prev_num == page_num - 1 and page_text.strip()):
+            text, _ = chunks[-1]
+            chunks[-1] = (f"{text}\n{page_text.strip()}", f"sayfa {run_start}-{page_num}")
+            prev_num = page_num
+            continue
+        added = False
+        for p in (page_text or "").split("\n\n"):
+            cleaned = p.strip()
+            if cleaned:
+                chunks.append((cleaned, f"sayfa {page_num}"))
+                added = True
+        if added:
+            prev_num, prev_section, run_start = page_num, section, page_num
+    return chunks
+
+
 def extract_chunks_from_pdf(file_path: Path) -> list[tuple[str, str]]:
     """
     Reads a PDF file, extracts text page by page, and splits by double newline.
     Image-only pages (see OCR_MAX_TEXT_CHARS) are OCR'd and the text is added
-    under the page's own heading, as one chunk.
+    under the page's own heading, as one chunk; an OCR'd page continuing the
+    previous page's section is merged into it (see _merge_continuation_pages).
     Returns list of (chunk_text, page_info) tuples.
     """
-    chunks = []
+    pages = []
     with pdfplumber.open(file_path) as pdf:
         for page_num, page in enumerate(pdf.pages, start=1):
             page_text = _page_text_with_subscripts(page)
+            was_ocrd = False
             if len(page_text.strip()) < OCR_MAX_TEXT_CHARS and page.images:
                 ocr_text = _ocr_page_images(page)
                 if ocr_text:
                     print(f"[ingest] sayfa {page_num}: metin katmani bos, OCR ile "
                           f"{len(ocr_text)} karakter eklendi")
                     page_text = f"{page_text.strip()}\n{ocr_text}".strip()
+                    was_ocrd = True
                 else:
                     print(f"[ingest] UYARI sayfa {page_num}: metin katmani yok, resim var "
                           "ve OCR metin uretmedi — icerik indekslenmeyecek")
-            if page_text:
-                paragraphs = page_text.split("\n\n")
-                for p in paragraphs:
-                    cleaned = p.strip()
-                    if cleaned:
-                        chunks.append((cleaned, f"sayfa {page_num}"))
-    return chunks
+            pages.append((page_num, page_text, was_ocrd))
+    return _merge_continuation_pages(pages)
 
 def _flatten_json(value, path="$"):
     """
