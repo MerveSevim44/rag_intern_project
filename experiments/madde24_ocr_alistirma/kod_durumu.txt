@@ -1,0 +1,3 @@
+b387c3c
+?? experiments/madde24_ocr_alistirma/kod_durumu.txt
+?? experiments/madde24_ocr_alistirma/run_ab.py

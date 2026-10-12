@@ -1,0 +1,452 @@
+Toplam is: 128  tamamlanan: 0  kalan: 128
+Model yukleniyor...
+[Foundry] Model yüklendi: qwen2.5-7b-instruct-cuda-gpu:4 | execution provider: CUDAExecutionProvider | cihaz: GPU
+[Foundry] Servis adresi: http://127.0.0.1:63683
+[Foundry] Serviste yüklü modeller: ['qwen2.5-7b-instruct-cuda-gpu:4']
+[1/128] faz1 test_1#1 tekrar=1 kol=acik: G4.1 dilbilgisinde VT kümesinin elemanları nelerdir?
+[retrieval] Cache yuklendi: 916 chunk, embedding matrisi (916, 1024)
+    -> 56.64 sn  not_var=True  'G4.1 dilbilgisinde VT kümesinin elemanları {+, -, *, /, (, ), v, c} dir.'
+[2/128] faz1 test_1#1 tekrar=1 kol=kapali: G4.1 dilbilgisinde VT kümesinin elemanları nelerdir?
+    -> 21.44 sn  not_var=False  'G4.1 dilbilgisinde VT kümesinin elemanları {+, -, *, /, (, ), v, c} dir.'
+[3/128] faz1 test_1#2 tekrar=1 kol=acik: Bağlamdan bağımsız dilbilgisinde P harfi neyi temsil eder?
+    -> 16.49 sn  not_var=True  'P, yeniden yazma ya da türetme kuralları temsil eder. Bu kurallar, dilbilgisindeki değişke'
+[4/128] faz1 test_1#2 tekrar=1 kol=kapali: Bağlamdan bağımsız dilbilgisinde P harfi neyi temsil eder?
+    -> 16.96 sn  not_var=False  'P, yeniden yazma ya da türetme kuralları temsil eder. Bağlamdan bağımsız dilbilgisinde P k'
+[5/128] faz1 test_1#4 tekrar=1 kol=acik: VN ve VT kümeleri arasındaki ilişki nedir (ayrık mıdır kesişir mi)?
+    -> 16.7 sn  not_var=True  'AYRIK kümelerdir. VN ve VT kümeleri ayrık kümelerdir ve birbirleriyle kesişmez. Bu, bağlam'
+[6/128] faz1 test_1#4 tekrar=1 kol=kapali: VN ve VT kümeleri arasındaki ilişki nedir (ayrık mıdır kesişir mi)?
+    -> 17.07 sn  not_var=False  'AYRIK kümelerdir. VN ve VT kümeleri ayrık kümelerdir ve birbirleriyle kesişmez. Bu durum, '
+[7/128] faz1 test_1#8 tekrar=1 kol=acik: L(G4.2) dili nasıl tanımlanmıştır; n, m, p, k parametreleri arasındaki
+    -> 16.99 sn  not_var=True  'L(G4.2) dili aşağıdaki gibi tanımlanabilir:\nL(G4.2) = {anbmckdp | n,m,p,k ≥1, p>n, k>m} n,'
+[8/128] faz1 test_1#8 tekrar=1 kol=kapali: L(G4.2) dili nasıl tanımlanmıştır; n, m, p, k parametreleri arasındaki
+    -> 17.05 sn  not_var=False  'L(G4.2) dili aşağıdaki gibi tanımlanabilir:\nL(G4.2) = {anbmckdp | n,m,p,k ≥1, p>n, k>m} Bu'
+[9/128] faz1 test_1#9 tekrar=1 kol=acik: G4.3 dilbilgisi tarafından türetilen L(G4.3) dilinin küme tanımını yaz
+    -> 16.12 sn  not_var=True  'L(G4.3) = {anbmck | n≥1, k≥1, m≥2n}'
+[10/128] faz1 test_1#9 tekrar=1 kol=kapali: G4.3 dilbilgisi tarafından türetilen L(G4.3) dilinin küme tanımını yaz
+    -> 15.35 sn  not_var=False  'L(G4.3) = {anbmck | n≥1, k≥1, m≥2n}'
+[11/128] faz1 test_1#24 tekrar=1 kol=acik: G_S.4.2 dilbilgisinde L_S.4.2 dilinin küme tanımı nedir?
+    -> 17.25 sn  not_var=True  'L_S.4.2 dilinin küme tanımı, belgedeki örneklerden şu şekilde tanımlanabilir:\nL_S.4.2 = {a'
+[12/128] faz1 test_1#24 tekrar=1 kol=kapali: G_S.4.2 dilbilgisinde L_S.4.2 dilinin küme tanımı nedir?
+    -> 15.23 sn  not_var=False  'L_Gs.4.2 = {a^n b^m c^k d^p | n, m, p, k ≥ 1, p > n, k > m}'
+[13/128] faz1 test_1#25 tekrar=1 kol=acik: Örnek 6'daki G_S.4.6.1 dilbilgisinin türettiği dilin (L_S.4.6.1) küme 
+    -> 23.2 sn  not_var=True  'L_S.4.6.1 = {a^n b^m c^k | n ≥ 1, m ≥ 0, k ≥ 0} Bu küme tanımı, Gs.4.6.1 dilbilgisinin tür'
+[14/128] faz1 test_1#25 tekrar=1 kol=kapali: Örnek 6'daki G_S.4.6.1 dilbilgisinin türettiği dilin (L_S.4.6.1) küme 
+    -> 19.93 sn  not_var=False  'L_S.4.6.1 = {a^n b^n | n ≥ 1} Bu küme tanımı, Gs.4.6.1 tarafından üretilen dilde her a ile'
+[15/128] faz1 test_1#26 tekrar=1 kol=acik: Örnek 5'teki G_4.5.1 dilbilgisinin kuralları, L_4.5.1={a^2k b^n c^2n d
+    -> 23.03 sn  not_var=True  'G4.5.1 tarafından türetilen tüm cümler L4.5.1={a^2k b^n c^2n d^k | k≥1, n≥1} dilini üreteb'
+[16/128] faz1 test_1#26 tekrar=1 kol=kapali: Örnek 5'teki G_4.5.1 dilbilgisinin kuralları, L_4.5.1={a^2k b^n c^2n d
+    -> 18.31 sn  not_var=False  'G4.5.1 tarafından türetilen tüm cümleler L4.5.1={a^2k b^n c^2n d^k | k≥1, n≥1} dilini üret'
+[17/128] faz1 test_1#28 tekrar=1 kol=acik: G_S.4.7.2 dilbilgisi L_S.4.7.2={a^n b^m c^k | n>0, m>0, k=2n+m} dilini
+    -> 17.96 sn  not_var=True  "S=>aAcc kuralı, L_S.4.7.2 dilinin tanımını karşılar çünkü: - 'a' sayısı n kadar olmalıdır:"
+[18/128] faz1 test_1#28 tekrar=1 kol=kapali: G_S.4.7.2 dilbilgisi L_S.4.7.2={a^n b^m c^k | n>0, m>0, k=2n+m} dilini
+    -> 23.16 sn  not_var=False  'S=>aAcc kuralı L_S.4.7.2 dilinin yapısını reflekt eder ve kuralın role göre: S => aAcc => '
+[19/128] faz1 test_1#29 tekrar=1 kol=acik: Örnek 8'deki G_S.4.8.1 dilbilgisinin türettiği L_S.4.8.1 dilinde üs ol
+    -> 21.77 sn  not_var=True  "B => bbBdd | C kuralı, B'nin üssünü 2k+1 olarak türetmesini sağlar çünkü B'nin üssünde çif"
+[20/128] faz1 test_1#29 tekrar=1 kol=kapali: Örnek 8'deki G_S.4.8.1 dilbilgisinin türettiği L_S.4.8.1 dilinde üs ol
+    -> 20.06 sn  not_var=False  'B => bbBdd | C kuralı, 2k+1 formunda üslere sahip olmasının nedenini açıklar. Çünkü bu kur'
+[21/128] faz1 test_1#30 tekrar=1 kol=acik: G4.3 dilbilgisinde X=>aXbb|aZbb|abb ve Z=>Zb|Xb kuralları birlikte çal
+    -> 21.29 sn  not_var=True  'X ve Z kuralları birlikte çalışarak L(G4.3)={a^n b^m c^k | n≥1, k≥1, m≥2n} koşulunu şu şek'
+[22/128] faz1 test_1#30 tekrar=1 kol=kapali: G4.3 dilbilgisinde X=>aXbb|aZbb|abb ve Z=>Zb|Xb kuralları birlikte çal
+    -> 23.2 sn  not_var=False  'X ve Z kuralları birlikte çalışarak L(G4.3)={a^n b^m c^k | n≥1, k≥1, m≥2n} koşulunu şu şek'
+[23/128] faz1 test_5#101 tekrar=1 kol=acik: Bağlamdan bağımsız dilbilgisini Chomsky normal formuna dönüştürme algo
+    -> 21.44 sn  not_var=True  'Bağlamdan bağımsız dilbilgisini Chomsky normal formuna dönüştürme algoritması aşağıdaki ad'
+[24/128] faz1 test_5#101 tekrar=1 kol=kapali: Bağlamdan bağımsız dilbilgisini Chomsky normal formuna dönüştürme algo
+    -> 25.58 sn  not_var=False  'Bağlamdan bağımsız dilbilgisini Chomsky normal formuna dönüştürme algoritması aşağıdaki ad'
+[25/128] faz1 test_5#102 tekrar=1 kol=acik: Bağlamdan bağımsız dilleri tanıyan yığın otomatı (pushdown automaton) 
+    -> 20.28 sn  not_var=True  'Bu bilgi dokümanlarda bulunamadı.'
+[26/128] faz1 test_5#102 tekrar=1 kol=kapali: Bağlamdan bağımsız dilleri tanıyan yığın otomatı (pushdown automaton) 
+    -> 20.09 sn  not_var=False  'Bu bilgi dokümanlarda bulunamadı.'
+[27/128] faz1 test_5#103 tekrar=1 kol=acik: Bağlamdan bağımsız dilbilgisi için pompalama (pumping) lemması nasıl i
+    -> 19.71 sn  not_var=True  "Bağlamdan bağımsız dilbilgisinin pompalama lemma'sı, dilbilgisinin her bir üyesinin belirl"
+[28/128] faz1 test_5#103 tekrar=1 kol=kapali: Bağlamdan bağımsız dilbilgisi için pompalama (pumping) lemması nasıl i
+    -> 17.17 sn  not_var=False  "Bağlamdan bağımsız dilbilgisinin pompalama lemma'sı, bir dilin bağlamdan bağımsız olduğunu"
+[29/128] faz1 test_negative#217 tekrar=1 kol=acik: Bağlamdan bağımsız dilbilgisi dokümanında anlatılan "Tür 3 düzenli dil
+    -> 16.42 sn  not_var=True  'Bu bilgi dokümanlarda bulunamadı.'
+[30/128] faz1 test_negative#217 tekrar=1 kol=kapali: Bağlamdan bağımsız dilbilgisi dokümanında anlatılan "Tür 3 düzenli dil
+    -> 17.68 sn  not_var=False  'Bu bilgi dokümanlarda bulunamadı.'
+[31/128] faz1 test_negative#224 tekrar=1 kol=acik: Bağlamdan bağımsız dilbilgisi dokümanında anlatılan Chomsky normal for
+    -> 22.68 sn  not_var=True  'Bağlamdan bağımsız dilbilgisinin Chomsky normal formuna dönüştürme adımları şunlardır: 1. '
+[32/128] faz1 test_negative#224 tekrar=1 kol=kapali: Bağlamdan bağımsız dilbilgisi dokümanında anlatılan Chomsky normal for
+    -> 23.17 sn  not_var=False  'Bağlamdan bağımsız dilbilgisinin Chomsky normal formuna dönüştürme adımları şunlardır: 1. '
+[33/128] faz1 test_1#1 tekrar=2 kol=kapali: G4.1 dilbilgisinde VT kümesinin elemanları nelerdir?
+    -> 17.67 sn  not_var=False  'G4.1 dilbilgisinde VT kümesinin elemanları {+, -, *, /, (, ), v, c} dir.'
+[34/128] faz1 test_1#1 tekrar=2 kol=acik: G4.1 dilbilgisinde VT kümesinin elemanları nelerdir?
+    -> 19.71 sn  not_var=True  'G4.1 dilbilgisinde VT kümesinin elemanları {+, -, *, /, (, ), v, c} dir.'
+[35/128] faz1 test_1#2 tekrar=2 kol=kapali: Bağlamdan bağımsız dilbilgisinde P harfi neyi temsil eder?
+    -> 16.41 sn  not_var=False  'P, yeniden yazma ya da türetme kuralları temsil eder. Bağlamdan bağımsız dilbilgisinde P k'
+[36/128] faz1 test_1#2 tekrar=2 kol=acik: Bağlamdan bağımsız dilbilgisinde P harfi neyi temsil eder?
+    -> 16.94 sn  not_var=True  'P, yeniden yazma ya da türetme kuralları temsil eder. Bu kurallar, dilbilgisindeki değişke'
+[37/128] faz1 test_1#4 tekrar=2 kol=kapali: VN ve VT kümeleri arasındaki ilişki nedir (ayrık mıdır kesişir mi)?
+    -> 17.1 sn  not_var=False  'AYRIK kümelerdir. VN ve VT kümeleri ayrık kümelerdir ve birbirleriyle kesişmez. Bu durum, '
+[38/128] faz1 test_1#4 tekrar=2 kol=acik: VN ve VT kümeleri arasındaki ilişki nedir (ayrık mıdır kesişir mi)?
+    -> 17.16 sn  not_var=True  'AYRIK kümelerdir. VN ve VT kümeleri ayrık kümelerdir ve birbirleriyle kesişmez. Bu, bağlam'
+[39/128] faz1 test_1#8 tekrar=2 kol=kapali: L(G4.2) dili nasıl tanımlanmıştır; n, m, p, k parametreleri arasındaki
+    -> 18.2 sn  not_var=False  'L(G4.2) dili aşağıdaki gibi tanımlanabilir:\nL(G4.2) = {anbmckdp | n,m,p,k ≥1, p>n, k>m} Bu'
+[40/128] faz1 test_1#8 tekrar=2 kol=acik: L(G4.2) dili nasıl tanımlanmıştır; n, m, p, k parametreleri arasındaki
+    -> 18.43 sn  not_var=True  'L(G4.2) dili aşağıdaki gibi tanımlanabilir:\nL(G4.2) = {anbmckdp | n,m,p,k ≥1, p>n, k>m} n,'
+[41/128] faz1 test_1#9 tekrar=2 kol=kapali: G4.3 dilbilgisi tarafından türetilen L(G4.3) dilinin küme tanımını yaz
+    -> 16.66 sn  not_var=False  'L(G4.3) = {anbmck | n≥1, k≥1, m≥2n}'
+[42/128] faz1 test_1#9 tekrar=2 kol=acik: G4.3 dilbilgisi tarafından türetilen L(G4.3) dilinin küme tanımını yaz
+    -> 17.02 sn  not_var=True  'L(G4.3) = {anbmck | n≥1, k≥1, m≥2n}'
+[43/128] faz1 test_1#24 tekrar=2 kol=kapali: G_S.4.2 dilbilgisinde L_S.4.2 dilinin küme tanımı nedir?
+    -> 16.2 sn  not_var=False  'L_Gs.4.2 = {a^n b^m c^k d^p | n, m, p, k ≥ 1, p > n, k > m}'
+[44/128] faz1 test_1#24 tekrar=2 kol=acik: G_S.4.2 dilbilgisinde L_S.4.2 dilinin küme tanımı nedir?
+    -> 17.75 sn  not_var=True  'L_S.4.2 dilinin küme tanımı, belgedeki örneklerden şu şekilde tanımlanabilir:\nL_S.4.2 = {a'
+[45/128] faz1 test_1#25 tekrar=2 kol=kapali: Örnek 6'daki G_S.4.6.1 dilbilgisinin türettiği dilin (L_S.4.6.1) küme 
+    -> 18.21 sn  not_var=False  'L_S.4.6.1 = {a^n b^n | n ≥ 1} Bu küme tanımı, Gs.4.6.1 tarafından üretilen dilde her a ile'
+[46/128] faz1 test_1#25 tekrar=2 kol=acik: Örnek 6'daki G_S.4.6.1 dilbilgisinin türettiği dilin (L_S.4.6.1) küme 
+    -> 28.59 sn  not_var=True  'L_S.4.6.1 = {a^n b^m c^k | n ≥ 1, m ≥ 0, k ≥ 0} Bu küme tanımı, Gs.4.6.1 dilbilgisinin tür'
+[47/128] faz1 test_1#26 tekrar=2 kol=kapali: Örnek 5'teki G_4.5.1 dilbilgisinin kuralları, L_4.5.1={a^2k b^n c^2n d
+    -> 19.49 sn  not_var=False  'G4.5.1 tarafından türetilen tüm cümleler L4.5.1={a^2k b^n c^2n d^k | k≥1, n≥1} dilini üret'
+[48/128] faz1 test_1#26 tekrar=2 kol=acik: Örnek 5'teki G_4.5.1 dilbilgisinin kuralları, L_4.5.1={a^2k b^n c^2n d
+    -> 24.63 sn  not_var=True  'G4.5.1 tarafından türetilen tüm cümler L4.5.1={a^2k b^n c^2n d^k | k≥1, n≥1} dilini üreteb'
+[49/128] faz1 test_1#28 tekrar=2 kol=kapali: G_S.4.7.2 dilbilgisi L_S.4.7.2={a^n b^m c^k | n>0, m>0, k=2n+m} dilini
+    -> 23.99 sn  not_var=False  'S=>aAcc kuralı L_S.4.7.2 dilinin yapısını reflekt eder ve kuralın role göre: S => aAcc => '
+[50/128] faz1 test_1#28 tekrar=2 kol=acik: G_S.4.7.2 dilbilgisi L_S.4.7.2={a^n b^m c^k | n>0, m>0, k=2n+m} dilini
+    -> 19.11 sn  not_var=True  "S=>aAcc kuralı, L_S.4.7.2 dilinin tanımını karşılar çünkü: - 'a' sayısı n kadar olmalıdır:"
+[51/128] faz1 test_1#29 tekrar=2 kol=kapali: Örnek 8'deki G_S.4.8.1 dilbilgisinin türettiği L_S.4.8.1 dilinde üs ol
+    -> 19.25 sn  not_var=False  'B => bbBdd | C kuralı, 2k+1 formunda üslere sahip olmasının nedenini açıklar. Çünkü bu kur'
+[52/128] faz1 test_1#29 tekrar=2 kol=acik: Örnek 8'deki G_S.4.8.1 dilbilgisinin türettiği L_S.4.8.1 dilinde üs ol
+    -> 24.17 sn  not_var=True  "B => bbBdd | C kuralı, B'nin üssünü 2k+1 olarak türetmesini sağlar çünkü B'nin üssünde çif"
+[53/128] faz1 test_1#30 tekrar=2 kol=kapali: G4.3 dilbilgisinde X=>aXbb|aZbb|abb ve Z=>Zb|Xb kuralları birlikte çal
+    -> 23.47 sn  not_var=False  'X ve Z kuralları birlikte çalışarak L(G4.3)={a^n b^m c^k | n≥1, k≥1, m≥2n} koşulunu şu şek'
+[54/128] faz1 test_1#30 tekrar=2 kol=acik: G4.3 dilbilgisinde X=>aXbb|aZbb|abb ve Z=>Zb|Xb kuralları birlikte çal
+    -> 23.04 sn  not_var=True  'X ve Z kuralları birlikte çalışarak L(G4.3)={a^n b^m c^k | n≥1, k≥1, m≥2n} koşulunu şu şek'
+[55/128] faz1 test_5#101 tekrar=2 kol=kapali: Bağlamdan bağımsız dilbilgisini Chomsky normal formuna dönüştürme algo
+    -> 23.96 sn  not_var=False  'Bağlamdan bağımsız dilbilgisini Chomsky normal formuna dönüştürme algoritması aşağıdaki ad'
+[56/128] faz1 test_5#101 tekrar=2 kol=acik: Bağlamdan bağımsız dilbilgisini Chomsky normal formuna dönüştürme algo
+    -> 23.9 sn  not_var=True  'Bağlamdan bağımsız dilbilgisini Chomsky normal formuna dönüştürme algoritması aşağıdaki ad'
+[57/128] faz1 test_5#102 tekrar=2 kol=kapali: Bağlamdan bağımsız dilleri tanıyan yığın otomatı (pushdown automaton) 
+    -> 20.58 sn  not_var=False  'Bu bilgi dokümanlarda bulunamadı.'
+[58/128] faz1 test_5#102 tekrar=2 kol=acik: Bağlamdan bağımsız dilleri tanıyan yığın otomatı (pushdown automaton) 
+    -> 21.24 sn  not_var=True  'Bu bilgi dokümanlarda bulunamadı.'
+[59/128] faz1 test_5#103 tekrar=2 kol=kapali: Bağlamdan bağımsız dilbilgisi için pompalama (pumping) lemması nasıl i
+    -> 18.93 sn  not_var=False  "Bağlamdan bağımsız dilbilgisinin pompalama lemma'sı, bir dilin bağlamdan bağımsız olduğunu"
+[60/128] faz1 test_5#103 tekrar=2 kol=acik: Bağlamdan bağımsız dilbilgisi için pompalama (pumping) lemması nasıl i
+    -> 19.27 sn  not_var=True  "Bağlamdan bağımsız dilbilgisinin pompalama lemma'sı, dilbilgisinin her bir üyesinin belirl"
+[61/128] faz1 test_negative#217 tekrar=2 kol=kapali: Bağlamdan bağımsız dilbilgisi dokümanında anlatılan "Tür 3 düzenli dil
+    -> 17.75 sn  not_var=False  'Bu bilgi dokümanlarda bulunamadı.'
+[62/128] faz1 test_negative#217 tekrar=2 kol=acik: Bağlamdan bağımsız dilbilgisi dokümanında anlatılan "Tür 3 düzenli dil
+    -> 18.69 sn  not_var=True  'Bu bilgi dokümanlarda bulunamadı.'
+[63/128] faz1 test_negative#224 tekrar=2 kol=kapali: Bağlamdan bağımsız dilbilgisi dokümanında anlatılan Chomsky normal for
+    -> 22.99 sn  not_var=False  'Bağlamdan bağımsız dilbilgisinin Chomsky normal formuna dönüştürme adımları şunlardır: 1. '
+[64/128] faz1 test_negative#224 tekrar=2 kol=acik: Bağlamdan bağımsız dilbilgisi dokümanında anlatılan Chomsky normal for
+    -> 22.11 sn  not_var=True  'Bağlamdan bağımsız dilbilgisinin Chomsky normal formuna dönüştürme adımları şunlardır: 1. '
+[65/128] faz1 test_1#1 tekrar=3 kol=acik: G4.1 dilbilgisinde VT kümesinin elemanları nelerdir?
+    -> 20.62 sn  not_var=True  'G4.1 dilbilgisinde VT kümesinin elemanları {+, -, *, /, (, ), v, c} dir.'
+[66/128] faz1 test_1#1 tekrar=3 kol=kapali: G4.1 dilbilgisinde VT kümesinin elemanları nelerdir?
+    -> 21.04 sn  not_var=False  'G4.1 dilbilgisinde VT kümesinin elemanları {+, -, *, /, (, ), v, c} dir.'
+[67/128] faz1 test_1#2 tekrar=3 kol=acik: Bağlamdan bağımsız dilbilgisinde P harfi neyi temsil eder?
+    -> 18.67 sn  not_var=True  'P, yeniden yazma ya da türetme kuralları temsil eder. Bu kurallar, dilbilgisindeki değişke'
+[68/128] faz1 test_1#2 tekrar=3 kol=kapali: Bağlamdan bağımsız dilbilgisinde P harfi neyi temsil eder?
+    -> 17.95 sn  not_var=False  'P, yeniden yazma ya da türetme kuralları temsil eder. Bağlamdan bağımsız dilbilgisinde P k'
+[69/128] faz1 test_1#4 tekrar=3 kol=acik: VN ve VT kümeleri arasındaki ilişki nedir (ayrık mıdır kesişir mi)?
+    -> 18.12 sn  not_var=True  'AYRIK kümelerdir. VN ve VT kümeleri ayrık kümelerdir ve birbirleriyle kesişmez. Bu, bağlam'
+[70/128] faz1 test_1#4 tekrar=3 kol=kapali: VN ve VT kümeleri arasındaki ilişki nedir (ayrık mıdır kesişir mi)?
+    -> 17.68 sn  not_var=False  'AYRIK kümelerdir. VN ve VT kümeleri ayrık kümelerdir ve birbirleriyle kesişmez. Bu durum, '
+[71/128] faz1 test_1#8 tekrar=3 kol=acik: L(G4.2) dili nasıl tanımlanmıştır; n, m, p, k parametreleri arasındaki
+    -> 17.72 sn  not_var=True  'L(G4.2) dili aşağıdaki gibi tanımlanabilir:\nL(G4.2) = {anbmckdp | n,m,p,k ≥1, p>n, k>m} n,'
+[72/128] faz1 test_1#8 tekrar=3 kol=kapali: L(G4.2) dili nasıl tanımlanmıştır; n, m, p, k parametreleri arasındaki
+    -> 18.41 sn  not_var=False  'L(G4.2) dili aşağıdaki gibi tanımlanabilir:\nL(G4.2) = {anbmckdp | n,m,p,k ≥1, p>n, k>m} Bu'
+[73/128] faz1 test_1#9 tekrar=3 kol=acik: G4.3 dilbilgisi tarafından türetilen L(G4.3) dilinin küme tanımını yaz
+    -> 17.05 sn  not_var=True  'L(G4.3) = {anbmck | n≥1, k≥1, m≥2n}'
+[74/128] faz1 test_1#9 tekrar=3 kol=kapali: G4.3 dilbilgisi tarafından türetilen L(G4.3) dilinin küme tanımını yaz
+    -> 17.86 sn  not_var=False  'L(G4.3) = {anbmck | n≥1, k≥1, m≥2n}'
+[75/128] faz1 test_1#24 tekrar=3 kol=acik: G_S.4.2 dilbilgisinde L_S.4.2 dilinin küme tanımı nedir?
+    -> 17.24 sn  not_var=True  'L_S.4.2 dilinin küme tanımı, belgedeki örneklerden şu şekilde tanımlanabilir:\nL_S.4.2 = {a'
+[76/128] faz1 test_1#24 tekrar=3 kol=kapali: G_S.4.2 dilbilgisinde L_S.4.2 dilinin küme tanımı nedir?
+    -> 16.5 sn  not_var=False  'L_Gs.4.2 = {a^n b^m c^k d^p | n, m, p, k ≥ 1, p > n, k > m}'
+[77/128] faz1 test_1#25 tekrar=3 kol=acik: Örnek 6'daki G_S.4.6.1 dilbilgisinin türettiği dilin (L_S.4.6.1) küme 
+    -> 22.81 sn  not_var=True  'L_S.4.6.1 = {a^n b^m c^k | n ≥ 1, m ≥ 0, k ≥ 0} Bu küme tanımı, Gs.4.6.1 dilbilgisinin tür'
+[78/128] faz1 test_1#25 tekrar=3 kol=kapali: Örnek 6'daki G_S.4.6.1 dilbilgisinin türettiği dilin (L_S.4.6.1) küme 
+    -> 17.65 sn  not_var=False  'L_S.4.6.1 = {a^n b^n | n ≥ 1} Bu küme tanımı, Gs.4.6.1 tarafından üretilen dilde her a ile'
+[79/128] faz1 test_1#26 tekrar=3 kol=acik: Örnek 5'teki G_4.5.1 dilbilgisinin kuralları, L_4.5.1={a^2k b^n c^2n d
+    -> 21.73 sn  not_var=True  'G4.5.1 tarafından türetilen tüm cümler L4.5.1={a^2k b^n c^2n d^k | k≥1, n≥1} dilini üreteb'
+[80/128] faz1 test_1#26 tekrar=3 kol=kapali: Örnek 5'teki G_4.5.1 dilbilgisinin kuralları, L_4.5.1={a^2k b^n c^2n d
+    -> 19.45 sn  not_var=False  'G4.5.1 tarafından türetilen tüm cümleler L4.5.1={a^2k b^n c^2n d^k | k≥1, n≥1} dilini üret'
+[81/128] faz1 test_1#28 tekrar=3 kol=acik: G_S.4.7.2 dilbilgisi L_S.4.7.2={a^n b^m c^k | n>0, m>0, k=2n+m} dilini
+    -> 18.22 sn  not_var=True  "S=>aAcc kuralı, L_S.4.7.2 dilinin tanımını karşılar çünkü: - 'a' sayısı n kadar olmalıdır:"
+[82/128] faz1 test_1#28 tekrar=3 kol=kapali: G_S.4.7.2 dilbilgisi L_S.4.7.2={a^n b^m c^k | n>0, m>0, k=2n+m} dilini
+    -> 24.62 sn  not_var=False  'S=>aAcc kuralı L_S.4.7.2 dilinin yapısını reflekt eder ve kuralın role göre: S => aAcc => '
+[83/128] faz1 test_1#29 tekrar=3 kol=acik: Örnek 8'deki G_S.4.8.1 dilbilgisinin türettiği L_S.4.8.1 dilinde üs ol
+    -> 22.31 sn  not_var=True  "B => bbBdd | C kuralı, B'nin üssünü 2k+1 olarak türetmesini sağlar çünkü B'nin üssünde çif"
+[84/128] faz1 test_1#29 tekrar=3 kol=kapali: Örnek 8'deki G_S.4.8.1 dilbilgisinin türettiği L_S.4.8.1 dilinde üs ol
+    -> 19.16 sn  not_var=False  'B => bbBdd | C kuralı, 2k+1 formunda üslere sahip olmasının nedenini açıklar. Çünkü bu kur'
+[85/128] faz1 test_1#30 tekrar=3 kol=acik: G4.3 dilbilgisinde X=>aXbb|aZbb|abb ve Z=>Zb|Xb kuralları birlikte çal
+    -> 22.88 sn  not_var=True  'X ve Z kuralları birlikte çalışarak L(G4.3)={a^n b^m c^k | n≥1, k≥1, m≥2n} koşulunu şu şek'
+[86/128] faz1 test_1#30 tekrar=3 kol=kapali: G4.3 dilbilgisinde X=>aXbb|aZbb|abb ve Z=>Zb|Xb kuralları birlikte çal
+    -> 24.56 sn  not_var=False  'X ve Z kuralları birlikte çalışarak L(G4.3)={a^n b^m c^k | n≥1, k≥1, m≥2n} koşulunu şu şek'
+[87/128] faz1 test_5#101 tekrar=3 kol=acik: Bağlamdan bağımsız dilbilgisini Chomsky normal formuna dönüştürme algo
+    -> 22.37 sn  not_var=True  'Bağlamdan bağımsız dilbilgisini Chomsky normal formuna dönüştürme algoritması aşağıdaki ad'
+[88/128] faz1 test_5#101 tekrar=3 kol=kapali: Bağlamdan bağımsız dilbilgisini Chomsky normal formuna dönüştürme algo
+    -> 27.07 sn  not_var=False  'Bağlamdan bağımsız dilbilgisini Chomsky normal formuna dönüştürme algoritması aşağıdaki ad'
+[89/128] faz1 test_5#102 tekrar=3 kol=acik: Bağlamdan bağımsız dilleri tanıyan yığın otomatı (pushdown automaton) 
+    -> 20.69 sn  not_var=True  'Bu bilgi dokümanlarda bulunamadı.'
+[90/128] faz1 test_5#102 tekrar=3 kol=kapali: Bağlamdan bağımsız dilleri tanıyan yığın otomatı (pushdown automaton) 
+    -> 21.32 sn  not_var=False  'Bu bilgi dokümanlarda bulunamadı.'
+[91/128] faz1 test_5#103 tekrar=3 kol=acik: Bağlamdan bağımsız dilbilgisi için pompalama (pumping) lemması nasıl i
+    -> 20.19 sn  not_var=True  "Bağlamdan bağımsız dilbilgisinin pompalama lemma'sı, dilbilgisinin her bir üyesinin belirl"
+[92/128] faz1 test_5#103 tekrar=3 kol=kapali: Bağlamdan bağımsız dilbilgisi için pompalama (pumping) lemması nasıl i
+    -> 18.05 sn  not_var=False  "Bağlamdan bağımsız dilbilgisinin pompalama lemma'sı, bir dilin bağlamdan bağımsız olduğunu"
+[93/128] faz1 test_negative#217 tekrar=3 kol=acik: Bağlamdan bağımsız dilbilgisi dokümanında anlatılan "Tür 3 düzenli dil
+    -> 17.18 sn  not_var=True  'Bu bilgi dokümanlarda bulunamadı.'
+[94/128] faz1 test_negative#217 tekrar=3 kol=kapali: Bağlamdan bağımsız dilbilgisi dokümanında anlatılan "Tür 3 düzenli dil
+    -> 16.58 sn  not_var=False  'Bu bilgi dokümanlarda bulunamadı.'
+[95/128] faz1 test_negative#224 tekrar=3 kol=acik: Bağlamdan bağımsız dilbilgisi dokümanında anlatılan Chomsky normal for
+    -> 23.81 sn  not_var=True  'Bağlamdan bağımsız dilbilgisinin Chomsky normal formuna dönüştürme adımları şunlardır: 1. '
+[96/128] faz1 test_negative#224 tekrar=3 kol=kapali: Bağlamdan bağımsız dilbilgisi dokümanında anlatılan Chomsky normal for
+    -> 22.49 sn  not_var=False  'Bağlamdan bağımsız dilbilgisinin Chomsky normal formuna dönüştürme adımları şunlardır: 1. '
+[97/128] faz2 test_negative#201 tekrar=1 kol=acik: Blockchain tabanlı akıllı sözleşmelerde gaz (gas) ücreti nasıl hesapla
+    -> 26.14 sn  not_var=False  'Bu bilgi dokümanlarda bulunamadı.'
+[98/128] faz2 test_negative#202 tekrar=1 kol=acik: Kuantum dolanıklığının kübit hata oranlarına etkisi nedir?
+    -> 27.49 sn  not_var=False  'Bu bilgi dokümanlarda bulunamadı.'
+[99/128] faz2 test_negative#203 tekrar=1 kol=acik: GDPR kapsamında kişisel verilerin azami saklama süresi ne kadardır?
+    -> 26.8 sn  not_var=False  'Bu bilgi dokümanlarda bulunamadı.'
+[100/128] faz2 test_negative#204 tekrar=1 kol=acik: Kubernetes'te pod autoscaling eşik değerleri nasıl yapılandırılır?
+    -> 44.49 sn  not_var=False  'Bu bilgi dokümanlarda bulunamadı.'
+[101/128] faz2 test_negative#205 tekrar=1 kol=acik: Porter'ın beş güç analizi bir pazara nasıl uygulanır?
+    -> 25.23 sn  not_var=False  'Bu bilgi dokümanlarda bulunamadı.'
+[102/128] faz2 test_negative#206 tekrar=1 kol=acik: Fotosentezde Calvin döngüsünün ATP tüketimi nedir?
+    -> 26.92 sn  not_var=False  'Bu bilgi dokümanlarda bulunamadı.'
+[103/128] faz2 test_negative#207 tekrar=1 kol=acik: Wavelet dönüşümünün zaman-frekans çözünürlüğü avantajı nedir?
+    -> 24.79 sn  not_var=False  'Bu bilgi dokümanlarda bulunamadı.'
+[104/128] faz2 test_negative#208 tekrar=1 kol=acik: Dizel motorlarda ortak hat (common rail) yakıt enjeksiyon basıncı kaç 
+    -> 27.02 sn  not_var=False  'Bu bilgi dokümanlarda bulunamadı.'
+[105/128] faz2 test_negative#209 tekrar=1 kol=acik: ACC-456 hesabının Ocak 2024 dönemindeki toplam harcaması nedir?
+    -> 12.97 sn  not_var=False  'Bu bilgi dokümanlarda bulunamadı.'
+[106/128] faz2 test_negative#210 tekrar=1 kol=acik: TXN-020 numaralı işlemin tutarı ve kategorisi nedir?
+    -> 13.17 sn  not_var=False  'Bu bilgi dokümanlarda bulunamadı.'
+[107/128] faz2 test_negative#211 tekrar=1 kol=acik: "Havacılık ve Uzay" sektöründeki profillerin ortalama deneyim yılı kaç
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=7.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'sector~sektör', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil', 'experience.years~deneyim']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df[df['sector'] == 'Havacılık ve Uzay']['experience.years'].mean()
+[CodeInterpreter] Basarili ama KAYIT BULUNAMADI (bos filtre=True). Cikti: nan
+    -> 12.48 sn  not_var=False  'Bu bilgi dokümanlarda bulunamadı; belirtilen koşullara uyan kayıt yok.'
+[108/128] faz2 test_negative#212 tekrar=1 kol=acik: Erzurum şehrinde hizmet veren kaç profil bulunmaktadır?
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df[(df['location.city'] == 'Erzurum')].shape[0]
+[CodeInterpreter] Basarili ama KAYIT BULUNAMADI (bos filtre=True). Cikti: 0
+    -> 9.39 sn  not_var=False  'Bu bilgi dokümanlarda bulunamadı; belirtilen koşullara uyan kayıt yok.'
+[109/128] faz2 test_negative#213 tekrar=1 kol=acik: "Ahmet Yıldırım" adlı profilin uzmanlık alanı ve şehri nedir?
+    -> 25.15 sn  not_var=False  'Bu bilgi dokümanlarda bulunamadı.'
+[110/128] faz2 test_negative#214 tekrar=1 kol=acik: airports.json veri setindeki Türkiye'ye ait havaalanlarının IATA kodla
+    -> 28.07 sn  not_var=False  'Bu bilgi dokümanlarda bulunamadı.'
+[111/128] faz2 test_negative#215 tekrar=1 kol=acik: us-states veri setinde her eyaletin nüfusu kaç olarak belirtilmiştir?
+[data_engine] route=code_interpreter (dataset_signal+interrogative) | dataset=us-states-with-detail.json (score=3.0, best_score, ambiguous=False) | schema_cols=[]
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = None
+[CodeInterpreter] Hata alindi (1. deneme): ValueError: Kod çalıştırıldı ancak 'result' değişkenine bir değer atanmadı. Lütfen sonucu 'result = ...' şeklinde atayın.
+[CodeInterpreter] Deneme 2/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['population']
+[CodeInterpreter] Hata alindi (2. deneme): KeyError: 'population'
+[CodeInterpreter] Deneme 3/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['population']
+[CodeInterpreter] Hata alindi (3. deneme): KeyError: 'population'
+[CodeInterpreter] 3 deneme basarisiz oldu. Son hata: KeyError: 'population'
+    -> 37.34 sn  not_var=False  'Bu bilgi dokümanlarda bulunamadı.'
+[112/128] faz2 test_negative#216 tekrar=1 kol=acik: 728_profiles veri setinde profillerin kredi puanı (credit score) ortal
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['creditScore'].mean()
+[CodeInterpreter] Hata alindi (1. deneme): KeyError: 'creditScore'
+[CodeInterpreter] Deneme 2/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['creditScore'].mean()
+[CodeInterpreter] Hata alindi (2. deneme): KeyError: 'creditScore'
+[CodeInterpreter] Deneme 3/3...
+[CodeInterpreter] Uretilen Kod:
+# Kredi puanı sütununun varlığını kontrol etmek için ilk 5 satırı inceleyelim
+print(df.head())
+
+# Eğer kredi puanı sütunu mevcut değilse, hata verecek. 
+# Eğer mevcutsa, sütunu mean() metoduyla ortalama hesaplayalım
+if 'creditScore' in df.columns:
+    result = df['creditScore'].mean()
+else:
+    result = None
+[CodeInterpreter] Hata alindi (3. deneme): ValueError: Kod çalıştırıldı ancak 'result' değişkenine bir değer atanmadı. Lütfen sonucu 'result = ...' şeklinde atayın.
+[CodeInterpreter] 3 deneme basarisiz oldu. Son hata: ValueError: Kod çalıştırıldı ancak 'result' değişkenine bir değer atanmadı. Lütfen sonucu 'result = ...' şeklinde atayın.
+    -> 109.48 sn  not_var=False  'Bu bilgi dokümanlarda bulunamadı.'
+[113/128] faz2 test_negative#217 tekrar=1 kol=acik: Bağlamdan bağımsız dilbilgisi dokümanında anlatılan "Tür 3 düzenli dil
+    -> 17.33 sn  not_var=True  'Bu bilgi dokümanlarda bulunamadı.'
+[114/128] faz2 test_negative#218 tekrar=1 kol=acik: mock-transactions veri setindeki ikinci hesabın (ACC-124) kapanış baki
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=mock-transactions.json (score=3.0, best_score, ambiguous=False) | schema_cols=[]
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+# Hesap ID'si ACC-124 olan kayıtları filtreleyelim
+account_id_filter = df[df['account_id'] == 'ACC-124']
+
+# Hesap ID'si ACC-124 olan kayıtlardan sadece 'credit' türünden kayıtları alalım
+credit_transactions = account_id_filter[account_id_filter['type'] == 'credit']
+
+# Hesap ID'si ACC-124 olan kayıtlardan sadece 'debit' türünden kayıtları alalım
+debit_transactions = account_id_filter[account_id_filter['type'] == 'debit']
+
+# Kapanış bakiyesini hesaplayalım: toplam kredi - toplam debet
+closing_balance = credit_transactions['amount'].sum() - debit_transactions['amount'].sum()
+
+# Para birimini de ekleyelim
+result = {'closing_balance': closing_balance, 'currency': credit_transactions['currency'].unique()[0]}
+[CodeInterpreter] Hata alindi (1. deneme): IndexError: index 0 is out of bounds for axis 0 with size 0
+[CodeInterpreter] Deneme 2/3...
+[CodeInterpreter] Uretilen Kod:
+# Hesap ID'si ACC-124 olan kayıtları filtreleyelim
+account_id_filter = df[df['account_id'] == 'ACC-124']
+
+# Hesap ID'si ACC-124 olan kayıtlardan sadece 'credit' türünden kayıtları alalım
+credit_transactions = account_id_filter[account_id_filter['type'] == 'credit']
+
+# Hesap ID'si ACC-124 olan kayıtlardan sadece 'debit' türünden kayıtları alalım
+debit_transactions = account_id_filter[account_id_filter['type'] == 'debit']
+
+# Kapanış bakiyesini hesaplayalım: toplam kredi - toplam debet
+closing_balance = credit_transactions['amount'].sum() - debit_transactions['amount'].sum()
+
+# Para birimini de ekleyelim
+result = {'closing_balance': closing_balance, 'currency': credit_transactions['currency'].unique()}
+[CodeInterpreter] Basarili ama KAYIT BULUNAMADI (bos filtre=True). Cikti: {'closing_balance': np.float64(0.0), 'currency': array([], dtype=object)}
+    -> 63.96 sn  not_var=False  'Bu bilgi dokümanlarda bulunamadı; belirtilen koşullara uyan kayıt yok.'
+[115/128] faz2 test_negative#219 tekrar=1 kol=acik: Fourier dokümanında verilen "hızlı ters çekirdek teoremi"nin ispatı ha
+    -> 16.54 sn  not_var=False  'Bu bilgi dokümanlarda bulunamadı.'
+[116/128] faz2 test_negative#220 tekrar=1 kol=acik: Summer School planında ikinci ay için ayrılan bütçe ne kadardır?
+    -> 26.1 sn  not_var=False  'Bu bilgi dokümanlarda bulunamadı.'
+[117/128] faz2 test_negative#221 tekrar=1 kol=acik: test2.txt hikâyesinde anlatıcının kız kardeşinin adı nedir?
+    -> 42.48 sn  not_var=False  'Bu bilgi dokümanlarda bulunamadı.'
+[118/128] faz2 test_negative#222 tekrar=1 kol=acik: Z-Dönüşümü ders notlarında 12. haftanın konu başlığı nedir?
+    -> 27.64 sn  not_var=False  'Z-Dönüşümü ders notlarında 12. haftanın konu başlığına herhangi bir bilgi bulunmadığından'
+[119/128] faz2 test_negative#223 tekrar=1 kol=acik: 728_profiles veri setinde yer alan gerçek telefon numaralarının doğrul
+    -> 25.97 sn  not_var=False  'Bu bilgi dokümanlarda bulunamadı.'
+[120/128] faz2 test_negative#224 tekrar=1 kol=acik: Bağlamdan bağımsız dilbilgisi dokümanında anlatılan Chomsky normal for
+    -> 21.49 sn  not_var=True  'Bağlamdan bağımsız dilbilgisinin Chomsky normal formuna dönüştürme adımları şunlardır: 1. '
+[121/128] faz2 test_negative#225 tekrar=1 kol=acik: mock-transactions veri setinde Şubat 2024 ayına ait işlemlerin toplam 
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=mock-transactions.json (score=4.0, best_score, ambiguous=False) | schema_cols=['amount~tutar']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+# Filtrleme: Sadece Şubat 2024 ayındaki işlemleri al
+february_transactions = df[df['date'].str.startswith('2024-02')]
+
+# Toplam tutar hesaplama: 'amount' sütunundaki değerlerin toplamını al
+result = february_transactions['amount'].sum()
+
+# Para birimini de ekleyelim
+result = {'total_amount': result, 'currency': df['currency'].unique()[0]}
+[CodeInterpreter] Basarili ama KAYIT BULUNAMADI (bos filtre=True). Cikti: {'total_amount': np.float64(0.0), 'currency': 'USD'}
+    -> 10.23 sn  not_var=False  'Bu bilgi dokümanlarda bulunamadı; belirtilen koşullara uyan kayıt yok.'
+[122/128] faz2 test_negative#226 tekrar=1 kol=acik: mock-transactions veri setinde 2023 yılının en yüksek harcaması hangi 
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=mock-transactions.json (score=4.0, best_score, ambiguous=False) | schema_cols=['category~kategori']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+# En yüksek harcama kategorisi bulmak için gerekli adımları izleyelim
+
+# 1. Tarih sütunu 2023 yılına ait satırları filtreleyelim
+yil_2023 = df[df['date'].str.startswith('2023')]
+
+# 2. Değer sütunu (amount) üzerinde en yüksek harcama bulalım
+en_yuksek_harcama = yil_2023['amount'].max()
+
+# 3. En yüksek harcama değerine sahip satırı bulalım
+en_yuksek_harcama_satir = yil_2023[yil_2023['amount'] == en_yuksek_harcama]
+
+# 4. En yüksek harcama satırındaki kategori bilgisini alalım
+result = {
+    'category': en_yuksek_harcama_satir['category'].values[0],
+    'currency': en_yuksek_harcama_satir['currency'].values[0],
+    'amount': en_yuksek_harcama
+}
+[CodeInterpreter] Hata alindi (1. deneme): IndexError: index 0 is out of bounds for axis 0 with size 0
+[CodeInterpreter] Deneme 2/3...
+[CodeInterpreter] Uretilen Kod:
+# En yüksek harcama kategorisi bulmak için gerekli adımları izleyelim
+
+# 1. Tarih sütunu 2023 yılına ait satırları filtreleyelim
+yil_2023 = df[df['date'].str.startswith('2023')]
+
+# 2. Değer sütunu (amount) üzerinde en yüksek harcama bulalım
+en_yuksek_harcama = yil_2023['amount'].max()
+
+# 3. En yüksek harcama değerine sahip satırı bulalım
+en_yuksek_harcama_satir = yil_2023[yil_2023['amount'] == en_yuksek_harcama]
+
+# 4. En yüksek harcama satırındaki kategori bilgisini alalım
+result = {
+    'category': en_yuksek_harcama_satir['category'].values[0],
+    'currency': en_yuksek_harcama_satir['currency'].values[0],
+    'amount': en_yuksek_harcama
+}
+[CodeInterpreter] Hata alindi (2. deneme): IndexError: index 0 is out of bounds for axis 0 with size 0
+[CodeInterpreter] Deneme 3/3...
+[CodeInterpreter] Uretilen Kod:
+# En yüksek harcama kategorisi bulmak için gerekli adımları izleyelim
+
+# 1. Tarih sütunu 2023 yılına ait satırları filtreleyelim
+yil_2023 = df[df['date'].str.startswith('2023')]
+
+# 2. En yüksek harcama değerini bulalım
+en_yuksek_harcama = yil_2023['amount'].max()
+
+# 3. En yüksek harcama değerine sahip satırı bulalım
+en_yuksek_harcama_satir = yil_2023[yil_2023['amount'] == en_yuksek_harcama]
+
+# 4. En yüksek harcama satırındaki kategori bilgisini alalım
+result = {
+    'category': en_yuksek_harcama_satir['category'].values[0],
+    'currency': en_yuksek_harcama_satir['currency'].values[0],
+    'amount': en_yuksek_harcama
+}
+[CodeInterpreter] Hata alindi (3. deneme): IndexError: index 0 is out of bounds for axis 0 with size 0
+[CodeInterpreter] 3 deneme basarisiz oldu. Son hata: IndexError: index 0 is out of bounds for axis 0 with size 0
+    -> 132.44 sn  not_var=False  'Bu bilgi dokümanlarda bulunamadı.'
+[123/128] faz2 test_negative#227 tekrar=1 kol=acik: Z-Dönüşümü dersinin 2026 Bahar dönemi final sınavı hangi tarihte yapıl
+    -> 25.22 sn  not_var=False  'Bu bilgi dokümanlarda bulunamadı.'
+[124/128] faz2 test_negative#228 tekrar=1 kol=acik: 728_profiles veri setine bu ay eklenen yeni profil sayısı kaçtır?
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil', 'date~ay']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df[df['profileCode'].str.contains('2023-10')]  # Eklenen yeni profilleri filtrele
+result = len(result)  # Sonuç sayısını say
+[CodeInterpreter] Basarili ama KAYIT BULUNAMADI (bos filtre=True). Cikti: 0
+    -> 16.06 sn  not_var=False  'Bu bilgi dokümanlarda bulunamadı; belirtilen koşullara uyan kayıt yok.'
+[125/128] faz2 test_negative#229 tekrar=1 kol=acik: Summer School programının 2027 yılı kayıt takvimi nasıldır?
+    -> 24.24 sn  not_var=False  'Bu bilgi dokümanlarda bulunamadı.'
+[126/128] faz2 test_negative#230 tekrar=1 kol=acik: 728_profiles veri setinin schemaVersion 2.0 sürümü ne zaman yayınlanac
+    -> 26.47 sn  not_var=False  'Bu bilgi dokümanlarda bulunamadı.'
+[127/128] faz2 test_negative#231 tekrar=1 kol=acik: airports.json veri setinin 2026 güncellemesinde eklenen havaalanları h
+[data_engine] route=code_interpreter (dataset_signal+interrogative) | dataset=airports.json (score=3.0, best_score, ambiguous=False) | schema_cols=[]
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+# Havaalanlarının güncellemelerini belirlemek için önce mevcut havaalanları bulalım
+current_airports = df
+
+# 2026 güncellemesinde eklenen havaalanları bulmak için tarih bilgisine bakmalıyız.
+# Ancak veri setinde tarih bilgisi bulunmuyor, bu nedenle 2026 güncellemesinde eklenen havaalanları
+# mevcut havaalanlardan ayırt etmek için bir kriter belirleyelim.
+# Burada 2026 güncellemesinde eklenen havaalanları temsil edecek bir kriter belirleyebiliriz.
+# Örneğin, 2026 güncellemesinde eklenen havaalanların "code" sütununda bir marka işareti olabilir.
+
+# 2026 güncellemesinde eklenen havaalanları temsil edecek bir kriter belirleyelim.
+# Örneğin, "code" sütununda "NEW_" prefiksini taşıyan havaalanları 2026 güncellemesinde eklenen havaalanlar olarak kabul edelim.
+new_airports = df[df['code'].str.startswith('NEW_')]
+
+# Sonuçları 'result' değişkenine atıyoruz.
+result = new_airports[['code', 'name', 'city', 'country']]
+[CodeInterpreter] Basarili ama KAYIT BULUNAMADI (bos filtre=True). Cikti: Empty DataFrame
+Columns: [code, name, city, country]
+Index: []
+    -> 15.66 sn  not_var=False  'Bu bilgi dokümanlarda bulunamadı; belirtilen koşullara uyan kayıt yok.'
+[128/128] faz2 test_negative#232 tekrar=1 kol=acik: us-states veri setinde en son hangi tarihte eyalet sınırı değişikliği 
+[data_engine] route=code_interpreter (dataset_signal+interrogative) | dataset=us-states-with-detail.json (score=3.0, best_score, ambiguous=False) | schema_cols=['date~tarih']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df[df['borders'].notna()]['founded'].idxmax()
+result = df.loc[result, 'name']
+[CodeInterpreter] Basarili! Cikti: Hawaii
+    -> 8.45 sn  not_var=False  'Hawaii, veri setinde en son eyalet sınırı değişikliği kaydedilen eyalettedir.'
+
+Tamamlandi: 128 is, 51.6 dk. Sonuclar: C:\Users\merve\Desktop\rag_project\experiments\madde24_ocr_alistirma\ab_sonuclari.jsonl

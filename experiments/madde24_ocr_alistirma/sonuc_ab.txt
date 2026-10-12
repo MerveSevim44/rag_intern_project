@@ -1,0 +1,41 @@
+Satir: 128  HATA: 0
+
+== Faz 1: ayni oturumda A/B (3 tekrar)
+   soru                 v8   | kapali (t1 t2 t3) -> cogunluk      | acik (t1 t2 t3) -> cogunluk        | F1 kapali / acik | not acik/kapali
+   test_1#1             TP   | TP TP TP       -> TP               | TP TP TP       -> TP               |  75.9 /  75.9    | 3/3 , 0/3
+   test_1#2             TP   | TP TP TP       -> TP               | TP TP TP       -> TP               |  33.3 /  48.0    | 3/3 , 0/3
+   test_1#4             TP   | TP TP TP       -> TP               | TP TP TP       -> TP               |  43.9 /  45.0    | 3/3 , 0/3
+   test_1#8             TP   | TP TP TP       -> TP               | TP TP TP       -> TP               |  41.8 /  45.0    | 3/3 , 0/3
+   test_1#9             TP   | TP TP TP       -> TP               | TP TP TP       -> TP               |  62.5 /  62.5    | 3/3 , 0/3
+   test_1#24            TP   | TP TP TP       -> TP               | TP TP TP       -> TP               |  55.0 /  46.2    | 3/3 , 0/3
+   test_1#25            TP   | TP TP TP       -> TP               | TP TP TP       -> TP               |  40.7 /  21.7    | 3/3 , 0/3
+   test_1#26            TP   | TP TP TP       -> TP               | TP TP TP       -> TP               |  31.9 /  27.0    | 3/3 , 0/3
+   test_1#28            TP   | TP TP TP       -> TP               | TP TP TP       -> TP               |  32.5 /  36.6    | 3/3 , 0/3
+   test_1#29            TP   | TP TP TP       -> TP               | TP TP TP       -> TP               |  41.7 /  42.2    | 3/3 , 0/3
+   test_1#30            TP   | TP TP TP       -> TP               | TP TP TP       -> TP               |  36.0 /  41.5    | 3/3 , 0/3
+   test_5#101           FP   | FP FP FP       -> FP               | FP FP FP       -> FP               |    -             | 3/3 , 0/3
+   test_5#102           TN   | TN TN TN       -> TN               | TN TN TN       -> TN               |    -             | 3/3 , 0/3
+   test_5#103           FP   | FP FP FP       -> FP               | FP FP FP       -> FP               |    -             | 3/3 , 0/3
+   test_negative#217    TN   | TN TN TN       -> TN               | TN TN TN       -> TN               |    -             | 3/3 , 0/3
+   test_negative#224    FP   | FP FP FP       -> FP               | FP FP FP       -> FP               |    -             | 3/3 , 0/3
+
+   acik kolda notsuz baglam (retrieval kaymis): 0
+   kapali kolda notlu baglam (olmamali): 0
+
+== Faz 2: tam negatif set, kol acik (32 soru)
+   simdi: {'TN': 30, 'FP': 2}   v8 (bugunku skorlayici): {'TN': 30, 'FP': 2}
+   #224: v8=FP simdi=FP not_var=True  'Bağlamdan bağımsız dilbilgisinin Chomsky normal formuna dönüştürme adımları şunlardır: 1. Yararsız değişken ve kurallar atılır.\n2. Uç simge '
+   #232: v8=FP simdi=FP not_var=False  'Hawaii, veri setinde en son eyalet sınırı değişikliği kaydedilen eyalettedir.'
+   Adim 0 kumesi disinda notlu baglam alan negatif soru: 0
+
+== Tripwire (madde 28): eslesme=0
+
+== Plan §4 olcutleri (acik kol cogunluk sinifi)
+1. #224, test_5 #103 FP->TN: KALDI  test_negative#224: kapali=FP acik=FP, test_5#103: kapali=FP acik=FP
+2. #217, test_5 #102 TN kalir: GECTI  test_negative#217: kapali=TN acik=TN, test_5#102: kapali=TN acik=TN
+3. test_1 (11 soru) bozulmaz: TP->baska 0, baska->TP 0, ortalama F1 farki (acik-kapali) -0.3
+      en buyuk F1 dususu: #25 -18.9
+      en buyuk F1 dususu: #24 -8.8
+      en buyuk F1 dususu: #26 -4.9
+4. tam negatif sette FP artmaz: simdi 2/32, v8 2/32 -> GECTI; tripwire 0 -> GECTI
+   kapsam disi test_5#101: kapali=FP acik=FP
