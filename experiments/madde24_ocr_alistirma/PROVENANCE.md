@@ -49,3 +49,35 @@ Gözlemler:
 
 Sonuç: yön C'nin ilk aşaması (yalnız bağlam notu, prompt değişmeden) ölçüt
 1'i karşılamıyor. Plan §5 Adım 3 (system prompt kuralı) ayrı karar.
+
+# Adım 3 izole testi — system prompt'a görev notu kuralı (2026-10-12)
+
+`src/` değişmedi: kural yalnız deney sürecinde `src.llm_client.ChatPromptTemplate`
+sarmalanarak system mesajının sonuna eklendi (`run_adim3.py`; metin `RULE`).
+Görev notu iki kolda da açık. 16 soru × 2 kol × 1 tekrar, aynı oturum, kol sırası
+sorudan soruya değişti. 32 iş, 11.3 dk, HATA 0; kural kural-açık kolda 16/16
+prompt'ta, kapalı kolda 0/16; bağlamda not 32/32.
+
+Koşu öncesi Foundry ve Ollama kapalıydı (gece). `foundry service start` askıda
+kaldı (madde 15), servis yine de yeni portta ayağa kalktı; Ollama elle başlatıldı.
+İlk deneme servis yokken HATA ürettiği için silindi; script'e 3 ardışık hata
+sınırı eklendi. Kod: `b387c3c` + bu dizindeki script'ler.
+
+Analiz: `analiz_adim3.py` → `sonuc_adim3.txt`.
+
+| Ölçüt | Sonuç |
+|---|---|
+| 1. #224, #103 FP → TN | **kaldı** — #103 TN ("Bu bilgi dokümanlarda bulunamadı."); #224 skorda FP |
+| 2. #217, #102 TN kalır | geçti |
+| 3. test_1 11 soru bozulmaz | **kaldı** — #24, #25, #26, #29 TP → FN (dördü de saf ret); ort. F1 −11.5 |
+
+- **#224 ve #101 anlamca ret oldu ama skorda FP:** "Ret. Chomsky normal formuna
+  dönüştürme adımları belgede açıkça anlatılmamıştır." Model kuraldaki "ret
+  cümlesi" ifadesini sabit cümle yerine "Ret." diye aktarıyor; "anlatılmamıştır"
+  ret kapısında yok. Uydurma içerik yok. (Kapıyı genişletmek plan §6 ve madde 28
+  gereği ayrı karar.)
+- **Bedel:** kural tam olarak alıştırmanın kendisini soran pozitif soruları
+  (#24–#29 grubu) reddettiriyor — "küme tanımı nedir" sorusu "kavramın nasıl
+  tanımlandığı" diye okunuyor.
+
+Sonuç: yön C (not + prompt kuralı) ölçüt 3'ü bozmadan ölçüt 1'i karşılamıyor.

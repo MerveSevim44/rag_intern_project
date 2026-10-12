@@ -1,0 +1,71 @@
+Yama modulu: src.llm_client  is: 32  kalan: 32
+[Foundry] Model yüklendi: qwen2.5-7b-instruct-cuda-gpu:4 | execution provider: CUDAExecutionProvider | cihaz: GPU
+[Foundry] Servis adresi: http://127.0.0.1:62549
+[Foundry] Serviste yüklü modeller: ['qwen2.5-7b-instruct-cuda-gpu:4']
+[1/32] test_1#1 kural=acik: G4.1 dilbilgisinde VT kümesinin elemanları nelerdir?
+[retrieval] Cache yuklendi: 916 chunk, embedding matrisi (916, 1024)
+    -> 74.47 sn kural_promptta=True 'VT kümesinin elemanları {+, -, *, /, (, ), v, c} dir.'
+[2/32] test_1#1 kural=kapali: G4.1 dilbilgisinde VT kümesinin elemanları nelerdir?
+    -> 20.89 sn kural_promptta=False 'G4.1 dilbilgisinde VT kümesinin elemanları {+, -, *, /, (, ), v, c} dir.'
+[3/32] test_1#2 kural=kapali: Bağlamdan bağımsız dilbilgisinde P harfi neyi temsil eder?
+    -> 18.38 sn kural_promptta=False 'P, yeniden yazma ya da türetme kuralları temsil eder. Bu kurallar, dilbilgisindeki değişke'
+[4/32] test_1#2 kural=acik: Bağlamdan bağımsız dilbilgisinde P harfi neyi temsil eder?
+    -> 18.46 sn kural_promptta=True 'P, yeniden yazma ya da türetme kuralları temsil eder. Bağlamdan bağımsız dilbilgisinde P k'
+[5/32] test_1#4 kural=acik: VN ve VT kümeleri arasındaki ilişki nedir (ayrık mıdır kesişir mi)?
+    -> 17.33 sn kural_promptta=True 'AYRIK kümelerdir. VN ve VT kümeleri arasındaki kesişim boş kümedir. Bu da VN Π VT=Ø olarak'
+[6/32] test_1#4 kural=kapali: VN ve VT kümeleri arasındaki ilişki nedir (ayrık mıdır kesişir mi)?
+    -> 16.31 sn kural_promptta=False 'AYRIK kümelerdir. VN ve VT kümeleri ayrık kümelerdir ve birbirleriyle kesişmez. Bu, bağlam'
+[7/32] test_1#8 kural=kapali: L(G4.2) dili nasıl tanımlanmıştır; n, m, p, k parametreleri arasındaki
+    -> 17.52 sn kural_promptta=False 'L(G4.2) dili aşağıdaki gibi tanımlanabilir:\nL(G4.2) = {anbmckdp | n,m,p,k ≥1, p>n, k>m} n,'
+[8/32] test_1#8 kural=acik: L(G4.2) dili nasıl tanımlanmıştır; n, m, p, k parametreleri arasındaki
+    -> 19.2 sn kural_promptta=True 'L(G4.2) dili aşağıdaki gibi tanımlanmıştır: anbmckdp | n,m,p,k ≥1, p>n, k>m Bu tanımda n, '
+[9/32] test_1#9 kural=acik: G4.3 dilbilgisi tarafından türetilen L(G4.3) dilinin küme tanımını yaz
+    -> 17.48 sn kural_promptta=True 'L(G4.3) = {anbmck | n≥1, k≥1, m≥2n}'
+[10/32] test_1#9 kural=kapali: G4.3 dilbilgisi tarafından türetilen L(G4.3) dilinin küme tanımını yaz
+    -> 16.7 sn kural_promptta=False 'L(G4.3) = {anbmck | n≥1, k≥1, m≥2n}'
+[11/32] test_1#24 kural=kapali: G_S.4.2 dilbilgisinde L_S.4.2 dilinin küme tanımı nedir?
+    -> 17.2 sn kural_promptta=False 'L_S.4.2 dilinin küme tanımı, belgedeki örneklerden şu şekilde tanımlanabilir:\nL_S.4.2 = {a'
+[12/32] test_1#24 kural=acik: G_S.4.2 dilbilgisinde L_S.4.2 dilinin küme tanımı nedir?
+    -> 16.03 sn kural_promptta=True 'Bu bilgi dokümanlarda bulunamadı.'
+[13/32] test_1#25 kural=acik: Örnek 6'daki G_S.4.6.1 dilbilgisinin türettiği dilin (L_S.4.6.1) küme 
+    -> 16.92 sn kural_promptta=True 'Bu bilgi dokümanlarda bulunamadı.'
+[14/32] test_1#25 kural=kapali: Örnek 6'daki G_S.4.6.1 dilbilgisinin türettiği dilin (L_S.4.6.1) küme 
+    -> 23.65 sn kural_promptta=False 'L_S.4.6.1 = {a^n b^m c^k | n ≥ 1, m ≥ 0, k ≥ 0} Bu küme tanımı, Gs.4.6.1 dilbilgisinin tür'
+[15/32] test_1#26 kural=kapali: Örnek 5'teki G_4.5.1 dilbilgisinin kuralları, L_4.5.1={a^2k b^n c^2n d
+    -> 21.56 sn kural_promptta=False 'G4.5.1 tarafından türetilen tüm cümler L4.5.1={a^2k b^n c^2n d^k | k≥1, n≥1} dilini üreteb'
+[16/32] test_1#26 kural=acik: Örnek 5'teki G_4.5.1 dilbilgisinin kuralları, L_4.5.1={a^2k b^n c^2n d
+    -> 16.25 sn kural_promptta=True 'Bu bilgi dokümanlarda bulunamadı.'
+[17/32] test_1#28 kural=acik: G_S.4.7.2 dilbilgisi L_S.4.7.2={a^n b^m c^k | n>0, m>0, k=2n+m} dilini
+    -> 20.11 sn kural_promptta=True 'Bu eşitlikteki S=>aAcc kuralı, L(S.4.7.2) dilindeki a^n b^m c^(2n+m) yapısını oluşturur. S'
+[18/32] test_1#28 kural=kapali: G_S.4.7.2 dilbilgisi L_S.4.7.2={a^n b^m c^k | n>0, m>0, k=2n+m} dilini
+    -> 18.46 sn kural_promptta=False "S=>aAcc kuralı, L_S.4.7.2 dilinin tanımını karşılar çünkü: - 'a' sayısı n kadar olmalıdır:"
+[19/32] test_1#29 kural=kapali: Örnek 8'deki G_S.4.8.1 dilbilgisinin türettiği L_S.4.8.1 dilinde üs ol
+    -> 20.17 sn kural_promptta=False "B => bbBdd | C kuralı, B'nin üssünü 2k+1 olarak türetmesini sağlar çünkü B'nin üssünde çif"
+[20/32] test_1#29 kural=acik: Örnek 8'deki G_S.4.8.1 dilbilgisinin türettiği L_S.4.8.1 dilinde üs ol
+    -> 15.47 sn kural_promptta=True 'Bu bilgi dokümanlarda bulunamadı.'
+[21/32] test_1#30 kural=acik: G4.3 dilbilgisinde X=>aXbb|aZbb|abb ve Z=>Zb|Xb kuralları birlikte çal
+    -> 22.55 sn kural_promptta=True 'L(G4.3) dilbilgisinde X ve Z kuralları birlikte çalışarak a^n b^m c^k biçimindeki dizilere'
+[22/32] test_1#30 kural=kapali: G4.3 dilbilgisinde X=>aXbb|aZbb|abb ve Z=>Zb|Xb kuralları birlikte çal
+    -> 19.74 sn kural_promptta=False 'X ve Z kuralları birlikte çalışarak L(G4.3)={a^n b^m c^k | n≥1, k≥1, m≥2n} koşulunu şu şek'
+[23/32] test_5#101 kural=kapali: Bağlamdan bağımsız dilbilgisini Chomsky normal formuna dönüştürme algo
+    -> 18.82 sn kural_promptta=False 'Bağlamdan bağımsız dilbilgisini Chomsky normal formuna dönüştürme algoritması aşağıdaki ad'
+[24/32] test_5#101 kural=acik: Bağlamdan bağımsız dilbilgisini Chomsky normal formuna dönüştürme algo
+    -> 16.46 sn kural_promptta=True 'Ret: Bağlamdan bağımsız dilbilgisini Chomsky normal formuna dönüştürme algoritması belgede'
+[25/32] test_5#102 kural=acik: Bağlamdan bağımsız dilleri tanıyan yığın otomatı (pushdown automaton) 
+    -> 18.46 sn kural_promptta=True 'Bu bilgi dokümanlarda bulunamadı.'
+[26/32] test_5#102 kural=kapali: Bağlamdan bağımsız dilleri tanıyan yığın otomatı (pushdown automaton) 
+    -> 20.52 sn kural_promptta=False 'Bu bilgi dokümanlarda bulunamadı.'
+[27/32] test_5#103 kural=kapali: Bağlamdan bağımsız dilbilgisi için pompalama (pumping) lemması nasıl i
+    -> 17.72 sn kural_promptta=False "Bağlamdan bağımsız dilbilgisinin pompalama lemma'sı, dilbilgisinin her bir üyesinin belirl"
+[28/32] test_5#103 kural=acik: Bağlamdan bağımsız dilbilgisi için pompalama (pumping) lemması nasıl i
+    -> 13.42 sn kural_promptta=True 'Bu bilgi dokümanlarda bulunamadı.'
+[29/32] test_negative#217 kural=acik: Bağlamdan bağımsız dilbilgisi dokümanında anlatılan "Tür 3 düzenli dil
+    -> 15.56 sn kural_promptta=True 'Bu bilgi dokümanlarda bulunamadı.'
+[30/32] test_negative#217 kural=kapali: Bağlamdan bağımsız dilbilgisi dokümanında anlatılan "Tür 3 düzenli dil
+    -> 14.94 sn kural_promptta=False 'Bu bilgi dokümanlarda bulunamadı.'
+[31/32] test_negative#224 kural=kapali: Bağlamdan bağımsız dilbilgisi dokümanında anlatılan Chomsky normal for
+    -> 18.87 sn kural_promptta=False 'Bağlamdan bağımsız dilbilgisinin Chomsky normal formuna dönüştürme adımları şunlardır: 1. '
+[32/32] test_negative#224 kural=acik: Bağlamdan bağımsız dilbilgisi dokümanında anlatılan Chomsky normal for
+    -> 17.43 sn kural_promptta=True 'Ret. Chomsky normal formuna dönüştürme adımları belgede açıkça anlatılmamıştır.'
+
+Tamamlandi: 32 is, 11.3 dk.

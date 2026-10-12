@@ -1,0 +1,34 @@
+Satir: 32  HATA: 0  kural/kol uyumsuz: 0  notsuz baglam: 0
+
+   soru                 kural kapali kural acik   F1 kapali/acik   ayni cevap
+   test_1#1             TP           TP            75.9 /  81.8    hayir
+   test_1#2             TP           TP            48.0 /  35.0    hayir
+   test_1#4             TP           TP            45.0 /  68.8    hayir
+   test_1#8             TP           TP            45.0 /  38.8    hayir
+   test_1#9             TP           TP            62.5 /  62.5    evet
+   test_1#24            TP           FN            46.2 /   0.0    hayir
+   test_1#25            TP           FN            21.7 /   0.0    hayir
+   test_1#26            TP           FN            27.0 /   5.9    hayir
+   test_1#28            TP           TP            36.6 /  36.4    hayir
+   test_1#29            TP           FN            42.2 /   3.3    hayir
+   test_1#30            TP           TP            41.5 /  32.7    hayir
+   test_5#101           FP           FP           -                hayir
+   test_5#102           TN           TN           -                evet
+   test_5#103           FP           TN           -                hayir
+   test_negative#217    TN           TN           -                evet
+   test_negative#224    FP           FP           -                hayir
+
+   test_negative#224 kural acik cevap: 'Ret. Chomsky normal formuna dönüştürme adımları belgede açıkça anlatılmamıştır.'
+
+   test_5#103 kural acik cevap: 'Bu bilgi dokümanlarda bulunamadı.'
+
+   test_5#101 kural acik cevap: 'Ret: Bağlamdan bağımsız dilbilgisini Chomsky normal formuna dönüştürme algoritması belgede açıkça anlatılmamıştır.'
+
+== Tripwire (madde 28): eslesme=0
+
+== Plan §4 olcutleri (kural acik kol)
+1. #224, test_5 #103 FP->TN: KALDI  test_negative#224: FP->FP, test_5#103: FP->TN
+2. #217, test_5 #102 TN kalir: GECTI  test_negative#217: TN->TN, test_5#102: TN->TN
+3. test_1 (11 soru) bozulmaz: TP->baska ['24', '25', '26', '29'], ort. F1 farki (acik-kapali) -11.5 -> KALDI
+   kapsam disi test_5#101: FP->FP
+   tripwire: 0
