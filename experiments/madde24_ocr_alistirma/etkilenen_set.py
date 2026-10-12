@@ -11,21 +11,19 @@ B) Benchmark soruları (test_1..5 + test_negative): retrieve(top_k=5) ile nihai
    Kontrol: her sorunun kaynak listesi v8 kayıtlı `bulunan_kaynaklar` ile
    karşılaştırılır (src/ v8'den beri değişmedi; fark çıkarsa raporlanır).
 
-Tespit kuralı: llm_client.task_instruction_verbs (bağlamdaki notun kullandığı
-fonksiyonun aynısı). Adım 0'da script kuralın kendi kopyasıyla koşmuştu; Adım
-1'de bu fonksiyona geçildi ve A listesi `--korpus` ile yeniden üretilip aynı
-çıktığı doğrulandı (sonuc_etkilenen_set_korpus.txt).
+Tespit kuralı burada AYRI tanımlı (Adım 1 kodu henüz yok). Adım 1'de bu script
+llm_client.task_instruction_note'u kullanacak şekilde değiştirilip yeniden
+koşulmalı ve A listesi aynı çıkmalı.
 
 Servis: Ollama (bge-m3) + reranker. LLM gerekmez; llm=None ile tablosal rotada
 kod üretimi yapılamazsa satır `route` sütununda görünür.
 
 Kullanım:
-    python -u experiments/madde24_ocr_alistirma/etkilenen_set.py            # A + B
-    python -u experiments/madde24_ocr_alistirma/etkilenen_set.py --korpus   # yalnız A (servis gerekmez)
-Çıktı: sonuc_etkilenen_set.txt (özet) ve etkilenen_set.csv (tüm sorular);
---korpus ile sonuc_etkilenen_set_korpus.txt.
+    python -u experiments/madde24_ocr_alistirma/etkilenen_set.py
+Çıktı: sonuc_etkilenen_set.txt (özet) ve etkilenen_set.csv (tüm sorular).
 """
 import csv
+import re
 import sqlite3
 import sys
 import time
@@ -34,13 +32,29 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 sys.path[:0] = [str(ROOT), str(ROOT / "src"), str(ROOT / "evaluation")]
-from llm_client import task_instruction_verbs as task_verbs  # noqa: E402
+from evaluation.benchmark_eval import _fold_tr  # noqa: E402
 
 SETS = ["test_1", "test_2", "test_3", "test_4", "test_5", "test_negative"]
 V8_RESULTS = ROOT / "experiments" / "v8_bm25_stopword" / "results"
 PDF = "8-Baglamdan_bagimsiz_dilbilgisi.pdf"
 # Yalnız RAPORLAMA için (kural bunu kullanmaz): bugün işaretlenmesi beklenen sayfalar.
 EXPECTED = {(PDF, f"sayfa {n}") for n in (22, 24, 26, 28, 30)}
+
+# §3: cümle / satır sonunda biten 2. çoğul emir kipi (-(y)InIz / -(y)UnUz), _fold_tr sonrası.
+_TASK_VERB_RE = re.compile(r"[a-z]{3,}?y?(?:in|un)(?:iz|uz)")
+_WORD_RE = re.compile(r"\w+")
+
+
+def task_verbs(text):
+    """Cümle/satır sonundaki emir fiillerinin YÜZEY biçimleri (sırayla)."""
+    out = []
+    for m in _WORD_RE.finditer(text or ""):
+        if not _TASK_VERB_RE.fullmatch(_fold_tr(m.group())):
+            continue
+        rest = text[m.end():].lstrip(" \t")
+        if not rest or rest[0] in ".:;!?)\n\r":
+            out.append(m.group())
+    return out
 
 
 def corpus_scan(log):
@@ -129,8 +143,5 @@ if __name__ == "__main__":
         lines.append(s)
 
     marked_ids = corpus_scan(log)
-    if "--korpus" in sys.argv[1:]:
-        (HERE / "sonuc_etkilenen_set_korpus.txt").write_text("\n".join(lines) + "\n", encoding="utf-8")
-        sys.exit(0)
     question_scan(log, marked_ids)
     (HERE / "sonuc_etkilenen_set.txt").write_text("\n".join(lines) + "\n", encoding="utf-8")

@@ -81,3 +81,11 @@ Analiz: `analiz_adim3.py` → `sonuc_adim3.txt`.
   tanımlandığı" diye okunuyor.
 
 Sonuç: yön C (not + prompt kuralı) ölçüt 3'ü bozmadan ölçüt 1'i karşılamıyor.
+
+# Geri alma (2026-10-12)
+
+Görev notu (`6bdc21e`) ölçülen faydası olmadığı için geri alındı. `run_ab.py` ve
+`run_adim3.py` `run_single_test(..., task_notes=...)` parametresine dayanıyor;
+yeniden koşmak için `6bdc21e`–`40345f1` aralığındaki kod gerekir. Ham sonuçlar
+(`ab_sonuclari.jsonl`, `adim3_sonuclari.jsonl`) bağlamları da içerdiği için
+koddan bağımsız olarak yeniden analiz edilebilir.

@@ -201,3 +201,21 @@ kapı onu ret saymamalı.
 - `src/app.py::build_context`, `evaluation/run_tests.py::build_context`: not satırı.
 - `tests/test_task_instruction_note.py`: yeni.
 - `experiments/madde24_ocr_alistirma/`: `etkilenen_set.py`, Adım 2 sonuçları, PROVENANCE.
+
+## 8. Sonuç ve kapanış (2026-10-12)
+
+Yön C reddedildi, Adım 1 kodu geri alındı. Ölçüm:
+[experiments/madde24_ocr_alistirma/PROVENANCE.md](../experiments/madde24_ocr_alistirma/PROVENANCE.md).
+
+- **Adım 2 (yalnız not):** ölçüt 1 kaldı. #224'te cevap notlu ve notsuz bağlamda
+  bayt bayt aynı (not yok sayılıyor). #103 değişti ama uydurma kaldı. Diğer
+  ölçütler geçti; üretim kol içinde 3/3 deterministik.
+- **Adım 3 (not + prompt kuralı, izole):** #103 TN oldu, #224 anlamca ret ama
+  skorda FP. Bedel: test_1 #24, #25, #26, #29 TP → FN (ölçüt 3 bozuldu).
+- **Geri alma gerekçesi:** ölçülen fayda yok, bakım yükü var (iki
+  `build_context` kopyası, tespit kuralı, test dosyası). Madde 22 Örnek/Cevap
+  sayfalarını birleştirdiğinde senaryo değişeceği için ihtiyaç o zaman sıfırdan
+  değerlendirilir.
+- **Kök neden ayrımı:** #103 OCR dolgu sorunu (rerank < 0.04) → madde 24
+  daraltıldı, D yönü (reranker eşiği) ayrı deneyle. #224 synthesizer'ın (a)
+  dalı ödünleşiminin sınır vakası → ayrı backlog maddesi (30).

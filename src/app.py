@@ -25,7 +25,7 @@ for _p in [str(_src_dir), str(_root_dir)]:
 import streamlit as st
 
 try:
-    from src.llm_client import load_model, ask, truncate_chunk_text, truncate_context, task_instruction_note
+    from src.llm_client import load_model, ask, truncate_chunk_text, truncate_context
     from src.retrieval import get_top_chunks, RERANK_TOP_N, TOP_K
     from src.ingest import ingest_single_file, list_ingested_sources, delete_source, DATA_DIR, init_db
     from src.visualizer import extract_chart_data, render_chart_block
@@ -36,7 +36,7 @@ try:
         file_icon,
     )
 except ImportError:
-    from llm_client import load_model, ask, truncate_chunk_text, truncate_context, task_instruction_note
+    from llm_client import load_model, ask, truncate_chunk_text, truncate_context
     from retrieval import get_top_chunks, RERANK_TOP_N, TOP_K
     from ingest import ingest_single_file, list_ingested_sources, delete_source, DATA_DIR, init_db
     from visualizer import extract_chart_data, render_chart_block
@@ -102,8 +102,7 @@ init_session()
 
 # build_context dışındaki yardımcı/UI fonksiyonları components.py modülüne taşındı.
 
-def build_context(chunks: list[dict], question: str | None = None,
-                  task_notes: bool = True) -> str:
+def build_context(chunks: list[dict], question: str | None = None) -> str:
     """Chunk listesinden numaralandırılmış bağlam metni oluşturur."""
     parts = []
     for i, chunk in enumerate(chunks, 1):
@@ -115,10 +114,7 @@ def build_context(chunks: list[dict], question: str | None = None,
         # devam eder; sadece LLM'e giden kopya kırpılır. Soru verilince sorguyla
         # eşleşen satırlar kırpmadan korunur (profil sonundaki searchKeywords gibi).
         content = truncate_chunk_text(chunk["content"], query=question)
-        # Görev/alıştırma parçası işareti (madde 24); kırpılmamış metinden tespit.
-        note = task_instruction_note(chunk["content"]) if task_notes else None
-        header = f"[{i}] Kaynak: {source}, {page_info} (skor: {score:.3f})"
-        parts.append(f"{header}\n{note}\n{content}" if note else f"{header}\n{content}")
+        parts.append(f"[{i}] Kaynak: {source}, {page_info} (skor: {score:.3f})\n{content}")
     return truncate_context("\n\n".join(parts))
 
 
