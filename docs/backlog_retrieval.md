@@ -30,7 +30,7 @@ PR olarak ele alınır.
 | 21 | LLM-judge, ground truth'u olan sorulardaki retleri "dürüst ret" diye ödüllendiriyor | Açık — ölçüm körlüğü |
 | 22 | OCR'lı "Cevap N" sayfaları retrieval'a gelmiyor | Açık — madde 24 ile aynı kök (OCR sayfa yapısı) |
 | 23 | Madde 19 korumasındaki kelimelerin çekimleri farklı token'a düşüyor ("deneyim" / "deneyimi") | Açık — bilinen sınır; bugünden kötü değil |
-| 24 | OCR'lı alıştırma sayfaları negatif sorularda dolgu olarak bağlama girip uydurma ürettiriyor (test_5 #103) | Açık — **daraltıldı** (2026-10-12): yalnız #103; #224 → madde 30. Yön C (görev notu) ölçüldü ve reddedildi, kod geri alındı (`9e3a095`). Sıradaki aday D (reranker eşiği) — genel değişiklik, ayrı deney |
+| 24 | OCR'lı alıştırma sayfaları negatif sorularda dolgu olarak bağlama girip uydurma ürettiriyor (test_5 #103) | Açık — **daraltıldı** (2026-10-12): yalnız #103; #224 → madde 30. Yön C (görev notu) ölçüldü ve reddedildi, kod geri alındı (`9e3a095`). D (sabit reranker eşiği) simüle edildi ve reddedildi (1 FP için 3 TP); madde 22 #103'ü çözmüyor. Açık aday: bağıl eşik (ölçülmedi) |
 | 25 | Ret tespiti yarım "…bulunmadığından" cevabını tanımıyor (skorlama + üretim) | **Skorlama düzeltildi** — `f888033` (ret çerçevesi, #222 FP→TN) + `8b5d26f` (tanımlayıcı yankısı, v3 #26 TP→FN); üretim kısmı → madde 26, kalan açık → madde 28 |
 | 26 | Üretim: model serbest biçimli reddi yarıda bırakıyor ("…bulunmadığından") | Açık — düşük öncelik; v8'de 1/144 (#222) |
 | 27 | bge-m3 bazı metinlere NaN embedding döndürüyor; `semantic_sim` sessizce 0.0 yazıp ortalamaya katıyor | Açık — ölçüm körlüğü; v7 test_2 #36 (86.7 → 0.0) |
@@ -952,6 +952,27 @@ içerik taşıyorsa madde 28 öne alınır, 24'ün sonucu 28'den sonra yeniden �
   sonra tam benchmark + tam negatif set.
 - Madde 22 (Örnek/Cevap birleştirme) OCR chunk'larının uzunluğunu ve BM25
   davranışını değiştireceği için #103'ün dolgu durumunu da etkileyebilir.
+
+**D — sabit eşik reddedildi (2026-10-12).** Madde 22 kapsam ölçümünde
+([experiments/madde22_ornek_cevap/README.md](../experiments/madde22_ornek_cevap/README.md),
+`sonuc_rerank_dagilimi.txt`) sabit mutlak eşik simüle edildi (retrieval rerank
+skorları + kayıtlı sınıflar; LLM koşusu yok): "en yüksek rerank < 0.04 ise
+bağlam boş" kuralı **1 FP (#103) kazancı karşılığında 3 TP kaybettiriyor**
+(test_2 #58 en yüksek 0.010, test_3 #62 0.031, test_4 #97 0.008). Kabul
+edilemez oran → **reddedildi; aynı deneme (sabit mutlak eşik) tekrarlanmamalı.**
+- Madde 22 sonrası da #103 çözülmüyor: birleşik DB'de dolgu sürüyor (22-23,
+  28-29), tüm adaylar 0.04 altı, LLM yine FP.
+- **D'yi destekleyen iki bağımsız gözlem** (reranker düşük skor verdiğinde
+  çoğunlukla haklı): #103 (tüm adaylar < 0.04, belgede olmayan konu) ve test_3
+  #87 (Fourier sorusu; birleşik DB'de gramer PDF'inin 24-25 chunk'ı 0.001 ile
+  dolgu olarak giriyor, en yüksek aday 0.487).
+- İleride denenirse **soru bazlı / bağıl bir ölçüt** düşünülmeli, sabit mutlak
+  eşik değil (ör. "adayın skoru, en yüksek skorun X katından azsa ele").
+  Dikkat: bağıl ölçüt iki durumu ayrı ele alır. #87 tipi (bir net kazanan +
+  dolgular) bağıl kesimle çözülür. #103 tipi (hiçbir aday öne çıkmıyor:
+  0.036 / 0.032 / 0.011 / 0.009) bağıl kesimle **çözülmez**; o durum mutlak
+  bir alt sınır ister ve tam da o sınır 3 TP'yi kaybettiriyor. Yani #103 için
+  D'nin bağıl hâli de yeterli olmayabilir; ölçmeden varsayılmamalı.
 
 ## Madde 25 — Ret tespiti yarım kalmış "bulunmadığından" cevabını kaçırıyor
 
