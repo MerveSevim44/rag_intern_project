@@ -1,0 +1,11 @@
+[Foundry] Model yüklendi: qwen2.5-7b-instruct-cuda-gpu:4 | execution provider: CUDAExecutionProvider | cihaz: GPU
+[Foundry] Servis adresi: http://127.0.0.1:62549
+[Foundry] Serviste yüklü modeller: ['qwen2.5-7b-instruct-cuda-gpu:4']
+[retrieval] Cache yuklendi: 916 chunk, embedding matrisi (916, 1024)
+[bugun] FP 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 16); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 2); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 24); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 28)
+   "Bağlamdan bağımsız dilbilgisinin pompalama lemma'sı, bir dilin bağlamdan bağımsız olduğunu göstermek için kullanılan bir yöntemdir. Bu lemma, bir dizinin uzunluğunu belirli bir şekilde böldüğünde, her parçasının hala dilin bir üyesi olduğunu garantierler. Lemmanın detayları ve nasıl kullanıldığı konusunda doğrudan bilgi verilmemiştir, bu nedenle:"
+
+[retrieval] Cache yuklendi: 911 chunk, embedding matrisi (911, 1024)
+[birlesik] FP 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 16); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 2); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 28-29); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 22-23)
+   'Bağlamdan bağımsız dilbilgisinin pompalama lemma\'sı, dilbilgisinin her uygulandığı dilin bazı özel özelliklerine dayanarak ifade edilir. Bu lemma, bir dilin bağlamdan bağımsız olduğunu göstermek için kullanılır ve genellikle aşağıdaki formatta ifade edilir: "Her uygulandığı dil L için, var bir n tam sayısı ve her uygulandığı dilin her x ∈ L\'nin uzunluğu |x| ≥ n olduğuna göre, x\'i uvw olarak yazabiliriz ki v ≠ ε ve |uv| ≤ n olsun. Bu durumda ∀k ≥ 0 için uv^kw ∈ L olmalıdır." Bu ifade, bir dilin bağlamdan bağımsız olduğunu kontrol etmek için kullanılır ve dilbilgisinin yapısını inceler.'
+

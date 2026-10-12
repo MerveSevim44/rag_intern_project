@@ -1,0 +1,9 @@
+test_1 #24: Cevap sayfasi 23 hibrit sirasi = >40
+test_1 #25: Cevap sayfasi 27 hibrit sirasi = 10
+   10  4322 sayfa 27            0.4732     16  29.472      5  0.8687  0.00  0.0000  0.00  0.00  0.8687           4.5.6. Cevap 6 a) Ls.4.6.1 = { an b am b
+test_1 #26: Cevap sayfasi 25 hibrit sirasi = 12
+   12  4320 sayfa 25            0.5494     11  42.987     17  0.8233  0.00  0.0000  0.00  0.00  0.8233           4.5.5. Cevap 5 a) G 4.5.1 = < VN, VT, P,
+test_1 #28: Cevap sayfasi 29 hibrit sirasi = 7
+   7  4324 sayfa 29            0.5728      9  54.027     14  0.8521  0.10  0.0041  0.00  0.00  0.8562           4.5.7. Cevap 7 a) Gs.4.7.1 = <Vn,Vt, P S
+test_1 #29: Cevap sayfasi 31 hibrit sirasi = 2
+   2  4326 sayfa 31            0.6025      1  39.547      3  0.9839  0.00  0.0000  0.00  0.00  0.9839           4.5.8. Cevap 8 a) Ls.4.a.1 = {an b2k+1 d

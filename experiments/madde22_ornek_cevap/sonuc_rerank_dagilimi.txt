@@ -1,0 +1,72 @@
+== bugun: semantic_rag pozitif 87, negatif 34
+   esik 0.02: pozitif 4 (TP 2) | negatif 18 (FP 0)
+      pozitif test_3#82 FN max_rerank=0.0044
+      pozitif test_4#97 TP max_rerank=0.0075
+      pozitif test_2#58 TP max_rerank=0.0100
+      pozitif test_3#79 FN max_rerank=0.0154
+   esik 0.04: pozitif 5 (TP 3) | negatif 22 (FP 2)
+      pozitif test_3#82 FN max_rerank=0.0044
+      pozitif test_4#97 TP max_rerank=0.0075
+      pozitif test_2#58 TP max_rerank=0.0100
+      pozitif test_3#79 FN max_rerank=0.0154
+      pozitif test_3#62 TP max_rerank=0.0307
+      negatif FP test_negative#222 max_rerank=0.0205
+      negatif FP test_5#103 max_rerank=0.0356
+   esik 0.1: pozitif 6 (TP 4) | negatif 24 (FP 2)
+      pozitif test_3#82 FN max_rerank=0.0044
+      pozitif test_4#97 TP max_rerank=0.0075
+      pozitif test_2#58 TP max_rerank=0.0100
+      pozitif test_3#79 FN max_rerank=0.0154
+      pozitif test_3#62 TP max_rerank=0.0307
+      pozitif test_2#54 TP max_rerank=0.0639
+      negatif FP test_negative#222 max_rerank=0.0205
+      negatif FP test_5#103 max_rerank=0.0356
+   esik 0.2: pozitif 10 (TP 8) | negatif 26 (FP 2)
+      pozitif test_3#82 FN max_rerank=0.0044
+      pozitif test_4#97 TP max_rerank=0.0075
+      pozitif test_2#58 TP max_rerank=0.0100
+      pozitif test_3#79 FN max_rerank=0.0154
+      pozitif test_3#62 TP max_rerank=0.0307
+      pozitif test_2#54 TP max_rerank=0.0639
+      pozitif test_2#46 TP max_rerank=0.1091
+      pozitif test_3#64 TP max_rerank=0.1388
+      pozitif test_4#98 TP max_rerank=0.1404
+      pozitif test_3#69 TP max_rerank=0.1559
+      negatif FP test_negative#222 max_rerank=0.0205
+      negatif FP test_5#103 max_rerank=0.0356
+== birlesik: semantic_rag pozitif 87, negatif 34
+   esik 0.02: pozitif 4 (TP 2) | negatif 18 (FP 0)
+      pozitif test_3#82 FN max_rerank=0.0044
+      pozitif test_4#97 TP max_rerank=0.0075
+      pozitif test_2#58 TP max_rerank=0.0100
+      pozitif test_3#79 FN max_rerank=0.0154
+   esik 0.04: pozitif 5 (TP 3) | negatif 22 (FP 2)
+      pozitif test_3#82 FN max_rerank=0.0044
+      pozitif test_4#97 TP max_rerank=0.0075
+      pozitif test_2#58 TP max_rerank=0.0100
+      pozitif test_3#79 FN max_rerank=0.0154
+      pozitif test_3#62 TP max_rerank=0.0307
+      negatif FP test_negative#222 max_rerank=0.0205
+      negatif FP test_5#103 max_rerank=0.0356
+   esik 0.1: pozitif 6 (TP 4) | negatif 24 (FP 2)
+      pozitif test_3#82 FN max_rerank=0.0044
+      pozitif test_4#97 TP max_rerank=0.0075
+      pozitif test_2#58 TP max_rerank=0.0100
+      pozitif test_3#79 FN max_rerank=0.0154
+      pozitif test_3#62 TP max_rerank=0.0307
+      pozitif test_2#54 TP max_rerank=0.0639
+      negatif FP test_negative#222 max_rerank=0.0205
+      negatif FP test_5#103 max_rerank=0.0356
+   esik 0.2: pozitif 10 (TP 8) | negatif 26 (FP 2)
+      pozitif test_3#82 FN max_rerank=0.0044
+      pozitif test_4#97 TP max_rerank=0.0075
+      pozitif test_2#58 TP max_rerank=0.0100
+      pozitif test_3#79 FN max_rerank=0.0154
+      pozitif test_3#62 TP max_rerank=0.0307
+      pozitif test_2#54 TP max_rerank=0.0639
+      pozitif test_2#46 TP max_rerank=0.1091
+      pozitif test_3#64 TP max_rerank=0.1388
+      pozitif test_4#98 TP max_rerank=0.1404
+      pozitif test_3#69 TP max_rerank=0.1559
+      negatif FP test_negative#222 max_rerank=0.0205
+      negatif FP test_5#103 max_rerank=0.0356
