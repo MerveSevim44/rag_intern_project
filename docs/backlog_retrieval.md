@@ -30,30 +30,40 @@ PR olarak ele alınır.
 | 21 | LLM-judge, ground truth'u olan sorulardaki retleri "dürüst ret" diye ödüllendiriyor | Açık — ölçüm körlüğü |
 | 22 | OCR'lı "Cevap N" sayfaları retrieval'a gelmiyor | Açık — madde 24 ile aynı kök (OCR sayfa yapısı) |
 | 23 | Madde 19 korumasındaki kelimelerin çekimleri farklı token'a düşüyor ("deneyim" / "deneyimi") | Açık — bilinen sınır; bugünden kötü değil |
-| 24 | OCR'lı alıştırma sayfaları negatif sorularda bağlama girip uydurma prosedür ürettiriyor | Açık — **gözlenmiş gerileme**: negatif FP 1/32 → 3/32'nin 2'si (#224; test_5 #103), `dffb6a5` kaynaklı |
+| 24 | OCR'lı alıştırma sayfaları negatif sorularda dolgu olarak bağlama girip uydurma ürettiriyor (test_5 #103) | Açık — **daraltıldı** (2026-10-12): yalnız #103; #224 → madde 30. Yön C (görev notu) ölçüldü ve reddedildi, kod geri alındı (`9e3a095`). Sıradaki aday D (reranker eşiği) — genel değişiklik, ayrı deney |
 | 25 | Ret tespiti yarım "…bulunmadığından" cevabını tanımıyor (skorlama + üretim) | **Skorlama düzeltildi** — `f888033` (ret çerçevesi, #222 FP→TN) + `8b5d26f` (tanımlayıcı yankısı, v3 #26 TP→FN); üretim kısmı → madde 26, kalan açık → madde 28 |
 | 26 | Üretim: model serbest biçimli reddi yarıda bırakıyor ("…bulunmadığından") | Açık — düşük öncelik; v8'de 1/144 (#222) |
 | 27 | bge-m3 bazı metinlere NaN embedding döndürüyor; `semantic_sim` sessizce 0.0 yazıp ortalamaya katıyor | Açık — ölçüm körlüğü; v7 test_2 #36 (86.7 → 0.0) |
 | 28 | Ret tespitinin ikinci aşaması içerik miktarına bakmıyor; ret kapısından geçen içerik cevapları yalnız tesadüfi "iddia"larla TP kalıyor | Açık — v3 #29 gizli FN; madde 25 Adım 3'te bilinçli bırakıldı |
 | 29 | Ollama bge-m3 embedding güvenilirliği: oturumlar arası sayısal kayma sınırdaki retrieval'ı değiştiriyor | Açık — doğrulanmamış hipotez (cihaz farkı); madde 27 ile ortak kök olabilir |
+| 30 | Synthesizer (a) dalı ödünleşiminin sınır vakası: "Yanlış Ön Kabul" sorusu #224 bağlama göre FP/TN arasında gidip geliyor | Açık — **bug değil, bilinçli alınmış dengenin yeniden değerlendirilmesi** (FN 25→10 karşılığında kabul edilen bedel) |
 
-### Öncelik sırası (2026-10-11)
+### Öncelik sırası (2026-10-11, güncelleme 2026-10-12)
 
-Açık retrieval/değerlendirme maddeleri için sıra: **25 (skorlama) ✅ → 24 → 22 → 27 → 29 → 20 → 21 → 28 → 26.**
+Açık retrieval/değerlendirme maddeleri için sıra: **25 (skorlama) ✅ → 22 → 24 (D) → 27 → 29 → 20 → 21 → 30 → 28 → 26.**
 
 - **25 önce:** madde 24'ün başarı ölçütü negatif set FP sayısı; skorlayıcı yarım
   retleri FP saydığı sürece (#222) bu sayı yapay olarak şişik ve 24'ün etkisi
   ölçülemez. Yalnız skorlama kısmı; üretim kısmı ayrıca değerlendirilir.
-- **24:** gözlenmiş kullanıcıya görünür gerileme (uydurma prosedür; negatif FP
-  1/32 → 3/32'nin 2'si), kaynağı main'de olan commit (`dffb6a5`, benchmark'lanmadan girdi).
-- **22:** 24 ile aynı kök (OCR sayfa yapısı); çözümler birlikte tasarlanır ama
-  24'ün ölçümü ayrı tutulur (Örnek/Cevap birleştirme 22'yi çözer, 24'ü tek başına çözmeyebilir).
+- **22, 24'ün önüne alındı (2026-10-12):** (1) Örnek/Cevap birleştirme OCR
+  chunk'larının uzunluğunu ve BM25 davranışını değiştirir; #103'te dolgu olarak
+  giren sayfa 24/28 doğrudan etkilenir — D şimdi ölçülse 22 sonrası yeniden
+  ölçülmesi gerekirdi. (2) 22'nin hedefi somut: bilinen FN/yanlış cevaplar
+  (#25, #26, #29 — Cevap sayfası gelmiyor), etki alanı 10 OCR sayfası. (3) D
+  genel ve riskli bir değişiklik, tek negatif soru için; 22 sonrası #103
+  kendiliğinden düzelirse gereksiz kalabilir.
+- **24 (D):** daraltılmış hâli yalnız test_5 #103 (OCR dolgu); aday çözüm
+  reranker alaka eşiği, kendi riskiyle ölçülerek (bkz. madde 24 durum notu).
+  Önce 22 sonrası #103'ün durumu yeniden ölçülür.
 - **20, 21:** sistemin cevaplarını değiştirmiyor (benchmark ayarı / ölçüm körlüğü).
 - **27:** "sessizce yanlış ortalama" ailesinden (`HATA:` satırlarının F1'i
   bozması gibi); düzeltmesi küçük ve yalnız skorlayıcıda. 24'ün ölçütü (negatif
   FP sayısı) `semantic_sim`'e dayanmadığı için 24'ün önüne alınmadı.
 - **29:** 27'nin yanında — ikisi de Ollama bge-m3 embedding üretimi; aynı kökten
   geliyorsa biri araştırılırken diğeri de aydınlanır.
+- **30:** gerileme değil, bilinçli bir denge; yeniden açılması tam benchmark +
+  tam negatif set gerektiriyor ve FN tarafını riske atıyor. Ölçüm körlüğü
+  maddelerinden (20, 21) sonra.
 - **28:** bilinen etkisi tek gizli FN (v3 #29); 21 ise #24–#29'un hepsini
   görünmez kıldığı için önce 21. 24'ün ölçümünü bugün etkilemiyor (bkz. madde 24
   ölçüm notu); etkilemeye başlarsa 24'ün hemen arkasına alınır.
@@ -922,6 +932,27 @@ karakterden uzun cevaplar yeniden taranır. 2026-10-11 taramasında 7 koşuda te
 eşleşme v5 #231 (dürüst ret). Yeni eşleşme çıkarsa elle incelenir; uydurma
 içerik taşıyorsa madde 28 öne alınır, 24'ün sonucu 28'den sonra yeniden ölçülür.
 
+**Durum (2026-10-12) — yön C denendi, reddedildi; madde daraltıldı.** Plan ve
+ölçüm: [implementation_plan_madde24_ocr_isaret.md](implementation_plan_madde24_ocr_isaret.md) §8,
+[experiments/madde24_ocr_alistirma/PROVENANCE.md](../experiments/madde24_ocr_alistirma/PROVENANCE.md).
+- Görev notu (bağlamda "bu parça bir alıştırma" satırı): #224'te cevap bayt bayt
+  aynı kaldı, #103 uydurmaya devam etti. Not + system prompt kuralı (izole):
+  #103 TN oldu ama test_1 #24, #25, #26, #29 TP → FN. Ölçülen fayda yok, kod
+  geri alındı.
+- **Kök neden ayrımı:** #224'ün malzemesi sayfa 18 (yararsız değişken atma —
+  gerçekten CNF'nin ön adımı, alakasız değil), tetikleyicisi sayfa 22; asıl
+  belirleyen synthesizer'ın (a) dalı → **madde 30**. Bu madde artık yalnız
+  **test_5 #103**: belgede olmayan konu (pompalama lemması), sayfa 24/28 BM25
+  ile dolgu olarak giriyor, rerank skorlarının hepsi < 0.04.
+- **Sıradaki aday D — reranker alaka eşiği** (tüm adaylar eşiğin altındaysa
+  bağlam boş / ret). **Riski:** genel bir değişiklik; düşük rerank skoruyla
+  doğru cevap veren pozitif soruları bozabilir. Uygulanmadan önce aynı
+  titizlikle ölçülmeli: tüm benchmark sorularında rerank skor dağılımı (pozitif
+  sorularda doğru chunk'ın skoru), eşik adayları için TP kaybı / TN kazancı,
+  sonra tam benchmark + tam negatif set.
+- Madde 22 (Örnek/Cevap birleştirme) OCR chunk'larının uzunluğunu ve BM25
+  davranışını değiştireceği için #103'ün dolgu durumunu da etkileyebilir.
+
 ## Madde 25 — Ret tespiti yarım kalmış "bulunmadığından" cevabını kaçırıyor
 
 v8 negatif #222: cevap "Z-Dönüşümü ders notlarında 12. haftanın konu başlığına
@@ -1016,3 +1047,35 @@ NaN'a yakın / aşırı değerler var mı).
 kod değişikliğinden bağımsız olarak kayabilir. Bu yüzden madde 24 Adım 2 aynı
 oturumda A/B koşuluyor; diğer ölçümler de aynı yaklaşımı ya da kaymanın ayrı
 raporlanmasını gerektirebilir.
+
+## Madde 30 — Synthesizer (a) dalı ödünleşiminin sınır vakası (#224)
+
+**Bu bir "düzeltilmesi gereken hata" değil, "yeniden değerlendirilmesi gereken
+bir denge"dir.** Acele "bug, düzelt" müdahalesi FN tarafındaki kazancı geri
+alabilir.
+
+`llm_client.ask`'taki ret kuralı bilinçli olarak iki dallı: (a) "bağlamda kısmen
+ilgili bilgi varsa onu kullanarak en iyi cevabı ver", (b) "hiçbir şey yoksa tek
+ret cümlesi". (a) dalı tam koşuda **FN 25 → 10** getirdi; bedeli ölçüldü ve
+kabul edildi: negatif FP 7/32 → 8/32, yeni FP **#224** ("Yanlış Ön Kabul"
+kategorisi; bkz. [src/llm_client.py](../src/llm_client.py) ret kuralı yorumu).
+
+#224 o günden beri dengenin sınırında duruyor ve bağlamdaki küçük değişikliklerle
+sınıf değiştiriyor: (a) dalı girişinde FP, v7'de TN (sayfa 18/2/16/19), v8'de FP
+(sayfa 22 eklendi). Madde 24 ölçümleri mekanizmayı gösterdi:
+- **Malzeme sayfa 18** (yararsız değişken ve kuralların atılması). Alakasız
+  değil: CNF dönüşümünün gerçek ön adımı; dense 2., rerank 2. Retrieval
+  sıralama hatası ya da madde 9 (RRF marj düzleşmesi) değil — sayfa 18'i
+  yukarı taşıyan dense ve reranker, BM25 değil.
+- **Tetikleyici sayfa 22** ("…CNF'ye dönüştürünüz"): "CNF belgede var" algısı
+  verip (a) dalını devreye sokuyor.
+- **Benzer vaka test_5 #101** (OCR yokken de FP; aynı CNF uydurması).
+- Modeli ret vermeye iten bir prompt kuralı (madde 24 Adım 3, izole) #224'ü
+  anlamca rete çevirdi ama alıştırma sorularında 4 TP'yi FN yaptı — aynı
+  dengenin öbür ucu.
+
+Yeniden değerlendirilirse: tam benchmark (FN tarafı) + tam 32 negatif + test_5
+birlikte; tek soruya göre ayar yapılmamalı. Not: #224 ve #101'in Adım 3'teki
+cevabı ("Ret. … belgede açıkça anlatılmamıştır.") anlamca ret ama skorlayıcı
+"anlatılmamıştır"ı tanımıyor; kapı genişletmesi madde 28 ile birlikte düşünülmeli
+(bkz. madde 24 planı §6).
