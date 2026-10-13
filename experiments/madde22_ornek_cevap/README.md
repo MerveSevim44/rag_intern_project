@@ -65,3 +65,24 @@ değişen 0. Bilinen 16'ya ek: test_1 #21 (s.19 → s.16; birleşen chunk yok,
 BM25 IDF kayması) ve **test_3 #87** (Fourier sorusu: 3. sıraya birleşik 24-25
 dolgu olarak giriyor, rerank 0.001 — yeni çapraz-doküman dolgusu). test_5
 #102'de s.22 düşüp yerine bir profil chunk'ı giriyor (rerank 0.0005).
+
+## Adım 2 — yedek + yeniden ingest + retrieval doğrulaması (2026-10-12)
+
+Kod `5b494b2`. Yedek `rag.db.bak_madde22_2026-10-12` (916 chunk, parmak izi
+`f61f7119a6c8`, dosya sha1 `rag.db` ile aynı; `.gitignore` `rag.db.bak*`).
+Plandan sapma: `delete_source` ayrıca çağrılmadı — `ingest_single_file` eski
+chunk'ları aynı transaction'da siliyor (atomik).
+
+`adim2_reingest.py` → `sonuc_adim2_reingest.txt`:
+- 911 chunk; gramer PDF'i dışındaki 885 chunk id/içerik/page_info/embedding aynen.
+- Birleşik 5 chunk = yedekteki Örnek + "\n" + Cevap (yeniden OCR deterministik).
+- Birleşmeyen 21 sayfa: içerik aynı, yeniden üretilen embedding'lerle cosine
+  min = max = 1.000000 (10 Ekim'deki embedding'le aynı — doküman tarafında
+  oturumlar arası kayma yok; madde 29 için not).
+- Yeni parmak izi `8745706f7e44`.
+
+`adim2_retrieval.py` → `sonuc_adim2_retrieval.txt` (147 soru, yedek vs yeni, aynı süreç):
+- yeni DB = simülasyonun "birleşik" sonucu: kaynak listesi farkı **0/147**,
+  rerank skoru farkı 0.
+- yedek DB = simülasyonun "bugün" sonucu: fark **0/147**.
+- Değişen 18 soru simülasyondakiyle aynı → Adım 3'ün LLM kümesi bu 18 soru.

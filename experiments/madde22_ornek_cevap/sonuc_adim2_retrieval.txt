@@ -1,0 +1,21 @@
+yeni  vs simulasyon birlesik: kaynak listesi farkli 0/147, ayni listede rerank skoru farkli 0
+yedek vs simulasyon bugun   : kaynak listesi farkli 0/147, ayni listede rerank skoru farkli 0
+yedek vs yeni (bu oturum): kaynak listesi degisen 18 soru
+   test_1#1
+   test_1#2
+   test_1#4
+   test_1#8
+   test_1#9
+   test_1#21
+   test_1#24
+   test_1#25
+   test_1#26
+   test_1#28
+   test_1#29
+   test_1#30
+   test_3#87
+   test_5#101
+   test_5#102
+   test_5#103
+   test_negative#217
+   test_negative#224

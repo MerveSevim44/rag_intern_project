@@ -1,0 +1,15 @@
+Yedek: rag.db.bak_madde22_2026-10-12 chunk=916 parmak_izi=f61f7119a6c8
+Yeniden ingest: data/8-Baglamdan_bagimsiz_dilbilgisi.pdf -> 26 chunk
+
+Toplam chunk: 911 (beklenen 911) -> OK
+Gramer PDF'i disi chunk'lar: 885 — id/icerik/page_info/embedding ayni: True
+
+Gramer PDF'i: yedekte 31, yeni 26 chunk
+   sayfa 22-23  birlesik  icerik=Ornek+Cevap: AYNI
+   sayfa 24-25  birlesik  icerik=Ornek+Cevap: AYNI
+   sayfa 26-27  birlesik  icerik=Ornek+Cevap: AYNI
+   sayfa 28-29  birlesik  icerik=Ornek+Cevap: AYNI
+   sayfa 30-31  birlesik  icerik=Ornek+Cevap: AYNI
+   birlesmeyen 21 sayfa: icerigi farkli 0, embedding cosine min=1.000000 max=1.000000 (yeniden embed edildi)
+
+Yeni rag.db parmak izi: (911, '8745706f7e44')
