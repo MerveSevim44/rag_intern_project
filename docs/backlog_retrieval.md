@@ -28,7 +28,7 @@ PR olarak ele alınır.
 | 19 | Snowball stem'i stopword'e çakışan gerçek kelimeler BM25'ten düşüyor ("deneyim" → "de", "Damla" → "da") | **Düzeltildi** — yüzey stopword filtresi + çakışma koruması; bkz. [implementation_plan_bm25_stopword.md](implementation_plan_bm25_stopword.md) §9 |
 | 20 | Router kolon parçası eşleşmesi (2b) ve benchmark `top_k=5` ≠ arayüz `TOP_K=8` | Açık |
 | 21 | LLM-judge, ground truth'u olan sorulardaki retleri "dürüst ret" diye ödüllendiriyor | Açık — ölçüm körlüğü |
-| 22 | OCR'lı "Cevap N" sayfaları retrieval'a gelmiyor | Açık — madde 24 ile aynı kök (OCR sayfa yapısı) |
+| 22 | OCR'lı "Cevap N" sayfaları retrieval'a gelmiyor | **Düzeltildi** — `5b494b2` (Örnek/Cevap birleştirme) + yeniden ingest; hedef 5/5 Cevap bağlamda, plan ölçütlerinin hepsi geçti. Kalan açık (OCR kalitesi) → madde 31 |
 | 23 | Madde 19 korumasındaki kelimelerin çekimleri farklı token'a düşüyor ("deneyim" / "deneyimi") | Açık — bilinen sınır; bugünden kötü değil |
 | 24 | OCR'lı alıştırma sayfaları negatif sorularda dolgu olarak bağlama girip uydurma ürettiriyor (test_5 #103) | Açık — **daraltıldı** (2026-10-12): yalnız #103; #224 → madde 30. Yön C (görev notu) ölçüldü ve reddedildi, kod geri alındı (`9e3a095`). D (sabit reranker eşiği) simüle edildi ve reddedildi (1 FP için 3 TP); madde 22 #103'ü çözmüyor. Açık aday: bağıl eşik (ölçülmedi) |
 | 25 | Ret tespiti yarım "…bulunmadığından" cevabını tanımıyor (skorlama + üretim) | **Skorlama düzeltildi** — `f888033` (ret çerçevesi, #222 FP→TN) + `8b5d26f` (tanımlayıcı yankısı, v3 #26 TP→FN); üretim kısmı → madde 26, kalan açık → madde 28 |
@@ -37,10 +37,11 @@ PR olarak ele alınır.
 | 28 | Ret tespitinin ikinci aşaması içerik miktarına bakmıyor; ret kapısından geçen içerik cevapları yalnız tesadüfi "iddia"larla TP kalıyor | Açık — v3 #29 gizli FN; madde 25 Adım 3'te bilinçli bırakıldı |
 | 29 | Ollama bge-m3 embedding güvenilirliği: oturumlar arası sayısal kayma sınırdaki retrieval'ı değiştiriyor | Açık — doğrulanmamış hipotez (cihaz farkı); madde 27 ile ortak kök olabilir |
 | 30 | Synthesizer (a) dalı ödünleşiminin sınır vakası: "Yanlış Ön Kabul" sorusu #224 bağlama göre FP/TN arasında gidip geliyor | Açık — **bug değil, bilinçli alınmış dengenin yeniden değerlendirilmesi** (FN 25→10 karşılığında kabul edilen bedel) |
+| 31 | OCR'lı Cevap sayfalarının metin kalitesi: bir sayfa okunamıyor (#24), diğerlerinde üst simge / "\|" kaybı model cevabına aynen geçiyor | Açık — iki ayrı ciddiyet: okunamayan sayfa (yeniden OCR) / kısmi bozulma (son işleme) |
 
-### Öncelik sırası (2026-10-11, güncelleme 2026-10-12)
+### Öncelik sırası (2026-10-11, güncelleme 2026-10-13)
 
-Açık retrieval/değerlendirme maddeleri için sıra: **25 (skorlama) ✅ → 22 → 24 (D) → 27 → 29 → 20 → 21 → 30 → 28 → 26.**
+Açık retrieval/değerlendirme maddeleri için sıra: **25 (skorlama) ✅ → 22 ✅ → 27 → 29 → 20 → 21 → 31 → 24 (bağıl eşik) → 30 → 28 → 26.**
 
 - **25 önce:** madde 24'ün başarı ölçütü negatif set FP sayısı; skorlayıcı yarım
   retleri FP saydığı sürece (#222) bu sayı yapay olarak şişik ve 24'ün etkisi
@@ -52,6 +53,13 @@ Açık retrieval/değerlendirme maddeleri için sıra: **25 (skorlama) ✅ → 2
   (#25, #26, #29 — Cevap sayfası gelmiyor), etki alanı 10 OCR sayfası. (3) D
   genel ve riskli bir değişiklik, tek negatif soru için; 22 sonrası #103
   kendiliğinden düzelirse gereksiz kalabilir.
+- **2026-10-13 güncellemesi:** 22 kapandı. 27 öne geçti: küçük, yalnız
+  skorlayıcıda, ve her benchmark'ın `semantic_sim` ortalamasını etkiliyor; 29
+  ile aynı kök sorusunu paylaştığı için hemen ardından 29. **24 geriye alındı:**
+  sabit eşik reddedildi, bağıl eşik ölçülmedi ve kazancı tek FP (#103) — pozitif
+  soruları riske atan genel bir değişiklik için düşük getiri. **31** (OCR
+  kalitesi) 5 alıştırma sorusunun cevap kalitesini etkiliyor, sınıf
+  değiştirmiyor; ölçüm körlüğü maddelerinden (20, 21) sonra.
 - **24 (D):** daraltılmış hâli yalnız test_5 #103 (OCR dolgu); aday çözüm
   reranker alaka eşiği, kendi riskiyle ölçülerek (bkz. madde 24 durum notu).
   Önce 22 sonrası #103'ün durumu yeniden ölçülür.
@@ -660,6 +668,21 @@ Bu, kararsızlığın Foundry'ye özgü olmayıp genel bir kaynak baskısı olab
 düşündürüyor, **ama tek örnekten bu iddia kurulamaz.** İkinci bir gözlem
 görülürse buraya eklenmeli; görülmezse bu satır tekil bir olay olarak kalmalı.
 
+### 4. Tekrar gözlemleri (2026-10-12/13)
+- **OOM sonrası Foundry bozuk kaldı — 1. maddenin gerçek tekrarı.** Madde 22
+  Adım 3'te (2026-10-13) negatif setin 62. işinden sonra "GPU bellek hatası" →
+  ardından her istek `Model yanıt veremedi` / code_interpreter `Error code: 500`
+  (#227, #228, #229). Servis kendiliğinden toparlanmadı; `foundry service stop`
+  + kalan süreçleri sonlandırma + `start` ile yeni portta ayağa kalktı, kalan
+  işler sorunsuz koştu. Ölçüm script'lerindeki "3 ardışık hatada dur" sınırı
+  (madde 24/22 sürücüleri) bozuk servise karşı yanlış sonuç yazılmasını önledi.
+- **`foundry service start` askıda kalıyor — 2. maddenin tekrarı, 3 kez:**
+  2026-10-12 (madde 24 Adım 3 öncesi) ve 2026-10-13 (koşu öncesi + OOM sonrası
+  yeniden başlatma). Üçünde de komut dönmedi ama servis yeni bir portta
+  çalışır hâle geldi (`foundry service status` 40 sn zaman aşımıyla doğrulandı).
+  `recover.sh` ile aynı desen (komuta zaman aşımı + ardından durumu ayrıca
+  doğrulamak; burada PowerShell iş zaman aşımıyla uygulandı) yeterli oldu.
+
 ### Uzun vadeli çerçeve
 Bu madde muhtemelen bir **process supervisor** tasarımı gerektiriyor:
 - **Health check** — endpoint'in HTTP 200 dönmesi YETMEZ (yukarıdaki 1. madde);
@@ -868,6 +891,21 @@ birleştirmek ya da cevap chunk'ına önceki sayfanın başlığını bağlam ol
 eklemek. Belgeye özel olmaması için kural "metni çok kısa OCR sayfası, önceki
 sayfayla aynı bölüm numarasını taşıyor" gibi genel tanımlanmalı.
 
+**Durum (2026-10-13) — düzeltildi.** Plan:
+[implementation_plan_madde22_ornek_cevap.md](implementation_plan_madde22_ornek_cevap.md),
+ölçüm: [experiments/madde22_ornek_cevap/PROVENANCE.md](../experiments/madde22_ornek_cevap/PROVENANCE.md).
+- Kural: OCR'lanmış sayfa, önceki sayfayla aynı bölüm numarasını taşıyorsa onun
+  chunk'ına eklenir (`ingest._merge_continuation_pages`, `5b494b2`); korpusta tam
+  5 çift, page_info "sayfa N-M". Yeniden ingest: 916 → 911 chunk; yedek
+  `rag.db.bak_madde22_2026-10-12` (kökte, `f61f7119a6c8`).
+- Hedef 5 soru (#24, #25, #26, #28, #29): doğru Cevap sayfası 5/5 bağlamda (önce
+  0/5). LLM (aynı oturum, yedek vs yeni DB): TP→FN 0, F1 3/5 arttı; içerik #25,
+  #26, #28'de gerçekten düzeldi. #24 iki DB'de de yanlış (Cevap sayfası
+  okunamıyor → madde 31), #29 kötüleşti (Çince sızıntısı; `llm_client`
+  temizleyicisi tasarım gereği dokunmadı).
+- Etki alanı 18 soru: sınıf kaybı 0; tek çapraz-doküman dolgu test_3 #87 (TP
+  kaldı). Tam negatif set FP 2/32 (değişmedi), tripwire 0.
+
 ## Madde 23 — Korunan kelimelerin çekimleri farklı token'a düşüyor
 
 Madde 19 düzeltmesinin (plan: [implementation_plan_bm25_stopword.md](implementation_plan_bm25_stopword.md),
@@ -962,6 +1000,10 @@ bağlam boş" kuralı **1 FP (#103) kazancı karşılığında 3 TP kaybettiriyo
 edilemez oran → **reddedildi; aynı deneme (sabit mutlak eşik) tekrarlanmamalı.**
 - Madde 22 sonrası da #103 çözülmüyor: birleşik DB'de dolgu sürüyor (22-23,
   28-29), tüm adaylar 0.04 altı, LLM yine FP.
+- **Gerçek (yeniden ingest edilmiş) DB'de teyit (2026-10-13, madde 22 Adım 3):**
+  #103 bağlamı s.16, s.2, s.28-29, s.22-23 — simülasyonla aynı; LLM cevabı yine
+  uydurma (pompalama lemmasının biçimsel ifadesi model bilgisinden) → **FP**.
+  Madde 24'ün kapsamı değişmedi: yalnız #103, açık aday bağıl eşik (ölçülmedi).
 - **D'yi destekleyen iki bağımsız gözlem** (reranker düşük skor verdiğinde
   çoğunlukla haklı): #103 (tüm adaylar < 0.04, belgede olmayan konu) ve test_3
   #87 (Fourier sorusu; birleşik DB'de gramer PDF'inin 24-25 chunk'ı 0.001 ile
@@ -1064,6 +1106,19 @@ Not: test_2 #36 iki yerde de geçiyor, ama farklı metinler üzerinden: madde
 araştırma sırasında yine de kontrol edilmeli (ör. sorgunun embedding'inde
 NaN'a yakın / aşırı değerler var mı).
 
+**Karşı-kanıt: kayma her zaman olmuyor (2026-10-12, madde 22 Adım 2).**
+- **Doküman embedding'leri kararlı:** gramer PDF'inin birleşmeyen 21 sayfası
+  yeniden embed edildi; 10 Ekim'deki embedding'lerle cosine min = max =
+  1.000000.
+- **Sorgu tarafı da bu kez kararlı:** madde 22 simülasyonu (2026-10-12 akşamı)
+  ile Adım 2 (ertesi oturum) arasında 147 sorunun kaynak listesi ve rerank
+  skorları 0 farkla aynı çıktı. İki ölçümde de Foundry GPU'da yüklü DEĞİLDİ
+  (yalnız retrieval koşuldu).
+- Madde 24 Adım 0'daki kayma (#217, #36, #93) ise v8 koşusuna (Foundry GPU'da,
+  LLM ile benchmark) göre ölçülmüştü. Bu, cihaz/bölüşüm hipotezini zayıflatmıyor,
+  daraltıyor: araştırmada "Foundry yüklü vs değil" koşulu doğrudan
+  karşılaştırılmalı.
+
 **Ölçüme etkisi:** koşular arası karşılaştırmada sınırdaki sorular işaret ya da
 kod değişikliğinden bağımsız olarak kayabilir. Bu yüzden madde 24 Adım 2 aynı
 oturumda A/B koşuluyor; diğer ölçümler de aynı yaklaşımı ya da kaymanın ayrı
@@ -1100,3 +1155,33 @@ birlikte; tek soruya göre ayar yapılmamalı. Not: #224 ve #101'in Adım 3'teki
 cevabı ("Ret. … belgede açıkça anlatılmamıştır.") anlamca ret ama skorlayıcı
 "anlatılmamıştır"ı tanımıyor; kapı genişletmesi madde 28 ile birlikte düşünülmeli
 (bkz. madde 24 planı §6).
+
+## Madde 31 — OCR'lı Cevap sayfalarının metin kalitesi
+
+Madde 22 Adım 3'te ortaya çıktı
+([experiments/madde22_ornek_cevap/PROVENANCE.md](../experiments/madde22_ornek_cevap/PROVENANCE.md)):
+birleştirmeden sonra doğru Cevap sayfası 5/5 bağlama giriyor, ama 4 soruda OCR
+metninin kendisi cevabı bozuyor. **İki ayrı ciddiyet**, muhtemelen iki ayrı
+çözüm:
+
+**A — sayfa okunamıyor (ciddi; #24, Cevap 2 / s.23).** OCR çıktısı
+"a) Ls.42 = { (aa) (cc)m b c b|  m20. k211 n21," — üst simgeler, koşullar ve
+küme yapısı kaybolmuş; model bu sayfayı kullanamıyor ve iki DB'de de yanlış küme
+veriyor. Bilgi metinde hiç yok → son işleme kurtaramaz. Çözüm adayı: o sayfa
+için OCR'ı yeniden çalıştırmak (daha yüksek çözünürlük, farklı ön işleme,
+görüntüyü bölme) ya da başka bir OCR motoru. Ölçüm: s.23 çıktısının referansla
+(`L_S.4.2 = {(aa)^n (cc)^m b^k c b^k | n≥1, m≥0, k≥1}`) karşılaştırılması.
+
+**B — kısmi bozulma (orta; #25, #26, #28).** İçerik okunuyor ama biçim kayıp ve
+model bozuk metni aynen kopyalıyor:
+- üst simgeler düz satıra iniyor: "an b am b a*" (aⁿ b aᵐ b aᵏ), "b2k+1";
+- "|" kayboluyor ya da "I" oluyor: "aaSdIaaAd" (aaSd | aaAd), "A ==>aAccbBc"
+  (aAcc | bBc);
+- koşullar bozuluyor: "n21" (n ≥ 1 / n > 1), "m20" (m ≥ 0).
+Bilgi metinde var, gösterimi bozuk → son işleme (ör. kural satırlarında
+"I"/"|" düzeltmesi, bilinen kalıplarda üst simge onarımı) aday; ama kurallar
+belgeye özel olmamalı ve formül olmayan metni bozmamalı. Etkisi sınırlı:
+#25/#26/#28'de içerik yine de birleştirme öncesine göre düzeldi.
+
+Kapsam: bugün yalnız gramer PDF'inin 10 OCR sayfası. Öncelik düşük–orta: 5
+alıştırma sorusunun cevap kalitesini etkiliyor, sınıf (TP/FN) değiştirmiyor.
