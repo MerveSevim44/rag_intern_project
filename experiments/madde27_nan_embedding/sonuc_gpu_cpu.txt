@@ -1,0 +1,16 @@
+metin: 701
+ollama ps (CPU yolu):
+NAME             ID              SIZE      PROCESSOR    CONTEXT    UNTIL              
+bge-m3:latest    790764642607    1.1 GB    100% CPU     4096       4 minutes from now
+ollama ps (GPU yolu):
+NAME             ID              SIZE      PROCESSOR    CONTEXT    UNTIL              
+bge-m3:latest    790764642607    1.2 GB    100% GPU     4096       4 minutes from now
+CPU: nan/hata 0
+GPU: nan/hata 1
+   hata madde25_ret_tespiti:test_2#36 len=71 'Gün nesnesi, "day", "active", "start" ve "end" alanlarını içermektedir.'
+cosine(CPU, GPU): min=0.998212 medyan=0.999989 max=1.000000; < 0.9999: 83, < 0.999: 3
+   en farkli: 0.998212 madde25_ret_tespiti:test_3#89 'Spektral örtüşmeyi önlemek ve alçak geçiren filtrenin yüksek frekans b'
+   en farkli: 0.998908 madde25_ret_tespiti:test_2#41 'sector, occupation, services listesindeki hizmet adları, city ve distr'
+   en farkli: 0.998985 madde25_ret_tespiti:test_4#96 'Kütüphanenin yarın büyük bir yangınla kül olacağını gösteren hareketli'
+   en farkli: 0.999456 v3_soften_and_chunk:test_3#75 'Fourier dönüşümünün bir işaret hakkında frekans içeriğini ölçer ancak '
+   en farkli: 0.999470 madde25_ret_tespiti:test_2#39 'Gelişim görüşmesi ve Yetkinlik değerlendirme Online, Kariyer görüşmesi'
