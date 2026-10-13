@@ -1,0 +1,74 @@
+Satir: 68  HATA: 0
+
+== Faz 1: 18 soru, yedek vs yeni DB (ayni oturum, tek tekrar)
+   soru                 yedek  yeni   F1 yedek/yeni    ayni_cevap
+   test_1#1             TP     TP      75.9 /  75.9    evet
+   test_1#2             TP     TP      33.3 /  32.4    hayir
+   test_1#4             TP     TP      43.9 /  45.5    hayir
+   test_1#8             TP     TP      41.8 /  53.7    hayir
+   test_1#9             TP     TP      62.5 /  62.5    evet
+   test_1#21            TP     TP      49.3 /  37.7    hayir
+   test_1#24            TP     TP      55.0 /  51.6    hayir
+   test_1#25            TP     TP      40.7 /  64.7    hayir
+   test_1#26            TP     TP      31.9 /  37.3    hayir
+   test_1#28            TP     TP      32.5 /  45.9    hayir
+   test_1#29            TP     TP      41.7 /  31.9    hayir
+   test_1#30            TP     TP      36.0 /  34.5    hayir
+   test_3#87            TP     TP      32.6 /  35.2    hayir
+   test_5#101           FP     FP     -                hayir
+   test_5#102           TN     TN     -                evet
+   test_5#103           FP     FP     -                hayir
+   test_negative#217    TN     TN     -                evet
+   test_negative#224    FP     FP     -                hayir
+
+== Olcut 2: hedef 5 soru (elle inceleme icin cevap + referans)
+
+   #24 (Cevap s.23) yedek=TP F1 55.0 -> yeni=TP F1 51.6  Cevap baglamda (yeni): True
+      soru : G_S.4.2 dilbilgisinde L_S.4.2 dilinin küme tanımı nedir?
+      yedek: 'L_Gs.4.2 = {a^n b^m c^k d^p | n, m, p, k ≥ 1, p > n, k > m}'
+      yeni : 'Ls.4.2 = {anbmcdp | n,m,p,k ≥1, p>n, k>m}'
+      ref  : L_S.4.2 = {(aa)ⁿ(cc)ᵐbᵏcbᵏ
+
+   #25 (Cevap s.27) yedek=TP F1 40.7 -> yeni=TP F1 64.7  Cevap baglamda (yeni): True
+      soru : Örnek 6'daki G_S.4.6.1 dilbilgisinin türettiği dilin (L_S.4.6.1) küme tanımı nedir?
+      yedek: "L_S.4.6.1 = {a^n b^n | n ≥ 1} Bu küme tanımı, Gs.4.6.1 tarafından üretilen dilde her a ile eş sayıda b'nin olduğu tüm dizileri temsil eder. Bağlamdaki örneklerden çıkarılarak bu sonuç elde edilmiştir."
+      yeni : 'a) Ls.4.6.1 = { an b am b a* k>1}\nm>0.\nn21'
+      ref  : L_S.4.6.1 = {aⁿbaᵐbaᵏ
+
+   #26 (Cevap s.25) yedek=TP F1 31.9 -> yeni=TP F1 37.3  Cevap baglamda (yeni): True
+      soru : Örnek 5'teki G_4.5.1 dilbilgisinin kuralları, L_4.5.1={a^2k b^n c^2n d^k | k≥1, n≥1} dilini nasıl üretir?
+      yedek: "G4.5.1 tarafından türetilen tüm cümleler L4.5.1={a^2k b^n c^2n d^k | k≥1, n≥1} dilini üretebilir. Bu dil, a ve d karakterlerinin sayısının eşit olması ve b ve c karakterlerinin sayısının eşit olması koşullarını karşılar. Cümlelerin a ve d karakterleri arasındaki boşlukta b ve c karakterleri yer alır ve bu karakterlerin sayısı da eşittir. Bu durumu G4.5.1'nin kurallarıyla doğrulayabiliriz: S => a2k"
+      yeni : "G_4.5.1 tarafından üretilen dil L_4.5.1={a^2k b^n c^2n d^k | k≥1, n≥1} dili aşağıdaki kurallarla üretilebilir: VN={S,A}\nVT={a,b,c,d}\nP:S → aaSdIaaAd\nA → bAcc|bcc Bu kurallar, a ve c sayısının iki katının, b ve d sayısının eşleşmesini sağlar. S ve A'nın kuralları a ve c sayısının iki katının ve b ve d sayısının eşleşmesini tekrarlayan ve artıran yapıları oluşturur."
+      ref  : S => aaSd kuralı her uygulandığında hem başta iki tane a hem sonda bir d eklenir (bu k kez tekrarlanır), S => aaAd ile A'ya geçilince A => bAcc
+
+   #28 (Cevap s.29) yedek=TP F1 32.5 -> yeni=TP F1 45.9  Cevap baglamda (yeni): True
+      soru : G_S.4.7.2 dilbilgisi L_S.4.7.2={a^n b^m c^k | n>0, m>0, k=2n+m} dilini nasıl üretir; S=>aAcc kuralının bu eşitlikteki rolü nedir?
+      yedek: "S=>aAcc kuralı L_S.4.7.2 dilinin yapısını reflekt eder ve kuralın role göre: S => aAcc => a^(n-1) b^m c^(2n+m) Bu kuralın rolü, a'nın sayısını n-1 olarak ayarlar ve c'nin sayısını 2n+m olarak artırır. Ancak orijinal dilde k=n ve m=m olduğu için, S=>aAcc kuralının doğrultusunda c'nin sayısının 2n+m olması gerekmektedir. Bu durumda, orijinal dildeki m ve n değerleriyle uyum sağlamak için gerekli düz"
+      yeni : "Gs.4.7.2 dilbilgisi L_S.4.7.2={a^n b^m c^k | n>0, m>0, k=2n+m} dilini şu kurallarla üretecektir: a) S => aAcc\nb) A => aAccbBc\nc) B => aBb | aB | λ S => aAcc kuralı, her a ile b ve c'nin iki katı sayısında başlar ve bu dilin temel yapısını oluşturur. Bu kural, n>0 koşulu sağlar ve k=2n+m ifadesini doğrurlar."
+      ref  : S=>aAcc kuralı başta bir a ve sonda iki c ekler (n kez tekrarlanabilir, S=>aAcc çağrısı n defa a ekler). A=>aAcc|bBc kuralları ile hem daha fazla a-cc çifti (m kez) hem de B'ye geçiş (bir b ve bir c) eklenir; B=>bBc|λ ile k kez daha b ve c eklenir. Sonuçta a sayısı n, b sayısı m, c sayısı ise her a 
+
+   #29 (Cevap s.31) yedek=TP F1 41.7 -> yeni=TP F1 31.9  Cevap baglamda (yeni): True
+      soru : Örnek 8'deki G_S.4.8.1 dilbilgisinin türettiği L_S.4.8.1 dilinde üs olarak neden 2k+1 kullanılmıştır; B=>bbBdd|C kuralı bunu nasıl sağlar?
+      yedek: "B => bbBdd | C kuralı, 2k+1 formunda üslere sahip olmasının nedenini açıklar. Çünkü bu kural, B'nin kendisini tekrar ederken, çift sayıda 'b' ve 'd' ekler. Eğer k=0 ise, B => C olur. Eğer k=1 ise, B => bbBdd olur. Böylece her k değeri için 2k+1 formunda üslere sahip olma koşulu karşılanır."
+      yeni : "B => bbBdd | C kuralı, üs olarak 2k+1使用的翻译：\n在给定的上下文中，Example 8中的G_S.4.8.1文法产生的L_S.4.8.1语言中为什么使用2k+1作为指数；B => bbBdd | C规则是如何实现这一点的？ 答案：B => bbBdd | C 规则通过确保生成的字符串中'b'的数量总是比'd'多2个来实现2k+1作为指数。具体来说，每当产生一个'B'时，就会添加两个'b'和两个'd'，而'C'则保证至少有一个'b'和一个'd'。因此，对于每个新的'B'，'b'的数量总是比'd'多2个，满足了2k+1的形式。"
+      ref  : B=>bbBdd|C kuralı her uygulandığında 2 tane b ve 2 tane d ekler (k kez tekrarlanır), bu nedenle üs 2k olur; C=>bd temel kuralı ile bir b ve bir d daha eklenerek toplam üs 2k+1'e çıkar — böylece b ve d sayıları eşit ve tek sayı (2k+1) olarak eşleşir.
+
+   TP->baska: 0; F1 artan: 3/5 -> GECTI (elle inceleme ayrica)
+
+== Olcut 3: 18 sorunun regresyonu
+   pozitif TP->baska: 0
+   negatif TN->FP: 0
+   bilinen/kapsam disi test_5#101: FP -> FP
+   bilinen/kapsam disi test_5#103: FP -> FP
+   bilinen/kapsam disi test_negative#224: FP -> FP
+   diger sinif degisimi: 0
+
+== Olcut 4: yeni dolgu — beklenen kaynagi baska dokuman olup birlesik chunk alan sorular
+   test_3#87 beklenen=lsarSist-H8_FourierTransform.pdf birlesik=['8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 24-25)'] sinif TP->TP
+      cevap: "Re{a} terimi a'nın reel kısmı temsil eder ve genlik tersinilik hızını gösterir. Im{a} terimi a'nın sanal kısmı temsil eder ve faz sapmayı gösterir. a=1 için genlik-faz grafikleri, genlik sabit kalırken faz lineer olarak azalmaya devam eden bir attenuating oscillation şekline sahiptir. Bu, genlik 1 k"
+   toplam: 1
+
+== Olcut 5: tam negatif set (yeni DB, 32 soru): {'TN': 30, 'FP': 2}  (taban FP 2/32: #224, #232)
+   FP #224: 'Bağlamdan bağımsız dilbilgisinin Chomsky normal formuna dönüştürme adımları şunlardır: 1. Yararsız değişken ve kurallar atılır.\n2. Uç simge '
+   FP #232: 'Hawaii, veri setinde en son eyalet sınırı değişikliği kaydedilen eyalettedir.'
+   tripwire: 0

@@ -1,0 +1,52 @@
+Is: 68 (faz1 36, faz2 32) kalan: 6
+[Foundry] Model yüklendi: qwen2.5-7b-instruct-cuda-gpu:4 | execution provider: CUDAExecutionProvider | cihaz: GPU
+[Foundry] Servis adresi: http://127.0.0.1:60975
+[Foundry] Serviste yüklü modeller: ['qwen2.5-7b-instruct-cuda-gpu:4']
+[1/6] faz2 test_negative#227 db=yeni: Z-Dönüşümü dersinin 2026 Bahar dönemi final sınavı hangi tarihte yapıl
+[retrieval] Cache yuklendi: 911 chunk, embedding matrisi (911, 1024)
+    -> 83.27 sn 'lsarSist-H9_ZTransform.pdf (sayfa 1); 728_profiles.json ($.profiles[272]); 728_p' 'Bu bilgi dokümanlarda bulunamadı.'
+[2/6] faz2 test_negative#228 db=yeni: 728_profiles veri setine bu ay eklenen yeni profil sayısı kaçtır?
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil', 'date~ay']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df[df['profileCode'].str.contains('2023-10')]  # Eklenen yeni profilleri filtrele
+result = len(result)  # Sonuç sayısını say
+[CodeInterpreter] Basarili ama KAYIT BULUNAMADI (bos filtre=True). Cikti: 0
+    -> 5.49 sn '728_profiles.json (code_interpreter (code_interpreter_sandbox))' 'Bu bilgi dokümanlarda bulunamadı; belirtilen koşullara uyan kayıt yok.'
+[3/6] faz2 test_negative#229 db=yeni: Summer School programının 2027 yılı kayıt takvimi nasıldır?
+    -> 23.77 sn '728_profiles.json ($.profiles[334]); 728_profiles.json ($.profiles[321]); 728_pr' 'Bu bilgi dokümanlarda bulunamadı.'
+[4/6] faz2 test_negative#230 db=yeni: 728_profiles veri setinin schemaVersion 2.0 sürümü ne zaman yayınlanac
+    -> 22.57 sn '728_profiles.json ($.metadata); 728_profiles.json ($.profiles[393]); 728_profile' 'Bu bilgi dokümanlarda bulunamadı.'
+[5/6] faz2 test_negative#231 db=yeni: airports.json veri setinin 2026 güncellemesinde eklenen havaalanları h
+[data_engine] route=code_interpreter (dataset_signal+interrogative) | dataset=airports.json (score=3.0, best_score, ambiguous=False) | schema_cols=[]
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+# Havaalanlarının güncellemelerini belirlemek için önce mevcut havaalanları bulalım
+current_airports = df
+
+# 2026 güncellemesinde eklenen havaalanları bulmak için tarih bilgisine bakmalıyız.
+# Ancak veri setinde tarih bilgisi bulunmuyor, bu nedenle 2026 güncellemesinde eklenen havaalanları
+# mevcut havaalanlardan ayırt etmek için bir kriter belirleyelim.
+# Burada 2026 güncellemesinde eklenen havaalanları temsil edecek bir kriter belirleyebiliriz.
+# Örneğin, 2026 güncellemesinde eklenen havaalanların "code" sütununda bir marka işareti olabilir.
+
+# 2026 güncellemesinde eklenen havaalanları temsil edecek bir kriter belirleyelim.
+# Örneğin, "code" sütununda "NEW_" prefiksini taşıyan havaalanları 2026 güncellemesinde eklenen havaalanlar olarak kabul edelim.
+new_airports = df[df['code'].str.startswith('NEW_')]
+
+# Sonuçları 'result' değişkenine atıyoruz.
+result = new_airports[['code', 'name', 'city', 'country']]
+[CodeInterpreter] Basarili ama KAYIT BULUNAMADI (bos filtre=True). Cikti: Empty DataFrame
+Columns: [code, name, city, country]
+Index: []
+    -> 33.91 sn 'airports.json (code_interpreter (code_interpreter_sandbox))' 'Bu bilgi dokümanlarda bulunamadı; belirtilen koşullara uyan kayıt yok.'
+[6/6] faz2 test_negative#232 db=yeni: us-states veri setinde en son hangi tarihte eyalet sınırı değişikliği 
+[data_engine] route=code_interpreter (dataset_signal+interrogative) | dataset=us-states-with-detail.json (score=3.0, best_score, ambiguous=False) | schema_cols=['date~tarih']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df[df['borders'].notna()]['founded'].idxmax()
+result = df.loc[result, 'name']
+[CodeInterpreter] Basarili! Cikti: Hawaii
+    -> 28.46 sn 'us-states-with-detail.json (code_interpreter (code_interpreter_sandbox))' 'Hawaii, veri setinde en son eyalet sınırı değişikliği kaydedilen eyalettedir.'
+
+Tamamlandi: 6 is, 3.4 dk.

@@ -1,0 +1,317 @@
+Is: 68 (faz1 36, faz2 32) kalan: 68
+[Foundry] Model yüklendi: qwen2.5-7b-instruct-cuda-gpu:4 | execution provider: CUDAExecutionProvider | cihaz: GPU
+[Foundry] Servis adresi: http://127.0.0.1:60752
+[Foundry] Serviste yüklü modeller: ['qwen2.5-7b-instruct-cuda-gpu:4']
+[1/68] faz1 test_1#1 db=yedek: G4.1 dilbilgisinde VT kümesinin elemanları nelerdir?
+[retrieval] Cache yuklendi: 916 chunk, embedding matrisi (916, 1024)
+    -> 81.75 sn '8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 3); 8-Baglamdan_bagimsiz_dilbilgisi.p' 'G4.1 dilbilgisinde VT kümesinin elemanları {+, -, *, /, (, ), v, c} dir.'
+[2/68] faz1 test_1#1 db=yeni: G4.1 dilbilgisinde VT kümesinin elemanları nelerdir?
+[retrieval] Cache yuklendi: 911 chunk, embedding matrisi (911, 1024)
+    -> 46.5 sn '8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 3); 8-Baglamdan_bagimsiz_dilbilgisi.p' 'G4.1 dilbilgisinde VT kümesinin elemanları {+, -, *, /, (, ), v, c} dir.'
+[3/68] faz1 test_1#2 db=yeni: Bağlamdan bağımsız dilbilgisinde P harfi neyi temsil eder?
+    -> 34.59 sn '8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 2); 8-Baglamdan_bagimsiz_dilbilgisi.p' "P, yeniden yazma ya da türetme kuralları temsil eder. Bu kurallar,VN'deki değişk"
+[4/68] faz1 test_1#2 db=yedek: Bağlamdan bağımsız dilbilgisinde P harfi neyi temsil eder?
+[retrieval] Cache yuklendi: 916 chunk, embedding matrisi (916, 1024)
+    -> 53.37 sn '8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 2); 8-Baglamdan_bagimsiz_dilbilgisi.p' 'P, yeniden yazma ya da türetme kuralları temsil eder. Bağlamdan bağımsız dilbilg'
+[5/68] faz1 test_1#4 db=yedek: VN ve VT kümeleri arasındaki ilişki nedir (ayrık mıdır kesişir mi)?
+    -> 27.16 sn '8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 2); 8-Baglamdan_bagimsiz_dilbilgisi.p' 'AYRIK kümelerdir. VN ve VT kümeleri ayrık kümelerdir ve birbirleriyle kesişmez. '
+[6/68] faz1 test_1#4 db=yeni: VN ve VT kümeleri arasındaki ilişki nedir (ayrık mıdır kesişir mi)?
+[retrieval] Cache yuklendi: 911 chunk, embedding matrisi (911, 1024)
+    -> 64.11 sn '8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 2); 8-Baglamdan_bagimsiz_dilbilgisi.p' 'VN ve VT ayrık kümelerdir ve kesişmez. Bu, bağlamdan bağımsız dilbilgisi tanımla'
+[7/68] faz1 test_1#8 db=yeni: L(G4.2) dili nasıl tanımlanmıştır; n, m, p, k parametreleri arasındaki
+[llm_client] Yabanci alfabe parcasi temizlendi (98 -> 83 karakter)
+    -> 36.21 sn '8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 4); 8-Baglamdan_bagimsiz_dilbilgisi.p' 'L(G4.2) dili\nL(G4.2) = {anbmckdp | n,m,p,k ≥1, p>n, k>m}\nn, m, p, k ≥ 1\np > n\nk '
+[8/68] faz1 test_1#8 db=yedek: L(G4.2) dili nasıl tanımlanmıştır; n, m, p, k parametreleri arasındaki
+[retrieval] Cache yuklendi: 916 chunk, embedding matrisi (916, 1024)
+    -> 69.62 sn '8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 4); 8-Baglamdan_bagimsiz_dilbilgisi.p' 'L(G4.2) dili aşağıdaki gibi tanımlanabilir:\nL(G4.2) = {anbmckdp | n,m,p,k ≥1, p>'
+[9/68] faz1 test_1#9 db=yedek: G4.3 dilbilgisi tarafından türetilen L(G4.3) dilinin küme tanımını yaz
+    -> 34.73 sn '8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 5); 8-Baglamdan_bagimsiz_dilbilgisi.p' 'L(G4.3) = {anbmck | n≥1, k≥1, m≥2n}'
+[10/68] faz1 test_1#9 db=yeni: G4.3 dilbilgisi tarafından türetilen L(G4.3) dilinin küme tanımını yaz
+[retrieval] Cache yuklendi: 911 chunk, embedding matrisi (911, 1024)
+    -> 59.11 sn '8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 5); 8-Baglamdan_bagimsiz_dilbilgisi.p' 'L(G4.3) = {anbmck | n≥1, k≥1, m≥2n}'
+[11/68] faz1 test_1#21 db=yeni: G4.7'nin yalınlaştırılmış son hali olan G''4.7 dilbilgisinin kuralları
+    -> 43.57 sn '8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 20); 8-Baglamdan_bagimsiz_dilbilgisi.' 'G" =<V, V, P, S>\n4.7 N T çıkarıldığında a simgesinin de yararsız bir\nV = { S, B}'
+[12/68] faz1 test_1#21 db=yedek: G4.7'nin yalınlaştırılmış son hali olan G''4.7 dilbilgisinin kuralları
+[retrieval] Cache yuklendi: 916 chunk, embedding matrisi (916, 1024)
+    -> 64.71 sn '8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 20); 8-Baglamdan_bagimsiz_dilbilgisi.' "G''4.7=<V', V', P', S> ve P' = { S => B | BS, B => b } Bu dilbilgisinde yalnızca"
+[13/68] faz1 test_1#24 db=yedek: G_S.4.2 dilbilgisinde L_S.4.2 dilinin küme tanımı nedir?
+    -> 26.47 sn '8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 22); 8-Baglamdan_bagimsiz_dilbilgisi.' 'L_Gs.4.2 = {a^n b^m c^k d^p | n, m, p, k ≥ 1, p > n, k > m}'
+[14/68] faz1 test_1#24 db=yeni: G_S.4.2 dilbilgisinde L_S.4.2 dilinin küme tanımı nedir?
+[retrieval] Cache yuklendi: 911 chunk, embedding matrisi (911, 1024)
+    -> 60.62 sn '8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 22-23); 8-Baglamdan_bagimsiz_dilbilgi' 'Ls.4.2 = {anbmcdp | n,m,p,k ≥1, p>n, k>m}'
+[15/68] faz1 test_1#25 db=yeni: Örnek 6'daki G_S.4.6.1 dilbilgisinin türettiği dilin (L_S.4.6.1) küme 
+    -> 34.92 sn '8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 26-27); 8-Baglamdan_bagimsiz_dilbilgi' 'a) Ls.4.6.1 = { an b am b a* k>1}\nm>0.\nn21'
+[16/68] faz1 test_1#25 db=yedek: Örnek 6'daki G_S.4.6.1 dilbilgisinin türettiği dilin (L_S.4.6.1) küme 
+[retrieval] Cache yuklendi: 916 chunk, embedding matrisi (916, 1024)
+    -> 60.84 sn '8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 26); 8-Baglamdan_bagimsiz_dilbilgisi.' 'L_S.4.6.1 = {a^n b^n | n ≥ 1} Bu küme tanımı, Gs.4.6.1 tarafından üretilen dilde'
+[17/68] faz1 test_1#26 db=yedek: Örnek 5'teki G_4.5.1 dilbilgisinin kuralları, L_4.5.1={a^2k b^n c^2n d
+    -> 31.08 sn '8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 24); 8-Baglamdan_bagimsiz_dilbilgisi.' 'G4.5.1 tarafından türetilen tüm cümleler L4.5.1={a^2k b^n c^2n d^k | k≥1, n≥1} d'
+[18/68] faz1 test_1#26 db=yeni: Örnek 5'teki G_4.5.1 dilbilgisinin kuralları, L_4.5.1={a^2k b^n c^2n d
+[retrieval] Cache yuklendi: 911 chunk, embedding matrisi (911, 1024)
+    -> 66.25 sn '8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 24-25); 8-Baglamdan_bagimsiz_dilbilgi' 'G_4.5.1 tarafından üretilen dil L_4.5.1={a^2k b^n c^2n d^k | k≥1, n≥1} dili aşağ'
+[19/68] faz1 test_1#28 db=yeni: G_S.4.7.2 dilbilgisi L_S.4.7.2={a^n b^m c^k | n>0, m>0, k=2n+m} dilini
+    -> 38.76 sn '8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 28-29); 8-Baglamdan_bagimsiz_dilbilgi' 'Gs.4.7.2 dilbilgisi L_S.4.7.2={a^n b^m c^k | n>0, m>0, k=2n+m} dilini şu kuralla'
+[20/68] faz1 test_1#28 db=yedek: G_S.4.7.2 dilbilgisi L_S.4.7.2={a^n b^m c^k | n>0, m>0, k=2n+m} dilini
+[retrieval] Cache yuklendi: 916 chunk, embedding matrisi (916, 1024)
+    -> 70.02 sn '8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 4); 8-Baglamdan_bagimsiz_dilbilgisi.p' 'S=>aAcc kuralı L_S.4.7.2 dilinin yapısını reflekt eder ve kuralın role göre: S ='
+[21/68] faz1 test_1#29 db=yedek: Örnek 8'deki G_S.4.8.1 dilbilgisinin türettiği L_S.4.8.1 dilinde üs ol
+    -> 35.33 sn '8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 30); 8-Baglamdan_bagimsiz_dilbilgisi.' 'B => bbBdd | C kuralı, 2k+1 formunda üslere sahip olmasının nedenini açıklar. Çü'
+[22/68] faz1 test_1#29 db=yeni: Örnek 8'deki G_S.4.8.1 dilbilgisinin türettiği L_S.4.8.1 dilinde üs ol
+[retrieval] Cache yuklendi: 911 chunk, embedding matrisi (911, 1024)
+    -> 67.59 sn '8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 30-31); 8-Baglamdan_bagimsiz_dilbilgi' 'B => bbBdd | C kuralı, üs olarak 2k+1使用的翻译：\n在给定的上下文中，Example 8中的G_S.4.8.1文法产生的L_'
+[23/68] faz1 test_1#30 db=yeni: G4.3 dilbilgisinde X=>aXbb|aZbb|abb ve Z=>Zb|Xb kuralları birlikte çal
+    -> 41.1 sn '8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 5); 8-Baglamdan_bagimsiz_dilbilgisi.p' 'X ve Z kuralları birlikte çalışarak L(G4.3)={a^n b^m c^k | n≥1, k≥1, m≥2n} koşul'
+[24/68] faz1 test_1#30 db=yedek: G4.3 dilbilgisinde X=>aXbb|aZbb|abb ve Z=>Zb|Xb kuralları birlikte çal
+[retrieval] Cache yuklendi: 916 chunk, embedding matrisi (916, 1024)
+    -> 67.75 sn '8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 5); 8-Baglamdan_bagimsiz_dilbilgisi.p' 'X ve Z kuralları birlikte çalışarak L(G4.3)={a^n b^m c^k | n≥1, k≥1, m≥2n} koşul'
+[25/68] faz1 test_3#87 db=yedek: Nedensel üstel işaretin genlik yanıtı |X(jω)|=1/√(Re{a}²+(ω+Im{a})²) i
+    -> 54.91 sn 'lsarSist-H8_FourierTransform.pdf (sayfa 7); lsarSist-H8_FourierTransform.pdf (sa' "Re{a} terimi a'nın reel kısmı temsil eder ve genlikten bağımsız olarak faz geril"
+[26/68] faz1 test_3#87 db=yeni: Nedensel üstel işaretin genlik yanıtı |X(jω)|=1/√(Re{a}²+(ω+Im{a})²) i
+[retrieval] Cache yuklendi: 911 chunk, embedding matrisi (911, 1024)
+    -> 73.46 sn 'lsarSist-H8_FourierTransform.pdf (sayfa 7); lsarSist-H8_FourierTransform.pdf (sa' "Re{a} terimi a'nın reel kısmı temsil eder ve genlik tersinilik hızını gösterir. "
+[27/68] faz1 test_5#101 db=yeni: Bağlamdan bağımsız dilbilgisini Chomsky normal formuna dönüştürme algo
+    -> 45.73 sn '8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 18); 8-Baglamdan_bagimsiz_dilbilgisi.' 'Bağlamdan bağımsız dilbilgisini Chomsky normal formuna dönüştürme algoritması aş'
+[28/68] faz1 test_5#101 db=yedek: Bağlamdan bağımsız dilbilgisini Chomsky normal formuna dönüştürme algo
+[retrieval] Cache yuklendi: 916 chunk, embedding matrisi (916, 1024)
+    -> 69.11 sn '8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 18); 8-Baglamdan_bagimsiz_dilbilgisi.' 'Bağlamdan bağımsız dilbilgisini Chomsky normal formuna dönüştürme algoritması aş'
+[29/68] faz1 test_5#102 db=yedek: Bağlamdan bağımsız dilleri tanıyan yığın otomatı (pushdown automaton) 
+    -> 37.28 sn '8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 2); 8-Baglamdan_bagimsiz_dilbilgisi.p' 'Bu bilgi dokümanlarda bulunamadı.'
+[30/68] faz1 test_5#102 db=yeni: Bağlamdan bağımsız dilleri tanıyan yığın otomatı (pushdown automaton) 
+[retrieval] Cache yuklendi: 911 chunk, embedding matrisi (911, 1024)
+    -> 66.93 sn '8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 2); 8-Baglamdan_bagimsiz_dilbilgisi.p' 'Bu bilgi dokümanlarda bulunamadı.'
+[31/68] faz1 test_5#103 db=yeni: Bağlamdan bağımsız dilbilgisi için pompalama (pumping) lemması nasıl i
+    -> 39.21 sn '8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 16); 8-Baglamdan_bagimsiz_dilbilgisi.' "Bağlamdan bağımsız dilbilgisinin pompalama lemma'sı, dilbilgisinin her uygulandı"
+[32/68] faz1 test_5#103 db=yedek: Bağlamdan bağımsız dilbilgisi için pompalama (pumping) lemması nasıl i
+[retrieval] Cache yuklendi: 916 chunk, embedding matrisi (916, 1024)
+    -> 55.72 sn '8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 16); 8-Baglamdan_bagimsiz_dilbilgisi.' "Bağlamdan bağımsız dilbilgisinin pompalama lemma'sı, bir dilin bağlamdan bağımsı"
+[33/68] faz1 test_negative#217 db=yedek: Bağlamdan bağımsız dilbilgisi dokümanında anlatılan "Tür 3 düzenli dil
+    -> 36.55 sn '8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 2); 8-Baglamdan_bagimsiz_dilbilgisi.p' 'Bu bilgi dokümanlarda bulunamadı.'
+[34/68] faz1 test_negative#217 db=yeni: Bağlamdan bağımsız dilbilgisi dokümanında anlatılan "Tür 3 düzenli dil
+[retrieval] Cache yuklendi: 911 chunk, embedding matrisi (911, 1024)
+    -> 65.79 sn '8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 2); 8-Baglamdan_bagimsiz_dilbilgisi.p' 'Bu bilgi dokümanlarda bulunamadı.'
+[35/68] faz1 test_negative#224 db=yeni: Bağlamdan bağımsız dilbilgisi dokümanında anlatılan Chomsky normal for
+    -> 41.65 sn '8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 22-23); 8-Baglamdan_bagimsiz_dilbilgi' 'Bağlamdan bağımsız dilbilgisinin Chomsky normal formuna dönüştürme adımları şunl'
+[36/68] faz1 test_negative#224 db=yedek: Bağlamdan bağımsız dilbilgisi dokümanında anlatılan Chomsky normal for
+[retrieval] Cache yuklendi: 916 chunk, embedding matrisi (916, 1024)
+    -> 67.83 sn '8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 22); 8-Baglamdan_bagimsiz_dilbilgisi.' 'Bağlamdan bağımsız dilbilgisinin Chomsky normal formuna dönüştürme adımları şunl'
+[37/68] faz2 test_negative#201 db=yeni: Blockchain tabanlı akıllı sözleşmelerde gaz (gas) ücreti nasıl hesapla
+[retrieval] Cache yuklendi: 911 chunk, embedding matrisi (911, 1024)
+    -> 73.52 sn '728_profiles.json ($.profiles[477]); mock-transactions.json ($.transactions[6]);' 'Bu bilgi dokümanlarda bulunamadı.'
+[38/68] faz2 test_negative#202 db=yeni: Kuantum dolanıklığının kübit hata oranlarına etkisi nedir?
+    -> 48.4 sn 'lsarSist-H8_FourierTransform.pdf (sayfa 7); 728_profiles.json ($.profiles[388]);' 'Bu bilgi dokümanlarda bulunamadı.'
+[39/68] faz2 test_negative#203 db=yeni: GDPR kapsamında kişisel verilerin azami saklama süresi ne kadardır?
+    -> 50.95 sn '728_profiles.json ($.profiles[397]); 728_profiles.json ($.profiles[396]); 728_pr' 'Bu bilgi dokümanlarda bulunamadı.'
+[40/68] faz2 test_negative#204 db=yeni: Kubernetes'te pod autoscaling eşik değerleri nasıl yapılandırılır?
+    -> 69.76 sn 'Summer School Foundry Local Plan.docx (bölüm 6); 728_profiles.json ($.profiles[3' 'Bu bilgi dokümanlarda bulunamadı.'
+[41/68] faz2 test_negative#205 db=yeni: Porter'ın beş güç analizi bir pazara nasıl uygulanır?
+    -> 45.67 sn 'lsarSist-H9_ZTransform.pdf (sayfa 8); 728_profiles.json ($.profiles[454]); 728_p' 'Bu bilgi dokümanlarda bulunamadı.'
+[42/68] faz2 test_negative#206 db=yeni: Fotosentezde Calvin döngüsünün ATP tüketimi nedir?
+    -> 53.89 sn '728_profiles.json ($.profiles[150]); 728_profiles.json ($.profiles[151]); 728_pr' 'Bu bilgi dokümanlarda bulunamadı.'
+[43/68] faz2 test_negative#207 db=yeni: Wavelet dönüşümünün zaman-frekans çözünürlüğü avantajı nedir?
+    -> 62.81 sn 'lsarSist-H8_FourierTransform.pdf (sayfa 14); lsarSist-H8_FourierTransform.pdf (s' 'Bu bilgi dokümanlarda bulunamadı.'
+[44/68] faz2 test_negative#208 db=yeni: Dizel motorlarda ortak hat (common rail) yakıt enjeksiyon basıncı kaç 
+    -> 65.06 sn 'lsarSist-H9_ZTransform.pdf (sayfa 10); 728_profiles.json ($.profiles[575]); 728_' 'Bu bilgi dokümanlarda bulunamadı.'
+[45/68] faz2 test_negative#209 db=yeni: ACC-456 hesabının Ocak 2024 dönemindeki toplam harcaması nedir?
+    -> 23.15 sn 'mock-transactions.json ($.transactions[4]); mock-transactions.json ($.transactio' 'Bu bilgi dokümanlarda bulunamadı.'
+[46/68] faz2 test_negative#210 db=yeni: TXN-020 numaralı işlemin tutarı ve kategorisi nedir?
+    -> 23.12 sn 'mock-transactions.json ($.transactions[1]); mock-transactions.json ($.transactio' 'Bu bilgi dokümanlarda bulunamadı.'
+[47/68] faz2 test_negative#211 db=yeni: "Havacılık ve Uzay" sektöründeki profillerin ortalama deneyim yılı kaç
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=7.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'sector~sektör', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil', 'experience.years~deneyim']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df[df['sector'] == 'Havacılık ve Uzay']['experience.years'].mean()
+[CodeInterpreter] Basarili ama KAYIT BULUNAMADI (bos filtre=True). Cikti: nan
+    -> 66.72 sn '728_profiles.json (code_interpreter (code_interpreter_sandbox))' 'Bu bilgi dokümanlarda bulunamadı; belirtilen koşullara uyan kayıt yok.'
+[48/68] faz2 test_negative#212 db=yeni: Erzurum şehrinde hizmet veren kaç profil bulunmaktadır?
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df[(df['location.city'] == 'Erzurum')].shape[0]
+[CodeInterpreter] Basarili ama KAYIT BULUNAMADI (bos filtre=True). Cikti: 0
+    -> 65.68 sn '728_profiles.json (code_interpreter (code_interpreter_sandbox))' 'Bu bilgi dokümanlarda bulunamadı; belirtilen koşullara uyan kayıt yok.'
+[49/68] faz2 test_negative#213 db=yeni: "Ahmet Yıldırım" adlı profilin uzmanlık alanı ve şehri nedir?
+    -> 65.35 sn '728_profiles.json ($.profiles[500]); 728_profiles.json ($.profiles[280]); 728_pr' 'Bu bilgi dokümanlarda bulunamadı.'
+[50/68] faz2 test_negative#214 db=yeni: airports.json veri setindeki Türkiye'ye ait havaalanlarının IATA kodla
+    -> 65.36 sn '728_profiles.json ($.profiles[393]); 728_profiles.json ($.profiles[397]); 728_pr' 'Bu bilgi dokümanlarda bulunamadı.'
+[51/68] faz2 test_negative#215 db=yeni: us-states veri setinde her eyaletin nüfusu kaç olarak belirtilmiştir?
+[data_engine] route=code_interpreter (dataset_signal+interrogative) | dataset=us-states-with-detail.json (score=3.0, best_score, ambiguous=False) | schema_cols=[]
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = None
+[CodeInterpreter] Hata alindi (1. deneme): ValueError: Kod çalıştırıldı ancak 'result' değişkenine bir değer atanmadı. Lütfen sonucu 'result = ...' şeklinde atayın.
+[CodeInterpreter] Deneme 2/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['population']
+[CodeInterpreter] Hata alindi (2. deneme): KeyError: 'population'
+[CodeInterpreter] Deneme 3/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['population']
+[CodeInterpreter] Hata alindi (3. deneme): KeyError: 'population'
+[CodeInterpreter] 3 deneme basarisiz oldu. Son hata: KeyError: 'population'
+    -> 115.04 sn '728_profiles.json ($.profiles[393]); 728_profiles.json ($.profiles[395]); 728_pr' 'Bu bilgi dokümanlarda bulunamadı.'
+[52/68] faz2 test_negative#216 db=yeni: 728_profiles veri setinde profillerin kredi puanı (credit score) ortal
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['creditScore'].mean()
+[CodeInterpreter] Hata alindi (1. deneme): KeyError: 'creditScore'
+[CodeInterpreter] Deneme 2/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['creditScore'].mean()
+[CodeInterpreter] Hata alindi (2. deneme): KeyError: 'creditScore'
+[CodeInterpreter] Deneme 3/3...
+[CodeInterpreter] Uretilen Kod:
+# Kredi puanı sütununun varlığını kontrol etmek için ilk 5 satırı inceleyelim
+print(df.head())
+
+# Eğer kredi puanı sütunu mevcut değilse, hata verecek. 
+# Eğer mevcutsa, sütunu mean() metoduyla ortalama hesaplayalım
+if 'creditScore' in df.columns:
+    result = df['creditScore'].mean()
+else:
+    result = None
+[CodeInterpreter] Hata alindi (3. deneme): ValueError: Kod çalıştırıldı ancak 'result' değişkenine bir değer atanmadı. Lütfen sonucu 'result = ...' şeklinde atayın.
+[CodeInterpreter] 3 deneme basarisiz oldu. Son hata: ValueError: Kod çalıştırıldı ancak 'result' değişkenine bir değer atanmadı. Lütfen sonucu 'result = ...' şeklinde atayın.
+    -> 259.78 sn '728_profiles.json ($.statistics); 728_profiles.json ($.profiles[393]); 728_profi' 'Bu bilgi dokümanlarda bulunamadı.'
+[53/68] faz2 test_negative#217 db=yeni: Bağlamdan bağımsız dilbilgisi dokümanında anlatılan "Tür 3 düzenli dil
+    -> 53.84 sn '8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 2); 8-Baglamdan_bagimsiz_dilbilgisi.p' 'Bu bilgi dokümanlarda bulunamadı.'
+[54/68] faz2 test_negative#218 db=yeni: mock-transactions veri setindeki ikinci hesabın (ACC-124) kapanış baki
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=mock-transactions.json (score=3.0, best_score, ambiguous=False) | schema_cols=[]
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+# Hesap ID'si ACC-124 olan kayıtları filtreleyelim
+account_id_filter = df[df['account_id'] == 'ACC-124']
+
+# Hesap ID'si ACC-124 olan kayıtlardan sadece 'credit' türünden kayıtları alalım
+credit_transactions = account_id_filter[account_id_filter['type'] == 'credit']
+
+# Hesap ID'si ACC-124 olan kayıtlardan sadece 'debit' türünden kayıtları alalım
+debit_transactions = account_id_filter[account_id_filter['type'] == 'debit']
+
+# Kapanış bakiyesini hesaplayalım: toplam kredi - toplam debet
+closing_balance = credit_transactions['amount'].sum() - debit_transactions['amount'].sum()
+
+# Para birimini de ekleyelim
+result = {'closing_balance': closing_balance, 'currency': credit_transactions['currency'].unique()[0]}
+[CodeInterpreter] Hata alindi (1. deneme): IndexError: index 0 is out of bounds for axis 0 with size 0
+[CodeInterpreter] Deneme 2/3...
+[CodeInterpreter] Uretilen Kod:
+# Hesap ID'si ACC-124 olan kayıtları filtreleyelim
+account_id_filter = df[df['account_id'] == 'ACC-124']
+
+# Hesap ID'si ACC-124 olan kayıtlardan sadece 'credit' türünden kayıtları alalım
+credit_transactions = account_id_filter[account_id_filter['type'] == 'credit']
+
+# Hesap ID'si ACC-124 olan kayıtlardan sadece 'debit' türünden kayıtları alalım
+debit_transactions = account_id_filter[account_id_filter['type'] == 'debit']
+
+# Kapanış bakiyesini hesaplayalım: toplam kredi - toplam debet
+closing_balance = credit_transactions['amount'].sum() - debit_transactions['amount'].sum()
+
+# Para birimini de ekleyelim
+result = {'closing_balance': closing_balance, 'currency': credit_transactions['currency'].unique()}
+[CodeInterpreter] Basarili ama KAYIT BULUNAMADI (bos filtre=True). Cikti: {'closing_balance': np.float64(0.0), 'currency': array([], dtype=object)}
+    -> 110.65 sn 'mock-transactions.json (code_interpreter (code_interpreter_sandbox))' 'Bu bilgi dokümanlarda bulunamadı; belirtilen koşullara uyan kayıt yok.'
+[55/68] faz2 test_negative#219 db=yeni: Fourier dokümanında verilen "hızlı ters çekirdek teoremi"nin ispatı ha
+    -> 35.11 sn 'lsarSist-H8_FourierTransform.pdf (sayfa 11); lsarSist-H8_FourierTransform.pdf (s' 'Bu bilgi dokümanlarda bulunamadı.'
+[56/68] faz2 test_negative#220 db=yeni: Summer School planında ikinci ay için ayrılan bütçe ne kadardır?
+    -> 64.21 sn '728_profiles.json ($.profiles[314]); 728_profiles.json ($.profiles[710]); 728_pr' 'Bu bilgi dokümanlarda bulunamadı.'
+[57/68] faz2 test_negative#221 db=yeni: test2.txt hikâyesinde anlatıcının kız kardeşinin adı nedir?
+    -> 55.19 sn 'test1.txt (paragraf 2); Summer School Foundry Local Plan.docx (bölüm 5); test2.t' 'Bu bilgi dokümanlarda bulunamadı.'
+[58/68] faz2 test_negative#222 db=yeni: Z-Dönüşümü ders notlarında 12. haftanın konu başlığı nedir?
+    -> 61.6 sn 'lsarSist-H9_ZTransform.pdf (sayfa 1); 728_profiles.json ($.profiles[285]); 728_p' 'Z-Dönüşümü ders notlarında 12. haftanın konu başlığına herhangi bir bilgi bulunm'
+[59/68] faz2 test_negative#223 db=yeni: 728_profiles veri setinde yer alan gerçek telefon numaralarının doğrul
+    -> 47.23 sn '728_profiles.json ($.profiles[464]); 728_profiles.json ($.profiles[397]); 728_pr' 'Bu bilgi dokümanlarda bulunamadı.'
+[60/68] faz2 test_negative#224 db=yeni: Bağlamdan bağımsız dilbilgisi dokümanında anlatılan Chomsky normal for
+    -> 51.32 sn '8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 22-23); 8-Baglamdan_bagimsiz_dilbilgi' 'Bağlamdan bağımsız dilbilgisinin Chomsky normal formuna dönüştürme adımları şunl'
+[61/68] faz2 test_negative#225 db=yeni: mock-transactions veri setinde Şubat 2024 ayına ait işlemlerin toplam 
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=mock-transactions.json (score=4.0, best_score, ambiguous=False) | schema_cols=['amount~tutar']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+# Filtrleme: Sadece Şubat 2024 ayındaki işlemleri al
+february_transactions = df[df['date'].str.startswith('2024-02')]
+
+# Toplam tutar hesaplama: 'amount' sütunundaki değerlerin toplamını al
+result = february_transactions['amount'].sum()
+
+# Para birimini de ekleyelim
+result = {'total_amount': result, 'currency': df['currency'].unique()[0]}
+[CodeInterpreter] Basarili ama KAYIT BULUNAMADI (bos filtre=True). Cikti: {'total_amount': np.float64(0.0), 'currency': 'USD'}
+    -> 41.31 sn 'mock-transactions.json (code_interpreter (code_interpreter_sandbox))' 'Bu bilgi dokümanlarda bulunamadı; belirtilen koşullara uyan kayıt yok.'
+[62/68] faz2 test_negative#226 db=yeni: mock-transactions veri setinde 2023 yılının en yüksek harcaması hangi 
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=mock-transactions.json (score=4.0, best_score, ambiguous=False) | schema_cols=['category~kategori']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+# En yüksek harcama kategorisi bulmak için gerekli adımları izleyelim
+
+# 1. Tarih sütunu 2023 yılına ait satırları filtreleyelim
+yil_2023 = df[df['date'].str.startswith('2023')]
+
+# 2. Değer sütunu (amount) üzerinde en yüksek harcama bulalım
+en_yuksek_harcama = yil_2023['amount'].max()
+
+# 3. En yüksek harcama değerine sahip satırı bulalım
+en_yuksek_harcama_satir = yil_2023[yil_2023['amount'] == en_yuksek_harcama]
+
+# 4. En yüksek harcama satırındaki kategori bilgisini alalım
+result = {
+    'category': en_yuksek_harcama_satir['category'].values[0],
+    'currency': en_yuksek_harcama_satir['currency'].values[0],
+    'amount': en_yuksek_harcama
+}
+[CodeInterpreter] Hata alindi (1. deneme): IndexError: index 0 is out of bounds for axis 0 with size 0
+[CodeInterpreter] Deneme 2/3...
+[CodeInterpreter] Uretilen Kod:
+# En yüksek harcama kategorisi bulmak için gerekli adımları izleyelim
+
+# 1. Tarih sütunu 2023 yılına ait satırları filtreleyelim
+yil_2023 = df[df['date'].str.startswith('2023')]
+
+# 2. Değer sütunu (amount) üzerinde en yüksek harcama bulalım
+en_yuksek_harcama = yil_2023['amount'].max()
+
+# 3. En yüksek harcama değerine sahip satırı bulalım
+en_yuksek_harcama_satir = yil_2023[yil_2023['amount'] == en_yuksek_harcama]
+
+# 4. En yüksek harcama satırındaki kategori bilgisini alalım
+result = {
+    'category': en_yuksek_harcama_satir['category'].values[0],
+    'currency': en_yuksek_harcama_satir['currency'].values[0],
+    'amount': en_yuksek_harcama
+}
+[CodeInterpreter] Hata alindi (2. deneme): IndexError: index 0 is out of bounds for axis 0 with size 0
+[CodeInterpreter] Deneme 3/3...
+[CodeInterpreter] Uretilen Kod:
+# En yüksek harcama kategorisi bulmak için gerekli adımları izleyelim
+
+# 1. Tarih sütunu 2023 yılına ait satırları filtreleyelim
+yil_2023 = df[df['date'].str.startswith('2023')]
+
+# 2. En yüksek harcama değerini bulalım
+en_yuksek_harcama = yil_2023['amount'].max()
+
+# 3. En yüksek harcama değerine sahip satırı bulalım
+en_yuksek_harcama_satir = yil_2023[yil_2023['amount'] == en_yuksek_harcama]
+
+# 4. En yüksek harcama satırındaki kategori bilgisini alalım
+result = {
+    'category': en_yuksek_harcama_satir['category'].values[0],
+    'currency': en_yuksek_harcama_satir['currency'].values[0],
+    'amount': en_yuksek_harcama
+}
+[CodeInterpreter] Hata alindi (3. deneme): IndexError: index 0 is out of bounds for axis 0 with size 0
+[CodeInterpreter] 3 deneme basarisiz oldu. Son hata: IndexError: index 0 is out of bounds for axis 0 with size 0
+    -> 172.94 sn '728_profiles.json ($.statistics); 728_profiles.json ($.profiles[397]); 728_profi' 'Bu bilgi dokümanlarda bulunamadı.'
+[63/68] faz2 test_negative#227 db=yeni: Z-Dönüşümü dersinin 2026 Bahar dönemi final sınavı hangi tarihte yapıl
+    ! GPU bellek hatası — bellek temizlenip tekrar deneniyor…
+    -> 0 sn '' 'HATA: Model yanıt veremedi. Foundry Local servisi hâlâ çalışıyor mu ve model yük'
+[64/68] faz2 test_negative#228 db=yeni: 728_profiles veri setine bu ay eklenen yeni profil sayısı kaçtır?
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil', 'date~ay']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] LLM COKTU (1. deneme): OpenAIAPIError
+[CodeInterpreter] 3 deneme basarisiz oldu. Son hata: LLM servisi yanit veremedi (OpenAIAPIError): Error code: 500 - {'type': 'https://tools.ietf.org/html/rfc9110#section-15.6.1', 'title': 'msg', 'status': 500, 'detail': 'Exception during initialization: E:\\_work\\1\\s\\onnxruntime\\core\\framewor
+    -> 0 sn '' 'HATA: service_failure: code_interpreter LLM servisi yanıt veremedi'
+[65/68] faz2 test_negative#229 db=yeni: Summer School programının 2027 yılı kayıt takvimi nasıldır?
+    ! GPU bellek hatası — bellek temizlenip tekrar deneniyor…
+    -> 0 sn '' 'HATA: Model yanıt veremedi. Foundry Local servisi hâlâ çalışıyor mu ve model yük'
+3 ardisik hata — kosu durduruldu (servisleri kontrol et, yeniden calistir)
