@@ -201,6 +201,14 @@ def compute_rouge_l(prediction: str, ground_truths: list[str]) -> float:
 # ve ölçüm sistemin kendi embedding kalitesiyle tutarlı olur.
 # Skorlama sirasinda embedding modelini bellekte tutma suresi.
 SEMANTIC_KEEP_ALIVE = "10m"
+# Skorlayicinin embedding'i CPU'da sabit (backlog madde 27). Ollama bge-m3'u
+# kendi secimiyle bazi oturumlarda CPU'ya, bazilarinda GPU'ya yukluyor; iki
+# yolun vektorleri ayni degil (cosine min 0.9982 — semantic_sim'in oturumlar
+# arasi +-0.1-0.2 gurultusu) ve GPU yolu en az bir metinde NaN uretiyor
+# (v7 test_2 #36, deterministik; CPU'da 0/701). Olcum:
+# experiments/madde27_nan_embedding/README.md. Retrieval'in sorgu embedding'i
+# (src/embedder.py) bilincli olarak bu sabitin disinda: madde 29.
+SEMANTIC_NUM_GPU = 0
 
 _SEMANTIC_AVAILABLE = None
 _EMBED_CACHE: dict = {}
@@ -243,43 +251,73 @@ def _embed_text(text: str):
     # Skorlama LLM sorgusundan BAGIMSIZ bir toplu is oldugu icin burada
     # modeli sicak tutuyoruz; bge-m3 ~1.2GB, LLM ile cakismasi beklenmiyor.
     resp = ollama.embeddings(model=EMBED_MODEL, prompt=key,
-                             keep_alive=SEMANTIC_KEEP_ALIVE)
+                             keep_alive=SEMANTIC_KEEP_ALIVE,
+                             options={"num_gpu": SEMANTIC_NUM_GPU})
     vec = resp["embedding"]
+    # Ollama NaN'li vektoru genelde 500 ile reddediyor ("json: unsupported
+    # value: NaN"); yine de gecerse hata sayilir ve cache'e yazilmaz.
+    if any(x != x or x in (float("inf"), float("-inf")) for x in vec):
+        raise ValueError("embedding sonlu olmayan deger iceriyor (NaN/inf)")
     _EMBED_CACHE[key] = vec
     return vec
 
 
-def compute_semantic_similarity(prediction: str, ground_truths: list[str]) -> float:
+def compute_semantic_similarity(prediction: str, ground_truths: list[str]):
     """
-    Cevap ile referanslar arasındaki en yüksek kosinüs benzerliği (0.0–1.0).
+    Cevap ile referanslar arasındaki en yüksek kosinüs benzerliği (0.0–1.0),
+    hesaplanamıyorsa None.
 
-    Embedding servisi yoksa 0.0 döner ve metrik rapordan düşülür — bu durumda
-    EM/F1/ROUGE-L etkilenmez.
+    None ("eksik", backlog madde 27): embedding servisi yok, cevabın embedding'i
+    hata veriyor ya da sıfır vektör, ya da HİÇBİR referansın geçerli embedding'i
+    yok. Eksik skor ortalamalara girmez ve ayrıca sayılır; eskiden 0.0 yazılıp
+    "çok kötü cevap" gibi ortalamayı düşürüyordu (v7 test_2 #36: 86.7 -> 0.0).
+
+    0.0 gerçek bir sonuçtur: boş cevap ya da negatif kosinüs ("alakasız").
+
+    Tek bir referansın embedding'i hata verirse yalnız o referans atlanır;
+    diğerleriyle bulunan skor kullanılır (eskiden tek hata tüm skoru 0.0 yapıyordu).
     """
     if not prediction or not prediction.strip() or not ground_truths:
         return 0.0
     if not _semantic_backend_ready():
-        return 0.0
+        return None
+    import numpy as _np
     try:
-        import numpy as _np
         pv = _np.array(_embed_text(prediction), dtype=_np.float32)
-        pn = _np.linalg.norm(pv)
-        if pn == 0:
-            return 0.0
-        best = 0.0
-        for gt in ground_truths:
-            if not gt or not gt.strip():
-                continue
-            gv = _np.array(_embed_text(gt), dtype=_np.float32)
-            gn = _np.linalg.norm(gv)
-            if gn == 0:
-                continue
-            best = max(best, float(_np.dot(pv, gv) / (pn * gn)))
-        # Kosinüs [-1,1] aralığında; negatif benzerlik "alakasız" demektir.
-        return max(0.0, min(1.0, best))
     except Exception as e:
-        print(f"UYARI: Semantik benzerlik hesaplanamadi: {e}")
-        return 0.0
+        print(f"UYARI: Semantik benzerlik hesaplanamadi (cevap embedding'i): {type(e).__name__}: {e}")
+        return None
+    pn = _np.linalg.norm(pv)
+    if pn == 0:
+        return None
+    best, valid = 0.0, 0
+    for gt in ground_truths:
+        if not gt or not gt.strip():
+            continue
+        try:
+            gv = _np.array(_embed_text(gt), dtype=_np.float32)
+        except Exception as e:
+            print(f"UYARI: Referans embedding'i atlandi: {type(e).__name__}: {e}")
+            continue
+        gn = _np.linalg.norm(gv)
+        if gn == 0:
+            continue
+        valid += 1
+        best = max(best, float(_np.dot(pv, gv) / (pn * gn)))
+    if not valid:
+        return None
+    # Kosinüs [-1,1] aralığında; negatif benzerlik "alakasız" demektir.
+    return max(0.0, min(1.0, best))
+
+
+def _mean_present(values):
+    """None'ları (hesaplanamayan skor) atlayan ortalama; hiç değer yoksa None."""
+    present = [v for v in values if v is not None]
+    return sum(present) / len(present) if present else None
+
+
+def _round_or_none(x, nd=2):
+    return None if x is None else round(x, nd)
 
 
 def parse_sources(found_src: str) -> list[str]:
@@ -715,10 +753,10 @@ def evaluate_dataset(
     # siniflandirma="HATA" olarak görünür ve özette ayrıca raporlanır.
     error_records = []
     category_stats = {
-        "Kolay": {"total": 0, "scored": 0, "em": 0, "em_soft": 0, "f1_sum": 0.0, "p_sum": 0.0, "r_sum": 0.0, "rouge_sum": 0.0, "sem_sum": 0.0, "retrieval_ok": 0, "latencies": []},
-        "Orta": {"total": 0, "scored": 0, "em": 0, "em_soft": 0, "f1_sum": 0.0, "p_sum": 0.0, "r_sum": 0.0, "rouge_sum": 0.0, "sem_sum": 0.0, "retrieval_ok": 0, "latencies": []},
-        "Zor": {"total": 0, "scored": 0, "em": 0, "em_soft": 0, "f1_sum": 0.0, "p_sum": 0.0, "r_sum": 0.0, "rouge_sum": 0.0, "sem_sum": 0.0, "retrieval_ok": 0, "latencies": []},
-        "Negatif": {"total": 0, "scored": 0, "em": 0, "em_soft": 0, "f1_sum": 0.0, "p_sum": 0.0, "r_sum": 0.0, "rouge_sum": 0.0, "sem_sum": 0.0, "retrieval_ok": 0, "latencies": []},
+        "Kolay": {"total": 0, "scored": 0, "em": 0, "em_soft": 0, "f1_sum": 0.0, "p_sum": 0.0, "r_sum": 0.0, "rouge_sum": 0.0, "sem_sum": 0.0, "sem_missing": 0, "retrieval_ok": 0, "latencies": []},
+        "Orta": {"total": 0, "scored": 0, "em": 0, "em_soft": 0, "f1_sum": 0.0, "p_sum": 0.0, "r_sum": 0.0, "rouge_sum": 0.0, "sem_sum": 0.0, "sem_missing": 0, "retrieval_ok": 0, "latencies": []},
+        "Zor": {"total": 0, "scored": 0, "em": 0, "em_soft": 0, "f1_sum": 0.0, "p_sum": 0.0, "r_sum": 0.0, "rouge_sum": 0.0, "sem_sum": 0.0, "sem_missing": 0, "retrieval_ok": 0, "latencies": []},
+        "Negatif": {"total": 0, "scored": 0, "em": 0, "em_soft": 0, "f1_sum": 0.0, "p_sum": 0.0, "r_sum": 0.0, "rouge_sum": 0.0, "sem_sum": 0.0, "sem_missing": 0, "retrieval_ok": 0, "latencies": []},
     }
 
     confusion = {"TP": 0, "TN": 0, "FP": 0, "FN": 0}
@@ -848,7 +886,10 @@ def evaluate_dataset(
         stats["p_sum"] += prec_score
         stats["r_sum"] += rec_score
         stats["rouge_sum"] += rouge_l_score
-        stats["sem_sum"] += semantic_score
+        if semantic_score is None:
+            stats["sem_missing"] += 1
+        else:
+            stats["sem_sum"] += semantic_score
         if retrieval_match:
             stats["retrieval_ok"] += 1
         stats["latencies"].append(latency)
@@ -868,7 +909,7 @@ def evaluate_dataset(
             "precision": round(prec_score * 100, 1),
             "recall": round(rec_score * 100, 1),
             "rouge_l": round(rouge_l_score * 100, 1),
-            "semantic_sim": round(semantic_score * 100, 1),
+            "semantic_sim": None if semantic_score is None else round(semantic_score * 100, 1),
             "retrieval_match": "Evet" if retrieval_match else "Hayır",
             "retrieval_sira": retrieval_rank,
             "siniflandirma": status,
@@ -892,7 +933,9 @@ def evaluate_dataset(
     overall_prec = sum(r["precision"] for r in accuracy_pool) / n_acc if n_acc else 0.0
     overall_rec = sum(r["recall"] for r in accuracy_pool) / n_acc if n_acc else 0.0
     overall_rouge = sum(r["rouge_l"] for r in accuracy_pool) / n_acc if n_acc else 0.0
-    overall_semantic = sum(r["semantic_sim"] for r in accuracy_pool) / n_acc if n_acc else 0.0
+    # Hesaplanamayan semantik skorlar (None) paydaya girmez; sayısı ayrıca raporlanır.
+    overall_semantic = _mean_present(r["semantic_sim"] for r in accuracy_pool)
+    semantic_missing = sum(1 for r in accuracy_pool if r["semantic_sim"] is None)
     overall_retrieval = sum(1 for r in scored_records if r["retrieval_match"] == "Evet") / total_q * 100 if total_q else 0.0
     # Sıralama duyarlı retrieval metrikleri (yalnız pozitif sorular üzerinden).
     mrr = (sum(1.0 / r for r in retrieval_ranks if r > 0) / len(retrieval_ranks) * 100) if retrieval_ranks else 0.0
@@ -911,7 +954,10 @@ def evaluate_dataset(
                 "soft_match_yuzde": round((data["em_soft"] / acc_cnt) * 100, 2),
                 "f1_skor_yuzde": round((data["f1_sum"] / acc_cnt) * 100, 2),
                 "rouge_l_yuzde": round((data["rouge_sum"] / acc_cnt) * 100, 2),
-                "semantik_benzerlik_yuzde": round((data["sem_sum"] / acc_cnt) * 100, 2),
+                "semantik_benzerlik_yuzde": (
+                    round((data["sem_sum"] / (acc_cnt - data["sem_missing"])) * 100, 2)
+                    if acc_cnt - data["sem_missing"] > 0 else None),
+                "semantik_hesaplanamayan_soru": data["sem_missing"],
                 "precision_yuzde": round((data["p_sum"] / acc_cnt) * 100, 2),
                 "recall_yuzde": round((data["r_sum"] / acc_cnt) * 100, 2),
                 "retrieval_dogruluk_yuzde": round((data["retrieval_ok"] / cnt) * 100, 2),
@@ -935,7 +981,8 @@ def evaluate_dataset(
             "soft_match_yuzde": round(overall_em_soft, 2),
             "f1_skor_yuzde": round(overall_f1, 2),
             "rouge_l_yuzde": round(overall_rouge, 2),
-            "semantik_benzerlik_yuzde": round(overall_semantic, 2),
+            "semantik_benzerlik_yuzde": _round_or_none(overall_semantic),
+            "semantik_hesaplanamayan_soru": semantic_missing,
             "precision_yuzde": round(overall_prec, 2),
             "recall_yuzde": round(overall_rec, 2),
             "retrieval_dogruluk_yuzde": round(overall_retrieval, 2),
@@ -1248,7 +1295,8 @@ def _summary_from_records(records: list[dict], label: str) -> dict:
             "soft_match_yuzde": round(mean("em_soft_score", pool), 2),
             "f1_skor_yuzde": round(mean("f1_score", pool), 2),
             "rouge_l_yuzde": round(mean("rouge_l", pool), 2),
-            "semantik_benzerlik_yuzde": round(mean("semantic_sim", pool), 2),
+            "semantik_benzerlik_yuzde": _round_or_none(_mean_present(x["semantic_sim"] for x in pool)),
+            "semantik_hesaplanamayan_soru": sum(1 for x in pool if x["semantic_sim"] is None),
             "precision_yuzde": round(mean("precision", pool), 2),
             "recall_yuzde": round(mean("recall", pool), 2),
             "retrieval_dogruluk_yuzde": round(
@@ -1269,7 +1317,8 @@ def _summary_from_records(records: list[dict], label: str) -> dict:
             "soft_match_yuzde": round(mean("em_soft_score", acc_pool), 2),
             "f1_skor_yuzde": round(mean("f1_score", acc_pool), 2),
             "rouge_l_yuzde": round(mean("rouge_l", acc_pool), 2),
-            "semantik_benzerlik_yuzde": round(mean("semantic_sim", acc_pool), 2),
+            "semantik_benzerlik_yuzde": _round_or_none(_mean_present(r["semantic_sim"] for r in acc_pool)),
+            "semantik_hesaplanamayan_soru": sum(1 for r in acc_pool if r["semantic_sim"] is None),
             "precision_yuzde": round(mean("precision", acc_pool), 2),
             "recall_yuzde": round(mean("recall", acc_pool), 2),
             "retrieval_dogruluk_yuzde": round(
