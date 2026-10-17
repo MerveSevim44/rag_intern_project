@@ -141,6 +141,10 @@ bir ret cumlesi olarak gorunebiliyor.
 15 soru, FP 2 (`#101`, `#107`), TN 13. v6 test_5'i kosmadigi icin
 karsilastirma noktasi yok; EXPERIMENTS.md ozet tablosuna GIRMEZ.
 
+
+## Not : 
+v7 judge context'i HEAD koduyla yeniden oluşturuldu, orijinal context'ten farklı olabilir
+
 ## Uretilen dosyalar
 - `results/` — ham cevaplar (`test_*_sonuclari.csv`, `neg_seg_A/B.csv`,
   birlestirilmis `test_negative_sonuclari.csv`) ve kosu loglari.
