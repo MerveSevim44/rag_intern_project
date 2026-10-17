@@ -1,0 +1,39 @@
+# Madde 27 — Yeniden Skorlama Sonuçları ve Doğrulama Raporu
+Tarih: 2026-10-17
+Kod: HEAD (SEMANTIC_NUM_GPU=0, hesaplanamayanlar None)
+Model: bge-m3 (Ollama CPU, num_gpu=0)
+
+## V7 Doğrulama ve Karşılaştırma
+- Toplam satır sayısı: 147 (Madde 25 ile aynı: True)
+- **test_2 #36 Semantik Skoru:**
+  * v7 Özgün Rapor: 86.7
+  * Madde 25 (GPU NaN çöküşü): 0.0
+  * Madde 27 (CPU sabit): **86.7** (BAŞARILI: ~86.7'ye döndü)
+- Hesaplanamayan (None) semantik benzerlik: 0
+- Diğer metrik ve sınıflandırmaların aynılığı: em_score: 0 fark, em_soft_score: 0 fark, f1_score: 0 fark, precision: 0 fark, recall: 0 fark, rouge_l: 0 fark, retrieval_match: 0 fark, retrieval_sira: 0 fark, siniflandirma: 0 fark
+  * Bayt bayt eşleşme: ✅ BAŞARILI (0 fark)
+- Semantik Fark Dağılımı (|new - m25|, #36 hariç):
+  * Karşılaştırılan satır sayısı: 146
+  * Maksimum mutlak fark: 0.2000
+  * Ortalama mutlak fark: 0.0253
+  * <= 0.2 fark olan satırlar: 146 / 146 (%100.0)
+  * > 0.2 fark olan satırlar: 0
+
+## V8 Doğrulama ve Karşılaştırma
+- Toplam satır sayısı: 144 (Madde 25 ile aynı: True)
+- Hesaplanamayan (None) semantik benzerlik: 0
+- Diğer metrik ve sınıflandırmaların aynılığı: em_score: 0 fark, em_soft_score: 0 fark, f1_score: 0 fark, precision: 0 fark, recall: 0 fark, rouge_l: 0 fark, retrieval_match: 0 fark, retrieval_sira: 0 fark, siniflandirma: 0 fark
+  * Bayt bayt eşleşme: ✅ BAŞARILI (0 fark)
+- Semantik Fark Dağılımı (|new - m25|, #36 hariç):
+  * Karşılaştırılan satır sayısı: 144
+  * Maksimum mutlak fark: 0.2000
+  * Ortalama mutlak fark: 0.0257
+  * <= 0.2 fark olan satırlar: 144 / 144 (%100.0)
+  * > 0.2 fark olan satırlar: 0
+
+## Tekrarlanabilirlik (Repeatability) Doğrulaması
+İkinci ayrı bir Python sürecinde (`yeniden_skor_{v7,v8}_rep2`) bağımsız olarak yeniden skorlama çalıştırıldı:
+- **v7 (147 satır):** 1. koşu ile 2. koşu arasında `semantic_sim` dahil tüm değerlendirme metrikleri ve sınıflandırmalar **%100 bayt bayt aynı (0 fark)**.
+- **v8 (144 satır):** 1. koşu ile 2. koşu arasında `semantic_sim` dahil tüm değerlendirme metrikleri ve sınıflandırmalar **%100 bayt bayt aynı (0 fark)**.
+- **Sonuç:** `SEMANTIC_NUM_GPU = 0` sabitlemesi oturumlar arası ve süreçler arası sayısal gürültüyü ve belirsizliği tamamen ortadan kaldırmıştır.
+

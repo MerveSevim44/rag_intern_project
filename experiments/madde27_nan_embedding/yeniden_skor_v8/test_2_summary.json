@@ -1,0 +1,95 @@
+{
+  "test_seti": "test_2",
+  "sonuc_dosyasi": "experiments\\v8_bm25_stopword\\results\\test_2_sonuclari.csv",
+  "ground_truth_dosyasi": "C:\\Users\\merve\\Desktop\\rag_project\\evaluation\\ground_truth/*.json (id ile)",
+  "toplam_soru": 30,
+  "referansli_soru": 27,
+  "referanssiz_soru": 0,
+  "hatali_soru_sayisi": 3,
+  "hatali_soru_idleri": [
+    "43",
+    "44",
+    "53"
+  ],
+  "genel_metrikler": {
+    "exact_match_yuzde": 0.0,
+    "soft_match_yuzde": 3.7,
+    "f1_skor_yuzde": 37.36,
+    "rouge_l_yuzde": 32.92,
+    "semantik_benzerlik_yuzde": 80.37,
+    "semantik_hesaplanamayan_soru": 0,
+    "precision_yuzde": 35.93,
+    "recall_yuzde": 43.83,
+    "retrieval_dogruluk_yuzde": 100.0,
+    "retrieval_mrr_yuzde": 100.0,
+    "retrieval_recall_at_1_yuzde": 100.0,
+    "ortalama_sure_sn": 31.91,
+    "medyan_sure_sn": 27.95,
+    "min_sure_sn": 7.89,
+    "max_sure_sn": 92.26
+  },
+  "siniflandirma_matrisi": {
+    "TP": 25,
+    "TN": 0,
+    "FP": 0,
+    "FN": 2
+  },
+  "fn_kirilimi": {
+    "retrieval_kacirdi": 0,
+    "dogru_kaynak_ama_cevap_yok": 2
+  },
+  "etiket_celiskisi_olan_sorular": [],
+  "kategori_bazli": {
+    "Kolay": {
+      "toplam_soru": 6,
+      "referansli_soru": 6,
+      "exact_match_yuzde": 0.0,
+      "soft_match_yuzde": 16.67,
+      "f1_skor_yuzde": 57.12,
+      "rouge_l_yuzde": 55.22,
+      "semantik_benzerlik_yuzde": 88.9,
+      "semantik_hesaplanamayan_soru": 0,
+      "precision_yuzde": 52.84,
+      "recall_yuzde": 62.91,
+      "retrieval_dogruluk_yuzde": 100.0,
+      "ortalama_sure_sn": 23.21,
+      "medyan_sure_sn": 20.73,
+      "min_sure_sn": 7.89,
+      "max_sure_sn": 57.73
+    },
+    "Orta": {
+      "toplam_soru": 12,
+      "referansli_soru": 12,
+      "exact_match_yuzde": 0.0,
+      "soft_match_yuzde": 0.0,
+      "f1_skor_yuzde": 38.7,
+      "rouge_l_yuzde": 34.27,
+      "semantik_benzerlik_yuzde": 81.04,
+      "semantik_hesaplanamayan_soru": 0,
+      "precision_yuzde": 36.63,
+      "recall_yuzde": 48.76,
+      "retrieval_dogruluk_yuzde": 100.0,
+      "ortalama_sure_sn": 29.23,
+      "medyan_sure_sn": 27.8,
+      "min_sure_sn": 17.35,
+      "max_sure_sn": 47.76
+    },
+    "Zor": {
+      "toplam_soru": 9,
+      "referansli_soru": 9,
+      "exact_match_yuzde": 0.0,
+      "soft_match_yuzde": 0.0,
+      "f1_skor_yuzde": 22.39,
+      "rouge_l_yuzde": 16.22,
+      "semantik_benzerlik_yuzde": 73.74,
+      "semantik_hesaplanamayan_soru": 0,
+      "precision_yuzde": 23.75,
+      "recall_yuzde": 24.54,
+      "retrieval_dogruluk_yuzde": 100.0,
+      "ortalama_sure_sn": 41.29,
+      "medyan_sure_sn": 38.09,
+      "min_sure_sn": 25.5,
+      "max_sure_sn": 92.26
+    }
+  }
+}
