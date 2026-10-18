@@ -26,7 +26,7 @@ PR olarak ele alınır.
 | 17 | `test_visualization::test_data_engine_end_to_end_visualization` kırık: rule engine karşılaştırma sorusunu tek sektör sayımına eşliyor | Açık — **bilinen kırık test**, `10f5efc` öncesinden beri; ne zaman başladığı bilinmiyor |
 | 18 | Semantik doğrulayıcı gevşek: "emin değilsen TAMAM" yanlış hesapları `ok` ile geçiriyor | Açık — **4 deterministik test vakası** (#44, #51, #57, #107); madde 16'nın asıl sorunu |
 | 19 | Snowball stem'i stopword'e çakışan gerçek kelimeler BM25'ten düşüyor ("deneyim" → "de", "Damla" → "da") | **Düzeltildi** — yüzey stopword filtresi + çakışma koruması; bkz. [implementation_plan_bm25_stopword.md](implementation_plan_bm25_stopword.md) §9 |
-| 20 | Router kolon parçası eşleşmesi (2b) ve benchmark `top_k=5` ≠ arayüz `TOP_K=8` | Açık |
+| 20 | Router kolon parçası eşleşmesi (2b, açık) ve benchmark `top_k=5` ≠ arayüz `TOP_K=8` | top_k kısmı **Düzeltildi**; 2b **Açık** |
 | 21 | LLM-judge, ground truth'u olan sorulardaki retleri "dürüst ret" diye ödüllendiriyor | Açık — ölçüm körlüğü |
 | 22 | OCR'lı "Cevap N" sayfaları retrieval'a gelmiyor | **Düzeltildi** — `5b494b2` (Örnek/Cevap birleştirme) + yeniden ingest; hedef 5/5 Cevap bağlamda, plan ölçütlerinin hepsi geçti. Kalan açık (OCR kalitesi) → madde 31 |
 | 23 | Madde 19 korumasındaki kelimelerin çekimleri farklı token'a düşüyor ("deneyim" / "deneyimi") | Açık — bilinen sınır; bugünden kötü değil |
@@ -863,10 +863,21 @@ En güçlü vakalar 1–3: iki kişinin ilk adı da düşüyor ("Damla Akın" /
    zayıf eşleşmeyi güçlü saymak çözer; router'ın genel davranışını değiştirdiği
    için negatif setle ayrıca ölçülmeli. (Not: madde 19 düzelmeden "deneyim"
    BM25'e de katkı vermiyor.)
-2. **Benchmark `top_k=5`:** `evaluation/run_tests.py::run_single_test`
-   varsayılanı 5; arayüz artık `retrieval.TOP_K` (8) kullanıyor. Benchmark
-   arayüzün davranışını ölçmüyor. Eşitlemek önceki koşularla karşılaştırmayı
-   bozacağı için ayrı bir koşu/karar olarak bırakıldı.
+2. **Benchmark `top_k=5` — düzeltildi (2026-10-18).** `evaluation/run_tests.py::run_single_test`,
+   `evaluation/eval_retrieval.py` ve `evaluation/llm_as_judge.py::build_context_for_question`
+   varsayılanı 5; arayüz `retrieval.TOP_K` (8) kullanıyordu. Kapsam ölçümü
+   ([experiments/madde20_topk_benchmark/](../experiments/madde20_topk_benchmark/),
+   plan: [implementation_plan_madde20_topk.md](implementation_plan_madde20_topk.md)):
+   tam benchmark + negatif set (147 soru) üzerinde `retrieve(top_k=5)` vs
+   `retrieve(top_k=8)` karşılaştırıldı — 110/147 soruda nihai 4 chunk'lık
+   liste birebir aynı değil, ama fark neredeyse istisnasız 3./4. sıradaki
+   dolgu chunk'ta (1. sıra her soruda aynı). **Doküman düzeyinde etki:
+   147/147 sorunun hiçbirinde beklenen kaynak top_k=5→8 ile kaybolmuyor/
+   kazanılmıyor** (çekince: ground truth dosya adı düzeyinde, `728_profiles.json`
+   içindeki profil düzeyi otomatik doğrulanamıyor — madde 19'un aynı kısıtı).
+   Üç dosyanın varsayılanı `retrieval.TOP_K`'ya bağlandı (hardcoded `5`
+   kaldırıldı); donmuş deney scriptlerine (`experiments/madde22_ornek_cevap/`,
+   `experiments/madde24_ocr_alistirma/`) dokunulmadı.
 
 ## Madde 21 — LLM-judge yanlış retleri "dürüst ret" diye ödüllendiriyor
 

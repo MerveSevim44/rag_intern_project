@@ -68,10 +68,10 @@ for _p in [str(_src_dir), str(_eval_dir), str(_root_dir)]:
 
 try:
     from src.llm_client import load_model, truncate_chunk_text, truncate_context
-    from src.retrieval import get_top_chunks
+    from src.retrieval import get_top_chunks, TOP_K
 except ImportError:
     from llm_client import load_model, truncate_chunk_text, truncate_context
-    from retrieval import get_top_chunks
+    from retrieval import get_top_chunks, TOP_K
 
 from gt_utils import is_run_error, load_ground_truth, resolve_reference
 from langchain_core.prompts import ChatPromptTemplate
@@ -258,7 +258,7 @@ def load_judge_model(model=JUDGE_MODEL):
     return llm.bind(response_format={"type": "json_object"})
 
 
-def build_context_for_question(question, llm, top_k=5):
+def build_context_for_question(question, llm, top_k=TOP_K):
     """
     Soruyu retrieval pipeline'ından geçirerek context oluşturur.
     run_tests.py'daki build_context ile aynı mantık.

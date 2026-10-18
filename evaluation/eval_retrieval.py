@@ -20,10 +20,10 @@ for _p in [str(_src_dir), str(_eval_dir), str(_root_dir)]:
         sys.path.insert(0, _p)
 
 try:
-    from src.retrieval import retrieve
+    from src.retrieval import retrieve, TOP_K
     from src.router import classify_query
 except ImportError:
-    from retrieval import retrieve
+    from retrieval import retrieve, TOP_K
     from router import classify_query
 
 
@@ -103,7 +103,7 @@ def evaluate_questions(csv_path: str = "test_1.csv", output_csv: str | None = No
         intent = raw_intent.value if hasattr(raw_intent, "value") else str(raw_intent)
 
         # 2. Retrieval çalıştırma
-        retrieved_chunks = retrieve(question, top_k=5, use_reranker=True)
+        retrieved_chunks = retrieve(question, top_k=TOP_K, use_reranker=True)
         elapsed_ms = (time.perf_counter() - t0) * 1000
 
         top_chunk = retrieved_chunks[0] if retrieved_chunks else None

@@ -36,10 +36,10 @@ for _p in [str(_src_dir), str(_eval_dir), str(_root_dir)]:
         sys.path.insert(0, _p)
 
 try:
-    from src.retrieval import get_top_chunks
+    from src.retrieval import get_top_chunks, TOP_K
     from src.llm_client import load_model, ask, truncate_chunk_text, truncate_context
 except ImportError:
-    from retrieval import get_top_chunks
+    from retrieval import get_top_chunks, TOP_K
     from llm_client import load_model, ask, truncate_chunk_text, truncate_context
 
 
@@ -115,7 +115,7 @@ def build_context(chunks, question=None):
     return truncate_context("\n\n".join(parts))
 
 
-def run_single_test(llm, question, top_k=5, use_reranker=True, retries=1):
+def run_single_test(llm, question, top_k=TOP_K, use_reranker=True, retries=1):
     """
     Tek bir soruyu çalıştırır, sonucu dict olarak döner.
 
