@@ -33,15 +33,15 @@ PR olarak ele alınır.
 | 24 | OCR'lı alıştırma sayfaları negatif sorularda dolgu olarak bağlama girip uydurma ürettiriyor (test_5 #103) | Açık — **daraltıldı** (2026-10-12): yalnız #103; #224 → madde 30. Yön C (görev notu) ölçüldü ve reddedildi, kod geri alındı (`9e3a095`). D (sabit reranker eşiği) simüle edildi ve reddedildi (1 FP için 3 TP); madde 22 #103'ü çözmüyor. Açık aday: bağıl eşik (ölçülmedi) |
 | 25 | Ret tespiti yarım "…bulunmadığından" cevabını tanımıyor (skorlama + üretim) | **Skorlama düzeltildi** — `f888033` (ret çerçevesi, #222 FP→TN) + `8b5d26f` (tanımlayıcı yankısı, v3 #26 TP→FN); üretim kısmı → madde 26, kalan açık → madde 28 |
 | 26 | Üretim: model serbest biçimli reddi yarıda bırakıyor ("…bulunmadığından") | Açık — düşük öncelik; v8'de 1/144 (#222) |
-| 27 | bge-m3 bazı metinlere NaN embedding döndürüyor; `semantic_sim` sessizce 0.0 yazıp ortalamaya katıyor | Açık — ölçüm körlüğü; v7 test_2 #36 (86.7 → 0.0) |
+| 27 | bge-m3 bazı metinlere NaN embedding döndürüyor; `semantic_sim` sessizce 0.0 yazıp ortalamaya katıyor | **Düzeltildi** — `ecc7f5a` (eksik değer + skorlayıcı embedding'i CPU'ya sabit) + `0d179ab` (testler); v7 #36 0.0 → 86.7, tekrar skorlamada 0 fark (`baf5cb0`). P öncesi `semantic_sim` değerleri "cihaz karışımı" (bkz. madde 27 kapanış notu) |
 | 28 | Ret tespitinin ikinci aşaması içerik miktarına bakmıyor; ret kapısından geçen içerik cevapları yalnız tesadüfi "iddia"larla TP kalıyor | Açık — v3 #29 gizli FN; madde 25 Adım 3'te bilinçli bırakıldı |
-| 29 | Ollama bge-m3 embedding güvenilirliği: oturumlar arası sayısal kayma sınırdaki retrieval'ı değiştiriyor | Açık — doğrulanmamış hipotez (cihaz farkı); madde 27 ile ortak kök olabilir |
+| 29 | Ollama bge-m3 embedding güvenilirliği: oturumlar arası sayısal kayma sınırdaki retrieval'ı değiştiriyor | Açık — **mekanizma bulundu** (madde 27): Ollama bge-m3'ü oturuma göre CPU ya da GPU'ya yüklüyor, vektörler farklı; skorlayıcı sabitlendi, **retrieval tarafı açık** |
 | 30 | Synthesizer (a) dalı ödünleşiminin sınır vakası: "Yanlış Ön Kabul" sorusu #224 bağlama göre FP/TN arasında gidip geliyor | Açık — **bug değil, bilinçli alınmış dengenin yeniden değerlendirilmesi** (FN 25→10 karşılığında kabul edilen bedel) |
 | 31 | OCR'lı Cevap sayfalarının metin kalitesi: bir sayfa okunamıyor (#24), diğerlerinde üst simge / "\|" kaybı model cevabına aynen geçiyor | Açık — iki ayrı ciddiyet: okunamayan sayfa (yeniden OCR) / kısmi bozulma (son işleme) |
 
 ### Öncelik sırası (2026-10-11, güncelleme 2026-10-13)
 
-Açık retrieval/değerlendirme maddeleri için sıra: **25 (skorlama) ✅ → 22 ✅ → 27 → 29 → 20 → 21 → 31 → 24 (bağıl eşik) → 30 → 28 → 26.**
+Açık retrieval/değerlendirme maddeleri için sıra: **25 (skorlama) ✅ → 22 ✅ → 27 ✅ → 29 → 20 → 21 → 31 → 24 (bağıl eşik) → 30 → 28 → 26.**
 
 - **25 önce:** madde 24'ün başarı ölçütü negatif set FP sayısı; skorlayıcı yarım
   retleri FP saydığı sürece (#222) bu sayı yapay olarak şişik ve 24'ün etkisi
@@ -1058,6 +1058,41 @@ uzunluktaki ya da belirli karakterler içeren başka metinlerde de tetiklediği
 bilinen bir sorun mu olduğu bilinmiyor; ileride bakılacak. Embedding
 güvenilirliğinin genel hâli: madde 29.
 
+**Durum (2026-10-18) — düzeltildi.** Plan:
+[implementation_plan_madde27_semantic_sim.md](implementation_plan_madde27_semantic_sim.md),
+kapsam ve ölçüm: [experiments/madde27_nan_embedding/](../experiments/madde27_nan_embedding/README.md).
+- **Kök neden:** Ollama bge-m3'ü oturumdan oturuma CPU'ya ya da GPU'ya yüklüyor.
+  NaN yalnız GPU yolunda ve yalnız v7 test_2 #36'nın cevabında (701 metnin 1'i,
+  3/3 deterministik; CPU'da 0/701). İki yolun vektörleri de farklı (cosine min
+  0.9982) — `semantic_sim`'in ±0.1–0.2 gürültüsünün kaynağı.
+- **Düzeltme (`ecc7f5a`):** (P) skorlayıcının embedding'i `num_gpu=0` ile CPU'da
+  sabit (`SEMANTIC_NUM_GPU`); (M) hesaplanamayan skor 0.0 değil `None`, ortalamadan
+  çıkar ve `semantik_hesaplanamayan_soru` olarak sayılır; tek referansın hatası
+  artık tüm skoru düşürmüyor (eskiden 0.0, şimdi geçerli referansın skoru —
+  `tests/test_semantic_sim_missing.py` karşılaştırmalı test). Retry ölçülüp
+  reddedildi (GPU yolunda deterministik NaN).
+- **Doğrulama (`baf5cb0`, `sonuc_yeniden_skor.txt`):** v7/v8 yeniden skor — #36
+  86.7, hesaplanamayan 0, EM/F1/ROUGE/sınıflarda 0 fark, `semantic_sim` farkı en
+  fazla 0.2 puan; ayrı süreçte ikinci skorlama birebir aynı (ikinci koşunun
+  çıktı klasörleri repoda yok, sonuç raporda kayıtlı).
+
+**P öncesi üretilmiş `semantic_sim` değerleri — "cihaz karışımı".** Aşağıdakiler
+`ecc7f5a` öncesinde, Ollama'nın o oturumda seçtiği (bilinmeyen) cihazla
+hesaplandı; P sonrası değerlerden ≤ ~0.2 puan farklı olabilirler, bir NaN
+vakasında 0.0 olarak görünürler. Yeniden skorlanmadılar (`semantic_sim`
+kararlarımızda belirleyici olmadı; F1, judge ve sınıflandırma kullanıldı):
+- `experiments/{v2_baseline_trim, v3_soften_and_chunk, v5_soften_and_brevity
+  (report, report_with_negative), v6_sandbox_empty_guard, v7_refusal_clarity,
+  v8_bm25_stopword (report, report_karsi_olgu)}` altındaki `*_scored.csv` /
+  `*_summary.json`;
+- `experiments/madde25_ret_tespiti/yeniden_skor_{v7,v8}` (#36'nın 0.0'ı burada);
+- bu sayıları alıntılayan dokümanlar: `experiments/{v7_refusal_clarity,
+  v8_bm25_stopword, validator_A}/PROVENANCE.md`, `docs/EXPERIMENTS.md`,
+  `docs/TEKNIK_RAPOR.md`, `docs/INFRASTRUCTURE_NOTES.md` ve
+  `docs/implementation_plan_*.md` içindeki semantik alıntıları.
+- **Etkilenmeyen:** madde 19, 22, 24 ölçümleri (`semantic_sim` kullanmadılar).
+- P sonrası referans: `experiments/madde27_nan_embedding/yeniden_skor_{v7,v8}`.
+
 ## Madde 28 — Ret tespitinin ikinci aşaması içerik miktarına bakmıyor
 
 `check_is_not_found` ret kapısından geçen cevabı yalnız "yeni iddia" (soruda
@@ -1118,6 +1153,16 @@ NaN'a yakın / aşırı değerler var mı).
   LLM ile benchmark) göre ölçülmüştü. Bu, cihaz/bölüşüm hipotezini zayıflatmıyor,
   daraltıyor: araştırmada "Foundry yüklü vs değil" koşulu doğrudan
   karşılaştırılmalı.
+
+**Mekanizma bulundu (2026-10-13, madde 27):** belirleyici olan "Foundry yüklü
+mü" değil, **Ollama'nın bge-m3'ü o oturumda CPU'ya mı GPU'ya mı yüklediği.**
+Aynı 701 metinde CPU ve GPU vektörleri farklı (cosine min 0.9982, 83 metin <
+0.9999); NaN yalnız GPU yolunda. Varsayılan çağrı 2026-10-13'te VRAM boşken bile
+"100% CPU" seçti. Skorlayıcı tarafı madde 27'de sabitlendi (`num_gpu=0`).
+**Açık kalan: retrieval.** Sorgu embedding'i (`src/embedder.py`) hâlâ Ollama'nın
+seçimine bağlı; DB'deki doküman embedding'lerinin hangi cihazda üretildiği
+bilinmiyor. Sorgu tarafını sabitlemeden önce doküman embedding'lerinin cihazı
+(ya da iki cihazda yeniden embed edilip karşılaştırılması) belirlenmeli.
 
 **Ölçüme etkisi:** koşular arası karşılaştırmada sınırdaki sorular işaret ya da
 kod değişikliğinden bağımsız olarak kayabilir. Bu yüzden madde 24 Adım 2 aynı

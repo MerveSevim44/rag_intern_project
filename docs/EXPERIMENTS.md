@@ -4,6 +4,11 @@ Bu dosya, RAG hattinda yapilan olculmus deneyleri ve her birinin hangi klasore
 karsilik geldigini kaydeder. Amac: bir kosunun hangi kod durumuna ait oldugunu
 klasor adindan tahmin etmek zorunda kalmamak.
 
+> **Not (2026-10-18):** `semantic_sim` / "semantik benzerlik" degerleri
+> `ecc7f5a` oncesinde cihaz karisimiyla uretildi (Ollama bge-m3'u oturuma gore
+> CPU ya da GPU'da kostu; fark <= ~0.2 puan, NaN vakasinda 0.0). Ayrinti ve
+> etkilenen raporlar: `docs/backlog_retrieval.md` madde 27.
+
 ## Ozet
 
 Tum rakamlar **98 soruluk temiz set** uzerinden (kronik GPU bellek hatasi veren
