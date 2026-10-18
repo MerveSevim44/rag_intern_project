@@ -83,3 +83,14 @@ Her yerleşim öncesinde model `keep_alive=0` ile bellekten boşaltılarak taze 
    - Ollama CPU seçtiğinde, `query` vektörü ile DB'deki GPU `doc` vektörleri arasında ~0.0028'e varan kosinüs kayması oluşmaktadır.
    - Sınırda (borderline) RRF skoruna sahip dokümanlarda (ör. test_2 #36, test_4 #93, negatif #217) sıralama bu kayma yüzünden değişmektedir.
    - Ollama GPU seçtiğinde ise sorgu ve doküman aynı donanım hassasiyetinde buluştuğu için sonuçlar stabil kalmaktadır.
+
+---
+
+## 5. Kayan Sorguların Doğrulanması (Adım 2)
+
+`dogrulama_kayan_sorgular.py` ile #36, #93 ve #217 sınır soruları iki bağımsız Python sürecinde (`--run a` ve `--run b`) çalıştırıldı:
+- `test_2#36`: AYNI (4 vs 4 aday, skorlar ve rerank skorları birebir eşit)
+- `test_4#93`: AYNI (4 vs 4 aday, skorlar ve rerank skorları birebir eşit)
+- `test_negative#217`: AYNI (4 vs 4 aday, skorlar ve rerank skorları birebir eşit)
+- **Sonuç: 0 FARK — determinist** (`kayan_sorgular_sonuclari.jsonl`).
+

@@ -8,9 +8,9 @@ import unicodedata
 from contextlib import closing
 from pathlib import Path
 try:
-    from src.embedder import get_embeddings, EMBED_MODEL
+    from src.embedder import get_embeddings, EMBED_MODEL, EMBED_NUM_GPU
 except ImportError:
-    from embedder import get_embeddings, EMBED_MODEL
+    from embedder import get_embeddings, EMBED_MODEL, EMBED_NUM_GPU
 # pyrefly: ignore [missing-import]
 import pdfplumber
 from pdfplumber.utils import extract_text as pdfplumber_extract_text
@@ -527,7 +527,8 @@ def extract_chunks_from_docx(file_path: Path) -> list[tuple[str, str]]:
 
     return chunks
 
-def ingest_single_file(file_path, db_path=DB_PATH, model=EMBED_MODEL, batch_size=BATCH_SIZE):
+def ingest_single_file(file_path, db_path=DB_PATH, model=EMBED_MODEL, batch_size=BATCH_SIZE,
+                        num_gpu=EMBED_NUM_GPU):
     """
     Ingests a single file into the SQLite database.
     If the file was previously ingested, its old chunks are replaced.
@@ -537,6 +538,7 @@ def ingest_single_file(file_path, db_path=DB_PATH, model=EMBED_MODEL, batch_size
         db_path: Path to the SQLite database.
         model: Embedding model name.
         batch_size: Batch size for embedding generation.
+        num_gpu: Ollama cihaz yerleşimi (bkz. embedder.EMBED_NUM_GPU, madde 29).
 
     Returns:
         int: Number of chunks ingested.
@@ -578,7 +580,8 @@ def ingest_single_file(file_path, db_path=DB_PATH, model=EMBED_MODEL, batch_size
     # file takes tens of seconds; doing it inside the write transaction would hold
     # SQLite's write lock that whole time and make every other query fail with
     # "database is locked".
-    embeddings = get_embeddings(texts, model=model, batch_size=batch_size, keep_alive="5m")
+    embeddings = get_embeddings(texts, model=model, batch_size=batch_size, keep_alive="5m",
+                                 num_gpu=num_gpu)
 
     data_to_insert = [
         (source_name, text, json.dumps(embedding), page_info)
@@ -667,7 +670,7 @@ def delete_source(source_name, db_path=DB_PATH):
 
 
 def ingest_files(data_dir=DATA_DIR, db_path=DB_PATH, model=EMBED_MODEL,
-                 batch_size=BATCH_SIZE, force=False):
+                 batch_size=BATCH_SIZE, force=False, num_gpu=EMBED_NUM_GPU):
     """
     Ingests all supported files in data_dir into the SQLite database.
 
@@ -677,6 +680,8 @@ def ingest_files(data_dir=DATA_DIR, db_path=DB_PATH, model=EMBED_MODEL,
 
     Each file is committed on its own, so a failure part-way through does not
     discard the files that already succeeded.
+
+    num_gpu: Ollama cihaz yerleşimi (bkz. embedder.EMBED_NUM_GPU, madde 29).
     """
     init_db(db_path)
 
@@ -739,7 +744,8 @@ def ingest_files(data_dir=DATA_DIR, db_path=DB_PATH, model=EMBED_MODEL,
 
                 # 3. Generate embeddings in batches
                 print(f"Generating embeddings for {len(texts)} chunks (batch size: {batch_size})...")
-                embeddings = get_embeddings(texts, model=model, batch_size=batch_size, keep_alive="5m")
+                embeddings = get_embeddings(texts, model=model, batch_size=batch_size, keep_alive="5m",
+                                             num_gpu=num_gpu)
 
                 # 4. Prepare data for batch insertion
                 data_to_insert = []
@@ -783,7 +789,9 @@ if __name__ == "__main__":
     parser.add_argument("--model", type=str, default=EMBED_MODEL, help="Embedding model name.")
     parser.add_argument("--batch_size", type=int, default=BATCH_SIZE, help="Batch size for generating embeddings.")
     parser.add_argument("--force", action="store_true", help="Re-ingest files that are already in the database.")
+    parser.add_argument("--num_gpu", type=int, default=EMBED_NUM_GPU,
+                        help="Ollama device placement for embeddings (num_gpu option; madde 29).")
 
     args = parser.parse_args()
     ingest_files(data_dir=args.data_dir, db_path=args.db_path, model=args.model,
-                 batch_size=args.batch_size, force=args.force)
+                 batch_size=args.batch_size, force=args.force, num_gpu=args.num_gpu)

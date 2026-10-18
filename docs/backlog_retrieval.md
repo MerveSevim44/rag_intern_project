@@ -35,13 +35,13 @@ PR olarak ele alınır.
 | 26 | Üretim: model serbest biçimli reddi yarıda bırakıyor ("…bulunmadığından") | Açık — düşük öncelik; v8'de 1/144 (#222) |
 | 27 | bge-m3 bazı metinlere NaN embedding döndürüyor; `semantic_sim` sessizce 0.0 yazıp ortalamaya katıyor | **Düzeltildi** — `ecc7f5a` (eksik değer + skorlayıcı embedding'i CPU'ya sabit) + `0d179ab` (testler); v7 #36 0.0 → 86.7, tekrar skorlamada 0 fark (`baf5cb0`). P öncesi `semantic_sim` değerleri "cihaz karışımı" (bkz. madde 27 kapanış notu) |
 | 28 | Ret tespitinin ikinci aşaması içerik miktarına bakmıyor; ret kapısından geçen içerik cevapları yalnız tesadüfi "iddia"larla TP kalıyor | Açık — v3 #29 gizli FN; madde 25 Adım 3'te bilinçli bırakıldı |
-| 29 | Ollama bge-m3 embedding güvenilirliği: oturumlar arası sayısal kayma sınırdaki retrieval'ı değiştiriyor | Açık — **mekanizma bulundu** (madde 27): Ollama bge-m3'ü oturuma göre CPU ya da GPU'ya yüklüyor, vektörler farklı; skorlayıcı sabitlendi, **retrieval tarafı açık** |
+| 29 | Ollama bge-m3 embedding güvenilirliği: oturumlar arası sayısal kayma sınırdaki retrieval'ı değiştiriyor | **Düzeltildi** — `EMBED_NUM_GPU=99` ile sorgu GPU'ya sabitlendi (`src/embedder.py`, `src/ingest.py`); yerel Ollama + `rag.db` ile 2 ayrı süreçte (#36, #93, #217) 0 fark doğrulanarak kapatıldı |
 | 30 | Synthesizer (a) dalı ödünleşiminin sınır vakası: "Yanlış Ön Kabul" sorusu #224 bağlama göre FP/TN arasında gidip geliyor | Açık — **bug değil, bilinçli alınmış dengenin yeniden değerlendirilmesi** (FN 25→10 karşılığında kabul edilen bedel) |
 | 31 | OCR'lı Cevap sayfalarının metin kalitesi: bir sayfa okunamıyor (#24), diğerlerinde üst simge / "\|" kaybı model cevabına aynen geçiyor | Açık — iki ayrı ciddiyet: okunamayan sayfa (yeniden OCR) / kısmi bozulma (son işleme) |
 
 ### Öncelik sırası (2026-10-11, güncelleme 2026-10-13)
 
-Açık retrieval/değerlendirme maddeleri için sıra: **25 (skorlama) ✅ → 22 ✅ → 27 ✅ → 29 → 20 → 21 → 31 → 24 (bağıl eşik) → 30 → 28 → 26.**
+Açık retrieval/değerlendirme maddeleri için sıra: **25 (skorlama) ✅ → 22 ✅ → 27 ✅ → 29 ✅ → 20 → 21 → 31 → 24 (bağıl eşik) → 30 → 28 → 26.**
 
 - **25 önce:** madde 24'ün başarı ölçütü negatif set FP sayısı; skorlayıcı yarım
   retleri FP saydığı sürece (#222) bu sayı yapay olarak şişik ve 24'ün etkisi
@@ -1168,6 +1168,35 @@ bilinmiyor. Sorgu tarafını sabitlemeden önce doküman embedding'lerinin cihaz
 kod değişikliğinden bağımsız olarak kayabilir. Bu yüzden madde 24 Adım 2 aynı
 oturumda A/B koşuluyor; diğer ölçümler de aynı yaklaşımı ya da kaymanın ayrı
 raporlanmasını gerektirebilir.
+
+**Adım 1 — Cihaz Tespiti ve Kod Değişikliği (2026-10-18):**
+[experiments/madde29_embedding_cihaz/](../experiments/madde29_embedding_cihaz/)
+içindeki ölçüm (`cihaz_tespiti.py`), `rag.db`'deki 911 chunk'ın tamamının
+(%100) `num_gpu=99`/`num_gpu=24` ile bayt bayt aynı, `num_gpu=0` (CPU) ile ise
+hiçbirinin aynı çıkmadığını gösterdi (cos(DB,cpu) min 0.997198). Yani **doküman
+embedding'leri GPU ile üretilmiş**; retrieval sorgu embedding'i de buna uyacak
+şekilde GPU'ya sabitlendi (DB'ye dokunulmadı, re-ingest gerekmedi). Detaylı
+karar ve seçenek kıyası:
+[docs/implementation_plan_madde29_embedding_cihaz.md](implementation_plan_madde29_embedding_cihaz.md).
+- `src/embedder.py`: `EMBED_NUM_GPU = int(os.getenv("RAG_EMBED_NUM_GPU", "99"))`
+  eklendi; `get_embedding`/`get_embeddings` artık `options={"num_gpu": ...}`
+  gönderiyor.
+- `src/ingest.py`: `--num_gpu` CLI argümanı eklendi (varsayılan `EMBED_NUM_GPU`),
+  her iki ingest yolu da bunu `get_embeddings`'e iletiyor.
+- `tests/test_embedder_device.py`: sahte Ollama ile varsayılan/override
+  `num_gpu` değerinin doğru iletildiği 4 birim test — geçti.
+
+**Adım 2 — Kayan Sorguların Doğrulanması (2026-10-18, tamamlandı):**
+Madde 24 Adım 0'da kaydığı bilinen 3 sınır soru (test_2 #36, test_4 #93,
+negatif #217) yerel ortamda çalışan Ollama (`bge-m3:latest`) ve `rag.db` ile
+[experiments/madde29_embedding_cihaz/dogrulama_kayan_sorgular.py](../experiments/madde29_embedding_cihaz/dogrulama_kayan_sorgular.py)
+kullanılarak iki bağımsız Python sürecinde (`--run a` ve `--run b`) çalıştırıldı.
+`--compare` çıktısı:
+- `test_2#36`: AYNI (4 vs 4 aday, skorlar ve rerank skorları birebir eşit)
+- `test_4#93`: AYNI (4 vs 4 aday, skorlar ve rerank skorları birebir eşit)
+- `test_negative#217`: AYNI (4 vs 4 aday, skorlar ve rerank skorları birebir eşit)
+- Sonuç: **0 FARK — determinist**. Kayıtlar `kayan_sorgular_sonuclari.jsonl` dosyasına yazıldı.
+- **Madde 29 "Düzeltildi" olarak kapatıldı.**
 
 ## Madde 30 — Synthesizer (a) dalı ödünleşiminin sınır vakası (#224)
 

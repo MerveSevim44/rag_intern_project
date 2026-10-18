@@ -1,4 +1,5 @@
 import gc
+import os
 import numpy as np
 import ollama
 
@@ -7,6 +8,15 @@ import ollama
 # boyutu üretir (bge-m3=1024, nomic-embed-text=768) ve cosine similarity
 # "shapes not aligned" hatası verir.
 EMBED_MODEL = "bge-m3"
+
+# ─── Embedding Cihazı (backlog madde 29) ────────────────────────────────────
+# Ollama, cihaz belirtilmezse bge-m3'ü çalışma anındaki VRAM durumuna göre
+# bazen CPU'ya bazen GPU'ya yüklüyor; iki yol bayt bayt aynı vektörü üretmiyor
+# (cosine min ~0.9982, experiments/madde29_embedding_cihaz/). rag.db'deki
+# 911 chunk'ın tamamı GPU ile üretildiği doğrulandığından (kismi_24/gpu ile
+# %100 bayt bayt eşleşme), sorgu ve ingest embedding'i de GPU'ya sabitlenir.
+# RAG_EMBED_NUM_GPU ile (ör. VRAM kısıtında "0" geçilerek) ezilebilir.
+EMBED_NUM_GPU = int(os.getenv("RAG_EMBED_NUM_GPU", "99"))
 
 # ─── Ollama keep_alive Ayarı ─────────────────────────────────────────────────
 # Varsayılan "5m" (5 dakika) modeli bellekte tutar ve 16GB RAM'de diğer
@@ -99,7 +109,7 @@ def cosine_similarity_batch(query_vec, embedding_matrix, norms=None):
     scores = embedding_matrix @ query_vec / (safe_norms * query_norm)
     return scores
 
-def get_embedding(text, model=EMBED_MODEL, keep_alive=OLLAMA_KEEP_ALIVE):
+def get_embedding(text, model=EMBED_MODEL, keep_alive=OLLAMA_KEEP_ALIVE, num_gpu=EMBED_NUM_GPU):
     """
     Verilen metin için Ollama kullanarak vektör (embedding) üretir.
 
@@ -109,11 +119,13 @@ def get_embedding(text, model=EMBED_MODEL, keep_alive=OLLAMA_KEEP_ALIVE):
         keep_alive: Model bellekte kalma süresi. Varsayılan "0" her çağrıdan
                     sonra unload eder. İngest sırasında "5m" geçilerek model
                     batch'ler arasında sıcak tutulur.
+        num_gpu: Ollama'ya iletilen cihaz yerleşimi (bkz. EMBED_NUM_GPU).
     """
-    response = ollama.embed(model=model, input=text, keep_alive=keep_alive)
+    response = ollama.embed(model=model, input=text, keep_alive=keep_alive,
+                             options={"num_gpu": num_gpu})
     return response.embeddings[0]
 
-def get_embeddings(texts, model=EMBED_MODEL, batch_size=16, keep_alive=OLLAMA_KEEP_ALIVE):
+def get_embeddings(texts, model=EMBED_MODEL, batch_size=16, keep_alive=OLLAMA_KEEP_ALIVE, num_gpu=EMBED_NUM_GPU):
     """
     Verilen metin listesi için Ollama kullanarak toplu vektör (embedding) üretir.
 
@@ -124,14 +136,16 @@ def get_embeddings(texts, model=EMBED_MODEL, batch_size=16, keep_alive=OLLAMA_KE
         keep_alive: Model bellekte kalma süresi. Varsayılan "0" her çağrıdan
                     sonra unload eder. İngest sırasında "5m" geçilerek model
                     batch'ler arasında sıcak tutulur.
+        num_gpu: Ollama'ya iletilen cihaz yerleşimi (bkz. EMBED_NUM_GPU).
     """
     if not texts:
         return []
-    
+
     embeddings = []
     for i in range(0, len(texts), batch_size):
         batch = texts[i:i + batch_size]
-        response = ollama.embed(model=model, input=batch, keep_alive=keep_alive)
+        response = ollama.embed(model=model, input=batch, keep_alive=keep_alive,
+                                 options={"num_gpu": num_gpu})
         embeddings.extend(response.embeddings)
     return embeddings
 
