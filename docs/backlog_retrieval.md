@@ -1196,6 +1196,24 @@ kullanılarak iki bağımsız Python sürecinde (`--run a` ve `--run b`) çalı�
 - `test_4#93`: AYNI (4 vs 4 aday, skorlar ve rerank skorları birebir eşit)
 - `test_negative#217`: AYNI (4 vs 4 aday, skorlar ve rerank skorları birebir eşit)
 - Sonuç: **0 FARK — determinist**. Kayıtlar `kayan_sorgular_sonuclari.jsonl` dosyasına yazıldı.
+
+**Kapanış Değerlendirmesi:**
+1. **DB Doküman Embedding Cihazı:** `rag.db`'deki 911 chunk'ın tamamı (%100) GPU
+   (`num_gpu=99`/`num_gpu=24`) ile bayt bayt aynı, CPU (`num_gpu=0`) ile ise 0/911
+   aynı çıktı (kosinüs min ~0.9972). Yani doküman embedding'leri kesin olarak GPU'da
+   üretilmiştir; sorgunun GPU'ya sabitlenmesi veritabanını yeniden oluşturma ihtiyacını
+   ortadan kaldırdı.
+2. **Determinizm ve Kararlılık:** `--compare` doğrulaması iki bağımsız oturumda
+   3 sınır sorunun tüm aday listelerinin ve skorlarının sıfır farkla aynı çıktığını
+   gösterdi. Retrieval artık oturumlar ve süreçler arası tamamen determinist ve
+   kararlıdır.
+3. **Madde 24 Adım 0 Kaymasının Açıklanması:** Sınır sorularındaki (#217, #36, #93)
+   kaymanın temel mekanizması tam olarak kanıtlandı: Ollama sorgu embedding'i için
+   GPU yerine CPU seçtiğinde oluşan ~0.0028 kosinüs kayması, RRF skorları birbirine
+   çok yakın olan sınır adayların (ör. #217'de 5–7. sıra RRF 0.9307 vs 0.9303;
+   sayfa 17 vs sayfa 28) yer değiştirmesine neden oluyordu. Sorgu tarafının da GPU'ya
+   sabitlenmesiyle hem doküman hem sorgu aynı sayısal hassasiyette buluştu ve sınır
+   kayması tamamen ortadan kalktı.
 - **Madde 29 "Düzeltildi" olarak kapatıldı.**
 
 ## Madde 30 — Synthesizer (a) dalı ödünleşiminin sınır vakası (#224)
