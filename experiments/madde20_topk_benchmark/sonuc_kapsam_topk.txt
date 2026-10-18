@@ -1,0 +1,333 @@
+Toplam soru: 147
+Farkli sonuc veren: 110
+
+test_1#1: 'G4.1 dilbilgisinde VT kümesinin elemanları nelerdir?'
+   top_k=5: [('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 3'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 21'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 26-27'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 20')]
+   top_k=8: [('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 3'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 21'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 18'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 26-27')]
+test_1#2: 'Bağlamdan bağımsız dilbilgisinde P harfi neyi temsil eder?'
+   top_k=5: [('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 2'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 30-31'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 24-25'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 26-27')]
+   top_k=8: [('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 2'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 30-31'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 24-25'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 28-29')]
+test_1#3: 'Başlangıç değişkeni hangi sembolle gösterilir ve hangi kümenin elemanı'
+   top_k=5: [('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 2'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 19'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 21'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 20')]
+   top_k=8: [('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 2'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 19'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 17'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 30-31')]
+test_1#4: 'VN ve VT kümeleri arasındaki ilişki nedir (ayrık mıdır kesişir mi)?'
+   top_k=5: [('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 2'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 26-27'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 21'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 20')]
+   top_k=8: [('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 2'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 26-27'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 3'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 21')]
+test_1#6: 'G4.2 dilbilgisinin uç simgeler (VT) kümesi nelerdir?'
+   top_k=5: [('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 2'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 4'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 18'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 21')]
+   top_k=8: [('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 2'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 4'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 22-23'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 18')]
+test_1#7: 'G4.1 dilbilgisinde S=>S*S=>S*(S)=>S*(S-S)=>v*(S-S)=>v*(v-S)=>v*(v-c) t'
+   top_k=5: [('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 3'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 6'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 15'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 13')]
+   top_k=8: [('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 3'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 6'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 15'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 12')]
+test_1#9: 'G4.3 dilbilgisi tarafından türetilen L(G4.3) dilinin küme tanımını yaz'
+   top_k=5: [('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 5'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 6'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 4'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 22-23')]
+   top_k=8: [('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 5'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 6'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 4'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 26-27')]
+test_1#11: 'Bir dilin belirgin (unambiguous) olması ne anlama gelir?'
+   top_k=5: [('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 10'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 7'), ('728_profiles.json', '$.profiles[294]'), ('728_profiles.json', '$.profiles[288]')]
+   top_k=8: [('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 10'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 7'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 2'), ('728_profiles.json', '$.profiles[291]')]
+test_1#12: 'Belirgin olmayan (ambiguous) dillerin uygulamada neden değeri olmadığı'
+   top_k=5: [('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 10'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 2'), ('728_profiles.json', '$.profiles[320]'), ('728_profiles.json', '$.profiles[325]')]
+   top_k=8: [('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 10'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 2'), ('728_profiles.json', '$.profiles[320]'), ('728_profiles.json', '$.profiles[327]')]
+test_1#17: 'Algoritma 4.5 hangi amaçla kullanılır ve sonucunda hangi küme elde edi'
+   top_k=5: [('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 18'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 20'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 19'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 21')]
+   top_k=8: [('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 18'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 20'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 26-27'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 30-31')]
+test_1#25: "Örnek 6'daki G_S.4.6.1 dilbilgisinin türettiği dilin (L_S.4.6.1) küme "
+   top_k=5: [('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 26-27'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 30-31'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 6'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 28-29')]
+   top_k=8: [('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 26-27'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 30-31'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 6'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 22-23')]
+test_1#27: "G4.4 dilbilgisi tarafından türetilen L(G4.4) dili uv(v')^R u^R biçimin"
+   top_k=5: [('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 6'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 5'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 4'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 3')]
+   top_k=8: [('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 6'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 5'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 4'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 7')]
+test_1#28: 'G_S.4.7.2 dilbilgisi L_S.4.7.2={a^n b^m c^k | n>0, m>0, k=2n+m} dilini'
+   top_k=5: [('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 28-29'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 4'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 26-27'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 5')]
+   top_k=8: [('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 28-29'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 4'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 22-23'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 26-27')]
+test_1#30: 'G4.3 dilbilgisinde X=>aXbb|aZbb|abb ve Z=>Zb|Xb kuralları birlikte çal'
+   top_k=5: [('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 5'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 6'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 4'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 26-27')]
+   top_k=8: [('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 5'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 6'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 4'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 24-25')]
+test_2#31: '728_profiles.json dosyasındaki schemaVersion değeri nedir ve datasetNa'
+   top_k=5: [('728_profiles.json', '$.metadata'), ('728_profiles.json', '$.profiles[393]'), ('728_profiles.json', '$.profiles[395]'), ('728_profiles.json', '$.profiles[396]')]
+   top_k=8: [('728_profiles.json', '$.metadata'), ('728_profiles.json', '$.profiles[397]'), ('728_profiles.json', '$.profiles[393]'), ('728_profiles.json', '$.profiles[395]')]
+test_2#32: 'statistics bölümüne göre veri setinde toplam kaç profil (profileCount)'
+   top_k=5: [('728_profiles.json', '$.statistics'), ('728_profiles.json', '$.fieldGuide'), ('728_profiles.json', '$.profiles[393]'), ('728_profiles.json', '$.profiles[395]')]
+   top_k=8: [('728_profiles.json', '$.statistics'), ('728_profiles.json', '$.fieldGuide'), ('728_profiles.json', '$.profiles[397]'), ('728_profiles.json', '$.profiles[393]')]
+test_2#33: 'safetyAndDataQuality bölümünde realPhoneNumbersIncluded ve realEmailsI'
+   top_k=5: [('728_profiles.json', '$.safetyAndDataQuality'), ('728_profiles.json', '$.fieldGuide'), ('728_profiles.json', '$.profiles[385]'), ('728_profiles.json', '$.profiles[391]')]
+   top_k=8: [('728_profiles.json', '$.safetyAndDataQuality'), ('728_profiles.json', '$.fieldGuide'), ('728_profiles.json', '$.profiles[385]'), ('728_profiles.json', '$.profiles[387]')]
+test_2#34: "Örnek profil olan Özge Taş'ın sector ve occupation alanları nedir?"
+   top_k=5: [('728_profiles.json', '$.profiles[0]'), ('728_profiles.json', '$.profiles[469]'), ('728_profiles.json', '$.profiles[150]'), ('728_profiles.json', '$.profiles[699]')]
+   top_k=8: [('728_profiles.json', '$.profiles[0]'), ('728_profiles.json', '$.profiles[469]'), ('728_profiles.json', '$.profiles[150]'), ('728_profiles.json', '$.profiles[463]')]
+test_2#35: 'publicContact alanı altında phoneVisible ve emailVisible değerleri örn'
+   top_k=5: [('728_profiles.json', '$.profiles[439]'), ('728_profiles.json', '$.profiles[283]'), ('728_profiles.json', '$.fieldGuide'), ('728_profiles.json', '$.safetyAndDataQuality')]
+   top_k=8: [('728_profiles.json', '$.profiles[667]'), ('728_profiles.json', '$.profiles[439]'), ('728_profiles.json', '$.profiles[418]'), ('728_profiles.json', '$.profiles[277]')]
+test_2#36: 'weeklyAvailability dizisinde her gün nesnesi hangi alanları (day, acti'
+   top_k=5: [('728_profiles.json', '$.profiles[311]'), ('728_profiles.json', '$.profiles[307]'), ('728_profiles.json', '$.profiles[395]'), ('728_profiles.json', '$.profiles[148]')]
+   top_k=8: [('728_profiles.json', '$.profiles[311]'), ('728_profiles.json', '$.profiles[307]'), ('728_profiles.json', '$.profiles[526]'), ('728_profiles.json', '$.profiles[395]')]
+test_2#37: 'sectorDistribution içindeki 22 sektörün profil sayılarını bir çubuk gr'
+   top_k=5: [('728_profiles.json', '$.statistics'), ('728_profiles.json', '$.fieldGuide'), ('728_profiles.json', '$.profiles[412]'), ('728_profiles.json', '$.profiles[409]')]
+   top_k=8: [('728_profiles.json', '$.statistics'), ('728_profiles.json', '$.fieldGuide'), ('728_profiles.json', '$.profiles[412]'), ('728_profiles.json', '$.sourceReference')]
+test_2#38: 'Mert Keskin profilinde appointmentSettings.autoApproveRequests neden f'
+   top_k=5: [('728_profiles.json', '$.profiles[1]'), ('728_profiles.json', '$.profiles[0]'), ('728_profiles.json', '$.profiles[699]'), ('728_profiles.json', '$.profiles[448]')]
+   top_k=8: [('728_profiles.json', '$.profiles[1]'), ('728_profiles.json', '$.profiles[0]'), ('728_profiles.json', '$.profiles[469]'), ('728_profiles.json', '$.profiles[699]')]
+test_2#39: 'Umut Aslan profilinde services dizisindeki hizmetlerden hangileri Onli'
+   top_k=5: [('728_profiles.json', '$.profiles[726]'), ('728_profiles.json', '$.profiles[95]'), ('728_profiles.json', '$.profiles[477]'), ('728_profiles.json', '$.profiles[623]')]
+   top_k=8: [('728_profiles.json', '$.profiles[726]'), ('728_profiles.json', '$.profiles[95]'), ('728_profiles.json', '$.profiles[477]'), ('728_profiles.json', '$.profiles[93]')]
+test_2#40: "location.serviceArea alanı bazı profillerde 'district, city' formatınd"
+   top_k=5: [('728_profiles.json', '$.fieldGuide'), ('728_profiles.json', '$.profiles[82]'), ('728_profiles.json', '$.profiles[377]'), ('728_profiles.json', '$.statistics')]
+   top_k=8: [('728_profiles.json', '$.fieldGuide'), ('728_profiles.json', '$.profiles[463]'), ('728_profiles.json', '$.profiles[82]'), ('728_profiles.json', '$.profiles[461]')]
+test_2#41: 'searchKeywords dizisi bir profildeki hangi diğer alanlardan (sector, o'
+   top_k=5: [('728_profiles.json', '$.profiles[393]'), ('728_profiles.json', '$.profiles[395]'), ('728_profiles.json', '$.profiles[675]'), ('728_profiles.json', '$.fieldGuide')]
+   top_k=8: [('728_profiles.json', '$.profiles[396]'), ('728_profiles.json', '$.profiles[397]'), ('728_profiles.json', '$.profiles[393]'), ('728_profiles.json', '$.profiles[395]')]
+test_2#42: 'Emre Korkmaz ve Umut Aslan profillerinin minimumNoticeHours ve cancell'
+   top_k=5: [('728_profiles.json', '$.profiles[726]'), ('728_profiles.json', '$.profiles[727]'), ('728_profiles.json', '$.profiles[33]'), ('728_profiles.json', '$.profiles[411]')]
+   top_k=8: [('728_profiles.json', '$.profiles[726]'), ('728_profiles.json', '$.profiles[727]'), ('728_profiles.json', '$.profiles[95]'), ('728_profiles.json', '$.profiles[33]')]
+test_2#43: 'experience.credentialSummary alanı occupation türüne göre nasıl değişm'
+   top_k=5: [('728_profiles.json', '$.profiles[726]'), ('728_profiles.json', '$.profiles[725]'), ('728_profiles.json', '$.profiles[721]'), ('728_profiles.json', '$.profiles[724]')]
+   top_k=8: [('728_profiles.json', '$.profiles[726]'), ('728_profiles.json', '$.profiles[725]'), ('728_profiles.json', '$.profiles[721]'), ('728_profiles.json', '$.profiles[722]')]
+test_2#44: 'appointmentSettings içindeki minimumNoticeHours ile cancellationNotice'
+   top_k=5: [('728_profiles.json', '$.profiles[82]'), ('728_profiles.json', '$.profiles[463]'), ('728_profiles.json', '$.profiles[312]'), ('728_profiles.json', '$.profiles[718]')]
+   top_k=8: [('728_profiles.json', '$.profiles[445]'), ('728_profiles.json', '$.profiles[82]'), ('728_profiles.json', '$.profiles[463]'), ('728_profiles.json', '$.profiles[318]')]
+test_2#45: 'slug alanı displayName ve profileCode alanlarından nasıl bir kurala gö'
+   top_k=5: [('728_profiles.json', '$.fieldGuide'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 20'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 17'), ('728_profiles.json', '$.sourceReference')]
+   top_k=8: [('728_profiles.json', '$.fieldGuide'), ('728_profiles.json', '$.statistics'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 20'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 17')]
+test_2#46: 'sourceReference.note alanı bu veri setinin gerçek kişi/işletme doğrula'
+   top_k=5: [('728_profiles.json', '$.safetyAndDataQuality'), ('728_profiles.json', '$.sourceReference'), ('728_profiles.json', '$.profiles[397]'), ('728_profiles.json', '$.profiles[395]')]
+   top_k=8: [('728_profiles.json', '$.safetyAndDataQuality'), ('728_profiles.json', '$.sourceReference'), ('728_profiles.json', '$.profiles[397]'), ('728_profiles.json', '$.fieldGuide')]
+test_2#47: "fieldGuide bölümündeki 'publicContact' açıklaması ile örnek profillerd"
+   top_k=5: [('728_profiles.json', '$.fieldGuide'), ('728_profiles.json', '$.profiles[717]'), ('728_profiles.json', '$.profiles[471]'), ('728_profiles.json', '$.safetyAndDataQuality')]
+   top_k=8: [('728_profiles.json', '$.fieldGuide'), ('728_profiles.json', '$.profiles[469]'), ('728_profiles.json', '$.profiles[314]'), ('728_profiles.json', '$.profiles[717]')]
+test_2#48: 'defaultDurationMinutes alanı ile services dizisindeki bireysel duratio'
+   top_k=5: [('728_profiles.json', '$.profiles[274]'), ('728_profiles.json', '$.profiles[272]'), ('728_profiles.json', '$.profiles[73]'), ('728_profiles.json', '$.profiles[286]')]
+   top_k=8: [('728_profiles.json', '$.profiles[84]'), ('728_profiles.json', '$.profiles[239]'), ('728_profiles.json', '$.profiles[237]'), ('728_profiles.json', '$.profiles[274]')]
+test_2#49: "intendedUse listesinde belirtilen 'demo', 'test', 'seed data', 'UI pop"
+   top_k=5: [('728_profiles.json', '$.safetyAndDataQuality'), ('728_profiles.json', '$.profiles[423]'), ('728_profiles.json', '$.sourceReference'), ('Summer School Foundry Local Plan.docx', 'bölüm 7')]
+   top_k=8: [('728_profiles.json', '$.safetyAndDataQuality'), ('728_profiles.json', '$.profiles[423]'), ('728_profiles.json', '$.profiles[417]'), ('728_profiles.json', '$.profiles[422]')]
+test_2#50: 'weeklyAvailability dizisinde örnek profillerde yalnızca Pazartesi-Cuma'
+   top_k=5: [('728_profiles.json', '$.profiles[469]'), ('728_profiles.json', '$.profiles[464]'), ('728_profiles.json', '$.profiles[721]'), ('728_profiles.json', '$.profiles[471]')]
+   top_k=8: [('728_profiles.json', '$.profiles[469]'), ('728_profiles.json', '$.profiles[464]'), ('728_profiles.json', '$.profiles[450]'), ('728_profiles.json', '$.profiles[721]')]
+test_2#51: 'sectorDistribution içindeki 22 sektörün profil sayılarını gösteren bir'
+   top_k=5: [('728_profiles.json', '$.statistics'), ('728_profiles.json', '$.fieldGuide'), ('728_profiles.json', '$.profiles[413]'), ('728_profiles.json', '$.profiles[415]')]
+   top_k=8: [('728_profiles.json', '$.statistics'), ('728_profiles.json', '$.fieldGuide'), ('728_profiles.json', '$.profiles[413]'), ('728_profiles.json', '$.sourceReference')]
+test_2#52: '22 sektörden 3 tanesinin (Sağlık, Spor ve Fitness, Eğitim ve Özel Ders'
+   top_k=5: [('728_profiles.json', '$.statistics'), ('728_profiles.json', '$.profiles[239]'), ('728_profiles.json', '$.profiles[233]'), ('728_profiles.json', '$.profiles[234]')]
+   top_k=8: [('728_profiles.json', '$.statistics'), ('728_profiles.json', '$.profiles[235]'), ('728_profiles.json', '$.profiles[239]'), ('728_profiles.json', '$.profiles[233]')]
+test_2#53: "Aynı occupation'a (Yetenek Yönetimi Uzmanı) sahip Sinem Arslan, Umut A"
+   top_k=5: [('728_profiles.json', '$.profiles[725]'), ('728_profiles.json', '$.profiles[726]'), ('728_profiles.json', '$.profiles[714]'), ('728_profiles.json', '$.profiles[701]')]
+   top_k=8: [('728_profiles.json', '$.profiles[727]'), ('728_profiles.json', '$.profiles[725]'), ('728_profiles.json', '$.profiles[726]'), ('728_profiles.json', '$.profiles[458]')]
+test_2#54: "profileCode alanının 'DB-' önekli 8 karakterlik alfanümerik yapısı ile"
+   top_k=5: [('728_profiles.json', '$.profiles[379]'), ('728_profiles.json', '$.profiles[376]'), ('728_profiles.json', '$.profiles[378]'), ('728_profiles.json', '$.profiles[380]')]
+   top_k=8: [('728_profiles.json', '$.profiles[382]'), ('728_profiles.json', '$.profiles[381]'), ('728_profiles.json', '$.profiles[379]'), ('728_profiles.json', '$.profiles[376]')]
+test_2#55: "Aynı occupation (örneğin 'Aile Hekimliği Uzmanı') farklı şehirlerdeki "
+   top_k=5: [('728_profiles.json', '$.profiles[1]'), ('728_profiles.json', '$.profiles[0]'), ('728_profiles.json', '$.profiles[374]'), ('728_profiles.json', '$.profiles[93]')]
+   top_k=8: [('728_profiles.json', '$.profiles[1]'), ('728_profiles.json', '$.profiles[0]'), ('728_profiles.json', '$.profiles[5]'), ('728_profiles.json', '$.profiles[3]')]
+test_2#56: 'schemaVersion 1.1 olarak belirtilmiş olması, veri setinin ileride hang'
+   top_k=5: [('728_profiles.json', '$.metadata'), ('728_profiles.json', '$.profiles[393]'), ('728_profiles.json', '$.profiles[395]'), ('728_profiles.json', '$.profiles[399]')]
+   top_k=8: [('728_profiles.json', '$.metadata'), ('728_profiles.json', '$.profiles[397]'), ('728_profiles.json', '$.profiles[393]'), ('728_profiles.json', '$.profiles[395]')]
+test_2#57: '728 profil içinde her sektördeki ortalama meslek (occupation) sayısını'
+   top_k=5: [('728_profiles.json', '$.statistics'), ('728_profiles.json', '$.fieldGuide'), ('728_profiles.json', '$.profiles[415]'), ('728_profiles.json', '$.profiles[411]')]
+   top_k=8: [('728_profiles.json', '$.statistics'), ('728_profiles.json', '$.fieldGuide'), ('728_profiles.json', '$.profiles[415]'), ('728_profiles.json', '$.profiles[219]')]
+test_2#58: "about metin şablonunun ('...olarak X yıllık mesleki deneyimle Y bölges"
+   top_k=5: [('728_profiles.json', '$.profiles[399]'), ('728_profiles.json', '$.profiles[395]'), ('728_profiles.json', '$.safetyAndDataQuality'), ('728_profiles.json', '$.fieldGuide')]
+   top_k=8: [('728_profiles.json', '$.profiles[393]'), ('728_profiles.json', '$.profiles[396]'), ('728_profiles.json', '$.profiles[399]'), ('728_profiles.json', '$.profiles[397]')]
+test_2#59: 'exactAddressPublic:false ayarı ile serviceArea alanındaki genel bölge '
+   top_k=5: [('728_profiles.json', '$.profiles[520]'), ('728_profiles.json', '$.profiles[591]'), ('728_profiles.json', '$.profiles[84]'), ('728_profiles.json', '$.profiles[437]')]
+   top_k=8: [('728_profiles.json', '$.profiles[520]'), ('728_profiles.json', '$.profiles[0]'), ('728_profiles.json', '$.profiles[591]'), ('728_profiles.json', '$.profiles[663]')]
+test_2#60: 'Profillerin deneyim yıllarını (experience.years) bir histogramla görse'
+   top_k=5: [('728_profiles.json', '$.profiles[397]'), ('728_profiles.json', '$.profiles[395]'), ('728_profiles.json', '$.profiles[399]'), ('728_profiles.json', '$.profiles[396]')]
+   top_k=8: [('728_profiles.json', '$.profiles[397]'), ('728_profiles.json', '$.profiles[392]'), ('728_profiles.json', '$.statistics'), ('728_profiles.json', '$.profiles[395]')]
+test_3#61: 'Fourier dönüşümünün ileri yöndeki (forward) tanımı X(jω) hangi integra'
+   top_k=5: [('lsarSist-H8_FourierTransform.pdf', 'sayfa 3'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 4'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 2'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 5')]
+   top_k=8: [('lsarSist-H8_FourierTransform.pdf', 'sayfa 3'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 4'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 2'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 6')]
+test_3#63: 'x(t)=e^{-at}u(t) nedensel üstel işaretinin Fourier dönüşümü hangi koşu'
+   top_k=5: [('lsarSist-H8_FourierTransform.pdf', 'sayfa 7'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 2'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 4'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 3')]
+   top_k=8: [('lsarSist-H8_FourierTransform.pdf', 'sayfa 7'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 2'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 4'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 11')]
+test_3#64: 'Analiz (analysis) ve sentez (synthesis) işlemleri Fourier dönüşümü bağ'
+   top_k=5: [('lsarSist-H8_FourierTransform.pdf', 'sayfa 3'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 5'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 4'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 8')]
+   top_k=8: [('lsarSist-H8_FourierTransform.pdf', 'sayfa 3'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 2'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 5'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 6')]
+test_3#65: "F{1}=2πδ(ω) eşitliği hangi özellikten (Dirac delta'nın sifting propert"
+   top_k=5: [('lsarSist-H8_FourierTransform.pdf', 'sayfa 4'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 14'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 6'), ('lsarSist-H9_ZTransform.pdf', 'sayfa 17')]
+   top_k=8: [('lsarSist-H8_FourierTransform.pdf', 'sayfa 4'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 14'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 6'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 5')]
+test_3#66: 'Bir x(t) işaretinin Fourier dönüşümünün var olabilmesi için gerekli üç'
+   top_k=5: [('lsarSist-H8_FourierTransform.pdf', 'sayfa 2'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 4'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 3'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 6')]
+   top_k=8: [('lsarSist-H8_FourierTransform.pdf', 'sayfa 2'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 11'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 4'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 3')]
+test_3#68: 'x(t) işaretinin Fourier dönüşümünün var olması için gereken üç koşulu '
+   top_k=5: [('lsarSist-H8_FourierTransform.pdf', 'sayfa 2'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 3'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 4'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 1')]
+   top_k=8: [('lsarSist-H8_FourierTransform.pdf', 'sayfa 2'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 3'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 4'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 11')]
+test_3#69: 'rect(t/τ) işaretinin Fourier dönüşümünün sinc fonksiyonu ile ifade edi'
+   top_k=5: [('lsarSist-H8_FourierTransform.pdf', 'sayfa 5'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 9'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 2'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 4')]
+   top_k=8: [('lsarSist-H8_FourierTransform.pdf', 'sayfa 5'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 9'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 2'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 11')]
+test_3#70: 'cos(ω0t) işaretinin Fourier dönüşümünün π[δ(ω-ω0)+δ(ω+ω0)] biçiminde e'
+   top_k=5: [('lsarSist-H8_FourierTransform.pdf', 'sayfa 6'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 2'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 5'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 4')]
+   top_k=8: [('lsarSist-H8_FourierTransform.pdf', 'sayfa 6'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 2'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 5'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 14')]
+test_3#71: 'Nedensel üstel işaretin Fourier dönüşümü türetilirken lim(t→∞) e^{-at}'
+   top_k=5: [('lsarSist-H8_FourierTransform.pdf', 'sayfa 7'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 6'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 11'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 4')]
+   top_k=8: [('lsarSist-H8_FourierTransform.pdf', 'sayfa 7'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 6'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 2'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 11')]
+test_3#73: 'Nedensel üstel işaretin Fourier dönüşümünün faz açısı ∠X(jω) hangi ifa'
+   top_k=5: [('lsarSist-H8_FourierTransform.pdf', 'sayfa 7'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 4'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 3'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 2')]
+   top_k=8: [('lsarSist-H8_FourierTransform.pdf', 'sayfa 7'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 4'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 6'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 3')]
+test_3#74: 'Fourier dönüşümünün "memoryless", "causal" ve "linear" sistem özellikl'
+   top_k=5: [('lsarSist-H8_FourierTransform.pdf', 'sayfa 8'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 1'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 11'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 2')]
+   top_k=8: [('lsarSist-H8_FourierTransform.pdf', 'sayfa 8'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 4'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 1'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 11')]
+test_3#76: 'Duallik (duality) özelliği ileri ve ters dönüşümlerin benzerliğinden n'
+   top_k=5: [('lsarSist-H8_FourierTransform.pdf', 'sayfa 9'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 3'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 5'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 14')]
+   top_k=8: [('lsarSist-H8_FourierTransform.pdf', 'sayfa 9'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 3'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 4'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 5')]
+test_3#78: 'Ölçekleme (scaling) özelliğine göre |a|>1 olduğunda zaman ve frekans e'
+   top_k=5: [('lsarSist-H8_FourierTransform.pdf', 'sayfa 10'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 14'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 8'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 16')]
+   top_k=8: [('lsarSist-H8_FourierTransform.pdf', 'sayfa 10'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 14'), ('lsarSist-H9_ZTransform.pdf', 'sayfa 9'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 8')]
+test_3#80: 'Zamanda kaydırma (shifting in time) özelliğine göre bir işaretin gecik'
+   top_k=5: [('lsarSist-H8_FourierTransform.pdf', 'sayfa 11'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 8'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 3'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 14')]
+   top_k=8: [('lsarSist-H8_FourierTransform.pdf', 'sayfa 11'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 8'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 1'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 2')]
+test_3#81: 'Zamanda kaydırma özelliğinin ispatında u=t-t0 değişken dönüşümü nasıl '
+   top_k=5: [('lsarSist-H8_FourierTransform.pdf', 'sayfa 11'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 14'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 3'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 12')]
+   top_k=8: [('lsarSist-H8_FourierTransform.pdf', 'sayfa 11'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 14'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 3'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 4')]
+test_3#82: 'Zamanda çarpımın frekansta konvolüsyona karşılık geldiği özellik hangi'
+   top_k=5: [('lsarSist-H8_FourierTransform.pdf', 'sayfa 14'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 7'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 11'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 8')]
+   top_k=8: [('lsarSist-H8_FourierTransform.pdf', 'sayfa 14'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 7'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 11'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 15')]
+test_3#83: 'Sinüzoidal genlik modülasyonunda (y(t)=f(t)cos(ω0t)) elde edilen Y(ω) '
+   top_k=5: [('lsarSist-H8_FourierTransform.pdf', 'sayfa 12'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 13'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 6'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 14')]
+   top_k=8: [('lsarSist-H8_FourierTransform.pdf', 'sayfa 12'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 13'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 9'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 6')]
+test_3#84: "Sinüzoidal genlik modülasyonunda demodülasyon (f(t)'nin geri kazanılma"
+   top_k=5: [('lsarSist-H8_FourierTransform.pdf', 'sayfa 13'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 12'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 18'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 11')]
+   top_k=8: [('lsarSist-H8_FourierTransform.pdf', 'sayfa 13'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 12'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 9'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 5')]
+test_3#86: 'cos(ω0t)f(t) işaretinin frekans-kaydırma özelliği kullanılarak elde ed'
+   top_k=5: [('lsarSist-H8_FourierTransform.pdf', 'sayfa 14'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 6'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 2'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 11')]
+   top_k=8: [('lsarSist-H8_FourierTransform.pdf', 'sayfa 14'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 6'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 2'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 5')]
+test_3#87: 'Nedensel üstel işaretin genlik yanıtı |X(jω)|=1/√(Re{a}²+(ω+Im{a})²) i'
+   top_k=5: [('lsarSist-H8_FourierTransform.pdf', 'sayfa 7'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 12'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 24-25'), ('lsarSist-H9_ZTransform.pdf', 'sayfa 7')]
+   top_k=8: [('lsarSist-H8_FourierTransform.pdf', 'sayfa 7'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 12'), ('lsarSist-H9_ZTransform.pdf', 'sayfa 19'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 24-25')]
+test_3#88: 'F{1}=2πδ(ω) sonucunun elde edilme sürecinde ters Fourier dönüşümü tanı'
+   top_k=5: [('lsarSist-H8_FourierTransform.pdf', 'sayfa 4'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 14'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 5'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 6')]
+   top_k=8: [('lsarSist-H8_FourierTransform.pdf', 'sayfa 4'), ('lsarSist-H9_ZTransform.pdf', 'sayfa 17'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 14'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 5')]
+test_3#90: 'Zamanda kaydırma özelliğinin türetmesinde elde edilen e^{-jωt0}F(ω) if'
+   top_k=5: [('lsarSist-H8_FourierTransform.pdf', 'sayfa 14'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 11'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 9'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 6')]
+   top_k=8: [('lsarSist-H8_FourierTransform.pdf', 'sayfa 14'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 11'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 9'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 10')]
+test_4#92: "Anlatıcının Oda No: 304'ü kiraladığı şehir ve mevsim hangisidir?"
+   top_k=5: [('test2.txt', 'paragraf 1'), ('test1.txt', 'paragraf 4'), ('test1.txt', 'paragraf 5'), ('728_profiles.json', '$.fieldGuide')]
+   top_k=8: [('test2.txt', 'paragraf 1'), ('test1.txt', 'paragraf 4'), ('test2.txt', 'paragraf 3'), ('test1.txt', 'paragraf 5')]
+test_4#93: "Defterin sayfalarında beliren cümlede 'gardiyan' olarak kim gösterilme"
+   top_k=5: [('test1.txt', 'paragraf 6'), ('test1.txt', 'paragraf 5'), ('test2.txt', 'paragraf 6'), ('test1.txt', 'paragraf 2')]
+   top_k=8: [('test1.txt', 'paragraf 6'), ('test1.txt', 'paragraf 5'), ('test1.txt', 'paragraf 7'), ('test2.txt', 'paragraf 6')]
+test_4#94: "Alis'in Yasaklı Kanat'a girme kararını tetikleyen olaylar zincirini (a"
+   top_k=5: [('test1.txt', 'paragraf 3'), ('test1.txt', 'paragraf 2'), ('test1.txt', 'paragraf 5'), ('test1.txt', 'paragraf 7')]
+   top_k=8: [('test1.txt', 'paragraf 3'), ('test1.txt', 'paragraf 2'), ('test1.txt', 'paragraf 9'), ('test1.txt', 'paragraf 8')]
+test_4#100: 'Günlükteki koparılmış yirmi sayfa ile arka kapaktaki kroki/koordinat a'
+   top_k=5: [('test2.txt', 'paragraf 6'), ('test2.txt', 'paragraf 4'), ('test1.txt', 'paragraf 2'), ('test1.txt', 'paragraf 7')]
+   top_k=8: [('test2.txt', 'paragraf 6'), ('test2.txt', 'paragraf 4'), ('test1.txt', 'paragraf 2'), ('test1.txt', 'paragraf 5')]
+test_5#101: 'Bağlamdan bağımsız dilbilgisini Chomsky normal formuna dönüştürme algo'
+   top_k=5: [('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 18'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 22-23'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 19'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 2')]
+   top_k=8: [('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 18'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 22-23'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 17'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 19')]
+test_5#102: 'Bağlamdan bağımsız dilleri tanıyan yığın otomatı (pushdown automaton) '
+   top_k=5: [('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 2'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 1'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 18'), ('728_profiles.json', '$.profiles[324]')]
+   top_k=8: [('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 2'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 1'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 16'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 18')]
+test_5#103: 'Bağlamdan bağımsız dilbilgisi için pompalama (pumping) lemması nasıl i'
+   top_k=5: [('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 16'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 2'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 28-29'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 22-23')]
+   top_k=8: [('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 16'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 2'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 18'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 24-25')]
+test_5#104: 'Fourier dönüşümünde Nyquist örnekleme teoremi hangi koşulu gerektirir?'
+   top_k=5: [('lsarSist-H8_FourierTransform.pdf', 'sayfa 2'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 6'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 5'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 4')]
+   top_k=8: [('lsarSist-H8_FourierTransform.pdf', 'sayfa 2'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 11'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 6'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 5')]
+test_5#105: 'Dalgacık (wavelet) dönüşümü ile Fourier dönüşümü arasındaki fark doküm'
+   top_k=5: [('lsarSist-H8_FourierTransform.pdf', 'sayfa 4'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 5'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 6'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 3')]
+   top_k=8: [('lsarSist-H8_FourierTransform.pdf', 'sayfa 4'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 11'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 5'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 6')]
+test_5#106: 'Hızlı Fourier Dönüşümü (FFT) algoritmasının hesaplama karmaşıklığı kaç'
+   top_k=5: [('lsarSist-H8_FourierTransform.pdf', 'sayfa 6'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 5'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 4'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 3')]
+   top_k=8: [('lsarSist-H8_FourierTransform.pdf', 'sayfa 6'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 5'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 11'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 4')]
+test_5#108: '728_profiles.json veri setinde profillerin cinsiyet dağılımı nedir?'
+   top_k=5: [('728_profiles.json', '$.statistics'), ('728_profiles.json', '$.profiles[397]'), ('728_profiles.json', '$.profiles[396]'), ('728_profiles.json', '$.sourceReference')]
+   top_k=8: [('728_profiles.json', '$.statistics'), ('728_profiles.json', '$.profiles[393]'), ('728_profiles.json', '$.profiles[397]'), ('728_profiles.json', '$.profiles[395]')]
+test_5#109: '728_profiles.json veri setindeki profillerin müşteri memnuniyet puanı '
+   top_k=5: [('728_profiles.json', '$.statistics'), ('728_profiles.json', '$.profiles[397]'), ('728_profiles.json', '$.profiles[394]'), ('728_profiles.json', '$.profiles[395]')]
+   top_k=8: [('728_profiles.json', '$.statistics'), ('728_profiles.json', '$.profiles[397]'), ('728_profiles.json', '$.profiles[393]'), ('728_profiles.json', '$.profiles[394]')]
+test_5#110: 'mock-transactions.json dosyasında işlemlerin kredi kartı numaraları ha'
+   top_k=5: [('728_profiles.json', '$.profiles[477]'), ('728_profiles.json', '$.profiles[641]'), ('728_profiles.json', '$.profiles[472]'), ('728_profiles.json', '$.profiles[476]')]
+   top_k=8: [('728_profiles.json', '$.profiles[477]'), ('728_profiles.json', '$.profiles[641]'), ('728_profiles.json', '$.profiles[472]'), ('728_profiles.json', '$.profiles[647]')]
+test_5#111: '728_profiles.json veri setinde profillerin IBAN bilgileri hangi şema a'
+   top_k=5: [('728_profiles.json', '$.profiles[395]'), ('728_profiles.json', '$.profiles[396]'), ('728_profiles.json', '$.profiles[399]'), ('728_profiles.json', '$.sourceReference')]
+   top_k=8: [('728_profiles.json', '$.statistics'), ('728_profiles.json', '$.profiles[395]'), ('728_profiles.json', '$.profiles[396]'), ('728_profiles.json', '$.profiles[394]')]
+test_5#112: 'Summer School Foundry Local planında Kubernetes kurulumu hangi adımda '
+   top_k=5: [('Summer School Foundry Local Plan.docx', 'bölüm 5'), ('Summer School Foundry Local Plan.docx', 'bölüm 3'), ('Summer School Foundry Local Plan.docx', 'bölüm 2'), ('Summer School Foundry Local Plan.docx', 'bölüm 8')]
+   top_k=8: [('Summer School Foundry Local Plan.docx', 'bölüm 5'), ('Summer School Foundry Local Plan.docx', 'bölüm 3'), ('Summer School Foundry Local Plan.docx', 'bölüm 6'), ('Summer School Foundry Local Plan.docx', 'bölüm 2')]
+test_5#113: 'Summer School Foundry Local planında projenin Kanban panosu hangi araç'
+   top_k=5: [('Summer School Foundry Local Plan.docx', 'bölüm 5'), ('Summer School Foundry Local Plan.docx', 'bölüm 3'), ('Summer School Foundry Local Plan.docx', 'bölüm 2'), ('Summer School Foundry Local Plan.docx', 'bölüm 8')]
+   top_k=8: [('Summer School Foundry Local Plan.docx', 'bölüm 5'), ('Summer School Foundry Local Plan.docx', 'bölüm 6'), ('Summer School Foundry Local Plan.docx', 'bölüm 3'), ('Summer School Foundry Local Plan.docx', 'bölüm 2')]
+test_5#114: "Unutulmuş Parşömen hikayesinde Alis'in ailesi hangi şehirde yaşamaktad"
+   top_k=5: [('test1.txt', 'paragraf 1'), ('test1.txt', 'paragraf 8'), ('test1.txt', 'paragraf 2'), ('test1.txt', 'paragraf 7')]
+   top_k=8: [('test1.txt', 'paragraf 1'), ('test1.txt', 'paragraf 8'), ('test1.txt', 'paragraf 3'), ('test1.txt', 'paragraf 2')]
+test_5#115: 'Oda No: 304 hikayesinde anlatıcının mesleği nedir?'
+   top_k=5: [('test2.txt', 'paragraf 1'), ('728_profiles.json', '$.profiles[314]'), ('728_profiles.json', '$.profiles[500]'), ('728_profiles.json', '$.profiles[488]')]
+   top_k=8: [('test2.txt', 'paragraf 1'), ('728_profiles.json', '$.profiles[314]'), ('728_profiles.json', '$.profiles[447]'), ('728_profiles.json', '$.profiles[348]')]
+test_negative#201: 'Blockchain tabanlı akıllı sözleşmelerde gaz (gas) ücreti nasıl hesapla'
+   top_k=5: [('728_profiles.json', '$.profiles[477]'), ('mock-transactions.json', '$.transactions[6]'), ('728_profiles.json', '$.profiles[472]'), ('728_profiles.json', '$.profiles[479]')]
+   top_k=8: [('728_profiles.json', '$.profiles[477]'), ('728_profiles.json', '$.profiles[475]'), ('mock-transactions.json', '$.transactions[6]'), ('728_profiles.json', '$.profiles[472]')]
+test_negative#202: 'Kuantum dolanıklığının kübit hata oranlarına etkisi nedir?'
+   top_k=5: [('lsarSist-H8_FourierTransform.pdf', 'sayfa 7'), ('728_profiles.json', '$.profiles[388]'), ('728_profiles.json', '$.profiles[580]'), ('728_profiles.json', '$.profiles[577]')]
+   top_k=8: [('lsarSist-H8_FourierTransform.pdf', 'sayfa 7'), ('728_profiles.json', '$.profiles[388]'), ('728_profiles.json', '$.profiles[578]'), ('728_profiles.json', '$.profiles[580]')]
+test_negative#203: 'GDPR kapsamında kişisel verilerin azami saklama süresi ne kadardır?'
+   top_k=5: [('728_profiles.json', '$.profiles[397]'), ('728_profiles.json', '$.profiles[396]'), ('728_profiles.json', '$.profiles[392]'), ('728_profiles.json', '$.profiles[399]')]
+   top_k=8: [('728_profiles.json', '$.profiles[393]'), ('728_profiles.json', '$.profiles[397]'), ('728_profiles.json', '$.profiles[396]'), ('728_profiles.json', '$.profiles[392]')]
+test_negative#204: "Kubernetes'te pod autoscaling eşik değerleri nasıl yapılandırılır?"
+   top_k=5: [('Summer School Foundry Local Plan.docx', 'bölüm 6'), ('728_profiles.json', '$.profiles[311]'), ('728_profiles.json', '$.profiles[378]'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 10')]
+   top_k=8: [('Summer School Foundry Local Plan.docx', 'bölüm 5'), ('Summer School Foundry Local Plan.docx', 'bölüm 6'), ('728_profiles.json', '$.profiles[311]'), ('728_profiles.json', '$.profiles[308]')]
+test_negative#205: "Porter'ın beş güç analizi bir pazara nasıl uygulanır?"
+   top_k=5: [('lsarSist-H9_ZTransform.pdf', 'sayfa 8'), ('728_profiles.json', '$.profiles[454]'), ('728_profiles.json', '$.profiles[488]'), ('728_profiles.json', '$.profiles[449]')]
+   top_k=8: [('lsarSist-H9_ZTransform.pdf', 'sayfa 8'), ('728_profiles.json', '$.profiles[464]'), ('728_profiles.json', '$.profiles[491]'), ('728_profiles.json', '$.profiles[454]')]
+test_negative#206: 'Fotosentezde Calvin döngüsünün ATP tüketimi nedir?'
+   top_k=5: [('728_profiles.json', '$.profiles[150]'), ('728_profiles.json', '$.profiles[151]'), ('728_profiles.json', '$.profiles[143]'), ('728_profiles.json', '$.profiles[149]')]
+   top_k=8: [('728_profiles.json', '$.profiles[168]'), ('728_profiles.json', '$.profiles[150]'), ('728_profiles.json', '$.profiles[151]'), ('728_profiles.json', '$.profiles[143]')]
+test_negative#207: 'Wavelet dönüşümünün zaman-frekans çözünürlüğü avantajı nedir?'
+   top_k=5: [('lsarSist-H8_FourierTransform.pdf', 'sayfa 14'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 11'), ('728_profiles.json', '$.profiles[205]'), ('728_profiles.json', '$.profiles[170]')]
+   top_k=8: [('lsarSist-H8_FourierTransform.pdf', 'sayfa 14'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 11'), ('728_profiles.json', '$.profiles[205]'), ('728_profiles.json', '$.profiles[595]')]
+test_negative#208: 'Dizel motorlarda ortak hat (common rail) yakıt enjeksiyon basıncı kaç '
+   top_k=5: [('lsarSist-H9_ZTransform.pdf', 'sayfa 10'), ('728_profiles.json', '$.profiles[575]'), ('728_profiles.json', '$.profiles[569]'), ('728_profiles.json', '$.profiles[570]')]
+   top_k=8: [('mock-transactions.json', '$.transactions[6]'), ('lsarSist-H9_ZTransform.pdf', 'sayfa 10'), ('728_profiles.json', '$.profiles[575]'), ('728_profiles.json', '$.profiles[592]')]
+test_negative#209: 'ACC-456 hesabının Ocak 2024 dönemindeki toplam harcaması nedir?'
+   top_k=5: [('mock-transactions.json', '$.transactions[4]'), ('mock-transactions.json', '$.transactions[0]'), ('mock-transactions.json', '$.transactions[1]'), ('mock-transactions.json', '$.transactions[8]')]
+   top_k=8: [('mock-transactions.json', '$.transactions[4]'), ('mock-transactions.json', '$.transactions[0]'), ('mock-transactions.json', '$.transactions[2]'), ('mock-transactions.json', '$.transactions[9]')]
+test_negative#210: 'TXN-020 numaralı işlemin tutarı ve kategorisi nedir?'
+   top_k=5: [('mock-transactions.json', '$.transactions[1]'), ('mock-transactions.json', '$.transactions[4]'), ('mock-transactions.json', '$.transactions[8]'), ('mock-transactions.json', '$.transactions[0]')]
+   top_k=8: [('mock-transactions.json', '$.transactions[1]'), ('mock-transactions.json', '$.transactions[4]'), ('mock-transactions.json', '$.transactions[7]'), ('mock-transactions.json', '$.transactions[9]')]
+test_negative#211: '"Havacılık ve Uzay" sektöründeki profillerin ortalama deneyim yılı kaç'
+   top_k=5: [('728_profiles.json', '$.profiles[445]'), ('728_profiles.json', '$.profiles[394]'), ('728_profiles.json', '$.profiles[387]'), ('728_profiles.json', '$.profiles[386]')]
+   top_k=8: [('728_profiles.json', '$.profiles[445]'), ('728_profiles.json', '$.profiles[394]'), ('728_profiles.json', '$.profiles[397]'), ('728_profiles.json', '$.profiles[378]')]
+test_negative#212: 'Erzurum şehrinde hizmet veren kaç profil bulunmaktadır?'
+   top_k=5: [('728_profiles.json', '$.statistics'), ('728_profiles.json', '$.profiles[561]'), ('728_profiles.json', '$.profiles[560]'), ('728_profiles.json', '$.profiles[493]')]
+   top_k=8: [('728_profiles.json', '$.statistics'), ('728_profiles.json', '$.profiles[567]'), ('728_profiles.json', '$.profiles[561]'), ('728_profiles.json', '$.profiles[560]')]
+test_negative#213: '"Ahmet Yıldırım" adlı profilin uzmanlık alanı ve şehri nedir?'
+   top_k=5: [('728_profiles.json', '$.profiles[500]'), ('728_profiles.json', '$.profiles[280]'), ('728_profiles.json', '$.profiles[304]'), ('728_profiles.json', '$.profiles[399]')]
+   top_k=8: [('728_profiles.json', '$.profiles[500]'), ('728_profiles.json', '$.profiles[660]'), ('728_profiles.json', '$.profiles[280]'), ('728_profiles.json', '$.profiles[304]')]
+test_negative#214: "airports.json veri setindeki Türkiye'ye ait havaalanlarının IATA kodla"
+   top_k=5: [('728_profiles.json', '$.profiles[393]'), ('728_profiles.json', '$.profiles[397]'), ('728_profiles.json', '$.profiles[399]'), ('728_profiles.json', '$.profiles[396]')]
+   top_k=8: [('728_profiles.json', '$.metadata'), ('728_profiles.json', '$.profiles[393]'), ('728_profiles.json', '$.profiles[397]'), ('728_profiles.json', '$.profiles[399]')]
+test_negative#216: '728_profiles veri setinde profillerin kredi puanı (credit score) ortal'
+   top_k=5: [('728_profiles.json', '$.statistics'), ('728_profiles.json', '$.profiles[393]'), ('728_profiles.json', '$.profiles[395]'), ('728_profiles.json', '$.profiles[398]')]
+   top_k=8: [('728_profiles.json', '$.statistics'), ('728_profiles.json', '$.profiles[397]'), ('728_profiles.json', '$.profiles[393]'), ('728_profiles.json', '$.profiles[395]')]
+test_negative#217: 'Bağlamdan bağımsız dilbilgisi dokümanında anlatılan "Tür 3 düzenli dil'
+   top_k=5: [('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 2'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 16'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 22-23'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 18')]
+   top_k=8: [('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 2'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 16'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 28-29'), ('8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 24-25')]
+test_negative#218: 'mock-transactions veri setindeki ikinci hesabın (ACC-124) kapanış baki'
+   top_k=5: [('mock-transactions.json', '$.transactions[8]'), ('mock-transactions.json', '$.transactions[0]'), ('mock-transactions.json', '$.transactions[1]'), ('mock-transactions.json', '$.transactions[3]')]
+   top_k=8: [('mock-transactions.json', '$.transactions[8]'), ('mock-transactions.json', '$.transactions[0]'), ('mock-transactions.json', '$.transactions[1]'), ('mock-transactions.json', '$.transactions[4]')]
+test_negative#220: 'Summer School planında ikinci ay için ayrılan bütçe ne kadardır?'
+   top_k=5: [('728_profiles.json', '$.profiles[314]'), ('728_profiles.json', '$.profiles[710]'), ('728_profiles.json', '$.profiles[707]'), ('728_profiles.json', '$.profiles[706]')]
+   top_k=8: [('728_profiles.json', '$.profiles[280]'), ('728_profiles.json', '$.profiles[329]'), ('728_profiles.json', '$.profiles[314]'), ('728_profiles.json', '$.profiles[708]')]
+test_negative#223: '728_profiles veri setinde yer alan gerçek telefon numaralarının doğrul'
+   top_k=5: [('728_profiles.json', '$.profiles[464]'), ('728_profiles.json', '$.profiles[397]'), ('728_profiles.json', '$.profiles[393]'), ('728_profiles.json', '$.profiles[396]')]
+   top_k=8: [('728_profiles.json', '$.profiles[464]'), ('728_profiles.json', '$.profiles[392]'), ('728_profiles.json', '$.profiles[397]'), ('728_profiles.json', '$.profiles[393]')]
+test_negative#225: 'mock-transactions veri setinde Şubat 2024 ayına ait işlemlerin toplam '
+   top_k=5: [('mock-transactions.json', '$.transactions[1]'), ('mock-transactions.json', '$.transactions[0]'), ('728_profiles.json', '$.profiles[392]'), ('728_profiles.json', '$.profiles[397]')]
+   top_k=8: [('mock-transactions.json', '$.transactions[1]'), ('mock-transactions.json', '$.transactions[8]'), ('mock-transactions.json', '$.transactions[0]'), ('728_profiles.json', '$.profiles[392]')]
+test_negative#226: 'mock-transactions veri setinde 2023 yılının en yüksek harcaması hangi '
+   top_k=5: [('728_profiles.json', '$.statistics'), ('728_profiles.json', '$.profiles[397]'), ('728_profiles.json', '$.profiles[399]'), ('728_profiles.json', '$.profiles[395]')]
+   top_k=8: [('728_profiles.json', '$.statistics'), ('728_profiles.json', '$.profiles[393]'), ('728_profiles.json', '$.profiles[397]'), ('728_profiles.json', '$.profiles[399]')]
+test_negative#228: '728_profiles veri setine bu ay eklenen yeni profil sayısı kaçtır?'
+   top_k=5: [('728_profiles.json', '$.statistics'), ('728_profiles.json', '$.profiles[397]'), ('728_profiles.json', '$.profiles[398]'), ('728_profiles.json', '$.sourceReference')]
+   top_k=8: [('728_profiles.json', '$.statistics'), ('728_profiles.json', '$.profiles[397]'), ('728_profiles.json', '$.profiles[393]'), ('728_profiles.json', '$.profiles[395]')]
+test_negative#229: 'Summer School programının 2027 yılı kayıt takvimi nasıldır?'
+   top_k=5: [('728_profiles.json', '$.profiles[334]'), ('728_profiles.json', '$.profiles[321]'), ('728_profiles.json', '$.profiles[333]'), ('728_profiles.json', '$.profiles[360]')]
+   top_k=8: [('728_profiles.json', '$.profiles[334]'), ('728_profiles.json', '$.profiles[321]'), ('728_profiles.json', '$.profiles[333]'), ('728_profiles.json', '$.profiles[312]')]
+test_negative#230: '728_profiles veri setinin schemaVersion 2.0 sürümü ne zaman yayınlanac'
+   top_k=5: [('728_profiles.json', '$.metadata'), ('728_profiles.json', '$.profiles[393]'), ('728_profiles.json', '$.profiles[395]'), ('728_profiles.json', '$.profiles[399]')]
+   top_k=8: [('728_profiles.json', '$.metadata'), ('728_profiles.json', '$.profiles[397]'), ('728_profiles.json', '$.profiles[393]'), ('728_profiles.json', '$.profiles[395]')]
+test_negative#231: 'airports.json veri setinin 2026 güncellemesinde eklenen havaalanları h'
+   top_k=5: [('728_profiles.json', '$.metadata'), ('728_profiles.json', '$.profiles[393]'), ('728_profiles.json', '$.profiles[397]'), ('728_profiles.json', '$.profiles[396]')]
+   top_k=8: [('728_profiles.json', '$.metadata'), ('728_profiles.json', '$.profiles[393]'), ('728_profiles.json', '$.profiles[397]'), ('728_profiles.json', '$.profiles[395]')]
+test_negative#232: 'us-states veri setinde en son hangi tarihte eyalet sınırı değişikliği '
+   top_k=5: [('728_profiles.json', '$.profiles[399]'), ('728_profiles.json', '$.profiles[395]'), ('728_profiles.json', '$.profiles[397]'), ('airports.json', '$.airports[3]')]
+   top_k=8: [('728_profiles.json', '$.profiles[399]'), ('728_profiles.json', '$.profiles[395]'), ('728_profiles.json', '$.profiles[397]'), ('728_profiles.json', '$.profiles[392]')]
