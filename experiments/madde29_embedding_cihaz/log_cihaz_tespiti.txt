@@ -1,0 +1,59 @@
+[cpu] 728_profiles.json: 733 chunk
+[cpu] airports.json: 30 chunk
+[cpu] lsarSist-H8_FourierTransform.pdf: 14 chunk
+[cpu] lsarSist-H9_ZTransform.pdf: 19 chunk
+[cpu] mock-transactions.json: 12 chunk
+[cpu] Summer School Foundry Local Plan.docx: 8 chunk
+[cpu] test1.txt: 9 chunk
+[cpu] test2.txt: 10 chunk
+[cpu] us-states-with-detail.json: 50 chunk
+[cpu] 8-Baglamdan_bagimsiz_dilbilgisi.pdf: 26 chunk
+[kismi_24] 728_profiles.json: 733 chunk
+[kismi_24] airports.json: 30 chunk
+[kismi_24] lsarSist-H8_FourierTransform.pdf: 14 chunk
+[kismi_24] lsarSist-H9_ZTransform.pdf: 19 chunk
+[kismi_24] mock-transactions.json: 12 chunk
+[kismi_24] Summer School Foundry Local Plan.docx: 8 chunk
+[kismi_24] test1.txt: 9 chunk
+[kismi_24] test2.txt: 10 chunk
+[kismi_24] us-states-with-detail.json: 50 chunk
+[kismi_24] 8-Baglamdan_bagimsiz_dilbilgisi.pdf: 26 chunk
+[gpu] 728_profiles.json: 733 chunk
+[gpu] airports.json: 30 chunk
+[gpu] lsarSist-H8_FourierTransform.pdf: 14 chunk
+[gpu] lsarSist-H9_ZTransform.pdf: 19 chunk
+[gpu] mock-transactions.json: 12 chunk
+[gpu] Summer School Foundry Local Plan.docx: 8 chunk
+[gpu] test1.txt: 9 chunk
+[gpu] test2.txt: 10 chunk
+[gpu] us-states-with-detail.json: 50 chunk
+[gpu] 8-Baglamdan_bagimsiz_dilbilgisi.pdf: 26 chunk
+chunk: 911  BATCH_SIZE=64
+ollama ps (cpu):
+NAME             ID              SIZE      PROCESSOR    CONTEXT    UNTIL              
+bge-m3:latest    790764642607    1.1 GB    100% CPU     4096       4 minutes from now
+ollama ps (kismi_24):
+NAME             ID              SIZE      PROCESSOR          CONTEXT    UNTIL              
+bge-m3:latest    790764642607    1.2 GB    42%/58% CPU/GPU    4096       4 minutes from now
+ollama ps (gpu):
+NAME             ID              SIZE      PROCESSOR    CONTEXT    UNTIL              
+bge-m3:latest    790764642607    1.2 GB    100% GPU     4096       4 minutes from now
+id boşlukları (kaynak tek ingest çağrısında mı yazıldı?): 
+
+Kaynak başına sınıf (DB vektörüyle bayt bayt aynı olan yerleşim):
+   728_profiles.json                          {'kismi_24+gpu': 733}
+   airports.json                              {'kismi_24+gpu': 30}
+   lsarSist-H8_FourierTransform.pdf           {'kismi_24+gpu': 14}
+   lsarSist-H9_ZTransform.pdf                 {'kismi_24+gpu': 19}
+   mock-transactions.json                     {'kismi_24+gpu': 12}
+   Summer School Foundry Local Plan.docx      {'kismi_24+gpu': 8}
+   test1.txt                                  {'kismi_24+gpu': 9}
+   test2.txt                                  {'kismi_24+gpu': 10}
+   us-states-with-detail.json                 {'kismi_24+gpu': 50}
+   8-Baglamdan_bagimsiz_dilbilgisi.pdf        {'kismi_24+gpu': 26}
+cos(DB, cpu): min=0.997198 medyan=0.999916 max=0.999999
+cos(DB, kismi_24): min=1.000000 medyan=1.000000 max=1.000000
+cos(DB, gpu): min=1.000000 medyan=1.000000 max=1.000000
+
+Gruplama etkisi (CPU, 111 chunk, tek tek vs 64'lük grup): bayt bayt ayni 111/111, cos min=1.000000
+
