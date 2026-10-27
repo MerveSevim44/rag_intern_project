@@ -863,6 +863,21 @@ En güçlü vakalar 1–3: iki kişinin ilk adı da düşüyor ("Damla Akın" /
    zayıf eşleşmeyi güçlü saymak çözer; router'ın genel davranışını değiştirdiği
    için negatif setle ayrıca ölçülmeli. (Not: madde 19 düzelmeden "deneyim"
    BM25'e de katkı vermiyor.)
+
+   **Doğrulama (2026-10-27) — hâlâ AÇIK.** "Mekanizma zaten var" çıkarımı
+   ölçümle çürüdü. `selected_dataset` sinyali ve `tests/test_router_signals.py`
+   bu notla AYNI commit'te (`dffb6a5`) eklendi; not, o mekanizmanın
+   kapsamadığı durumu ("filtresiz" = arayüzde dataset seçili değil) tarif
+   ediyor. Test bunu kilitliyor: `test_secili_dataset_veri_seti_sinyalidir`
+   seçimsiz soruda `RAG` bekliyor. Ölçüm
+   ([experiments/madde20_router_2b/](../experiments/madde20_router_2b/)):
+   orijinal soru + 7 varyant (ortalama, "kaç kişi", "en fazla", görselleştir…)
+   **seçimsiz 8/8 `semantic_rag`** (`fallback_semantic`, güçlü kolon eşleşmesi
+   yok), 728_profiles seçiliyken 8/8 `code_interpreter`. Arayüzün varsayılanı
+   `source_filter=None` olduğundan kullanıcının ilk karşılaştığı durum tam da
+   çözülmemiş olan. "Profillerde …" varyantı da `experience.years` sayesinde
+   değil, "profil" kelimesi sayesinde doğru gidiyor. Çözüm adayı (yukarıdaki
+   iki parça eşleşmesi) ve negatif setle ölçülmesi gerekliliği geçerli.
 2. **Benchmark `top_k=5` — düzeltildi (2026-10-18).** `evaluation/run_tests.py::run_single_test`,
    `evaluation/eval_retrieval.py` ve `evaluation/llm_as_judge.py::build_context_for_question`
    varsayılanı 5; arayüz `retrieval.TOP_K` (8) kullanıyordu. Kapsam ölçümü

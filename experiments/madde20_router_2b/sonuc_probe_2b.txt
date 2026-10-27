@@ -1,0 +1,10 @@
+soru                                           | seçimsiz         | 728 seçili       | seçimsiz: neden / güçlü kolon
+Deneyim yılları histogramı                     | semantic_rag     | code_interpreter | fallback_semantic / []
+deneyim yılı dağılımı                          | semantic_rag     | code_interpreter | fallback_semantic / []
+Deneyim yıllarının ortalaması nedir?           | semantic_rag     | code_interpreter | fallback_semantic / []
+Deneyim yılı 10'dan fazla olan kaç kişi var?   | semantic_rag     | code_interpreter | fallback_semantic / []
+En fazla deneyim yılına sahip kişi kim?        | semantic_rag     | code_interpreter | fallback_semantic / []
+Deneyim yıllarını görselleştir                 | semantic_rag     | code_interpreter | fallback_semantic / []
+Deneyim yılı histogramı çiz                    | semantic_rag     | code_interpreter | fallback_semantic / []
+Ortalama deneyim süresi kaç yıl?               | semantic_rag     | code_interpreter | fallback_semantic / []
+Profillerde deneyim yılları histogramı         | code_interpreter | code_interpreter | complexity_signal+dataset_signal / ['profileCode~profil', 'profileType~profil']

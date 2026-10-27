@@ -1,0 +1,66 @@
+
+=== baz_2026-10-03: pozitif 98 | FN (pozitif soruda ret) 10 | judge ödüllendirdi (AR>=4 ve TP>=4) 8/10
+  test_1#25   F/AR/TP/AL=[5, 4, 4, 5] ÖDÜL | 'Bu bilgi dokümanlarda bulunamadı.'
+      judge: "Cevap, bağlamda örnek 6'ya dair hiçbir bilgi bulunmadığını doğru şekilde belirtiyor, bu yüzden iddiaları bağla"
+  test_1#26   F/AR/TP/AL=[5, 4, 4, 5] ÖDÜL | 'Bu bilgi dokümanlarda bulunamadı.'
+      judge: 'Bağlamda G_4.5.1 ve L_4.5.1 hakkında hiçbir bilgi bulunmadığı için cevap doğru bir ret ifadesi veriyor, bu yüz'
+  test_1#29   F/AR/TP/AL=[5, 4, 4, 5] ÖDÜL | 'Bu bilgi dokümanlarda bulunamadı.'
+      judge: 'Cevap, verilen bağlamda sorunun istendiği bilgi bulunmadığını doğru bir şekilde belirtiyor, bu yüzden iddialar'
+  test_2#54   F/AR/TP/AL=[5, 4, 4, 5] ÖDÜL | 'Bu bilgi dokümanlarda bulunamadı.'
+      judge: 'Cevap, bağlamda slug alanı ve ilişki hakkında bilgi bulunmadığını doğru şekilde belirtiyor, bu yüzden iddialar'
+  test_2#56   F/AR/TP/AL=[5, 4, 4, 5] ÖDÜL | 'Bu bilgi dokümanlarda bulunamadı.'
+      judge: 'Cevap, bağlamda sorunun yanıtının bulunmadığını doğru şekilde belirtiyor, bu yüzden iddiaları bağlamla çelişmi'
+  test_3#79   F/AR/TP/AL=[5, 4, 4, 5] ÖDÜL | 'Bu bilgi dokümanlarda bulunamadı.'
+      judge: 'Cevap, bağlamda sorulan konuyla ilgili bir bilgi bulunmadığını doğru şekilde belirttiği için bağlama sadık kal'
+  test_3#82   F/AR/TP/AL=[5, 4, 4, 5] ÖDÜL | 'Bu bilgi dokümanlarda bulunamadı.'
+      judge: 'Cevap, bağlamda sorulan özelliğin (zaman çarpımının frekansta konvolüsyona karşılığı) yer almadığını doğru şek'
+  test_4#91   F/AR/TP/AL=[5, 4, 4, 5] ÖDÜL | 'Bu bilgi dokümanlarda bulunamadı.'
+      judge: "Cevap, bağlamda kütüphanenin adı geçmediği için 'Bu bilgi dokümanlarda bulunamadı' demek doğru ve bağlamla çel"
+  test_4#92   F/AR/TP/AL=[1, 1, 1, 5]      | 'Bu bilgi dokümanlarda bulunamadı.'
+      judge: 'Cevap, bağlamda açıkça yer alan İstanbul şehri ve Kasım (yağmurlu kasım sabahları) mevsimini içermediği için s'
+  test_4#100  F/AR/TP/AL=[1, 1, 1, 5]      | 'Bu bilgi dokümanlarda bulunamadı.'
+      judge: "Cevap, bağlamda mevcut olan bilgiyi görmezden gelerek 'bilgi bulunamadı' diyor, bu yüzden iddialar bağlamla de"
+
+=== v7: pozitif 100 | FN (pozitif soruda ret) 13 | judge ödüllendirdi (AR>=4 ve TP>=4) 5/13
+    çapraz kontrol (yeniden skorlanmış CSV): uyuşmazlık 0
+  test_1#25   F/AR/TP/AL=[1, 1, 1, 5]      | 'Bu bilgi dokümanlarda bulunamadı.'
+      judge: "Cevap, bağlamda verilen Ls.4.6.1 tanımını içermiyor ve 'bilgi bulunamadı' diyerek hatalı bir iddia yapıyor, bu"
+  test_1#26   F/AR/TP/AL=[1, 1, 1, 5]      | 'Bu bilgi dokümanlarda bulunamadı.'
+      judge: "Cevap, bağlamda verilen G4.5.1 gramatisinin tanımını ve üretim kurallarını tamamen göz ardı ederek 'bilgi bulu"
+  test_1#29   F/AR/TP/AL=[1, 1, 1, 5]      | 'Bu bilgi dokümanlarda bulunamadı.'
+      judge: 'Cevap, bağlamda bulunan b^{2k+1} ve d^{2k+1} üstelinin kaynağını ve B=>bbBdd|C kuralının bu üstelere nasıl yol'
+  test_2#43   F/AR/TP/AL=[1, 2, 1, 5]      | 'Bu bilgi dokümanlarda bulunamadı; soru şu an işlenemedi, tekrar denene'
+      judge: 'Cevap, bağlamda "veri işlenemedi" ifadesiyle veri yok denilmediği halde "Bu bilgi dokümanlarda bulunamadı" diy'
+  test_2#44   F/AR/TP/AL=[1, 1, 1, 5]      | 'Bu bilgi dokümanlarda bulunamadı; soru şu an işlenemedi, tekrar denene'
+      judge: 'Cevap, bağlamda yer alan "minimumNoticeHours" ve "cancellationNoticeHours" arasındaki -1.95 saatlik fark ve st'
+  test_2#53   F/AR/TP/AL=[1, 1, 1, 4]      | 'Bu bilgi dokümanlarda bulunamadı; soru şu an işlenemedi, tekrar denene'
+      judge: 'Cevap, bağlamda "veri yok" demek yerine işleme hatası olduğunu belirttiği halde "Bu bilgi dokümanlarda bulunam'
+  test_2#54   F/AR/TP/AL=[5, 4, 4, 5] ÖDÜL | 'Bu bilgi dokümanlarda bulunamadı.'
+      judge: 'Cevap, bağlamda slug alanının bulunmadığını doğru şekilde belirtiyor, bu yüzden iddiaları bağlamla çelişmiyor '
+  test_2#56   F/AR/TP/AL=[5, 4, 4, 5] ÖDÜL | 'Bu bilgi dokümanlarda bulunamadı.'
+      judge: 'Cevap, bağlamda sorunun yanıtı bulunmadığını doğru şekilde belirtiyor, bu yüzden iddialarda halüsinasyon yok v'
+  test_3#79   F/AR/TP/AL=[5, 4, 4, 5] ÖDÜL | 'Bu bilgi dokümanlarda bulunamadı.'
+      judge: 'Cevap, bağlamda soruya dair bir açıklama bulunmadığını doğru şekilde belirtiyor, bu yüzden iddiaları bağlamla '
+  test_3#82   F/AR/TP/AL=[5, 4, 4, 5] ÖDÜL | 'Bu bilgi dokümanlarda bulunamadı.'
+      judge: 'Cevap, bağlamda sorulan türetmenin bulunmadığını doğru şekilde belirtiyor, bu yüzden halüsinasyon yok ve sadak'
+  test_4#91   F/AR/TP/AL=[5, 4, 4, 5] ÖDÜL | 'Bu bilgi dokümanlarda bulunamadı.'
+      judge: 'Bağlamda kütüphanenin adı geçmediği için cevap doğru bir ret veriyor, bu yüzden iddialar bağlamla uyumlu (fait'
+  test_4#92   F/AR/TP/AL=[1, 1, 1, 5]      | 'Bu bilgi dokümanlarda bulunamadı.'
+      judge: 'Cevap bağlamda bulunan İstanbul ve Kasım (yağmurlu kasım sabahları) bilgisine değinmediği için bağlamla uyumsu'
+  test_4#100  F/AR/TP/AL=[1, 1, 1, 5]      | 'Bu bilgi dokümanlarda bulunamadı.'
+      judge: 'Cevap, bağlamda mevcut olan "koparılmış yirmi sayfa ve arka kapaktaki harita" bilgisine dayanmadığı için tamam'
+
+=== v8: pozitif 97 | FN (pozitif soruda ret) 6 | judge ödüllendirdi (AR>=4 ve TP>=4) 5/6
+    çapraz kontrol (yeniden skorlanmış CSV): uyuşmazlık 0
+  test_2#50   F/AR/TP/AL=[5, 5, 5, 5] ÖDÜL | 'Hayır, örnek profillerde Pazartesi-Cuma günleri aktif görünmektedir. H'
+      judge: 'Cevapta verilen iki iddia (sadece Pazartesi‑Cuma aktif ve hafta sonu profili yok) bağlamdaki dört profilin wee'
+  test_2#56   F/AR/TP/AL=[5, 4, 4, 5] ÖDÜL | 'Bu bilgi dokümanlarda bulunamadı.'
+      judge: 'Cevap, bağlamda soruya dair bilgi bulunmadığını doğru şekilde belirtiyor, bu da bağlamla çelişen ya da uydurul'
+  test_3#79   F/AR/TP/AL=[5, 4, 4, 5] ÖDÜL | 'Bu bilgi dokümanlarda bulunamadı.'
+      judge: 'Cevap, bağlamda soruya doğrudan bir açıklama bulunmadığını doğru şekilde belirtiyor, bu yüzden halüsinasyon yo'
+  test_3#82   F/AR/TP/AL=[5, 4, 4, 5] ÖDÜL | 'Bu bilgi dokümanlarda bulunamadı.'
+      judge: 'Cevap, bağlamda sorulan türetmenin bulunmadığını doğru şekilde belirtiyor, bu yüzden halüsinasyon yok ve sadak'
+  test_4#91   F/AR/TP/AL=[5, 4, 4, 5] ÖDÜL | 'Bu bilgi dokümanlarda bulunamadı.'
+      judge: 'Bağlamda kütüphanenin adı geçmediği için cevap doğru bir ret veriyor, bu yüzden iddialar bağlamla uyumlu (fait'
+  test_4#100  F/AR/TP/AL=[1, 1, 1, 5]      | 'Bu bilgi dokümanlarda bulunamadı.'
+      judge: "Cevap, bağlamda mevcut olan bilgiyi tamamen göz ardı ederek 'Bu bilgi dokümanlarda bulunamadı' diyor; bu bağla"
