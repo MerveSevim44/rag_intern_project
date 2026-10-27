@@ -1380,3 +1380,24 @@ düşük skor vermesi), bu yüzden önce ölçülmeli.
 **Kapsam dışı — test_2 #56:** cevap çıkarım gerektiriyor ("schemaVersion
 1.1'den ne çıkarılabilir"), ilgili chunk (`$.metadata`) bağlamda VAR; model
 yine reddediyor. Retrieval değil üretim/çıkarım sorunu, ayrı tutulur.
+
+**Adım 1 sonucu (2026-10-27) — ölçüm:**
+[experiments/madde32_chunk_kacirma/](../experiments/madde32_chunk_kacirma/README.md).
+- **#79/#82: kayıp RRF birleştirmesinde.** Cevap chunk'ı dense'te 1/911 ve
+  havuza girseydi reranker'da da 1. sırada olacaktı; ama BM25=0 (Türkçe soru, İngilizce slayt
+  gövdesi) olduğu için RRF'ten BM25 katkısı almıyor, normalize skoru en fazla 0.5.
+  Hibrit sırası 12 ve 17, TOP_K=8 havuzuna giremiyor. Sorun ne dense'te ne
+  reranker'da.
+- **#91 farklı mekanizma:** stemmer tutarsızlığı ("kütüphane"→`kutupha`,
+  "kütüphanenin"→`kutuphane`; madde 6 Sorun B) ile BM25=0, dense 12/911, hibrit
+  34. Cevap iki chunk'a bölünmüş (paragraf 1'de ad, paragraf 2'de Alis); havuzda
+  olsa bile reranker 5. sıraya koyuyor (eşiğin hemen altında).
+- **Kapsam:** dense #1 chunk BM25=0 yüzünden havuz dışında kalan pozitif soru
+  yalnız #79 ve #82 (87 semantic_rag sorusu). GT terimi ölçütü 14 soru işaretledi
+  ama 11'i v8'de TP. Fourier PDF'inde GT terimleri Türkçe, metin İngilizce ve
+  semboller bozuk; ölçüt bu dosyada güvenilir değil.
+- **Adım 2 adayı (ölçülmeden karar yok):** havuza "dense güvenlik slotu", yani
+  dense ilk-N chunk'ı hibrit sırasından bağımsız olarak reranker'a gitsin.
+  Reranker zaten filtreliyor, ama havuz HER soruda değişir: tam benchmark +
+  negatif set (FP riski) ile ölçülmeli. #91 bu kapsamın dışında (stemmer +
+  çok-chunk'lı cevap).

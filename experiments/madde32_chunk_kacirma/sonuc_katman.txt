@@ -1,0 +1,60 @@
+
+=== test_3#79: Zaman ekseninde genişleme ile frekans ekseninde daralma (bant genişliği) arasındaki ters orantı nasıl açıklanmıştır?
+  hedef chunk 4183 (sayfa 10) — korpus 911, dosyada 14 chunk
+  BM25 sorgu token'ları: ['zama', 'eksen', 'genisle', 'frekans', 'eksen', 'daralma', 'bant', 'genislik', 'aras', 'ters', 'ora', 'acikla']
+  hedefte geçen token'lar: []
+  dense : cosine 0.6541  sıra 1/911
+  BM25  : ham 0.000  sıra — (skor 0, RRF katkısı yok)
+  hibrit: skor 0.5000  sıra 12/911  (havuz eşiği = 8. aday 0.5197) -> HAVUZA GİRMİYOR
+  rerank: skor 0.6576  havuz içi sıra 1 (havuzda olsaydı)  (nihai eşik = 4. 0.0002)
+  dosya içi: hibrit sıra 4/14, rerank sıra 1/14
+  sağlama (havuz rerank ilk 4 == normal retrieve): True
+  havuz:
+     4176 lsarSist-H8_FourierTransform.pdf sayfa 3          hibrit 0.9839 d#3    b#1    rr 0.0154
+     4187 lsarSist-H8_FourierTransform.pdf sayfa 14         hibrit 0.9606 d#5    b#2    rr 0.0067
+     4184 lsarSist-H8_FourierTransform.pdf sayfa 11         hibrit 0.9231 d#6    b#6    rr 0.0066
+     4234 test1.txt                        paragraf 8       hibrit 0.6875 d#83   b#4    rr 0.0000
+     3600 728_profiles.json                $.profiles[220]  hibrit 0.6292 d#21   b#59   rr 0.0002
+     3585 728_profiles.json                $.profiles[205]  hibrit 0.5283 d#348  b#7    rr 0.0001
+     3582 728_profiles.json                $.profiles[202]  hibrit 0.5263 d#230  b#12   rr 0.0001
+     3603 728_profiles.json                $.profiles[223]  hibrit 0.5197 d#181  b#17   rr 0.0002
+
+=== test_3#82: Zamanda çarpımın frekansta konvolüsyona karşılık geldiği özellik hangi türetme ile gösterilmiştir?
+  hedef chunk 4185 (sayfa 12) — korpus 911, dosyada 14 chunk
+  BM25 sorgu token'ları: ['zama', 'carp', 'frekans', 'konvolusyo', 'karsilik', 'geldik', 'ozellik', 'hangi', 'turetme', 'gosteril']
+  hedefte geçen token'lar: []
+  dense : cosine 0.5025  sıra 1/911
+  BM25  : ham 0.000  sıra — (skor 0, RRF katkısı yok)
+  hibrit: skor 0.5000  sıra 17/911  (havuz eşiği = 8. aday 0.6060) -> HAVUZA GİRMİYOR
+  rerank: skor 0.0149  havuz içi sıra 1 (havuzda olsaydı)  (nihai eşik = 4. 0.0016)
+  dosya içi: hibrit sıra 4/14, rerank sıra 1/14
+  sağlama (havuz rerank ilk 4 == normal retrieve): True
+  havuz:
+     4187 lsarSist-H8_FourierTransform.pdf sayfa 14         hibrit 0.9533 d#6    b#2    rr 0.0044
+     4181 lsarSist-H8_FourierTransform.pdf sayfa 8          hibrit 0.9091 d#7    b#7    rr 0.0011
+     4184 lsarSist-H8_FourierTransform.pdf sayfa 11         hibrit 0.8466 d#4    b#22   rr 0.0031
+     4333 8-Baglamdan_bagimsiz_dilbilgisi. sayfa 7          hibrit 0.8064 d#28   b#6    rr 0.0032
+     4336 8-Baglamdan_bagimsiz_dilbilgisi. sayfa 10         hibrit 0.7804 d#48   b#1    rr 0.0010
+     4227 test1.txt                        paragraf 1       hibrit 0.7255 d#29   b#19   rr 0.0000
+     4341 8-Baglamdan_bagimsiz_dilbilgisi. sayfa 15         hibrit 0.6726 d#47   b#18   rr 0.0016
+     4335 8-Baglamdan_bagimsiz_dilbilgisi. sayfa 9          hibrit 0.6060 d#83   b#17   rr 0.0007
+
+=== test_4#91: Alis'in çalıştığı kütüphanenin adı nedir?
+  hedef chunk 4227 (paragraf 1) — korpus 911, dosyada 9 chunk
+  BM25 sorgu token'ları: ['alis', 'in', 'calistik', 'kutuphane', 'ad']
+  hedefte geçen token'lar: []
+  dense : cosine 0.4234  sıra 12/911
+  BM25  : ham 0.000  sıra — (skor 0, RRF katkısı yok)
+  hibrit: skor 0.4225  sıra 34/911  (havuz eşiği = 8. aday 0.6569) -> HAVUZA GİRMİYOR
+  rerank: skor 0.0034  havuz içi sıra 5 (havuzda olsaydı)  (nihai eşik = 4. 0.0037)
+  dosya içi: hibrit sıra 8/9, rerank sıra 5/9
+  sağlama (havuz rerank ilk 4 == normal retrieve): True
+  havuz:
+     4228 test1.txt                        paragraf 2       hibrit 1.0000 d#1    b#1    rr 0.8950
+     4233 test1.txt                        paragraf 7       hibrit 0.9836 d#2    b#2    rr 0.1542
+     4235 test1.txt                        paragraf 9       hibrit 0.9526 d#3    b#5    rr 0.0002
+     4229 test1.txt                        paragraf 3       hibrit 0.9454 d#6    b#3    rr 0.0995
+     4234 test1.txt                        paragraf 8       hibrit 0.9307 d#4    b#7    rr 0.0037
+     4231 test1.txt                        paragraf 5       hibrit 0.9165 d#5    b#8    rr 0.0020
+     4239 test2.txt                        paragraf 4       hibrit 0.9048 d#11   b#4    rr 0.0000
+     4240 test2.txt                        paragraf 5       hibrit 0.6569 d#69   b#12   rr 0.0000

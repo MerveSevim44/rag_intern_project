@@ -1,0 +1,26 @@
+Pozitif soru: 100 | semantic_rag: 87 | diğer rota (atlandı): 13
+
+A) Beklenen dosya nihai bağlamda AMA GT terimlerinin hiçbiri yok: 14
+   test_1#24 (0/6) 'G_S.4.2 dilbilgisinde L_S.4.2 dilinin küme tanımı nedir?'
+   test_1#28 (0/9) 'G_S.4.7.2 dilbilgisi L_S.4.7.2={a^n b^m c^k | n>0, m>0, k=2n+m} dilini'
+   test_3#62 (0/5) 'Ters Fourier dönüşümü (inverse direction) formülünde 1/2π çarpanı nere'
+   test_3#66 (0/6) 'Bir x(t) işaretinin Fourier dönüşümünün var olabilmesi için gerekli üç'
+   test_3#67 (0/7) 'cos(t), sin(t) ve u(t) işaretleri neden klasik Fourier dönüşüm koşulla'
+   test_3#73 (0/6) 'Nedensel üstel işaretin Fourier dönüşümünün faz açısı ∠X(jω) hangi ifa'
+   test_3#79 (0/7) 'Zaman ekseninde genişleme ile frekans ekseninde daralma (bant genişliğ'
+   test_3#80 (0/7) 'Zamanda kaydırma (shifting in time) özelliğine göre bir işaretin gecik'
+   test_3#81 (0/6) 'Zamanda kaydırma özelliğinin ispatında u=t-t0 değişken dönüşümü nasıl '
+   test_3#82 (0/6) 'Zamanda çarpımın frekansta konvolüsyona karşılık geldiği özellik hangi'
+   test_3#83 (0/6) 'Sinüzoidal genlik modülasyonunda (y(t)=f(t)cos(ω0t)) elde edilen Y(ω) '
+   test_3#85 (0/5) 'Frekans-kaydırma özelliğine göre e^{jω0t}f(t) işaretinin Fourier dönüş'
+   test_3#89 (0/9) 'Sinüzoidal genlik modülasyonu örneğinde ω1<<ω0 varsayımının demodülasy'
+   test_4#91 (0/2) "Alis'in çalıştığı kütüphanenin adı nedir?"
+
+B) Dense #1 chunk TOP_K havuzu dışında: 5 (BM25=0 olan: 2; bunlardan dense #1 beklenen dosyadan: 2)
+   test_1#29 dense#1=8-Baglamdan_bagimsiz_dilbilg sayfa 3 bm25=19.61 hibrit#15 | "Örnek 8'deki G_S.4.8.1 dilbilgisinin türettiği L_S.4.8.1 dil"
+   test_2#36 dense#1=728_profiles.json $.profiles[319] bm25=13.74 hibrit#21 | 'weeklyAvailability dizisinde her gün nesnesi hangi alanları '
+   test_2#38 dense#1=728_profiles.json $.profiles[404] bm25=11.80 hibrit#10 | 'Mert Keskin profilinde appointmentSettings.autoApproveReques'
+   test_3#79 dense#1=lsarSist-H8_FourierTransform sayfa 10 bm25=0.00 hibrit#12 | 'Zaman ekseninde genişleme ile frekans ekseninde daralma (ban'
+   test_3#82 dense#1=lsarSist-H8_FourierTransform sayfa 12 bm25=0.00 hibrit#17 | 'Zamanda çarpımın frekansta konvolüsyona karşılık geldiği öze'
+
+A ∩ B: test_3#79, test_3#82
