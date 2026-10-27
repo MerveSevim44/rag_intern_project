@@ -41,7 +41,7 @@ PR olarak ele alınır.
 
 ### Öncelik sırası (2026-10-11, güncelleme 2026-10-13)
 
-Açık retrieval/değerlendirme maddeleri için sıra: **25 (skorlama) ✅ → 22 ✅ → 27 ✅ → 29 ✅ → 20 (top_k ✅, 2b açık) → 21 (raporlama ✅; 4 FN açık) → 31 → 24 (bağıl eşik) → 30 → 28 → 26.**
+Açık retrieval/değerlendirme maddeleri için sıra: **25 (skorlama) ✅ → 22 ✅ → 27 ✅ → 29 ✅ → 20 (top_k ✅, 2b açık) → 21 (raporlama ✅; 4 FN açık) → 32 → 31 → 24 (bağıl eşik) → 30 → 28 → 26.**
 
 - **25 önce:** madde 24'ün başarı ölçütü negatif set FP sayısı; skorlayıcı yarım
   retleri FP saydığı sürece (#222) bu sayı yapay olarak şişik ve 24'ün etkisi
@@ -1340,3 +1340,43 @@ belgeye özel olmamalı ve formül olmayan metni bozmamalı. Etkisi sınırlı:
 
 Kapsam: bugün yalnız gramer PDF'inin 10 OCR sayfası. Öncelik düşük–orta: 5
 alıştırma sorusunun cevap kalitesini etkiliyor, sınıf (TP/FN) değiştirmiyor.
+
+## Madde 32 — Doğru dosya geliyor, doğru chunk gelmiyor (pozitif FN)
+
+Madde 21'in yeniden koşusunda (güncel sistem, 2 koşu,
+[experiments/madde21_judge_ret/](../experiments/madde21_judge_ret/)) üç pozitif
+soru iki koşuda da "Bu bilgi dokümanlarda bulunamadı." döndü:
+
+| Soru | Beklenen kaynak | Bağlamda olmayan GT terimi |
+|---|---|---|
+| test_3 #79 (bant genişliği ters orantı) | lsarSist-H8_FourierTransform.pdf | "dar", "geniş", "ölçekleme" |
+| test_3 #82 (zamanda çarpım ↔ frekansta konvolüsyon) | lsarSist-H8_FourierTransform.pdf | "konvolüsyon", "çarpım" |
+| test_4 #91 (Alis'in kütüphanesinin adı) | test1.txt | "Gümüş Yaprak" (dosyanın 1. paragrafı) |
+
+Üçünde de beklenen DOSYA 1. sırada geliyor; cevabı taşıyan CHUNK gelmiyor.
+Model bağlama göre doğru reddediyor, judge 5/4/4/5 veriyor (madde 21). #91
+OCR'sız, tek dosyalı basit bir olgu sorusu: genel bir retrieval sorununun
+işareti olabilir, kapsamı bilinmiyor.
+
+**Açık soru — hangi katman?** Madde 20 yalnız reranker SONRASI nihai 4 chunk'ı
+karşılaştırdı (`rerank_top_n=4` sabit); top_k 5→8'in bu soruları
+değiştirmemesi "chunk aday havuzuna hiç girmiyor" demek DEĞİL — havuza girip
+reranker tarafından elenmiş olabilir. Çözüm yolu katmana göre tamamen farklı
+(BM25/dense: terim/embedding eşleşmesi; reranker: cross-encoder'ın bu çifte
+düşük skor vermesi), bu yüzden önce ölçülmeli.
+
+**Adım 1 (yalnız ölçüm; LLM/Groq/Foundry yok):**
+- Cevap chunk'ı GT terimleriyle elle belirlenir ve kayda geçer (chunk düzeyinde
+  GT yok).
+- O chunk'ın her katmandaki gerçek SIRA ve SKORU kaydedilir: BM25 ham skor,
+  dense cosine, RRF birleşik skor, reranker skoru. "9. sırada az farkla
+  kaçırdı" (ayar meselesi) ile "150. sırada" (temel alaka sorunu) ayrılır.
+- Kaba kapsam: tam benchmark'ın pozitif sorularında `retrieve()` (madde 20
+  `kapsam_topk.py` ile aynı çağrı) + GT `anahtar_kelimeler` alanının nihai
+  bağlamda geçip geçmediği — "doğru dosya, GT terimleri yok" örüntüsü kaç
+  soruda? Bu, madde 21'in FN kırılımı yan bulgusunu (dosya düzeyinde
+  `retrieval_match` chunk kaçırmasını "üretim sorunu" sayıyor) da ölçüme çevirir.
+
+**Kapsam dışı — test_2 #56:** cevap çıkarım gerektiriyor ("schemaVersion
+1.1'den ne çıkarılabilir"), ilgili chunk (`$.metadata`) bağlamda VAR; model
+yine reddediyor. Retrieval değil üretim/çıkarım sorunu, ayrı tutulur.
