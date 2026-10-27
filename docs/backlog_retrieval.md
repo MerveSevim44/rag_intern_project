@@ -41,7 +41,7 @@ PR olarak ele alınır.
 
 ### Öncelik sırası (2026-10-11, güncelleme 2026-10-13)
 
-Açık retrieval/değerlendirme maddeleri için sıra: **25 (skorlama) ✅ → 22 ✅ → 27 ✅ → 29 ✅ → 20 → 21 → 31 → 24 (bağıl eşik) → 30 → 28 → 26.**
+Açık retrieval/değerlendirme maddeleri için sıra: **25 (skorlama) ✅ → 22 ✅ → 27 ✅ → 29 ✅ → 20 (top_k ✅, 2b açık) → 21 (raporlama ✅; 4 FN açık) → 31 → 24 (bağıl eşik) → 30 → 28 → 26.**
 
 - **25 önce:** madde 24'ün başarı ölçütü negatif set FP sayısı; skorlayıcı yarım
   retleri FP saydığı sürece (#222) bu sayı yapay olarak şişik ve 24'ün etkisi
@@ -902,6 +902,43 @@ bilgi yok, dürüst ret". Bağlama göre doğru, ama soru açısından FN. Judge
 yalnızca bağlama bakınca **ingest/retrieval kaynaklı FN'leri görünmez kılıyor**.
 Pozitif (ground truth'u olan) sorularda ret, judge skorundan bağımsız olarak
 ayrı bir FN sayacıyla raporlanmalı.
+
+**Durum (2026-10-27) — raporlama düzeltildi; kör nokta artık görünür.** Plan:
+[implementation_plan_madde21_judge_ret.md](implementation_plan_madde21_judge_ret.md),
+ölçüm: [experiments/madde21_judge_ret/](../experiments/madde21_judge_ret/).
+- **Kapsam:** #24–#29 örneği güncelliğini yitirmiş (v8'de altısı TP). Üç
+  judge koşusunda (baz/v7/v8) yapısal olarak ödüllendirilen 4 soru:
+  test_2 #56, test_3 #79, #82, test_4 #91. Judge bağlamda cevap varsa reti
+  cezalandırıyor (v8 #100); kör nokta tam olarak chunk düzeyinde retrieval
+  kaçırması.
+- **Düzeltme (`c587b2c`):** TP/TN/FP/FN kuralı `benchmark_eval.classify_answer`
+  yardımcısına çıkarıldı (döngü de onu kullanıyor); judge CSV'si
+  `siniflandirma` sütunu taşıyor, özet "Pozitif soruda ret (FN): N — judge'ın
+  ödüllendirdiği: M [id]" satırı ve "FN hariç" ortalama sütunu basıyor. Judge
+  prompt'u değişmedi. Eşdeğerlik: baz/v7/v8 eski vs yeni kodla skorlandı,
+  20 scored CSV + 3 genel özet birebir aynı; judge sınıfı vs benchmark satır
+  düzeyinde 0 uyuşmazlık.
+- **Güncel sistemde yeniden koşu (2 koşu, madde 19/20/22/29 sonrası):**
+  #56, #79, #82, #91 **hâlâ FN ve hâlâ ödüllendiriliyor** (5/4/4/5). İki
+  koşu cevap, bağlam ve kaynak listesi düzeyinde birebir aynı. Not: üretici
+  ve judge `temperature=0`, yani 2. koşu örnekleme varyansı değil,
+  tekrarlanabilirlik gösteriyor. Cevap, kayıtlı bağlamda yok (#79
+  "dar/geniş/ölçekleme", #82 "konvolüsyon/çarpım", #91 "Gümüş Yaprak");
+  top_k 5→8 bu sorularda yalnız dolgu chunk'ı değiştirdi.
+- **Açık kalan (ayrı iş):** bu 4 FN'nin kendisi, yani chunk düzeyinde
+  retrieval kaçırması. Madde 21 yalnız görünmezliği çözdü.
+
+**Yan bulgular (kapsam dışı):**
+- **test_2 #50 — judge yanlış cevabı ödüllendiriyor, sınıf ifadeye bağlı:**
+  v8'de "…profil örneği bulunmamaktadır." → skorlayıcı FN saydı; güncel
+  koşularda aynı içerik "…örneği yoktur." → TP. Cevap iki hâlde de yanlış
+  (GT: 248 profil Cumartesi açık), judge 5/5/5/5 veriyor çünkü bağlamda
+  yalnız 4 profil var. İki ayrı sorun: (1) ret tespiti içerik cevabını
+  ifadeye göre ret sayabiliyor (madde 28 ailesi); (2) judge kısmi bağlama
+  sadık ama yanlış cevabı ödüllendiriyor (madde 21'in kardeş kör noktası).
+- **FN kırılımı yanlış atfediyor:** `retrieval_match` dosya adı düzeyinde;
+  #79/#82/#91'de doğru dosya geldi ama doğru chunk gelmedi, `benchmark_eval`
+  bunları "doğru kaynak geldi ama cevap yok" (üretim sorunu) sayıyor.
 
 ## Madde 22 — OCR'lı "Cevap N" sayfaları retrieval'a gelmiyor
 

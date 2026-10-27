@@ -1,0 +1,42 @@
+Sonuç dosyası: C:\Users\merve\Desktop\rag_project\experiments\madde21_judge_ret\kosu_2\sonuclari.csv
+Judge model: openai/gpt-oss-120b (Groq)
+Context: sonuç CSV'sinde kayıtlı (cevabın üretildiği context).
+Hazır.
+
+[1/5] Soru #50: weeklyAvailability dizisinde örnek profillerde yalnızca Paza...
+  → F: 5 | AR: 5 | TP: 5 | AL: 5
+[2/5] Soru #56: schemaVersion 1.1 olarak belirtilmiş olması, veri setinin il...
+  → F: 5 | AR: 4 | TP: 4 | AL: 5
+[3/5] Soru #79: Zaman ekseninde genişleme ile frekans ekseninde daralma (ban...
+  ! Kısa süreli rate limit — 11.5 sn bekleniyor (1/5)…
+  → F: 5 | AR: 4 | TP: 4 | AL: 5
+[4/5] Soru #82: Zamanda çarpımın frekansta konvolüsyona karşılık geldiği öze...
+  ! Kısa süreli rate limit — 17.7 sn bekleniyor (1/5)…
+  → F: 5 | AR: 4 | TP: 4 | AL: 5
+[5/5] Soru #91: Alis'in çalıştığı kütüphanenin adı nedir?...
+  ! Kısa süreli rate limit — 17.0 sn bekleniyor (1/5)…
+  → F: 5 | AR: 4 | TP: 4 | AL: 5
+
+============================================================
+Judge değerlendirmesi tamamlandı: 5 soru değerlendirildi, çıktıda 5 soru
+Sonuçlar: C:\Users\merve\Desktop\rag_project\experiments\madde21_judge_ret\kosu_2\sonuclari_judge.csv
+
+────────────────────────────────────────────────────────────────────
+LLM-as-a-Judge Özet Rapor
+────────────────────────────────────────────────────────────────────
+Metrik                      Ort    Min    Max  Geçerli  FN hariç
+────────────────────────────────────────────────────────────────────
+faithfulness_score         5.00      5      5     5/5      5.00
+answer_relevance_score     4.20      4      5     5/5      5.00
+task_performance_score     4.20      4      5     5/5      5.00
+alignment_score            5.00      5      5     5/5      5.00
+────────────────────────────────────────────────────────────────────
+Pozitif soruda ret (FN): 4 — judge'ın ödüllendirdiği (AR>=4 ve TP>=4): 4 [56, 79, 82, 91]
+
+Puan Dağılımı:
+Metrik                      1    2    3    4    5
+faithfulness_score          0    0    0    0    5
+answer_relevance_score      0    0    0    4    1
+task_performance_score      0    0    0    4    1
+alignment_score             0    0    0    0    5
+

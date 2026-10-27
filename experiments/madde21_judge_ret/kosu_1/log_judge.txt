@@ -1,0 +1,32 @@
+Sonuç dosyası: experiments\madde21_judge_ret\kosu_1\sonuclari.csv
+Önceki çıktı: experiments/madde21_judge_ret/kosu_1/sonuclari_judge.csv (4 satır) — 4 satır korunuyor, 1 satır değerlendirilecek.
+Judge model: openai/gpt-oss-120b (Groq)
+Context: sonuç CSV'sinde kayıtlı (cevabın üretildiği context).
+Hazır.
+
+[1/1] Soru #91: Alis'in çalıştığı kütüphanenin adı nedir?...
+  → F: 5 | AR: 4 | TP: 4 | AL: 5
+
+============================================================
+Judge değerlendirmesi tamamlandı: 1 soru değerlendirildi, çıktıda 5 soru
+Sonuçlar: experiments/madde21_judge_ret/kosu_1/sonuclari_judge.csv
+
+────────────────────────────────────────────────────────────────────
+LLM-as-a-Judge Özet Rapor
+────────────────────────────────────────────────────────────────────
+Metrik                      Ort    Min    Max  Geçerli  FN hariç
+────────────────────────────────────────────────────────────────────
+faithfulness_score         5.00      5      5     5/5      5.00
+answer_relevance_score     4.20      4      5     5/5      5.00
+task_performance_score     4.20      4      5     5/5      5.00
+alignment_score            5.00      5      5     5/5      5.00
+────────────────────────────────────────────────────────────────────
+Pozitif soruda ret (FN): 4 — judge'ın ödüllendirdiği (AR>=4 ve TP>=4): 4 [56, 79, 82, 91]
+
+Puan Dağılımı:
+Metrik                      1    2    3    4    5
+faithfulness_score          0    0    0    0    5
+answer_relevance_score      0    0    0    4    1
+task_performance_score      0    0    0    4    1
+alignment_score             0    0    0    0    5
+

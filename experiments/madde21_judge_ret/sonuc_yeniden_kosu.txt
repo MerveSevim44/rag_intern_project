@@ -1,0 +1,59 @@
+
+=== test_2#50: weeklyAvailability dizisinde örnek profillerde yalnızca Pazartesi-Cuma günleri m
+  v8      F/AR/TP/AL=['5', '5', '5', '5'] | 'Hayır, örnek profillerde Pazartesi-Cuma günleri aktif görünmektedir. Hafta sonu çalışan pr'
+  koşu 1  TP  F/AR/TP/AL=['5', '5', '5', '5']      | bağlamda: Cumartesi=-
+          kaynaklar: 728_profiles.json ($.profiles[469]); 728_profiles.json ($.profiles[464]); 728_profiles.json ($.profiles[450]); 728_profiles.json ($.profiles[721])
+          cevap: 'Hayır, örnek profillerde Pazartesi-Cuma günleri aktif görünmektedir. Hafta sonu çalışan profil örneği yoktur.'
+  koşu 2  TP  F/AR/TP/AL=['5', '5', '5', '5']      | bağlamda: Cumartesi=-
+          kaynaklar: 728_profiles.json ($.profiles[469]); 728_profiles.json ($.profiles[464]); 728_profiles.json ($.profiles[450]); 728_profiles.json ($.profiles[721])
+          cevap: 'Hayır, örnek profillerde Pazartesi-Cuma günleri aktif görünmektedir. Hafta sonu çalışan profil örneği yoktur.'
+  koşu1 vs koşu2: cevap AYNI, bağlam AYNI, kaynak listesi AYNI
+  v8 vs koşu1 kaynak listesi: FARKLI
+
+=== test_2#56: schemaVersion 1.1 olarak belirtilmiş olması, veri setinin ileride hangi alanlard
+  v8      F/AR/TP/AL=['5', '4', '4', '5'] | 'Bu bilgi dokümanlarda bulunamadı.'
+  koşu 1  FN  F/AR/TP/AL=['5', '4', '4', '5'] ÖDÜL | bağlamda: schemaVersion=+
+          kaynaklar: 728_profiles.json ($.metadata); 728_profiles.json ($.profiles[397]); 728_profiles.json ($.profiles[393]); 728_profiles.json ($.profiles[395])
+          cevap: 'Bu bilgi dokümanlarda bulunamadı.'
+  koşu 2  FN  F/AR/TP/AL=['5', '4', '4', '5'] ÖDÜL | bağlamda: schemaVersion=+
+          kaynaklar: 728_profiles.json ($.metadata); 728_profiles.json ($.profiles[397]); 728_profiles.json ($.profiles[393]); 728_profiles.json ($.profiles[395])
+          cevap: 'Bu bilgi dokümanlarda bulunamadı.'
+  koşu1 vs koşu2: cevap AYNI, bağlam AYNI, kaynak listesi AYNI
+  v8 vs koşu1 kaynak listesi: FARKLI
+
+=== test_3#79: Zaman ekseninde genişleme ile frekans ekseninde daralma (bant genişliği) arasınd
+  v8      F/AR/TP/AL=['5', '4', '4', '5'] | 'Bu bilgi dokümanlarda bulunamadı.'
+  koşu 1  FN  F/AR/TP/AL=['5', '4', '4', '5'] ÖDÜL | bağlamda: dar=-, geniş=-, ölçekleme=-
+          kaynaklar: lsarSist-H8_FourierTransform.pdf (sayfa 3); lsarSist-H8_FourierTransform.pdf (sayfa 14); lsarSist-H8_FourierTransform.pdf (sayfa 11); 728_profiles.jso
+          cevap: 'Bu bilgi dokümanlarda bulunamadı.'
+  koşu 2  FN  F/AR/TP/AL=['5', '4', '4', '5'] ÖDÜL | bağlamda: dar=-, geniş=-, ölçekleme=-
+          kaynaklar: lsarSist-H8_FourierTransform.pdf (sayfa 3); lsarSist-H8_FourierTransform.pdf (sayfa 14); lsarSist-H8_FourierTransform.pdf (sayfa 11); 728_profiles.jso
+          cevap: 'Bu bilgi dokümanlarda bulunamadı.'
+  koşu1 vs koşu2: cevap AYNI, bağlam AYNI, kaynak listesi AYNI
+  v8 vs koşu1 kaynak listesi: AYNI
+
+=== test_3#82: Zamanda çarpımın frekansta konvolüsyona karşılık geldiği özellik hangi türetme i
+  v8      F/AR/TP/AL=['5', '4', '4', '5'] | 'Bu bilgi dokümanlarda bulunamadı.'
+  koşu 1  FN  F/AR/TP/AL=['5', '4', '4', '5'] ÖDÜL | bağlamda: konvolüsyon=-, çarpım=-
+          kaynaklar: lsarSist-H8_FourierTransform.pdf (sayfa 14); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 7); lsarSist-H8_FourierTransform.pdf (sayfa 11); 8-Baglamdan_b
+          cevap: 'Bu bilgi dokümanlarda bulunamadı.'
+  koşu 2  FN  F/AR/TP/AL=['5', '4', '4', '5'] ÖDÜL | bağlamda: konvolüsyon=-, çarpım=-
+          kaynaklar: lsarSist-H8_FourierTransform.pdf (sayfa 14); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 7); lsarSist-H8_FourierTransform.pdf (sayfa 11); 8-Baglamdan_b
+          cevap: 'Bu bilgi dokümanlarda bulunamadı.'
+  koşu1 vs koşu2: cevap AYNI, bağlam AYNI, kaynak listesi AYNI
+  v8 vs koşu1 kaynak listesi: FARKLI
+
+=== test_4#91: Alis'in çalıştığı kütüphanenin adı nedir?
+  v8      F/AR/TP/AL=['5', '4', '4', '5'] | 'Bu bilgi dokümanlarda bulunamadı.'
+  koşu 1  FN  F/AR/TP/AL=['5', '4', '4', '5'] ÖDÜL | bağlamda: Gümüş Yaprak=-
+          kaynaklar: test1.txt (paragraf 2); test1.txt (paragraf 7); test1.txt (paragraf 3); test1.txt (paragraf 8)
+          cevap: 'Bu bilgi dokümanlarda bulunamadı.'
+  koşu 2  FN  F/AR/TP/AL=['5', '4', '4', '5'] ÖDÜL | bağlamda: Gümüş Yaprak=-
+          kaynaklar: test1.txt (paragraf 2); test1.txt (paragraf 7); test1.txt (paragraf 3); test1.txt (paragraf 8)
+          cevap: 'Bu bilgi dokümanlarda bulunamadı.'
+  koşu1 vs koşu2: cevap AYNI, bağlam AYNI, kaynak listesi AYNI
+  v8 vs koşu1 kaynak listesi: AYNI
+
+=== Özet
+  koşu 1: FN 4/5 ['56', '79', '82', '91'] | judge ödüllendirdi 4/4 ['56', '79', '82', '91']
+  koşu 2: FN 4/5 ['56', '79', '82', '91'] | judge ödüllendirdi 4/4 ['56', '79', '82', '91']

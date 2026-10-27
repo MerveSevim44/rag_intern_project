@@ -1,0 +1,26 @@
+Model yükleniyor...
+[Foundry] Model yüklendi: qwen2.5-7b-instruct-cuda-gpu:4 | execution provider: CUDAExecutionProvider | cihaz: GPU
+[Foundry] Servis adresi: http://127.0.0.1:56601
+[Foundry] Serviste yüklü modeller: ['qwen2.5-7b-instruct-cuda-gpu:4']
+Model hazır.
+
+Soru seti: C:\Users\merve\Desktop\rag_project\experiments\madde21_judge_ret\sorular_5.csv
+[50] Soruluyor: weeklyAvailability dizisinde örnek profillerde yalnızca Pazartesi-Cuma günleri mi aktif görünmektedir, hafta sonu çalışan profil örneği var mıdır?
+[retrieval] Cache yuklendi: 911 chunk, embedding matrisi (911, 1024)
+    → 86.37 sn
+
+[56] Soruluyor: schemaVersion 1.1 olarak belirtilmiş olması, veri setinin ileride hangi alanlarda versiyon değişikliğine gidebileceğine dair ne tür bir çıkarım yapılmasına imkan tanır?
+    → 30.25 sn
+
+[79] Soruluyor: Zaman ekseninde genişleme ile frekans ekseninde daralma (bant genişliği) arasındaki ters orantı nasıl açıklanmıştır?
+    → 21.94 sn
+
+[82] Soruluyor: Zamanda çarpımın frekansta konvolüsyona karşılık geldiği özellik hangi türetme ile gösterilmiştir?
+    → 18.13 sn
+
+[91] Soruluyor: Alis'in çalıştığı kütüphanenin adı nedir?
+    → 16.91 sn
+
+
+Tamamlandı. 5 soru test edildi.
+Sonuçlar: C:\Users\merve\Desktop\rag_project\experiments\madde21_judge_ret\kosu_2\sonuclari.csv

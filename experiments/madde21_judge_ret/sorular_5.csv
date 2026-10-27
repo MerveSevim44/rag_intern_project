@@ -1,0 +1,6 @@
+id,zorluk,soru,beklenen_kaynak,dokumanda_var_mi
+50,Orta,"weeklyAvailability dizisinde örnek profillerde yalnızca Pazartesi-Cuma günleri mi aktif görünmektedir, hafta sonu çalışan profil örneği var mıdır?",728_profiles.json,Evet
+56,Zor,"schemaVersion 1.1 olarak belirtilmiş olması, veri setinin ileride hangi alanlarda versiyon değişikliğine gidebileceğine dair ne tür bir çıkarım yapılmasına imkan tanır?",728_profiles.json,Evet
+79,Orta,Zaman ekseninde genişleme ile frekans ekseninde daralma (bant genişliği) arasındaki ters orantı nasıl açıklanmıştır?,lsarSist-H8_FourierTransform.pdf,Evet
+82,Orta,Zamanda çarpımın frekansta konvolüsyona karşılık geldiği özellik hangi türetme ile gösterilmiştir?,lsarSist-H8_FourierTransform.pdf,Evet
+91,Kolay,Alis'in çalıştığı kütüphanenin adı nedir?,test1.txt,Evet

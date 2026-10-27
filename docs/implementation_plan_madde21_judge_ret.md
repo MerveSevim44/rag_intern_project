@@ -112,6 +112,12 @@ Güncel boru hattıyla bu 5 soruyu (`--only-ids`) yeniden koşup judge'lamak
 değişiklik yalnız raporlama olduğu için ön koşul değil; yapılırsa Adım 2'nin
 doğrulamasına eklenir.
 
+**Sonuç (2026-10-27):** yapıldı. 5 soru güncel sistemde 2 kez koşuldu
+(`experiments/madde21_judge_ret/kosu_1`, `kosu_2`). #56, #79, #82 ve #91
+iki koşuda da FN ve ödüllendirilmiş; #50 TP'ye döndü ama yalnız ifade
+değiştiği için, cevap hâlâ yanlış. İki koşu birebir aynı (temperature=0).
+Bkz. backlog madde 21 durum notu.
+
 ## 8. Geri dönüş
 
 Yalnız `evaluation/` altında raporlama; üretim kodu ve judge prompt'u
