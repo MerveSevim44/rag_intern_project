@@ -638,6 +638,57 @@ def _is_negative_flag(value: str) -> bool:
     return norm in {"hayir", "hayır", "hayÄ±r", "no", "yok", "0", "false"}
 
 
+def question_polarity(row: dict, ground_truths: dict) -> tuple[bool, bool]:
+    """
+    Soru negatif mi (dokümanda cevabı yok)? -> (is_negative, label_conflict)
+
+    NEGATİFLİK KURALI (düzeltildi).
+    Eskiden yalnızca 'dokumanda_var_mi' sütununa bakılıyordu. test_2.csv'de
+    23 satır 'Hayır' işaretliyken hem 'beklenen_kaynak' dolu hem de
+    ground truth'ta referans cevap vardı; sistem bu soruları doğru
+    yanıtladığı halde 13'ü "halüsinasyon (FP)" sayıldı. Bir soru ancak
+    gerçekten cevapsız olduğunda negatiftir: beklenen kaynak "-" ise,
+    ya da bayrak 'Hayır' VE referans cevap yoksa.
+
+    Yalnızca GT: CSV'deki referans_cevap kullanılmaz, çünkü has_reference
+    negatiflik/etiket çelişkisi kurallarını etkiliyor.
+    """
+    expected_src = (row.get("beklenen_kaynak") or "").strip()
+    doc_is_negative = _is_negative_flag((row.get("dokumanda_var_mi") or "Evet").strip())
+    has_reference = bool(resolve_reference(row, ground_truths, csv_fallback=False))
+    label_conflict = doc_is_negative and expected_src not in ("", "-") and has_reference
+    is_negative = (expected_src == "-") or (doc_is_negative and not has_reference)
+    return is_negative, label_conflict
+
+
+def _status(is_negative: bool, pred_is_not_found: bool) -> str:
+    """TP/TN/FP/FN tablosu (madde 21: benchmark ve judge raporu aynı kuralı kullanır)."""
+    if is_negative:
+        # TN: dokümanda yoktu, reddetti | FP: dokümanda yoktu, uydurdu (halüsinasyon)
+        return "TN" if pred_is_not_found else "FP"
+    # FN: dokümanda vardı, bulamadı | TP: dokümanda vardı, yanıt üretti
+    return "FN" if pred_is_not_found else "TP"
+
+
+def classify_answer(row: dict, ground_truths: dict) -> str:
+    """
+    Sonuç CSV satırının sınıfı: "TP" | "TN" | "FP" | "FN", çalışma hatasında "HATA".
+
+    evaluate_dataset ile BİREBİR aynı kural (question_polarity + check_is_not_found
+    + _status). llm_as_judge bunu kullanır: judge raporundaki FN sayısı
+    benchmark'ınkinden ayrışırsa "judge pozitif retleri ödüllendiriyor mu"
+    sorusu (madde 21) sessizce yanlış cevaplanır.
+    """
+    prediction = row.get("cevap", "")
+    if is_run_error(prediction):
+        return "HATA"
+    is_negative, _ = question_polarity(row, ground_truths)
+    # Soru da gecirilir: ret sonrasi kalan icerigin "soruyu tekrar" mi
+    # yoksa "yeni iddia" mi oldugu ancak soruyla karsilastirilarak
+    # ayirt edilebilir (bkz. _new_claims).
+    return _status(is_negative, check_is_not_found(prediction, row.get("soru", "")))
+
+
 def _resolve_file(file_path: str) -> Path:
     """Verilen dosya yolunu yerel, datasets ve root dizinlerinde arayarak çözer."""
     p = Path(file_path)
@@ -771,7 +822,6 @@ def evaluate_dataset(
         question = row.get("soru", "")
         expected_src = row.get("beklenen_kaynak", "").strip()
         doc_exists = (row.get("dokumanda_var_mi") or "Evet").strip()
-        doc_is_negative = _is_negative_flag(doc_exists)
         prediction = row.get("cevap", "")
         found_src = row.get("bulunan_kaynaklar", "")
         try:
@@ -791,23 +841,14 @@ def evaluate_dataset(
             })
             continue
 
-        # Yalnızca GT: CSV'deki referans_cevap kullanılmaz, çünkü has_reference
-        # aşağıdaki negatiflik/etiket çelişkisi kurallarını etkiliyor.
+        # Yalnızca GT (bkz. question_polarity).
         ref_answers = resolve_reference(row, ground_truths, csv_fallback=False)
         # Referans cevabı olmayan sorular EM/F1 ortalamasına KATILMAZ. Eskiden
         # tahminin kendisi referans kabul ediliyordu; bu her soruya EM=1.0
         # vererek skorları yapay olarak şişiriyordu.
         has_reference = bool(ref_answers)
 
-        # NEGATİFLİK KURALI (düzeltildi).
-        # Eskiden yalnızca 'dokumanda_var_mi' sütununa bakılıyordu. test_2.csv'de
-        # 23 satır 'Hayır' işaretliyken hem 'beklenen_kaynak' dolu hem de
-        # ground truth'ta referans cevap vardı; sistem bu soruları doğru
-        # yanıtladığı halde 13'ü "halüsinasyon (FP)" sayıldı. Bir soru ancak
-        # gerçekten cevapsız olduğunda negatiftir: beklenen kaynak "-" ise,
-        # ya da bayrak 'Hayır' VE referans cevap yoksa.
-        label_conflict = doc_is_negative and expected_src not in ("", "-") and has_reference
-        is_negative = (expected_src == "-") or (doc_is_negative and not has_reference)
+        is_negative, label_conflict = question_polarity(row, ground_truths)
         if label_conflict:
             conflicts.append(q_id)
         # Soru da gecirilir: ret sonrasi kalan icerigin "soruyu tekrar" mi
@@ -846,28 +887,17 @@ def evaluate_dataset(
             rouge_l_score = compute_rouge_l(prediction, ref_answers)
             semantic_score = compute_semantic_similarity(prediction, ref_answers)
 
-        # Sınıflandırma Mantığı (TP, TN, FP, FN)
-        if not is_negative:
-            if pred_is_not_found:
-                status = "FN"  # Yanlış Negatif (Dokümanda vardı ama bulamadı)
-                confusion["FN"] += 1
-                # Aksiyon alınabilir kırılım: doğru chunk geldiği halde model
-                # "bulunamadı" diyorsa sorun retriever'da değil, üretim/prompt
-                # tarafındadır (ör. PDF'ten bozuk çıkan alt-indisli semboller).
-                if retrieval_match:
-                    fn_breakdown["dogru_kaynak_ama_cevap_yok"] += 1
-                else:
-                    fn_breakdown["retrieval_kacirdi"] += 1
+        # Sınıflandırma Mantığı (TP, TN, FP, FN) — kural _status'ta (classify_answer ile ortak)
+        status = _status(is_negative, pred_is_not_found)
+        confusion[status] += 1
+        if status == "FN":
+            # Aksiyon alınabilir kırılım: doğru chunk geldiği halde model
+            # "bulunamadı" diyorsa sorun retriever'da değil, üretim/prompt
+            # tarafındadır (ör. PDF'ten bozuk çıkan alt-indisli semboller).
+            if retrieval_match:
+                fn_breakdown["dogru_kaynak_ama_cevap_yok"] += 1
             else:
-                status = "TP"  # Doğru Pozitif (Dokümanda vardı ve yanıt üretti)
-                confusion["TP"] += 1
-        else:
-            if pred_is_not_found:
-                status = "TN"  # Doğru Negatif (Dokümanda yoktu ve başarıyla reddetti)
-                confusion["TN"] += 1
-            else:
-                status = "FP"  # Yanlış Pozitif / Halüsinasyon (Dokümanda yoktu ama uydurdu)
-                confusion["FP"] += 1
+                fn_breakdown["retrieval_kacirdi"] += 1
 
         # Kategori bazlı istatistikleri güncelle
         cat_key = "Negatif" if is_negative else difficulty

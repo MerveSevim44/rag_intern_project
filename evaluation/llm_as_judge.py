@@ -40,6 +40,10 @@ NOT:
     context) kullanılır. Bu sütun olmayan eski CSV'lerde context yeniden
     oluşturulur; o zaman lokal model (Foundry) + Ollama retrieval için gerekir.
     Çıktıdaki 'context_kaynagi' sütunu hangisinin kullanıldığını gösterir.
+  - Madde 21: "Doğru Ret" kuralı yalnız bağlama bakar; retrieval doğru chunk'ı
+    getirmezse pozitif sorudaki ret de ödüllendirilir. Bu yüzden her satır
+    benchmark'ın sınıfını ('siniflandirma', benchmark_eval.classify_answer)
+    taşır ve özet FN'leri ve judge'ın ödüllendirdiklerini ayrıca raporlar.
 """
 
 import argparse
@@ -74,6 +78,14 @@ except ImportError:
     from retrieval import get_top_chunks, TOP_K
 
 from gt_utils import is_run_error, load_ground_truth, resolve_reference
+
+# Benchmark'ın TP/TN/FP/FN kuralı — judge raporu kendi ret tanımını yapmaz
+# (madde 21). Kökteki benchmark_eval.py yalnız bir yönlendirici; doğrudan
+# paket yolu denenir.
+try:
+    from evaluation.benchmark_eval import classify_answer
+except ImportError:
+    from benchmark_eval import classify_answer
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_openai import ChatOpenAI
 from openai import RateLimitError
@@ -225,6 +237,11 @@ _DAILY_LIMIT_PATTERN = re.compile(r"per day \((?:TPD|RPD)\)")
 # True: soruyu tekrar retrieve ederek güncel context ile değerlendirir
 # False: sonuç CSV'deki mevcut kaynakları kullanır (context yeniden oluşturulmaz)
 REBUILD_CONTEXT = True
+
+# "Doğru Ret" kuralının imzası (prompt: AR=4, TP=4). Pozitif soruda ret (FN)
+# bu eşiği geçiyorsa judge onu ödüllendirmiş sayılır (madde 21): judge yalnız
+# bağlama bakar, chunk düzeyinde retrieval kaçırmasını göremez.
+FN_REWARD_MIN = 4
 
 
 # ─── Yardımcı fonksiyonlar ───────────────────────────────────────────────────
@@ -420,7 +437,10 @@ def resolve_file(file_path):
     return p
 
 
-OUTPUT_FIELDNAMES = ["id", "soru", "cevap", "judge_model", "context_kaynagi",
+# siniflandirma: benchmark'ın TP/TN/FP/FN sınıfı (classify_answer); judge
+# skorundan bağımsızdır, LLM çağrısı gerektirmez ve eski çıktılarda da
+# yeniden çalıştırınca doldurulur.
+OUTPUT_FIELDNAMES = ["id", "soru", "cevap", "siniflandirma", "judge_model", "context_kaynagi",
                      *SCORE_KEYS, "reasoning"]
 
 
@@ -514,7 +534,14 @@ def run_judge_evaluation(sonuc_csv, output_csv=None, ground_truth_path=None,
     # Hangi satırlar judge'a gidecek?
     for i, row in enumerate(rows, 1):
         row.setdefault("id", str(i))
+    # Benchmark sınıfı (TP/TN/FP/FN/HATA): judge skorundan bağımsız, LLM'siz.
+    classes = {row["id"]: classify_answer(row, gt) for row in rows}
     existing = load_existing_results(output_csv)
+    # Korunan satırlar da güncel sınıfı taşır (sütun eklenmeden önceki
+    # çıktılar dahil); sınıf cevaptan ve GT'den türetildiği için tutarlıdır.
+    for soru_id, prev in existing.items():
+        if soru_id in classes:
+            prev["siniflandirma"] = classes[soru_id]
     if only_ids:
         unknown = set(only_ids) - {row["id"] for row in rows}
         if unknown:
@@ -530,6 +557,7 @@ def run_judge_evaluation(sonuc_csv, output_csv=None, ground_truth_path=None,
     if not todo:
         print("Değerlendirilecek eksik/hatalı satır yok.")
         results = [existing[row["id"]] for row in rows]
+        write_results(output_csv, results)  # siniflandirma sütununu geriye dönük doldurur
         print_summary(results)
         return results
 
@@ -584,6 +612,7 @@ def run_judge_evaluation(sonuc_csv, output_csv=None, ground_truth_path=None,
                 "id": soru_id,
                 "soru": question,
                 "cevap": answer,
+                "siniflandirma": classes[soru_id],
                 "judge_model": judge_model,
                 "context_kaynagi": "",
                 **{key: None for key in SCORE_KEYS},
@@ -619,6 +648,7 @@ def run_judge_evaluation(sonuc_csv, output_csv=None, ground_truth_path=None,
                     "id": soru_id,
                     "soru": question,
                     "cevap": answer,
+                    "siniflandirma": classes[soru_id],
                     "judge_model": judge_model,
                     "context_kaynagi": context_kaynagi,
                     **{key: None for key in SCORE_KEYS},
@@ -649,6 +679,7 @@ def run_judge_evaluation(sonuc_csv, output_csv=None, ground_truth_path=None,
             "id": soru_id,
             "soru": question,
             "cevap": answer,
+            "siniflandirma": classes[soru_id],
             "judge_model": judge_model,
             "context_kaynagi": context_kaynagi,
             **{key: scores.get(key) for key in SCORE_KEYS},
@@ -697,21 +728,41 @@ def run_judge_evaluation(sonuc_csv, output_csv=None, ground_truth_path=None,
 def print_summary(results):
     """Judge sonuçlarının özet istatistiklerini yazdırır."""
     metrics = SCORE_KEYS
-    print(f"\n{'─'*60}")
+    # Pozitif soruda ret (benchmark FN): judge yalnız bağlama baktığı için
+    # retrieval kaçırmasında reti "dürüst ret" diye ödüllendirebilir (madde 21).
+    # Bu satırlar judge skorundan bağımsız sayılır; "FN hariç" sütunu
+    # ortalamanın bu ödüllerden ne kadar beslendiğini gösterir.
+    fn_rows = [r for r in results if r.get("siniflandirma") == "FN"]
+    non_fn = [r for r in results if r.get("siniflandirma") != "FN"]
+
+    print(f"\n{'─'*68}")
     print("LLM-as-a-Judge Özet Rapor")
-    print(f"{'─'*60}")
-    print(f"{'Metrik':<24} {'Ort':>6} {'Min':>6} {'Max':>6} {'Geçerli':>8}")
-    print(f"{'─'*60}")
+    print(f"{'─'*68}")
+    print(f"{'Metrik':<24} {'Ort':>6} {'Min':>6} {'Max':>6} {'Geçerli':>8} {'FN hariç':>9}")
+    print(f"{'─'*68}")
 
     for metric in metrics:
         values = [r[metric] for r in results if r[metric] is not None]
+        values_non_fn = [r[metric] for r in non_fn if r[metric] is not None]
+        avg_non_fn = (f"{sum(values_non_fn) / len(values_non_fn):>9.2f}"
+                      if values_non_fn else f"{'N/A':>9}")
         if values:
             avg = sum(values) / len(values)
-            print(f"{metric:<24} {avg:>6.2f} {min(values):>6} {max(values):>6} {len(values):>5}/{len(results)}")
+            print(f"{metric:<24} {avg:>6.2f} {min(values):>6} {max(values):>6} "
+                  f"{len(values):>5}/{len(results)} {avg_non_fn}")
         else:
-            print(f"{metric:<24} {'N/A':>6} {'N/A':>6} {'N/A':>6} {'0':>5}/{len(results)}")
+            print(f"{metric:<24} {'N/A':>6} {'N/A':>6} {'N/A':>6} {'0':>5}/{len(results)} {avg_non_fn}")
 
-    print(f"{'─'*60}")
+    print(f"{'─'*68}")
+
+    rewarded = [r for r in fn_rows
+                if (r.get("answer_relevance_score") or 0) >= FN_REWARD_MIN
+                and (r.get("task_performance_score") or 0) >= FN_REWARD_MIN]
+    print(f"Pozitif soruda ret (FN): {len(fn_rows)} — judge'ın ödüllendirdiği "
+          f"(AR>={FN_REWARD_MIN} ve TP>={FN_REWARD_MIN}): {len(rewarded)}"
+          + (f" [{', '.join(r['id'] for r in rewarded)}]" if rewarded else ""))
+    if any(r.get("siniflandirma") in (None, "") for r in results):
+        print("[UYARI] Bazı satırlarda siniflandirma yok; FN sayımı eksik olabilir.")
 
     # Puan dağılımı (her metrik için 1..5 kaç kez verildi)
     scale = range(SCORE_MIN, SCORE_MAX + 1)
