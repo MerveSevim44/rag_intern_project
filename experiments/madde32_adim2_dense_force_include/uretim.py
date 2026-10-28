@@ -57,9 +57,17 @@ def kos(n):
         w.writerows(rows)
     print(f"N={n}: {len(rows)} soru")
     with open(out / "log_run_tests.txt", "w", encoding="utf-8") as log:
-        subprocess.run([sys.executable, "evaluation/run_tests.py", str(sorular), str(out / "sonuclari.csv")],
-                       cwd=ROOT, stdout=log, stderr=subprocess.STDOUT, check=True,
-                       env={**os.environ, "PYTHONIOENCODING": "utf-8", "RAG_DENSE_FORCE_TOP_N": str(n)})
+        rc = subprocess.run([sys.executable, "evaluation/run_tests.py", str(sorular), str(out / "sonuclari.csv")],
+                            cwd=ROOT, stdout=log, stderr=subprocess.STDOUT,
+                            env={**os.environ, "PYTHONIOENCODING": "utf-8", "RAG_DENSE_FORCE_TOP_N": str(n)}).returncode
+    # run_tests.py tüm soruları yazıp kapanışta 0xC0000005 ile çökebiliyor (N=0 koşusunda
+    # görüldü); başarı ölçütü çıkış kodu değil, sonuç dosyasındaki soru sayısı.
+    with open(out / "sonuclari.csv", encoding="utf-8-sig") as f:
+        yazilan = sum(1 for _ in csv.DictReader(f))
+    print(f"N={n}: çıkış kodu {rc}, sonuç {yazilan}/{len(rows)}")
+    if yazilan != len(rows):
+        sys.exit(1)
+
 
 def rapor():
     sys.path[:0] = [str(ROOT / "evaluation"), str(ROOT / "src"), str(ROOT)]

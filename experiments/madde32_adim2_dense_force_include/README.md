@@ -74,3 +74,6 @@ aynı girdiyi alır, koşulmadı.
   `uretim_n0_tekrar11/`, `sonuc_uretim.txt`
 - N=0 `run_tests.py` 44/44 yazdıktan sonra kapanışta 0xC0000005 ile çıktı
   (sonuç dosyası tam: 44 satır, elle doğrulandı).
+  Kapanış çökmesi aralıklı (N=1/3/5'te çıkış kodu 0); `uretim.py` artık
+  başarıyı çıkış koduna değil, `sonuclari.csv`'deki satır sayısına bakarak
+  doğruluyor (N=1/3/5 bu sürümle koşuldu).
