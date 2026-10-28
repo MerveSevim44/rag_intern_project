@@ -15,6 +15,7 @@ Performans:
 """
 
 import json
+import os
 import re
 import sqlite3
 import unicodedata
@@ -139,6 +140,12 @@ RERANK_TOP_N = 4      # Reranker sonrası döndürülecek nihai sonuç sayısı
 BM25_WEIGHT = 0.35    # (Geriye dönük uyumluluk için korunur — RRF'de kullanılmaz)
 RRF_K = 60            # RRF sabiti: düşük değer üst sıraları güçlendirir (standart: 60)
 KEYWORD_BOOST_MAX = 0.08  # Keyword hit boost tavanı (BM25 en güçlü + tüm terimler KEY alanında)
+# Dense güvenlik slotu (madde 32, deneysel; 0 = kapalı): dense sıralamasının ilk
+# N chunk'ı hibrit/RRF sırasından bağımsız olarak reranker havuzuna eklenir.
+# BM25=0 olan chunk RRF'ten BM25 katkısı alamadığı için normalize skoru en
+# fazla 0.5 kalır; Türkçe soru + İngilizce slayt gövdesinde dense'in 1. sıradaki
+# (ve reranker'ın da 1. seçeceği) chunk havuza giremiyordu (test_3 #79/#82).
+DENSE_FORCE_TOP_N = int(os.getenv("RAG_DENSE_FORCE_TOP_N", "0"))
 
 
 # ─── BM25 Metin Normalizasyonu ──────────────────────────────────────────────
@@ -550,7 +557,8 @@ def retrieve(query: str, db_path: str = DB_PATH, model: str = EMBED_MODEL,
              bm25_weight: float = BM25_WEIGHT,
              llm: Optional[Any] = None,
              source_filter: Optional[str] = None,
-             debug: bool = False) -> List[Dict[str, Any]]:
+             debug: bool = False,
+             dense_force_n: Optional[int] = None) -> List[Dict[str, Any]]:
     """
     Kullanıcı sorusuna en alakalı yanıt/chunk'ları 3 kademeli akıllı rota ve hibrit arama ile bulur.
 
@@ -564,6 +572,8 @@ def retrieve(query: str, db_path: str = DB_PATH, model: str = EMBED_MODEL,
             yapılır (BM25 indeksi, cosine matrisi ve reranker adayları filtrelenir).
             "data/x.pdf" veya "x.pdf" biçiminde olabilir. None ise tüm koleksiyon
             taranır (varsayılan, geriye dönük uyumlu davranış).
+        dense_force_n: Dense güvenlik slotu (bkz. DENSE_FORCE_TOP_N); None ise
+            modül sabiti kullanılır. Yalnız reranker havuzunu etkiler.
 
     Performans:
     - Chunk verileri, embedding matrisi ve BM25 indeksi ilk sorguda cache'lenir.
@@ -869,6 +879,12 @@ def retrieve(query: str, db_path: str = DB_PATH, model: str = EMBED_MODEL,
     scored_chunks.sort(key=lambda x: x["score"], reverse=True)
     top_candidates = scored_chunks[:top_k]
 
+    # Dense güvenlik slotu (madde 32): havuzda olmayan dense ilk-N chunk'ları
+    # havuzun sonuna eklenir; nihai seçimi reranker yapar.
+    force_n = DENSE_FORCE_TOP_N if dense_force_n is None else dense_force_n
+    if force_n > 0 and use_reranker:
+        top_candidates = _add_dense_force(top_candidates, scored_chunks, force_n)
+
     # ── ADIM 8 (Opsiyonel): Cross-Encoder Reranker ile Sırala ──
     if use_reranker and top_candidates:
         documents = [c["content"] for c in top_candidates]
@@ -897,6 +913,14 @@ def retrieve(query: str, db_path: str = DB_PATH, model: str = EMBED_MODEL,
     if profiler:
         profiler.print_report()
     return top_candidates[:rerank_top_n]
+
+
+def _add_dense_force(pool: List[Dict[str, Any]], scored_chunks: List[Dict[str, Any]],
+                     n: int) -> List[Dict[str, Any]]:
+    """Dense sırasının ilk n chunk'ından havuzda olmayanları havuzun sonuna ekler."""
+    in_pool = {c["id"] for c in pool}
+    dense_top = sorted(scored_chunks, key=lambda c: c["score_debug"]["dense_rank"])[:n]
+    return pool + [c for c in dense_top if c["id"] not in in_pool]
 
 
 def _print_score_breakdown(query: str, query_tokens: List[str],
