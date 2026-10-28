@@ -41,7 +41,7 @@ PR olarak ele alınır.
 
 ### Öncelik sırası (2026-10-11, güncelleme 2026-10-13)
 
-Açık retrieval/değerlendirme maddeleri için sıra: **25 (skorlama) ✅ → 22 ✅ → 27 ✅ → 29 ✅ → 20 (top_k ✅, 2b açık) → 21 (raporlama ✅; 4 FN açık) → 32 → 33 → 31 → 24 (bağıl eşik) → 30 → 28 → 26.**
+Açık retrieval/değerlendirme maddeleri için sıra: **25 (skorlama) ✅ → 22 ✅ → 27 ✅ → 29 ✅ → 20 (top_k ✅, 2b açık) → 21 (raporlama ✅; 4 FN açık) → 32 → 33 → 34 → 31 → 24 (bağıl eşik) → 30 → 28 → 26.**
 
 - **25 önce:** madde 24'ün başarı ölçütü negatif set FP sayısı; skorlayıcı yarım
   retleri FP saydığı sürece (#222) bu sayı yapay olarak şişik ve 24'ün etkisi
@@ -1384,7 +1384,7 @@ hibrit/RRF sırasından bağımsız olarak reranker havuzuna eklenir;
   - #226 **gerçek FP**: veri 2024, soru 2023; model yılı yakalamadan cevaplıyor.
 - Öneri: N=1. Varsayılanı açmak ayrı karar.
 
-**Açık:** #82 üretim tarafı; #214 GT düzeltmesi (ayrı commit, onayla).
+**Açık:** #82 üretim tarafı → madde 34; #214 GT düzeltmesi (ayrı commit).
 
 **Kapsam dışı:**
 - **test_4 #91 → madde 33** (farklı mekanizma; Adım 1'de birlikte ölçüldü).
@@ -1414,3 +1414,29 @@ Madde 32'nin RRF mekanizmasından farklı; iki ayrı alt neden:
    Yalnız (1)'i düzeltmek yetmeyebilir.
 
 Madde 32 Adım 2'nin dense slotu bunu çözmez (dense sırası 12).
+
+## Madde 34 — Cevap chunk'ı bağlamda 1. sırada, model yine reddediyor (test_3 #82)
+
+"Zamanda çarpımın frekansta konvolüsyona karşılık geldiği özellik hangi
+türetme ile gösterilmiştir?" — madde 32 Adım 2'de retrieval kısmı çözüldü:
+dense güvenlik slotu (N=1/3/5) cevap chunk'ını (4185, Fourier sayfa 12
+"Sinuzoidal Genlik Modülasyonu") nihai bağlamın **1. sırasına** getiriyor.
+Model üç N'de de "Bu bilgi dokümanlarda bulunamadı." diyor
+([experiments/madde32_adim2_dense_force_include/](../experiments/madde32_adim2_dense_force_include/README.md)).
+**Retrieval tarafı çözüldü (bayrak açıkken; varsayılan hâlâ kapalı), generation tarafı açık.**
+
+Bağlamdaki chunk: başlık Türkçe, gövde İngilizce ("Multiplication in the time
+domain is convolution in the frequency domain"), formüller PDF çıkarımında
+bozuk (δ, ω, ∫ kaybolmuş; satırlar parçalı). Soru Türkçe ve "hangi türetme"
+diye soruyor; cevap (cos ile çarpım → δ ile konvolüsyon, kaydırma özelliği)
+bozuk formül satırlarında.
+
+Ölçülmemiş adaylar (karar yok):
+- Dil/terim eşlemesi: model "çarpım"/"konvolüsyon"u İngilizce gövdeyle
+  eşleştiremiyor mu?
+- Bozuk formül metni: madde 31 (OCR/formül temizliği) ile aynı aile mi?
+- Ret eşiği: prompt "kısmi kanıtla cevapla" yerine tam eşleşme mi bekliyor?
+  (#56 da bağlamda chunk varken ret — aynı mekanizma olabilir.)
+
+Önce: aynı bağlamla prompt varyantları / chunk metni elle temizlenmiş hâli
+üretime verilip hangi değişikliğin reti kaldırdığı ölçülmeli.
