@@ -41,7 +41,7 @@ PR olarak ele alınır.
 
 ### Öncelik sırası (2026-10-11, güncelleme 2026-10-13)
 
-Açık retrieval/değerlendirme maddeleri için sıra: **25 (skorlama) ✅ → 22 ✅ → 27 ✅ → 29 ✅ → 20 (top_k ✅, 2b açık) → 21 (raporlama ✅; 4 FN açık) → 32 → 31 → 24 (bağıl eşik) → 30 → 28 → 26.**
+Açık retrieval/değerlendirme maddeleri için sıra: **25 (skorlama) ✅ → 22 ✅ → 27 ✅ → 29 ✅ → 20 (top_k ✅, 2b açık) → 21 (raporlama ✅; 4 FN açık) → 32 → 33 → 31 → 24 (bağıl eşik) → 30 → 28 → 26.**
 
 - **25 önce:** madde 24'ün başarı ölçütü negatif set FP sayısı; skorlayıcı yarım
   retleri FP saydığı sürece (#222) bu sayı yapay olarak şişik ve 24'ün etkisi
@@ -1341,63 +1341,66 @@ belgeye özel olmamalı ve formül olmayan metni bozmamalı. Etkisi sınırlı:
 Kapsam: bugün yalnız gramer PDF'inin 10 OCR sayfası. Öncelik düşük–orta: 5
 alıştırma sorusunun cevap kalitesini etkiliyor, sınıf (TP/FN) değiştirmiyor.
 
-## Madde 32 — Doğru dosya geliyor, doğru chunk gelmiyor (pozitif FN)
+## Madde 32 — RRF birleştirmesi BM25=0 olan en iyi dense chunk'ını havuzdan atıyor
 
-Madde 21'in yeniden koşusunda (güncel sistem, 2 koşu,
-[experiments/madde21_judge_ret/](../experiments/madde21_judge_ret/)) üç pozitif
-soru iki koşuda da "Bu bilgi dokümanlarda bulunamadı." döndü:
+İki pozitif soru güncel sistemde FN (madde 21 yeniden koşusu, 2 koşu,
+[experiments/madde21_judge_ret/](../experiments/madde21_judge_ret/)): beklenen
+DOSYA 1. sırada geliyor ama cevabı taşıyan CHUNK gelmiyor; model bağlama göre
+doğru reddediyor, judge 5/4/4/5 veriyor.
 
-| Soru | Beklenen kaynak | Bağlamda olmayan GT terimi |
-|---|---|---|
-| test_3 #79 (bant genişliği ters orantı) | lsarSist-H8_FourierTransform.pdf | "dar", "geniş", "ölçekleme" |
-| test_3 #82 (zamanda çarpım ↔ frekansta konvolüsyon) | lsarSist-H8_FourierTransform.pdf | "konvolüsyon", "çarpım" |
-| test_4 #91 (Alis'in kütüphanesinin adı) | test1.txt | "Gümüş Yaprak" (dosyanın 1. paragrafı) |
-
-Üçünde de beklenen DOSYA 1. sırada geliyor; cevabı taşıyan CHUNK gelmiyor.
-Model bağlama göre doğru reddediyor, judge 5/4/4/5 veriyor (madde 21). #91
-OCR'sız, tek dosyalı basit bir olgu sorusu: genel bir retrieval sorununun
-işareti olabilir, kapsamı bilinmiyor.
-
-**Açık soru — hangi katman?** Madde 20 yalnız reranker SONRASI nihai 4 chunk'ı
-karşılaştırdı (`rerank_top_n=4` sabit); top_k 5→8'in bu soruları
-değiştirmemesi "chunk aday havuzuna hiç girmiyor" demek DEĞİL — havuza girip
-reranker tarafından elenmiş olabilir. Çözüm yolu katmana göre tamamen farklı
-(BM25/dense: terim/embedding eşleşmesi; reranker: cross-encoder'ın bu çifte
-düşük skor vermesi), bu yüzden önce ölçülmeli.
-
-**Adım 1 (yalnız ölçüm; LLM/Groq/Foundry yok):**
-- Cevap chunk'ı GT terimleriyle elle belirlenir ve kayda geçer (chunk düzeyinde
-  GT yok).
-- O chunk'ın her katmandaki gerçek SIRA ve SKORU kaydedilir: BM25 ham skor,
-  dense cosine, RRF birleşik skor, reranker skoru. "9. sırada az farkla
-  kaçırdı" (ayar meselesi) ile "150. sırada" (temel alaka sorunu) ayrılır.
-- Kaba kapsam: tam benchmark'ın pozitif sorularında `retrieve()` (madde 20
-  `kapsam_topk.py` ile aynı çağrı) + GT `anahtar_kelimeler` alanının nihai
-  bağlamda geçip geçmediği — "doğru dosya, GT terimleri yok" örüntüsü kaç
-  soruda? Bu, madde 21'in FN kırılımı yan bulgusunu (dosya düzeyinde
-  `retrieval_match` chunk kaçırmasını "üretim sorunu" sayıyor) da ölçüme çevirir.
-
-**Kapsam dışı — test_2 #56:** cevap çıkarım gerektiriyor ("schemaVersion
-1.1'den ne çıkarılabilir"), ilgili chunk (`$.metadata`) bağlamda VAR; model
-yine reddediyor. Retrieval değil üretim/çıkarım sorunu, ayrı tutulur.
+| Soru | Cevap chunk'ı |
+|---|---|
+| test_3 #79 (bant genişliği ters orantı) | 4183, Fourier sayfa 10 "Ölçekleme (Scaling)" |
+| test_3 #82 (zamanda çarpım ↔ frekansta konvolüsyon) | 4185, Fourier sayfa 12 "Sinuzoidal Genlik Modülasyonu" |
 
 **Adım 1 sonucu (2026-10-27) — ölçüm:**
-[experiments/madde32_chunk_kacirma/](../experiments/madde32_chunk_kacirma/README.md).
-- **#79/#82: kayıp RRF birleştirmesinde.** Cevap chunk'ı dense'te 1/911 ve
-  havuza girseydi reranker'da da 1. sırada olacaktı; ama BM25=0 (Türkçe soru, İngilizce slayt
-  gövdesi) olduğu için RRF'ten BM25 katkısı almıyor, normalize skoru en fazla 0.5.
-  Hibrit sırası 12 ve 17, TOP_K=8 havuzuna giremiyor. Sorun ne dense'te ne
-  reranker'da.
-- **#91 farklı mekanizma:** stemmer tutarsızlığı ("kütüphane"→`kutupha`,
-  "kütüphanenin"→`kutuphane`; madde 6 Sorun B) ile BM25=0, dense 12/911, hibrit
-  34. Cevap iki chunk'a bölünmüş (paragraf 1'de ad, paragraf 2'de Alis); havuzda
-  olsa bile reranker 5. sıraya koyuyor (eşiğin hemen altında).
+[experiments/madde32_chunk_kacirma/](../experiments/madde32_chunk_kacirma/README.md)
+(`8329a85`). Madde 20 yalnız reranker SONRASI nihai 4 chunk'ı karşılaştırmıştı;
+katman katman ölçüm:
+- Cevap chunk'ı **dense'te 1/911** ve havuza girseydi **reranker'da da 1.**
+  sırada olacaktı (#79: 0.658, havuzun en iyisi 0.015).
+- Ama **BM25=0** (Türkçe soru, İngilizce slayt gövdesi; ortak token yok) olduğu
+  için RRF'ten BM25 katkısı almıyor (`bm25_contrib`), normalize skoru en fazla
+  0.5. İki listede orta sıradaki chunk'lar onu geçiyor (#79'da dense'te 348.
+  bir profil havuza giriyor). Hibrit sırası 12 ve 17, TOP_K=8 havuzuna
+  giremiyor. **Kayıp RRF birleştirmesinde; sorun ne dense'te ne reranker'da.**
 - **Kapsam:** dense #1 chunk BM25=0 yüzünden havuz dışında kalan pozitif soru
-  yalnız #79 ve #82 (87 semantic_rag sorusu). GT terimi ölçütü 14 soru işaretledi
-  ama 11'i v8'de TP. Fourier PDF'inde GT terimleri Türkçe, metin İngilizce ve
-  semboller bozuk; ölçüt bu dosyada güvenilir değil.
-- **Adım 2 adayı (ölçülmeden karar yok):** havuza "dense güvenlik slotu", yani
-  dense ilk-N chunk'ı hibrit sırasından bağımsız olarak reranker'a gitsin.
-  Reranker zaten filtreliyor, ama havuz HER soruda değişir: tam benchmark +
-  negatif set (FP riski) ile ölçülmeli. #91 bu kapsamın dışında (stemmer +
-  çok-chunk'lı cevap).
+  yalnız #79 ve #82 (87 semantic_rag sorusu). GT terimi ölçütü 14 soru
+  işaretledi ama 11'i v8'de TP. Fourier PDF'inde GT terimleri Türkçe, metin
+  İngilizce ve semboller bozuk; ölçüt bu dosyada güvenilir değil.
+
+**Adım 2 (ölçüm sürüyor):** dense ilk-N chunk'ı hibrit/RRF sırasından bağımsız
+olarak reranker havuzuna eklenir; `RAG_DENSE_FORCE_TOP_N` bayrağıyla açılır,
+varsayılan kapalı (0). Ölçüm: 100 pozitif soruda #79/#82 TP oluyor mu ve yan
+etki var mı; negatif sette yeni giren dense chunk'lar FP üretiyor mu (asıl
+risk); N=1/3/5 hassasiyeti.
+[experiments/madde32_adim2_dense_force_include/](../experiments/madde32_adim2_dense_force_include/).
+
+**Kapsam dışı:**
+- **test_4 #91 → madde 33** (farklı mekanizma; Adım 1'de birlikte ölçüldü).
+- **test_2 #56:** cevap çıkarım gerektiriyor ("schemaVersion 1.1'den ne
+  çıkarılabilir"); ilgili chunk (`$.metadata`) bağlamda VAR, model yine
+  reddediyor. Retrieval değil üretim/çıkarım sorunu.
+
+## Madde 33 — Stemmer tutarsızlığı + iki chunk'a bölünmüş cevap (test_4 #91)
+
+"Alis'in çalıştığı kütüphanenin adı nedir?" güncel sistemde FN (madde 21
+yeniden koşusu). OCR'sız, tek dosyalı basit bir olgu sorusu. Madde 32 Adım 1'de
+ölçüldü ([experiments/madde32_chunk_kacirma/](../experiments/madde32_chunk_kacirma/README.md)):
+cevap chunk'ı (4227, test1.txt paragraf 1: "… devasa bir kütüphane
+yükselirdi: Gümüş Yaprak.") dense 12/911, BM25=0, hibrit 34. → havuz dışında.
+Madde 32'nin RRF mekanizmasından farklı; iki ayrı alt neden:
+
+1. **Stemmer tutarsızlığı:** aynı kelimenin çekimleri farklı token'a düşüyor:
+   "kütüphane"→`kutupha`, "kütüphanenin"/"kütüphanede"→`kutuphane`,
+   "kütüphanesi"→`kutuphanes`. Soru ile chunk aynı kelimeyi taşıdığı halde BM25
+   eşleşmiyor (madde 6 Sorun B — stemmer'ın kendi sınırlılığı, kabul edilmişti;
+   madde 23 ile aynı aile). Kapsamı ölçülmedi: kaç soruda bu kelime çiftleri
+   BM25'i sıfırlıyor?
+2. **Cevap iki chunk'a bölünmüş:** paragraf 1'de kütüphanenin adı var ama
+   "Alis" yok; "Alis, bu kütüphanede çalışan …" paragraf 2'de (4228, hibritte
+   1.). Soru iki paragrafı birleştirmeyi gerektiriyor (eşgönderim). Paragraf 1
+   havuza girse bile reranker 5. sıraya koyuyor (0.0034; 4. eşik 0.0037).
+   Yalnız (1)'i düzeltmek yetmeyebilir.
+
+Madde 32 Adım 2'nin dense slotu bunu çözmez (dense sırası 12).
