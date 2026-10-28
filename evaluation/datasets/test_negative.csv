@@ -12,7 +12,7 @@ id,zorluk,kategori,soru,beklenen_kaynak,dokumanda_var_mi,referans_cevap
 211,Negatif,Yakin-Gurultulu,"""Havacılık ve Uzay"" sektöründeki profillerin ortalama deneyim yılı kaçtır?",-,Hayır,Bu bilgi dokümanlarda bulunamadı.
 212,Negatif,Yakin-Gurultulu,Erzurum şehrinde hizmet veren kaç profil bulunmaktadır?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.
 213,Negatif,Yakin-Gurultulu,"""Ahmet Yıldırım"" adlı profilin uzmanlık alanı ve şehri nedir?",-,Hayır,Bu bilgi dokümanlarda bulunamadı.
-214,Negatif,Yakin-Gurultulu,airports.json veri setindeki Türkiye'ye ait havaalanlarının IATA kodları nelerdir?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.
+214,Kolay,Yakin-Gurultulu,airports.json veri setindeki Türkiye'ye ait havaalanlarının IATA kodları nelerdir?,airports.json,Evet,IST (Istanbul Airport). Veri setinde Türkiye'ye (TR) ait tek havaalanı budur.
 215,Negatif,Yakin-Gurultulu,us-states veri setinde her eyaletin nüfusu kaç olarak belirtilmiştir?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.
 216,Negatif,Yakin-Gurultulu,728_profiles veri setinde profillerin kredi puanı (credit score) ortalaması kaçtır?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.
 217,Negatif,Yanlis On Kabul,"Bağlamdan bağımsız dilbilgisi dokümanında anlatılan ""Tür 3 düzenli dilbilgisi"" tanımı nedir?",-,Hayır,Bu bilgi dokümanlarda bulunamadı.
