@@ -1,0 +1,14 @@
+Model yükleniyor...
+[Foundry] Model yüklendi: qwen2.5-7b-instruct-cuda-gpu:4 | execution provider: CUDAExecutionProvider | cihaz: GPU
+[Foundry] Servis adresi: http://127.0.0.1:54406
+[Foundry] Serviste yüklü modeller: ['qwen2.5-7b-instruct-cuda-gpu:4']
+Model hazır.
+
+Soru seti: experiments\madde32_adim2_dense_force_include\uretim_n0_tekrar11\sorular.csv
+[11] Soruluyor: Bir dilin belirgin (unambiguous) olması ne anlama gelir?
+[retrieval] Cache yuklendi: 911 chunk, embedding matrisi (911, 1024)
+    → 94.25 sn
+
+
+Tamamlandı. 1 soru test edildi.
+Sonuçlar: experiments/madde32_adim2_dense_force_include/uretim_n0_tekrar11/sonuclari.csv

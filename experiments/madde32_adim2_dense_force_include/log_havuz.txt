@@ -1,0 +1,304 @@
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['appointmentSettings.defaultDurationMinutes~appointment', 'appointmentSettings.minimumNoticeHours~minimumNoticeHours', 'appointmentSettings.cancellationNoticeHours~cancellationNoticeHours', 'appointmentSettings.autoApproveRequests~appointment']
+[retrieval] Cache yuklendi: 911 chunk, embedding matrisi (911, 1024)
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['appointmentSettings.defaultDurationMinutes~appointment', 'appointmentSettings.minimumNoticeHours~minimumNoticeHours', 'appointmentSettings.cancellationNoticeHours~cancellationNoticeHours', 'appointmentSettings.autoApproveRequests~appointment']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['appointmentSettings.defaultDurationMinutes~appointment', 'appointmentSettings.minimumNoticeHours~minimumNoticeHours', 'appointmentSettings.cancellationNoticeHours~cancellationNoticeHours', 'appointmentSettings.autoApproveRequests~appointment']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['appointmentSettings.defaultDurationMinutes~appointment', 'appointmentSettings.minimumNoticeHours~minimumNoticeHours', 'appointmentSettings.cancellationNoticeHours~cancellationNoticeHours', 'appointmentSettings.autoApproveRequests~appointment']
+test_2#44: code_interpreter N1:D N3:D N5:D m20==
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode', 'profileType~profile', 'displayName', 'slug', 'profileMedia.avatarUrl~profile', 'profileMedia.coverImageUrl~profile']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode', 'profileType~profile', 'displayName', 'slug', 'profileMedia.avatarUrl~profile', 'profileMedia.coverImageUrl~profile']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode', 'profileType~profile', 'displayName', 'slug', 'profileMedia.avatarUrl~profile', 'profileMedia.coverImageUrl~profile']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode', 'profileType~profile', 'displayName', 'slug', 'profileMedia.avatarUrl~profile', 'profileMedia.coverImageUrl~profile']
+test_2#45: code_interpreter N1:= N3:= N5:D m20==
+test_2#46: semantic_rag     N1:= N3:= N5:= m20==
+test_2#47: semantic_rag     N1:= N3:= N5:= m20==
+test_2#48: semantic_rag     N1:= N3:= N5:= m20==
+test_2#49: semantic_rag     N1:= N3:= N5:= m20==
+test_2#50: semantic_rag     N1:= N3:= N5:= m20==
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=5.0, best_score, ambiguous=False) | schema_cols=['profileCode~profile', 'profileType~profile', 'sector', 'profileMedia.avatarUrl~profile', 'profileMedia.coverImageUrl~profile']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=5.0, best_score, ambiguous=False) | schema_cols=['profileCode~profile', 'profileType~profile', 'sector', 'profileMedia.avatarUrl~profile', 'profileMedia.coverImageUrl~profile']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=5.0, best_score, ambiguous=False) | schema_cols=['profileCode~profile', 'profileType~profile', 'sector', 'profileMedia.avatarUrl~profile', 'profileMedia.coverImageUrl~profile']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=5.0, best_score, ambiguous=False) | schema_cols=['profileCode~profile', 'profileType~profile', 'sector', 'profileMedia.avatarUrl~profile', 'profileMedia.coverImageUrl~profile']
+test_2#51: code_interpreter N1:= N3:D N5:D m20==
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=11.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'sector~sektör', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=11.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'sector~sektör', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=11.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'sector~sektör', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=11.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'sector~sektör', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+test_2#52: code_interpreter N1:= N3:= N5:= m20==
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=8.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'occupation', 'appointmentSettings.defaultDurationMinutes~appointment', 'appointmentSettings.minimumNoticeHours~minimumNoticeHours', 'appointmentSettings.cancellationNoticeHours~cancellationNoticeHours']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=8.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'occupation', 'appointmentSettings.defaultDurationMinutes~appointment', 'appointmentSettings.minimumNoticeHours~minimumNoticeHours', 'appointmentSettings.cancellationNoticeHours~cancellationNoticeHours']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=8.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'occupation', 'appointmentSettings.defaultDurationMinutes~appointment', 'appointmentSettings.minimumNoticeHours~minimumNoticeHours', 'appointmentSettings.cancellationNoticeHours~cancellationNoticeHours']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=8.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'occupation', 'appointmentSettings.defaultDurationMinutes~appointment', 'appointmentSettings.minimumNoticeHours~minimumNoticeHours', 'appointmentSettings.cancellationNoticeHours~cancellationNoticeHours']
+test_2#53: code_interpreter N1:= N3:= N5:= m20==
+test_2#54: semantic_rag     N1:= N3:D N5:D m20==
+test_2#55: semantic_rag     N1:= N3:= N5:= m20==
+test_2#56: semantic_rag     N1:= N3:D N5:D m20==
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'sector', 'occupation', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'sector', 'occupation', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'sector', 'occupation', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'sector', 'occupation', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+test_2#57: code_interpreter N1:= N3:= N5:= m20==
+test_2#58: semantic_rag     N1:= N3:= N5:= m20==
+test_2#59: semantic_rag     N1:= N3:= N5:= m20==
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'experience.years', 'experience.credentialSummary~experience', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'experience.years', 'experience.credentialSummary~experience', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'experience.years', 'experience.credentialSummary~experience', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'experience.years', 'experience.credentialSummary~experience', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+test_2#60: code_interpreter N1:= N3:= N5:D m20==
+test_3#61: semantic_rag     N1:= N3:= N5:= m20==
+test_3#62: semantic_rag     N1:= N3:= N5:= m20==
+test_3#63: semantic_rag     N1:= N3:= N5:= m20==
+test_3#64: semantic_rag     N1:= N3:= N5:= m20==
+test_3#65: semantic_rag     N1:= N3:= N5:= m20==
+test_3#66: semantic_rag     N1:= N3:= N5:= m20==
+test_3#67: semantic_rag     N1:= N3:= N5:= m20==
+test_3#68: semantic_rag     N1:= N3:= N5:= m20==
+test_3#69: semantic_rag     N1:= N3:= N5:= m20==
+test_3#70: semantic_rag     N1:= N3:= N5:= m20==
+test_3#71: semantic_rag     N1:= N3:= N5:= m20==
+test_3#72: semantic_rag     N1:= N3:= N5:= m20==
+test_3#73: semantic_rag     N1:= N3:= N5:= m20==
+test_3#74: semantic_rag     N1:= N3:= N5:= m20==
+test_3#75: semantic_rag     N1:= N3:= N5:= m20==
+test_3#76: semantic_rag     N1:= N3:= N5:D m20==
+test_3#77: semantic_rag     N1:= N3:= N5:= m20==
+test_3#78: semantic_rag     N1:= N3:D N5:D m20==
+test_3#79: semantic_rag     N1:D N3:D N5:D m20==
+test_3#80: semantic_rag     N1:= N3:= N5:= m20==
+test_3#81: semantic_rag     N1:= N3:= N5:= m20==
+test_3#82: semantic_rag     N1:D N3:D N5:D m20==
+test_3#83: semantic_rag     N1:= N3:= N5:= m20==
+test_3#84: semantic_rag     N1:= N3:= N5:= m20==
+test_3#85: semantic_rag     N1:= N3:= N5:= m20==
+test_3#86: semantic_rag     N1:= N3:= N5:= m20==
+test_3#87: semantic_rag     N1:= N3:D N5:D m20==
+test_3#88: semantic_rag     N1:= N3:= N5:= m20==
+test_3#89: semantic_rag     N1:= N3:= N5:D m20==
+test_3#90: semantic_rag     N1:= N3:= N5:= m20==
+test_4#91: semantic_rag     N1:= N3:= N5:= m20==
+test_4#92: semantic_rag     N1:= N3:D N5:D m20==
+test_4#93: semantic_rag     N1:= N3:= N5:= m20==
+test_4#94: semantic_rag     N1:= N3:= N5:= m20==
+test_4#95: semantic_rag     N1:= N3:= N5:= m20==
+test_4#96: semantic_rag     N1:= N3:= N5:= m20==
+test_4#97: semantic_rag     N1:= N3:= N5:= m20==
+test_4#98: semantic_rag     N1:= N3:= N5:D m20==
+test_4#99: semantic_rag     N1:= N3:= N5:= m20==
+test_4#100: semantic_rag     N1:= N3:= N5:= m20==
+test_5#101: semantic_rag     N1:= N3:= N5:= m20==
+test_5#102: semantic_rag     N1:= N3:= N5:= m20==
+test_5#103: semantic_rag     N1:= N3:= N5:= m20==
+test_5#104: semantic_rag     N1:= N3:= N5:= m20==
+test_5#105: semantic_rag     N1:= N3:= N5:= m20==
+test_5#106: semantic_rag     N1:= N3:= N5:= m20==
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+test_5#107: code_interpreter N1:= N3:D N5:D m20==
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+test_5#108: code_interpreter N1:= N3:= N5:= m20==
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+test_5#109: code_interpreter N1:= N3:D N5:D m20==
+test_5#110: semantic_rag     N1:= N3:D N5:D m20==
+test_5#111: semantic_rag     N1:= N3:= N5:D m20==
+test_5#112: semantic_rag     N1:= N3:= N5:= m20==
+test_5#113: semantic_rag     N1:= N3:= N5:= m20==
+test_5#114: semantic_rag     N1:= N3:= N5:= m20==
+test_5#115: semantic_rag     N1:= N3:D N5:D m20==
+test_negative#201: semantic_rag     N1:= N3:= N5:= m20==
+test_negative#202: semantic_rag     N1:= N3:= N5:= m20==
+test_negative#203: semantic_rag     N1:D N3:D N5:D m20==
+test_negative#204: semantic_rag     N1:= N3:= N5:= m20==
+test_negative#205: semantic_rag     N1:= N3:= N5:= m20==
+test_negative#206: semantic_rag     N1:= N3:= N5:= m20==
+test_negative#207: semantic_rag     N1:D N3:D N5:D m20==
+test_negative#208: semantic_rag     N1:= N3:= N5:= m20==
+test_negative#209: semantic_rag     N1:= N3:= N5:= m20==
+test_negative#210: semantic_rag     N1:= N3:= N5:= m20==
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=7.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'sector~sektör', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil', 'experience.years~deneyim']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=7.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'sector~sektör', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil', 'experience.years~deneyim']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=7.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'sector~sektör', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil', 'experience.years~deneyim']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=7.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'sector~sektör', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil', 'experience.years~deneyim']
+test_negative#211: code_interpreter N1:= N3:D N5:D m20==
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+test_negative#212: code_interpreter N1:= N3:= N5:= m20==
+test_negative#213: semantic_rag     N1:= N3:= N5:= m20==
+test_negative#214: semantic_rag     N1:D N3:D N5:D m20==
+[data_engine] route=code_interpreter (dataset_signal+interrogative) | dataset=us-states-with-detail.json (score=3.0, best_score, ambiguous=False) | schema_cols=[]
+[data_engine] route=code_interpreter (dataset_signal+interrogative) | dataset=us-states-with-detail.json (score=3.0, best_score, ambiguous=False) | schema_cols=[]
+'(ReadTimeoutError("HTTPSConnectionPool(host='huggingface.co', port=443): Read timed out. (read timeout=10)"), '(Request ID: fb56939e-b153-4319-8769-1f7961a75064)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/config.json
+Retrying in 1s [Retry 1/5].
+'(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/config.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 0d47eef4-0543-4b59-987b-7f114e08d5ac)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/config.json
+Retrying in 2s [Retry 2/5].
+'(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/config.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 71de91c6-bb0d-486a-8775-29f2dfac552b)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/config.json
+Retrying in 4s [Retry 3/5].
+'(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/config.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: ce23ff92-0157-4fd4-a6f4-842fdd9a820e)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/config.json
+Retrying in 8s [Retry 4/5].
+'(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/config.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: d309325c-7c54-4cf4-8870-7cf8f4df9dec)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/config.json
+Retrying in 8s [Retry 5/5].
+'(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/config.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 601ab3b5-0b69-4920-b985-ee3aa3a5b976)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/config.json
+'(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/tokenizer_config.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: a4964825-ed4a-4e8d-9e30-94162b67f206)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/tokenizer_config.json
+Retrying in 1s [Retry 1/5].
+'(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/tokenizer_config.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 2aa327cd-d36b-4dc8-8d16-5068040c7ea9)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/tokenizer_config.json
+Retrying in 2s [Retry 2/5].
+'(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/tokenizer_config.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: a00623cb-636d-4306-98e5-53070f863809)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/tokenizer_config.json
+Retrying in 4s [Retry 3/5].
+'(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/tokenizer_config.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 90a2bbf7-39ea-4fb3-a930-7fcfff0b9c09)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/tokenizer_config.json
+Retrying in 8s [Retry 4/5].
+[data_engine] route=code_interpreter (dataset_signal+interrogative) | dataset=us-states-with-detail.json (score=3.0, best_score, ambiguous=False) | schema_cols=[]
+[data_engine] route=code_interpreter (dataset_signal+interrogative) | dataset=us-states-with-detail.json (score=3.0, best_score, ambiguous=False) | schema_cols=[]
+test_negative#215: code_interpreter N1:D N3:D N5:D m20==
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+test_negative#216: code_interpreter N1:= N3:D N5:D m20==
+test_negative#217: semantic_rag     N1:= N3:= N5:= m20==
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=mock-transactions.json (score=3.0, best_score, ambiguous=False) | schema_cols=[]
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=mock-transactions.json (score=3.0, best_score, ambiguous=False) | schema_cols=[]
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=mock-transactions.json (score=3.0, best_score, ambiguous=False) | schema_cols=[]
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=mock-transactions.json (score=3.0, best_score, ambiguous=False) | schema_cols=[]
+test_negative#218: code_interpreter N1:= N3:= N5:= m20==
+test_negative#219: semantic_rag     N1:= N3:= N5:= m20==
+test_negative#220: semantic_rag     N1:= N3:D N5:D m20==
+test_negative#221: semantic_rag     N1:D N3:D N5:D m20==
+test_negative#222: semantic_rag     N1:= N3:D N5:D m20==
+test_negative#223: semantic_rag     N1:D N3:D N5:D m20==
+test_negative#224: semantic_rag     N1:= N3:= N5:= m20==
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=mock-transactions.json (score=4.0, best_score, ambiguous=False) | schema_cols=['amount~tutar']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=mock-transactions.json (score=4.0, best_score, ambiguous=False) | schema_cols=['amount~tutar']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=mock-transactions.json (score=4.0, best_score, ambiguous=False) | schema_cols=['amount~tutar']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=mock-transactions.json (score=4.0, best_score, ambiguous=False) | schema_cols=['amount~tutar']
+test_negative#225: code_interpreter N1:= N3:= N5:= m20==
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=mock-transactions.json (score=4.0, best_score, ambiguous=False) | schema_cols=['category~kategori']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=mock-transactions.json (score=4.0, best_score, ambiguous=False) | schema_cols=['category~kategori']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=mock-transactions.json (score=4.0, best_score, ambiguous=False) | schema_cols=['category~kategori']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=mock-transactions.json (score=4.0, best_score, ambiguous=False) | schema_cols=['category~kategori']
+test_negative#226: code_interpreter N1:= N3:D N5:D m20==
+test_negative#227: semantic_rag     N1:= N3:= N5:= m20==
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil', 'date~ay']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil', 'date~ay']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil', 'date~ay']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil', 'date~ay']
+test_negative#228: code_interpreter N1:= N3:D N5:D m20==
+test_negative#229: semantic_rag     N1:= N3:D N5:D m20==
+test_negative#230: semantic_rag     N1:= N3:= N5:= m20==
+[data_engine] route=code_interpreter (dataset_signal+interrogative) | dataset=airports.json (score=3.0, best_score, ambiguous=False) | schema_cols=[]
+[data_engine] route=code_interpreter (dataset_signal+interrogative) | dataset=airports.json (score=3.0, best_score, ambiguous=False) | schema_cols=[]
+[data_engine] route=code_interpreter (dataset_signal+interrogative) | dataset=airports.json (score=3.0, best_score, ambiguous=False) | schema_cols=[]
+[data_engine] route=code_interpreter (dataset_signal+interrogative) | dataset=airports.json (score=3.0, best_score, ambiguous=False) | schema_cols=[]
+test_negative#231: code_interpreter N1:D N3:D N5:D m20==
+[data_engine] route=code_interpreter (dataset_signal+interrogative) | dataset=us-states-with-detail.json (score=3.0, best_score, ambiguous=False) | schema_cols=['date~tarih']
+[data_engine] route=code_interpreter (dataset_signal+interrogative) | dataset=us-states-with-detail.json (score=3.0, best_score, ambiguous=False) | schema_cols=['date~tarih']
+[data_engine] route=code_interpreter (dataset_signal+interrogative) | dataset=us-states-with-detail.json (score=3.0, best_score, ambiguous=False) | schema_cols=['date~tarih']
+[data_engine] route=code_interpreter (dataset_signal+interrogative) | dataset=us-states-with-detail.json (score=3.0, best_score, ambiguous=False) | schema_cols=['date~tarih']
+test_negative#232: code_interpreter N1:D N3:D N5:D m20==
+
+Toplam soru: 147
+N=0 == madde 20 top_k=8 kaydı (bayrak kapalıyken davranış aynı): 147/147
+
+test_3#79 cevap chunk'ı 4183 nihai bağlamda: N=0:hayır, N=1:EVET, N=3:EVET, N=5:EVET
+test_3#82 cevap chunk'ı 4185 nihai bağlamda: N=0:hayır, N=1:EVET, N=3:EVET, N=5:EVET
+
+N=1: nihai bağlamı değişen 13/147 (pozitif setler 5, negatif 8)
+   test_2#36: +[['728_profiles.json', '$.profiles[319]']]
+   test_2#38: +[['728_profiles.json', '$.profiles[404]']]
+   test_2#44: +[('728_profiles.json', '$.profiles[642]')]
+   test_3#79: +[('lsarSist-H8_FourierTransform.pdf', 'sayfa 10')]
+   test_3#82: +[('lsarSist-H8_FourierTransform.pdf', 'sayfa 12')]
+   test_negative#203: +[('728_profiles.json', '$.profiles[389]')]
+   test_negative#207: +[('lsarSist-H8_FourierTransform.pdf', 'sayfa 3')]
+   test_negative#214: +[('airports.json', '$.airports[13]')]
+   test_negative#215: +[('us-states-with-detail.json', '$.states[43]')]
+   test_negative#221: +[('test1.txt', 'paragraf 7')]
+   test_negative#223: +[('728_profiles.json', '$.safetyAndDataQuality')]
+   test_negative#231: +[('airports.json', '$.airports[17]')]
+   test_negative#232: +[('us-states-with-detail.json', '$.states[30]')]
+N=3: nihai bağlamı değişen 32/147 (pozitif setler 17, negatif 15)
+   test_1#11: +[['8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 28-29']]
+   test_2#31: +[['728_profiles.json', '$.sourceReference']]
+   test_2#36: +[['728_profiles.json', '$.profiles[319]'], ['728_profiles.json', '$.profiles[453]']]
+   test_2#38: +[['728_profiles.json', '$.profiles[404]']]
+   test_2#44: +[('728_profiles.json', '$.profiles[641]')]
+   test_2#51: +[('728_profiles.json', '$.profiles[503]')]
+   test_2#54: +[('728_profiles.json', '$.profiles[387]')]
+   test_2#56: +[('Summer School Foundry Local Plan.docx', 'bölüm 5')]
+   test_3#78: +[('lsarSist-H8_FourierTransform.pdf', 'sayfa 12')]
+   test_3#79: +[('lsarSist-H8_FourierTransform.pdf', 'sayfa 10'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 12')]
+   test_3#82: +[('lsarSist-H8_FourierTransform.pdf', 'sayfa 12')]
+   test_3#87: +[('lsarSist-H9_ZTransform.pdf', 'sayfa 13')]
+   test_4#92: +[('728_profiles.json', '$.profiles[529]')]
+   test_5#107: +[('728_profiles.json', '$.profiles[692]')]
+   test_5#109: +[('728_profiles.json', '$.profiles[87]')]
+   test_5#110: +[('728_profiles.json', '$.safetyAndDataQuality')]
+   test_5#115: +[('test2.txt', 'paragraf 4')]
+   test_negative#203: +[('728_profiles.json', '$.profiles[387]'), ('728_profiles.json', '$.profiles[389]'), ('728_profiles.json', '$.profiles[386]')]
+   test_negative#207: +[('lsarSist-H8_FourierTransform.pdf', 'sayfa 10'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 8'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 3')]
+   test_negative#211: +[('728_profiles.json', '$.profiles[471]')]
+   test_negative#214: +[('airports.json', '$.airports[13]'), ('airports.json', '$.airports[18]'), ('airports.json', '$.airports[0]')]
+   test_negative#215: +[('us-states-with-detail.json', '$.states[43]'), ('us-states-with-detail.json', '$.states[30]'), ('us-states-with-detail.json', '$.states[36]')]
+   test_negative#216: +[('728_profiles.json', '$.profiles[503]')]
+   test_negative#220: +[('728_profiles.json', '$.profiles[688]')]
+   test_negative#221: +[('test1.txt', 'paragraf 7')]
+   test_negative#222: +[('728_profiles.json', '$.profiles[302]')]
+   test_negative#223: +[('728_profiles.json', '$.safetyAndDataQuality')]
+   test_negative#226: +[('mock-transactions.json', '$.transactions[0]'), ('mock-transactions.json', '$.transactions[2]')]
+   test_negative#228: +[('728_profiles.json', '$.profiles[239]')]
+   test_negative#229: +[('728_profiles.json', '$.profiles[689]')]
+   test_negative#231: +[('airports.json', '$.airports[17]'), ('airports.json', '$.airports[13]')]
+   test_negative#232: +[('us-states-with-detail.json', '$.states[5]'), ('us-states-with-detail.json', '$.states[43]'), ('us-states-with-detail.json', '$.states[30]')]
+N=5: nihai bağlamı değişen 44/147 (pozitif setler 29, negatif 15)
+   test_1#1: +[['8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 2']]
+   test_1#11: +[['8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 28-29'], ['8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 24-25']]
+   test_1#26: +[['8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 6']]
+   test_1#29: +[['8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 6'], ['8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 5']]
+   test_1#30: +[['8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 19']]
+   test_2#31: +[['728_profiles.json', '$.sourceReference']]
+   test_2#36: +[['728_profiles.json', '$.profiles[319]'], ['728_profiles.json', '$.profiles[453]'], ['728_profiles.json', '$.profiles[523]']]
+   test_2#38: +[['728_profiles.json', '$.profiles[651]']]
+   test_2#41: +[['728_profiles.json', '$.profiles[464]']]
+   test_2#42: +[['728_profiles.json', '$.profiles[21]']]
+   test_2#44: +[('728_profiles.json', '$.profiles[641]'), ('728_profiles.json', '$.profiles[652]')]
+   test_2#45: +[('728_profiles.json', '$.profiles[379]')]
+   test_2#51: +[('728_profiles.json', '$.profiles[503]')]
+   test_2#54: +[('728_profiles.json', '$.profiles[387]'), ('728_profiles.json', '$.profiles[385]')]
+   test_2#56: +[('Summer School Foundry Local Plan.docx', 'bölüm 5')]
+   test_2#60: +[('728_profiles.json', '$.profiles[726]')]
+   test_3#76: +[('lsarSist-H9_ZTransform.pdf', 'sayfa 3')]
+   test_3#78: +[('lsarSist-H8_FourierTransform.pdf', 'sayfa 12')]
+   test_3#79: +[('lsarSist-H8_FourierTransform.pdf', 'sayfa 10'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 12')]
+   test_3#82: +[('lsarSist-H8_FourierTransform.pdf', 'sayfa 12')]
+   test_3#87: +[('lsarSist-H9_ZTransform.pdf', 'sayfa 17')]
+   test_3#89: +[('lsarSist-H9_ZTransform.pdf', 'sayfa 16')]
+   test_4#92: +[('728_profiles.json', '$.profiles[529]'), ('728_profiles.json', '$.profiles[540]')]
+   test_4#98: +[('test2.txt', 'paragraf 9')]
+   test_5#107: +[('728_profiles.json', '$.profiles[695]')]
+   test_5#109: +[('728_profiles.json', '$.profiles[87]')]
+   test_5#110: +[('728_profiles.json', '$.safetyAndDataQuality')]
+   test_5#111: +[('728_profiles.json', '$.profiles[453]')]
+   test_5#115: +[('test2.txt', 'paragraf 4'), ('728_profiles.json', '$.profiles[445]')]
+   test_negative#203: +[('728_profiles.json', '$.profiles[385]'), ('728_profiles.json', '$.profiles[387]'), ('728_profiles.json', '$.profiles[389]')]
+   test_negative#207: +[('lsarSist-H8_FourierTransform.pdf', 'sayfa 10'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 8'), ('lsarSist-H8_FourierTransform.pdf', 'sayfa 3')]
+   test_negative#211: +[('728_profiles.json', '$.profiles[454]'), ('728_profiles.json', '$.profiles[471]')]
+   test_negative#214: +[('airports.json', '$.airports[13]'), ('airports.json', '$.airports[17]'), ('airports.json', '$.airports[18]'), ('airports.json', '$.airports[0]')]
+   test_negative#215: +[('us-states-with-detail.json', '$.states[43]'), ('us-states-with-detail.json', '$.states[30]'), ('us-states-with-detail.json', '$.states[36]'), ('us-states-with-detail.json', '$.states[42]')]
+   test_negative#216: +[('728_profiles.json', '$.profiles[503]')]
+   test_negative#220: +[('728_profiles.json', '$.profiles[693]'), ('728_profiles.json', '$.profiles[688]')]
+   test_negative#221: +[('test1.txt', 'paragraf 8'), ('test1.txt', 'paragraf 7')]
+   test_negative#222: +[('728_profiles.json', '$.profiles[302]')]
+   test_negative#223: +[('728_profiles.json', '$.safetyAndDataQuality'), ('728_profiles.json', '$.profiles[503]')]
+   test_negative#226: +[('mock-transactions.json', '$.transactions[0]'), ('mock-transactions.json', '$.transactions[7]'), ('mock-transactions.json', '$.transactions[3]')]
+   test_negative#228: +[('728_profiles.json', '$.profiles[239]')]
+   test_negative#229: +[('728_profiles.json', '$.profiles[689]')]
+   test_negative#231: +[('airports.json', '$.airports[17]'), ('airports.json', '$.airports[13]')]
+   test_negative#232: +[('us-states-with-detail.json', '$.states[31]'), ('us-states-with-detail.json', '$.states[5]'), ('us-states-with-detail.json', '$.states[2]'), ('us-states-with-detail.json', '$.states[43]')]
+

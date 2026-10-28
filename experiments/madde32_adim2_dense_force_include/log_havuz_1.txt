@@ -1,0 +1,81 @@
+[retrieval] Cache yuklendi: 911 chunk, embedding matrisi (911, 1024)
+test_1#1: semantic_rag     N1:= N3:= N5:D m20==
+test_1#2: semantic_rag     N1:= N3:= N5:= m20==
+test_1#3: semantic_rag     N1:= N3:= N5:= m20==
+test_1#4: semantic_rag     N1:= N3:= N5:= m20==
+test_1#5: semantic_rag     N1:= N3:= N5:= m20==
+test_1#6: semantic_rag     N1:= N3:= N5:= m20==
+test_1#7: semantic_rag     N1:= N3:= N5:= m20==
+test_1#8: semantic_rag     N1:= N3:= N5:= m20==
+test_1#9: semantic_rag     N1:= N3:= N5:= m20==
+test_1#10: semantic_rag     N1:= N3:= N5:= m20==
+test_1#11: semantic_rag     N1:= N3:D N5:D m20==
+test_1#12: semantic_rag     N1:= N3:= N5:= m20==
+test_1#13: semantic_rag     N1:= N3:= N5:= m20==
+test_1#14: semantic_rag     N1:= N3:= N5:= m20==
+test_1#15: semantic_rag     N1:= N3:= N5:= m20==
+test_1#16: semantic_rag     N1:= N3:= N5:= m20==
+test_1#17: semantic_rag     N1:= N3:= N5:= m20==
+test_1#18: semantic_rag     N1:= N3:= N5:= m20==
+test_1#19: semantic_rag     N1:= N3:= N5:= m20==
+test_1#20: semantic_rag     N1:= N3:= N5:= m20==
+test_1#21: semantic_rag     N1:= N3:= N5:= m20==
+test_1#22: semantic_rag     N1:= N3:= N5:= m20==
+test_1#23: semantic_rag     N1:= N3:= N5:= m20==
+test_1#24: semantic_rag     N1:= N3:= N5:= m20==
+test_1#25: semantic_rag     N1:= N3:= N5:= m20==
+test_1#26: semantic_rag     N1:= N3:= N5:D m20==
+test_1#27: semantic_rag     N1:= N3:= N5:= m20==
+test_1#28: semantic_rag     N1:= N3:= N5:= m20==
+test_1#29: semantic_rag     N1:= N3:= N5:D m20==
+test_1#30: semantic_rag     N1:= N3:= N5:D m20==
+test_2#31: semantic_rag     N1:= N3:D N5:D m20==
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode~profile', 'profileType~profile', 'sector', 'occupation', 'profileMedia.avatarUrl~profile', 'profileMedia.coverImageUrl~profile']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode~profile', 'profileType~profile', 'sector', 'occupation', 'profileMedia.avatarUrl~profile', 'profileMedia.coverImageUrl~profile']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode~profile', 'profileType~profile', 'sector', 'occupation', 'profileMedia.avatarUrl~profile', 'profileMedia.coverImageUrl~profile']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode~profile', 'profileType~profile', 'sector', 'occupation', 'profileMedia.avatarUrl~profile', 'profileMedia.coverImageUrl~profile']
+test_2#32: code_interpreter N1:= N3:= N5:= m20==
+test_2#33: semantic_rag     N1:= N3:= N5:= m20==
+test_2#34: semantic_rag     N1:= N3:= N5:= m20==
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=10.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'location.exactAddressPublic~Public', 'publicContact.phoneVisible~publicContact', 'publicContact.emailVisible~emailVisible', 'publicContact.phone~publicContact']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=10.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'location.exactAddressPublic~Public', 'publicContact.phoneVisible~publicContact', 'publicContact.emailVisible~emailVisible', 'publicContact.phone~publicContact']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=10.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'location.exactAddressPublic~Public', 'publicContact.phoneVisible~publicContact', 'publicContact.emailVisible~emailVisible', 'publicContact.phone~publicContact']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=10.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'location.exactAddressPublic~Public', 'publicContact.phoneVisible~publicContact', 'publicContact.emailVisible~emailVisible', 'publicContact.phone~publicContact']
+test_2#35: code_interpreter N1:= N3:= N5:= m20==
+test_2#36: semantic_rag     N1:D N3:D N5:D m20==
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=5.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'sector', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=5.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'sector', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=5.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'sector', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=5.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'sector', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+test_2#37: code_interpreter N1:= N3:= N5:= m20==
+test_2#38: semantic_rag     N1:D N3:D N5:D m20==
+[data_engine] route=code_interpreter (dataset_signal+interrogative) | dataset=728_profiles.json (score=7.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'serviceModes~service', 'services', 'location.serviceArea~service', 'profileMedia.avatarUrl~profil']
+[data_engine] route=code_interpreter (dataset_signal+interrogative) | dataset=728_profiles.json (score=7.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'serviceModes~service', 'services', 'location.serviceArea~service', 'profileMedia.avatarUrl~profil']
+[data_engine] route=code_interpreter (dataset_signal+interrogative) | dataset=728_profiles.json (score=7.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'serviceModes~service', 'services', 'location.serviceArea~service', 'profileMedia.avatarUrl~profil']
+[data_engine] route=code_interpreter (dataset_signal+interrogative) | dataset=728_profiles.json (score=7.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'serviceModes~service', 'services', 'location.serviceArea~service', 'profileMedia.avatarUrl~profil']
+test_2#39: code_interpreter N1:= N3:= N5:= m20==
+test_2#40: semantic_rag     N1:= N3:= N5:= m20==
+test_2#41: semantic_rag     N1:= N3:= N5:D m20==
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'appointmentSettings.minimumNoticeHours~minimumNoticeHours', 'appointmentSettings.cancellationNoticeHours~cancellationNoticeHours', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'appointmentSettings.minimumNoticeHours~minimumNoticeHours', 'appointmentSettings.cancellationNoticeHours~cancellationNoticeHours', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'appointmentSettings.minimumNoticeHours~minimumNoticeHours', 'appointmentSettings.cancellationNoticeHours~cancellationNoticeHours', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'appointmentSettings.minimumNoticeHours~minimumNoticeHours', 'appointmentSettings.cancellationNoticeHours~cancellationNoticeHours', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+test_2#42: code_interpreter N1:= N3:= N5:D m20==
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['occupation', 'experience.years~experience', 'experience.credentialSummary', 'profileType~tür', 'type~tür']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['occupation', 'experience.years~experience', 'experience.credentialSummary', 'profileType~tür', 'type~tür']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['occupation', 'experience.years~experience', 'experience.credentialSummary', 'profileType~tür', 'type~tür']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['occupation', 'experience.years~experience', 'experience.credentialSummary', 'profileType~tür', 'type~tür']
+test_2#43: code_interpreter N1:= N3:= N5:= m20==
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['appointmentSettings.defaultDurationMinutes~appointment', 'appointmentSettings.minimumNoticeHours~appointment', 'appointmentSettings.cancellationNoticeHours~appointment', 'appointmentSettings.autoApproveRequests~appointment']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['appointmentSettings.defaultDurationMinutes~appointment', 'appointmentSettings.minimumNoticeHours~appointment', 'appointmentSettings.cancellationNoticeHours~appointment', 'appointmentSettings.autoApproveRequests~appointment']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['appointmentSettings.defaultDurationMinutes~appointment', 'appointmentSettings.minimumNoticeHours~appointment', 'appointmentSettings.cancellationNoticeHours~appointment', 'appointmentSettings.autoApproveRequests~appointment']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['appointmentSettings.defaultDurationMinutes~appointment', 'appointmentSettings.minimumNoticeHours~appointment', 'appointmentSettings.cancellationNoticeHours~appointment', 'appointmentSettings.autoApproveRequests~appointment']
+test_2#44: code_interpreter N1:D N3:D N5:D m20==
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode', 'profileType~profile', 'displayName', 'slug', 'profileMedia.avatarUrl~profile', 'profileMedia.coverImageUrl~profile']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode', 'profileType~profile', 'displayName', 'slug', 'profileMedia.avatarUrl~profile', 'profileMedia.coverImageUrl~profile']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode', 'profileType~profile', 'displayName', 'slug', 'profileMedia.avatarUrl~profile', 'profileMedia.coverImageUrl~profile']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode', 'profileType~profile', 'displayName', 'slug', 'profileMedia.avatarUrl~profile', 'profileMedia.coverImageUrl~profile']
+test_2#45: code_interpreter N1:= N3:= N5:D m20==
+test_2#46: semantic_rag     N1:= N3:= N5:= m20==
+test_2#47: semantic_rag     N1:= N3:= N5:= m20==
+test_2#48: semantic_rag     N1:= N3:= N5:= m20==

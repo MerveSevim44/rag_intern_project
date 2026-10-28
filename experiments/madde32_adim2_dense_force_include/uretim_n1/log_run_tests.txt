@@ -1,0 +1,116 @@
+Model yükleniyor...
+[Foundry] Model yüklendi: qwen2.5-7b-instruct-cuda-gpu:4 | execution provider: CUDAExecutionProvider | cihaz: GPU
+[Foundry] Servis adresi: http://127.0.0.1:54406
+[Foundry] Serviste yüklü modeller: ['qwen2.5-7b-instruct-cuda-gpu:4']
+Model hazır.
+
+Soru seti: C:\Users\merve\Desktop\rag_project\experiments\madde32_adim2_dense_force_include\uretim_n1\sorular.csv
+[36] Soruluyor: weeklyAvailability dizisinde her gün nesnesi hangi alanları (day, active, start, end) içermektedir?
+[retrieval] Cache yuklendi: 911 chunk, embedding matrisi (911, 1024)
+    → 86.6 sn
+
+[38] Soruluyor: Mert Keskin profilinde appointmentSettings.autoApproveRequests neden false olarak ayarlanmış olabilir; Özge Taş'ın aynı alanla farkı nedir?
+    → 47.67 sn
+
+[44] Soruluyor: appointmentSettings içindeki minimumNoticeHours ile cancellationNoticeHours kavramsal olarak birbirinden nasıl ayrılmaktadır?
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['appointmentSettings.defaultDurationMinutes~appointmentSettings', 'appointmentSettings.minimumNoticeHours~appointmentSettings', 'appointmentSettings.cancellationNoticeHours~cancellation', 'appointmentSettings.autoApproveRequests~appointmentSettings']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+# minimumNoticeHours ve cancellationNoticeHours arasındaki farkı hesaplayalım
+result = df.assign(
+    notice_diff=lambda x: x['appointmentSettings.minimumNoticeHours'] - x['appointmentSettings.cancellationNoticeHours']
+)
+
+# minimumNoticeHours ve cancellationNoticeHours farklarının ağırlıklı ortalamasını hesaplayalım
+average_diff = result['notice_diff'].mean()
+
+# minimumNoticeHours ve cancellationNoticeHours farklarının ağırlıklı standart sapmasını hesaplayalım
+std_diff = result['notice_diff'].std()
+
+# minimumNoticeHours ve cancellationNoticeHours farklarının dağılımını görselleştirelim (görünüm için matplotlib kullanabiliriz, ancak soruda bunu istememişsiniz)
+# _ = plt.hist(result['notice_diff'], bins=20)
+
+# sonuçları sözlük olarak döndürelim
+result = {
+    "ortalama fark": average_diff,
+    "standart sapma": std_diff
+}
+[CodeInterpreter] Basarili! Cikti: {'ortalama fark': np.float64(-1.9478021978021978), 'standart sapma': np.float64(10.903226714928662)}
+[llm_client] Para birimi duzeltildi: 'TL' -> '(kaldirildi)'
+    → 41.07 sn
+
+[79] Soruluyor: Zaman ekseninde genişleme ile frekans ekseninde daralma (bant genişliği) arasındaki ters orantı nasıl açıklanmıştır?
+    → 38.47 sn
+
+[82] Soruluyor: Zamanda çarpımın frekansta konvolüsyona karşılık geldiği özellik hangi türetme ile gösterilmiştir?
+    → 29.08 sn
+
+[203] Soruluyor: GDPR kapsamında kişisel verilerin azami saklama süresi ne kadardır?
+    → 42.27 sn
+
+[207] Soruluyor: Wavelet dönüşümünün zaman-frekans çözünürlüğü avantajı nedir?
+    → 38.5 sn
+
+[214] Soruluyor: airports.json veri setindeki Türkiye'ye ait havaalanlarının IATA kodları nelerdir?
+    → 37.51 sn
+
+[215] Soruluyor: us-states veri setinde her eyaletin nüfusu kaç olarak belirtilmiştir?
+[data_engine] route=code_interpreter (dataset_signal+interrogative) | dataset=us-states-with-detail.json (score=3.0, best_score, ambiguous=False) | schema_cols=[]
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = None
+[CodeInterpreter] Hata alindi (1. deneme): ValueError: Kod çalıştırıldı ancak 'result' değişkenine bir değer atanmadı. Lütfen sonucu 'result = ...' şeklinde atayın.
+[CodeInterpreter] Deneme 2/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['population']
+[CodeInterpreter] Hata alindi (2. deneme): KeyError: 'population'
+[CodeInterpreter] Deneme 3/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['population']
+[CodeInterpreter] Hata alindi (3. deneme): KeyError: 'population'
+[CodeInterpreter] 3 deneme basarisiz oldu. Son hata: KeyError: 'population'
+    → 89.36 sn
+
+[221] Soruluyor: test2.txt hikâyesinde anlatıcının kız kardeşinin adı nedir?
+    → 54.4 sn
+
+[223] Soruluyor: 728_profiles veri setinde yer alan gerçek telefon numaralarının doğrulama yöntemi nedir?
+    → 37.22 sn
+
+[231] Soruluyor: airports.json veri setinin 2026 güncellemesinde eklenen havaalanları hangileridir?
+[data_engine] route=code_interpreter (dataset_signal+interrogative) | dataset=airports.json (score=3.0, best_score, ambiguous=False) | schema_cols=[]
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+# Havaalanlarının güncellemelerini belirlemek için önce mevcut havaalanları bulalım
+current_airports = df
+
+# 2026 güncellemesinde eklenen havaalanları bulmak için tarih bilgisine bakmalıyız.
+# Ancak veri setinde tarih bilgisi bulunmuyor, bu nedenle 2026 güncellemesinde eklenen havaalanları
+# mevcut havaalanlardan ayırt etmek için bir kriter belirleyelim.
+# Burada 2026 güncellemesinde eklenen havaalanları temsil edecek bir kriter belirleyebiliriz.
+# Örneğin, 2026 güncellemesinde eklenen havaalanların "code" sütununda bir marka işareti olabilir.
+
+# 2026 güncellemesinde eklenen havaalanları temsil edecek bir kriter belirleyelim.
+# Örneğin, "code" sütununda "NEW_" prefiksini taşıyan havaalanları 2026 güncellemesinde eklenen havaalanlar olarak kabul edelim.
+new_airports = df[df['code'].str.startswith('NEW_')]
+
+# Sonuçları 'result' değişkenine atıyoruz.
+result = new_airports[['code', 'name', 'city', 'country']]
+[CodeInterpreter] Basarili ama KAYIT BULUNAMADI (bos filtre=True). Cikti: Empty DataFrame
+Columns: [code, name, city, country]
+Index: []
+    → 35.53 sn
+
+[232] Soruluyor: us-states veri setinde en son hangi tarihte eyalet sınırı değişikliği kaydedilmiştir?
+[data_engine] route=code_interpreter (dataset_signal+interrogative) | dataset=us-states-with-detail.json (score=3.0, best_score, ambiguous=False) | schema_cols=['date~tarih']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df[df['borders'].notna()]['founded'].idxmax()
+result = df.loc[result, 'name']
+[CodeInterpreter] Basarili! Cikti: Hawaii
+    → 15.12 sn
+
+
+Tamamlandı. 13 soru test edildi.
+Sonuçlar: C:\Users\merve\Desktop\rag_project\experiments\madde32_adim2_dense_force_include\uretim_n1\sonuclari.csv
+Semantik doğrulama (3 sandbox sorusu): ok=3 objection=0 failed=0 not_run=0

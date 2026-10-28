@@ -1,0 +1,45 @@
+id,zorluk,soru,beklenen_kaynak,dokumanda_var_mi,referans_cevap,set
+1,Kolay,G4.1 dilbilgisinde VT kümesinin elemanları nelerdir?,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet,,test_1
+11,Orta,Bir dilin belirgin (unambiguous) olması ne anlama gelir?,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet,,test_1
+26,Orta,"Örnek 5'teki G_4.5.1 dilbilgisinin kuralları, L_4.5.1={a^2k b^n c^2n d^k | k≥1, n≥1} dilini nasıl üretir?",8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet,,test_1
+29,Zor,Örnek 8'deki G_S.4.8.1 dilbilgisinin türettiği L_S.4.8.1 dilinde üs olarak neden 2k+1 kullanılmıştır; B=>bbBdd|C kuralı bunu nasıl sağlar?,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet,,test_1
+30,Zor,"G4.3 dilbilgisinde X=>aXbb|aZbb|abb ve Z=>Zb|Xb kuralları birlikte çalışarak L(G4.3)={a^n b^m c^k | n≥1, k≥1, m≥2n} koşulunu nasıl sağlar?",8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet,,test_1
+31,Kolay,728_profiles.json dosyasındaki schemaVersion değeri nedir ve datasetName alanı veri setini nasıl tanımlıyor?,728_profiles.json,Evet,,test_2
+36,Kolay,"weeklyAvailability dizisinde her gün nesnesi hangi alanları (day, active, start, end) içermektedir?",728_profiles.json,Evet,,test_2
+38,Orta,Mert Keskin profilinde appointmentSettings.autoApproveRequests neden false olarak ayarlanmış olabilir; Özge Taş'ın aynı alanla farkı nedir?,728_profiles.json,Evet,,test_2
+41,Orta,"searchKeywords dizisi bir profildeki hangi diğer alanlardan (sector, occupation, services, location) türetilmiş görünmektedir?",728_profiles.json,Evet,,test_2
+42,Orta,Emre Korkmaz ve Umut Aslan profillerinin minimumNoticeHours ve cancellationNoticeHours değerlerini bir çubuk grafikle karşılaştırdığınızda nasıl bir fark ortaya çıkar?,728_profiles.json,Evet,,test_2
+44,Orta,appointmentSettings içindeki minimumNoticeHours ile cancellationNoticeHours kavramsal olarak birbirinden nasıl ayrılmaktadır?,728_profiles.json,Evet,,test_2
+45,Orta,slug alanı displayName ve profileCode alanlarından nasıl bir kurala göre oluşturulmuş görünmektedir? Örnek profil üzerinden gösterin.,728_profiles.json,Evet,,test_2
+51,Zor,sectorDistribution içindeki 22 sektörün profil sayılarını gösteren bir grafik oluşturduğunuzda toplamın statistics.profileCount değeri olan 728'e eşit olup olmadığı nasıl doğrulanır?,728_profiles.json,Evet,,test_2
+54,Zor,profileCode alanının 'DB-' önekli 8 karakterlik alfanümerik yapısı ile slug alanındaki kod parçası arasındaki ilişki nasıl kurulmaktadır; bu iki alan birlikte profilin benzersizliğini nasıl garanti eder?,728_profiles.json,Evet,,test_2
+56,Zor,"schemaVersion 1.1 olarak belirtilmiş olması, veri setinin ileride hangi alanlarda versiyon değişikliğine gidebileceğine dair ne tür bir çıkarım yapılmasına imkan tanır?",728_profiles.json,Evet,,test_2
+60,Zor,Profillerin deneyim yıllarını (experience.years) bir histogramla görselleştirdiğinizde veri setindeki deneyim dağılımı nasıl bir eğilim göstermektedir?,728_profiles.json,Evet,,test_2
+76,Orta,Duallik (duality) özelliği ileri ve ters dönüşümlerin benzerliğinden nasıl yararlanmaktadır?,lsarSist-H8_FourierTransform.pdf,Evet,,test_3
+78,Orta,Ölçekleme (scaling) özelliğine göre |a|>1 olduğunda zaman ve frekans eksenlerinde ne tür bir değişim meydana gelir?,lsarSist-H8_FourierTransform.pdf,Evet,,test_3
+79,Orta,Zaman ekseninde genişleme ile frekans ekseninde daralma (bant genişliği) arasındaki ters orantı nasıl açıklanmıştır?,lsarSist-H8_FourierTransform.pdf,Evet,,test_3
+82,Orta,Zamanda çarpımın frekansta konvolüsyona karşılık geldiği özellik hangi türetme ile gösterilmiştir?,lsarSist-H8_FourierTransform.pdf,Evet,,test_3
+87,Zor,Nedensel üstel işaretin genlik yanıtı |X(jω)|=1/√(Re{a}²+(ω+Im{a})²) ifadesinde Re{a} ve Im{a} terimleri fiziksel olarak neyi temsil eder ve a=1 için genlik-faz grafiklerinin şekli nasıl yorumlanır?,lsarSist-H8_FourierTransform.pdf,Evet,,test_3
+89,Zor,"Sinüzoidal genlik modülasyonu örneğinde ω1<<ω0 varsayımının demodülasyon sürecinde alçak geçiren filtreleme adımı için neden gerekli olduğunu, Y(ω) spektrumundaki F(ω-ω0) ve F(ω+ω0) bileşenlerinin konumu üzerinden açıklayınız.",lsarSist-H8_FourierTransform.pdf,Evet,,test_3
+92,Kolay,Anlatıcının Oda No: 304'ü kiraladığı şehir ve mevsim hangisidir?,test2.txt,Evet,,test_4
+98,Orta,Anlatıcının saatin 03.13'e gelmesini fark etmesi ile önceki günlük kayıtlarında belirtilen 03.14 tıkırtısı arasındaki zamansal gerilim nasıl kurgulanmıştır?,test2.txt,Evet,,test_4
+107,Kolay,728_profiles.json veri setinde profillerin ortalama randevu ücreti kaç TL'dir?,-,Hayır,,test_5
+109,Orta,728_profiles.json veri setindeki profillerin müşteri memnuniyet puanı ortalaması kaçtır?,-,Hayır,,test_5
+110,Orta,mock-transactions.json dosyasında işlemlerin kredi kartı numaraları hangi alanda tutulmaktadır?,-,Hayır,,test_5
+111,Zor,728_profiles.json veri setinde profillerin IBAN bilgileri hangi şema alanında saklanır?,-,Hayır,,test_5
+115,Orta,Oda No: 304 hikayesinde anlatıcının mesleği nedir?,-,Hayır,,test_5
+203,Negatif,GDPR kapsamında kişisel verilerin azami saklama süresi ne kadardır?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,test_negative
+207,Negatif,Wavelet dönüşümünün zaman-frekans çözünürlüğü avantajı nedir?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,test_negative
+211,Negatif,"""Havacılık ve Uzay"" sektöründeki profillerin ortalama deneyim yılı kaçtır?",-,Hayır,Bu bilgi dokümanlarda bulunamadı.,test_negative
+214,Negatif,airports.json veri setindeki Türkiye'ye ait havaalanlarının IATA kodları nelerdir?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,test_negative
+215,Negatif,us-states veri setinde her eyaletin nüfusu kaç olarak belirtilmiştir?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,test_negative
+216,Negatif,728_profiles veri setinde profillerin kredi puanı (credit score) ortalaması kaçtır?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,test_negative
+220,Negatif,Summer School planında ikinci ay için ayrılan bütçe ne kadardır?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,test_negative
+221,Negatif,test2.txt hikâyesinde anlatıcının kız kardeşinin adı nedir?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,test_negative
+222,Negatif,Z-Dönüşümü ders notlarında 12. haftanın konu başlığı nedir?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,test_negative
+223,Negatif,728_profiles veri setinde yer alan gerçek telefon numaralarının doğrulama yöntemi nedir?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,test_negative
+226,Negatif,mock-transactions veri setinde 2023 yılının en yüksek harcaması hangi kategoridedir?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,test_negative
+228,Negatif,728_profiles veri setine bu ay eklenen yeni profil sayısı kaçtır?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,test_negative
+229,Negatif,Summer School programının 2027 yılı kayıt takvimi nasıldır?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,test_negative
+231,Negatif,airports.json veri setinin 2026 güncellemesinde eklenen havaalanları hangileridir?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,test_negative
+232,Negatif,us-states veri setinde en son hangi tarihte eyalet sınırı değişikliği kaydedilmiştir?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,test_negative

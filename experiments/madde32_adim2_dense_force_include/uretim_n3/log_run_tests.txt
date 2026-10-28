@@ -1,0 +1,306 @@
+Model yükleniyor...
+[Foundry] Model yüklendi: qwen2.5-7b-instruct-cuda-gpu:4 | execution provider: CUDAExecutionProvider | cihaz: GPU
+[Foundry] Servis adresi: http://127.0.0.1:54406
+[Foundry] Serviste yüklü modeller: ['qwen2.5-7b-instruct-cuda-gpu:4']
+Model hazır.
+
+Soru seti: C:\Users\merve\Desktop\rag_project\experiments\madde32_adim2_dense_force_include\uretim_n3\sorular.csv
+[11] Soruluyor: Bir dilin belirgin (unambiguous) olması ne anlama gelir?
+[retrieval] Cache yuklendi: 911 chunk, embedding matrisi (911, 1024)
+    → 86.57 sn
+
+[31] Soruluyor: 728_profiles.json dosyasındaki schemaVersion değeri nedir ve datasetName alanı veri setini nasıl tanımlıyor?
+    → 41.09 sn
+
+[36] Soruluyor: weeklyAvailability dizisinde her gün nesnesi hangi alanları (day, active, start, end) içermektedir?
+    → 42.43 sn
+
+[38] Soruluyor: Mert Keskin profilinde appointmentSettings.autoApproveRequests neden false olarak ayarlanmış olabilir; Özge Taş'ın aynı alanla farkı nedir?
+    → 40.3 sn
+
+[44] Soruluyor: appointmentSettings içindeki minimumNoticeHours ile cancellationNoticeHours kavramsal olarak birbirinden nasıl ayrılmaktadır?
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['appointmentSettings.defaultDurationMinutes~appointmentSettings', 'appointmentSettings.minimumNoticeHours~appointmentSettings', 'appointmentSettings.cancellationNoticeHours~appointmentSettings', 'appointmentSettings.autoApproveRequests~appointmentSettings']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+# minimumNoticeHours ve cancellationNoticeHours arasındaki farkı hesaplayalım
+result = df.assign(
+    notice_diff=lambda x: x['appointmentSettings.minimumNoticeHours'] - x['appointmentSettings.cancellationNoticeHours']
+)
+
+# minimumNoticeHours ve cancellationNoticeHours farklarının ağırlıklı ortalamasını hesaplayalım
+average_diff = result['notice_diff'].mean()
+
+# minimumNoticeHours ve cancellationNoticeHours farklarının ağırlıklı standart sapmasını hesaplayalım
+std_diff = result['notice_diff'].std()
+
+# minimumNoticeHours ve cancellationNoticeHours farklarının dağılımını görselleştirelim (görünüm için matplotlib kullanabiliriz, ancak soruda bunu istememişsiniz)
+# _ = plt.hist(result['notice_diff'], bins=20)
+
+# sonuçları sözlük olarak döndürelim
+result = {
+    "ortalama fark": average_diff,
+    "standart sapma": std_diff
+}
+[CodeInterpreter] Basarili! Cikti: {'ortalama fark': np.float64(-1.9478021978021978), 'standart sapma': np.float64(10.903226714928662)}
+[llm_client] Para birimi duzeltildi: 'TL' -> '(kaldirildi)'
+    → 27.66 sn
+
+[51] Soruluyor: sectorDistribution içindeki 22 sektörün profil sayılarını gösteren bir grafik oluşturduğunuzda toplamın statistics.profileCount değeri olan 728'e eşit olup olmadığı nasıl doğrulanır?
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=5.0, best_score, ambiguous=False) | schema_cols=['profileCode~profile', 'profileType~profile', 'sector', 'profileMedia.avatarUrl~profile', 'profileMedia.coverImageUrl~profile']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+# Sektorlerin sayısını hesapla
+sector_counts = df['sector'].value_counts()
+
+# Sektor sayısını toplam profildeki sayıyla karşılaştır
+total_profiles = df.shape[0]
+
+# Eşitlik kontrolü
+result = {
+    'sectors': sector_counts.to_dict(),
+    'total_profiles': total_profiles,
+    'is_equal': sector_counts.sum() == total_profiles
+}
+[CodeInterpreter] Basarili! Cikti: {'sectors': {'Sağlık': 40, 'Spor ve Fitness': 40, 'Eğitim ve Özel Ders': 40, 'Fizyoterapi ve Rehabilitasyon': 32, 'Psikoloji ve Danışmanlık': 32, 'Ağız ve Diş Sağlığı': 32, 'Güzellik ve Kişisel Bakım': 32, 'Beslenme ve Sağlıklı Yaşam': 32, 'Kuaför ve Berber': 32, 'Dil Eğitimi': 32, 'Sanat ve Hobi': 32, 'Teknoloji ve Yazılım': 32, 'Kreatif ve Tasarım': 32, 'İş ve Kariyer': 32, 'Hukuk ve Mali Hizmetler': 32, 'Teknik Servis ve Bakım': 32, 'Ev ve Yerinde Hizmet': 32, 'Otomotiv': 32, 'Evcil Hayvan Hizmetleri': 32, 'Etkinlik ve Organizasyon': 32, 'Kamu ve STK': 32, 'İşe Alım ve Görüşme': 32}, 'total_profiles': 728, 'is_equal': np.True_}
+    → 36.93 sn
+
+[54] Soruluyor: profileCode alanının 'DB-' önekli 8 karakterlik alfanümerik yapısı ile slug alanındaki kod parçası arasındaki ilişki nasıl kurulmaktadır; bu iki alan birlikte profilin benzersizliğini nasıl garanti eder?
+    → 39.16 sn
+
+[56] Soruluyor: schemaVersion 1.1 olarak belirtilmiş olması, veri setinin ileride hangi alanlarda versiyon değişikliğine gidebileceğine dair ne tür bir çıkarım yapılmasına imkan tanır?
+    → 60.87 sn
+
+[78] Soruluyor: Ölçekleme (scaling) özelliğine göre |a|>1 olduğunda zaman ve frekans eksenlerinde ne tür bir değişim meydana gelir?
+    → 36.48 sn
+
+[79] Soruluyor: Zaman ekseninde genişleme ile frekans ekseninde daralma (bant genişliği) arasındaki ters orantı nasıl açıklanmıştır?
+    → 42.55 sn
+
+[82] Soruluyor: Zamanda çarpımın frekansta konvolüsyona karşılık geldiği özellik hangi türetme ile gösterilmiştir?
+    → 37.73 sn
+
+[87] Soruluyor: Nedensel üstel işaretin genlik yanıtı |X(jω)|=1/√(Re{a}²+(ω+Im{a})²) ifadesinde Re{a} ve Im{a} terimleri fiziksel olarak neyi temsil eder ve a=1 için genlik-faz grafiklerinin şekli nasıl yorumlanır?
+    → 47.98 sn
+
+[92] Soruluyor: Anlatıcının Oda No: 304'ü kiraladığı şehir ve mevsim hangisidir?
+    → 34.99 sn
+
+[107] Soruluyor: 728_profiles.json veri setinde profillerin ortalama randevu ücreti kaç TL'dir?
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['appointmentSettings.defaultDurationMinutes'].mean()
+[CodeInterpreter] Basarili! Cikti: 45.11675824175824
+[llm_client] Para birimi duzeltildi: 'TL' -> '(kaldirildi)'
+[llm_client] Para birimi duzeltildi: 'TL' -> '(kaldirildi)'
+    → 30.72 sn
+
+[109] Soruluyor: 728_profiles.json veri setindeki profillerin müşteri memnuniyet puanı ortalaması kaçtır?
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df.shape[0] / len(df)
+[CodeInterpreter] Semantik dogrulama itirazi: Koda uygulanan formül, sorudan istenen puanın ortalamasını hesaplamak için gerekli değildir. Verilen kod, veri setinin boyunu kendine bölüyor ve 1.0'u veriyor. Bu, doğru bir sonuç değil. Puanların ortalamasını bulmak için `df[' müşteri memnuniyet puanı'].mean()` şeklinde bir kod kullanmalısınız.
+[CodeInterpreter] Deneme 2/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['müşteri memnuniyet puanı'].mean()
+[CodeInterpreter] Hata alindi (2. deneme): KeyError: 'müşteri memnuniyet puanı'
+[CodeInterpreter] Deneme 3/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['customer_satisfaction_score'].mean()
+[CodeInterpreter] Hata alindi (3. deneme): KeyError: 'customer_satisfaction_score'
+[CodeInterpreter] Dogrulama uyarili sonuc donduruluyor.
+    ! doğrulama: objection — context [1] [DOĞRULANAMAYAN SONUÇ]
+    → 82.26 sn
+
+[110] Soruluyor: mock-transactions.json dosyasında işlemlerin kredi kartı numaraları hangi alanda tutulmaktadır?
+    → 55.57 sn
+
+[115] Soruluyor: Oda No: 304 hikayesinde anlatıcının mesleği nedir?
+    → 48.03 sn
+
+[203] Soruluyor: GDPR kapsamında kişisel verilerin azami saklama süresi ne kadardır?
+    → 55.27 sn
+
+[207] Soruluyor: Wavelet dönüşümünün zaman-frekans çözünürlüğü avantajı nedir?
+    → 45.33 sn
+
+[211] Soruluyor: "Havacılık ve Uzay" sektöründeki profillerin ortalama deneyim yılı kaçtır?
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=7.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'sector~sektör', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil', 'experience.years~deneyim']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df[df['sector'] == 'Havacılık ve Uzay']['experience.years'].mean()
+[CodeInterpreter] Basarili ama KAYIT BULUNAMADI (bos filtre=True). Cikti: nan
+    → 22.3 sn
+
+[214] Soruluyor: airports.json veri setindeki Türkiye'ye ait havaalanlarının IATA kodları nelerdir?
+    → 42.0 sn
+
+[215] Soruluyor: us-states veri setinde her eyaletin nüfusu kaç olarak belirtilmiştir?
+[data_engine] route=code_interpreter (dataset_signal+interrogative) | dataset=us-states-with-detail.json (score=3.0, best_score, ambiguous=False) | schema_cols=[]
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = None
+[CodeInterpreter] Hata alindi (1. deneme): ValueError: Kod çalıştırıldı ancak 'result' değişkenine bir değer atanmadı. Lütfen sonucu 'result = ...' şeklinde atayın.
+[CodeInterpreter] Deneme 2/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['population']
+[CodeInterpreter] Hata alindi (2. deneme): KeyError: 'population'
+[CodeInterpreter] Deneme 3/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['population']
+[CodeInterpreter] Hata alindi (3. deneme): KeyError: 'population'
+[CodeInterpreter] 3 deneme basarisiz oldu. Son hata: KeyError: 'population'
+    → 90.81 sn
+
+[216] Soruluyor: 728_profiles veri setinde profillerin kredi puanı (credit score) ortalaması kaçtır?
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['creditScore'].mean()
+[CodeInterpreter] Hata alindi (1. deneme): KeyError: 'creditScore'
+[CodeInterpreter] Deneme 2/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['creditScore'].mean()
+[CodeInterpreter] Hata alindi (2. deneme): KeyError: 'creditScore'
+[CodeInterpreter] Deneme 3/3...
+[CodeInterpreter] Uretilen Kod:
+# Kredi puanı sütununun varlığını kontrol etmek için ilk 5 satırı inceleyelim
+print(df.head())
+
+# Eğer kredi puanı sütunu mevcut değilse, hata verecek. 
+# Eğer mevcutsa, sütunu mean() metoduyla ortalama hesaplayalım
+if 'creditScore' in df.columns:
+    result = df['creditScore'].mean()
+else:
+    result = None
+[CodeInterpreter] Hata alindi (3. deneme): ValueError: Kod çalıştırıldı ancak 'result' değişkenine bir değer atanmadı. Lütfen sonucu 'result = ...' şeklinde atayın.
+[CodeInterpreter] 3 deneme basarisiz oldu. Son hata: ValueError: Kod çalıştırıldı ancak 'result' değişkenine bir değer atanmadı. Lütfen sonucu 'result = ...' şeklinde atayın.
+    → 127.91 sn
+
+[220] Soruluyor: Summer School planında ikinci ay için ayrılan bütçe ne kadardır?
+    → 44.27 sn
+
+[221] Soruluyor: test2.txt hikâyesinde anlatıcının kız kardeşinin adı nedir?
+    → 53.74 sn
+
+[222] Soruluyor: Z-Dönüşümü ders notlarında 12. haftanın konu başlığı nedir?
+    → 55.3 sn
+
+[223] Soruluyor: 728_profiles veri setinde yer alan gerçek telefon numaralarının doğrulama yöntemi nedir?
+    → 50.3 sn
+
+[226] Soruluyor: mock-transactions veri setinde 2023 yılının en yüksek harcaması hangi kategoridedir?
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=mock-transactions.json (score=4.0, best_score, ambiguous=False) | schema_cols=['category~kategori']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+# En yüksek harcama kategorisi bulmak için gerekli adımları izleyelim
+
+# 1. Tarih sütunu 2023 yılına ait satırları filtreleyelim
+yil_2023 = df[df['date'].str.startswith('2023')]
+
+# 2. Değer sütunu (amount) üzerinde en yüksek harcama bulalım
+en_yuksek_harcama = yil_2023['amount'].max()
+
+# 3. En yüksek harcama değerine sahip satırı bulalım
+en_yuksek_harcama_satir = yil_2023[yil_2023['amount'] == en_yuksek_harcama]
+
+# 4. En yüksek harcama satırındaki kategori bilgisini alalım
+result = {
+    'category': en_yuksek_harcama_satir['category'].values[0],
+    'currency': en_yuksek_harcama_satir['currency'].values[0],
+    'amount': en_yuksek_harcama
+}
+[CodeInterpreter] Hata alindi (1. deneme): IndexError: index 0 is out of bounds for axis 0 with size 0
+[CodeInterpreter] Deneme 2/3...
+[CodeInterpreter] Uretilen Kod:
+# En yüksek harcama kategorisi bulmak için gerekli adımları izleyelim
+
+# 1. Tarih sütunu 2023 yılına ait satırları filtreleyelim
+yil_2023 = df[df['date'].str.startswith('2023')]
+
+# 2. Değer sütunu (amount) üzerinde en yüksek harcama bulalım
+en_yuksek_harcama = yil_2023['amount'].max()
+
+# 3. En yüksek harcama değerine sahip satırı bulalım
+en_yuksek_harcama_satir = yil_2023[yil_2023['amount'] == en_yuksek_harcama]
+
+# 4. En yüksek harcama satırındaki kategori bilgisini alalım
+result = {
+    'category': en_yuksek_harcama_satir['category'].values[0],
+    'currency': en_yuksek_harcama_satir['currency'].values[0],
+    'amount': en_yuksek_harcama
+}
+[CodeInterpreter] Hata alindi (2. deneme): IndexError: index 0 is out of bounds for axis 0 with size 0
+[CodeInterpreter] Deneme 3/3...
+[CodeInterpreter] Uretilen Kod:
+# En yüksek harcama kategorisi bulmak için gerekli adımları izleyelim
+
+# 1. Tarih sütunu 2023 yılına ait satırları filtreleyelim
+yil_2023 = df[df['date'].str.startswith('2023')]
+
+# 2. En yüksek harcama değerini bulalım
+en_yuksek_harcama = yil_2023['amount'].max()
+
+# 3. En yüksek harcama değerine sahip satırı bulalım
+en_yuksek_harcama_satir = yil_2023[yil_2023['amount'] == en_yuksek_harcama]
+
+# 4. En yüksek harcama satırındaki kategori bilgisini alalım
+result = {
+    'category': en_yuksek_harcama_satir['category'].values[0],
+    'currency': en_yuksek_harcama_satir['currency'].values[0],
+    'amount': en_yuksek_harcama
+}
+[CodeInterpreter] Hata alindi (3. deneme): IndexError: index 0 is out of bounds for axis 0 with size 0
+[CodeInterpreter] 3 deneme basarisiz oldu. Son hata: IndexError: index 0 is out of bounds for axis 0 with size 0
+    → 158.11 sn
+
+[228] Soruluyor: 728_profiles veri setine bu ay eklenen yeni profil sayısı kaçtır?
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil', 'date~ay']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df[df['profileCode'].str.contains('2023-10')]  # Eklenen yeni profilleri filtrele
+result = len(result)  # Sonuç sayısını say
+[CodeInterpreter] Basarili ama KAYIT BULUNAMADI (bos filtre=True). Cikti: 0
+    → 30.71 sn
+
+[229] Soruluyor: Summer School programının 2027 yılı kayıt takvimi nasıldır?
+    → 54.1 sn
+
+[231] Soruluyor: airports.json veri setinin 2026 güncellemesinde eklenen havaalanları hangileridir?
+[data_engine] route=code_interpreter (dataset_signal+interrogative) | dataset=airports.json (score=3.0, best_score, ambiguous=False) | schema_cols=[]
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+# Havaalanlarının güncellemelerini belirlemek için önce mevcut havaalanları bulalım
+current_airports = df
+
+# 2026 güncellemesinde eklenen havaalanları bulmak için tarih bilgisine bakmalıyız.
+# Ancak veri setinde tarih bilgisi bulunmuyor, bu nedenle 2026 güncellemesinde eklenen havaalanları
+# mevcut havaalanlardan ayırt etmek için bir kriter belirleyelim.
+# Burada 2026 güncellemesinde eklenen havaalanları temsil edecek bir kriter belirleyebiliriz.
+# Örneğin, 2026 güncellemesinde eklenen havaalanların "code" sütununda bir marka işareti olabilir.
+
+# 2026 güncellemesinde eklenen havaalanları temsil edecek bir kriter belirleyelim.
+# Örneğin, "code" sütununda "NEW_" prefiksini taşıyan havaalanları 2026 güncellemesinde eklenen havaalanlar olarak kabul edelim.
+new_airports = df[df['code'].str.startswith('NEW_')]
+
+# Sonuçları 'result' değişkenine atıyoruz.
+result = new_airports[['code', 'name', 'city', 'country']]
+[CodeInterpreter] Basarili ama KAYIT BULUNAMADI (bos filtre=True). Cikti: Empty DataFrame
+Columns: [code, name, city, country]
+Index: []
+    → 38.08 sn
+
+[232] Soruluyor: us-states veri setinde en son hangi tarihte eyalet sınırı değişikliği kaydedilmiştir?
+[data_engine] route=code_interpreter (dataset_signal+interrogative) | dataset=us-states-with-detail.json (score=3.0, best_score, ambiguous=False) | schema_cols=['date~tarih']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df[df['borders'].notna()]['founded'].idxmax()
+result = df.loc[result, 'name']
+[CodeInterpreter] Basarili! Cikti: Hawaii
+    → 15.2 sn
+
+
+Tamamlandı. 32 soru test edildi.
+Sonuçlar: C:\Users\merve\Desktop\rag_project\experiments\madde32_adim2_dense_force_include\uretim_n3\sonuclari.csv
+Semantik doğrulama (8 sandbox sorusu): ok=7 objection=1 failed=0 not_run=0

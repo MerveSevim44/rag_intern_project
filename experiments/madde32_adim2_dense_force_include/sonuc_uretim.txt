@@ -1,0 +1,124 @@
+Referans (N=0) koşulan soru: 44
+
+N=1: bağlamı değişen 13 soru | geçişler: FN->FN=1, FN->TP=1, FP->FP=1, TN->FP=1, TN->TN=6, TP->TP=3
+   test_2#36: TP -> TP
+   test_2#38: TP -> TP
+   test_2#44: TP -> TP
+   test_3#79: FN -> TP  <-- SINIF DEĞİŞTİ
+      N=0: 'Bu bilgi dokümanlarda bulunamadı.'
+      N=1: "Zaman domain'deki f(t) fonksiyonunun genişlemesi, frekans domain'deki spektrumun daralmasına eşdeğerdir. Bu, ölçekleme özelliğiyle açıklanabilir: |a| "
+   test_3#82: FN -> FN
+      N=0: 'Bu bilgi dokümanlarda bulunamadı.'
+      N=1: 'Bu bilgi dokümanlarda bulunamadı.'
+   test_negative#203: TN -> TN
+   test_negative#207: TN -> TN
+   test_negative#214: TN -> FP  <-- SINIF DEĞİŞTİ
+      N=0: 'Bu bilgi dokümanlarda bulunamadı.'
+      N=1: 'IST'
+   test_negative#215: TN -> TN
+   test_negative#221: TN -> TN
+   test_negative#223: TN -> TN
+   test_negative#231: TN -> TN
+   test_negative#232: FP -> FP
+
+N=3: bağlamı değişen 32 soru | geçişler: FN->FN=2, FN->TP=1, FP->FP=2, HATA->TP=1, TN->FP=2, TN->TN=15, TP->TP=9
+   test_1#11: HATA -> TP  <-- SINIF DEĞİŞTİ
+      N=0: 'HATA: Embedding olusturulamadi: llama runner process has terminated: %!w(<nil>) (status code: 500)'
+      N=3: 'Bir dilin belirgin olması, dilin her bir cümle için birden çok yoluyla türetilebileceği anlamına gelmez. Bu durumda, dilin her bir cümle için sadece b'
+   test_2#31: TP -> TP
+   test_2#36: TP -> TP
+   test_2#38: TP -> TP
+   test_2#44: TP -> TP
+   test_2#51: TP -> TP
+   test_2#54: TP -> TP
+   test_2#56: FN -> FN
+   test_3#78: TP -> TP
+   test_3#79: FN -> TP  <-- SINIF DEĞİŞTİ
+      N=0: 'Bu bilgi dokümanlarda bulunamadı.'
+      N=3: 'Zaman ekseninde genişlenmesi, frekans ekseninde daralmasına eşittir. Bu, ölçekleme özelliği ile açıklanabilir: |a| > 1 olduğunda zaman ekseninde sıkış'
+   test_3#82: FN -> FN
+      N=0: 'Bu bilgi dokümanlarda bulunamadı.'
+      N=3: 'Bu bilgi dokümanlarda bulunamadı.'
+   test_3#87: TP -> TP
+   test_4#92: TP -> TP
+   test_5#107: FP -> FP
+   test_5#109: TN -> TN
+   test_5#110: TN -> TN
+   test_5#115: TN -> TN
+   test_negative#203: TN -> TN
+   test_negative#207: TN -> TN
+   test_negative#211: TN -> TN
+   test_negative#214: TN -> FP  <-- SINIF DEĞİŞTİ
+      N=0: 'Bu bilgi dokümanlarda bulunamadı.'
+      N=3: "IST, JFK ve ATL havaalanlarının IATA kodları veri setinde bulunmakta ancak sadece IST kodu Türkiye'a ait. JFK ve ATL Amerika Birleşik Devletleri'ndedi"
+   test_negative#215: TN -> TN
+   test_negative#216: TN -> TN
+   test_negative#220: TN -> TN
+   test_negative#221: TN -> TN
+   test_negative#222: TN -> FP  <-- SINIF DEĞİŞTİ
+      N=0: 'Z-Dönüşümü ders notlarında 12. haftanın konu başlığına herhangi bir bilgi bulunmadığından'
+      N=3: '12. hafta konu başlığına ilişkin bilgi'
+   test_negative#223: TN -> TN
+   test_negative#226: TN -> TN
+   test_negative#228: TN -> TN
+   test_negative#229: TN -> TN
+   test_negative#231: TN -> TN
+   test_negative#232: FP -> FP
+
+N=5: bağlamı değişen 44 soru | geçişler: FN->FN=2, FN->TP=1, FP->FP=2, HATA->TP=1, TN->FP=3, TN->TN=15, TP->TP=20
+   test_1#1: TP -> TP
+   test_1#11: HATA -> TP  <-- SINIF DEĞİŞTİ
+      N=0: 'HATA: Embedding olusturulamadi: llama runner process has terminated: %!w(<nil>) (status code: 500)'
+      N=5: 'Bir dilin belirgin olması, dilin her bir tümcesine sadece bir türetme ağacı karşılık geleceğini ifade eder. Bu, bir dilbilgisinin her bir cümle için b'
+   test_1#26: TP -> TP
+   test_1#29: TP -> TP
+   test_1#30: TP -> TP
+   test_2#31: TP -> TP
+   test_2#36: TP -> TP
+   test_2#38: TP -> TP
+   test_2#41: TP -> TP
+   test_2#42: TP -> TP
+   test_2#44: TP -> TP
+   test_2#45: TP -> TP
+   test_2#51: TP -> TP
+   test_2#54: TP -> TP
+   test_2#56: FN -> FN
+   test_2#60: TP -> TP
+   test_3#76: TP -> TP
+   test_3#78: TP -> TP
+   test_3#79: FN -> TP  <-- SINIF DEĞİŞTİ
+      N=0: 'Bu bilgi dokümanlarda bulunamadı.'
+      N=5: 'Zaman ekseninde genişlenmesi, frekans ekseninde daralmasına eşittir. Bu, ölçekleme özelliği ile açıklanabilir: |a| > 1 olduğunda zaman ekseninde sıkış'
+   test_3#82: FN -> FN
+      N=0: 'Bu bilgi dokümanlarda bulunamadı.'
+      N=5: 'Bu bilgi dokümanlarda bulunamadı.'
+   test_3#87: TP -> TP
+   test_3#89: TP -> TP
+   test_4#92: TP -> TP
+   test_4#98: TP -> TP
+   test_5#107: FP -> FP
+   test_5#109: TN -> TN
+   test_5#110: TN -> TN
+   test_5#111: TN -> TN
+   test_5#115: TN -> TN
+   test_negative#203: TN -> TN
+   test_negative#207: TN -> TN
+   test_negative#211: TN -> TN
+   test_negative#214: TN -> FP  <-- SINIF DEĞİŞTİ
+      N=0: 'Bu bilgi dokümanlarda bulunamadı.'
+      N=5: "IST, JFK'dan biri Türkiye'ye ait değil."
+   test_negative#215: TN -> TN
+   test_negative#216: TN -> TN
+   test_negative#220: TN -> TN
+   test_negative#221: TN -> TN
+   test_negative#222: TN -> FP  <-- SINIF DEĞİŞTİ
+      N=0: 'Z-Dönüşümü ders notlarında 12. haftanın konu başlığına herhangi bir bilgi bulunmadığından'
+      N=5: '12. hafta konu başlığına ilişkin bilgi'
+   test_negative#223: TN -> TN
+   test_negative#226: TN -> FP  <-- SINIF DEĞİŞTİ
+      N=0: 'Bu bilgi dokümanlarda bulunamadı.'
+      N=5: 'Entertainment kategoridesinde yapılmış en yüksek harcama bulunmaktadır. Bu harcama Netflix aboneliği olarak tanımlanmıştır.'
+   test_negative#228: TN -> TN
+   test_negative#229: TN -> TN
+   test_negative#231: TN -> TN
+   test_negative#232: FP -> FP

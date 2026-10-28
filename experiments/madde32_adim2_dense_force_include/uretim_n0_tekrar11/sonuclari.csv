@@ -1,0 +1,87 @@
+id,zorluk,soru,beklenen_kaynak,dokumanda_var_mi,referans_cevap,set,cevap,bulunan_kaynaklar,sure_sn,context,dogrulama_durumu
+11,Orta,Bir dilin belirgin (unambiguous) olması ne anlama gelir?,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet,,test_1,"Bir dilin belirgin olması, dilin her bir cümle için birden çok yorum veya anlama olmamasını ifade eder. Bu, bir cümle için birden fazla farklı anlamda ayrıştırmanın veya türetmenin olmamasını gerektirir. Bu durum, dilin anlaşılmaması veya anlaşmazlıkların ortadan kaldırılmasını sağlar.",8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 10); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 7); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 2); 728_profiles.json ($.profiles[294]),94.25,"[1] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 10
+Soldan ve Sağdan Türetme
+• Yapraklarının etiketleri uç simgeler olan her türetme ağacına dilin
+bir tümcesi karşı gelir. Eğer dil belirgin (unambiguous) bir dil ise
+de, dilin her tümcesine bir türetme ağacı karşı gelir. Eğer dilin bir
+tümcesine birden çok türetme ağacı karşı geliyorsa, dil belirgin
+olmayan (ambiguous) bir dildir. Belirginlik dilbilgisinin ve dilin en
+temel özelliklerinden biridir.
+• Tümceleri birden çok anlam taşıyan belirgin olmayan dillerin
+uygulamada hiçbir değeri yoktur. Bu nedenle, kullanılan dillerin
+tümünün belirginlik özelliğini sağladığı varsayılacaktır. Buna göre
+dilin her tümcesine bir türetme ağacı, yapraklarının etiketleri uç
+simgeler olan her türetme ağacına da bir tümce karşı geldiğini
+söyleyebiliriz.
+• Dilin her tümcesine bir türetme ağacı karşı geldiği gibi, bir soldan
+türetme, bir de sağdan türetme karşı gelir.
+
+[2] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 7
+4.2 Türetme Ağacı
+• Bir dilbilgisi tarafından türetilen tümcesel yapı ve
+tümceler aşağıdaki gibi gösterilebilir:
+S=>β1=>β2=>β3........ =>βn-1=>βn=>w βi ε V* , w εVT*
+• Bağlamdan-bağımsız dillerin her tümcesel yapısına ve
+her tümcesine bir türetme ya da ayrıştırma ağacı
+(derivation or parsing tree) karşı gelir.
+Örneğin G4.4 tarafından türetilen:
+β = 010A010 tümcesel yapısı ile
+w = 0010100100 tümcesine
+karşı gelen türetme ağaçları Çizim 4.1’de görülmektedir.
+
+[3] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 2
+4.BAĞLAMDAN-BAĞIMSIZ DİLBİLGİSİ
+• Programlama dilleri, derleyiciler, yorumlayıcılar, sözdizim
+çözümleyiciler, aritmetik deyimler, ..vb. birçok yazılım bileşeninin
+bünyesinde yer aldığı için bağlamdan-bağımsız dilbilgisi ve diller ile
+bu dilleri tanıyan makine modeli bilgisayar bilimleri ve mühendisliği
+açısından önem taşır.
+• Bağlamdan bağımsız dilbilgisi bir dörtlüdür.
+VN= Sözdizim değişkenleri kümesi(sonlu bir küme)
+VT=Uç simgeler kümesi (sonlu bir küme)
+VN ve VT ayrık kümelerdir. VN Π VT=Ø
+S: Başlangıç değişkeni S ε VN
+P: Yeniden yazma ya da türetme kuralları
+A=>b A ε VN b ε V*
+
+[4] Kaynak: 728_profiles.json, $.profiles[294]
+profileCode: DB-HABGHQQ3
+synthetic: True
+profileType: individual
+displayName: Selin Dinç
+professionalName: Selin Dinç
+sector: Eğitim ve Özel Ders
+occupation: Türkçe Öğretmeni
+headline: Türkçe, okuduğunu anlama ve sınav hazırlığı
+location.country: Türkiye
+location.city: Ankara
+location.district: Etimesgut
+location.serviceArea: Etimesgut / online
+location.exactAddressPublic: False
+serviceModes[0]: Yüz yüze
+serviceModes[1]: Online
+services[0].name: Sınav hazırlık
+services[0].durationMinutes: 45
+services[0].description: Sınav hazırlık için önceden planlanan birebir randevu.
+services[0].appointmentMode: Yüz yüze
+services[1].name: Dil bilgisi dersi
+services[1].durationMinutes: 60
+services[1].description: Dil bilgisi dersi için önceden planlanan birebir randevu.
+services[1].appointmentMode: Online
+services[2].name: Okuduğunu anlama
+services[2].durationMinutes: 45
+services[2].description: Okuduğunu anlama için önceden planlanan birebir randevu.
+services[2].appointmentMode: Yüz yüze
+experience.years: 3
+experience.credentialSummary: Türkçe öğretmenliği eğitimi
+languages[0]: Türkçe
+languages[1]: İngilizce
+appointmentSettings.defaultDurationMinutes: 45
+appointmentSettings.minimumNoticeHours: 24
+appointmentSettings.cancellationNoticeHours: 6
+appointmentSettings.autoApproveRequests: False
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 17:00
+searchKeywords[1]: Dil bilgisi dersi
+searchKeywords[4]: Okuduğunu anlama […kısaltıldı]",

@@ -1369,12 +1369,22 @@ katman katman ölçüm:
   işaretledi ama 11'i v8'de TP. Fourier PDF'inde GT terimleri Türkçe, metin
   İngilizce ve semboller bozuk; ölçüt bu dosyada güvenilir değil.
 
-**Adım 2 (ölçüm sürüyor):** dense ilk-N chunk'ı hibrit/RRF sırasından bağımsız
-olarak reranker havuzuna eklenir; `RAG_DENSE_FORCE_TOP_N` bayrağıyla açılır,
-varsayılan kapalı (0). Ölçüm: 100 pozitif soruda #79/#82 TP oluyor mu ve yan
-etki var mı; negatif sette yeni giren dense chunk'lar FP üretiyor mu (asıl
-risk); N=1/3/5 hassasiyeti.
-[experiments/madde32_adim2_dense_force_include/](../experiments/madde32_adim2_dense_force_include/).
+**Adım 2 sonucu (2026-10-28) — dense güvenlik slotu:** dense ilk-N chunk'ı
+hibrit/RRF sırasından bağımsız olarak reranker havuzuna eklenir;
+`RAG_DENSE_FORCE_TOP_N` bayrağı, varsayılan kapalı (0).
+[experiments/madde32_adim2_dense_force_include/](../experiments/madde32_adim2_dense_force_include/README.md).
+- Bayrak kapalıyken nihai bağlam madde 20 kaydıyla 147/147 aynı.
+- **#79: FN → TP** (N=1, 3, 5). **#82: FN kalıyor.** Cevap chunk'ı artık
+  bağlamda 1. sırada ama model reddediyor (İngilizce, sembolleri bozuk slayt
+  metni). Retrieval kısmı çözüldü, kalan üretim tarafı.
+- Pozitif setlerde yan etki yok: TP→FN 0 (bağlamı değişen soru N=1: 5, N=5: 29).
+- Negatif sette yeni FP: N=1 #214, N=3 +#222, N=5 +#226.
+  - #214 **GT etiketi yanlış**: `airports.json`'da IST/TR var; "IST" cevabı doğru.
+  - #222 gürültü: ilgisiz profil chunk'ı giriyor, iki cevap da yarım cümle.
+  - #226 **gerçek FP**: veri 2024, soru 2023; model yılı yakalamadan cevaplıyor.
+- Öneri: N=1. Varsayılanı açmak ayrı karar.
+
+**Açık:** #82 üretim tarafı; #214 GT düzeltmesi (ayrı commit, onayla).
 
 **Kapsam dışı:**
 - **test_4 #91 → madde 33** (farklı mekanizma; Adım 1'de birlikte ölçüldü).
