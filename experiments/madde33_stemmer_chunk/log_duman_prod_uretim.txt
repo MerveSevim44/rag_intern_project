@@ -1,0 +1,486 @@
+[Foundry] Model yüklendi: qwen2.5-7b-instruct-cuda-gpu:4 | execution provider: CUDAExecutionProvider | cihaz: GPU
+[Foundry] Servis adresi: http://127.0.0.1:55158
+[Foundry] Serviste yüklü modeller: ['qwen2.5-7b-instruct-cuda-gpu:4']
+[retrieval] Cache yuklendi: 898 chunk, embedding matrisi (898, 1024)
+  yeni test_4#91 (66.1 sn): "Alis'in çalıştığı kütüphanenin adı Gümüş Yaprak. Bu bilgi, bağlamda açıkça veril"
+  yeni test_4#92 (16.24 sn): "İstanbul'un yağmurlu kasım mevsiminde."
+  yeni test_4#93 (21.81 sn): 'Kütüphanecinin ta kendisi. Kaynak: test1.txt, paragraf 5-9'
+  yeni test_4#94 (20.06 sn): 'Ay ışığı, zemin kattaki mermerlerde garip bir yansıma oluşturduktan sonra, tavan'
+  yeni test_4#95 (32.79 sn): 'Karakteriniz, antikacının verdiği pirinç anahtarın içinde bir kod veya mesaj old'
+  yeni test_4#96 (20.88 sn): "Alis'in ismini ve geleceğin tarihinin defterde belirmesi, hikâyeyi daha da geril"
+  yeni test_4#97 (28.86 sn): "Karakteriniz, 12 Mart'ta fısıltıyı ve tıkırtıyı duyunca şaşkınlık yaşamış ve kod"
+  yeni test_4#98 (30.19 sn): "Anlatıcının saatin 03.13'e gelmesini fark etmesi, 03.14 tıkırtısının bir kod old"
+  yeni test_4#99 (31.75 sn): "Bu cümle, hikâyedeki gizemin daha derin bir anlam kazandırıyor. Usta Magnus'un g"
+  yeni test_4#100 (21.74 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+  yeni test_5#114 (16.07 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+  yeni test_5#115 (26.54 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+  yeni test_negative#221 (40.43 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+[retrieval] Cache yuklendi: 911 chunk, embedding matrisi (911, 1024)
+  yedek test_negative#201 (49.85 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+[retrieval] Cache yuklendi: 898 chunk, embedding matrisi (898, 1024)
+  yeni test_negative#201 (50.17 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+  yeni test_negative#202 (26.86 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+[retrieval] Cache yuklendi: 911 chunk, embedding matrisi (911, 1024)
+  yedek test_negative#202 (51.19 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+  yedek test_negative#203 (26.81 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+[retrieval] Cache yuklendi: 898 chunk, embedding matrisi (898, 1024)
+  yeni test_negative#203 (48.58 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+  yeni test_negative#204 (61.76 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+[retrieval] Cache yuklendi: 911 chunk, embedding matrisi (911, 1024)
+  yedek test_negative#204 (84.75 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+  yedek test_negative#205 (26.0 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+[retrieval] Cache yuklendi: 898 chunk, embedding matrisi (898, 1024)
+  yeni test_negative#205 (47.59 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+  yeni test_negative#206 (26.23 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+[retrieval] Cache yuklendi: 911 chunk, embedding matrisi (911, 1024)
+  yedek test_negative#206 (49.36 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+  yedek test_negative#207 (24.06 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+[retrieval] Cache yuklendi: 898 chunk, embedding matrisi (898, 1024)
+  yeni test_negative#207 (51.85 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+  yeni test_negative#208 (27.97 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+[retrieval] Cache yuklendi: 911 chunk, embedding matrisi (911, 1024)
+  yedek test_negative#208 (49.0 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+  yedek test_negative#209 (10.35 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+[retrieval] Cache yuklendi: 898 chunk, embedding matrisi (898, 1024)
+  yeni test_negative#209 (34.3 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+  yeni test_negative#210 (10.47 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+[retrieval] Cache yuklendi: 911 chunk, embedding matrisi (911, 1024)
+  yedek test_negative#210 (33.92 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=7.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'sector~sektör', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil', 'experience.years~deneyim']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df[df['sector'] == 'Havacılık ve Uzay']['experience.years'].mean()
+[CodeInterpreter] Basarili ama KAYIT BULUNAMADI (bos filtre=True). Cikti: nan
+  yedek test_negative#211 (5.22 sn): 'Bu bilgi dokümanlarda bulunamadı; belirtilen koşullara uyan kayıt yok.'
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=7.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'sector~sektör', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil', 'experience.years~deneyim']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df[df['sector'] == 'Havacılık ve Uzay']['experience.years'].mean()
+[CodeInterpreter] Basarili ama KAYIT BULUNAMADI (bos filtre=True). Cikti: nan
+  yeni test_negative#211 (4.95 sn): 'Bu bilgi dokümanlarda bulunamadı; belirtilen koşullara uyan kayıt yok.'
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df[(df['location.city'] == 'Erzurum')].shape[0]
+[CodeInterpreter] Basarili ama KAYIT BULUNAMADI (bos filtre=True). Cikti: 0
+  yeni test_negative#212 (4.87 sn): 'Bu bilgi dokümanlarda bulunamadı; belirtilen koşullara uyan kayıt yok.'
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df[(df['location.city'] == 'Erzurum')].shape[0]
+[CodeInterpreter] Basarili ama KAYIT BULUNAMADI (bos filtre=True). Cikti: 0
+  yedek test_negative#212 (4.84 sn): 'Bu bilgi dokümanlarda bulunamadı; belirtilen koşullara uyan kayıt yok.'
+  yedek test_negative#213 (25.87 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+[retrieval] Cache yuklendi: 898 chunk, embedding matrisi (898, 1024)
+  yeni test_negative#213 (51.14 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+  yeni test_negative#214 (25.95 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+[retrieval] Cache yuklendi: 911 chunk, embedding matrisi (911, 1024)
+  yedek test_negative#214 (49.91 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+[data_engine] route=code_interpreter (dataset_signal+interrogative) | dataset=us-states-with-detail.json (score=3.0, best_score, ambiguous=False) | schema_cols=[]
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = None
+[CodeInterpreter] Hata alindi (1. deneme): ValueError: Kod çalıştırıldı ancak 'result' değişkenine bir değer atanmadı. Lütfen sonucu 'result = ...' şeklinde atayın.
+[CodeInterpreter] Deneme 2/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['population']
+[CodeInterpreter] Hata alindi (2. deneme): KeyError: 'population'
+[CodeInterpreter] Deneme 3/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['population']
+[CodeInterpreter] Hata alindi (3. deneme): KeyError: 'population'
+[CodeInterpreter] 3 deneme basarisiz oldu. Son hata: KeyError: 'population'
+  yedek test_negative#215 (36.17 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+[data_engine] route=code_interpreter (dataset_signal+interrogative) | dataset=us-states-with-detail.json (score=3.0, best_score, ambiguous=False) | schema_cols=[]
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = None
+[CodeInterpreter] Hata alindi (1. deneme): ValueError: Kod çalıştırıldı ancak 'result' değişkenine bir değer atanmadı. Lütfen sonucu 'result = ...' şeklinde atayın.
+[CodeInterpreter] Deneme 2/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['population']
+[CodeInterpreter] Hata alindi (2. deneme): KeyError: 'population'
+[CodeInterpreter] Deneme 3/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['population']
+[CodeInterpreter] Hata alindi (3. deneme): KeyError: 'population'
+[CodeInterpreter] 3 deneme basarisiz oldu. Son hata: KeyError: 'population'
+[retrieval] Cache yuklendi: 898 chunk, embedding matrisi (898, 1024)
+  yeni test_negative#215 (57.43 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['creditScore'].mean()
+[CodeInterpreter] Hata alindi (1. deneme): KeyError: 'creditScore'
+[CodeInterpreter] Deneme 2/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['creditScore'].mean()
+[CodeInterpreter] Hata alindi (2. deneme): KeyError: 'creditScore'
+[CodeInterpreter] Deneme 3/3...
+[CodeInterpreter] Uretilen Kod:
+# Kredi puanı sütununun varlığını kontrol etmek için ilk 5 satırı inceleyelim
+print(df.head())
+
+# Eğer kredi puanı sütunu mevcut değilse, hata verecek. 
+# Eğer mevcutsa, sütunu mean() metoduyla ortalama hesaplayalım
+if 'creditScore' in df.columns:
+    result = df['creditScore'].mean()
+else:
+    result = None
+[CodeInterpreter] Hata alindi (3. deneme): ValueError: Kod çalıştırıldı ancak 'result' değişkenine bir değer atanmadı. Lütfen sonucu 'result = ...' şeklinde atayın.
+[CodeInterpreter] 3 deneme basarisiz oldu. Son hata: ValueError: Kod çalıştırıldı ancak 'result' değişkenine bir değer atanmadı. Lütfen sonucu 'result = ...' şeklinde atayın.
+  yeni test_negative#216 (61.99 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['creditScore'].mean()
+[CodeInterpreter] Hata alindi (1. deneme): KeyError: 'creditScore'
+[CodeInterpreter] Deneme 2/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['creditScore'].mean()
+[CodeInterpreter] Hata alindi (2. deneme): KeyError: 'creditScore'
+[CodeInterpreter] Deneme 3/3...
+[CodeInterpreter] Uretilen Kod:
+# Kredi puanı sütununun varlığını kontrol etmek için ilk 5 satırı inceleyelim
+print(df.head())
+
+# Eğer kredi puanı sütunu mevcut değilse, hata verecek. 
+# Eğer mevcutsa, sütunu mean() metoduyla ortalama hesaplayalım
+if 'creditScore' in df.columns:
+    result = df['creditScore'].mean()
+else:
+    result = None
+[CodeInterpreter] Hata alindi (3. deneme): ValueError: Kod çalıştırıldı ancak 'result' değişkenine bir değer atanmadı. Lütfen sonucu 'result = ...' şeklinde atayın.
+[CodeInterpreter] 3 deneme basarisiz oldu. Son hata: ValueError: Kod çalıştırıldı ancak 'result' değişkenine bir değer atanmadı. Lütfen sonucu 'result = ...' şeklinde atayın.
+[retrieval] Cache yuklendi: 911 chunk, embedding matrisi (911, 1024)
+  yedek test_negative#216 (102.57 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+  yedek test_negative#217 (16.56 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+[retrieval] Cache yuklendi: 898 chunk, embedding matrisi (898, 1024)
+  yeni test_negative#217 (41.04 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=mock-transactions.json (score=3.0, best_score, ambiguous=False) | schema_cols=[]
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+# Hesap ID'si ACC-124 olan kayıtları filtreleyelim
+account_id_filter = df[df['account_id'] == 'ACC-124']
+
+# Hesap ID'si ACC-124 olan kayıtlardan sadece 'credit' türünden kayıtları alalım
+credit_transactions = account_id_filter[account_id_filter['type'] == 'credit']
+
+# Hesap ID'si ACC-124 olan kayıtlardan sadece 'debit' türünden kayıtları alalım
+debit_transactions = account_id_filter[account_id_filter['type'] == 'debit']
+
+# Kapanış bakiyesini hesaplayalım: toplam kredi - toplam debet
+closing_balance = credit_transactions['amount'].sum() - debit_transactions['amount'].sum()
+
+# Para birimini de ekleyelim
+result = {'closing_balance': closing_balance, 'currency': credit_transactions['currency'].unique()[0]}
+[CodeInterpreter] Hata alindi (1. deneme): IndexError: index 0 is out of bounds for axis 0 with size 0
+[CodeInterpreter] Deneme 2/3...
+[CodeInterpreter] Uretilen Kod:
+# Hesap ID'si ACC-124 olan kayıtları filtreleyelim
+account_id_filter = df[df['account_id'] == 'ACC-124']
+
+# Hesap ID'si ACC-124 olan kayıtlardan sadece 'credit' türünden kayıtları alalım
+credit_transactions = account_id_filter[account_id_filter['type'] == 'credit']
+
+# Hesap ID'si ACC-124 olan kayıtlardan sadece 'debit' türünden kayıtları alalım
+debit_transactions = account_id_filter[account_id_filter['type'] == 'debit']
+
+# Kapanış bakiyesini hesaplayalım: toplam kredi - toplam debet
+closing_balance = credit_transactions['amount'].sum() - debit_transactions['amount'].sum()
+
+# Para birimini de ekleyelim
+result = {'closing_balance': closing_balance, 'currency': credit_transactions['currency'].unique()}
+[CodeInterpreter] Basarili ama KAYIT BULUNAMADI (bos filtre=True). Cikti: {'closing_balance': np.float64(0.0), 'currency': array([], dtype=object)}
+  yeni test_negative#218 (44.44 sn): 'Bu bilgi dokümanlarda bulunamadı; belirtilen koşullara uyan kayıt yok.'
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=mock-transactions.json (score=3.0, best_score, ambiguous=False) | schema_cols=[]
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+# Hesap ID'si ACC-124 olan kayıtları filtreleyelim
+account_id_filter = df[df['account_id'] == 'ACC-124']
+
+# Hesap ID'si ACC-124 olan kayıtlardan sadece 'credit' türünden kayıtları alalım
+credit_transactions = account_id_filter[account_id_filter['type'] == 'credit']
+
+# Hesap ID'si ACC-124 olan kayıtlardan sadece 'debit' türünden kayıtları alalım
+debit_transactions = account_id_filter[account_id_filter['type'] == 'debit']
+
+# Kapanış bakiyesini hesaplayalım: toplam kredi - toplam debet
+closing_balance = credit_transactions['amount'].sum() - debit_transactions['amount'].sum()
+
+# Para birimini de ekleyelim
+result = {'closing_balance': closing_balance, 'currency': credit_transactions['currency'].unique()[0]}
+[CodeInterpreter] Hata alindi (1. deneme): IndexError: index 0 is out of bounds for axis 0 with size 0
+[CodeInterpreter] Deneme 2/3...
+[CodeInterpreter] Uretilen Kod:
+# Hesap ID'si ACC-124 olan kayıtları filtreleyelim
+account_id_filter = df[df['account_id'] == 'ACC-124']
+
+# Hesap ID'si ACC-124 olan kayıtlardan sadece 'credit' türünden kayıtları alalım
+credit_transactions = account_id_filter[account_id_filter['type'] == 'credit']
+
+# Hesap ID'si ACC-124 olan kayıtlardan sadece 'debit' türünden kayıtları alalım
+debit_transactions = account_id_filter[account_id_filter['type'] == 'debit']
+
+# Kapanış bakiyesini hesaplayalım: toplam kredi - toplam debet
+closing_balance = credit_transactions['amount'].sum() - debit_transactions['amount'].sum()
+
+# Para birimini de ekleyelim
+result = {'closing_balance': closing_balance, 'currency': credit_transactions['currency'].unique()}
+[CodeInterpreter] Basarili ama KAYIT BULUNAMADI (bos filtre=True). Cikti: {'closing_balance': np.float64(0.0), 'currency': array([], dtype=object)}
+  yedek test_negative#218 (26.54 sn): 'Bu bilgi dokümanlarda bulunamadı; belirtilen koşullara uyan kayıt yok.'
+[retrieval] Cache yuklendi: 911 chunk, embedding matrisi (911, 1024)
+  yedek test_negative#219 (43.23 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+[retrieval] Cache yuklendi: 898 chunk, embedding matrisi (898, 1024)
+  yeni test_negative#219 (43.07 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+  yeni test_negative#220 (27.24 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+[retrieval] Cache yuklendi: 911 chunk, embedding matrisi (911, 1024)
+  yedek test_negative#220 (50.88 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+  yedek test_negative#221 (41.14 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+[retrieval] Cache yuklendi: 898 chunk, embedding matrisi (898, 1024)
+  yeni test_negative#221 (67.4 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+  yeni test_negative#222 (30.69 sn): 'Z-Dönüşümü ders notlarında 12. haftanın konu başlığına herhangi bir bilgi bulunm'
+[retrieval] Cache yuklendi: 911 chunk, embedding matrisi (911, 1024)
+  yedek test_negative#222 (57.24 sn): 'Z-Dönüşümü ders notlarında 12. haftanın konu başlığına herhangi bir bilgi bulunm'
+  yedek test_negative#223 (27.0 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+[retrieval] Cache yuklendi: 898 chunk, embedding matrisi (898, 1024)
+  yeni test_negative#223 (57.07 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+  yeni test_negative#224 (22.3 sn): 'Bağlamdan bağımsız dilbilgisinin Chomsky normal formuna dönüştürme adımları şunl'
+[retrieval] Cache yuklendi: 911 chunk, embedding matrisi (911, 1024)
+  yedek test_negative#224 (47.85 sn): 'Bağlamdan bağımsız dilbilgisinin Chomsky normal formuna dönüştürme adımları şunl'
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=mock-transactions.json (score=4.0, best_score, ambiguous=False) | schema_cols=['amount~tutar']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+# Filtrleme: Sadece Şubat 2024 ayındaki işlemleri al
+february_transactions = df[df['date'].str.startswith('2024-02')]
+
+# Toplam tutar hesaplama: 'amount' sütunundaki değerlerin toplamını al
+result = february_transactions['amount'].sum()
+
+# Para birimini de ekleyelim
+result = {'total_amount': result, 'currency': df['currency'].unique()[0]}
+[CodeInterpreter] Basarili ama KAYIT BULUNAMADI (bos filtre=True). Cikti: {'total_amount': np.float64(0.0), 'currency': 'USD'}
+  yedek test_negative#225 (7.86 sn): 'Bu bilgi dokümanlarda bulunamadı; belirtilen koşullara uyan kayıt yok.'
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=mock-transactions.json (score=4.0, best_score, ambiguous=False) | schema_cols=['amount~tutar']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+# Filtrleme: Sadece Şubat 2024 ayındaki işlemleri al
+february_transactions = df[df['date'].str.startswith('2024-02')]
+
+# Toplam tutar hesaplama: 'amount' sütunundaki değerlerin toplamını al
+result = february_transactions['amount'].sum()
+
+# Para birimini de ekleyelim
+result = {'total_amount': result, 'currency': df['currency'].unique()[0]}
+[CodeInterpreter] Basarili ama KAYIT BULUNAMADI (bos filtre=True). Cikti: {'total_amount': np.float64(0.0), 'currency': 'USD'}
+  yeni test_negative#225 (7.55 sn): 'Bu bilgi dokümanlarda bulunamadı; belirtilen koşullara uyan kayıt yok.'
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=mock-transactions.json (score=4.0, best_score, ambiguous=False) | schema_cols=['category~kategori']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+# En yüksek harcama kategorisi bulmak için gerekli adımları izleyelim
+
+# 1. Tarih sütunu 2023 yılına ait satırları filtreleyelim
+yil_2023 = df[df['date'].str.startswith('2023')]
+
+# 2. Değer sütunu (amount) üzerinde en yüksek harcama bulalım
+en_yuksek_harcama = yil_2023['amount'].max()
+
+# 3. En yüksek harcama değerine sahip satırı bulalım
+en_yuksek_harcama_satir = yil_2023[yil_2023['amount'] == en_yuksek_harcama]
+
+# 4. En yüksek harcama satırındaki kategori bilgisini alalım
+result = {
+    'category': en_yuksek_harcama_satir['category'].values[0],
+    'currency': en_yuksek_harcama_satir['currency'].values[0],
+    'amount': en_yuksek_harcama
+}
+[CodeInterpreter] Hata alindi (1. deneme): IndexError: index 0 is out of bounds for axis 0 with size 0
+[CodeInterpreter] Deneme 2/3...
+[CodeInterpreter] Uretilen Kod:
+# En yüksek harcama kategorisi bulmak için gerekli adımları izleyelim
+
+# 1. Tarih sütunu 2023 yılına ait satırları filtreleyelim
+yil_2023 = df[df['date'].str.startswith('2023')]
+
+# 2. Değer sütunu (amount) üzerinde en yüksek harcama bulalım
+en_yuksek_harcama = yil_2023['amount'].max()
+
+# 3. En yüksek harcama değerine sahip satırı bulalım
+en_yuksek_harcama_satir = yil_2023[yil_2023['amount'] == en_yuksek_harcama]
+
+# 4. En yüksek harcama satırındaki kategori bilgisini alalım
+result = {
+    'category': en_yuksek_harcama_satir['category'].values[0],
+    'currency': en_yuksek_harcama_satir['currency'].values[0],
+    'amount': en_yuksek_harcama
+}
+[CodeInterpreter] Hata alindi (2. deneme): IndexError: index 0 is out of bounds for axis 0 with size 0
+[CodeInterpreter] Deneme 3/3...
+[CodeInterpreter] Uretilen Kod:
+# En yüksek harcama kategorisi bulmak için gerekli adımları izleyelim
+
+# 1. Tarih sütunu 2023 yılına ait satırları filtreleyelim
+yil_2023 = df[df['date'].str.startswith('2023')]
+
+# 2. En yüksek harcama değerini bulalım
+en_yuksek_harcama = yil_2023['amount'].max()
+
+# 3. En yüksek harcama değerine sahip satırı bulalım
+en_yuksek_harcama_satir = yil_2023[yil_2023['amount'] == en_yuksek_harcama]
+
+# 4. En yüksek harcama satırındaki kategori bilgisini alalım
+result = {
+    'category': en_yuksek_harcama_satir['category'].values[0],
+    'currency': en_yuksek_harcama_satir['currency'].values[0],
+    'amount': en_yuksek_harcama
+}
+[CodeInterpreter] Hata alindi (3. deneme): IndexError: index 0 is out of bounds for axis 0 with size 0
+[CodeInterpreter] 3 deneme basarisiz oldu. Son hata: IndexError: index 0 is out of bounds for axis 0 with size 0
+[retrieval] Cache yuklendi: 898 chunk, embedding matrisi (898, 1024)
+  yeni test_negative#226 (106.64 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=mock-transactions.json (score=4.0, best_score, ambiguous=False) | schema_cols=['category~kategori']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+# En yüksek harcama kategorisi bulmak için gerekli adımları izleyelim
+
+# 1. Tarih sütunu 2023 yılına ait satırları filtreleyelim
+yil_2023 = df[df['date'].str.startswith('2023')]
+
+# 2. Değer sütunu (amount) üzerinde en yüksek harcama bulalım
+en_yuksek_harcama = yil_2023['amount'].max()
+
+# 3. En yüksek harcama değerine sahip satırı bulalım
+en_yuksek_harcama_satir = yil_2023[yil_2023['amount'] == en_yuksek_harcama]
+
+# 4. En yüksek harcama satırındaki kategori bilgisini alalım
+result = {
+    'category': en_yuksek_harcama_satir['category'].values[0],
+    'currency': en_yuksek_harcama_satir['currency'].values[0],
+    'amount': en_yuksek_harcama
+}
+[CodeInterpreter] Hata alindi (1. deneme): IndexError: index 0 is out of bounds for axis 0 with size 0
+[CodeInterpreter] Deneme 2/3...
+[CodeInterpreter] Uretilen Kod:
+# En yüksek harcama kategorisi bulmak için gerekli adımları izleyelim
+
+# 1. Tarih sütunu 2023 yılına ait satırları filtreleyelim
+yil_2023 = df[df['date'].str.startswith('2023')]
+
+# 2. Değer sütunu (amount) üzerinde en yüksek harcama bulalım
+en_yuksek_harcama = yil_2023['amount'].max()
+
+# 3. En yüksek harcama değerine sahip satırı bulalım
+en_yuksek_harcama_satir = yil_2023[yil_2023['amount'] == en_yuksek_harcama]
+
+# 4. En yüksek harcama satırındaki kategori bilgisini alalım
+result = {
+    'category': en_yuksek_harcama_satir['category'].values[0],
+    'currency': en_yuksek_harcama_satir['currency'].values[0],
+    'amount': en_yuksek_harcama
+}
+[CodeInterpreter] Hata alindi (2. deneme): IndexError: index 0 is out of bounds for axis 0 with size 0
+[CodeInterpreter] Deneme 3/3...
+[CodeInterpreter] Uretilen Kod:
+# En yüksek harcama kategorisi bulmak için gerekli adımları izleyelim
+
+# 1. Tarih sütunu 2023 yılına ait satırları filtreleyelim
+yil_2023 = df[df['date'].str.startswith('2023')]
+
+# 2. En yüksek harcama değerini bulalım
+en_yuksek_harcama = yil_2023['amount'].max()
+
+# 3. En yüksek harcama değerine sahip satırı bulalım
+en_yuksek_harcama_satir = yil_2023[yil_2023['amount'] == en_yuksek_harcama]
+
+# 4. En yüksek harcama satırındaki kategori bilgisini alalım
+result = {
+    'category': en_yuksek_harcama_satir['category'].values[0],
+    'currency': en_yuksek_harcama_satir['currency'].values[0],
+    'amount': en_yuksek_harcama
+}
+[CodeInterpreter] Hata alindi (3. deneme): IndexError: index 0 is out of bounds for axis 0 with size 0
+[CodeInterpreter] 3 deneme basarisiz oldu. Son hata: IndexError: index 0 is out of bounds for axis 0 with size 0
+[retrieval] Cache yuklendi: 911 chunk, embedding matrisi (911, 1024)
+  yedek test_negative#226 (144.27 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+  yedek test_negative#227 (33.33 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+[retrieval] Cache yuklendi: 898 chunk, embedding matrisi (898, 1024)
+  yeni test_negative#227 (54.58 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil', 'date~ay']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df[df['profileCode'].str.contains('2023-10')]  # Eklenen yeni profilleri filtrele
+result = len(result)  # Sonuç sayısını say
+[CodeInterpreter] Basarili ama KAYIT BULUNAMADI (bos filtre=True). Cikti: 0
+  yeni test_negative#228 (12.25 sn): 'Bu bilgi dokümanlarda bulunamadı; belirtilen koşullara uyan kayıt yok.'
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil', 'date~ay']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df[df['profileCode'].str.contains('2023-10')]  # Eklenen yeni profilleri filtrele
+result = len(result)  # Sonuç sayısını say
+[CodeInterpreter] Basarili ama KAYIT BULUNAMADI (bos filtre=True). Cikti: 0
+  yedek test_negative#228 (6.97 sn): 'Bu bilgi dokümanlarda bulunamadı; belirtilen koşullara uyan kayıt yok.'
+[retrieval] Cache yuklendi: 911 chunk, embedding matrisi (911, 1024)
+  yedek test_negative#229 (49.91 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+[retrieval] Cache yuklendi: 898 chunk, embedding matrisi (898, 1024)
+  yeni test_negative#229 (51.79 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+  yeni test_negative#230 (27.98 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+[retrieval] Cache yuklendi: 911 chunk, embedding matrisi (911, 1024)
+  yedek test_negative#230 (50.92 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+[data_engine] route=code_interpreter (dataset_signal+interrogative) | dataset=airports.json (score=3.0, best_score, ambiguous=False) | schema_cols=[]
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+# Havaalanlarının güncellemelerini belirlemek için önce mevcut havaalanları bulalım
+current_airports = df
+
+# 2026 güncellemesinde eklenen havaalanları bulmak için tarih bilgisine bakmalıyız.
+# Ancak veri setinde tarih bilgisi bulunmuyor, bu nedenle 2026 güncellemesinde eklenen havaalanları
+# mevcut havaalanlardan ayırt etmek için bir kriter belirleyelim.
+# Burada 2026 güncellemesinde eklenen havaalanları temsil edecek bir kriter belirleyebiliriz.
+# Örneğin, 2026 güncellemesinde eklenen havaalanların "code" sütununda bir marka işareti olabilir.
+
+# 2026 güncellemesinde eklenen havaalanları temsil edecek bir kriter belirleyelim.
+# Örneğin, "code" sütununda "NEW_" prefiksini taşıyan havaalanları 2026 güncellemesinde eklenen havaalanlar olarak kabul edelim.
+new_airports = df[df['code'].str.startswith('NEW_')]
+
+# Sonuçları 'result' değişkenine atıyoruz.
+result = new_airports[['code', 'name', 'city', 'country']]
+[CodeInterpreter] Basarili ama KAYIT BULUNAMADI (bos filtre=True). Cikti: Empty DataFrame
+Columns: [code, name, city, country]
+Index: []
+  yedek test_negative#231 (11.32 sn): 'Bu bilgi dokümanlarda bulunamadı; belirtilen koşullara uyan kayıt yok.'
+[data_engine] route=code_interpreter (dataset_signal+interrogative) | dataset=airports.json (score=3.0, best_score, ambiguous=False) | schema_cols=[]
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+# Havaalanlarının güncellemelerini belirlemek için önce mevcut havaalanları bulalım
+current_airports = df
+
+# 2026 güncellemesinde eklenen havaalanları bulmak için tarih bilgisine bakmalıyız.
+# Ancak veri setinde tarih bilgisi bulunmuyor, bu nedenle 2026 güncellemesinde eklenen havaalanları
+# mevcut havaalanlardan ayırt etmek için bir kriter belirleyelim.
+# Burada 2026 güncellemesinde eklenen havaalanları temsil edecek bir kriter belirleyebiliriz.
+# Örneğin, 2026 güncellemesinde eklenen havaalanların "code" sütununda bir marka işareti olabilir.
+
+# 2026 güncellemesinde eklenen havaalanları temsil edecek bir kriter belirleyelim.
+# Örneğin, "code" sütununda "NEW_" prefiksini taşıyan havaalanları 2026 güncellemesinde eklenen havaalanlar olarak kabul edelim.
+new_airports = df[df['code'].str.startswith('NEW_')]
+
+# Sonuçları 'result' değişkenine atıyoruz.
+result = new_airports[['code', 'name', 'city', 'country']]
+[CodeInterpreter] Basarili ama KAYIT BULUNAMADI (bos filtre=True). Cikti: Empty DataFrame
+Columns: [code, name, city, country]
+Index: []
+  yeni test_negative#231 (11.06 sn): 'Bu bilgi dokümanlarda bulunamadı; belirtilen koşullara uyan kayıt yok.'
+[data_engine] route=code_interpreter (dataset_signal+interrogative) | dataset=us-states-with-detail.json (score=3.0, best_score, ambiguous=False) | schema_cols=['date~tarih']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df[df['borders'].notna()]['founded'].idxmax()
+result = df.loc[result, 'name']
+[CodeInterpreter] Basarili! Cikti: Hawaii
+  yeni test_negative#232 (5.98 sn): 'Hawaii, veri setinde en son eyalet sınırı değişikliği kaydedilen eyalettedir.'
+[data_engine] route=code_interpreter (dataset_signal+interrogative) | dataset=us-states-with-detail.json (score=3.0, best_score, ambiguous=False) | schema_cols=['date~tarih']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df[df['borders'].notna()]['founded'].idxmax()
+result = df.loc[result, 'name']
+[CodeInterpreter] Basarili! Cikti: Hawaii
+  yedek test_negative#232 (5.72 sn): 'Hawaii, veri setinde en son eyalet sınırı değişikliği kaydedilen eyalettedir.'

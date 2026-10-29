@@ -1,0 +1,21 @@
+(1) Faz B'nin bağlamı değişen soruları, yeni DB vs uretim2_min500.csv
+   cevap metni birebir aynı: 13/13
+   test_4#91: sınıf TP -> TP | cevap metni AYNI
+   test_4#92: sınıf TP -> TP | cevap metni AYNI
+   test_4#93: sınıf TP -> TP | cevap metni AYNI
+   test_4#94: sınıf TP -> TP | cevap metni AYNI
+   test_4#95: sınıf TP -> TP | cevap metni AYNI
+   test_4#96: sınıf TP -> TP | cevap metni AYNI
+   test_4#97: sınıf TP -> TP | cevap metni AYNI
+   test_4#98: sınıf TP -> TP | cevap metni AYNI
+   test_4#99: sınıf TP -> TP | cevap metni AYNI
+   test_4#100: sınıf FN -> FN | cevap metni AYNI
+   test_5#114: sınıf TN -> TN | cevap metni AYNI
+   test_5#115: sınıf TN -> TN | cevap metni AYNI
+   test_negative#221: sınıf TN -> TN | cevap metni AYNI
+
+(2) Tam negatif set (32), aynı oturum, yedek DB vs yeni DB
+   geçişler: FN->FN=1, FP->FP=2, TN->TN=29
+   FP yedek: 2/32 [224, 232]
+   FP yeni : 2/32 [224, 232]
+   yeni FP: []

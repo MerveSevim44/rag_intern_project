@@ -111,3 +111,18 @@ tek değerlendirici). Raporlarda pozitif soruda "cevap verdi" / "ret".
 
 Sınırlar: tek koşu, tek değerlendirici; 13–15 soruluk küçük örnek, yalnız 2 `.txt`
 dosyası (iki kısa öykü). Bulgu "500 bu korpusta güvenli", genel bir eşik değil.
+
+## Production'a alındı — duman testi (`duman_prod.py`)
+
+`src/ingest.py`'ye `TXT_MERGE_MIN_CHARS = 500` ile alındı; `test1.txt` /
+`test2.txt` yeniden ingest edildi (911 → 898 chunk; yedek
+`rag.db.bak_madde33_2026-10-29`, `fc73a4780bca`).
+
+| Kontrol | Sonuç |
+|---|---|
+| Nihai bağlam, 147 soru (`sonuc_duman_prod_retrieval.txt`) | 147/147: değişen 13/13 = Faz A MIN=500, kalan 134/134 = madde 32 n0 |
+| Faz B'nin 13 sorusu, cevap metni (`sonuc_duman_prod.txt`) | 13/13 birebir aynı → `dogruluk_adim2.txt` MIN=500 etiketleri production için geçerli |
+| Tam negatif set, aynı oturum yedek vs yeni DB | 32/32 cevap aynı; FP 2/32 → 2/32 (#224, #232); yeni FP yok |
+
+Gerçek ingest yeni chunk'ları tablonun sonuna ekliyor (id 4353–4358; simülasyon
+eski yerlerine koyuyordu); hiçbir sıralamayı değiştirmedi.

@@ -24,6 +24,10 @@ BATCH_SIZE = 64 #metinlerden embeding oluştururken modelin tek seferde
                 #kaç adet metni işleyeceğini belirtir. GPU belleği arttıkça
                 #burası artırılabilir. GPU'su olmayanlar 4-8'de tutabilir.
 
+# .txt paragrafları en az bu kadar karakterlik chunk'lara birleştirilir
+# (madde 33; bkz. _merge_txt_paragraphs). 0 = her paragraf ayrı chunk.
+TXT_MERGE_MIN_CHARS = 500
+
 # Expected schema for the chunks table: column name -> declared type.
 # ensure_schema() reconciles the live table against this map, so adding a new
 # column here is enough to migrate existing databases.
@@ -122,18 +126,49 @@ def init_db(db_path=DB_PATH):
         ensure_schema(conn)
     print(f"Database initialized: {db_path}")
 
-def extract_chunks_from_txt(file_path: Path) -> list[tuple[str, str]]:
-    with open(file_path, "r", encoding="utf-8") as f:
-        content = f.read()
-    paragraphs = content.split("\n\n")
+def _txt_paragraphs(content: str) -> list[tuple[str, int]]:
     result = []
-    para_num = 0
-    for p in paragraphs:
+    for p in content.split("\n\n"):
         cleaned = p.strip()
         if cleaned:
-            para_num += 1
-            result.append((cleaned, f"paragraf {para_num}"))
+            result.append((cleaned, len(result) + 1))
     return result
+
+
+def _merge_txt_paragraphs(paragraphs: list[tuple[str, int]], min_chars: int) -> list[tuple[str, str]]:
+    """
+    Greedily merges consecutive paragraphs until the chunk holds at least
+    min_chars characters (backlog item 33). A trailing remainder shorter than
+    min_chars is appended to the previous chunk. Paragraphs are joined with
+    "\n\n"; page_info is "paragraf N" or "paragraf N-M". min_chars <= 0 keeps
+    one chunk per paragraph.
+
+    In test1.txt the answer to "Alis'in çalıştığı kütüphanenin adı nedir?"
+    ("Gümüş Yaprak") sat in paragraph 1 and "Alis" in paragraph 2; as separate
+    chunks the reranker never paired them. Threshold 500 was chosen by the
+    MIN sweep in experiments/madde33_stemmer_chunk/ (800 and 1200 silently
+    broke other answers).
+    """
+    out, buf, nums = [], [], []
+    for text, num in paragraphs:
+        buf.append(text)
+        nums.append(num)
+        if min_chars <= 0 or len("\n\n".join(buf)) >= min_chars:
+            out.append(["\n\n".join(buf), nums])
+            buf, nums = [], []
+    if buf:
+        if out:
+            out[-1][0] += "\n\n" + "\n\n".join(buf)
+            out[-1][1] += nums
+        else:
+            out.append(["\n\n".join(buf), nums])
+    return [(text, f"paragraf {n[0]}" if len(n) == 1 else f"paragraf {n[0]}-{n[-1]}") for text, n in out]
+
+
+def extract_chunks_from_txt(file_path: Path, min_chars: int = TXT_MERGE_MIN_CHARS) -> list[tuple[str, str]]:
+    with open(file_path, "r", encoding="utf-8") as f:
+        content = f.read()
+    return _merge_txt_paragraphs(_txt_paragraphs(content), min_chars)
 
 def _page_text_with_subscripts(page) -> str:
     """

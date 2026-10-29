@@ -1,0 +1,1 @@
+Yeni DB nihai bağlam == havuz2 MIN=500 kaydı: 147/147 (bağlamı değişen 13: 13/13; değişmemesi gereken 134: 134/134)

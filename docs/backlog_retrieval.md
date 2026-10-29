@@ -39,7 +39,7 @@ PR olarak ele alınır.
 | 30 | Synthesizer (a) dalı ödünleşiminin sınır vakası: "Yanlış Ön Kabul" sorusu #224 bağlama göre FP/TN arasında gidip geliyor | Açık — **bug değil, bilinçli alınmış dengenin yeniden değerlendirilmesi** (FN 25→10 karşılığında kabul edilen bedel) |
 | 31 | OCR'lı Cevap sayfalarının metin kalitesi: bir sayfa okunamıyor (#24), diğerlerinde üst simge / "\|" kaybı model cevabına aynen geçiyor | Açık — iki ayrı ciddiyet: okunamayan sayfa (yeniden OCR) / kısmi bozulma (son işleme) |
 | 32 | RRF birleştirmesi BM25=0 olan en iyi dense chunk'ını havuzdan atıyor (test_3 #79/#82) | **Kapandı (mekanizma)** — `8d3f33d` dense güvenlik slotu, N=1'de #79 FN→TP; **bayrak KAPALI, açma kararı ayrı ve AÇIK** (bkz. madde 32 kapanış notu) |
-| 33 | Stemmer tutarsızlığı + iki chunk'a bölünmüş cevap (test_4 #91) | Açık — Adım 1: belirleyici neden bölünmüş cevap; stemmer tek başına 0 kazanç. Adım 2: `.txt` birleştirme MIN=500 öneriliyor (#91 düzeliyor, sessiz bozulma yok); uygulama onayı bekliyor |
+| 33 | Stemmer tutarsızlığı + iki chunk'a bölünmüş cevap (test_4 #91) | Açık — Adım 1: belirleyici neden bölünmüş cevap; stemmer tek başına 0 kazanç. Adım 2: `.txt` birleştirme MIN=500 (#91 düzeliyor, sessiz bozulma yok). **Production'a alındı** (2026-10-29), duman testi geçti |
 | 34 | Cevap chunk'ı bağlamda 1. sırada, model yine reddediyor (test_3 #82) | Açık — generation tarafı; retrieval madde 32'de çözüldü |
 | 35 | `run_tests.py` kapanışta aralıklı 0xC0000005 ile çıkıyor | Açık — **düşük öncelik**; sonuçlar tam yazılıyor, iş-around `uretim.py`'de (`b469350`) |
 | 36 | `classify_answer` TP'si doğruluk değil: TP'lerin %32'si yanlış cevap | **Karar verildi** — ret tespiti güvenilir (FN/TN 0 çelişki); bağlam değişen ölçümlerde sınıfın yanında ayrı doğruluk kontrolü kural (b), raporlarda TP yerine "cevap verdi" (a), `classify_answer` koduna dokunulmaz (c) |
@@ -1502,6 +1502,21 @@ chunker'ı ayrı).
   - **Öneri: MIN=500** (en küçük ayak izi, sessiz bozulma yok). Sınır: tek
     koşu, tek değerlendirici, 2 kısa `.txt`. Uygulama (ingest'te birleştirme +
     `.txt` yeniden ingest) ayrı onay bekliyor.
+
+**Durum (2026-10-29) — production'a alındı (MIN=500).**
+- Kod: `ingest.extract_chunks_from_txt` → `_merge_txt_paragraphs`,
+  `TXT_MERGE_MIN_CHARS = 500` (`tests/test_txt_paragraph_merge.py`); çıktı
+  deneydeki `politika.birlestir` ile iki dosyada birebir aynı.
+- Yeniden ingest yalnız `test1.txt` / `test2.txt` (`ingest_single_file`):
+  9+10 → 3+3 chunk, DB 911 → 898 (`757e97059abb`). Yedek
+  `rag.db.bak_madde33_2026-10-29` (kökte, `fc73a4780bca`, alındığı commit
+  `8559799`); bir süre saklanacak.
+- Duman testi (`duman_prod.py` → `sonuc_duman_prod_retrieval.txt`,
+  `sonuc_duman_prod.txt`): nihai bağlam 147/147 beklenenle aynı (değişen 13/13 =
+  Faz A MIN=500, değişmemesi gereken 134/134 = madde 32 n0); Faz B'nin 13
+  sorusunda cevap metni 13/13 birebir aynı (doğruluk etiketleri geçerli); tam
+  negatif set aynı oturumda yedek vs yeni DB: 32/32 cevap aynı, FP 2/32 → 2/32
+  (#224, #232), yeni FP yok.
 
 ## Madde 34 — Cevap chunk'ı bağlamda 1. sırada, model yine reddediyor (test_3 #82)
 
