@@ -42,6 +42,7 @@ PR olarak ele alınır.
 | 33 | Stemmer tutarsızlığı + iki chunk'a bölünmüş cevap (test_4 #91) | Açık — Adım 1: belirleyici neden bölünmüş cevap (birleştirme oracle'ı tam düzeltiyor); stemmer tek başına 0 kazanç. Müdahale seçimi bekliyor |
 | 34 | Cevap chunk'ı bağlamda 1. sırada, model yine reddediyor (test_3 #82) | Açık — generation tarafı; retrieval madde 32'de çözüldü |
 | 35 | `run_tests.py` kapanışta aralıklı 0xC0000005 ile çıkıyor | Açık — **düşük öncelik**; sonuçlar tam yazılıyor, iş-around `uretim.py`'de (`b469350`) |
+| 36 | `classify_answer` TP'si doğruluk değil: TP'lerin %32'si yanlış cevap | Açık — **ölçüldü, ciddi**: ret tespiti güvenilir (FN/TN 0 çelişki), ama sınıf geçişiyle "yan etki yok" demek doğruluk kaybını gizliyor. Düzeltme planı ayrı onay bekliyor |
 
 **GT değişikliği (2026-10-28, `747fb8a`):** test_negative #214 negatiften pozitife
 alındı (`airports.json`'da IST/TR var). Negatif set **32 → 31** soru. Bu tarihten
@@ -54,7 +55,7 @@ rakamları doğrudan karşılaştırmadan önce bu farkı düşün.
 
 ### Öncelik sırası (2026-10-11, güncelleme 2026-10-13)
 
-Açık retrieval/değerlendirme maddeleri için sıra: **25 (skorlama) ✅ → 22 ✅ → 27 ✅ → 29 ✅ → 20 (top_k ✅, 2b açık) → 21 (raporlama ✅; 4 FN açık) → 32 (mekanizma ✅; bayrak kararı açık) → 33 → 34 → 24 (bağıl eşik) → 30 → 28 → 26 → 31 → 35 (en alt).**
+Açık retrieval/değerlendirme maddeleri için sıra: **25 (skorlama) ✅ → 22 ✅ → 27 ✅ → 29 ✅ → 20 (top_k ✅, 2b açık) → 21 (raporlama ✅; 4 FN açık) → 32 (mekanizma ✅; bayrak kararı açık) → 36 (ölçüldü; plan onayı bekliyor) → 33 → 34 → 24 (bağıl eşik) → 30 → 28 → 26 → 31 → 35 (en alt).**
 
 - **25 önce:** madde 24'ün başarı ölçütü negatif set FP sayısı; skorlayıcı yarım
   retleri FP saydığı sürece (#222) bu sayı yapay olarak şişik ve 24'ün etkisi
@@ -1521,3 +1522,37 @@ tamamlanmış koşuyu hata sayar.
 
 **Öncelik: düşük.** Tekrarlanırsa ya da çıkış koduna bakan bir otomasyon
 eklenirse ele alınır.
+
+## Madde 36 — `classify_answer`'ın TP'si doğruluk değil
+
+Madde 33 Adım 1'de görüldü: #91 G4 cevabı ("Unutulmuş Parşömen …") yanlış ama
+`classify_answer` TP diyor. Fonksiyon tasarım gereği yalnız **ret mi, cevap mı**
+ayrımı yapıyor (`check_is_not_found` + GT polaritesi). Ama madde 32/33
+raporlarında "TP→TP, yan etki yok" ifadesi kalite iddiası gibi okunuyor.
+
+**Ölçüm (2026-10-29):** [experiments/madde36_classify_dogruluk/](../experiments/madde36_classify_dogruluk/README.md).
+Madde 32 Adım 2 + madde 33 Adım 1 cevapları: 73 tekil çift, 45 soru. Doğruluk
+elle değerlendirildi (soru + GT referansı; tek değerlendirici, ikinci göz yok).
+Bu cevapların çoğu daha önce elle incelenmemişti; yalnız sınıfı değişenlere
+bakılmıştı.
+- **Ret tespiti güvenilir:** FN 5/5 ve TN 17/17 gerçek ret; FP 4'ün 3'ü gerçek
+  uydurma, 1'i #222 yarım cümle (bilinen, madde 25/26).
+- **TP'lerin %32'si yanlış:** 47 TP → doğru 16, kısmen 16, **yanlış 15**.
+- **Madde 32 Adım 2'ye etkisi:** N=1'de TP→TP kalanlarda doğruluk değişimi 0;
+  **N=1 önerisi geçerli**. N=3'te #87 K→Y; N=5'te #30 ve #87 K→Y (6 iyileşme
+  yanında). "Pozitiflerde yan etki yok" ifadesi N=3/5 için yalnız sınıfta doğru.
+
+**Ciddiyet: ciddi (yorumlama açısından).** Fonksiyonun kendisi bozuk değil; ret
+dedektörü olarak doğru çalışıyor. Sorun, bağlam değişikliği ölçümlerinde tek
+kalite sinyali olarak kullanılması. **Düzeltme planı ayrı onay bekliyor.**
+Adaylar (karar yok):
+- (a) Raporlarda TP'yi "cevap verdi" diye adlandırmak, doğruluk iddiasını ayrı
+  bir sinyale bağlamak.
+- (b) Bağlamı değişen sorularda doğruluk kontrolü: GT `anahtar_kelimeler`
+  eşleşmesi ya da judge'ın correctness skoru, sınıf geçişinin yanında.
+- (c) `classify_answer`'a dokunmamak: geçmiş koşularla karşılaştırılabilirlik
+  ve madde 21 / 25 ölçümleri ona bağlı.
+
+**Geçici kural (plan onaylanana kadar):** bağlam değiştiren her ölçümde
+(madde 33 Adım 2 dahil), sınıfı değişmeyen ama bağlamı değişen sorular da
+doğruluk açısından elle (ya da GT anahtar kelimesiyle) kontrol edilir.

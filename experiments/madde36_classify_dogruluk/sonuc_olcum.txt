@@ -1,0 +1,21 @@
+Küme: 73 tekil çift, 45 soru (pozitif 52 çift, negatif 21 çift)
+
+Pozitif: sınıf -> elle doğruluk
+  FN (5): R=5
+  TP (47): D=16, K=16, Y=15
+Negatif: sınıf -> elle doğruluk
+  FP (4): B=1, Y=3
+  TN (17): R=17
+
+Çelişkiler:
+  TP ama yanlış: 15 -> test_1#26(m32_N0), test_1#29(m32_N0), test_1#30(m32_N5), test_2#41(m32_N0), test_2#44(m32_N0/m32_N1/m32_N3/m32_N5), test_2#45(m32_N0/m32_N5), test_2#60(m32_N0/m32_N5), test_3#76(m32_N0), test_3#87(m32_N3), test_3#87(m32_N5), test_3#89(m32_N0), test_3#89(m32_N5), test_4#91(m33_G4), test_4#98(m32_N0), test_4#98(m32_N5)
+  FN ama cevap var: 0
+  FP ama uydurma yok: 1 -> test_negative#222(m32_N3/m32_N5)
+  TN ama uydurma var: 0
+
+TP içinde: doğru 16/47, kısmen 16/47, yanlış 15/47 (%32)
+
+Madde 32 Adım 2 — sınıfı TP->TP kalan pozitiflerde doğruluk değişimi (N0'a göre):
+  N1: kötüleşen 0 [] | iyileşen 0 []
+  N3: kötüleşen 1 ['test_3#87 K->Y'] | iyileşen 2 ['test_1#11 K->D', 'test_3#78 K->D']
+  N5: kötüleşen 2 ['test_1#30 K->Y', 'test_3#87 K->Y'] | iyileşen 6 ['test_1#11 K->D', 'test_1#26 Y->K', 'test_1#29 Y->K', 'test_2#41 Y->K', 'test_3#76 Y->D', 'test_3#78 K->D']

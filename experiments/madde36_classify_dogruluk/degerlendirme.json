@@ -1,0 +1,1731 @@
+[
+ {
+  "set": "test_1",
+  "id": "1",
+  "negatif": false,
+  "sinif": "TP",
+  "kos": [
+   "m32_N0",
+   "m32_N5"
+  ],
+  "soru": "G4.1 dilbilgisinde VT kümesinin elemanları nelerdir?",
+  "referans": [
+   "G4.1'de VT = {+, -, *, /, (, ), v, c} kümesidir.",
+   "VT = {+, -, *, /, (, ), v, c}",
+   "{+, -, *, /, (, ), v, c}",
+   "+, -, *, /, (, ), v, c",
+   "{+, -, *, /, (, ), v, c} kümesidir.",
+   "Artı, eksi, çarpı, bölü, parantezler, v ve c simgeleridir."
+  ],
+  "anahtar": [
+   "VT",
+   "{+, -, *, /, (, ), v, c}",
+   "+",
+   "-",
+   "*",
+   "/",
+   "(",
+   ")",
+   "v",
+   "c"
+  ],
+  "cevap": "G4.1 dilbilgisinde VT kümesinin elemanları {+, -, *, /, (, ), v, c} dir.",
+  "dogruluk": "D"
+ },
+ {
+  "set": "test_1",
+  "id": "11",
+  "negatif": false,
+  "sinif": "TP",
+  "kos": [
+   "m32_N0_tekrar11"
+  ],
+  "soru": "Bir dilin belirgin (unambiguous) olması ne anlama gelir?",
+  "referans": [
+   "Bir dilin belirgin (unambiguous) olması, dilin her tümcesine yalnızca bir tane türetme ağacı karşılık gelmesi demektir.",
+   "Dilin her tümcesine yalnızca tek bir türetme ağacı karşı gelmesi anlamına gelir.",
+   "Her tümce için yalnızca bir tek türetme ağacının veya soldan türetmenin bulunmasıdır."
+  ],
+  "anahtar": [
+   "belirgin",
+   "unambiguous",
+   "yalnızca bir tane türetme ağacı",
+   "tek bir türetme ağacı",
+   "her tümcesine"
+  ],
+  "cevap": "Bir dilin belirgin olması, dilin her bir cümle için birden çok yorum veya anlama olmamasını ifade eder. Bu, bir cümle için birden fazla farklı anlamda ayrıştırmanın veya türetmenin olmamasını gerektirir. Bu durum, dilin anlaşılmaması veya anlaşmazlıkların ortadan kaldırılmasını sağlar.",
+  "dogruluk": "K"
+ },
+ {
+  "set": "test_1",
+  "id": "11",
+  "negatif": false,
+  "sinif": "TP",
+  "kos": [
+   "m32_N3"
+  ],
+  "soru": "Bir dilin belirgin (unambiguous) olması ne anlama gelir?",
+  "referans": [
+   "Bir dilin belirgin (unambiguous) olması, dilin her tümcesine yalnızca bir tane türetme ağacı karşılık gelmesi demektir.",
+   "Dilin her tümcesine yalnızca tek bir türetme ağacı karşı gelmesi anlamına gelir.",
+   "Her tümce için yalnızca bir tek türetme ağacının veya soldan türetmenin bulunmasıdır."
+  ],
+  "anahtar": [
+   "belirgin",
+   "unambiguous",
+   "yalnızca bir tane türetme ağacı",
+   "tek bir türetme ağacı",
+   "her tümcesine"
+  ],
+  "cevap": "Bir dilin belirgin olması, dilin her bir cümle için birden çok yoluyla türetilebileceği anlamına gelmez. Bu durumda, dilin her bir cümle için sadece bir yoluyla türetileceğini ifade eder. Bu, dilbilgisinde temel bir özelliktir ve dilin unambigous (belirgin) olmasının anlamı budur.",
+  "dogruluk": "D"
+ },
+ {
+  "set": "test_1",
+  "id": "11",
+  "negatif": false,
+  "sinif": "TP",
+  "kos": [
+   "m32_N5"
+  ],
+  "soru": "Bir dilin belirgin (unambiguous) olması ne anlama gelir?",
+  "referans": [
+   "Bir dilin belirgin (unambiguous) olması, dilin her tümcesine yalnızca bir tane türetme ağacı karşılık gelmesi demektir.",
+   "Dilin her tümcesine yalnızca tek bir türetme ağacı karşı gelmesi anlamına gelir.",
+   "Her tümce için yalnızca bir tek türetme ağacının veya soldan türetmenin bulunmasıdır."
+  ],
+  "anahtar": [
+   "belirgin",
+   "unambiguous",
+   "yalnızca bir tane türetme ağacı",
+   "tek bir türetme ağacı",
+   "her tümcesine"
+  ],
+  "cevap": "Bir dilin belirgin olması, dilin her bir tümcesine sadece bir türetme ağacı karşılık geleceğini ifade eder. Bu, bir dilbilgisinin her bir cümle için birden fazla farklı anlamları veya yapısı olmamasını gerektirir. Dolayısıyla, belirgin bir dilde her bir cümle sadece bir şekilde türetilebilir ve anlaşılabilecektir.",
+  "dogruluk": "D"
+ },
+ {
+  "set": "test_1",
+  "id": "26",
+  "negatif": false,
+  "sinif": "TP",
+  "kos": [
+   "m32_N0"
+  ],
+  "soru": "Örnek 5'teki G_4.5.1 dilbilgisinin kuralları, L_4.5.1={a^2k b^n c^2n d^k | k≥1, n≥1} dilini nasıl üretir?",
+  "referans": [
+   "S => aaSd kuralı her uygulandığında hem başta iki tane a hem sonda bir d eklenir (bu k kez tekrarlanır), S => aaAd ile A'ya geçilince A => bAcc | bcc kuralları devreye girer: A her uygulanışında bir b öne, iki c sona eklenir (n kez), böylece toplamda a²ᵏ bⁿ c²ⁿ dᵏ elde edilir.",
+   "S => aaSd | aaAd ve A => bAcc | bcc kuralları ile üretir. S kuralı her adımda 2 'a' ve 1 'd' (a^2k, d^k) üretirken, A kuralı 1 'b' ve 2 'c' (b^n, c^2n) üreterek dili oluşturur.",
+   "S => aaSd ile 2 'a' ve 1 'd' (k kez), S => aaAd ile A'ya geçiş; A => bAcc | bcc ile 1 'b' ve 2 'c' (n kez) üretilerek a^2k b^n c^2n d^k elde edilir."
+  ],
+  "anahtar": [
+   "S => aaSd",
+   "S => aaAd",
+   "A => bAcc | bcc",
+   "a²ᵏ bⁿ c²ⁿ dᵏ",
+   "a^2k b^n c^2n d^k",
+   "iki a",
+   "bir d",
+   "bir b",
+   "iki c"
+  ],
+  "cevap": "G_4.5.1 tarafından üretilen dil L_4.5.1={a^2k b^n c^2n d^k | k≥1, n≥1} dili aşağıdaki kurallarla üretilebilir: VN={S,A}\nVT={a,b,c,d}\nP:S → aaSdIaaAd\nA → bAcc|bcc Bu kurallar, a ve c sayısının iki katının, b ve d sayısının eşleşmesini sağlar. S ve A'nın kuralları a ve c sayısının iki katının ve b ve d sayısının eşleşmesini tekrarlayan ve artıran yapıları oluşturur.",
+  "dogruluk": "Y"
+ },
+ {
+  "set": "test_1",
+  "id": "26",
+  "negatif": false,
+  "sinif": "TP",
+  "kos": [
+   "m32_N5"
+  ],
+  "soru": "Örnek 5'teki G_4.5.1 dilbilgisinin kuralları, L_4.5.1={a^2k b^n c^2n d^k | k≥1, n≥1} dilini nasıl üretir?",
+  "referans": [
+   "S => aaSd kuralı her uygulandığında hem başta iki tane a hem sonda bir d eklenir (bu k kez tekrarlanır), S => aaAd ile A'ya geçilince A => bAcc | bcc kuralları devreye girer: A her uygulanışında bir b öne, iki c sona eklenir (n kez), böylece toplamda a²ᵏ bⁿ c²ⁿ dᵏ elde edilir.",
+   "S => aaSd | aaAd ve A => bAcc | bcc kuralları ile üretir. S kuralı her adımda 2 'a' ve 1 'd' (a^2k, d^k) üretirken, A kuralı 1 'b' ve 2 'c' (b^n, c^2n) üreterek dili oluşturur.",
+   "S => aaSd ile 2 'a' ve 1 'd' (k kez), S => aaAd ile A'ya geçiş; A => bAcc | bcc ile 1 'b' ve 2 'c' (n kez) üretilerek a^2k b^n c^2n d^k elde edilir."
+  ],
+  "anahtar": [
+   "S => aaSd",
+   "S => aaAd",
+   "A => bAcc | bcc",
+   "a²ᵏ bⁿ c²ⁿ dᵏ",
+   "a^2k b^n c^2n d^k",
+   "iki a",
+   "bir d",
+   "bir b",
+   "iki c"
+  ],
+  "cevap": "G_4.5.1 tarafından üretilen dil L_4.5.1={a^2k b^n c^2n d^k | k≥1, n≥1} dilini şu kurallarla üretir: VN={S,A}\nVT={a,b,c,d}\nP:S → aaSdIaaAd\nA → bAcc|bcc Bu kurallar, a ve d'nin sayısı arasındaki ilişkiyi ve b ve c'nin sayısı arasındaki ilişkiyi korur. S, a ve d'nin çift sayıda olmasını sağlar ve A, b ve c'nin eşit sayıda olmasını sağlar.",
+  "dogruluk": "K"
+ },
+ {
+  "set": "test_1",
+  "id": "29",
+  "negatif": false,
+  "sinif": "TP",
+  "kos": [
+   "m32_N0"
+  ],
+  "soru": "Örnek 8'deki G_S.4.8.1 dilbilgisinin türettiği L_S.4.8.1 dilinde üs olarak neden 2k+1 kullanılmıştır; B=>bbBdd|C kuralı bunu nasıl sağlar?",
+  "referans": [
+   "B=>bbBdd|C kuralı her uygulandığında 2 tane b ve 2 tane d ekler (k kez tekrarlanır), bu nedenle üs 2k olur; C=>bd temel kuralı ile bir b ve bir d daha eklenerek toplam üs 2k+1'e çıkar — böylece b ve d sayıları eşit ve tek sayı (2k+1) olarak eşleşir.",
+   "B => bbBdd kuralı her adımda çift sayıda (2 'b' ve 2 'd', yani 2k) ekler; sonlandırıcı C => bd kuralı ise 1 adet 'b' ve 'd' ekleyerek üssün tek sayı (2k+1) olmasını sağlar.",
+   "bbBdd kuralı 2k kadar çift eklerken, C=>bd kuralı +1 ekleyerek 2k+1 yapar; böylece b ve d sayıları eşit ve tek sayı olur."
+  ],
+  "anahtar": [
+   "B=>bbBdd|C",
+   "B => bbBdd",
+   "C=>bd",
+   "C => bd",
+   "2k+1",
+   "2k",
+   "tek sayı",
+   "çift"
+  ],
+  "cevap": "B => bbBdd | C kuralı, üs olarak 2k+1使用的翻译：\n在给定的上下文中，Example 8中的G_S.4.8.1文法产生的L_S.4.8.1语言中为什么使用2k+1作为指数；B => bbBdd | C规则是如何实现这一点的？ 答案：B => bbBdd | C 规则通过确保生成的字符串中'b'的数量总是比'd'多2个来实现2k+1作为指数。具体来说，每当产生一个'B'时，就会添加两个'b'和两个'd'，而'C'则保证至少有一个'b'和一个'd'。因此，对于每个新的'B'，'b'的数量总是比'd'多2个，满足了2k+1的形式。",
+  "dogruluk": "Y"
+ },
+ {
+  "set": "test_1",
+  "id": "29",
+  "negatif": false,
+  "sinif": "TP",
+  "kos": [
+   "m32_N5"
+  ],
+  "soru": "Örnek 8'deki G_S.4.8.1 dilbilgisinin türettiği L_S.4.8.1 dilinde üs olarak neden 2k+1 kullanılmıştır; B=>bbBdd|C kuralı bunu nasıl sağlar?",
+  "referans": [
+   "B=>bbBdd|C kuralı her uygulandığında 2 tane b ve 2 tane d ekler (k kez tekrarlanır), bu nedenle üs 2k olur; C=>bd temel kuralı ile bir b ve bir d daha eklenerek toplam üs 2k+1'e çıkar — böylece b ve d sayıları eşit ve tek sayı (2k+1) olarak eşleşir.",
+   "B => bbBdd kuralı her adımda çift sayıda (2 'b' ve 2 'd', yani 2k) ekler; sonlandırıcı C => bd kuralı ise 1 adet 'b' ve 'd' ekleyerek üssün tek sayı (2k+1) olmasını sağlar.",
+   "bbBdd kuralı 2k kadar çift eklerken, C=>bd kuralı +1 ekleyerek 2k+1 yapar; böylece b ve d sayıları eşit ve tek sayı olur."
+  ],
+  "anahtar": [
+   "B=>bbBdd|C",
+   "B => bbBdd",
+   "C=>bd",
+   "C => bd",
+   "2k+1",
+   "2k",
+   "tek sayı",
+   "çift"
+  ],
+  "cevap": "B=>bbBdd kuralı, S nın üslere bb ve dd eklemesiyle çalışır. Bu kural, S nın üslere bb ve dd eklediğinde, üslerin sayısı 2k+1 olarak sağlanır. Burada k, B'nin devam etme durumuyla ilişkilidir. Her B'nin devamında 2 adet bb ve dd eklenir, bu nedenle toplam üs sayısı 2k+1 olarak hesaplanır. Örneğin, B'nin 0 defa devam ettiği zaman üs sayısı 1 olur (2*0+1). 1 defa devam ettiği zaman üs sayısı 3 olur (2*1+1), ve böylece devam eder. Bu nedenle, B=>bbBdd kuralı, Ls.4.8.1 dilinde üslerin 2k+1 olarak olmasını sağlar.",
+  "dogruluk": "K"
+ },
+ {
+  "set": "test_1",
+  "id": "30",
+  "negatif": false,
+  "sinif": "TP",
+  "kos": [
+   "m32_N0"
+  ],
+  "soru": "G4.3 dilbilgisinde X=>aXbb|aZbb|abb ve Z=>Zb|Xb kuralları birlikte çalışarak L(G4.3)={a^n b^m c^k | n≥1, k≥1, m≥2n} koşulunu nasıl sağlar?",
+  "referans": [
+   "X=>aXbb|aZbb|abb kuralları her uygulandığında bir a öne, iki b sona ekler; ancak Z=>Zb|Xb sayesinde araya fazladan tek b'ler eklenebilir. X, n kez a üretirken (n≥1), her a için normalde 2b gelir ama Z aracılığıyla ekstra b'ler eklenince toplam b sayısı 2n'den büyük olabilir (m≥2n koşulu böyle sağlanır); Y=>cY|c ise en az 1 tane c üretir (k≥1).",
+   "X => aXbb kuralı her 'a' için en az 2 'b' (2n) üretilmesini zorunlu kılar; Z => Zb kuralları ise araya fazladan 'b' simgeleri ekleyerek b sayısının 2n'e eşit veya 2n'den büyük (m ≥ 2n) olmasını sağlar; Y kuralları da en az 1 c (k ≥ 1) üretir.",
+   "X kuralları her 'a' için 2 'b' üretirken, Z kuralları fazladan 'b' ekleyerek m >= 2n olmasını sağlar; Y=>cY|c en az 1 c üretir."
+  ],
+  "anahtar": [
+   "X=>aXbb|aZbb|abb",
+   "Z=>Zb|Xb",
+   "Y=>cY|c",
+   "m≥2n",
+   "m ≥ 2n",
+   "k≥1",
+   "fazladan",
+   "ekstra b",
+   "2b"
+  ],
+  "cevap": "X ve Z kuralları birlikte çalışarak L(G4.3)={a^n b^m c^k | n≥1, k≥1, m≥2n} koşulunu şu şekilde sağlar: 1. X => aXbb veya aZbb kuralları, b sayısının a sayısının iki katından fazla olmasını sağlar (m ≥ 2n).\n2. X => abb kuralı, a ve b sayısı eşit olmasını sağlar (n = n). Bu kuralların birleşimi, a sayısının 1 olduğunda (n = 1), b sayısının en az 2 olduğuna (m ≥ 2) ve c sayısının 1 olduğuna (k = 1) neden olur. Yani, X ve Z kuralları birlikte çalışarak a sayısının 1 olduğunda b sayısının en az 2 olduğuna ve c sayısının 1 olduğuna neden olur, böylece L(G4.3) koşulu sağlanır.",
+  "dogruluk": "K"
+ },
+ {
+  "set": "test_1",
+  "id": "30",
+  "negatif": false,
+  "sinif": "TP",
+  "kos": [
+   "m32_N5"
+  ],
+  "soru": "G4.3 dilbilgisinde X=>aXbb|aZbb|abb ve Z=>Zb|Xb kuralları birlikte çalışarak L(G4.3)={a^n b^m c^k | n≥1, k≥1, m≥2n} koşulunu nasıl sağlar?",
+  "referans": [
+   "X=>aXbb|aZbb|abb kuralları her uygulandığında bir a öne, iki b sona ekler; ancak Z=>Zb|Xb sayesinde araya fazladan tek b'ler eklenebilir. X, n kez a üretirken (n≥1), her a için normalde 2b gelir ama Z aracılığıyla ekstra b'ler eklenince toplam b sayısı 2n'den büyük olabilir (m≥2n koşulu böyle sağlanır); Y=>cY|c ise en az 1 tane c üretir (k≥1).",
+   "X => aXbb kuralı her 'a' için en az 2 'b' (2n) üretilmesini zorunlu kılar; Z => Zb kuralları ise araya fazladan 'b' simgeleri ekleyerek b sayısının 2n'e eşit veya 2n'den büyük (m ≥ 2n) olmasını sağlar; Y kuralları da en az 1 c (k ≥ 1) üretir.",
+   "X kuralları her 'a' için 2 'b' üretirken, Z kuralları fazladan 'b' ekleyerek m >= 2n olmasını sağlar; Y=>cY|c en az 1 c üretir."
+  ],
+  "anahtar": [
+   "X=>aXbb|aZbb|abb",
+   "Z=>Zb|Xb",
+   "Y=>cY|c",
+   "m≥2n",
+   "m ≥ 2n",
+   "k≥1",
+   "fazladan",
+   "ekstra b",
+   "2b"
+  ],
+  "cevap": "X ve Z kuralları birlikte çalışarak L(G4.3)={a^n b^m c^k | n≥1, k≥1, m≥2n} koşulunu şu şekilde sağlar: 1. X => aXbb veya aZbb şeklinde devam ederek a ve b sayısı eşit olacak şekilde artar.\n2. X => abb şeklinde devam ederek a ve b sayısının iki katı olan b sayısını artırır.\n3. Z => Zb veya Xb şeklinde devam ederek b sayısını artırır. Bu süreçte a sayısının 1 fazlası olan k sayısı c olarak eklenirken, b sayısının iki katı olan m sayısı oluşturulur. Bu şekilde L(G4.3) koşulu sağlanır.",
+  "dogruluk": "Y"
+ },
+ {
+  "set": "test_2",
+  "id": "31",
+  "negatif": false,
+  "sinif": "TP",
+  "kos": [
+   "m32_N0"
+  ],
+  "soru": "728_profiles.json dosyasındaki schemaVersion değeri nedir ve datasetName alanı veri setini nasıl tanımlıyor?",
+  "referans": [
+   "schemaVersion '1.1'dir. datasetName alanı 'DateBind Realistic Synthetic Appointment Provider Profiles' olup, DateBind uygulaması için gerçekçi görünümlü sentetik randevu sağlayıcı profillerinden oluşan bir demo/test veri seti olduğunu tanımlar.",
+   "schemaVersion: \"1.1\", datasetName: \"DateBind Realistic Synthetic Appointment Provider Profiles\". DateBind uygulaması için gerçekçi görünümlü, sentetik randevu sağlayıcı profillerinden oluşan bir demo/test veri seti olduğunu tanımlamaktadır.",
+   "schemaVersion 1.1'dir. datasetName alanı 'DateBind Realistic Synthetic Appointment Provider Profiles' olarak tanımlanmıştır (DateBind için sentetik randevu sağlayıcı profilleri demo/test veri seti)."
+  ],
+  "anahtar": [
+   "1.1",
+   "schemaVersion",
+   "DateBind Realistic Synthetic Appointment Provider Profiles",
+   "sentetik",
+   "randevu sağlayıcı",
+   "datasetName",
+   "demo/test"
+  ],
+  "cevap": "728_profiles.json dosyasındaki schemaVersion değeri 1.1'dir ve datasetName alanı \"DateBind Realistic Synthetic Appointment Provider Profiles\" adını kullanarak veri setini tanımlıyor. Bu bilgi, bağlamda açıkça verilmiştir.",
+  "dogruluk": "D"
+ },
+ {
+  "set": "test_2",
+  "id": "31",
+  "negatif": false,
+  "sinif": "TP",
+  "kos": [
+   "m32_N3",
+   "m32_N5"
+  ],
+  "soru": "728_profiles.json dosyasındaki schemaVersion değeri nedir ve datasetName alanı veri setini nasıl tanımlıyor?",
+  "referans": [
+   "schemaVersion '1.1'dir. datasetName alanı 'DateBind Realistic Synthetic Appointment Provider Profiles' olup, DateBind uygulaması için gerçekçi görünümlü sentetik randevu sağlayıcı profillerinden oluşan bir demo/test veri seti olduğunu tanımlar.",
+   "schemaVersion: \"1.1\", datasetName: \"DateBind Realistic Synthetic Appointment Provider Profiles\". DateBind uygulaması için gerçekçi görünümlü, sentetik randevu sağlayıcı profillerinden oluşan bir demo/test veri seti olduğunu tanımlamaktadır.",
+   "schemaVersion 1.1'dir. datasetName alanı 'DateBind Realistic Synthetic Appointment Provider Profiles' olarak tanımlanmıştır (DateBind için sentetik randevu sağlayıcı profilleri demo/test veri seti)."
+  ],
+  "anahtar": [
+   "1.1",
+   "schemaVersion",
+   "DateBind Realistic Synthetic Appointment Provider Profiles",
+   "sentetik",
+   "randevu sağlayıcı",
+   "datasetName",
+   "demo/test"
+  ],
+  "cevap": "728_profiles.json dosyasındaki schemaVersion değeri 1.1'dir ve datasetName alanı veri setini \"DateBind Realistic Synthetic Appointment Provider Profiles\" olarak tanımlıyor.",
+  "dogruluk": "D"
+ },
+ {
+  "set": "test_2",
+  "id": "36",
+  "negatif": false,
+  "sinif": "TP",
+  "kos": [
+   "m32_N0",
+   "m32_N1",
+   "m32_N3",
+   "m32_N5"
+  ],
+  "soru": "weeklyAvailability dizisinde her gün nesnesi hangi alanları (day, active, start, end) içermektedir?",
+  "referans": [
+   "Her gün nesnesi day (gün adı), active (o gün çalışılıp çalışılmadığı / aktiflik durumu), start (çalışma başlangıç saati) ve end (çalışma bitiş saati) alanlarını içermektedir.",
+   "day (gün adı), active (o gün çalışılıyor mu), start (başlangıç saati) ve end (bitiş saati) alanlarını içerir.",
+   "day, active, start ve end alanlarını içerir."
+  ],
+  "anahtar": [
+   "day",
+   "active",
+   "start",
+   "end",
+   "gün adı",
+   "başlangıç saati",
+   "bitiş saati",
+   "çalışma saatleri"
+  ],
+  "cevap": "Gün nesneleri following alanları içermektedir: day, active, start, end.",
+  "dogruluk": "D"
+ },
+ {
+  "set": "test_2",
+  "id": "38",
+  "negatif": false,
+  "sinif": "TP",
+  "kos": [
+   "m32_N0"
+  ],
+  "soru": "Mert Keskin profilinde appointmentSettings.autoApproveRequests neden false olarak ayarlanmış olabilir; Özge Taş'ın aynı alanla farkı nedir?",
+  "referans": [
+   "Mert Keskin profilinde autoApproveRequests: false (randevuları manuel onaylama) ve cancellationNoticeHours: 4 iken, Özge Taş profilinde autoApproveRequests: true (otomatik onaylama) ve cancellationNoticeHours: 12'dir. Bu fark deneyim ve profil çeşitliliğini simüle etmek için yapılandırılmıştır; Mert Keskin randevuları manuel onaylayıp daha kısa iptal bildirim süresi isterken, Özge Taş otomatik onaylayıp daha uzun bildirim süresi talep eder.",
+   "Mert Keskin randevuları manuel onaylamakta (autoApproveRequests: false, cancellationNoticeHours: 4), Özge Taş ise otomatik onaylamaktadır (autoApproveRequests: true, cancellationNoticeHours: 12). Bu durum sağlayıcıların farklı işleyiş tercihlerini ve profil çeşitliliğini simüle eder.",
+   "Mert Keskin: autoApproveRequests false (manuel onay), Özge Taş: autoApproveRequests true (otomatik onay). Sağlayıcı tercih çeşitliliğini yansıtır."
+  ],
+  "anahtar": [
+   "autoApproveRequests",
+   "false",
+   "true",
+   "Mert Keskin",
+   "Özge Taş",
+   "manuel onay",
+   "otomatik onay",
+   "cancellationNoticeHours",
+   "çeşitlilik"
+  ],
+  "cevap": "Mert Keskin profilinde `appointmentSettings.autoApproveRequests` false olarak ayarlanmış olabilir, çünkü sahibi özel bir politika uygulamaktadır. Özge Taş'ın durumu ise farklıdır çünkü `appointmentSettings.autoApproveRequests` true olarak ayarlanmış. Özge Taş'ın durumunda `appointmentSettings.autoApproveRequests` true olduğu için, randevular otomatik olarak onaylanır. Bu, daha az yönetmelik gerektirir ancak bazı randevuların otomatik onayı sahiplenmesi riskli olabilir.",
+  "dogruluk": "K"
+ },
+ {
+  "set": "test_2",
+  "id": "38",
+  "negatif": false,
+  "sinif": "TP",
+  "kos": [
+   "m32_N1",
+   "m32_N3"
+  ],
+  "soru": "Mert Keskin profilinde appointmentSettings.autoApproveRequests neden false olarak ayarlanmış olabilir; Özge Taş'ın aynı alanla farkı nedir?",
+  "referans": [
+   "Mert Keskin profilinde autoApproveRequests: false (randevuları manuel onaylama) ve cancellationNoticeHours: 4 iken, Özge Taş profilinde autoApproveRequests: true (otomatik onaylama) ve cancellationNoticeHours: 12'dir. Bu fark deneyim ve profil çeşitliliğini simüle etmek için yapılandırılmıştır; Mert Keskin randevuları manuel onaylayıp daha kısa iptal bildirim süresi isterken, Özge Taş otomatik onaylayıp daha uzun bildirim süresi talep eder.",
+   "Mert Keskin randevuları manuel onaylamakta (autoApproveRequests: false, cancellationNoticeHours: 4), Özge Taş ise otomatik onaylamaktadır (autoApproveRequests: true, cancellationNoticeHours: 12). Bu durum sağlayıcıların farklı işleyiş tercihlerini ve profil çeşitliliğini simüle eder.",
+   "Mert Keskin: autoApproveRequests false (manuel onay), Özge Taş: autoApproveRequests true (otomatik onay). Sağlayıcı tercih çeşitliliğini yansıtır."
+  ],
+  "anahtar": [
+   "autoApproveRequests",
+   "false",
+   "true",
+   "Mert Keskin",
+   "Özge Taş",
+   "manuel onay",
+   "otomatik onay",
+   "cancellationNoticeHours",
+   "çeşitlilik"
+  ],
+  "cevap": "Mert Keskin profilinde `appointmentSettings.autoApproveRequests` false olarak ayarlanmış olabilir, çünkü sahibi özel bir politika uygulamaktadır. Özge Taş'ın durumu ise farklıdır çünkü `appointmentSettings.autoApproveRequests` true olarak ayarlanmış. Bu ayarın farklı olması, Mert Keskin'in randevularının her zaman onaylanmadığını ve Özge Taş'in randevularının otomatik olarak kabul edildiğini gösterir.",
+  "dogruluk": "K"
+ },
+ {
+  "set": "test_2",
+  "id": "38",
+  "negatif": false,
+  "sinif": "TP",
+  "kos": [
+   "m32_N5"
+  ],
+  "soru": "Mert Keskin profilinde appointmentSettings.autoApproveRequests neden false olarak ayarlanmış olabilir; Özge Taş'ın aynı alanla farkı nedir?",
+  "referans": [
+   "Mert Keskin profilinde autoApproveRequests: false (randevuları manuel onaylama) ve cancellationNoticeHours: 4 iken, Özge Taş profilinde autoApproveRequests: true (otomatik onaylama) ve cancellationNoticeHours: 12'dir. Bu fark deneyim ve profil çeşitliliğini simüle etmek için yapılandırılmıştır; Mert Keskin randevuları manuel onaylayıp daha kısa iptal bildirim süresi isterken, Özge Taş otomatik onaylayıp daha uzun bildirim süresi talep eder.",
+   "Mert Keskin randevuları manuel onaylamakta (autoApproveRequests: false, cancellationNoticeHours: 4), Özge Taş ise otomatik onaylamaktadır (autoApproveRequests: true, cancellationNoticeHours: 12). Bu durum sağlayıcıların farklı işleyiş tercihlerini ve profil çeşitliliğini simüle eder.",
+   "Mert Keskin: autoApproveRequests false (manuel onay), Özge Taş: autoApproveRequests true (otomatik onay). Sağlayıcı tercih çeşitliliğini yansıtır."
+  ],
+  "anahtar": [
+   "autoApproveRequests",
+   "false",
+   "true",
+   "Mert Keskin",
+   "Özge Taş",
+   "manuel onay",
+   "otomatik onay",
+   "cancellationNoticeHours",
+   "çeşitlilik"
+  ],
+  "cevap": "Mert Keskin profilinde `appointmentSettings.autoApproveRequests` false olarak ayarlanmış olabilir, çünkü sahibi özel bir politika uygulamaktır ve randevular otomatik olarak onaylanmaz. Özge Taş'ın durumu ise farklıdır çünkü `appointmentSettings.autoApproveRequests` true olarak ayarlanmış, bu da randevuların genellikle otomatik olarak onaylandığını gösterir. Bu ayarlar, dokümanda açıkça verilmiştir ve her iki profesyonelin de randevu onayı konusundaki farklı yaklaşımlarını yansıtmaktadır.",
+  "dogruluk": "K"
+ },
+ {
+  "set": "test_2",
+  "id": "41",
+  "negatif": false,
+  "sinif": "TP",
+  "kos": [
+   "m32_N0"
+  ],
+  "soru": "searchKeywords dizisi bir profildeki hangi diğer alanlardan (sector, occupation, services, location) türetilmiş görünmektedir?",
+  "referans": [
+   "searchKeywords dizisi profildeki sector (sektör), occupation (meslek), services listesindeki hizmet adları ile location altındaki city (şehir) ve district (ilçe) bilgilerinin birleştirilip alfabetik sıralanmasıyla oluşturulmaktadır.",
+   "sector, occupation, services listesindeki hizmet adları, city ve district bilgilerinin birleştirilip alfabetik sıralanmasıyla türetilmiştir.",
+   "Sektör, meslek, hizmet adları, il ve ilçe alanlarının alfabetik olarak birleştirilmesinden oluşur."
+  ],
+  "anahtar": [
+   "sector",
+   "occupation",
+   "services",
+   "city",
+   "district",
+   "alfabetik",
+   "searchKeywords",
+   "hizmet adları"
+  ],
+  "cevap": "searchKeywords dizisi bir profildeki occupation (veri bilimi danışmanı) ve services (proje keşif görüşmesi, model değerlendirme, veri stratejisi görüşmesi) alanlarından türetilmiş görünmektedir. Location ve sector bilgileri anahtar kelimelerde yer almamaktadır.",
+  "dogruluk": "Y"
+ },
+ {
+  "set": "test_2",
+  "id": "41",
+  "negatif": false,
+  "sinif": "TP",
+  "kos": [
+   "m32_N5"
+  ],
+  "soru": "searchKeywords dizisi bir profildeki hangi diğer alanlardan (sector, occupation, services, location) türetilmiş görünmektedir?",
+  "referans": [
+   "searchKeywords dizisi profildeki sector (sektör), occupation (meslek), services listesindeki hizmet adları ile location altındaki city (şehir) ve district (ilçe) bilgilerinin birleştirilip alfabetik sıralanmasıyla oluşturulmaktadır.",
+   "sector, occupation, services listesindeki hizmet adları, city ve district bilgilerinin birleştirilip alfabetik sıralanmasıyla türetilmiştir.",
+   "Sektör, meslek, hizmet adları, il ve ilçe alanlarının alfabetik olarak birleştirilmesinden oluşur."
+  ],
+  "anahtar": [
+   "sector",
+   "occupation",
+   "services",
+   "city",
+   "district",
+   "alfabetik",
+   "searchKeywords",
+   "hizmet adları"
+  ],
+  "cevap": "searchKeywords dizisi bir profildeki occupation (meslek) ve location (konum) alanlarından türetilmiş görünmektedir. Örneğin, [1] profiline bakıldığında occupation \"Girişim Mentoru\" ve searchKeywords içinde \"Girişim Mentoru\" anahtar kelimesi yer almaktadır. Benzer şekilde, [4] profiline bakıldığında occupation \"Veri Bilimi Danışmanı\" ve searchKeywords içinde \"Veri Bilimi Danışmanı\" anahtar kelimesi yer almakta. Aynı şekilde location bilgileri de searchKeywords içinde yer almakta.",
+  "dogruluk": "K"
+ },
+ {
+  "set": "test_2",
+  "id": "42",
+  "negatif": false,
+  "sinif": "TP",
+  "kos": [
+   "m32_N0",
+   "m32_N5"
+  ],
+  "soru": "Emre Korkmaz ve Umut Aslan profillerinin minimumNoticeHours ve cancellationNoticeHours değerlerini bir çubuk grafikle karşılaştırdığınızda nasıl bir fark ortaya çıkar?",
+  "referans": [
+   "Emre Korkmaz'da minimumNoticeHours: 6 ve cancellationNoticeHours: 24 iken; Umut Aslan'da minimumNoticeHours: 4 ve cancellationNoticeHours: 24'tür. İptal süreleri aynıdır (24 saat), ancak minimum randevu bildirim süresinde 2 saatlik fark vardır; bu da aynı meslekte bile profil bazında ayarların varyasyon gösterdiğini ortaya koyar.",
+   "İkisinin de cancellationNoticeHours değeri 24 saattir; ancak minimumNoticeHours Emre Korkmaz'da 6 saat iken Umut Aslan'da 4 saattir (2 saat fark vardır).",
+   "minimumNoticeHours: Emre Korkmaz 6 saat, Umut Aslan 4 saat; cancellationNoticeHours her ikisinde de 24 saat."
+  ],
+  "anahtar": [
+   "Emre Korkmaz: 6",
+   "Umut Aslan: 4",
+   "24",
+   "24 saat",
+   "cancellationNoticeHours",
+   "minimumNoticeHours",
+   "2 saat"
+  ],
+  "cevap": "Emre Korkmaz'ın en az uyarı saatleri 6 saat, Umut Aslan'ın ise 4 saat; ikisinin de iptal uyarı saatleri 24 saat olduğuna göre, çubuk grafikte Emre Korkmaz'ın en az uyarı saatları Umut Aslan'ın en az uyarı saatlarına kıyasla 2 saat fazladır.",
+  "dogruluk": "D"
+ },
+ {
+  "set": "test_2",
+  "id": "44",
+  "negatif": false,
+  "sinif": "TP",
+  "kos": [
+   "m32_N0",
+   "m32_N1",
+   "m32_N3",
+   "m32_N5"
+  ],
+  "soru": "appointmentSettings içindeki minimumNoticeHours ile cancellationNoticeHours kavramsal olarak birbirinden nasıl ayrılmaktadır?",
+  "referans": [
+   "minimumNoticeHours bir randevunun en az kaç saat önceden talep edilebileceğini belirtirken; cancellationNoticeHours mevcut bir randevunun cezasız iptal edilebilmesi için gereken minimum bildirim süresini ifade eder. Biri randevu talep, diğeri ise randevu iptal aşamasıyla ilgilidir.",
+   "minimumNoticeHours yeni randevu talebinin en az kaç saat önceden yapılması gerektiğini, cancellationNoticeHours ise alınmış bir randevunun cezasız iptali için gereken süreyi belirtir.",
+   "minimumNoticeHours randevu oluşturma/talep aşamasıyla, cancellationNoticeHours ise randevu iptal aşamasıyla ilişkilidir."
+  ],
+  "anahtar": [
+   "minimumNoticeHours",
+   "cancellationNoticeHours",
+   "talep",
+   "iptal",
+   "en az kaç saat önceden",
+   "cezasız iptal",
+   "bildirim süresi"
+  ],
+  "cevap": "appointmentSettings içindeki minimumNoticeHours ve cancellationNoticeHours kavramsal olarak -1.95 saat farkıyla ayırt edilirler ve bu farkın standart sapması 10.90 saate eşittir.",
+  "dogruluk": "Y"
+ },
+ {
+  "set": "test_2",
+  "id": "45",
+  "negatif": false,
+  "sinif": "TP",
+  "kos": [
+   "m32_N0",
+   "m32_N5"
+  ],
+  "soru": "slug alanı displayName ve profileCode alanlarından nasıl bir kurala göre oluşturulmuş görünmektedir? Örnek profil üzerinden gösterin.",
+  "referans": [
+   "Kural: küçük-harfli-ad-soyad-profilkodununsonaltıkarakteri şeklindedir. Örneğin Özge Taş / DB-ZD5HGKSC için slug 'ozge-tas-zd5hgksc' olarak oluşturulmuştur.",
+   "displayName küçük harfe çevrilip tire ile birleştirilir ve profileCode'un son kısmı küçük harfle eklenir (Örnek: Özge Taş / DB-ZD5HGKSC → slug: 'ozge-tas-zd5hgksc').",
+   "küçük harfli ad-soyad ile profil kodunun son altı karakterinin birleşiminden oluşur (Örn. Özge Taş / DB-ZD5HGKSC → 'ozge-tas-zd5hgksc')."
+  ],
+  "anahtar": [
+   "slug",
+   "displayName",
+   "profileCode",
+   "küçük harf",
+   "ozge-tas-zd5hgksc",
+   "DB-ZD5HGKSC",
+   "Özge Taş"
+  ],
+  "cevap": "Slug alanı, `displayName` alanı olan \"Özge Taş\" ve `profileCode` alanı olan \"DB-ZD5HGKSC\" kullanılarak oluşturulmuştur. İlk olarak, `displayName` değerinin harfleri küçük harfe çevrilmiş ve arası boşluk silinmiştir. Daha sonra, `profileCode` değeri eklenmiştir. Ancak, `profileCode` değerindeki bazı karakterler (örneğin, \"G\") değiştirilerek \"z\" ile değiştirilmiştir. Son olarak, `profileCode` değerine \"DB-\" ve \"DB-\" eklenerek slug oluşturulmuştur. Örneğin, Özge Taş adlı profilin slug'i \"özge-taş-db-zd5\" olarak oluşturulmuştur.",
+  "dogruluk": "Y"
+ },
+ {
+  "set": "test_2",
+  "id": "51",
+  "negatif": false,
+  "sinif": "TP",
+  "kos": [
+   "m32_N0",
+   "m32_N3",
+   "m32_N5"
+  ],
+  "soru": "sectorDistribution içindeki 22 sektörün profil sayılarını gösteren bir grafik oluşturduğunuzda toplamın statistics.profileCount değeri olan 728'e eşit olup olmadığı nasıl doğrulanır?",
+  "referans": [
+   "Evet, sektör dağılımı toplamı tam olarak 728'e eşittir. 19 sektörde 32 profil (19 × 32 = 608) ve 3 sektörde 40 profil (3 × 40 = 120) yer alır; toplamda 608 + 120 = 728 bulunur ve profileCount değeri doğrulanır. Ayrıca ortalama meslek sayısı 91 meslek / 22 sektör ≈ 4.14 meslek/sektördür (çoğu sektörde 4, Sağlık/Spor ve Fitness/Eğitim ve Özel Ders sektörlerinde 5 meslek vardır).",
+   "19×32 + 3×40 = 608 + 120 = 728 eşitliği ile doğrulanır.",
+   "Tüm sektörlerin profil sayıları toplandığında 728 değerine ulaşılır (19*32 + 3*40 = 608 + 120 = 728)."
+  ],
+  "anahtar": [
+   "608 + 120 = 728",
+   "19 * 32",
+   "3 * 40",
+   "728",
+   "608",
+   "120",
+   "4.14",
+   "91/22"
+  ],
+  "cevap": "sectorDistribution içindeki 22 sektörün profil sayılarının toplamı 728'e eşit olduğunun doğruluğunu doğrulamak için, her sektörün profil sayısını toplayıp 728 ile karşılaştırabiliriz. Bu toplamın 728'e eşit olması gerekmektedir.",
+  "dogruluk": "K"
+ },
+ {
+  "set": "test_2",
+  "id": "54",
+  "negatif": false,
+  "sinif": "TP",
+  "kos": [
+   "m32_N0"
+  ],
+  "soru": "profileCode alanının 'DB-' önekli 8 karakterlik alfanümerik yapısı ile slug alanındaki kod parçası arasındaki ilişki nasıl kurulmaktadır; bu iki alan birlikte profilin benzersizliğini nasıl garanti eder?",
+  "referans": [
+   "profileCode 'DB-' + 8 karakterlik rastgele alfanümerik koddur (örn. DB-ZD5HGKSC); slug ise bu kodun son kısmını küçük harfe çevirip isimle birleştirir (ozge-tas-zd5hgksc). profileCode veritabanında tekilliği garanti ederken, slug hem SEO dostu hem de insan tarafından okunabilir benzersiz bir URL anahtarı sağlar.",
+   "profileCode ('DB-' + 8 alfanümerik karakter) benzersizliği garanti eder; slug ise bu kod parçasını küçük harfli ad-soyad ile birleştirerek hem benzersiz hem SEO-dostu URL anahtarı oluşturur.",
+   "profileCode benzersizliği sağlar, slug ise bu kodun son kısmını isimle birleştirip SEO-dostu ve insan-okunur tekil URL anahtarı sunar."
+  ],
+  "anahtar": [
+   "profileCode",
+   "DB-",
+   "8 karakter",
+   "slug",
+   "tekillik",
+   "benzersizlik",
+   "SEO-dostu",
+   "insan-okunur",
+   "ozge-tas-zd5hgksc"
+  ],
+  "cevap": "profileCode ve slug alanlarının birlikte profili benzersiz kılmak için tasarlanmıştır. profileCode, 8 karakterlik alfanümerik bir değer olan \"DB-\" ile başlar ve slug, aynı değerleri içerir. Bu sayede her profil için benzersiz bir kimlik oluşturulur ve bu kimlik, profilin benzersiz olmasını sağlar. Kaynak: 728_profiles.json verilerindeki örnekler.",
+  "dogruluk": "K"
+ },
+ {
+  "set": "test_2",
+  "id": "54",
+  "negatif": false,
+  "sinif": "TP",
+  "kos": [
+   "m32_N3"
+  ],
+  "soru": "profileCode alanının 'DB-' önekli 8 karakterlik alfanümerik yapısı ile slug alanındaki kod parçası arasındaki ilişki nasıl kurulmaktadır; bu iki alan birlikte profilin benzersizliğini nasıl garanti eder?",
+  "referans": [
+   "profileCode 'DB-' + 8 karakterlik rastgele alfanümerik koddur (örn. DB-ZD5HGKSC); slug ise bu kodun son kısmını küçük harfe çevirip isimle birleştirir (ozge-tas-zd5hgksc). profileCode veritabanında tekilliği garanti ederken, slug hem SEO dostu hem de insan tarafından okunabilir benzersiz bir URL anahtarı sağlar.",
+   "profileCode ('DB-' + 8 alfanümerik karakter) benzersizliği garanti eder; slug ise bu kod parçasını küçük harfli ad-soyad ile birleştirerek hem benzersiz hem SEO-dostu URL anahtarı oluşturur.",
+   "profileCode benzersizliği sağlar, slug ise bu kodun son kısmını isimle birleştirip SEO-dostu ve insan-okunur tekil URL anahtarı sunar."
+  ],
+  "anahtar": [
+   "profileCode",
+   "DB-",
+   "8 karakter",
+   "slug",
+   "tekillik",
+   "benzersizlik",
+   "SEO-dostu",
+   "insan-okunur",
+   "ozge-tas-zd5hgksc"
+  ],
+  "cevap": "profileCode ve slug alanlarının birlikte profili benzersiz kılmak için tasarlanmıştır. profileCode, 8 karakterlik alfanümerik bir değer olan 'DB-' ile başlar ve slug, aynı değerleri içerir. Bu sayede her profil için benzersiz bir kimlik oluşturulur ve bu kimlik, profilin benzersiz olmasını sağlar. Kaynak: 728_profiles.json, $.profiles[387], $.profiles[382], $.profiles[381], $.profiles[379]",
+  "dogruluk": "K"
+ },
+ {
+  "set": "test_2",
+  "id": "54",
+  "negatif": false,
+  "sinif": "TP",
+  "kos": [
+   "m32_N5"
+  ],
+  "soru": "profileCode alanının 'DB-' önekli 8 karakterlik alfanümerik yapısı ile slug alanındaki kod parçası arasındaki ilişki nasıl kurulmaktadır; bu iki alan birlikte profilin benzersizliğini nasıl garanti eder?",
+  "referans": [
+   "profileCode 'DB-' + 8 karakterlik rastgele alfanümerik koddur (örn. DB-ZD5HGKSC); slug ise bu kodun son kısmını küçük harfe çevirip isimle birleştirir (ozge-tas-zd5hgksc). profileCode veritabanında tekilliği garanti ederken, slug hem SEO dostu hem de insan tarafından okunabilir benzersiz bir URL anahtarı sağlar.",
+   "profileCode ('DB-' + 8 alfanümerik karakter) benzersizliği garanti eder; slug ise bu kod parçasını küçük harfli ad-soyad ile birleştirerek hem benzersiz hem SEO-dostu URL anahtarı oluşturur.",
+   "profileCode benzersizliği sağlar, slug ise bu kodun son kısmını isimle birleştirip SEO-dostu ve insan-okunur tekil URL anahtarı sunar."
+  ],
+  "anahtar": [
+   "profileCode",
+   "DB-",
+   "8 karakter",
+   "slug",
+   "tekillik",
+   "benzersizlik",
+   "SEO-dostu",
+   "insan-okunur",
+   "ozge-tas-zd5hgksc"
+  ],
+  "cevap": "profileCode ve slug arasındaki ilişki, profileCode'nun son 8 karakterini slug'da kullanarak oluşturulur. Bu şekilde, her profilin benzersiz bir slug değeri vardır ve bu değerler arası çakışma olasılığı azaltılır. Bu yaklaşım, profilin benzersizliğini garanti eder.",
+  "dogruluk": "K"
+ },
+ {
+  "set": "test_2",
+  "id": "56",
+  "negatif": false,
+  "sinif": "FN",
+  "kos": [
+   "m32_N0",
+   "m32_N3",
+   "m32_N5"
+  ],
+  "soru": "schemaVersion 1.1 olarak belirtilmiş olması, veri setinin ileride hangi alanlarda versiyon değişikliğine gidebileceğine dair ne tür bir çıkarım yapılmasına imkan tanır?",
+  "referans": [
+   "Gelecekteki versiyon değişikliklerinin: yeni sektör veya mesleklerin eklenmesi, publicContact alanının gerçek verilerle doldurulması, hafta sonu/tatil kurallarının genişletilmesi, profileType için yeni kategorilerin (örn. 'kurum/klinik') eklenmesi gibi yapısal değişikliklerde gerçekleşebileceğini gösterir; schemaVersion bu tür yapısal değişikliklerde artırılır.",
+   "Şemanın gelecekte yeni sektör/meslekler ekleme, publicContact'a gerçek bilgiler koyma, hafta sonu kuralları tanımlama veya yeni profil tipleri ekleme gibi yapısal geliştirmelere açık olduğunu ve schemaVersion ile versiyonlanacağını gösterir.",
+   "Yeni sektör/meslek eklenmesi, publicContact verileri, hafta sonu kuralları veya yeni profil tipleri eklendiğinde schemaVersion güncellenecektir."
+  ],
+  "anahtar": [
+   "schemaVersion",
+   "yeni sektör",
+   "meslek",
+   "publicContact",
+   "hafta sonu",
+   "profileType",
+   "yapısal değişiklik",
+   "versiyon"
+  ],
+  "cevap": "Bu bilgi dokümanlarda bulunamadı.",
+  "dogruluk": "R"
+ },
+ {
+  "set": "test_2",
+  "id": "60",
+  "negatif": false,
+  "sinif": "TP",
+  "kos": [
+   "m32_N0",
+   "m32_N5"
+  ],
+  "soru": "Profillerin deneyim yıllarını (experience.years) bir histogramla görselleştirdiğinizde veri setindeki deneyim dağılımı nasıl bir eğilim göstermektedir?",
+  "referans": [
+   "Deneyim yılları 2 ile 22 yıl arasında değişmektedir; dağılım nispeten düzgün/üniformdur (her yıl için yaklaşık 26-42 profil) ve belirgin bir çan eğrisi yoktur (deneyim yılları sistematik olarak eşit dağıtılmıştır). Ayrıca profil türleri 599 'individual' ve 129 'business' olmak üzere iki değer alır.",
+   "Deneyim yılları 2-22 arasında düzgün/üniform bir dağılım göstermektedir (yıl başına ~26-42 profil) ve belirgin bir tepe/çan eğrisi bulunmamaktadır.",
+   "2 ile 22 yıl arasında üniform (düzgün) dağılım sergiler; her yıl için yaklaşık 26-42 profil yer alır."
+  ],
+  "anahtar": [
+   "2-22",
+   "2 ile 22",
+   "üniform",
+   "düzgün dağılım",
+   "26-42",
+   "çan eğrisi yok",
+   "experience.years",
+   "599 individual",
+   "129 business"
+  ],
+  "cevap": "Profillerin deneyim yıllarını bir histogramla görselleştirdiğinizde, deneyim süresi 9-10 yıl arasındaki profiller en yüksek frekansa sahipken, 19 yıl deneyimli profiller ikincil maksimuma sahip bir dağılım göstermektedir. Deneyim süresi 20 ve üzerinde olanlar az sayıda gözüküyor.",
+  "dogruluk": "Y"
+ },
+ {
+  "set": "test_3",
+  "id": "76",
+  "negatif": false,
+  "sinif": "TP",
+  "kos": [
+   "m32_N0"
+  ],
+  "soru": "Duallik (duality) özelliği ileri ve ters dönüşümlerin benzerliğinden nasıl yararlanmaktadır?",
+  "referans": [
+   "İleri ve ters dönüşüm formülleri birbirine çok benzer yapıdadır (sadece işaret ve 1/2π çarpanı farklıdır). Bu simetriden yararlanarak, eğer f(t)↔F(ω) biliniyorsa, F(t)↔2πf(-ω) ilişkisi kurulabilir (duallik özelliği).",
+   "İleri ve ters dönüşüm integrallerinin form benzerliğinden yararlanarak f(t) ↔ F(ω) ise F(t) ↔ 2π f(-ω) ilişkisini kurar.",
+   "f(t) ↔ F(ω) ise F(t) ↔ 2π f(-ω) çiftini oluşturur."
+  ],
+  "anahtar": [
+   "F(t) ↔ 2π f(-ω)",
+   "F(t)↔2πf(-ω)",
+   "duallik",
+   "duality",
+   "simetri",
+   "ileri ve ters dönüşüm"
+  ],
+  "cevap": "Duality özelliği, ileri ve ters dönüşümlerin benzerliği sayesinde bir fonksiyonun zaman uzamasının frekans uzamasına karşılık gelen dönüşüm çiftini kolayca bulmasına olanak tanır. Örneğin, bir dikdörtgen fonksiyonunun zaman uzaması, frekans uzamasına karşılık gelen yeni dikdörtgen fonksiyonunun dönüştürülmesini sağlar. Bu özellik, belirli fonksiyonların dönüştürülmesini daha hızlı ve kolay hale getirir. Örneğin, rect(t/τ) fonksiyonunun Fourier dönüşümünü biliyorsak, τsinc(tτ/2) fonksiyonunun dönüşümünü duality özelliği kullanılarak 2π rect(ω/τ) olarak kolayca hesaplayabiliriz. Bu, matematiksel işlemi daha az zorlaştırır ve hesaplamaları hızlandırır.",
+  "dogruluk": "Y"
+ },
+ {
+  "set": "test_3",
+  "id": "76",
+  "negatif": false,
+  "sinif": "TP",
+  "kos": [
+   "m32_N5"
+  ],
+  "soru": "Duallik (duality) özelliği ileri ve ters dönüşümlerin benzerliğinden nasıl yararlanmaktadır?",
+  "referans": [
+   "İleri ve ters dönüşüm formülleri birbirine çok benzer yapıdadır (sadece işaret ve 1/2π çarpanı farklıdır). Bu simetriden yararlanarak, eğer f(t)↔F(ω) biliniyorsa, F(t)↔2πf(-ω) ilişkisi kurulabilir (duallik özelliği).",
+   "İleri ve ters dönüşüm integrallerinin form benzerliğinden yararlanarak f(t) ↔ F(ω) ise F(t) ↔ 2π f(-ω) ilişkisini kurar.",
+   "f(t) ↔ F(ω) ise F(t) ↔ 2π f(-ω) çiftini oluşturur."
+  ],
+  "anahtar": [
+   "F(t) ↔ 2π f(-ω)",
+   "F(t)↔2πf(-ω)",
+   "duallik",
+   "duality",
+   "simetri",
+   "ileri ve ters dönüşüm"
+  ],
+  "cevap": "Duality özelliği, ileri ve ters dönüşümlerin benzerliği sayesinde bir fonksiyonun zaman uzamasının frekans uzamasına karşılık gelen dönüşümünü kolayca bulmamızı sağlar. Örneğin, rect(t/τ) fonksiyonunun Fourier dönüşümü τ.sinc(ωτ/2) olarak bilinir. Duality özelliği sayesinde, τ.sinc(tτ/2) fonksiyonunun dönüşümü 2π.rect(ω/τ) olarak bulunabilir. Bu, duality özelliği ile ileri ve ters dönüşümler arasındaki benzerlikten kaynaklanmıştır.",
+  "dogruluk": "D"
+ },
+ {
+  "set": "test_3",
+  "id": "78",
+  "negatif": false,
+  "sinif": "TP",
+  "kos": [
+   "m32_N0"
+  ],
+  "soru": "Ölçekleme (scaling) özelliğine göre |a|>1 olduğunda zaman ve frekans eksenlerinde ne tür bir değişim meydana gelir?",
+  "referans": [
+   "|a|>1 olduğunda zaman ekseni sıkışır (compress), buna karşılık frekans ekseni genişler (expand). Yani işaret zamanda daha hızlı değişir hale gelirken, spektrumu daha geniş bir frekans bandına yayılır.",
+   "Zaman ekseni sıkışır/daralır (compress), frekans ekseni ise genişler (expand).",
+   "Zaman ekseninde daralma, frekans ekseninde genişleme meydana gelir."
+  ],
+  "anahtar": [
+   "zaman ekseni sıkışır",
+   "frekans ekseni genişler",
+   "compress",
+   "expand",
+   "daralma",
+   "genişleme",
+   "ölçekleme"
+  ],
+  "cevap": "|a| > 1 olduğunda zaman eksenini kompresion yapar ve frekans eksenini genişletir. Bu durumda zaman domeninde uzunluk artarken, frekans domeninde genişlik azalır.",
+  "dogruluk": "K"
+ },
+ {
+  "set": "test_3",
+  "id": "78",
+  "negatif": false,
+  "sinif": "TP",
+  "kos": [
+   "m32_N3",
+   "m32_N5"
+  ],
+  "soru": "Ölçekleme (scaling) özelliğine göre |a|>1 olduğunda zaman ve frekans eksenlerinde ne tür bir değişim meydana gelir?",
+  "referans": [
+   "|a|>1 olduğunda zaman ekseni sıkışır (compress), buna karşılık frekans ekseni genişler (expand). Yani işaret zamanda daha hızlı değişir hale gelirken, spektrumu daha geniş bir frekans bandına yayılır.",
+   "Zaman ekseni sıkışır/daralır (compress), frekans ekseni ise genişler (expand).",
+   "Zaman ekseninde daralma, frekans ekseninde genişleme meydana gelir."
+  ],
+  "anahtar": [
+   "zaman ekseni sıkışır",
+   "frekans ekseni genişler",
+   "compress",
+   "expand",
+   "daralma",
+   "genişleme",
+   "ölçekleme"
+  ],
+  "cevap": "|a| > 1 olduğunda zaman eksenini kompresion yapar ve frekans eksenini genişletir. Bu durumda zaman boyutu küçülürken frekans boyutu artar.",
+  "dogruluk": "D"
+ },
+ {
+  "set": "test_3",
+  "id": "79",
+  "negatif": false,
+  "sinif": "FN",
+  "kos": [
+   "m32_N0"
+  ],
+  "soru": "Zaman ekseninde genişleme ile frekans ekseninde daralma (bant genişliği) arasındaki ters orantı nasıl açıklanmıştır?",
+  "referans": [
+   "Zaman domenindeki genişlik ile frekans domenindeki genişlik (bant genişliği) ters orantılıdır: f(t) zamanda genişse (yavaş değişiyorsa) spektrumu dardır; f(t) zamanda darsa (hızlı değişiyorsa/ani ise) spektrumu geniştir. Bu, ölçekleme özelliğinin doğal bir sonucudur.",
+   "Zaman bölgesindeki süre ile frekans bölgesindeki bant genişliği ters orantılıdır: İşaret zamanda genişledikçe spektrumu daralır, zamanda daraldıkça spektrumu genişler.",
+   "f(t) genişledikçe spektrum daralır; f(t) daraldıkça spektrum genişler."
+  ],
+  "anahtar": [
+   "ters orantılı",
+   "zamanda geniş",
+   "spektrum dar",
+   "zamanda dar",
+   "spektrum geniş",
+   "bant genişliği",
+   "ölçekleme"
+  ],
+  "cevap": "Bu bilgi dokümanlarda bulunamadı.",
+  "dogruluk": "R"
+ },
+ {
+  "set": "test_3",
+  "id": "79",
+  "negatif": false,
+  "sinif": "TP",
+  "kos": [
+   "m32_N1"
+  ],
+  "soru": "Zaman ekseninde genişleme ile frekans ekseninde daralma (bant genişliği) arasındaki ters orantı nasıl açıklanmıştır?",
+  "referans": [
+   "Zaman domenindeki genişlik ile frekans domenindeki genişlik (bant genişliği) ters orantılıdır: f(t) zamanda genişse (yavaş değişiyorsa) spektrumu dardır; f(t) zamanda darsa (hızlı değişiyorsa/ani ise) spektrumu geniştir. Bu, ölçekleme özelliğinin doğal bir sonucudur.",
+   "Zaman bölgesindeki süre ile frekans bölgesindeki bant genişliği ters orantılıdır: İşaret zamanda genişledikçe spektrumu daralır, zamanda daraldıkça spektrumu genişler.",
+   "f(t) genişledikçe spektrum daralır; f(t) daraldıkça spektrum genişler."
+  ],
+  "anahtar": [
+   "ters orantılı",
+   "zamanda geniş",
+   "spektrum dar",
+   "zamanda dar",
+   "spektrum geniş",
+   "bant genişliği",
+   "ölçekleme"
+  ],
+  "cevap": "Zaman domain'deki f(t) fonksiyonunun genişlemesi, frekans domain'deki spektrumun daralmasına eşdeğerdir. Bu, ölçekleme özelliğiyle açıklanabilir: |a| > 1 olduğunda zaman ekseninin kompresionu (genişlemesi), frekans ekseninin genişlemesine neden olur ve vice versa. Bu durumu matematiksel olarak ifade edersek: f(t) genisledikçe (a > 1), F(ω) daralır ve bant genişliği azalır.\nf(t) daraltılırsa (a < 1), F(ω) genişler ve bant genişliği artar. Bu ters orantı, zaman ve frekans domain'larda uzunlukların ters orantılı ilişkisini temsil eder.",
+  "dogruluk": "D"
+ },
+ {
+  "set": "test_3",
+  "id": "79",
+  "negatif": false,
+  "sinif": "TP",
+  "kos": [
+   "m32_N3",
+   "m32_N5"
+  ],
+  "soru": "Zaman ekseninde genişleme ile frekans ekseninde daralma (bant genişliği) arasındaki ters orantı nasıl açıklanmıştır?",
+  "referans": [
+   "Zaman domenindeki genişlik ile frekans domenindeki genişlik (bant genişliği) ters orantılıdır: f(t) zamanda genişse (yavaş değişiyorsa) spektrumu dardır; f(t) zamanda darsa (hızlı değişiyorsa/ani ise) spektrumu geniştir. Bu, ölçekleme özelliğinin doğal bir sonucudur.",
+   "Zaman bölgesindeki süre ile frekans bölgesindeki bant genişliği ters orantılıdır: İşaret zamanda genişledikçe spektrumu daralır, zamanda daraldıkça spektrumu genişler.",
+   "f(t) genişledikçe spektrum daralır; f(t) daraldıkça spektrum genişler."
+  ],
+  "anahtar": [
+   "ters orantılı",
+   "zamanda geniş",
+   "spektrum dar",
+   "zamanda dar",
+   "spektrum geniş",
+   "bant genişliği",
+   "ölçekleme"
+  ],
+  "cevap": "Zaman ekseninde genişlenmesi, frekans ekseninde daralmasına eşittir. Bu, ölçekleme özelliği ile açıklanabilir: |a| > 1 olduğunda zaman ekseninde sıkıştırılıp frekans ekseninde yayılırken, |a| < 1 olduğunda zaman ekseninde yayılıp frekans ekseninde sıkıştırılır. Dolayısıyla, zaman domain'deki genişlik, frekans domain'deki genişliğe ters orantıyla ilişkilidir.",
+  "dogruluk": "D"
+ },
+ {
+  "set": "test_3",
+  "id": "82",
+  "negatif": false,
+  "sinif": "FN",
+  "kos": [
+   "m32_N0",
+   "m32_N1",
+   "m32_N3",
+   "m32_N5"
+  ],
+  "soru": "Zamanda çarpımın frekansta konvolüsyona karşılık geldiği özellik hangi türetme ile gösterilmiştir?",
+  "referans": [
+   "y(t)=f(t)cos(ω0t) modülasyon örneğinde, zaman domenindeki çarpımın Fourier dönüşümünün, frekans domeninde bir konvolüsyon integraline karşılık geldiği; y(t)=∫x(τ)(t-τ)dτ türünden bir ilişki üzerinden gösterilmiştir; buradan Y(ω)=(1/2π)[F(ω)*F{cos(ω0t)}] türetilmiştir.",
+   "y(t) = f(t)cos(ω0t) işaretinin Fourier dönüşümünde Y(ω) = (1/2π) [F(ω) * (πδ(ω+ω0) + πδ(ω-ω0))] konvolüsyon integrali ve Dirac delta kaydırma özelliği ile gösterilmiştir.",
+   "Y(ω) = (1/2π) F(ω) * F{cos(ω0t)} frekans konvolüsyonu türetimiyle gösterilmiştir."
+  ],
+  "anahtar": [
+   "konvolüsyon",
+   "Y(ω)=(1/2π)[F(ω)*F{cos(ω0t)}]",
+   "y(t)=f(t)cos(ω0t)",
+   "frekans domeni",
+   "çarpım",
+   "Dirac delta"
+  ],
+  "cevap": "Bu bilgi dokümanlarda bulunamadı.",
+  "dogruluk": "R"
+ },
+ {
+  "set": "test_3",
+  "id": "87",
+  "negatif": false,
+  "sinif": "TP",
+  "kos": [
+   "m32_N0"
+  ],
+  "soru": "Nedensel üstel işaretin genlik yanıtı |X(jω)|=1/√(Re{a}²+(ω+Im{a})²) ifadesinde Re{a} ve Im{a} terimleri fiziksel olarak neyi temsil eder ve a=1 için genlik-faz grafiklerinin şekli nasıl yorumlanır?",
+  "referans": [
+   "Re{a} genliğin sönme (decay) hızını belirleyen reel bileşendir ve genlik yanıtının paydasındaki karekök teriminde doğrudan yer alır; Im{a} ise frekans eksenini kaydıran bir öteleme terimi gibi davranır (ω+Im{a}). a=1 (yani Re{a}=1, Im{a}=0) için genlik yanıtı ω=0'da tepe (maksimum) değerine ulaşan, simetrik ve azalan bir eğri (alçak geçiren filtre karakteristiği) gösterir; faz yanıtı ise ω arttıkça monoton azalan bir tan⁻¹ eğrisi (S şeklinde) sergiler.",
+   "Re{a} sönümlenme (decay) hızını, Im{a} salınım (oscillation) frekansını temsil eder. a=1 için genlik sıfır frekansta 1 olup frekans arttıkça alçak geçiren filtre şeklinde azalır; faz ise 0'dan -90 dereceye (-π/2) doğru iner.",
+   "Re{a} sönümlenmeyi, Im{a} salınımı temsil eder; a=1 iken genlik yanıtı alçak geçiren eğri oluşturur."
+  ],
+  "anahtar": [
+   "Re{a}",
+   "Im{a}",
+   "sönme",
+   "decay",
+   "salınım",
+   "alçak geçiren",
+   "a=1",
+   "tan⁻¹",
+   "öteleme"
+  ],
+  "cevap": "Re{a} terimi a complex number a=-a-jω'nin reel kısmı olan -a'yı temsil eder ve Im{a} terimi a'nın sanal kısmını olan -jω'yı temsil eder. a=1 için genlik-faz grafikleri:\n- Magnitude: 1/√(1+(ω+0)²) = 1/√(1+ω²) şeklinde olur ve ω arttıkça azalmaya devam eder.\n- Phase: -tan⁻¹(-ω) şeklinde olur ve ω arttıkça negatif değerler alarak faz sapmayı gösterir. Bu grafikler, a=1 olduğunda üstel işaretin genlik sapması ve faz sapmasını görselleştirmektedir.",
+  "dogruluk": "K"
+ },
+ {
+  "set": "test_3",
+  "id": "87",
+  "negatif": false,
+  "sinif": "TP",
+  "kos": [
+   "m32_N3"
+  ],
+  "soru": "Nedensel üstel işaretin genlik yanıtı |X(jω)|=1/√(Re{a}²+(ω+Im{a})²) ifadesinde Re{a} ve Im{a} terimleri fiziksel olarak neyi temsil eder ve a=1 için genlik-faz grafiklerinin şekli nasıl yorumlanır?",
+  "referans": [
+   "Re{a} genliğin sönme (decay) hızını belirleyen reel bileşendir ve genlik yanıtının paydasındaki karekök teriminde doğrudan yer alır; Im{a} ise frekans eksenini kaydıran bir öteleme terimi gibi davranır (ω+Im{a}). a=1 (yani Re{a}=1, Im{a}=0) için genlik yanıtı ω=0'da tepe (maksimum) değerine ulaşan, simetrik ve azalan bir eğri (alçak geçiren filtre karakteristiği) gösterir; faz yanıtı ise ω arttıkça monoton azalan bir tan⁻¹ eğrisi (S şeklinde) sergiler.",
+   "Re{a} sönümlenme (decay) hızını, Im{a} salınım (oscillation) frekansını temsil eder. a=1 için genlik sıfır frekansta 1 olup frekans arttıkça alçak geçiren filtre şeklinde azalır; faz ise 0'dan -90 dereceye (-π/2) doğru iner.",
+   "Re{a} sönümlenmeyi, Im{a} salınımı temsil eder; a=1 iken genlik yanıtı alçak geçiren eğri oluşturur."
+  ],
+  "anahtar": [
+   "Re{a}",
+   "Im{a}",
+   "sönme",
+   "decay",
+   "salınım",
+   "alçak geçiren",
+   "a=1",
+   "tan⁻¹",
+   "öteleme"
+  ],
+  "cevap": "Re{a} terimi a'nın reel kısmı temsil eder ve genlikten bağımlıdır. Im{a} terimi a'nın sanal kısmı temsil eder ve fazdan bağımlıdır. a=1 olduğunda genlik yanıtının modülü sabit kalır ve faz yanıtında ω arttıkça faz sapma olmaktadır. Bu durumda genlik yanıt grafiği sabit bir çizgi oluştururken, faz yanıt grafiği -atan(ω) eğrisine benzer bir eğri oluşturur. Bu, genlikte sabit bir azalma ve fazta sabit bir sapma olduğunu gösterir.",
+  "dogruluk": "Y"
+ },
+ {
+  "set": "test_3",
+  "id": "87",
+  "negatif": false,
+  "sinif": "TP",
+  "kos": [
+   "m32_N5"
+  ],
+  "soru": "Nedensel üstel işaretin genlik yanıtı |X(jω)|=1/√(Re{a}²+(ω+Im{a})²) ifadesinde Re{a} ve Im{a} terimleri fiziksel olarak neyi temsil eder ve a=1 için genlik-faz grafiklerinin şekli nasıl yorumlanır?",
+  "referans": [
+   "Re{a} genliğin sönme (decay) hızını belirleyen reel bileşendir ve genlik yanıtının paydasındaki karekök teriminde doğrudan yer alır; Im{a} ise frekans eksenini kaydıran bir öteleme terimi gibi davranır (ω+Im{a}). a=1 (yani Re{a}=1, Im{a}=0) için genlik yanıtı ω=0'da tepe (maksimum) değerine ulaşan, simetrik ve azalan bir eğri (alçak geçiren filtre karakteristiği) gösterir; faz yanıtı ise ω arttıkça monoton azalan bir tan⁻¹ eğrisi (S şeklinde) sergiler.",
+   "Re{a} sönümlenme (decay) hızını, Im{a} salınım (oscillation) frekansını temsil eder. a=1 için genlik sıfır frekansta 1 olup frekans arttıkça alçak geçiren filtre şeklinde azalır; faz ise 0'dan -90 dereceye (-π/2) doğru iner.",
+   "Re{a} sönümlenmeyi, Im{a} salınımı temsil eder; a=1 iken genlik yanıtı alçak geçiren eğri oluşturur."
+  ],
+  "anahtar": [
+   "Re{a}",
+   "Im{a}",
+   "sönme",
+   "decay",
+   "salınım",
+   "alçak geçiren",
+   "a=1",
+   "tan⁻¹",
+   "öteleme"
+  ],
+  "cevap": "Re{a} terimi a complex number a = Re{a} + j*Im{a} nin gerçek kısmıdır ve genlik yanıtı formülünde a'nın reel kısmı ile orantılı olarak azalma hızını belirler. Im{a} terimi ise a'nın sanal kısmı ve genlik yanıtı formülünde ω ile orantılı olarak faz sapmayı belirler. a = 1 için, genlik yanıtının şekli sabit bir değere (1/√2 yaklaşık 0.707) eşittir ve faz yanıtın formülü -atan(-1 - ω) olur. Bu, ω arttıkça faz sapma negatif yönde arttığını gösterir. Magnitude plot sabit bir çizgi, Phase plot negatif eğimli bir çizgiye sahip olacaktır.",
+  "dogruluk": "Y"
+ },
+ {
+  "set": "test_3",
+  "id": "89",
+  "negatif": false,
+  "sinif": "TP",
+  "kos": [
+   "m32_N0"
+  ],
+  "soru": "Sinüzoidal genlik modülasyonu örneğinde ω1<<ω0 varsayımının demodülasyon sürecinde alçak geçiren filtreleme adımı için neden gerekli olduğunu, Y(ω) spektrumundaki F(ω-ω0) ve F(ω+ω0) bileşenlerinin konumu üzerinden açıklayınız.",
+  "referans": [
+   "ω1<<ω0 varsayımı, F(ω-ω0) ve F(ω+ω0) bileşenlerinin frekans ekseninde birbirinden yeterince uzakta (ω0 civarında dar bantlı) konumlanmasını sağlar. Böylece demodülasyon sonrası oluşan spektrumda, orijinal F(ω) bileşeni (ω=0 civarında) ile ±2ω0 civarındaki yüksek frekans bileşenleri birbirine karışmaz (overlap etmez) ve alçak geçiren filtre bu iki grubu kolayca ayırarak sadece F(ω)'yı geçirebilir.",
+   "ω1 << ω0 olduğunda ±ω0 etrafındaki spektrum bileşenleri örtüşmez (aliasing olmaz); demodülasyon sonrasında temel banttaki (merkezdeki) mesaj sinyali ile ±2ω0'daki yüksek frekanslı bileşenler alçak geçiren filtre ile birbirinden kolayca ayrıştırılabilir.",
+   "Spektral örtüşmeyi önlemek ve alçak geçiren filtrenin yüksek frekans bileşenlerini kesebilmesini sağlamak için gereklidir."
+  ],
+  "anahtar": [
+   "ω1<<ω0",
+   "overlap",
+   "karışmaz",
+   "örtüşmez",
+   "alçak geçiren filtre",
+   "±2ω0",
+   "F(ω-ω0)",
+   "F(ω+ω0)",
+   "spektrum"
+  ],
+  "cevap": "ω1<<ω0 varsayımının gerekli olduğu neden, Y(ω) spektrumunda F(ω-ω0) ve F(ω+ω0) bileşenlerinin ω1 frekansları civarında yer aldıklarından kaynaklanmaktadır. Bu bileşenlerin ω1<<ω0 olduğuna göre, demodülasyon sürecinde alçak geçiren filtreleme adımı sayesinde sadece ω1 frekansında bulunan gürültünün kalmasını sağlar ve orijinal f(t) sinyalinin geri kopyasını elde edebiliriz. Bu durumda, F(ω-ω0) ve F(ω+ω0) bileşenlerinin ω1 civarında yer aldığı varsayımın doğruluğu, demodülasyon sırasında gürültünün azaltılmasına ve f(t) sinyalinin doğru geri alınımasına olanak tanır. Bu nedenle, ω1<<ω0 varsayımı demodülasyon sürecinde alçak geçiren filtreleme adımı için gerekli olmaktadır.",
+  "dogruluk": "Y"
+ },
+ {
+  "set": "test_3",
+  "id": "89",
+  "negatif": false,
+  "sinif": "TP",
+  "kos": [
+   "m32_N5"
+  ],
+  "soru": "Sinüzoidal genlik modülasyonu örneğinde ω1<<ω0 varsayımının demodülasyon sürecinde alçak geçiren filtreleme adımı için neden gerekli olduğunu, Y(ω) spektrumundaki F(ω-ω0) ve F(ω+ω0) bileşenlerinin konumu üzerinden açıklayınız.",
+  "referans": [
+   "ω1<<ω0 varsayımı, F(ω-ω0) ve F(ω+ω0) bileşenlerinin frekans ekseninde birbirinden yeterince uzakta (ω0 civarında dar bantlı) konumlanmasını sağlar. Böylece demodülasyon sonrası oluşan spektrumda, orijinal F(ω) bileşeni (ω=0 civarında) ile ±2ω0 civarındaki yüksek frekans bileşenleri birbirine karışmaz (overlap etmez) ve alçak geçiren filtre bu iki grubu kolayca ayırarak sadece F(ω)'yı geçirebilir.",
+   "ω1 << ω0 olduğunda ±ω0 etrafındaki spektrum bileşenleri örtüşmez (aliasing olmaz); demodülasyon sonrasında temel banttaki (merkezdeki) mesaj sinyali ile ±2ω0'daki yüksek frekanslı bileşenler alçak geçiren filtre ile birbirinden kolayca ayrıştırılabilir.",
+   "Spektral örtüşmeyi önlemek ve alçak geçiren filtrenin yüksek frekans bileşenlerini kesebilmesini sağlamak için gereklidir."
+  ],
+  "anahtar": [
+   "ω1<<ω0",
+   "overlap",
+   "karışmaz",
+   "örtüşmez",
+   "alçak geçiren filtre",
+   "±2ω0",
+   "F(ω-ω0)",
+   "F(ω+ω0)",
+   "spektrum"
+  ],
+  "cevap": "ω1<<ω0 varsayımı, demodülasyon sırasında alçak geçiren filtreleme adımı için gerekli çünkü demodülasyon işlemi, orijinal sinyalin frekans bileşenlerini F(ω+ω0) ve F(ω-ω0) olarak ikiye böler. Bu bileşenlerin frekans sapması ω0 olduğuna göre, alçak geçiren filtreleme, F(ω+ω0) bileşenini pasif kılar ve F(ω-ω0) bileşeni ise pasif kalır. Bu sayede orijinal sinyal f(t) geri kazanılabilir hale gelir. Y(ω) spektrumunda F(ω+ω0) ve F(ω-ω0) bileşenlerinin konumu, ω1<<ω0 koşulunu sağlar ve demodülasyon işlemi sırasında sinyalin doğru şekilde geri kazanılmasını sağlar.",
+  "dogruluk": "Y"
+ },
+ {
+  "set": "test_4",
+  "id": "91",
+  "negatif": false,
+  "sinif": "FN",
+  "kos": [
+   "m33_V0",
+   "m33_S"
+  ],
+  "soru": "Alis'in çalıştığı kütüphanenin adı nedir?",
+  "referans": [
+   "Kütüphanenin adı Gümüş Yaprak'tır.",
+   "Gümüş Yaprak",
+   "Gümüş Yaprak Kütüphanesi",
+   "Gümüş Yaprak'tır."
+  ],
+  "anahtar": [
+   "Gümüş Yaprak",
+   "Gümüş Yaprak Kütüphanesi"
+  ],
+  "cevap": "Bu bilgi dokümanlarda bulunamadı.",
+  "dogruluk": "R"
+ },
+ {
+  "set": "test_4",
+  "id": "91",
+  "negatif": false,
+  "sinif": "TP",
+  "kos": [
+   "m33_M"
+  ],
+  "soru": "Alis'in çalıştığı kütüphanenin adı nedir?",
+  "referans": [
+   "Kütüphanenin adı Gümüş Yaprak'tır.",
+   "Gümüş Yaprak",
+   "Gümüş Yaprak Kütüphanesi",
+   "Gümüş Yaprak'tır."
+  ],
+  "anahtar": [
+   "Gümüş Yaprak",
+   "Gümüş Yaprak Kütüphanesi"
+  ],
+  "cevap": "Alis'in çalıştığı kütüphanenin adı Gümüş Yaprak. Bu bilgi test1.txt dosyasının 1. ve 3. paragraflarında verilmiştir.",
+  "dogruluk": "D"
+ },
+ {
+  "set": "test_4",
+  "id": "91",
+  "negatif": false,
+  "sinif": "TP",
+  "kos": [
+   "m33_G2"
+  ],
+  "soru": "Alis'in çalıştığı kütüphanenin adı nedir?",
+  "referans": [
+   "Kütüphanenin adı Gümüş Yaprak'tır.",
+   "Gümüş Yaprak",
+   "Gümüş Yaprak Kütüphanesi",
+   "Gümüş Yaprak'tır."
+  ],
+  "anahtar": [
+   "Gümüş Yaprak",
+   "Gümüş Yaprak Kütüphanesi"
+  ],
+  "cevap": "Unutulmuş Parşömen'in Gümüş Yaprak kütüphanesi.",
+  "dogruluk": "K"
+ },
+ {
+  "set": "test_4",
+  "id": "91",
+  "negatif": false,
+  "sinif": "TP",
+  "kos": [
+   "m33_G4"
+  ],
+  "soru": "Alis'in çalıştığı kütüphanenin adı nedir?",
+  "referans": [
+   "Kütüphanenin adı Gümüş Yaprak'tır.",
+   "Gümüş Yaprak",
+   "Gümüş Yaprak Kütüphanesi",
+   "Gümüş Yaprak'tır."
+  ],
+  "anahtar": [
+   "Gümüş Yaprak",
+   "Gümüş Yaprak Kütüphanesi"
+  ],
+  "cevap": "Unutulmuş Parşömen Kaynak: test1.txt, paragraf 1",
+  "dogruluk": "Y"
+ },
+ {
+  "set": "test_4",
+  "id": "92",
+  "negatif": false,
+  "sinif": "TP",
+  "kos": [
+   "m32_N0"
+  ],
+  "soru": "Anlatıcının Oda No: 304'ü kiraladığı şehir ve mevsim hangisidir?",
+  "referans": [
+   "İstanbul'da, yağmurlu bir kasım sabahında (sonbaharda) kiralanmıştır.",
+   "İstanbul, Kasım (Sonbahar)",
+   "İstanbul, Sonbahar",
+   "İstanbul ve sonbahar (kasım ayı)",
+   "İstanbul, yağmurlu bir kasım sabahı"
+  ],
+  "anahtar": [
+   "İstanbul",
+   "kasım",
+   "sonbahar"
+  ],
+  "cevap": "İstanbul'un yağmurlu kasım mevsiminde.",
+  "dogruluk": "D"
+ },
+ {
+  "set": "test_4",
+  "id": "92",
+  "negatif": false,
+  "sinif": "TP",
+  "kos": [
+   "m32_N3",
+   "m32_N5"
+  ],
+  "soru": "Anlatıcının Oda No: 304'ü kiraladığı şehir ve mevsim hangisidir?",
+  "referans": [
+   "İstanbul'da, yağmurlu bir kasım sabahında (sonbaharda) kiralanmıştır.",
+   "İstanbul, Kasım (Sonbahar)",
+   "İstanbul, Sonbahar",
+   "İstanbul ve sonbahar (kasım ayı)",
+   "İstanbul, yağmurlu bir kasım sabahı"
+  ],
+  "anahtar": [
+   "İstanbul",
+   "kasım",
+   "sonbahar"
+  ],
+  "cevap": "Anlatıcının Oda No: 304'ü kiraladığı şehir İstanbul ve mevsim yağmurlu kasım.",
+  "dogruluk": "D"
+ },
+ {
+  "set": "test_4",
+  "id": "98",
+  "negatif": false,
+  "sinif": "TP",
+  "kos": [
+   "m32_N0"
+  ],
+  "soru": "Anlatıcının saatin 03.13'e gelmesini fark etmesi ile önceki günlük kayıtlarında belirtilen 03.14 tıkırtısı arasındaki zamansal gerilim nasıl kurgulanmıştır?",
+  "referans": [
+   "Günlükte tıkırtının her gece tam 03.14'te başladığı yazılıdır. Anlatıcı krokiye bakıp şömineye yöneldiğinde saatin 03.13 olduğunu fark eder; yani tıkırtının başlamasına sadece bir dakika kalmıştır. Bu, okuyucuda olayın az sonra gerçekleşeceği hissini yaratarak gerilimi tırmandırır ve nitekim bir dakika sonra tıkırtı duyulur.",
+   "Günlükte tıkırtının her gece tam 03.14'te başladığı belirtilmişken, anlatıcının saatin tam 03.13 olduğunu fark etmesi ve tam bir dakika sonra şömineden tıkırtının gelmesiyle son saniye gerilimi yaratılmıştır.",
+   "03.13'te anlatıcının zamanı fark edip 1 dakika sonra 03.14'te tıkırtıyı duymasıyla anlık ve yoğun bir gerilim kurgulanmıştır."
+  ],
+  "anahtar": [
+   "03.13",
+   "03.14",
+   "bir dakika",
+   "tıkırtı",
+   "şömine",
+   "kroki",
+   "gerilim"
+  ],
+  "cevap": "Anlatıcının saatin 03.13'e gelmesini fark etmesi, 03.14'teki tıkırtının bir önceki günlük kayıtlarda belirtilmediği ve anlatıcının saatin 03.13'e geldiğinde şaşkınlık duyduğu bir durumu gösterir. Bu, 03.14 tıkırtısının bir ön sembol veya bir kod olduğunu anlatıcının aklına getirerek zamansal gerilimi artırır. Cevabı kısaltarak söylemek gerekirse: 03.13 saati fark etmesi, 03.14 tıkırtısının ön sembolüne işaret eder ve zamansal gerilimi artırır.",
+  "dogruluk": "Y"
+ },
+ {
+  "set": "test_4",
+  "id": "98",
+  "negatif": false,
+  "sinif": "TP",
+  "kos": [
+   "m32_N5"
+  ],
+  "soru": "Anlatıcının saatin 03.13'e gelmesini fark etmesi ile önceki günlük kayıtlarında belirtilen 03.14 tıkırtısı arasındaki zamansal gerilim nasıl kurgulanmıştır?",
+  "referans": [
+   "Günlükte tıkırtının her gece tam 03.14'te başladığı yazılıdır. Anlatıcı krokiye bakıp şömineye yöneldiğinde saatin 03.13 olduğunu fark eder; yani tıkırtının başlamasına sadece bir dakika kalmıştır. Bu, okuyucuda olayın az sonra gerçekleşeceği hissini yaratarak gerilimi tırmandırır ve nitekim bir dakika sonra tıkırtı duyulur.",
+   "Günlükte tıkırtının her gece tam 03.14'te başladığı belirtilmişken, anlatıcının saatin tam 03.13 olduğunu fark etmesi ve tam bir dakika sonra şömineden tıkırtının gelmesiyle son saniye gerilimi yaratılmıştır.",
+   "03.13'te anlatıcının zamanı fark edip 1 dakika sonra 03.14'te tıkırtıyı duymasıyla anlık ve yoğun bir gerilim kurgulanmıştır."
+  ],
+  "anahtar": [
+   "03.13",
+   "03.14",
+   "bir dakika",
+   "tıkırtı",
+   "şömine",
+   "kroki",
+   "gerilim"
+  ],
+  "cevap": "Anlatıcının saatin 03.13'e gelmesini fark etmesi, 03.14'teki tıkırtının bir saat önce gerçekleştiğini gösterir. Bu, tıkırtının bir kod olduğunu ve anlatıcının bunu anlamaya çalıştığını vurgular. Zamansal gerilim, anlatıcının fark etmesiyle birlikte artar ve onun bu kodu çözmesine yönelik gerilim artırır.",
+  "dogruluk": "Y"
+ },
+ {
+  "set": "test_5",
+  "id": "107",
+  "negatif": true,
+  "sinif": "FP",
+  "kos": [
+   "m32_N0",
+   "m32_N3",
+   "m32_N5"
+  ],
+  "soru": "728_profiles.json veri setinde profillerin ortalama randevu ücreti kaç TL'dir?",
+  "referans": [
+   ""
+  ],
+  "anahtar": [],
+  "cevap": "728_profiles.json veri setinde profillerin ortalama randevu ücreti 45.12'dir.",
+  "dogruluk": "Y"
+ },
+ {
+  "set": "test_5",
+  "id": "109",
+  "negatif": true,
+  "sinif": "TN",
+  "kos": [
+   "m32_N0",
+   "m32_N3",
+   "m32_N5"
+  ],
+  "soru": "728_profiles.json veri setindeki profillerin müşteri memnuniyet puanı ortalaması kaçtır?",
+  "referans": [
+   ""
+  ],
+  "anahtar": [],
+  "cevap": "Bu bilgi dokümanlarda bulunamadı; sonuç doğrulanamadığı için aktarılmadı.",
+  "dogruluk": "R"
+ },
+ {
+  "set": "test_5",
+  "id": "110",
+  "negatif": true,
+  "sinif": "TN",
+  "kos": [
+   "m32_N0",
+   "m32_N3",
+   "m32_N5"
+  ],
+  "soru": "mock-transactions.json dosyasında işlemlerin kredi kartı numaraları hangi alanda tutulmaktadır?",
+  "referans": [
+   ""
+  ],
+  "anahtar": [],
+  "cevap": "Bu bilgi dokümanlarda bulunamadı.",
+  "dogruluk": "R"
+ },
+ {
+  "set": "test_5",
+  "id": "111",
+  "negatif": true,
+  "sinif": "TN",
+  "kos": [
+   "m32_N0",
+   "m32_N5"
+  ],
+  "soru": "728_profiles.json veri setinde profillerin IBAN bilgileri hangi şema alanında saklanır?",
+  "referans": [
+   ""
+  ],
+  "anahtar": [],
+  "cevap": "Bu bilgi dokümanlarda bulunamadı.",
+  "dogruluk": "R"
+ },
+ {
+  "set": "test_5",
+  "id": "115",
+  "negatif": true,
+  "sinif": "TN",
+  "kos": [
+   "m32_N0",
+   "m32_N3",
+   "m32_N5"
+  ],
+  "soru": "Oda No: 304 hikayesinde anlatıcının mesleği nedir?",
+  "referans": [
+   ""
+  ],
+  "anahtar": [],
+  "cevap": "Bu bilgi dokümanlarda bulunamadı.",
+  "dogruluk": "R"
+ },
+ {
+  "set": "test_negative",
+  "id": "203",
+  "negatif": true,
+  "sinif": "TN",
+  "kos": [
+   "m32_N0",
+   "m32_N1",
+   "m32_N3",
+   "m32_N5"
+  ],
+  "soru": "GDPR kapsamında kişisel verilerin azami saklama süresi ne kadardır?",
+  "referans": [
+   "Bu bilgi dokümanlarda bulunamadı."
+  ],
+  "anahtar": null,
+  "cevap": "Bu bilgi dokümanlarda bulunamadı.",
+  "dogruluk": "R"
+ },
+ {
+  "set": "test_negative",
+  "id": "207",
+  "negatif": true,
+  "sinif": "TN",
+  "kos": [
+   "m32_N0",
+   "m32_N1",
+   "m32_N3",
+   "m32_N5"
+  ],
+  "soru": "Wavelet dönüşümünün zaman-frekans çözünürlüğü avantajı nedir?",
+  "referans": [
+   "Bu bilgi dokümanlarda bulunamadı."
+  ],
+  "anahtar": null,
+  "cevap": "Bu bilgi dokümanlarda bulunamadı.",
+  "dogruluk": "R"
+ },
+ {
+  "set": "test_negative",
+  "id": "211",
+  "negatif": true,
+  "sinif": "TN",
+  "kos": [
+   "m32_N0",
+   "m32_N3",
+   "m32_N5"
+  ],
+  "soru": "\"Havacılık ve Uzay\" sektöründeki profillerin ortalama deneyim yılı kaçtır?",
+  "referans": [
+   "Bu bilgi dokümanlarda bulunamadı."
+  ],
+  "anahtar": null,
+  "cevap": "Bu bilgi dokümanlarda bulunamadı; belirtilen koşullara uyan kayıt yok.",
+  "dogruluk": "R"
+ },
+ {
+  "set": "test_negative",
+  "id": "214",
+  "negatif": false,
+  "sinif": "FN",
+  "kos": [
+   "m32_N0"
+  ],
+  "soru": "airports.json veri setindeki Türkiye'ye ait havaalanlarının IATA kodları nelerdir?",
+  "referans": [
+   "IST (Istanbul Airport). Veri setinde Türkiye'ye (TR) ait tek havaalanı budur."
+  ],
+  "anahtar": null,
+  "cevap": "Bu bilgi dokümanlarda bulunamadı.",
+  "dogruluk": "R"
+ },
+ {
+  "set": "test_negative",
+  "id": "214",
+  "negatif": false,
+  "sinif": "TP",
+  "kos": [
+   "m32_N1"
+  ],
+  "soru": "airports.json veri setindeki Türkiye'ye ait havaalanlarının IATA kodları nelerdir?",
+  "referans": [
+   "IST (Istanbul Airport). Veri setinde Türkiye'ye (TR) ait tek havaalanı budur."
+  ],
+  "anahtar": null,
+  "cevap": "IST",
+  "dogruluk": "D"
+ },
+ {
+  "set": "test_negative",
+  "id": "214",
+  "negatif": false,
+  "sinif": "TP",
+  "kos": [
+   "m32_N3"
+  ],
+  "soru": "airports.json veri setindeki Türkiye'ye ait havaalanlarının IATA kodları nelerdir?",
+  "referans": [
+   "IST (Istanbul Airport). Veri setinde Türkiye'ye (TR) ait tek havaalanı budur."
+  ],
+  "anahtar": null,
+  "cevap": "IST, JFK ve ATL havaalanlarının IATA kodları veri setinde bulunmakta ancak sadece IST kodu Türkiye'a ait. JFK ve ATL Amerika Birleşik Devletleri'ndedir. Bu bilgi, airports.json dosyasındaki verilerden çıkarılmıştır.",
+  "dogruluk": "D"
+ },
+ {
+  "set": "test_negative",
+  "id": "214",
+  "negatif": false,
+  "sinif": "TP",
+  "kos": [
+   "m32_N5"
+  ],
+  "soru": "airports.json veri setindeki Türkiye'ye ait havaalanlarının IATA kodları nelerdir?",
+  "referans": [
+   "IST (Istanbul Airport). Veri setinde Türkiye'ye (TR) ait tek havaalanı budur."
+  ],
+  "anahtar": null,
+  "cevap": "IST, JFK'dan biri Türkiye'ye ait değil.",
+  "dogruluk": "K"
+ },
+ {
+  "set": "test_negative",
+  "id": "215",
+  "negatif": true,
+  "sinif": "TN",
+  "kos": [
+   "m32_N0",
+   "m32_N1",
+   "m32_N3",
+   "m32_N5"
+  ],
+  "soru": "us-states veri setinde her eyaletin nüfusu kaç olarak belirtilmiştir?",
+  "referans": [
+   "Bu bilgi dokümanlarda bulunamadı."
+  ],
+  "anahtar": null,
+  "cevap": "Bu bilgi dokümanlarda bulunamadı.",
+  "dogruluk": "R"
+ },
+ {
+  "set": "test_negative",
+  "id": "216",
+  "negatif": true,
+  "sinif": "TN",
+  "kos": [
+   "m32_N0",
+   "m32_N3",
+   "m32_N5"
+  ],
+  "soru": "728_profiles veri setinde profillerin kredi puanı (credit score) ortalaması kaçtır?",
+  "referans": [
+   "Bu bilgi dokümanlarda bulunamadı."
+  ],
+  "anahtar": null,
+  "cevap": "Bu bilgi dokümanlarda bulunamadı.",
+  "dogruluk": "R"
+ },
+ {
+  "set": "test_negative",
+  "id": "220",
+  "negatif": true,
+  "sinif": "TN",
+  "kos": [
+   "m32_N0",
+   "m32_N3",
+   "m32_N5"
+  ],
+  "soru": "Summer School planında ikinci ay için ayrılan bütçe ne kadardır?",
+  "referans": [
+   "Bu bilgi dokümanlarda bulunamadı."
+  ],
+  "anahtar": null,
+  "cevap": "Bu bilgi dokümanlarda bulunamadı.",
+  "dogruluk": "R"
+ },
+ {
+  "set": "test_negative",
+  "id": "221",
+  "negatif": true,
+  "sinif": "TN",
+  "kos": [
+   "m32_N0",
+   "m32_N1",
+   "m32_N3",
+   "m32_N5"
+  ],
+  "soru": "test2.txt hikâyesinde anlatıcının kız kardeşinin adı nedir?",
+  "referans": [
+   "Bu bilgi dokümanlarda bulunamadı."
+  ],
+  "anahtar": null,
+  "cevap": "Bu bilgi dokümanlarda bulunamadı.",
+  "dogruluk": "R"
+ },
+ {
+  "set": "test_negative",
+  "id": "222",
+  "negatif": true,
+  "sinif": "TN",
+  "kos": [
+   "m32_N0"
+  ],
+  "soru": "Z-Dönüşümü ders notlarında 12. haftanın konu başlığı nedir?",
+  "referans": [
+   "Bu bilgi dokümanlarda bulunamadı."
+  ],
+  "anahtar": null,
+  "cevap": "Z-Dönüşümü ders notlarında 12. haftanın konu başlığına herhangi bir bilgi bulunmadığından",
+  "dogruluk": "R"
+ },
+ {
+  "set": "test_negative",
+  "id": "222",
+  "negatif": true,
+  "sinif": "FP",
+  "kos": [
+   "m32_N3",
+   "m32_N5"
+  ],
+  "soru": "Z-Dönüşümü ders notlarında 12. haftanın konu başlığı nedir?",
+  "referans": [
+   "Bu bilgi dokümanlarda bulunamadı."
+  ],
+  "anahtar": null,
+  "cevap": "12. hafta konu başlığına ilişkin bilgi",
+  "dogruluk": "B"
+ },
+ {
+  "set": "test_negative",
+  "id": "223",
+  "negatif": true,
+  "sinif": "TN",
+  "kos": [
+   "m32_N0",
+   "m32_N1",
+   "m32_N3",
+   "m32_N5"
+  ],
+  "soru": "728_profiles veri setinde yer alan gerçek telefon numaralarının doğrulama yöntemi nedir?",
+  "referans": [
+   "Bu bilgi dokümanlarda bulunamadı."
+  ],
+  "anahtar": null,
+  "cevap": "Bu bilgi dokümanlarda bulunamadı.",
+  "dogruluk": "R"
+ },
+ {
+  "set": "test_negative",
+  "id": "226",
+  "negatif": true,
+  "sinif": "TN",
+  "kos": [
+   "m32_N0",
+   "m32_N3"
+  ],
+  "soru": "mock-transactions veri setinde 2023 yılının en yüksek harcaması hangi kategoridedir?",
+  "referans": [
+   "Bu bilgi dokümanlarda bulunamadı."
+  ],
+  "anahtar": null,
+  "cevap": "Bu bilgi dokümanlarda bulunamadı.",
+  "dogruluk": "R"
+ },
+ {
+  "set": "test_negative",
+  "id": "226",
+  "negatif": true,
+  "sinif": "FP",
+  "kos": [
+   "m32_N5"
+  ],
+  "soru": "mock-transactions veri setinde 2023 yılının en yüksek harcaması hangi kategoridedir?",
+  "referans": [
+   "Bu bilgi dokümanlarda bulunamadı."
+  ],
+  "anahtar": null,
+  "cevap": "Entertainment kategoridesinde yapılmış en yüksek harcama bulunmaktadır. Bu harcama Netflix aboneliği olarak tanımlanmıştır.",
+  "dogruluk": "Y"
+ },
+ {
+  "set": "test_negative",
+  "id": "228",
+  "negatif": true,
+  "sinif": "TN",
+  "kos": [
+   "m32_N0",
+   "m32_N3",
+   "m32_N5"
+  ],
+  "soru": "728_profiles veri setine bu ay eklenen yeni profil sayısı kaçtır?",
+  "referans": [
+   "Bu bilgi dokümanlarda bulunamadı."
+  ],
+  "anahtar": null,
+  "cevap": "Bu bilgi dokümanlarda bulunamadı; belirtilen koşullara uyan kayıt yok.",
+  "dogruluk": "R"
+ },
+ {
+  "set": "test_negative",
+  "id": "229",
+  "negatif": true,
+  "sinif": "TN",
+  "kos": [
+   "m32_N0",
+   "m32_N3",
+   "m32_N5"
+  ],
+  "soru": "Summer School programının 2027 yılı kayıt takvimi nasıldır?",
+  "referans": [
+   "Bu bilgi dokümanlarda bulunamadı."
+  ],
+  "anahtar": null,
+  "cevap": "Bu bilgi dokümanlarda bulunamadı.",
+  "dogruluk": "R"
+ },
+ {
+  "set": "test_negative",
+  "id": "231",
+  "negatif": true,
+  "sinif": "TN",
+  "kos": [
+   "m32_N0",
+   "m32_N1",
+   "m32_N3",
+   "m32_N5"
+  ],
+  "soru": "airports.json veri setinin 2026 güncellemesinde eklenen havaalanları hangileridir?",
+  "referans": [
+   "Bu bilgi dokümanlarda bulunamadı."
+  ],
+  "anahtar": null,
+  "cevap": "Bu bilgi dokümanlarda bulunamadı; belirtilen koşullara uyan kayıt yok.",
+  "dogruluk": "R"
+ },
+ {
+  "set": "test_negative",
+  "id": "232",
+  "negatif": true,
+  "sinif": "FP",
+  "kos": [
+   "m32_N0",
+   "m32_N1",
+   "m32_N3",
+   "m32_N5"
+  ],
+  "soru": "us-states veri setinde en son hangi tarihte eyalet sınırı değişikliği kaydedilmiştir?",
+  "referans": [
+   "Bu bilgi dokümanlarda bulunamadı."
+  ],
+  "anahtar": null,
+  "cevap": "Hawaii, veri setinde en son eyalet sınırı değişikliği kaydedilen eyalettedir.",
+  "dogruluk": "Y"
+ }
+]
