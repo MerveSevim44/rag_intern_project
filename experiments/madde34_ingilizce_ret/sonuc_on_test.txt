@@ -1,0 +1,8 @@
+test_3#82: Zamanda çarpımın frekansta konvolüsyona karşılık geldiği özellik hangi türetme ile gösterilmiştir?
+GT: ["y(t)=f(t)cos(ω0t) modülasyon örneğinde, zaman domenindeki çarpımın Fourier dönüşümünün, frekans domeninde bir konvolüsyon integraline karşılık geldiği; y(t)=∫x(τ)(t-τ)dτ türünden bir ilişki üzerinden gösterilmiştir; buradan Y(ω)=(1/2π)[F(ω)*F{cos(ω0t)}] türetilmiştir.", "y(t) = f(t)cos(ω0t) işaretinin Fourier dönüşümünde Y(ω) = (1/2π) [F(ω) * (πδ(ω+ω0) + πδ(ω-ω0))] konvolüsyon integrali ve Dirac delta kaydırma özelliği ile gösterilmiştir.", "Y(ω) = (1/2π) F(ω) * F{cos(ω0t)} frekans konvolüsyonu türetimiyle gösterilmiştir."]
+eşik=0.25  oranlar: 4185=1.000, 4187=0.297, 4333=0.216, 4184=0.206
+elenen: [4333, 4184]  kalan: [4185, 4187]
+
+  [1] TP: "Sinüzoidal Genlik Modülasyonu türetmesiyle gösterilmiştir. Kaynak: [1], sayfa 12'de zamanda çarpımı frekansta konvolüsyona karşılık gelen formül verilmiştir:\n\\[ \\left( Y(\\omega) = F(\\omega + \\omega_0) * F(\\omega - \\omega_0) \\right) \\] Bu formül, zamanda çarpmayı frekansta konvolüsyona eşdeğer olarak göstermektedir."
+  [2] TP: "Sinüzoidal Genlik Modülasyonu türetmesiyle gösterilmiştir. Kaynak: [1], sayfa 12'de zamanda çarpımı frekansta konvolüsyona karşılık gelen formül verilmiştir:\n\\[ \\left( Y(\\omega) = F(\\omega + \\omega_0) * F(\\omega - \\omega_0) \\right) \\] Bu formül, zamanda çarpmayı frekansta konvolüsyona eşdeğer olarak göstermektedir."
+  tekrarlar aynı: True

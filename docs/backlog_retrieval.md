@@ -40,11 +40,11 @@ PR olarak ele alınır.
 | 31 | OCR'lı Cevap sayfalarının metin kalitesi: bir sayfa okunamıyor (#24), diğerlerinde üst simge / "\|" kaybı model cevabına aynen geçiyor | Açık — iki ayrı ciddiyet: okunamayan sayfa (yeniden OCR) / kısmi bozulma (son işleme) |
 | 32 | RRF birleştirmesi BM25=0 olan en iyi dense chunk'ını havuzdan atıyor (test_3 #79/#82) | **Kapandı (mekanizma)** — `8d3f33d` dense güvenlik slotu, N=1'de #79 FN→TP; **bayrak KAPALI, açma kararı ayrı ve AÇIK** (bkz. madde 32 kapanış notu) |
 | 33 | Stemmer tutarsızlığı + iki chunk'a bölünmüş cevap (test_4 #91) | Açık — Adım 1: belirleyici neden bölünmüş cevap; stemmer tek başına 0 kazanç. Adım 2: `.txt` birleştirme MIN=500 (#91 düzeliyor, sessiz bozulma yok). **Production'a alındı** (2026-10-29), duman testi geçti |
-| 34 | Cevap chunk'ı bağlamda 1. sırada, model yine reddediyor (test_3 #82) | Açık — generation tarafı; retrieval madde 32'de çözüldü |
+| 34 | Cevap chunk'ı bağlamda 1. sırada, model yine reddediyor (test_3 #82) | **Kapandı (2026-10-29)** — neden dil/sembol değil, konu dışı "türetme" chunk'ı (4333); desen #56'da da doğrulandı ama kapsam dar (net getiri ≤1 soru, kısmen doğru, yalnız dense bayrağı açıkken). Müdahale yapılmadı; bağıl eşik bulgusu → madde 24 |
 | 35 | `run_tests.py` kapanışta aralıklı 0xC0000005 ile çıkıyor | Açık — **düşük öncelik**; sonuçlar tam yazılıyor, iş-around `uretim.py`'de (`b469350`) |
 | 36 | `classify_answer` TP'si doğruluk değil: TP'lerin %32'si yanlış cevap | **Karar verildi** — ret tespiti güvenilir (FN/TN 0 çelişki); bağlam değişen ölçümlerde sınıfın yanında ayrı doğruluk kontrolü kural (b), raporlarda TP yerine "cevap verdi" (a), `classify_answer` koduna dokunulmaz (c) |
 | 37 | Yorum isteyen soruda ret kırılgan: bağlam bileşimine monoton olmayan şekilde bağlı (test_4 #100) | Açık — şüphe: yorum sınırı / subjektif soru; madde 34'ten ayrıldı, mekanizma ölçülmedi |
-| 38 | İçerik doğruluğu ret/kabul ayrımından ayrı bir sorun: sınıf TP ama GT karşılanmıyor (test_2 #56) | Açık — madde 34'ten ayrıldı; madde 36 ailesi (TP ≠ doğru), soru özelinde çıkarım/içerik eksikliği |
+| 38 | Ret kalksa da içerik hatalı: sınıf TP ama GT karşılanmıyor — içerik doğruluğu ret/kabul ayrımından ayrı bir sorun (test_2 #56, test_3 #82) | Açık — genel başlık; madde 34'ten ayrıldı, madde 36 ailesi (TP ≠ doğru). Örnekler: #56 genel geçer cevap, #82 yanlış formül |
 
 **Uyarı (madde 36):** bağlam değişen ölçümlerde TP = doğru cevap DEĞİLDİR;
 `classify_answer` yalnız ret / cevap ayrımı yapar, doğruluk ayrıca kontrol edilir.
@@ -60,7 +60,7 @@ rakamları doğrudan karşılaştırmadan önce bu farkı düşün.
 
 ### Öncelik sırası (2026-10-11, güncelleme 2026-10-13)
 
-Açık retrieval/değerlendirme maddeleri için sıra: **25 (skorlama) ✅ → 22 ✅ → 27 ✅ → 29 ✅ → 20 (top_k ✅, 2b açık) → 21 (raporlama ✅; 4 FN açık) → 32 (mekanizma ✅; bayrak kararı açık) → 36 (karar ✅: doğruluk kontrolü kural) → 33 → 34 → 24 (bağıl eşik) → 30 → 28 → 26 → 31 → 35 (en alt).**
+Açık retrieval/değerlendirme maddeleri için sıra: **25 (skorlama) ✅ → 22 ✅ → 27 ✅ → 29 ✅ → 20 (top_k ✅, 2b açık) → 21 (raporlama ✅; 4 FN açık) → 32 (mekanizma ✅; bayrak kararı açık) → 36 (karar ✅: doğruluk kontrolü kural) → 33 ✅ → 34 ✅ → 24 (bağıl eşik; madde 34 girdisi) → 30 → 28 → 26 → 31 → 35 (en alt).**
 
 - **25 önce:** madde 24'ün başarı ölçütü negatif set FP sayısı; skorlayıcı yarım
   retleri FP saydığı sürece (#222) bu sayı yapay olarak şişik ve 24'ün etkisi
@@ -1585,6 +1585,31 @@ payı ölçülürse 31 B'nin son işleme adayları (sembol onarımı) burada da 
   mutlak eşik ayırmıyor. Sıradaki: (a) bağıl rerank eşiği (madde 24) +
   regresyon ölçümü. Karar yok.
 
+**Adım 3 (2026-10-29) — (a) bağıl eşik ön-testi, sweep yapılmadı:**
+`on_test.py` → `sonuc_on_test.txt`. #82 N=1 bağlamında rerank / ilk oranı: 4187
+0.297, 4333 0.216, 4184 0.206 → 4333'ü eleyen her eşik 4184'ü de eler. Eşik 0.25
+ile bağlam [4185, 4187]: sınıf TP (2/2), içerik **kısmen** (türetme adı doğru,
+eklenen formül yanlış: `F(ω+ω0) * F(ω−ω0)`). Kapı "doğru geliyorsa sweep" idi.
+
+**Kapanış (2026-10-29) — desen belirlendi, kapsamı dar, müdahale yapılmadı.**
+- **Belirlenen:** #82'deki ret İngilizce gövde / PUA sembolden değil (A1/A2/B/C
+  hepsi FN), bağlamdaki konu dışı, sorudaki terimle eşleşen bir chunk'tan
+  (4333 "Türetme Ağacı"; X3/X3R ile izole). #56'da da doğrulandı (aynı JSON
+  içinde konu dışı profiller).
+- **Neden müdahale yok:** net getiri tavanı tek soru (#82) ve o da kısmen doğru;
+  #82'nin cevap chunk'ı yalnız `RAG_DENSE_FORCE_TOP_N=1` açıkken bağlamda
+  (varsayılan kapalı, madde 32). #56'da ret kalkınca cevap yanlış (madde 38),
+  kazanç sayılmaz. Taban oranı: v8 TP'lerinin 16/91'inde de benzer aday chunk
+  var, ölçüt tek başına ret öngörmüyor — genel bir eleme kuralı yan etki riski
+  taşıyor.
+- **Ayrılan:** #100 → madde 37 (yorum sınırı, kırılgan ret); #56 içerik →
+  madde 38; bağıl rerank eşiği bulgusu (zararlı chunk'lar cevap chunk'ına göre
+  0.22 / ≈0.001 oranında, ama zararsız yedekler daha düşük → mutlak eşik
+  ayırmaz) → madde 24. PUA→Symbol eşlemesi (`varyant.pua_esle`) ret çözmüyor
+  ama gösterim temizliği olarak madde 31 B ailesinde değerlendirilebilir.
+- **Yeniden açma koşulu:** dense bayrağı açılırsa veya madde 24'ün bağıl eşiği
+  tam benchmark'ta ölçülürse #82 / #56 bu nota göre yeniden kontrol edilir.
+
 ## Madde 35 — `run_tests.py` kapanışta aralıklı 0xC0000005 ile çıkıyor
 
 Madde 32 Adım 2'de görüldü: N=0 koşusunda `evaluation/run_tests.py` 44 sorunun
@@ -1674,18 +1699,30 @@ kurgulanmıştır?" — madde 34 Adım 2'de dikkat dağıtıcı adayı olarak te
   çıkarım talimatıyla.
 - TP cevaplar kısmen doğru (X[4355]'te test1.txt'ten karışma var).
 
-## Madde 38 — İçerik doğruluğu ret/kabul ayrımından ayrı bir sorun (test_2 #56)
+## Madde 38 — Ret kalksa da içerik hatalı (genel başlık; test_2 #56, test_3 #82)
 
-"schemaVersion 1.1 olarak belirtilmiş olması … ne tür bir çıkarım yapılmasına imkan
-tanır?" — madde 34 Adım 2'de dikkat dağıtıcı deseni **doğrulandı** (konu dışı
-profiller çıkarılınca ya da başka profillerle değiştirilince ret kalkıyor). Ama ret
-kalkınca gelen cevap da **yanlış**: genel geçer ("daha yeni özellikler eklenmesi …
-hangi alanlarda değişiklik yapılacağı belirtilmemiş"); GT somut alanlar istiyor
-(yeni sektör/meslek, `publicContact`, hafta sonu kuralları, yeni `profileType`).
-`classify_answer` TP sayıyor (madde 36).
-- **İçerik doğruluğu, ret/kabul ayrımından ayrı bir sorun.** Madde 34'ün
-  müdahalesi (reti kaldırmak) #56'da doğru cevaba götürmüyor; #56 madde 34 için
-  "kazanç" sayılmamalı.
+**Desen:** bir müdahale reti kaldırıyor (sınıf FN → TP), ama gelen cevap GT'yi
+karşılamıyor. **İçerik doğruluğu, ret/kabul ayrımından ayrı bir sorun**;
+`classify_answer` bu cevapları TP sayıyor (madde 36). Reti kaldıran bir müdahale bu
+yüzden tek başına "kazanç" sayılmamalı, içerik ayrıca kontrol edilmeli.
+
+**Örnek 1 — test_2 #56** ("schemaVersion 1.1 olarak belirtilmiş olması … ne tür bir
+çıkarım yapılmasına imkan tanır?"): madde 34 Adım 2'de dikkat dağıtıcı deseni
+**doğrulandı** (konu dışı profiller çıkarılınca ya da başka profillerle
+değiştirilince ret kalkıyor). Ama gelen cevap **yanlış**: genel geçer ("daha yeni
+özellikler eklenmesi … hangi alanlarda değişiklik yapılacağı belirtilmemiş"); GT somut
+alanlar istiyor (yeni sektör/meslek, `publicContact`, hafta sonu kuralları, yeni
+`profileType`).
 - Ölçülmedi: GT'deki alanlar `$.metadata` chunk'ında var mı (yoksa GT bağlamdan
   fazlasını mı bekliyor), yoksa model çıkarımı mı yapamıyor.
 
+**Örnek 2 — test_3 #82** (madde 34 Adım 3, `sonuc_on_test.txt`): bağıl rerank eşiği
+0.25 ile bağlam [4185, 4187]; ret kalkıyor, türetmenin adı doğru ("Sinüzoidal Genlik
+Modülasyonu"), ama eklenen **formül yanlış**: `Y(ω) = F(ω+ω0) * F(ω−ω0)`; doğrusu
+`Y(ω) = ½F(ω+ω0) + ½F(ω−ω0)` (GT: `(1/2π) F(ω) ∗ (πδ(ω+ω0) + πδ(ω−ω0))`). Cevap
+chunk'ındaki formül satırları PUA sembolleri ve parçalı düzen yüzünden bozuk (madde
+34 Adım 1); hatanın bundan mı geldiği ölçülmedi (A1/A2 varyantları retti, içeriği
+test edilmedi).
+
+**Ölçülmedi:** desenin kapsamı (reti kaldıran diğer müdahalelerde içerik ne kadar
+sık hatalı) ve ortak neden (bağlam eksikliği / bozuk metin / model çıkarımı).

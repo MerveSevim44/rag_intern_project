@@ -123,3 +123,19 @@ havuzun rerank sırasındaki sonraki chunk'ı (uzunluk aynı).
   rerank skoru cevap chunk'ına göre düşük (#82: 0.0032 / 0.0149 = 0.22; #56: ≤0.0005 /
   0.317 ≈ 0.001), ama XR'de onların yerine gelen zararsız chunk'lar daha da düşük.
   Mutlak eşik ayırmaz; bağıl eşik (madde 24) aday — ölçülmedi.
+
+# Madde 34 Adım 3 — (a) bağıl rerank eşiği ön-testi (`on_test.py` → `sonuc_on_test.txt`)
+
+Sweep değil, tek senaryo. #82 N=1 bağlamında rerank / ilk chunk oranı: 4185 1.000,
+4187 0.297, **4333 0.216**, 4184 0.206. 4333'ü eleyen her eşik 4184'ü de eler
+(4184 daha düşük). Eşik 0.25 → bağlam [4185, 4187].
+
+- Sınıf: **TP** (2/2, birebir aynı). 4184 olmadan da ret yok.
+- İçerik (elle, GT'yle): **kısmen.** "Sinüzoidal Genlik Modülasyonu türetmesiyle
+  gösterilmiştir" (sorunun asıl sorduğu kısım doğru), ama eklenen formül yanlış:
+  `Y(ω) = F(ω+ω0) * F(ω−ω0)` (doğrusu ½F(ω+ω0) + ½F(ω−ω0)). X3 ile aynı seviye.
+
+**Karar: sweep yapılmadı, madde 34 kapatıldı.** Ön-test kapısı "doğru geliyorsa sweep"
+idi; cevap kısmen. Getiri tavanı tek soru (#82, kısmen) ve yalnız
+`RAG_DENSE_FORCE_TOP_N=1` açıkken (varsayılan kapalı); #56'nın kazancı gerçek değil
+(madde 38). Bağıl eşik bulgusu madde 24'e girdi olarak bırakıldı.
