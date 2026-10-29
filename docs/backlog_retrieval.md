@@ -40,6 +40,15 @@ PR olarak ele alınır.
 | 31 | OCR'lı Cevap sayfalarının metin kalitesi: bir sayfa okunamıyor (#24), diğerlerinde üst simge / "\|" kaybı model cevabına aynen geçiyor | Açık — iki ayrı ciddiyet: okunamayan sayfa (yeniden OCR) / kısmi bozulma (son işleme) |
 | 32 | RRF birleştirmesi BM25=0 olan en iyi dense chunk'ını havuzdan atıyor (test_3 #79/#82) | **Kapandı (mekanizma)** — `8d3f33d` dense güvenlik slotu, N=1'de #79 FN→TP; **bayrak KAPALI, açma kararı ayrı ve AÇIK** (bkz. madde 32 kapanış notu) |
 
+**GT değişikliği (2026-10-28, `747fb8a`):** test_negative #214 negatiften pozitife
+alındı (`airports.json`'da IST/TR var). Negatif set **32 → 31** soru. Bu tarihten
+önce kaydedilmiş negatif set rakamları (`x/32`, baz ve v2–v8 TN/FP) **eski
+etikete dayanır**. Yeni etiketle yeniden sınıflandırıldığında geçmiş 6 koşunun
+(v2, v3, v5, v6, v7, v8) hepsinde #214 ret cevabı **TN→FN** oluyor: TN −1,
+payda 31, pozitif FN +1; FP sayıları değişmez. Test_1–5 üzerinden hesaplanan
+FN sayıları (ör. madde 21: baz 10 / v7 13 / v8 6) etkilenmez. Eski ve yeni
+rakamları doğrudan karşılaştırmadan önce bu farkı düşün.
+
 ### Öncelik sırası (2026-10-11, güncelleme 2026-10-13)
 
 Açık retrieval/değerlendirme maddeleri için sıra: **25 (skorlama) ✅ → 22 ✅ → 27 ✅ → 29 ✅ → 20 (top_k ✅, 2b açık) → 21 (raporlama ✅; 4 FN açık) → 32 (mekanizma ✅; bayrak kararı açık) → 33 → 34 → 31 → 24 (bağıl eşik) → 30 → 28 → 26.**
@@ -793,7 +802,7 @@ kelimelerle de çakışıyor: `is` (iş), `il`, `on`, `am`, `ba`, `be`, `di`, `i
 ### Dikkat (çözüm tasarlanırken)
 - Stopword filtresi stem ÖNCESİ yüzey biçimine uygulanırsa çakışma kalkar,
   ama BM25 dağılımı tüm corpus için değişir: tam benchmark + 32 soruluk
-  negatif setle ölçülmeli.
+  negatif setle ölçülmeli (#214 düzeltmesinden sonra 31).
 
 ### Kapsam ölçümü (2026-10-10)
 
@@ -968,7 +977,8 @@ sayfayla aynı bölüm numarasını taşıyor" gibi genel tanımlanmalı.
   okunamıyor → madde 31), #29 kötüleşti (Çince sızıntısı; `llm_client`
   temizleyicisi tasarım gereği dokunmadı).
 - Etki alanı 18 soru: sınıf kaybı 0; tek çapraz-doküman dolgu test_3 #87 (TP
-  kaldı). Tam negatif set FP 2/32 (değişmedi), tripwire 0.
+  kaldı). Tam negatif set FP 2/32 (değişmedi; #214 düzeltmesinden önceki
+  negatif set, bkz. üstteki GT değişikliği notu), tripwire 0.
 
 ## Madde 23 — Korunan kelimelerin çekimleri farklı token'a düşüyor
 
@@ -1289,7 +1299,8 @@ alabilir.
 `llm_client.ask`'taki ret kuralı bilinçli olarak iki dallı: (a) "bağlamda kısmen
 ilgili bilgi varsa onu kullanarak en iyi cevabı ver", (b) "hiçbir şey yoksa tek
 ret cümlesi". (a) dalı tam koşuda **FN 25 → 10** getirdi; bedeli ölçüldü ve
-kabul edildi: negatif FP 7/32 → 8/32, yeni FP **#224** ("Yanlış Ön Kabul"
+kabul edildi: negatif FP 7/32 → 8/32 (#214 düzeltmesinden önceki negatif set),
+yeni FP **#224** ("Yanlış Ön Kabul"
 kategorisi; bkz. [src/llm_client.py](../src/llm_client.py) ret kuralı yorumu).
 
 #224 o günden beri dengenin sınırında duruyor ve bağlamdaki küçük değişikliklerle
