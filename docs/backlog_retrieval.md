@@ -43,6 +43,8 @@ PR olarak ele alınır.
 | 34 | Cevap chunk'ı bağlamda 1. sırada, model yine reddediyor (test_3 #82) | Açık — generation tarafı; retrieval madde 32'de çözüldü |
 | 35 | `run_tests.py` kapanışta aralıklı 0xC0000005 ile çıkıyor | Açık — **düşük öncelik**; sonuçlar tam yazılıyor, iş-around `uretim.py`'de (`b469350`) |
 | 36 | `classify_answer` TP'si doğruluk değil: TP'lerin %32'si yanlış cevap | **Karar verildi** — ret tespiti güvenilir (FN/TN 0 çelişki); bağlam değişen ölçümlerde sınıfın yanında ayrı doğruluk kontrolü kural (b), raporlarda TP yerine "cevap verdi" (a), `classify_answer` koduna dokunulmaz (c) |
+| 37 | Yorum isteyen soruda ret kırılgan: bağlam bileşimine monoton olmayan şekilde bağlı (test_4 #100) | Açık — şüphe: yorum sınırı / subjektif soru; madde 34'ten ayrıldı, mekanizma ölçülmedi |
+| 38 | İçerik doğruluğu ret/kabul ayrımından ayrı bir sorun: sınıf TP ama GT karşılanmıyor (test_2 #56) | Açık — madde 34'ten ayrıldı; madde 36 ailesi (TP ≠ doğru), soru özelinde çıkarım/içerik eksikliği |
 
 **Uyarı (madde 36):** bağlam değişen ölçümlerde TP = doğru cevap DEĞİLDİR;
 `classify_answer` yalnız ret / cevap ayrımı yapar, doğruluk ayrıca kontrol edilir.
@@ -1653,3 +1655,37 @@ doğruluk açısından elle (ya da GT anahtar kelimesiyle) kontrol edilir.
 - Geçmiş kapanmış maddelerin toplu yeniden denetimi yapılmaz (orantısız).
   Yalnız etkilendiği kesin iddialar düzeltilir: madde 32 Adım 2'nin N=3/5 "yan
   etki yok" notu düzeltildi.
+
+## Madde 37 — Yorum isteyen soruda ret kırılgan (test_4 #100)
+
+"Günlükteki koparılmış yirmi sayfa ile arka kapaktaki kroki/koordinat arasındaki
+anlatısal boşluk, okuyucuda nasıl bir belirsizlik ve merak etkisi yaratacak şekilde
+kurgulanmıştır?" — madde 34 Adım 2'de dikkat dağıtıcı adayı olarak test edildi
+([experiments/madde34_ingilizce_ret/](../experiments/madde34_ingilizce_ret/README.md),
+`sonuc_dogrulama.txt`). Cevap chunk'ı (4358, test2.txt paragraf 5-10) N=0 bağlamında
+1. sırada (rerank 0.563); model reddediyor.
+- 4355 (test1.txt) çıkarılınca ya da yerine başka chunk konunca TP; 4353 çıkarılınca
+  FN; **ikisi birlikte çıkarılınca (bağlamda yalnız test2.txt) yine FN.**
+- Ret, konu dışı chunk'ın varlığıyla monoton değil → madde 34'ün "dikkat dağıtıcı"
+  deseni olarak doğrulanmadı.
+- **Şüphe (ölçülmedi):** soru yorum/çıkarım istiyor ("nasıl bir etki yaratacak
+  şekilde kurgulanmıştır"); model bağlamda doğrudan ifade aramakta ve sınırda
+  kalıyor. Aday kontroller: aynı bağlamla soru yeniden ifade edildiğinde, prompt'un
+  çıkarım talimatıyla.
+- TP cevaplar kısmen doğru (X[4355]'te test1.txt'ten karışma var).
+
+## Madde 38 — İçerik doğruluğu ret/kabul ayrımından ayrı bir sorun (test_2 #56)
+
+"schemaVersion 1.1 olarak belirtilmiş olması … ne tür bir çıkarım yapılmasına imkan
+tanır?" — madde 34 Adım 2'de dikkat dağıtıcı deseni **doğrulandı** (konu dışı
+profiller çıkarılınca ya da başka profillerle değiştirilince ret kalkıyor). Ama ret
+kalkınca gelen cevap da **yanlış**: genel geçer ("daha yeni özellikler eklenmesi …
+hangi alanlarda değişiklik yapılacağı belirtilmemiş"); GT somut alanlar istiyor
+(yeni sektör/meslek, `publicContact`, hafta sonu kuralları, yeni `profileType`).
+`classify_answer` TP sayıyor (madde 36).
+- **İçerik doğruluğu, ret/kabul ayrımından ayrı bir sorun.** Madde 34'ün
+  müdahalesi (reti kaldırmak) #56'da doğru cevaba götürmüyor; #56 madde 34 için
+  "kazanç" sayılmamalı.
+- Ölçülmedi: GT'deki alanlar `$.metadata` chunk'ında var mı (yoksa GT bağlamdan
+  fazlasını mı bekliyor), yoksa model çıkarımı mı yapamıyor.
+
