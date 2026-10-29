@@ -1,0 +1,51 @@
+test_3#82: Zamanda çarpımın frekansta konvolüsyona karşılık geldiği özellik hangi türetme ile gösterilmiştir?
+
+=== #82 V0  bağlam [(4185, 'sayfa 12'), (4187, 'sayfa 14'), (4333, 'sayfa 7'), (4184, 'sayfa 11')]
+  [1] FN: 'Bu bilgi dokümanlarda bulunamadı.'
+  [2] FN: 'Bu bilgi dokümanlarda bulunamadı.'
+  tekrarlar aynı: True
+
+=== #82 A1  bağlam [(4185, 'sayfa 12'), (4187, 'sayfa 14'), (4333, 'sayfa 7'), (4184, 'sayfa 11')]
+  [1] FN: 'Bu bilgi dokümanlarda bulunamadı.'
+  [2] FN: 'Bu bilgi dokümanlarda bulunamadı.'
+  tekrarlar aynı: True
+
+=== #82 A2  bağlam [(4185, 'sayfa 12'), (4187, 'sayfa 14'), (4333, 'sayfa 7'), (4184, 'sayfa 11')]
+  [1] FN: 'Bu bilgi dokümanlarda bulunamadı.'
+  [2] FN: 'Bu bilgi dokümanlarda bulunamadı.'
+  tekrarlar aynı: True
+
+=== #82 B  bağlam [(4185, 'sayfa 12'), (4187, 'sayfa 14'), (4333, 'sayfa 7'), (4184, 'sayfa 11')]
+  [1] FN: 'Bu bilgi dokümanlarda bulunamadı.'
+  [2] FN: 'Bu bilgi dokümanlarda bulunamadı.'
+  tekrarlar aynı: True
+
+=== #82 C  bağlam [(4185, 'sayfa 12'), (4187, 'sayfa 14'), (4333, 'sayfa 7'), (4184, 'sayfa 11')]
+  [1] FN: 'Bu bilgi dokümanlarda bulunamadı.'
+  [2] FN: 'Bu bilgi dokümanlarda bulunamadı.'
+  tekrarlar aynı: True
+
+=== #82 A1T  bağlam [(4185, 'sayfa 12'), (4187, 'sayfa 14'), (4333, 'sayfa 7'), (4184, 'sayfa 11')]
+  [1] FN: 'Bu bilgi dokümanlarda bulunamadı.'
+  [2] FN: 'Bu bilgi dokümanlarda bulunamadı.'
+  tekrarlar aynı: True
+
+=== #82 X3  bağlam [(4185, 'sayfa 12'), (4187, 'sayfa 14'), (4184, 'sayfa 11')]
+  [1] TP: 'Zamanda çarpımın frekansta konvolüsyona karşılık geldiği özellik, Sinüzoidal Genlik Modülasyonu türetmesi ile gösterilmiştir. Kaynak: [1] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 12'
+  [2] TP: 'Zamanda çarpımın frekansta konvolüsyona karşılık geldiği özellik, Sinüzoidal Genlik Modülasyonu türetmesi ile gösterilmiştir. Kaynak: [1] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 12'
+  tekrarlar aynı: True
+
+=== #83 V0  bağlam [(4185, 'sayfa 12'), (4186, 'sayfa 13'), (4182, 'sayfa 9'), (4179, 'sayfa 6')]
+  [1] TP: '1 1\nY(ω) = F(ω+ω0) + F(ω−ω0) Bu ifade, bağlamda verilen matematiksel ilişkiler ve örneklerden çıkarılarak elde edilmiştir.'
+  [2] TP: '1 1\nY(ω) = F(ω+ω0) + F(ω−ω0) Bu ifade, bağlamda verilen matematiksel ilişkiler ve örneklerden çıkarılarak elde edilmiştir.'
+  tekrarlar aynı: True
+
+=== #84 V0  bağlam [(4186, 'sayfa 13'), (4185, 'sayfa 12'), (4182, 'sayfa 9'), (4178, 'sayfa 5')]
+  [1] TP: "Demodülasyon, sinüzoidal genlik modülasyonundan f(t)'in geri kazanılmasında modülasyon ve düşük geçiş filtreleme adımlarından oluşur."
+  [2] TP: "Demodülasyon, sinüzoidal genlik modülasyonundan f(t)'in geri kazanılmasında modülasyon ve düşük geçiş filtreleme adımlarından oluşur."
+  tekrarlar aynı: True
+
+=== #89 V0  bağlam [(4186, 'sayfa 13'), (4185, 'sayfa 12'), (4204, 'sayfa 17'), (4179, 'sayfa 6')]
+  [1] TP: 'ω1<<ω0 varsayımının gerekli olduğu neden, Y(ω) spektrumunda F(ω-ω0) ve F(ω+ω0) bileşenlerinin ω1 frekansları civarında yer aldıklarından kaynaklanmaktadır. Bu bileşenlerin ω1<<ω0 olduğuna göre, demodülasyon sürecinde alçak geçiren filtreleme adımı sayesinde sadece ω1 frekansında bulunan gürültünün k'
+  [2] TP: 'ω1<<ω0 varsayımının gerekli olduğu neden, Y(ω) spektrumunda F(ω-ω0) ve F(ω+ω0) bileşenlerinin ω1 frekansları civarında yer aldıklarından kaynaklanmaktadır. Bu bileşenlerin ω1<<ω0 olduğuna göre, demodülasyon sürecinde alçak geçiren filtreleme adımı sayesinde sadece ω1 frekansında bulunan gürültünün k'
+  tekrarlar aynı: True

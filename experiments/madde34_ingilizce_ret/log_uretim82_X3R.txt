@@ -1,0 +1,9 @@
+[retrieval] Cache yuklendi: 898 chunk, embedding matrisi (898, 1024)
+[Foundry] Model yüklendi: qwen2.5-7b-instruct-cuda-gpu:4 | execution provider: CUDAExecutionProvider | cihaz: GPU
+[Foundry] Servis adresi: http://127.0.0.1:55158
+[Foundry] Serviste yüklü modeller: ['qwen2.5-7b-instruct-cuda-gpu:4']
+=== #82 X3R  bağlam [(4185, 'sayfa 12'), (4187, 'sayfa 14'), (4184, 'sayfa 11'), (4341, 'sayfa 15')]
+  [1] TP: 'Multiplication in the time domain is convolution in the frequency domain: 1\n\\((Y(\\omega) = F(\\omega) * \\pi\\delta(\\omega+\\omega_0) + \\pi\\delta(\\omega-\\omega_0))\\)\n2π Bu özellik, zamanda çarpımı frekansta konvolüsyona karşılık gelen özellikten bahseden [1] kaynaktan alınmıştır.'
+  [2] TP: 'Multiplication in the time domain is convolution in the frequency domain: 1\n\\((Y(\\omega) = F(\\omega) * \\pi\\delta(\\omega+\\omega_0) + \\pi\\delta(\\omega-\\omega_0))\\)\n2π Bu özellik, zamanda çarpımı frekansta konvolüsyona karşılık gelen özellikten bahseden [1] kaynaktan alınmıştır.'
+  tekrarlar aynı: True
+

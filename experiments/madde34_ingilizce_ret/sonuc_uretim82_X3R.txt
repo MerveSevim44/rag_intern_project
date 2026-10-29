@@ -1,0 +1,6 @@
+test_3#82: Zamanda çarpımın frekansta konvolüsyona karşılık geldiği özellik hangi türetme ile gösterilmiştir?
+
+=== #82 X3R  bağlam [(4185, 'sayfa 12'), (4187, 'sayfa 14'), (4184, 'sayfa 11'), (4341, 'sayfa 15')]
+  [1] TP: 'Multiplication in the time domain is convolution in the frequency domain: 1\n\\((Y(\\omega) = F(\\omega) * \\pi\\delta(\\omega+\\omega_0) + \\pi\\delta(\\omega-\\omega_0))\\)\n2π Bu özellik, zamanda çarpımı frekansta konvolüsyona karşılık gelen özellikten bahseden [1] kaynaktan alınmıştır.'
+  [2] TP: 'Multiplication in the time domain is convolution in the frequency domain: 1\n\\((Y(\\omega) = F(\\omega) * \\pi\\delta(\\omega+\\omega_0) + \\pi\\delta(\\omega-\\omega_0))\\)\n2π Bu özellik, zamanda çarpımı frekansta konvolüsyona karşılık gelen özellikten bahseden [1] kaynaktan alınmıştır.'
+  tekrarlar aynı: True

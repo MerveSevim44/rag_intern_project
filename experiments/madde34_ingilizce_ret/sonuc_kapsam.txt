@@ -1,0 +1,103 @@
+== Chunk düzeyi (rag.db, 898 chunk)
+
+728_profiles.json                             n= 733  dil={'TR': 729, 'EN': 2, 'az_metin': 2}  PUA'lı=0  EN+PUA=0
+8-Baglamdan_bagimsiz_dilbilgisi.pdf           n=  26  dil={'TR': 17, 'karisik': 3, 'az_metin': 2, 'EN': 4}  PUA'lı=0  EN+PUA=0
+Summer School Foundry Local Plan.docx         n=   8  dil={'az_metin': 1, 'EN': 7}  PUA'lı=0  EN+PUA=0
+airports.json                                 n=  30  dil={'az_metin': 30}  PUA'lı=0  EN+PUA=0
+lsarSist-H8_FourierTransform.pdf              n=  14  dil={'karisik': 3, 'EN': 8, 'az_metin': 3}  PUA'lı=13  EN+PUA=8
+lsarSist-H9_ZTransform.pdf                    n=  19  dil={'karisik': 5, 'EN': 14}  PUA'lı=11  EN+PUA=8
+mock-transactions.json                        n=  12  dil={'az_metin': 12}  PUA'lı=0  EN+PUA=0
+test1.txt                                     n=   3  dil={'TR': 3}  PUA'lı=0  EN+PUA=0
+test2.txt                                     n=   3  dil={'TR': 3}  PUA'lı=0  EN+PUA=0
+us-states-with-detail.json                    n=  50  dil={'az_metin': 50}  PUA'lı=0  EN+PUA=0
+
+-- lsarSist-H8_FourierTransform.pdf
+   4174 sayfa 1    dil=karisik  en=11 tr=10 pua=  0
+   4175 sayfa 2    dil=EN       en=21 tr= 0 pua= 54
+   4176 sayfa 3    dil=karisik  en= 4 tr= 4 pua= 17
+   4177 sayfa 4    dil=EN       en=11 tr= 2 pua= 54
+   4178 sayfa 5    dil=az_metin en= 0 tr= 2 pua=104
+   4179 sayfa 6    dil=karisik  en= 1 tr= 2 pua= 81
+   4180 sayfa 7    dil=EN       en=24 tr= 2 pua= 89
+   4181 sayfa 8    dil=EN       en=12 tr= 2 pua=  4
+   4182 sayfa 9    dil=az_metin en= 2 tr= 0 pua= 82
+   4183 sayfa 10   dil=EN       en=18 tr= 1 pua= 19
+   4184 sayfa 11   dil=EN       en=15 tr= 1 pua= 46
+   4185 sayfa 12   dil=EN       en= 8 tr= 1 pua= 98
+   4186 sayfa 13   dil=EN       en= 8 tr= 1 pua= 56
+   4187 sayfa 14   dil=az_metin en= 0 tr= 2 pua= 99
+
+-- lsarSist-H9_ZTransform.pdf
+   4188 sayfa 1    dil=karisik  en=11 tr= 8 pua=  0
+   4189 sayfa 2    dil=EN       en=13 tr= 2 pua=  0
+   4190 sayfa 3    dil=EN       en=12 tr= 2 pua=  7
+   4191 sayfa 4    dil=EN       en=18 tr= 4 pua=  0
+   4192 sayfa 5    dil=EN       en=15 tr= 2 pua= 39
+   4193 sayfa 6    dil=EN       en= 8 tr= 2 pua=  0
+   4194 sayfa 7    dil=EN       en=11 tr= 2 pua=  0
+   4195 sayfa 8    dil=karisik  en= 1 tr= 2 pua=  8
+   4196 sayfa 9    dil=EN       en=17 tr= 4 pua=  4
+   4197 sayfa 10   dil=EN       en=19 tr= 2 pua=  2
+   4198 sayfa 11   dil=EN       en= 8 tr= 2 pua=  6
+   4199 sayfa 12   dil=EN       en= 9 tr= 2 pua=  6
+   4200 sayfa 13   dil=EN       en=14 tr= 2 pua= 15
+   4201 sayfa 14   dil=EN       en=13 tr= 2 pua=  0
+   4202 sayfa 15   dil=EN       en= 6 tr= 2 pua= 19
+   4203 sayfa 16   dil=karisik  en=10 tr= 6 pua=  2
+   4204 sayfa 17   dil=karisik  en= 1 tr= 2 pua= 90
+   4205 sayfa 18   dil=EN       en=11 tr= 4 pua=  0
+   4206 sayfa 19   dil=karisik  en= 6 tr= 7 pua=  0
+
+== Soru düzeyi (güncel nihai bağlam; sınıf = v8, eski sistem)
+-- n0
+   test_1         soru= 30  bağlamda EN chunk= 13  1. sıra EN=  4  tümü EN=  0  1. sıra EN olanların v8 sınıfı={'TP': 4}
+   test_2         soru= 30  bağlamda EN chunk=  9  1. sıra EN=  3  tümü EN=  0  1. sıra EN olanların v8 sınıfı={'TP': 3}
+   test_3         soru= 30  bağlamda EN chunk= 30  1. sıra EN= 18  tümü EN=  2  1. sıra EN olanların v8 sınıfı={'TP': 18}
+   test_4         soru= 10  bağlamda EN chunk=  0  1. sıra EN=  0  tümü EN=  0  1. sıra EN olanların v8 sınıfı={}
+   test_5         soru= 15  bağlamda EN chunk=  6  1. sıra EN=  4  tümü EN=  2  1. sıra EN olanların v8 sınıfı={'TN': 4}
+   test_negative  soru= 32  bağlamda EN chunk=  7  1. sıra EN=  4  tümü EN=  1  1. sıra EN olanların v8 sınıfı={'TN': 4}
+
+-- n1
+   test_1         soru= 30  bağlamda EN chunk= 13  1. sıra EN=  4  tümü EN=  0  1. sıra EN olanların v8 sınıfı={'TP': 4}
+   test_2         soru= 30  bağlamda EN chunk=  9  1. sıra EN=  3  tümü EN=  0  1. sıra EN olanların v8 sınıfı={'TP': 3}
+   test_3         soru= 30  bağlamda EN chunk= 30  1. sıra EN= 20  tümü EN=  2  1. sıra EN olanların v8 sınıfı={'TP': 18, 'FN': 2}
+   test_4         soru= 10  bağlamda EN chunk=  0  1. sıra EN=  0  tümü EN=  0  1. sıra EN olanların v8 sınıfı={}
+   test_5         soru= 15  bağlamda EN chunk=  6  1. sıra EN=  4  tümü EN=  2  1. sıra EN olanların v8 sınıfı={'TN': 4}
+   test_negative  soru= 32  bağlamda EN chunk=  7  1. sıra EN=  4  tümü EN=  1  1. sıra EN olanların v8 sınıfı={'TN': 4}
+
+-- 1. sırası EN olan sorular (n1), v8 sınıfı
+   test_1# 25 v8=TP  n1=[(4350, 'EN', 0), (4352, 'EN', 0), (4332, 'karisik', 0), (4348, 'karisik', 0)]  Örnek 6'daki G_S.4.6.1 dilbilgisinin türettiği dilin (L_S.4.6.1) küme 
+   test_1# 26 v8=TP  n1=[(4349, 'EN', 0), (4331, 'TR', 0), (4330, 'TR', 0), (4350, 'EN', 0)]  Örnek 5'teki G_4.5.1 dilbilgisinin kuralları, L_4.5.1={a^2k b^n c^2n d
+   test_1# 28 v8=TP  n1=[(4351, 'EN', 0), (4330, 'TR', 0), (4348, 'karisik', 0), (4350, 'EN', 0)]  G_S.4.7.2 dilbilgisi L_S.4.7.2={a^n b^m c^k | n>0, m>0, k=2n+m} dilini
+   test_1# 29 v8=TP  n1=[(4352, 'EN', 0), (4351, 'EN', 0), (4350, 'EN', 0), (4347, 'TR', 0)]  Örnek 8'deki G_S.4.8.1 dilbilgisinin türettiği L_S.4.8.1 dilinde üs ol
+   test_2# 40 v8=TP  n1=[(4110, 'EN', 0), (3843, 'TR', 0), (3462, 'TR', 0), (3841, 'TR', 0)]  location.serviceArea alanı bazı profillerde 'district, city' formatınd
+   test_2# 45 v8=TP  n1=[(4110, 'EN', 0), (4111, 'TR', 0), (4346, 'TR', 0), (4343, 'TR', 0)]  slug alanı displayName ve profileCode alanlarından nasıl bir kurala gö
+   test_2# 47 v8=TP  n1=[(4110, 'EN', 0), (3849, 'TR', 0), (3694, 'TR', 0), (4097, 'TR', 0)]  fieldGuide bölümündeki 'publicContact' açıklaması ile örnek profillerd
+   test_3# 63 v8=TP  n1=[(4180, 'EN', 89), (4175, 'EN', 54), (4177, 'EN', 54), (4184, 'EN', 46)]  x(t)=e^{-at}u(t) nedensel üstel işaretinin Fourier dönüşümü hangi koşu
+   test_3# 65 v8=TP  n1=[(4177, 'EN', 54), (4187, 'az_metin', 99), (4179, 'karisik', 81), (4178, 'az_metin', 104)]  F{1}=2πδ(ω) eşitliği hangi özellikten (Dirac delta'nın sifting propert
+   test_3# 66 v8=TP  n1=[(4175, 'EN', 54), (4184, 'EN', 46), (4177, 'EN', 54), (4176, 'karisik', 17)]  Bir x(t) işaretinin Fourier dönüşümünün var olabilmesi için gerekli üç
+   test_3# 67 v8=TP  n1=[(4175, 'EN', 54), (4179, 'karisik', 81), (4184, 'EN', 46), (4178, 'az_metin', 104)]  cos(t), sin(t) ve u(t) işaretleri neden klasik Fourier dönüşüm koşulla
+   test_3# 68 v8=TP  n1=[(4175, 'EN', 54), (4176, 'karisik', 17), (4177, 'EN', 54), (4184, 'EN', 46)]  x(t) işaretinin Fourier dönüşümünün var olması için gereken üç koşulu 
+   test_3# 71 v8=TP  n1=[(4180, 'EN', 89), (4179, 'karisik', 81), (4175, 'EN', 54), (4184, 'EN', 46)]  Nedensel üstel işaretin Fourier dönüşümü türetilirken lim(t→∞) e^{-at}
+   test_3# 72 v8=TP  n1=[(4180, 'EN', 89), (4184, 'EN', 46), (4185, 'EN', 98), (4198, 'EN', 6)]  X(jω)=1/(a+jω) ifadesinin genlik-faz (magnitude-phase) formu nasıl eld
+   test_3# 73 v8=TP  n1=[(4180, 'EN', 89), (4177, 'EN', 54), (4179, 'karisik', 81), (4176, 'karisik', 17)]  Nedensel üstel işaretin Fourier dönüşümünün faz açısı ∠X(jω) hangi ifa
+   test_3# 74 v8=TP  n1=[(4181, 'EN', 4), (4177, 'EN', 54), (4174, 'karisik', 0), (4184, 'EN', 46)]  Fourier dönüşümünün "memoryless", "causal" ve "linear" sistem özellikl
+   test_3# 75 v8=TP  n1=[(4181, 'EN', 4), (4184, 'EN', 46), (4176, 'karisik', 17), (4175, 'EN', 54)]  Fourier dönüşümünün bir işaret hakkında ne söylediği ve ne söylemediği
+   test_3# 78 v8=TP  n1=[(4183, 'EN', 19), (4187, 'az_metin', 99), (4196, 'EN', 4), (4181, 'EN', 4)]  Ölçekleme (scaling) özelliğine göre |a|>1 olduğunda zaman ve frekans e
+   test_3# 79 v8=FN  n1=[(4183, 'EN', 19), (4176, 'karisik', 17), (4187, 'az_metin', 99), (4184, 'EN', 46)]  Zaman ekseninde genişleme ile frekans ekseninde daralma (bant genişliğ
+   test_3# 80 v8=TP  n1=[(4184, 'EN', 46), (4181, 'EN', 4), (4174, 'karisik', 0), (4175, 'EN', 54)]  Zamanda kaydırma (shifting in time) özelliğine göre bir işaretin gecik
+   test_3# 81 v8=TP  n1=[(4184, 'EN', 46), (4187, 'az_metin', 99), (4176, 'karisik', 17), (4177, 'EN', 54)]  Zamanda kaydırma özelliğinin ispatında u=t-t0 değişken dönüşümü nasıl 
+   test_3# 82 v8=FN  n1=[(4185, 'EN', 98), (4187, 'az_metin', 99), (4333, 'TR', 0), (4184, 'EN', 46)]  Zamanda çarpımın frekansta konvolüsyona karşılık geldiği özellik hangi
+   test_3# 83 v8=TP  n1=[(4185, 'EN', 98), (4186, 'EN', 56), (4182, 'az_metin', 82), (4179, 'karisik', 81)]  Sinüzoidal genlik modülasyonunda (y(t)=f(t)cos(ω0t)) elde edilen Y(ω) 
+   test_3# 84 v8=TP  n1=[(4186, 'EN', 56), (4185, 'EN', 98), (4182, 'az_metin', 82), (4178, 'az_metin', 104)]  Sinüzoidal genlik modülasyonunda demodülasyon (f(t)'nin geri kazanılma
+   test_3# 87 v8=TP  n1=[(4180, 'EN', 89), (4185, 'EN', 98), (4206, 'karisik', 0), (4349, 'EN', 0)]  Nedensel üstel işaretin genlik yanıtı |X(jω)|=1/√(Re{a}²+(ω+Im{a})²) i
+   test_3# 88 v8=TP  n1=[(4177, 'EN', 54), (4204, 'karisik', 90), (4187, 'az_metin', 99), (4178, 'az_metin', 104)]  F{1}=2πδ(ω) sonucunun elde edilme sürecinde ters Fourier dönüşümü tanı
+   test_3# 89 v8=TP  n1=[(4186, 'EN', 56), (4185, 'EN', 98), (4204, 'karisik', 90), (4179, 'karisik', 81)]  Sinüzoidal genlik modülasyonu örneğinde ω1<<ω0 varsayımının demodülasy
+   test_5#104 v8=TN  n1=[(4175, 'EN', 54), (4184, 'EN', 46), (4179, 'karisik', 81), (4178, 'az_metin', 104)]  Fourier dönüşümünde Nyquist örnekleme teoremi hangi koşulu gerektirir?
+   test_5#105 v8=TN  n1=[(4177, 'EN', 54), (4184, 'EN', 46), (4178, 'az_metin', 104), (4179, 'karisik', 81)]  Dalgacık (wavelet) dönüşümü ile Fourier dönüşümü arasındaki fark doküm
+   test_5#112 v8=TN  n1=[(4223, 'EN', 0), (4221, 'EN', 0), (4224, 'EN', 0), (4220, 'EN', 0)]  Summer School Foundry Local planında Kubernetes kurulumu hangi adımda 
+   test_5#113 v8=TN  n1=[(4223, 'EN', 0), (4224, 'EN', 0), (4221, 'EN', 0), (4220, 'EN', 0)]  Summer School Foundry Local planında projenin Kanban panosu hangi araç
+   test_negative#202 v8=TN  n1=[(4180, 'EN', 89), (3768, 'TR', 0), (3958, 'TR', 0), (3960, 'TR', 0)]  Kuantum dolanıklığının kübit hata oranlarına etkisi nedir?
+   test_negative#204 v8=TN  n1=[(4223, 'EN', 0), (4224, 'EN', 0), (3691, 'TR', 0), (3688, 'TR', 0)]  Kubernetes'te pod autoscaling eşik değerleri nasıl yapılandırılır?
+   test_negative#219 v8=TN  n1=[(4184, 'EN', 46), (4175, 'EN', 54), (4176, 'karisik', 17), (4178, 'az_metin', 104)]  Fourier dokümanında verilen "hızlı ters çekirdek teoremi"nin ispatı ha
+   test_negative#221 v8=TN  n1=[(4223, 'EN', 0)]  test2.txt hikâyesinde anlatıcının kız kardeşinin adı nedir?

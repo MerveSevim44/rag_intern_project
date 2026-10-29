@@ -1551,6 +1551,25 @@ semboller kaybolmuş ve gövde İngilizce; model **reddediyor** (FN). Ortak payd
 yalnız "bozuk formül metni" ailesi. Bu yüzden 34 ayrı madde kalıyor; bozuk sembol
 payı ölçülürse 31 B'nin son işleme adayları (sembol onarımı) burada da denenebilir.
 
+**Adım 1 sonucu (2026-10-29) — neden dil/sembol değil, dikkat dağıtıcı chunk:**
+[experiments/madde34_ingilizce_ret/](../experiments/madde34_ingilizce_ret/README.md).
+- **Kapsam (LLM'siz):** "bozuk semboller" Symbol fontunun PUA kod noktaları
+  (U+F0xx), mekanik eşlenebiliyor. EN gövde + PUA deseni Fourier/Z PDF'lerinin
+  geneli (Fourier 8/14, Z 8/19 chunk); test_3'te 1. sırası EN olan 20 sorunun
+  18'i v8'de TP. Aynı chunk'ı (4185) taşıyan #83/#84/#89 bugün TP. Desen
+  tek başına ret açıklamıyor.
+- **İzole varyantlar** (yalnız 4185 metni; 2 tekrar, birebir aynı): yalnız
+  sembol (A1 mekanik, A2 elle), yalnız Türkçe (B), ikisi (C, tavan), mekanik
+  eşleme tüm bağlama (A1T) → **hepsi FN**.
+- **Reti kaldıran:** bağlamın 3. chunk'ı 4333'ün (dilbilgisi PDF'i "4.2
+  Türetme Ağacı"; sorudaki "türetme" ile sözcük eşleşmesi, konu dışı)
+  çıkarılması → TP. Kontrol X3R: yerine başka bir konu dışı dilbilgisi
+  chunk'ı konunca da TP; etki chunk sayısından değil, o chunk'tan. Doğruluk
+  iki hâlde de kısmen (madde 36).
+- **Ölçülmedi:** mekanizmanın kapsamı (sorudaki terimle eşleşen, başka alandan
+  chunk bağlamda + ret; #56 adayı) ve müdahale (kaynak/alan tutarlılığı,
+  rerank eşiği — madde 24 ile ilişkili, ya da prompt talimatı). Karar yok.
+
 ## Madde 35 — `run_tests.py` kapanışta aralıklı 0xC0000005 ile çıkıyor
 
 Madde 32 Adım 2'de görüldü: N=0 koşusunda `evaluation/run_tests.py` 44 sorunun
