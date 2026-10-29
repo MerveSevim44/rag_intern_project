@@ -39,6 +39,9 @@ PR olarak ele alınır.
 | 30 | Synthesizer (a) dalı ödünleşiminin sınır vakası: "Yanlış Ön Kabul" sorusu #224 bağlama göre FP/TN arasında gidip geliyor | Açık — **bug değil, bilinçli alınmış dengenin yeniden değerlendirilmesi** (FN 25→10 karşılığında kabul edilen bedel) |
 | 31 | OCR'lı Cevap sayfalarının metin kalitesi: bir sayfa okunamıyor (#24), diğerlerinde üst simge / "\|" kaybı model cevabına aynen geçiyor | Açık — iki ayrı ciddiyet: okunamayan sayfa (yeniden OCR) / kısmi bozulma (son işleme) |
 | 32 | RRF birleştirmesi BM25=0 olan en iyi dense chunk'ını havuzdan atıyor (test_3 #79/#82) | **Kapandı (mekanizma)** — `8d3f33d` dense güvenlik slotu, N=1'de #79 FN→TP; **bayrak KAPALI, açma kararı ayrı ve AÇIK** (bkz. madde 32 kapanış notu) |
+| 33 | Stemmer tutarsızlığı + iki chunk'a bölünmüş cevap (test_4 #91) | Açık — iki nedenin ayrı ölçümü sürüyor |
+| 34 | Cevap chunk'ı bağlamda 1. sırada, model yine reddediyor (test_3 #82) | Açık — generation tarafı; retrieval madde 32'de çözüldü |
+| 35 | `run_tests.py` kapanışta aralıklı 0xC0000005 ile çıkıyor | Açık — **düşük öncelik**; sonuçlar tam yazılıyor, iş-around `uretim.py`'de (`b469350`) |
 
 **GT değişikliği (2026-10-28, `747fb8a`):** test_negative #214 negatiften pozitife
 alındı (`airports.json`'da IST/TR var). Negatif set **32 → 31** soru. Bu tarihten
@@ -51,7 +54,7 @@ rakamları doğrudan karşılaştırmadan önce bu farkı düşün.
 
 ### Öncelik sırası (2026-10-11, güncelleme 2026-10-13)
 
-Açık retrieval/değerlendirme maddeleri için sıra: **25 (skorlama) ✅ → 22 ✅ → 27 ✅ → 29 ✅ → 20 (top_k ✅, 2b açık) → 21 (raporlama ✅; 4 FN açık) → 32 (mekanizma ✅; bayrak kararı açık) → 33 → 34 → 31 → 24 (bağıl eşik) → 30 → 28 → 26.**
+Açık retrieval/değerlendirme maddeleri için sıra: **25 (skorlama) ✅ → 22 ✅ → 27 ✅ → 29 ✅ → 20 (top_k ✅, 2b açık) → 21 (raporlama ✅; 4 FN açık) → 32 (mekanizma ✅; bayrak kararı açık) → 33 → 34 → 24 (bağıl eşik) → 30 → 28 → 26 → 31 → 35 (en alt).**
 
 - **25 önce:** madde 24'ün başarı ölçütü negatif set FP sayısı; skorlayıcı yarım
   retleri FP saydığı sürece (#222) bu sayı yapay olarak şişik ve 24'ün etkisi
@@ -1470,3 +1473,23 @@ bozuk formül satırlarında.
 
 Önce: aynı bağlamla prompt varyantları / chunk metni elle temizlenmiş hâli
 üretime verilip hangi değişikliğin reti kaldırdığı ölçülmeli.
+
+## Madde 35 — `run_tests.py` kapanışta aralıklı 0xC0000005 ile çıkıyor
+
+Madde 32 Adım 2'de görüldü: N=0 koşusunda `evaluation/run_tests.py` 44 sorunun
+hepsini `sonuclari.csv`'ye yazdıktan, özet satırlarını bastıktan **sonra**
+`3221225477` (0xC0000005, access violation) çıkış koduyla döndü. Aynı gün N=1,
+N=3 ve N=5 koşuları (aynı script, aynı makine) 0 ile çıktı: **4 koşuda 1**.
+Sonuç dosyası tam ve doğruydu; veri kaybı yok.
+
+Kök neden bilinmiyor, araştırılmadı. Aday (doğrulanmamış): kapanışta native
+kütüphane temizliği (torch/CUDA, reranker, matplotlib; log'da "Starting a
+Matplotlib GUI outside of the main thread" uyarısı vardı).
+
+İş-around: `experiments/madde32_adim2_dense_force_include/uretim.py` başarıyı
+çıkış koduna göre değil, yazılan satır sayısına göre doğruluyor (`b469350`).
+Çıkış koduna bakan başka bir otomasyon (CI, zincirlenmiş koşu) bu çökmeyle
+tamamlanmış koşuyu hata sayar.
+
+**Öncelik: düşük.** Tekrarlanırsa ya da çıkış koduna bakan bir otomasyon
+eklenirse ele alınır.
