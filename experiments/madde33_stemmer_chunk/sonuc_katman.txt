@@ -1,0 +1,38 @@
+test_4#91: Alis'in çalıştığı kütüphanenin adı nedir?
+Yöntem sağlaması: P1 metni yeniden gömüldü, DB vektörüyle cosine = 1.000000
+
+=== V0  (korpus 911)
+  sorgu token'ları: ['alis', 'in', 'calistik', 'kutuphane', 'ad'] | hedefte geçen: []
+  dense  cosine 0.4234  sıra 12
+  BM25   ham 0.000  sıra — (0)
+  hibrit sıra 34  -> havuz dışı (TOP_K=8)
+  rerank skor 0.0034  havuz içi sıra 5 (havuzda olsaydı)  eşik (4.) 0.0037
+  nihai bağlam: [(4228, 'paragraf 2'), (4233, 'paragraf 7'), (4229, 'paragraf 3'), (4234, 'paragraf 8')]
+  cevap paragrafı nihaide: False | 'Alis' paragrafı nihaide: True | sağlama: True
+
+=== S  (korpus 911)
+  sorgu token'ları: ['alis', 'in', 'calistik', 'kutuphane', 'ad'] | hedefte geçen: ['kutuphane']
+  dense  cosine 0.4234  sıra 12
+  BM25   ham 10.633  sıra 4
+  hibrit sıra 7  -> HAVUZDA (TOP_K=8)
+  rerank skor 0.0034  havuz içi sıra 5  eşik (4.) 0.0037
+  nihai bağlam: [(4228, 'paragraf 2'), (4233, 'paragraf 7'), (4229, 'paragraf 3'), (4234, 'paragraf 8')]
+  cevap paragrafı nihaide: False | 'Alis' paragrafı nihaide: True | sağlama: True
+
+=== M  (korpus 910)
+  sorgu token'ları: ['alis', 'in', 'calistik', 'kutuphane', 'ad'] | hedefte geçen: ['ad', 'alis', 'in', 'kutuphane']
+  dense  cosine 0.6314  sıra 2
+  BM25   ham 31.224  sıra 1
+  hibrit sıra 1  -> HAVUZDA (TOP_K=8)
+  rerank skor 0.9802  havuz içi sıra 1  eşik (4.) 0.0037
+  nihai bağlam: [(4227, 'paragraf 1-2'), (4233, 'paragraf 7'), (4229, 'paragraf 3'), (4234, 'paragraf 8')]
+  cevap paragrafı nihaide: True | 'Alis' paragrafı nihaide: True | sağlama: True
+
+=== SM  (korpus 910)
+  sorgu token'ları: ['alis', 'in', 'calistik', 'kutuphane', 'ad'] | hedefte geçen: ['ad', 'alis', 'in', 'kutuphane']
+  dense  cosine 0.6314  sıra 2
+  BM25   ham 32.680  sıra 1
+  hibrit sıra 1  -> HAVUZDA (TOP_K=8)
+  rerank skor 0.9802  havuz içi sıra 1  eşik (4.) 0.0037
+  nihai bağlam: [(4227, 'paragraf 1-2'), (4233, 'paragraf 7'), (4229, 'paragraf 3'), (4234, 'paragraf 8')]
+  cevap paragrafı nihaide: True | 'Alis' paragrafı nihaide: True | sağlama: True

@@ -39,7 +39,7 @@ PR olarak ele alınır.
 | 30 | Synthesizer (a) dalı ödünleşiminin sınır vakası: "Yanlış Ön Kabul" sorusu #224 bağlama göre FP/TN arasında gidip geliyor | Açık — **bug değil, bilinçli alınmış dengenin yeniden değerlendirilmesi** (FN 25→10 karşılığında kabul edilen bedel) |
 | 31 | OCR'lı Cevap sayfalarının metin kalitesi: bir sayfa okunamıyor (#24), diğerlerinde üst simge / "\|" kaybı model cevabına aynen geçiyor | Açık — iki ayrı ciddiyet: okunamayan sayfa (yeniden OCR) / kısmi bozulma (son işleme) |
 | 32 | RRF birleştirmesi BM25=0 olan en iyi dense chunk'ını havuzdan atıyor (test_3 #79/#82) | **Kapandı (mekanizma)** — `8d3f33d` dense güvenlik slotu, N=1'de #79 FN→TP; **bayrak KAPALI, açma kararı ayrı ve AÇIK** (bkz. madde 32 kapanış notu) |
-| 33 | Stemmer tutarsızlığı + iki chunk'a bölünmüş cevap (test_4 #91) | Açık — iki nedenin ayrı ölçümü sürüyor |
+| 33 | Stemmer tutarsızlığı + iki chunk'a bölünmüş cevap (test_4 #91) | Açık — Adım 1: belirleyici neden bölünmüş cevap (birleştirme oracle'ı tam düzeltiyor); stemmer tek başına 0 kazanç. Müdahale seçimi bekliyor |
 | 34 | Cevap chunk'ı bağlamda 1. sırada, model yine reddediyor (test_3 #82) | Açık — generation tarafı; retrieval madde 32'de çözüldü |
 | 35 | `run_tests.py` kapanışta aralıklı 0xC0000005 ile çıkıyor | Açık — **düşük öncelik**; sonuçlar tam yazılıyor, iş-around `uretim.py`'de (`b469350`) |
 
@@ -1447,6 +1447,27 @@ Madde 32'nin RRF mekanizmasından farklı; iki ayrı alt neden:
    Yalnız (1)'i düzeltmek yetmeyebilir.
 
 Madde 32 Adım 2'nin dense slotu bunu çözmez (dense sırası 12).
+
+**Adım 1 sonucu (2026-10-29) — iki neden ayrı ayrı:**
+[experiments/madde33_stemmer_chunk/](../experiments/madde33_stemmer_chunk/README.md).
+Oracle varyantlar `src/`/DB değişmeden süreç içinde: S (yalnız `kütüphane` ailesi
+tek stem'e), M (paragraf 1+2 tek chunk, embedding ingest yolundan), SM; ayrıca
+üretim tavanı G (paragraf 1 ayrı chunk olarak bağlama zorla konur).
+- **Yalnız stemmer (S): kazanç 0.** BM25 0→10.6, hibrit 34→7, havuza giriyor;
+  ama reranker 5. sıraya koyuyor (0.0034, eşik 0.0037), çünkü paragraf 1'de
+  "Alis" yok. Nihai bağlam ve cevap V0 ile aynı (FN).
+- **Yalnız birleştirme (M): tam kazanç.** Birleşik chunk BM25 1., dense 2.,
+  rerank 0.98 / 1.; cevap "Gümüş Yaprak" (2/2 tekrar).
+- **İkisi birlikte (SM):** M ile aynı. Stemmer'ın #91'e katkısı yok.
+- **Tavan (G), iki ayrı chunk bağlamda:** sıraya bağlı. Paragraf 1 2. sıradaysa
+  kısmen doğru ("Unutulmuş Parşömen'in Gümüş Yaprak kütüphanesi"), 4.
+  sıradaysa yanlış (başlığı ad sanıyor). `classify_answer` ikisini de TP sayıyor;
+  ret/ret-değil ayrımı doğruluğu ölçmüyor.
+- **Belirleyici neden bölünmüş cevap.** Stemmer tutarsızlığı gerçek ama #91'i
+  tek başına değiştirmiyor; ayrı bir madde olarak kapsamı ölçülmeli.
+- **Ölçülmedi:** genel politikaların (tüm .txt'de komşu paragraf birleştirme,
+  genel stemmer düzeltmesi) tam benchmark + negatif setteki yan etkisi.
+  Müdahale seçildikten sonra madde 32 Adım 2 disipliniyle ölçülecek.
 
 ## Madde 34 — Cevap chunk'ı bağlamda 1. sırada, model yine reddediyor (test_3 #82)
 

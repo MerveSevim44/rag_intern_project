@@ -1,0 +1,34 @@
+[Foundry] Model yüklendi: qwen2.5-7b-instruct-cuda-gpu:4 | execution provider: CUDAExecutionProvider | cihaz: GPU
+[Foundry] Servis adresi: http://127.0.0.1:55158
+[Foundry] Serviste yüklü modeller: ['qwen2.5-7b-instruct-cuda-gpu:4']
+[retrieval] Cache yuklendi: 911 chunk, embedding matrisi (911, 1024)
+=== V0  bağlam [(4228, 'paragraf 2'), (4233, 'paragraf 7'), (4229, 'paragraf 3'), (4234, 'paragraf 8')]
+  [1] FN: 'Bu bilgi dokümanlarda bulunamadı.'
+  [2] FN: 'Bu bilgi dokümanlarda bulunamadı.'
+  tekrarlar aynı: True
+
+[retrieval] Cache yuklendi: 911 chunk, embedding matrisi (911, 1024)
+=== S  bağlam [(4228, 'paragraf 2'), (4233, 'paragraf 7'), (4229, 'paragraf 3'), (4234, 'paragraf 8')]
+  [1] FN: 'Bu bilgi dokümanlarda bulunamadı.'
+  [2] FN: 'Bu bilgi dokümanlarda bulunamadı.'
+  tekrarlar aynı: True
+
+[retrieval] Cache yuklendi: 911 chunk, embedding matrisi (911, 1024)
+=== M  bağlam [(4227, 'paragraf 1-2'), (4233, 'paragraf 7'), (4229, 'paragraf 3'), (4234, 'paragraf 8')]
+  [1] TP: "Alis'in çalıştığı kütüphanenin adı Gümüş Yaprak. Bu bilgi test1.txt dosyasının 1. ve 3. paragraflarında verilmiştir."
+  [2] TP: "Alis'in çalıştığı kütüphanenin adı Gümüş Yaprak. Bu bilgi test1.txt dosyasının 1. ve 3. paragraflarında verilmiştir."
+  tekrarlar aynı: True
+
+[retrieval] Cache yuklendi: 911 chunk, embedding matrisi (911, 1024)
+=== G2  bağlam [(4228, 'paragraf 2'), (4227, 'paragraf 1'), (4233, 'paragraf 7'), (4229, 'paragraf 3')]
+  [1] TP: "Unutulmuş Parşömen'in Gümüş Yaprak kütüphanesi."
+  [2] TP: "Unutulmuş Parşömen'in Gümüş Yaprak kütüphanesi."
+  tekrarlar aynı: True
+
+[retrieval] Cache yuklendi: 911 chunk, embedding matrisi (911, 1024)
+=== G4  bağlam [(4228, 'paragraf 2'), (4233, 'paragraf 7'), (4229, 'paragraf 3'), (4227, 'paragraf 1')]
+  [1] TP: 'Unutulmuş Parşömen Kaynak: test1.txt, paragraf 1'
+  [2] TP: 'Unutulmuş Parşömen Kaynak: test1.txt, paragraf 1'
+  tekrarlar aynı: True
+
+[retrieval] Cache yuklendi: 911 chunk, embedding matrisi (911, 1024)
