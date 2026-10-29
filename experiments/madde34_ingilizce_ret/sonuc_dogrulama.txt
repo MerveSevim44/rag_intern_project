@@ -1,0 +1,49 @@
+=== test_4#100 V0  bağlam [(4358, 'test2.txt', 'paragraf 5-10', 0.56333), (4357, 'test2.txt', 'paragraf 3-4', 0.01562), (4353, 'test1.txt', 'paragraf 1-2', 0.00427), (4355, 'test1.txt', 'paragraf 5-9', 0.0014)]
+  [1] FN: 'Bu bilgi dokümanlarda bulunamadı.'
+  [2] FN: 'Bu bilgi dokümanlarda bulunamadı.'
+  tekrarlar aynı: True
+
+=== test_4#100 X[4353]  bağlam [(4358, 'test2.txt', 'paragraf 5-10', 0.56333), (4357, 'test2.txt', 'paragraf 3-4', 0.01562), (4355, 'test1.txt', 'paragraf 5-9', 0.0014)]
+  [1] FN: 'Bu bilgi dokümanlarda bulunamadı.'
+  [2] FN: 'Bu bilgi dokümanlarda bulunamadı.'
+  tekrarlar aynı: True
+
+=== test_4#100 XR[4353]  bağlam [(4358, 'test2.txt', 'paragraf 5-10', 0.56333), (4357, 'test2.txt', 'paragraf 3-4', 0.01562), (4356, 'test2.txt', 'paragraf 1-2', 0.0002), (4355, 'test1.txt', 'paragraf 5-9', 0.0014)]
+  [1] FN: 'Bu bilgi dokümanlarda bulunamadı.'
+  [2] FN: 'Bu bilgi dokümanlarda bulunamadı.'
+  tekrarlar aynı: True
+
+=== test_4#100 X[4355]  bağlam [(4358, 'test2.txt', 'paragraf 5-10', 0.56333), (4357, 'test2.txt', 'paragraf 3-4', 0.01562), (4353, 'test1.txt', 'paragraf 1-2', 0.00427)]
+  [1] TP: 'Okuyucuda bir belirsizlik ve merak etkiyi yaratmak için, günlükteki koparılmış yirmi sayfa ile arka kapaktaki kroki/koordinat arasında şunun gibi bir bağlantı kurulabilir: "Koparılmış sayfalarda anlatılan o dar sokakta bulunan dükkanın anahtarı ve şömine duvarında bulunan işaret, evin en arka kapağı'
+  [2] TP: 'Okuyucuda bir belirsizlik ve merak etkiyi yaratmak için, günlükteki koparılmış yirmi sayfa ile arka kapaktaki kroki/koordinat arasında şunun gibi bir bağlantı kurulabilir: "Koparılmış sayfalarda anlatılan o dar sokakta bulunan dükkanın anahtarı ve şömine duvarında bulunan işaret, evin en arka kapağı'
+  tekrarlar aynı: True
+
+=== test_4#100 XR[4355]  bağlam [(4358, 'test2.txt', 'paragraf 5-10', 0.56333), (4357, 'test2.txt', 'paragraf 3-4', 0.01562), (4353, 'test1.txt', 'paragraf 1-2', 0.00427), (4356, 'test2.txt', 'paragraf 1-2', 0.0002)]
+  [1] TP: 'Okuyucuya bir belirsizlik ve merak etkisi yaratmak için, günlükteki koparılmış yirmi sayfa ile arka kapaktaki kroki/koordinat arasında şunları kurgulayabiliriz: - Günlükteki sayfalarda şömine duvarında bir işaret varken, arka kapaktaki kroki şömine duvarında bir tıkırtı kaynağı belirtiyor.\n- Günlükt'
+  [2] TP: 'Okuyucuya bir belirsizlik ve merak etkisi yaratmak için, günlükteki koparılmış yirmi sayfa ile arka kapaktaki kroki/koordinat arasında şunları kurgulayabiliriz: - Günlükteki sayfalarda şömine duvarında bir işaret varken, arka kapaktaki kroki şömine duvarında bir tıkırtı kaynağı belirtiyor.\n- Günlükt'
+  tekrarlar aynı: True
+
+=== test_4#100 X[4353+4355]  bağlam [(4358, 'test2.txt', 'paragraf 5-10', 0.56333), (4357, 'test2.txt', 'paragraf 3-4', 0.01562)]
+  [1] FN: 'Bu bilgi dokümanlarda bulunamadı.'
+  [2] FN: 'Bu bilgi dokümanlarda bulunamadı.'
+  tekrarlar aynı: True
+
+=== test_4#100 XR[4353+4355]  bağlam [(4358, 'test2.txt', 'paragraf 5-10', 0.56333), (4357, 'test2.txt', 'paragraf 3-4', 0.01562), (4356, 'test2.txt', 'paragraf 1-2', 0.0002), (3570, '728_profiles.json', '$.profiles[190]', 0.00018)]
+  [1] TP: 'Okuyucuda bir belirsizlik ve merak etkisi yaratmak için, günlükteki koparılmış yirmi sayfa ve arka kapaktaki kroki/koordinat arasında şu şekilde bağlantı kurulabilir: Koparılmış sayfaların arka planda bir harita ve koordinatın olduğu krokis var. Bu, evin içinde bir gizli yer olduğunu ve karakterin b'
+  [2] TP: 'Okuyucuda bir belirsizlik ve merak etkisi yaratmak için, günlükteki koparılmış yirmi sayfa ve arka kapaktaki kroki/koordinat arasında şu şekilde bağlantı kurulabilir: Koparılmış sayfaların arka planda bir harita ve koordinatın olduğu krokis var. Bu, evin içinde bir gizli yer olduğunu ve karakterin b'
+  tekrarlar aynı: True
+
+=== test_2#56 V0  bağlam [(4112, '728_profiles.json', '$.metadata', 0.31693), (3777, '728_profiles.json', '$.profiles[397]', 0.00045), (3773, '728_profiles.json', '$.profiles[393]', 0.00038), (3775, '728_profiles.json', '$.profiles[395]', 0.00032)]
+  [1] FN: 'Bu bilgi dokümanlarda bulunamadı.'
+  [2] FN: 'Bu bilgi dokümanlarda bulunamadı.'
+  tekrarlar aynı: True
+
+=== test_2#56 X[3777+3773+3775]  bağlam [(4112, '728_profiles.json', '$.metadata', 0.31693)]
+  [1] TP: 'Versiyon 1.1 olarak belirtilmesi, gelecekte veri setinin daha yeni özellikler eklemesi veya mevcut özelliklerin güncellenmesi gibi değişiklikler için bir yapı sağlar. Ancak, hangi alanlarda değişiklik yapılacağı belirtilmemiş durumdadır.'
+  [2] TP: 'Versiyon 1.1 olarak belirtilmesi, gelecekte veri setinin daha yeni özellikler eklemesi veya mevcut özelliklerin güncellenmesi gibi değişiklikler için bir yapı sağlar. Ancak, hangi alanlarda değişiklik yapılacağı belirtilmemiş durumdadır.'
+  tekrarlar aynı: True
+
+=== test_2#56 XR[3777+3773+3775]  bağlam [(4112, '728_profiles.json', '$.metadata', 0.31693), (3779, '728_profiles.json', '$.profiles[399]', 0.00026), (3778, '728_profiles.json', '$.profiles[398]', 0.00017), (4345, '8-Baglamdan_bagimsiz_dilbilgisi.pdf', 'sayfa 19', 9e-05)]
+  [1] TP: 'Versiyon 1.1 olarak belirtilmesi, gelecekte veri setinin daha gelişmiş özellikler ve daha fazla detayla güncellenmesine olanak tanır. Ancak, hangi alanlarda versiyon değişikliğine gidebileceği kesin olarak belirtilmemiş.'
+  [2] TP: 'Versiyon 1.1 olarak belirtilmesi, gelecekte veri setinin daha gelişmiş özellikler ve daha fazla detayla güncellenmesine olanak tanır. Ancak, hangi alanlarda versiyon değişikliğine gidebileceği kesin olarak belirtilmemiş.'
+  tekrarlar aynı: True

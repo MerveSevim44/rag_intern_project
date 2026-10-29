@@ -76,3 +76,50 @@ dilbilgisi s.7 "4.2 Türetme Ağacı"**, 4184 s.11]. Varyantlarda yalnız belirt
 ile aynı hata) üretime gelmeden düştü. Script bağlamları LLM yüklenmeden önce kuruyor;
 `num_gpu=0` vektörleri değiştirdiği için (madde 29) kullanılmadı. X3R koşusundan önce
 önceki koşudan kalan Foundry modeli boşaltıldı (sistem RAM'i yetmiyordu).
+
+# Madde 34 Adım 2 — genelleme: desen başka FN'lerde de var mı?
+
+## 2a — Tarama (`genelleme.py` → `sonuc_genelleme.txt`; LLM yok)
+
+Bugünkü sistemle tam pozitif koşu yok; FN evreni = v8 tam koşu ∪ madde 32 n0 ∪ madde
+33 prod (yalnız pozitif): test_2 #50, #56; test_3 #79, #82; test_4 #91, #100. 115
+pozitifin bugünkü bağlamı canlı kuruldu (N=0 ve N=1). Aday ölçütü: kaynak
+`beklenen_kaynak`'tan farklı + soruyla ≥1 ortak stem + BM25 > 0.
+
+| FN | Durum |
+|---|---|
+| #50 | desen yok (bağlam aynı kaynak, konuyla ilgili) |
+| #56 | ölçüt göremiyor (tek JSON); cevap `$.metadata` 1. (rerank 0.317), 2–4. konu dışı profiller (0.0003–0.0005; ortak `alan`, `ver`) → **aynı kaynak içi aday** |
+| #79 | N=0'da cevap chunk'ı yok (retrieval, madde 32); N=1'de TP → aday değil |
+| #82 | 4333 (Adım 1'de doğrulandı) |
+| #91 | madde 33 sonrası cevap 0.98 ile 1.; "aday" yalnız `in` paylaşıyor → aday değil |
+| #100 | cevap 4358 1. (0.563); 3./4. test1.txt 4353 (0.0043, `merak`, `sayfa`), 4355 (0.0014, `sayfa`) → **aday** |
+
+**Taban oranı:** v8'de TP olan 91 pozitifin 16'sının bağlamında da aday chunk var.
+Ölçüt tek başına ret öngörmüyor (Adım 1'deki 4341 de `türetme` paylaşıyordu, zararsızdı).
+
+## 2b — X / XR doğrulaması (`dogrulama.py` → `sonuc_dogrulama.txt`)
+
+N=0 bağlamı, 2 tekrar (18/18 birebir aynı). X = şüpheli çıkarılır; XR = yerine aynı
+havuzun rerank sırasındaki sonraki chunk'ı (uzunluk aynı).
+
+| Soru | V0 | Şüpheli | X | XR |
+|---|---|---|---|---|
+| #56 | FN | 3777+3773+3775 (profiller) | **TP** | **TP** (yerine 3779, 3778 profil + 4345 dilbilgisi) |
+| #100 | FN | 4353 | FN | FN |
+| #100 | | 4355 | **TP** | **TP** |
+| #100 | | 4353+4355 | **FN** (bağlam yalnız 4358+4357) | TP |
+
+- **#56: kurala göre doğrulandı.** Ama XR'de yerine gelenler de benzer konu dışı
+  profiller; zararlı olan "anahtar kelime eşleşmesi" değil, o belirli chunk'lar.
+  Doğruluk (elle): X/XR cevapları genel geçer ve "hangi alanlarda belirtilmemiş"
+  diyor; GT somut alanlar istiyor (publicContact, hafta sonu kuralları …) →
+  **yanlış** (`classify_answer` TP sayıyor; madde 36).
+- **#100: kırılgan, doğrulanmış sayılmamalı.** 4355 tek başına X/XR testini geçiyor,
+  ama iki şüpheli birlikte çıkarılınca (yalnız test2.txt chunk'ları kalınca) yine
+  ret. Ret, "dikkat dağıtıcı var/yok" ile monoton değil; yorum isteyen soruda model
+  sınırda. Doğruluk: TP cevapları kısmen (X[4355]'te test1.txt'ten karışma var).
+- **Doğrulanan:** #82 (Adım 1) ve #56 → 2 soru. Ortak nokta: zararlı chunk'ların
+  rerank skoru cevap chunk'ına göre düşük (#82: 0.0032 / 0.0149 = 0.22; #56: ≤0.0005 /
+  0.317 ≈ 0.001), ama XR'de onların yerine gelen zararsız chunk'lar daha da düşük.
+  Mutlak eşik ayırmaz; bağıl eşik (madde 24) aday — ölçülmedi.

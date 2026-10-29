@@ -1,0 +1,364 @@
+== FN adayları (v8 ∪ madde 32 n0 ∪ madde 33 prod), bugünkü bağlam
+
+test_2#50 v8=FN  weeklyAvailability dizisinde örnek profillerde yalnızca Pazartesi-Cuma günleri mi aktif görünmektedir, hafta sonu çalışan profil örneği var mıdır?
+  N=0: aday=[]
+     [1] 3849 728_profiles.json $.profiles[469] farkli=False bm25=5.962 rerank=0.85402 ortak=['c', 'pazartes', 'weeklyavailability']
+     [2] 3844 728_profiles.json $.profiles[464] farkli=False bm25=5.808 rerank=0.85316 ortak=['c', 'pazartes', 'weeklyavailability']
+     [3] 3830 728_profiles.json $.profiles[450] farkli=False bm25=5.778 rerank=0.84433 ortak=['c', 'pazartes', 'weeklyavailability']
+     [4] 4101 728_profiles.json $.profiles[721] farkli=False bm25=10.034 rerank=0.81232 ortak=['c', 'calisa', 'pazartes', 'weeklyavailability']
+  N=1: aday=[]
+     [1] 3849 728_profiles.json $.profiles[469] farkli=False bm25=5.962 rerank=0.85402 ortak=['c', 'pazartes', 'weeklyavailability']
+     [2] 3844 728_profiles.json $.profiles[464] farkli=False bm25=5.808 rerank=0.85316 ortak=['c', 'pazartes', 'weeklyavailability']
+     [3] 3830 728_profiles.json $.profiles[450] farkli=False bm25=5.778 rerank=0.84433 ortak=['c', 'pazartes', 'weeklyavailability']
+     [4] 4101 728_profiles.json $.profiles[721] farkli=False bm25=10.034 rerank=0.81232 ortak=['c', 'calisa', 'pazartes', 'weeklyavailability']
+
+test_2#56 v8=FN  schemaVersion 1.1 olarak belirtilmiş olması, veri setinin ileride hangi alanlarda versiyon değişikliğine gidebileceğine dair ne tür bir çıkarım yapılmasına imkan tanır?
+  N=0: aday=[]
+     [1] 4112 728_profiles.json $.metadata farkli=False bm25=18.684 rerank=0.31693 ortak=['1', 'schemaversion']
+     [2] 3777 728_profiles.json $.profiles[397] farkli=False bm25=16.875 rerank=0.00045 ortak=['1', 'alan', 'ver']
+     [3] 3773 728_profiles.json $.profiles[393] farkli=False bm25=16.926 rerank=0.00038 ortak=['1', 'alan', 'ver']
+     [4] 3775 728_profiles.json $.profiles[395] farkli=False bm25=16.875 rerank=0.00032 ortak=['1', 'alan', 'ver']
+  N=1: aday=[]
+     [1] 4112 728_profiles.json $.metadata farkli=False bm25=18.684 rerank=0.31693 ortak=['1', 'schemaversion']
+     [2] 3777 728_profiles.json $.profiles[397] farkli=False bm25=16.875 rerank=0.00045 ortak=['1', 'alan', 'ver']
+     [3] 3773 728_profiles.json $.profiles[393] farkli=False bm25=16.926 rerank=0.00038 ortak=['1', 'alan', 'ver']
+     [4] 3775 728_profiles.json $.profiles[395] farkli=False bm25=16.875 rerank=0.00032 ortak=['1', 'alan', 'ver']
+
+test_3#79 v8=FN  Zaman ekseninde genişleme ile frekans ekseninde daralma (bant genişliği) arasındaki ters orantı nasıl açıklanmıştır?
+  N=0: aday=[3600]
+     [1] 4176 lsarSist-H8_FourierTransform.pdf sayfa 3 farkli=False bm25=9.887 rerank=0.01544 ortak=['ters']
+     [2] 4187 lsarSist-H8_FourierTransform.pdf sayfa 14 farkli=False bm25=9.409 rerank=0.00671 ortak=['frekans']
+     [3] 4184 lsarSist-H8_FourierTransform.pdf sayfa 11 farkli=False bm25=2.464 rerank=0.00662 ortak=['zama']
+     [4] 3600 728_profiles.json $.profiles[220] farkli=True bm25=1.589 rerank=0.0002 ortak=['zama']  <-- ADAY
+  N=1: aday=[]
+     [1] 4183 lsarSist-H8_FourierTransform.pdf sayfa 10 farkli=False bm25=0.0 rerank=0.65765 ortak=[]
+     [2] 4176 lsarSist-H8_FourierTransform.pdf sayfa 3 farkli=False bm25=9.887 rerank=0.01544 ortak=['ters']
+     [3] 4187 lsarSist-H8_FourierTransform.pdf sayfa 14 farkli=False bm25=9.409 rerank=0.00671 ortak=['frekans']
+     [4] 4184 lsarSist-H8_FourierTransform.pdf sayfa 11 farkli=False bm25=2.464 rerank=0.00662 ortak=['zama']
+
+test_3#82 v8=FN  Zamanda çarpımın frekansta konvolüsyona karşılık geldiği özellik hangi türetme ile gösterilmiştir?
+  N=0: aday=[4333, 4341]
+     [1] 4187 lsarSist-H8_FourierTransform.pdf sayfa 14 farkli=False bm25=17.196 rerank=0.00444 ortak=['frekans', 'ozellik']
+     [2] 4333 8-Baglamdan_bagimsiz_dilbilgisi.pdf sayfa 7 farkli=True bm25=8.922 rerank=0.00322 ortak=['turetme']  <-- ADAY
+     [3] 4184 lsarSist-H8_FourierTransform.pdf sayfa 11 farkli=False bm25=2.464 rerank=0.00308 ortak=['zama']
+     [4] 4341 8-Baglamdan_bagimsiz_dilbilgisi.pdf sayfa 15 farkli=True bm25=5.47 rerank=0.00157 ortak=['turetme']  <-- ADAY
+  N=1: aday=[4333]
+     [1] 4185 lsarSist-H8_FourierTransform.pdf sayfa 12 farkli=False bm25=0.0 rerank=0.01494 ortak=[]
+     [2] 4187 lsarSist-H8_FourierTransform.pdf sayfa 14 farkli=False bm25=17.196 rerank=0.00444 ortak=['frekans', 'ozellik']
+     [3] 4333 8-Baglamdan_bagimsiz_dilbilgisi.pdf sayfa 7 farkli=True bm25=8.922 rerank=0.00322 ortak=['turetme']  <-- ADAY
+     [4] 4184 lsarSist-H8_FourierTransform.pdf sayfa 11 farkli=False bm25=2.464 rerank=0.00308 ortak=['zama']
+
+test_4#91 v8=FN  Alis'in çalıştığı kütüphanenin adı nedir?
+  N=0: aday=[4221]
+     [1] 4353 test1.txt paragraf 1-2 farkli=False bm25=32.361 rerank=0.98024 ortak=['ad', 'alis', 'in', 'kutuphane']
+     [2] 4355 test1.txt paragraf 5-9 farkli=False bm25=24.971 rerank=0.38063 ortak=['alis', 'in', 'kutuphane']
+     [3] 4354 test1.txt paragraf 3-4 farkli=False bm25=19.851 rerank=0.15653 ortak=['alis', 'in', 'kutuphane']
+     [4] 4221 Summer School Foundry Local Plan.docx bölüm 3 farkli=True bm25=3.909 rerank=0.00042 ortak=['in']  <-- ADAY
+  N=1: aday=[4221]
+     [1] 4353 test1.txt paragraf 1-2 farkli=False bm25=32.361 rerank=0.98024 ortak=['ad', 'alis', 'in', 'kutuphane']
+     [2] 4355 test1.txt paragraf 5-9 farkli=False bm25=24.971 rerank=0.38063 ortak=['alis', 'in', 'kutuphane']
+     [3] 4354 test1.txt paragraf 3-4 farkli=False bm25=19.851 rerank=0.15653 ortak=['alis', 'in', 'kutuphane']
+     [4] 4221 Summer School Foundry Local Plan.docx bölüm 3 farkli=True bm25=3.909 rerank=0.00042 ortak=['in']  <-- ADAY
+
+test_4#100 v8=FN  Günlükteki koparılmış yirmi sayfa ile arka kapaktaki kroki/koordinat arasındaki anlatısal boşluk, okuyucuda nasıl bir belirsizlik ve merak etkisi yaratacak şekilde kurgulanmıştır?
+  N=0: aday=[4353, 4355]
+     [1] 4358 test2.txt paragraf 5-10 farkli=False bm25=54.441 rerank=0.56333 ortak=['arka', 'gunluk', 'kapak', 'koordinat', 'kroki', 'sayfa', 'yirmi']
+     [2] 4357 test2.txt paragraf 3-4 farkli=False bm25=20.911 rerank=0.01562 ortak=['arka', 'gunluk', 'sayfa']
+     [3] 4353 test1.txt paragraf 1-2 farkli=True bm25=17.511 rerank=0.00427 ortak=['merak', 'sayfa']  <-- ADAY
+     [4] 4355 test1.txt paragraf 5-9 farkli=True bm25=9.733 rerank=0.0014 ortak=['sayfa']  <-- ADAY
+  N=1: aday=[4353, 4355]
+     [1] 4358 test2.txt paragraf 5-10 farkli=False bm25=54.441 rerank=0.56333 ortak=['arka', 'gunluk', 'kapak', 'koordinat', 'kroki', 'sayfa', 'yirmi']
+     [2] 4357 test2.txt paragraf 3-4 farkli=False bm25=20.911 rerank=0.01562 ortak=['arka', 'gunluk', 'sayfa']
+     [3] 4353 test1.txt paragraf 1-2 farkli=True bm25=17.511 rerank=0.00427 ortak=['merak', 'sayfa']  <-- ADAY
+     [4] 4355 test1.txt paragraf 5-9 farkli=True bm25=9.733 rerank=0.0014 ortak=['sayfa']  <-- ADAY
+
+== Taban oranı: desen (aday chunk bağlamda) pozitiflerde ne kadar yaygın?
+  N=0 FN adayı      : 4/6 soruda aday chunk var  (set: {'test_3': 2, 'test_4': 2})
+  N=0 diğer (v8 TP) : 16/91 soruda aday chunk var  (set: {'test_1': 2, 'test_2': 1, 'test_3': 5, 'test_4': 8})
+  N=1 FN adayı      : 3/6 soruda aday chunk var  (set: {'test_3': 1, 'test_4': 2})
+  N=1 diğer (v8 TP) : 16/91 soruda aday chunk var  (set: {'test_1': 2, 'test_2': 1, 'test_3': 5, 'test_4': 8})
+
+-- v8 TP olup N=0 bağlamında aday chunk taşıyan sorular
+   test_1#11: [4] 3671 728_profiles.json $.profiles[291] rerank=0.00106 ortak=['anla', 'dil']
+   test_1#12: [3] 3700 728_profiles.json $.profiles[320] rerank=0.00034 ortak=['dil']; [4] 3707 728_profiles.json $.profiles[327] rerank=0.00031 ortak=['dil']
+   test_2#45: [3] 4346 8-Baglamdan_bagimsiz_dilbilgisi.pdf sayfa 20 rerank=0.00059 ortak=['kural', 'ornek']; [4] 4343 8-Baglamdan_bagimsiz_dilbilgisi.pdf sayfa 17 rerank=0.00038 ortak=['kural']
+   test_3#72: [4] 4198 lsarSist-H9_ZTransform.pdf sayfa 11 rerank=0.00272 ortak=['1', 'a', 'x']
+   test_3#78: [3] 4196 lsarSist-H9_ZTransform.pdf sayfa 9 rerank=0.00246 ortak=['1', 'a']
+   test_3#87: [3] 4206 lsarSist-H9_ZTransform.pdf sayfa 19 rerank=0.00134 ortak=['1', 'a', 're']; [4] 4349 8-Baglamdan_bagimsiz_dilbilgisi.pdf sayfa 24-25 rerank=0.00095 ortak=['1', 'a']
+   test_3#88: [2] 4204 lsarSist-H9_ZTransform.pdf sayfa 17 rerank=0.01829 ortak=['1', 'f', 'property']
+   test_3#89: [3] 4204 lsarSist-H9_ZTransform.pdf sayfa 17 rerank=0.00603 ortak=['f']
+   test_4#92: [2] 4354 test1.txt paragraf 3-4 rerank=0.00041 ortak=['oda']; [4] 4355 test1.txt paragraf 5-9 rerank=0.00022 ortak=['oda']
+   test_4#93: [2] 4358 test2.txt paragraf 5-10 rerank=0.0071 ortak=['defter', 'kim', 'sayfa']; [3] 4356 test2.txt paragraf 1-2 rerank=0.00132 ortak=['defter', 'sayfa']
+   test_4#94: [4] 4357 test2.txt paragraf 3-4 rerank=0.00164 ortak=['sira']
+   test_4#95: [4] 3917 728_profiles.json $.profiles[537] rerank=7e-05 ortak=['anahtar']
+   test_4#96: [4] 4358 test2.txt paragraf 5-10 rerank=0.00212 ortak=['defter', 'heme', 'sonra']
+   test_4#97: [3] 3570 728_profiles.json $.profiles[190] rerank=0.00012 ortak=['12', 'gunluk']; [4] 3661 728_profiles.json $.profiles[281] rerank=0.0001 ortak=['ko']
+   test_4#98: [3] 4355 test1.txt paragraf 5-9 rerank=0.0025 ortak=['saat']; [4] 3700 728_profiles.json $.profiles[320] rerank=0.0004 ortak=['14']
+   test_4#99: [2] 3668 728_profiles.json $.profiles[288] rerank=0.00084 ortak=['anla']; [3] 4356 test2.txt paragraf 1-2 rerank=0.00073 ortak=['dair', 'un']; [4] 3796 728_profiles.json $.profiles[416] rerank=0.00072 ortak=['genel', 'gize']
+
+== Döküm: #56 ve #82 bağlamı (ilk 400 karakter)
+   N=0 [1] 4112 728_profiles.json $.metadata rerank=0.31693 bm25=18.684 ortak=['1', 'schemaversion']
+        | schemaVersion: 1.1
+        | datasetName: DateBind Realistic Synthetic Appointment Provider Profiles
+        | generatedAt: 2026-08-14
+        | language: tr-TR
+        | country: Türkiye
+        | schemaVersion: 1.1
+        | datasetName: DateBind Realistic Synthetic Appointment Provider Profiles
+        | generatedAt: 2026-08-14
+        | language: tr-TR
+        | country: Türkiye
+   N=0 [2] 3777 728_profiles.json $.profiles[397] rerank=0.00045 bm25=16.875 ortak=['1', 'alan', 'ver']
+        | profileCode: DB-MR88GBNQ
+        | synthetic: True
+        | profileType: individual
+        | displayName: Gökçe Efe
+        | professionalName: Gökçe Efe
+        | sector: Teknoloji ve Yazılım
+        | occupation: Veri Bilimi Danışmanı
+        | headline: Veri analitiği ve makine öğrenmesi proje danışmanlığı
+        | location.country: Türkiye
+        | location.city: Mersin
+        | location.district: Yenişehir
+        | location.serviceArea: Türkiye geneli (online)
+        | location.exactAddressPublic: False
+   N=0 [3] 3773 728_profiles.json $.profiles[393] rerank=0.00038 bm25=16.926 ortak=['1', 'alan', 'ver']
+        | profileCode: DB-GEUFBB5C
+        | synthetic: True
+        | profileType: individual
+        | displayName: Derya Karaca
+        | professionalName: Derya Karaca
+        | sector: Teknoloji ve Yazılım
+        | occupation: Veri Bilimi Danışmanı
+        | headline: Veri analitiği ve makine öğrenmesi proje danışmanlığı
+        | location.country: Türkiye
+        | location.city: Kayseri
+        | location.district: Talas
+        | location.serviceArea: Türkiye geneli (online)
+        | location.exactAddressPublic: Fa
+   N=0 [4] 3775 728_profiles.json $.profiles[395] rerank=0.00032 bm25=16.875 ortak=['1', 'alan', 'ver']
+        | profileCode: DB-D44RAXGA
+        | synthetic: True
+        | profileType: individual
+        | displayName: İlayda Aksoy
+        | professionalName: İlayda Aksoy
+        | sector: Teknoloji ve Yazılım
+        | occupation: Veri Bilimi Danışmanı
+        | headline: Veri analitiği ve makine öğrenmesi proje danışmanlığı
+        | location.country: Türkiye
+        | location.city: Kocaeli
+        | location.district: Kartepe
+        | location.serviceArea: Türkiye geneli (online)
+        | location.exactAddressPublic: 
+   N=1 [1] 4112 728_profiles.json $.metadata rerank=0.31693 bm25=18.684 ortak=['1', 'schemaversion']
+        | schemaVersion: 1.1
+        | datasetName: DateBind Realistic Synthetic Appointment Provider Profiles
+        | generatedAt: 2026-08-14
+        | language: tr-TR
+        | country: Türkiye
+        | schemaVersion: 1.1
+        | datasetName: DateBind Realistic Synthetic Appointment Provider Profiles
+        | generatedAt: 2026-08-14
+        | language: tr-TR
+        | country: Türkiye
+   N=1 [2] 3777 728_profiles.json $.profiles[397] rerank=0.00045 bm25=16.875 ortak=['1', 'alan', 'ver']
+        | profileCode: DB-MR88GBNQ
+        | synthetic: True
+        | profileType: individual
+        | displayName: Gökçe Efe
+        | professionalName: Gökçe Efe
+        | sector: Teknoloji ve Yazılım
+        | occupation: Veri Bilimi Danışmanı
+        | headline: Veri analitiği ve makine öğrenmesi proje danışmanlığı
+        | location.country: Türkiye
+        | location.city: Mersin
+        | location.district: Yenişehir
+        | location.serviceArea: Türkiye geneli (online)
+        | location.exactAddressPublic: False
+   N=1 [3] 3773 728_profiles.json $.profiles[393] rerank=0.00038 bm25=16.926 ortak=['1', 'alan', 'ver']
+        | profileCode: DB-GEUFBB5C
+        | synthetic: True
+        | profileType: individual
+        | displayName: Derya Karaca
+        | professionalName: Derya Karaca
+        | sector: Teknoloji ve Yazılım
+        | occupation: Veri Bilimi Danışmanı
+        | headline: Veri analitiği ve makine öğrenmesi proje danışmanlığı
+        | location.country: Türkiye
+        | location.city: Kayseri
+        | location.district: Talas
+        | location.serviceArea: Türkiye geneli (online)
+        | location.exactAddressPublic: Fa
+   N=1 [4] 3775 728_profiles.json $.profiles[395] rerank=0.00032 bm25=16.875 ortak=['1', 'alan', 'ver']
+        | profileCode: DB-D44RAXGA
+        | synthetic: True
+        | profileType: individual
+        | displayName: İlayda Aksoy
+        | professionalName: İlayda Aksoy
+        | sector: Teknoloji ve Yazılım
+        | occupation: Veri Bilimi Danışmanı
+        | headline: Veri analitiği ve makine öğrenmesi proje danışmanlığı
+        | location.country: Türkiye
+        | location.city: Kocaeli
+        | location.district: Kartepe
+        | location.serviceArea: Türkiye geneli (online)
+        | location.exactAddressPublic: 
+   N=0 [1] 4187 lsarSist-H8_FourierTransform.pdf sayfa 14 rerank=0.00444 bm25=17.196 ortak=['frekans', 'ozellik']
+        | Frekans-Kaydırma Özelliği
+        | (Frequency-shifting Property)
+        | j  t    
+        | e 0 f t  2 F 0
+        |  j  t    
+        | e 0 f t  2 F 0
+        | 1
+        |         
+        | cos 0t f t  F 0 F 0
+        | 2
+        | 1 1
+        |        
+        | cos 0t f t  F 0  F 0
+        | 2 2
+        | 1
+        |         
+        | sin 0t f t  jF 0  jF 0
+        | 2
+        | j j
+        |        
+        | sin 0t f t  F 0  F 0
+        | 2 2
+        | 14
+   N=0 [2] 4333 8-Baglamdan_bagimsiz_dilbilgisi.pdf sayfa 7 rerank=0.00322 bm25=8.922 ortak=['turetme']
+        | 4.2 Türetme Ağacı
+        | • Bir dilbilgisi tarafından türetilen tümcesel yapı ve
+        | tümceler aşağıdaki gibi gösterilebilir:
+        | S=>β1=>β2=>β3........ =>βn-1=>βn=>w βi ε V* , w εVT*
+        | • Bağlamdan-bağımsız dillerin her tümcesel yapısına ve
+        | her tümcesine bir türetme ya da ayrıştırma ağacı
+        | (derivation or parsing tree) karşı gelir.
+        | Örneğin G4.4 tarafından türetilen:
+        | β = 010A010 tümcesel yapısı ile
+        | w = 0010100100 tümces
+   N=0 [3] 4184 lsarSist-H8_FourierTransform.pdf sayfa 11 rerank=0.00308 bm25=2.464 ortak=['zama']
+        | Zamanda Kaydırma
+        | (Shifting in Time)
+        | • Shift in time
+        |    j  t  
+        | f t  t0  e 0 F 
+        | Does not change magnitude of the Fourier transform
+        | Shifts phase of Fourier transform by -t0
+        | (so t0 is the slope of the linear phase)
+        | • Derivation 
+        |  
+        | F f (t  t0)   f (t  t0)e j  tdt
+        | 
+        | Let u = t – t0, so du = dt and integration limits stay same
+        |  
+        |  
+        | F f (t  t0)   f (u)ej  (ut0)du  e j  t0 
+   N=0 [4] 4341 8-Baglamdan_bagimsiz_dilbilgisi.pdf sayfa 15 rerank=0.00157 bm25=5.47 ortak=['turetme']
+        | w =v/(v-c)+v*(v+c) soldan ve sağdan
+        | 2
+        | türetme
+        | a) w2’in soldan türetilmesi:
+        | b) w ’in sağdan türetilmesi:
+        | S=>S+S 2
+        | S=> S+S
+        | =>S/S+S
+        | ÞS+S*S
+        | =>v/S*S
+        | ÞS+S*(S)
+        | => v/(S)+S
+        | ÞS+S*(S+S)
+        | =>v/(S-S)+S
+        | ÞS+S*(S+c)
+        | =>v/(v-S)+S
+        | ÞS+S*(v+c)
+        | => v/(v-c)+S
+        | ÞS+v*(v+c)
+        | => v/(v-c)+S*S
+        | ÞS/S + v*(v+c)
+        | =>v/(v-c)+v*S
+        | ÞS/(S-S) + v*(v+c)
+        | =>v/(v-c)+v*(S)
+        | ÞS/(S-c) + v*(v+c)
+        | =>v/(v-c)+v*(S+S)
+        | ÞS/(v-c) + v*(v+c)
+        | => v/(v-c)+v*(v+S)
+        | Þ
+   N=1 [1] 4185 lsarSist-H8_FourierTransform.pdf sayfa 12 rerank=0.01494 bm25=0.0 ortak=[]
+        | Sinuzoidal Genlik Modülasyonu
+        | (Sinusoidal Amplitude Modulation)
+        |      
+        | y t  f t cos 0t
+        | Multiplication in the time domain is
+        | convolution in the frequency domain :
+        | 1
+        |         
+        | Y   F   0 0
+        | 2
+        | Recall that
+        | 
+        |          
+        | x t  t    x t  d x t
+        | 
+        | 
+        |          
+        | x t  t  t0    t0 x t  d x t  t0
+        | 
+        | So,
+        | 1 1
+        |      
+        | Y   F 0  F 0
+        | 
+   N=1 [2] 4187 lsarSist-H8_FourierTransform.pdf sayfa 14 rerank=0.00444 bm25=17.196 ortak=['frekans', 'ozellik']
+        | Frekans-Kaydırma Özelliği
+        | (Frequency-shifting Property)
+        | j  t    
+        | e 0 f t  2 F 0
+        |  j  t    
+        | e 0 f t  2 F 0
+        | 1
+        |         
+        | cos 0t f t  F 0 F 0
+        | 2
+        | 1 1
+        |        
+        | cos 0t f t  F 0  F 0
+        | 2 2
+        | 1
+        |         
+        | sin 0t f t  jF 0  jF 0
+        | 2
+        | j j
+        |        
+        | sin 0t f t  F 0  F 0
+        | 2 2
+        | 14
+   N=1 [3] 4333 8-Baglamdan_bagimsiz_dilbilgisi.pdf sayfa 7 rerank=0.00322 bm25=8.922 ortak=['turetme']
+        | 4.2 Türetme Ağacı
+        | • Bir dilbilgisi tarafından türetilen tümcesel yapı ve
+        | tümceler aşağıdaki gibi gösterilebilir:
+        | S=>β1=>β2=>β3........ =>βn-1=>βn=>w βi ε V* , w εVT*
+        | • Bağlamdan-bağımsız dillerin her tümcesel yapısına ve
+        | her tümcesine bir türetme ya da ayrıştırma ağacı
+        | (derivation or parsing tree) karşı gelir.
+        | Örneğin G4.4 tarafından türetilen:
+        | β = 010A010 tümcesel yapısı ile
+        | w = 0010100100 tümces
+   N=1 [4] 4184 lsarSist-H8_FourierTransform.pdf sayfa 11 rerank=0.00308 bm25=2.464 ortak=['zama']
+        | Zamanda Kaydırma
+        | (Shifting in Time)
+        | • Shift in time
+        |    j  t  
+        | f t  t0  e 0 F 
+        | Does not change magnitude of the Fourier transform
+        | Shifts phase of Fourier transform by -t0
+        | (so t0 is the slope of the linear phase)
+        | • Derivation 
+        |  
+        | F f (t  t0)   f (t  t0)e j  tdt
+        | 
+        | Let u = t – t0, so du = dt and integration limits stay same
+        |  
+        |  
+        | F f (t  t0)   f (u)ej  (ut0)du  e j  t0 

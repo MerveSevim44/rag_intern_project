@@ -1570,6 +1570,19 @@ payı ölçülürse 31 B'nin son işleme adayları (sembol onarımı) burada da 
   chunk bağlamda + ret; #56 adayı) ve müdahale (kaynak/alan tutarlılığı,
   rerank eşiği — madde 24 ile ilişkili, ya da prompt talimatı). Karar yok.
 
+**Adım 2 sonucu (2026-10-29) — genelleme:** aynı klasör, README "Adım 2".
+- **Tarama (LLM'siz):** FN evreni (v8 ∪ madde 32 n0 ∪ madde 33 prod) 6 soru.
+  Aday: #56 (aynı JSON içinde konu dışı profiller), #100 (test1.txt chunk'ları);
+  #50/#79/#91 aday değil. Taban oranı: v8 TP'lerinin 16/91'inde de aday chunk
+  var — ölçüt tek başına ret öngörmüyor.
+- **X/XR:** **#56 doğrulandı** (X TP, XR TP; cevap yine de yanlış, madde 36).
+  **#100 kırılgan:** 4355 tek başına geçiyor ama ikisi birlikte çıkarılınca
+  yine ret; doğrulanmış sayılmadı.
+- **Doğrulanan 2 soru (#82, #56):** zararlı chunk'lar cevap chunk'ına göre düşük
+  rerank'lı (bağıl 0.22 ve ≈0.001), ama yerine gelen zararsızlar daha düşük;
+  mutlak eşik ayırmıyor. Sıradaki: (a) bağıl rerank eşiği (madde 24) +
+  regresyon ölçümü. Karar yok.
+
 ## Madde 35 — `run_tests.py` kapanışta aralıklı 0xC0000005 ile çıkıyor
 
 Madde 32 Adım 2'de görüldü: N=0 koşusunda `evaluation/run_tests.py` 44 sorunun
