@@ -1,0 +1,85 @@
+[Foundry] Model yüklendi: qwen2.5-7b-instruct-cuda-gpu:4 | execution provider: CUDAExecutionProvider | cihaz: GPU
+[Foundry] Servis adresi: http://127.0.0.1:55158
+[Foundry] Serviste yüklü modeller: ['qwen2.5-7b-instruct-cuda-gpu:4']
+MIN=0: 15 soru, kalan 15
+[retrieval] Cache yuklendi: 911 chunk, embedding matrisi (911, 1024)
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=10.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'location.exactAddressPublic~Public', 'publicContact.phoneVisible~phoneVisible', 'publicContact.emailVisible~emailVisible', 'publicContact.phone~publicContact']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df[['publicContact.phoneVisible', 'publicContact.emailVisible']].value_counts().to_dict()
+[CodeInterpreter] Basarili! Cikti: {(False, False): 728}
+  MIN=0 test_2#35 (12.95 sn): 'PublicContact alanındaki (phoneVisible, emailVisible) değerleri, örnek profiller'
+  MIN=0 test_2#46 (0 sn): 'HATA: Embedding olusturulamadi: model requires more system memory (1.1 GiB) than'
+  MIN=0 test_4#91 (48.06 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+  MIN=0 test_4#92 (18.77 sn): "İstanbul'un yağmurlu kasım mevsiminde."
+  MIN=0 test_4#93 (13.63 sn): 'Kütüphanecinin ta kendisi gösterilmektedir. Bu ifade, test1.txt dosyasındaki par'
+  MIN=0 test_4#94 (16.75 sn): 'Ay ışığı, kütüphanenin tavanındaki camlardan süzülüp zemin kattaki mermerlere dü'
+  MIN=0 test_4#95 (22.93 sn): 'Antikacı tarafından verilen pirinç anahtarının işlevi, hikayedeki tıkırtı sesini'
+  MIN=0 test_4#96 (14.74 sn): "Defterde Alis'in ismini yazdığı sayfanın altında yer alan illüstrasyon, kütüphan"
+  MIN=0 test_4#97 (23.47 sn): '12 Mart 2024 tarihli günlükte, fısıltının tıkırtı olarak algılandığı ve "Korev" '
+  MIN=0 test_4#98 (23.69 sn): "Anlatıcının saatin 03.13'e gelmesini fark etmesi, 03.14'teki tıkırtının bir önce"
+  MIN=0 test_4#99 (27.03 sn): "Usta Magnus'un gerçek kimliği ve geleceğe bakma yeteneğine sahip olması, hikâyey"
+  MIN=0 test_4#100 (13.17 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+  MIN=0 test_5#114 (13.32 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+  MIN=0 test_5#115 (28.59 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+  MIN=0 test_negative#221 (44.62 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+MIN=500: 13 soru, kalan 13
+[retrieval] Cache yuklendi: 911 chunk, embedding matrisi (911, 1024)
+  MIN=500 test_4#91 (29.12 sn): "Alis'in çalıştığı kütüphanenin adı Gümüş Yaprak. Bu bilgi, bağlamda açıkça veril"
+  MIN=500 test_4#92 (18.69 sn): "İstanbul'un yağmurlu kasım mevsiminde."
+  MIN=500 test_4#93 (22.89 sn): 'Kütüphanecinin ta kendisi. Kaynak: test1.txt, paragraf 5-9'
+  MIN=500 test_4#94 (23.48 sn): 'Ay ışığı, zemin kattaki mermerlerde garip bir yansıma oluşturduktan sonra, tavan'
+  MIN=500 test_4#95 (39.21 sn): 'Karakteriniz, antikacının verdiği pirinç anahtarın içinde bir kod veya mesaj old'
+  MIN=500 test_4#96 (25.84 sn): "Alis'in ismini ve geleceğin tarihinin defterde belirmesi, hikâyeyi daha da geril"
+  MIN=500 test_4#97 (34.89 sn): "Karakteriniz, 12 Mart'ta fısıltıyı ve tıkırtıyı duyunca şaşkınlık yaşamış ve kod"
+  MIN=500 test_4#98 (33.07 sn): "Anlatıcının saatin 03.13'e gelmesini fark etmesi, 03.14 tıkırtısının bir kod old"
+  MIN=500 test_4#99 (37.09 sn): "Bu cümle, hikâyedeki gizemin daha derin bir anlam kazandırıyor. Usta Magnus'un g"
+  MIN=500 test_4#100 (25.84 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+  MIN=500 test_5#114 (17.45 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+  MIN=500 test_5#115 (28.43 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+  MIN=500 test_negative#221 (43.22 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+MIN=800: 15 soru, kalan 15
+[retrieval] Cache yuklendi: 911 chunk, embedding matrisi (911, 1024)
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=10.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'location.exactAddressPublic~Public', 'publicContact.phoneVisible~phoneVisible', 'publicContact.emailVisible~emailVisible', 'publicContact.phone~publicContact']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df[['publicContact.phoneVisible', 'publicContact.emailVisible']].value_counts().to_dict()
+[CodeInterpreter] Basarili! Cikti: {(False, False): 728}
+  MIN=800 test_2#35 (10.02 sn): 'PublicContact alanındaki (phoneVisible, emailVisible) değerleri, örnek profiller'
+  MIN=800 test_2#46 (29.98 sn): 'Dataset, doğrulanmış gerçek kişiler veya işletmelerin bir listesi olarak tasarla'
+  MIN=800 test_4#91 (33.4 sn): "Alis'in çalıştığı kütüphanenin adı Gümüş Yaprak'tır. Bu bilgi, bağlamda açıkça v"
+  MIN=800 test_4#92 (21.04 sn): "Anlatıcının Oda No: 304'ü kiraladığı şehir İstanbul ve mevsim yağmurlu kasım."
+  MIN=800 test_4#93 (26.45 sn): "Kütüphanecinin ta kendisi gösterilmektedir. Bu cümle, Usta Magnus'un el yazısınd"
+  MIN=800 test_4#94 (24.44 sn): 'Ay ışığı, zemin kattaki mermerlerde garip bir yansıma oluşturdu. Bu yansıma, Yas'
+  MIN=800 test_4#95 (34.07 sn): 'Antikacının verdiği pirinç anahtarın işlevi, evin içindeki tıkırtı kodunu açmak '
+  MIN=800 test_4#96 (35.53 sn): "Alis'in ismini ve geleceğin tarihinin sayfada belirtilmesinden sonra, defter ken"
+  MIN=800 test_4#97 (30.43 sn): 'Karakteriniz, 12 Mart ve 28 Mart tarihli günlükler arasında fısıltıyı kodla dönü'
+  MIN=800 test_4#98 (32.73 sn): "Anlatıcının saatin 03.13'e gelmesini fark etmesi, 03.14 tıkırtısının bir kod old"
+  MIN=800 test_4#99 (33.11 sn): "Bu cümle, Alis'in geleceğe bakma yeteneğine dair endişelerini ve bunun ona zarar"
+  MIN=800 test_4#100 (30.24 sn): 'Okuyucuda bir belirsizlik ve merak etkisi yaratmak için, günlükteki koparılmış y'
+  MIN=800 test_5#114 (17.06 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+  MIN=800 test_5#115 (26.68 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+  MIN=800 test_negative#221 (42.22 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+MIN=1200: 15 soru, kalan 15
+[retrieval] Cache yuklendi: 911 chunk, embedding matrisi (911, 1024)
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=10.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'location.exactAddressPublic~Public', 'publicContact.phoneVisible~phoneVisible', 'publicContact.emailVisible~emailVisible', 'publicContact.phone~publicContact']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df[['publicContact.phoneVisible', 'publicContact.emailVisible']].value_counts().to_dict()
+[CodeInterpreter] Basarili! Cikti: {(False, False): 728}
+  MIN=1200 test_2#35 (9.8 sn): 'PublicContact alanındaki (phoneVisible, emailVisible) değerleri, örnek profiller'
+  MIN=1200 test_2#46 (28.96 sn): 'Dataset, doğrulanmış gerçek kişiler veya işletmelerin bir listesi olarak tasarla'
+  MIN=1200 test_4#91 (31.1 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+  MIN=1200 test_4#92 (28.41 sn): "Anlatıcının Oda No: 304'ü kiraladığı şehir İstanbul ve mevsim yağmurlu kasım."
+  MIN=1200 test_4#93 (29.43 sn): 'Kütüphanecinin ta kendisi gösterilmektedir. Bu bilgi, "Unutulmuş Parşömen" adlı '
+  MIN=1200 test_4#94 (28.81 sn): 'Ay ışığının zemin kattaki mermerlerdeki yansıması, Yasaklı Kanatın demir kapısın'
+  MIN=1200 test_4#95 (30.01 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+  MIN=1200 test_4#96 (32.92 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+  MIN=1200 test_4#97 (30.94 sn): 'Fısıltıdan kodaya ve kodadan antikacıya bir ilerleme yaşanmıştır. İlk olarak fıs'
+  MIN=1200 test_4#98 (33.23 sn): "Anlatıcının saatin 03:13'e gelmesini fark etmesiyle önceki günlük kayıtlarındaki"
+  MIN=1200 test_4#99 (33.27 sn): "Bu cümle, Alis'in geleceğe bakma yeteneğine rağmen onun bunu yapmasının zararlı "
+  MIN=1200 test_4#100 (30.0 sn): 'Okuyucuda bir belirsizlik ve merak etkisi yaratmak için, koparılmış yirmi sayfan'
+  MIN=1200 test_5#114 (19.54 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+  MIN=1200 test_5#115 (25.65 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+  MIN=1200 test_negative#221 (41.12 sn): 'Bu bilgi dokümanlarda bulunamadı.'
+[retrieval] Cache yuklendi: 911 chunk, embedding matrisi (911, 1024)

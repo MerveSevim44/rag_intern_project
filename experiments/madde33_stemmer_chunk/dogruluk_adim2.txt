@@ -1,0 +1,31 @@
+Madde 33 Adım 2, Faz B — elle doğruluk değerlendirmesi (madde 36 kuralı)
+Kaynak: uretim2_min{0,500,800,1200}.csv (tam cevaplar), data/test1.txt, data/test2.txt.
+Etiket: D = doğru, K = kısmen (çekirdek doğru ama eksik/hatalı ayrıntı), Y = yanlış,
+R = ret ("Bu bilgi dokümanlarda bulunamadı."). Tek değerlendirici (Claude), tek koşu
+(temperature=0). MIN=0 #46 ilk koşuda Ollama bellek HATA'sı verdi, yeniden koşuldu.
+
+Soru         MIN=0  500  800  1200   Not
+test_2#35    D      =    D    D      cevap metni üç MIN'de birebir aynı
+test_2#46    D      =    D    D      cevap metni üç MIN'de birebir aynı
+test_4#91    R      D    D    R      1200: tüm dosya tek chunk, model yine ret
+test_4#92    D      D    D    D
+test_4#93    D      D    D    D
+test_4#94    D      D    D    K      1200: "kalbi çarptı çünkü ay ışığından etkilendi" uydurma nedensellik
+test_4#95    K      K    K    R      anahtar = Korev'in verdiği, hiçbir kilide uymuyor; hiçbir MIN tam kurmuyor. 1200: ret
+test_4#96    D      D    K    R      800: "yarının tarihi" yerine "28 Mart 2024" (test2.txt'ten karışma). 1200: ret
+test_4#97    K      K    D    Y      çekirdek: Korev = antikacının adı. 0/500 bunu kurmuyor (500 şömineyi 28 Mart'a
+                                     yazıyor); 800 "antikacı Korev'e ulaştı" doğru; 1200 sayfaları fısıltılar koparmış,
+                                     antikacı ev sahibi olmuş — uydurma
+test_4#98    K      D    K    K      0: "03.14 önceki kayıtlarda belirtilmemiş" yanlış; 500: 03.14'ü bekleme gerilimi doğru
+test_4#99    K      K    K    K      yorum sorusu; hepsinde kısmi (0: Alis'i baş yönetici sanıyor)
+test_4#100   R      R    K    K      800/1200: kroki ve şömine bağlantısı kısmen; krokiyi koparılmış sayfalara yazıyor
+test_5#114   R(TN)  =    =    =      negatif, ret korundu
+test_5#115   R(TN)  =    =    =      negatif, ret korundu
+neg#221      R(TN)  =    =    =      negatif, ret korundu
+
+MIN=0'a göre özet (pozitif sorular):
+  MIN=500 : iyileşen #91 (R→D), #98 (K→D) | bozulan 0 | sınıfta: cevap verdi→ret 0
+  MIN=800 : iyileşen #91 (R→D), #97 (K→D), #100 (R→K) | sessizce bozulan #96 (D→K, sınıf aynı)
+  MIN=1200: iyileşen #100 (R→K) | bozulan #95 (K→R), #96 (D→R), #97 (K→Y, sınıf aynı),
+            #94 (D→K, sınıf aynı); #91 düzelmiyor
+Negatif: üç MIN'de 3/3 ret korundu.

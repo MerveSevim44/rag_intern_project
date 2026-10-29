@@ -1,0 +1,136 @@
+Referans (MIN=0) koşulan soru: 15
+
+MIN=500: bağlamı değişen 13 soru | geçişler: FN->FN=1, FN->TP=1, TN->TN=3, TP->TP=8
+   test_4#91 POZ: FN -> TP  <-- SINIF DEĞİŞTİ  | anahtar kelime 0/2 -> 1/2
+      MIN=0  : 'Bu bilgi dokümanlarda bulunamadı.'
+      MIN=500: "Alis'in çalıştığı kütüphanenin adı Gümüş Yaprak. Bu bilgi, bağlamda açıkça verilmiştir."
+   test_4#92 POZ: TP -> TP  | anahtar kelime 2/3 -> 2/3
+      MIN=0  : "İstanbul'un yağmurlu kasım mevsiminde."
+      MIN=500: "İstanbul'un yağmurlu kasım mevsiminde."
+   test_4#93 POZ: TP -> TP  | anahtar kelime 1/4 -> 1/4
+      MIN=0  : "Kütüphanecinin ta kendisi gösterilmektedir. Bu ifade, test1.txt dosyasındaki paragraf 6'da verilmiştir."
+      MIN=500: 'Kütüphanecinin ta kendisi. Kaynak: test1.txt, paragraf 5-9'
+   test_4#94 POZ: TP -> TP  | anahtar kelime 3/8 -> 6/8
+      MIN=0  : "Ay ışığı, kütüphanenin tavanındaki camlardan süzülüp zemin kattaki mermerlere düşmesi ve kapının parmak kalınlığında aralığının oluşması, Alis'in Yasaklı Kanat'a girme kararını tetikleyen olayların zincirini oluşturur. Ay ışığının garip bir yansımasını oluştur"
+      MIN=500: 'Ay ışığı, zemin kattaki mermerlerde garip bir yansıma oluşturduktan sonra, tavanındaki devasa cam fenerlerden süzülen ayışığı kapının paslı demir kapısını işaret etti. Kapı, yıllardır sımsıkı kapalı olduğu halde, bu gece bir parmak kalınlığında aralık kalmıştı'
+   test_4#95 POZ: TP -> TP  | anahtar kelime 3/7 -> 3/7
+      MIN=0  : 'Antikacı tarafından verilen pirinç anahtarının işlevi, hikayedeki tıkırtı sesinin bir kod olduğunu göstermektedir. İlk kelime "Korev" olarak çözüldüğünde, anahtarın da tıkırtının bir kod olduğunu ima eder. Bu nedenle, anahtarın ve tıkırtının ikisi de hikayenin'
+      MIN=500: 'Karakteriniz, antikacının verdiği pirinç anahtarın içinde bir kod veya mesaj olduğunu düşünmelidir. Anahtarın sahibi, karaktere bir ipucu vererek evin gizli bir geri planını açmaya çalıştığı belirtilmiştir. Diğer taraftan, günlükte karakter, evin duvarlarının '
+   test_4#96 POZ: TP -> TP  | anahtar kelime 2/6 -> 2/6
+      MIN=0  : "Defterde Alis'in ismini yazdığı sayfanın altında yer alan illüstrasyon, kütüphanenin büyük bir yangınla kül olacağını göstererek hikâyenin gerilimini artırır. Illüstrasyon, Alis'in kendi ismini yazdığı sayfayı bulmasıyla birlikte gelecekteki bir olayı öne süre"
+      MIN=500: "Alis'in ismini ve geleceğin tarihinin defterde belirmesi, hikâyeyi daha da gerilimli hale getiriyor. Bu detaylar, Alis'in geleceğe bakan defterin önemini vurguluyor ve onun geleceğin değiştirilebilir olduğuna dair endişelerini artırmaktadır. Illüstrasyonun içe"
+   test_4#97 POZ: TP -> TP  | anahtar kelime 7/8 -> 7/8
+      MIN=0  : '12 Mart 2024 tarihli günlükte, fısıltının tıkırtı olarak algılandığı ve "Korev" kodunun ilk kelimesi çözüldüğü bilgi ile başlar. Ancak 28 Mart 2024 tarihli günlükte, antikacıdan bir anahtar alındığı ve bu anahtarın evin kilidlerine uymadığı bilgi verilir. Bu a'
+      MIN=500: 'Karakteriniz, 12 Mart\'ta fısıltıyı ve tıkırtıyı duyunca şaşkınlık yaşamış ve kodu "Korev" olarak anlama fırsatına sahip olmuştur. 28 Mart\'ta ise, karakteriniz evin içindeki sessizliği ve tıkırtıyı duyunca, şömine arkasından geldiğinden emin olup, şömine duvarı'
+   test_4#98 POZ: TP -> TP  | anahtar kelime 4/7 -> 4/7
+      MIN=0  : "Anlatıcının saatin 03.13'e gelmesini fark etmesi, 03.14'teki tıkırtının bir önceki günlük kayıtlarda belirtilmediği ve anlatıcının saatin 03.13'e geldiğinde şaşkınlık duyduğu bir durumu gösterir. Bu, 03.14 tıkırtısının bir ön sembol veya bir kod olduğunu anlat"
+      MIN=500: "Anlatıcının saatin 03.13'e gelmesini fark etmesi, 03.14 tıkırtısının bir kod olduğu fikrini güçlendirdi. Bu tıkırtı, evin içindeki bir olayı işaret edebilir ve anlatıcının ona doğru yaklaşmasıyla birlikte daha fazla gerilim oluşturdu. Zamansal gerilim, anlatıc"
+   test_4#99 POZ: TP -> TP  | anahtar kelime 3/8 -> 2/8
+      MIN=0  : "Usta Magnus'un gerçek kimliği ve geleceğe bakma yeteneğine sahip olması, hikâyeye bir gizem katıyor. Gelecek izlemek hapisheneye benzetilmiştir çünkü onu karanlık ve kısıtlayan bir deneyim olarak tasvir edilmiştir. Bu, geleceğe bakmanın zararlı ve kontrolsüz o"
+      MIN=500: "Bu cümle, hikâyedeki gizemin daha derin bir anlam kazandırıyor. Usta Magnus'un gerçek kimliğinin ve defterin içeriğinin gizli olduğunu vurguluyor. Ayrıca geleceğe bakmanın bir hapishene atılmanın aynısı olduğunu da ima ediyor. Bu, Usta Magnus'un geleceğe bakma"
+   test_4#100 POZ: FN -> FN  | anahtar kelime 0/7 -> 0/7
+      MIN=0  : 'Bu bilgi dokümanlarda bulunamadı.'
+      MIN=500: 'Bu bilgi dokümanlarda bulunamadı.'
+   test_5#114 NEG: TN -> TN  | anahtar kelime - -> -
+      MIN=0  : 'Bu bilgi dokümanlarda bulunamadı.'
+      MIN=500: 'Bu bilgi dokümanlarda bulunamadı.'
+   test_5#115 NEG: TN -> TN  | anahtar kelime - -> -
+      MIN=0  : 'Bu bilgi dokümanlarda bulunamadı.'
+      MIN=500: 'Bu bilgi dokümanlarda bulunamadı.'
+   test_negative#221 NEG: TN -> TN  | anahtar kelime - -> -
+      MIN=0  : 'Bu bilgi dokümanlarda bulunamadı.'
+      MIN=500: 'Bu bilgi dokümanlarda bulunamadı.'
+
+MIN=800: bağlamı değişen 15 soru | geçişler: FN->TP=2, TN->TN=3, TP->TP=10
+   test_2#35 POZ: TP -> TP  | anahtar kelime 3/7 -> 3/7
+      MIN=0  : "PublicContact alanındaki (phoneVisible, emailVisible) değerleri, örnek profillerde genellikle (False, False) olarak ayarlanmıştır ve bu durum %72,8'lük oranla gözlemlenebilir."
+      MIN=800: "PublicContact alanındaki (phoneVisible, emailVisible) değerleri, örnek profillerde genellikle (False, False) olarak ayarlanmıştır ve bu durum %72,8'lük oranla gözlemlenebilir."
+   test_2#46 POZ: TP -> TP  | anahtar kelime 2/8 -> 2/8
+      MIN=0  : "Dataset, doğrulanmış gerçek kişiler veya işletmelerin bir listesi olarak tasarlanmamıştır ve doğrulanmış gerçek kişiler veya işletmelerin bir kümeye sahip değildir. Bu bilgi, kaynak [3] ve [4]'den çıkarılır."
+      MIN=800: "Dataset, doğrulanmış gerçek kişiler veya işletmelerin bir listesi olarak tasarlanmamıştır ve doğrulanmış gerçek kişiler veya işletmelerin bir kümeye sahip değildir. Bu bilgi, kaynak [3] ve [4]'den çıkarılır."
+   test_4#91 POZ: FN -> TP  <-- SINIF DEĞİŞTİ  | anahtar kelime 0/2 -> 1/2
+      MIN=0  : 'Bu bilgi dokümanlarda bulunamadı.'
+      MIN=800: "Alis'in çalıştığı kütüphanenin adı Gümüş Yaprak'tır. Bu bilgi, bağlamda açıkça verilmiştir."
+   test_4#92 POZ: TP -> TP  | anahtar kelime 2/3 -> 2/3
+      MIN=0  : "İstanbul'un yağmurlu kasım mevsiminde."
+      MIN=800: "Anlatıcının Oda No: 304'ü kiraladığı şehir İstanbul ve mevsim yağmurlu kasım."
+   test_4#93 POZ: TP -> TP  | anahtar kelime 1/4 -> 2/4
+      MIN=0  : "Kütüphanecinin ta kendisi gösterilmektedir. Bu ifade, test1.txt dosyasındaki paragraf 6'da verilmiştir."
+      MIN=800: "Kütüphanecinin ta kendisi gösterilmektedir. Bu cümle, Usta Magnus'un el yazısından alınmıştır ve orada kütüphanecinin görevi garidyan olarak belirtilmiştir."
+   test_4#94 POZ: TP -> TP  | anahtar kelime 3/8 -> 5/8
+      MIN=0  : "Ay ışığı, kütüphanenin tavanındaki camlardan süzülüp zemin kattaki mermerlere düşmesi ve kapının parmak kalınlığında aralığının oluşması, Alis'in Yasaklı Kanat'a girme kararını tetikleyen olayların zincirini oluşturur. Ay ışığının garip bir yansımasını oluştur"
+      MIN=800: "Ay ışığı, zemin kattaki mermerlerde garip bir yansıma oluşturdu. Bu yansıma, Yasaklı Kanatın işaret ettiği kapının paslı demir kapısını gösteriyordu. Alis'in kalbi hızla çarparak kapıya yaklaştı. Kapı, yıllardır sımsıkı kapalı olduğundan, bu gece bir parmak ka"
+   test_4#95 POZ: TP -> TP  | anahtar kelime 3/7 -> 4/7
+      MIN=0  : 'Antikacı tarafından verilen pirinç anahtarının işlevi, hikayedeki tıkırtı sesinin bir kod olduğunu göstermektedir. İlk kelime "Korev" olarak çözüldüğünde, anahtarın da tıkırtının bir kod olduğunu ima eder. Bu nedenle, anahtarın ve tıkırtının ikisi de hikayenin'
+      MIN=800: 'Antikacının verdiği pirinç anahtarın işlevi, evin içindeki tıkırtı kodunu açmak için kullanılmak üzere verildiği anlatılmaktadır. Günlükte de, evin duvarlarının arkasından gelen tıkırtı, bir kodun başladığını göstermektedir. Bu tıkırtı, defterde yazılan "Korev'
+   test_4#96 POZ: TP -> TP  | anahtar kelime 2/6 -> 2/6
+      MIN=0  : "Defterde Alis'in ismini yazdığı sayfanın altında yer alan illüstrasyon, kütüphanenin büyük bir yangınla kül olacağını göstererek hikâyenin gerilimini artırır. Illüstrasyon, Alis'in kendi ismini yazdığı sayfayı bulmasıyla birlikte gelecekteki bir olayı öne süre"
+      MIN=800: "Alis'in ismini ve geleceğin tarihinin sayfada belirtilmesinden sonra, defter kendi kendine sayfaları çevirir ve bir illüstrasyon gösterir. Bu illüstrasyon, gelecekteki tarihe (yani 28 Mart 2024) kütüphanenin büyük bir yangınla kül olacağını gösteriyor. Bu, Ali"
+   test_4#97 POZ: TP -> TP  | anahtar kelime 7/8 -> 7/8
+      MIN=0  : '12 Mart 2024 tarihli günlükte, fısıltının tıkırtı olarak algılandığı ve "Korev" kodunun ilk kelimesi çözüldüğü bilgi ile başlar. Ancak 28 Mart 2024 tarihli günlükte, antikacıdan bir anahtar alındığı ve bu anahtarın evin kilidlerine uymadığı bilgi verilir. Bu a'
+      MIN=800: "Karakteriniz, 12 Mart ve 28 Mart tarihli günlükler arasında fısıltıyı kodla dönüştürerek antikacı Korev'e ulaştı. Bu kod, şöminenin arkasından gelen tıkırtıyı ifade eder ve karakterin evin içindeki bir gizli olayla karşı karşıya kalmasına neden olur."
+   test_4#98 POZ: TP -> TP  | anahtar kelime 4/7 -> 4/7
+      MIN=0  : "Anlatıcının saatin 03.13'e gelmesini fark etmesi, 03.14'teki tıkırtının bir önceki günlük kayıtlarda belirtilmediği ve anlatıcının saatin 03.13'e geldiğinde şaşkınlık duyduğu bir durumu gösterir. Bu, 03.14 tıkırtısının bir ön sembol veya bir kod olduğunu anlat"
+      MIN=800: "Anlatıcının saatin 03.13'e gelmesini fark etmesi, 03.14 tıkırtısının bir kod olduğu fikrini güçlendiriyor. Bu tıkırtı, evin içindeki bir şeyin hareket ettiği bir işaret olarak anlaşılıyor ve anlatıcının saatin 03.13'e gelmesi, bu tıkırtının bir sembol olduğunu"
+   test_4#99 POZ: TP -> TP  | anahtar kelime 3/8 -> 2/8
+      MIN=0  : "Usta Magnus'un gerçek kimliği ve geleceğe bakma yeteneğine sahip olması, hikâyeye bir gizem katıyor. Gelecek izlemek hapisheneye benzetilmiştir çünkü onu karanlık ve kısıtlayan bir deneyim olarak tasvir edilmiştir. Bu, geleceğe bakmanın zararlı ve kontrolsüz o"
+      MIN=800: "Bu cümle, Alis'in geleceğe bakma yeteneğine dair endişelerini ve bunun ona zarar verebileceğini vurguluyor. Usta Magnus'un el yazısıyla yazılan bu metni incelediği zaman, Alis'in geleceğe bakma yeteneğinin aslında bir sorumluluk ve tehlike taşıdığını anlamaya "
+   test_4#100 POZ: FN -> TP  <-- SINIF DEĞİŞTİ  | anahtar kelime 0/7 -> 5/7
+      MIN=0  : 'Bu bilgi dokümanlarda bulunamadı.'
+      MIN=800: 'Okuyucuda bir belirsizlik ve merak etkisi yaratmak için, günlükteki koparılmış yirmi sayfa ve arka kapaktaki kroki/koordinat arasında şunun gibi bir bağlantı kurulabilir: "Koparılmış sayfalara ait krokide, salonun hemen sağ köşesindeki şömine duvarında bir tık'
+   test_5#114 NEG: TN -> TN  | anahtar kelime - -> -
+      MIN=0  : 'Bu bilgi dokümanlarda bulunamadı.'
+      MIN=800: 'Bu bilgi dokümanlarda bulunamadı.'
+   test_5#115 NEG: TN -> TN  | anahtar kelime - -> -
+      MIN=0  : 'Bu bilgi dokümanlarda bulunamadı.'
+      MIN=800: 'Bu bilgi dokümanlarda bulunamadı.'
+   test_negative#221 NEG: TN -> TN  | anahtar kelime - -> -
+      MIN=0  : 'Bu bilgi dokümanlarda bulunamadı.'
+      MIN=800: 'Bu bilgi dokümanlarda bulunamadı.'
+
+MIN=1200: bağlamı değişen 15 soru | geçişler: FN->FN=1, FN->TP=1, TN->TN=3, TP->FN=2, TP->TP=8
+   test_2#35 POZ: TP -> TP  | anahtar kelime 3/7 -> 3/7
+      MIN=0  : "PublicContact alanındaki (phoneVisible, emailVisible) değerleri, örnek profillerde genellikle (False, False) olarak ayarlanmıştır ve bu durum %72,8'lük oranla gözlemlenebilir."
+      MIN=1200: "PublicContact alanındaki (phoneVisible, emailVisible) değerleri, örnek profillerde genellikle (False, False) olarak ayarlanmıştır ve bu durum %72,8'lük oranla gözlemlenebilir."
+   test_2#46 POZ: TP -> TP  | anahtar kelime 2/8 -> 2/8
+      MIN=0  : "Dataset, doğrulanmış gerçek kişiler veya işletmelerin bir listesi olarak tasarlanmamıştır ve doğrulanmış gerçek kişiler veya işletmelerin bir kümeye sahip değildir. Bu bilgi, kaynak [3] ve [4]'den çıkarılır."
+      MIN=1200: "Dataset, doğrulanmış gerçek kişiler veya işletmelerin bir listesi olarak tasarlanmamıştır ve doğrulanmış gerçek kişiler veya işletmelerin bir kümeye sahip değildir. Bu bilgi, kaynak [3] ve [4]'den çıkarılır."
+   test_4#91 POZ: FN -> FN  | anahtar kelime 0/2 -> 0/2
+      MIN=0  : 'Bu bilgi dokümanlarda bulunamadı.'
+      MIN=1200: 'Bu bilgi dokümanlarda bulunamadı.'
+   test_4#92 POZ: TP -> TP  | anahtar kelime 2/3 -> 2/3
+      MIN=0  : "İstanbul'un yağmurlu kasım mevsiminde."
+      MIN=1200: "Anlatıcının Oda No: 304'ü kiraladığı şehir İstanbul ve mevsim yağmurlu kasım."
+   test_4#93 POZ: TP -> TP  | anahtar kelime 1/4 -> 1/4
+      MIN=0  : "Kütüphanecinin ta kendisi gösterilmektedir. Bu ifade, test1.txt dosyasındaki paragraf 6'da verilmiştir."
+      MIN=1200: 'Kütüphanecinin ta kendisi gösterilmektedir. Bu bilgi, "Unutulmuş Parşömen" adlı metnin bir parçasından çıkarılarak elde edilmiştir.'
+   test_4#94 POZ: TP -> TP  | anahtar kelime 3/8 -> 6/8
+      MIN=0  : "Ay ışığı, kütüphanenin tavanındaki camlardan süzülüp zemin kattaki mermerlere düşmesi ve kapının parmak kalınlığında aralığının oluşması, Alis'in Yasaklı Kanat'a girme kararını tetikleyen olayların zincirini oluşturur. Ay ışığının garip bir yansımasını oluştur"
+      MIN=1200: "Ay ışığının zemin kattaki mermerlerdeki yansıması, Yasaklı Kanatın demir kapısını işaret ettiği bir pusula iğnesi gibi görünmüştü. Kapı, uzun yıllar boyunca sımsıkı kapalı olmasına rağmen bu gece bir parmak kalınlığında aralıklıydı. Alis'in kalbi hızla çarpmış"
+   test_4#95 POZ: TP -> FN  <-- SINIF DEĞİŞTİ  | anahtar kelime 3/7 -> 0/7
+      MIN=0  : 'Antikacı tarafından verilen pirinç anahtarının işlevi, hikayedeki tıkırtı sesinin bir kod olduğunu göstermektedir. İlk kelime "Korev" olarak çözüldüğünde, anahtarın da tıkırtının bir kod olduğunu ima eder. Bu nedenle, anahtarın ve tıkırtının ikisi de hikayenin'
+      MIN=1200: 'Bu bilgi dokümanlarda bulunamadı.'
+   test_4#96 POZ: TP -> FN  <-- SINIF DEĞİŞTİ  | anahtar kelime 2/6 -> 0/6
+      MIN=0  : "Defterde Alis'in ismini yazdığı sayfanın altında yer alan illüstrasyon, kütüphanenin büyük bir yangınla kül olacağını göstererek hikâyenin gerilimini artırır. Illüstrasyon, Alis'in kendi ismini yazdığı sayfayı bulmasıyla birlikte gelecekteki bir olayı öne süre"
+      MIN=1200: 'Bu bilgi dokümanlarda bulunamadı.'
+   test_4#97 POZ: TP -> TP  | anahtar kelime 7/8 -> 3/8
+      MIN=0  : '12 Mart 2024 tarihli günlükte, fısıltının tıkırtı olarak algılandığı ve "Korev" kodunun ilk kelimesi çözüldüğü bilgi ile başlar. Ancak 28 Mart 2024 tarihli günlükte, antikacıdan bir anahtar alındığı ve bu anahtarın evin kilidlerine uymadığı bilgi verilir. Bu a'
+      MIN=1200: 'Fısıltıdan kodaya ve kodadan antikacıya bir ilerleme yaşanmıştır. İlk olarak fısıltılar defterin sayfalarını koparıp, kodlar yerine koordinatlara ve haritaya geçiş yaptılar. Ardından, ev sahibi olan antikacı, defterin geri kalanını almak için odasına gitti.'
+   test_4#98 POZ: TP -> TP  | anahtar kelime 4/7 -> 2/7
+      MIN=0  : "Anlatıcının saatin 03.13'e gelmesini fark etmesi, 03.14'teki tıkırtının bir önceki günlük kayıtlarda belirtilmediği ve anlatıcının saatin 03.13'e geldiğinde şaşkınlık duyduğu bir durumu gösterir. Bu, 03.14 tıkırtısının bir ön sembol veya bir kod olduğunu anlat"
+      MIN=1200: "Anlatıcının saatin 03:13'e gelmesini fark etmesiyle önceki günlük kayıtlarındaki 03:14 tıkırtısı arasındaki zamansal gerilim, anlatıcının akıl sağlığını yavaş yavaş kaybetmeye başladığını göstermek için kullanılmıştır. Anlatıcının saatin 03:13'e geldiğini fark"
+   test_4#99 POZ: TP -> TP  | anahtar kelime 3/8 -> 2/8
+      MIN=0  : "Usta Magnus'un gerçek kimliği ve geleceğe bakma yeteneğine sahip olması, hikâyeye bir gizem katıyor. Gelecek izlemek hapisheneye benzetilmiştir çünkü onu karanlık ve kısıtlayan bir deneyim olarak tasvir edilmiştir. Bu, geleceğe bakmanın zararlı ve kontrolsüz o"
+      MIN=1200: "Bu cümle, Alis'in geleceğe bakma yeteneğine rağmen onun bunu yapmasının zararlı olabileceğini vurgular. Usta Magnus'un gerçek kimliğini ve kütüphanenin gizemli yapısını daha da karmaşık hale getirir. Cümlenin bu anlamıyla, geleceğe bakmanın kütüphanecinin ve b"
+   test_4#100 POZ: FN -> TP  <-- SINIF DEĞİŞTİ  | anahtar kelime 0/7 -> 4/7
+      MIN=0  : 'Bu bilgi dokümanlarda bulunamadı.'
+      MIN=1200: 'Okuyucuda bir belirsizlik ve merak etkisi yaratmak için, koparılmış yirmi sayfanın arka kapağında bulunan krokideki işaretle ilgili ayrıntılı bir açıklama yapılmaz ve defterin sahibinin gizli bir mesajı bırakmış olduğuna dair bir ipucu verilir. Bu, okuyucunun '
+   test_5#114 NEG: TN -> TN  | anahtar kelime - -> -
+      MIN=0  : 'Bu bilgi dokümanlarda bulunamadı.'
+      MIN=1200: 'Bu bilgi dokümanlarda bulunamadı.'
+   test_5#115 NEG: TN -> TN  | anahtar kelime - -> -
+      MIN=0  : 'Bu bilgi dokümanlarda bulunamadı.'
+      MIN=1200: 'Bu bilgi dokümanlarda bulunamadı.'
+   test_negative#221 NEG: TN -> TN  | anahtar kelime - -> -
+      MIN=0  : 'Bu bilgi dokümanlarda bulunamadı.'
+      MIN=1200: 'Bu bilgi dokümanlarda bulunamadı.'

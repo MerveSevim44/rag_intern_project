@@ -39,7 +39,7 @@ PR olarak ele alınır.
 | 30 | Synthesizer (a) dalı ödünleşiminin sınır vakası: "Yanlış Ön Kabul" sorusu #224 bağlama göre FP/TN arasında gidip geliyor | Açık — **bug değil, bilinçli alınmış dengenin yeniden değerlendirilmesi** (FN 25→10 karşılığında kabul edilen bedel) |
 | 31 | OCR'lı Cevap sayfalarının metin kalitesi: bir sayfa okunamıyor (#24), diğerlerinde üst simge / "\|" kaybı model cevabına aynen geçiyor | Açık — iki ayrı ciddiyet: okunamayan sayfa (yeniden OCR) / kısmi bozulma (son işleme) |
 | 32 | RRF birleştirmesi BM25=0 olan en iyi dense chunk'ını havuzdan atıyor (test_3 #79/#82) | **Kapandı (mekanizma)** — `8d3f33d` dense güvenlik slotu, N=1'de #79 FN→TP; **bayrak KAPALI, açma kararı ayrı ve AÇIK** (bkz. madde 32 kapanış notu) |
-| 33 | Stemmer tutarsızlığı + iki chunk'a bölünmüş cevap (test_4 #91) | Açık — Adım 1: belirleyici neden bölünmüş cevap (birleştirme oracle'ı tam düzeltiyor); stemmer tek başına 0 kazanç. Müdahale seçimi bekliyor |
+| 33 | Stemmer tutarsızlığı + iki chunk'a bölünmüş cevap (test_4 #91) | Açık — Adım 1: belirleyici neden bölünmüş cevap; stemmer tek başına 0 kazanç. Adım 2: `.txt` birleştirme MIN=500 öneriliyor (#91 düzeliyor, sessiz bozulma yok); uygulama onayı bekliyor |
 | 34 | Cevap chunk'ı bağlamda 1. sırada, model yine reddediyor (test_3 #82) | Açık — generation tarafı; retrieval madde 32'de çözüldü |
 | 35 | `run_tests.py` kapanışta aralıklı 0xC0000005 ile çıkıyor | Açık — **düşük öncelik**; sonuçlar tam yazılıyor, iş-around `uretim.py`'de (`b469350`) |
 | 36 | `classify_answer` TP'si doğruluk değil: TP'lerin %32'si yanlış cevap | **Karar verildi** — ret tespiti güvenilir (FN/TN 0 çelişki); bağlam değişen ölçümlerde sınıfın yanında ayrı doğruluk kontrolü kural (b), raporlarda TP yerine "cevap verdi" (a), `classify_answer` koduna dokunulmaz (c) |
@@ -1476,7 +1476,7 @@ tek stem'e), M (paragraf 1+2 tek chunk, embedding ingest yolundan), SM; ayrıca
   genel stemmer düzeltmesi) tam benchmark + negatif setteki yan etkisi.
   Müdahale seçildikten sonra madde 32 Adım 2 disipliniyle ölçülecek.
 
-**Adım 2 (2026-10-29, ölçüm sürüyor) — genel birleştirme politikası:**
+**Adım 2 (2026-10-29) — genel birleştirme politikası:**
 `.txt` paragrafları, birikmiş metin en az MIN karakter olana kadar komşularıyla
 birleştirilir (sondaki artık öncekine eklenir); `.txt` yeniden ingest'i süreç
 içinde simüle edilir (`politika.py`; embedding ingest yolundan, `src/`/DB
@@ -1490,6 +1490,18 @@ chunker'ı ayrı).
   Faz B: bağlamı değişen sorularda üretim) madde 36 kuralıyla: sınıf geçişinin
   yanında bağlamı değişen her sorunun doğruluğu. MIN seçimi "#91 düzeldi mi"
   ile değil, "başka soru sessizce bozuldu mu" ile birlikte yapılacak.
+- **Sonuç** ([README](../experiments/madde33_stemmer_chunk/README.md),
+  `dogruluk_adim2.txt`): MIN=0 == madde 32 n0 (147/147). Bağlamı değişen soru
+  500: 13, 800/1200: 15 (+2 dolaylı: test_2 #35/#46, BM25 korpus istatistiği
+  kayması; cevaplar aynı). Negatif setlerde 3/3 ret korundu.
+  - **500:** #91 ret→doğru, #98 K→D; doğrulukta bozulan **0**.
+  - **800:** #91, #97, #100 iyileşiyor ama #96 sınıf aynı kalırken D→K
+    (test2.txt'ten tarih karışması) — sessiz bozulma.
+  - **1200:** #91 düzelmiyor; #95/#96 cevap verdi→ret, #97 K→Y ve #94 D→K
+    sınıf aynı. Eleniyor.
+  - **Öneri: MIN=500** (en küçük ayak izi, sessiz bozulma yok). Sınır: tek
+    koşu, tek değerlendirici, 2 kısa `.txt`. Uygulama (ingest'te birleştirme +
+    `.txt` yeniden ingest) ayrı onay bekliyor.
 
 ## Madde 34 — Cevap chunk'ı bağlamda 1. sırada, model yine reddediyor (test_3 #82)
 

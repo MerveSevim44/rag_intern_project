@@ -62,3 +62,52 @@ model paragraf 1'in başlığını ("Unutulmuş Parşömen") ad sanabiliyor.
 hâlinin (ör. tüm .txt paragraflarına komşu birleştirme; genel stemmer düzeltmesi)
 tam benchmark + negatif setteki yan etkisi. Buradaki oracle'lar yalnız #91'in
 çiftine / ailesine dokunuyor.
+
+# Madde 33 Adım 2 — genel .txt birleştirme politikası (MIN sweep)
+
+Politika (`politika.py`): `.txt` paragraflarını, birikmiş metin en az MIN karakter
+olana kadar komşularıyla birleştir; sondaki artık öncekine eklenir. `.txt`'nin
+yeniden ingest'i süreç içinde simüle edilir (embedding ingest yolundan; `src/`
+ve `rag.db` değişmez). Yalnız `.txt` (19 chunk) etkilenir. Duman testi:
+`sonuc_duman_adim2.txt`.
+
+| MIN | test1.txt (9 p.) | test2.txt (10 p.) |
+|---|---|---|
+| 500 | 1-2, 3-4, 5-9 | 1-2, 3-4, 5-10 |
+| 800 | 1-3, 4-9 | 1-3, 4-10 |
+| 1200 | 1-9 | 1-10 |
+
+## Faz A — nihai bağlam (`havuz2.py` → `sonuc_havuz2.txt`; 147 soru, LLM yok)
+
+Sağlama: MIN=0 == madde 32 Adım 2 n0 kaydı, **147/147**.
+
+| MIN | Bağlamı değişen | .txt kaynaklı | Dolaylı | #91 "Gümüş Yaprak"+"Alis" aynı chunk'ta |
+|---|---|---|---|---|
+| 500 | 13 (12 poz + neg #221) | 13 | 0 | evet |
+| 800 | 15 | 13 | test_2 #35, #46 | evet |
+| 1200 | 15 | 13 | test_2 #35, #46 | evet |
+
+Dolaylı değişim: test_2 #35/#46'nın bağlamında yalnız `728_profiles.json`
+kayıtları yer değiştiriyor; `.txt` chunk sayısı düşünce BM25 korpus istatistikleri
+(IDF, ortalama uzunluk) kayıyor. İki sorunun cevap metni üç MIN'de birebir aynı.
+
+## Faz B — üretim, sınıf + doğruluk (`uretim2.py` → `sonuc_uretim2.txt`, `dogruluk_adim2.txt`)
+
+Foundry qwen2.5-7b, temperature=0, tek koşu; doğruluk elle (madde 36 kuralı;
+tek değerlendirici). Raporlarda pozitif soruda "cevap verdi" / "ret".
+
+| MIN | Sınıf (pozitif) | Doğrulukta iyileşen | Doğrulukta bozulan | Negatif |
+|---|---|---|---|---|
+| 500 | ret→cevap verdi 1 (#91) | #91 R→D, #98 K→D | **0** | 3/3 ret |
+| 800 | ret→cevap verdi 2 (#91, #100) | #91 R→D, #97 K→D, #100 R→K | **#96 D→K** (sınıf aynı; "yarının tarihi" yerine test2.txt'ten "28 Mart") | 3/3 ret |
+| 1200 | ret→cevap verdi 1 (#100), cevap verdi→ret 2 (#95, #96) | #100 R→K | #95, #96 →R; **#97 K→Y, #94 D→K** (sınıf aynı) | 3/3 ret |
+
+- **MIN=1200** (dosya başına tek chunk) #91'i düzeltmiyor ve 4 soruyu bozuyor;
+  ikisi sınıfa yansımıyor. Eleniyor.
+- **MIN=800** bir soruyu sessizce bozuyor (#96: iki hikâyenin büyük chunk'ları
+  bağlamda yan yana → tarih karışması) ve iki ilgisiz soruda bağlamı dolaylı kaydırıyor.
+- **MIN=500**: #91 düzeliyor, #98 iyileşiyor, sessiz bozulma yok, dolaylı etki yok,
+  negatifler korunuyor. En küçük ayak izi.
+
+Sınırlar: tek koşu, tek değerlendirici; 13–15 soruluk küçük örnek, yalnız 2 `.txt`
+dosyası (iki kısa öykü). Bulgu "500 bu korpusta güvenli", genel bir eşik değil.
