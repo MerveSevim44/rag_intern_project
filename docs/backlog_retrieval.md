@@ -1099,6 +1099,23 @@ edilemez oran → **reddedildi; aynı deneme (sabit mutlak eşik) tekrarlanmamal
   bir alt sınır ister ve tam da o sınır 3 TP'yi kaybettiriyor. Yani #103 için
   D'nin bağıl hâli de yeterli olmayabilir; ölçmeden varsayılmamalı.
 
+**Not (2026-10-29) — bağıl eşik iki maddeyi birlikte ilgilendiren aday (madde 34 girdisi).**
+Hedef değişmedi: madde 24 = test_5 #103 FP. Madde 34
+([experiments/madde34_ingilizce_ret/](../experiments/madde34_ingilizce_ret/README.md))
+aynı aracın ters yöndeki kullanımını buldu: pozitif soruda düşük rerank'lı konu
+dışı chunk haksız **ret (FN)** üretiyor (#82, #56).
+- **Ortak aday:** bağıl rerank eşiği ("adayın skoru en yüksek skorun X katından
+  azsa ele"). Ölçülürse tek deneyde, çift ölçütle: negatifte FP azalıyor mu,
+  pozitifte TP→FN var mı, ve içerik doğru mu (madde 36/38).
+- **Test vakaları:** #82 (bağıl eşik 0.25 ile ret kalkıyor, içerik kısmen —
+  formül hatası; madde 34 Adım 3), #56 (konu dışı profiller ≈0.001 oranında;
+  ret kalkınca cevap yanlış, madde 38), #87 (gramer dolgusu 0.001, en yüksek
+  0.487; yukarıdaki "bir net kazanan + dolgular" tipi).
+- **Düşük beklenti uyarısı:** #103 ve #82'nin ikisi de "net kazanan yok"
+  tipinde (#103: 0.036 / 0.032 / …; #82: en yüksek 0.015, zararlı ve zararsız
+  chunk'lar 0.0031–0.0032'de iç içe). Yukarıdaki uyarıya göre bağıl kesim bu
+  tipi çözmez; bağıl eşiğin madde 24'ün asıl hedefini çözme olasılığı düşük.
+
 ## Madde 25 — Ret tespiti yarım kalmış "bulunmadığından" cevabını kaçırıyor
 
 v8 negatif #222: cevap "Z-Dönüşümü ders notlarında 12. haftanın konu başlığına
