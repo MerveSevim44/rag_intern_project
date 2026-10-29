@@ -42,7 +42,10 @@ PR olarak ele alınır.
 | 33 | Stemmer tutarsızlığı + iki chunk'a bölünmüş cevap (test_4 #91) | Açık — Adım 1: belirleyici neden bölünmüş cevap (birleştirme oracle'ı tam düzeltiyor); stemmer tek başına 0 kazanç. Müdahale seçimi bekliyor |
 | 34 | Cevap chunk'ı bağlamda 1. sırada, model yine reddediyor (test_3 #82) | Açık — generation tarafı; retrieval madde 32'de çözüldü |
 | 35 | `run_tests.py` kapanışta aralıklı 0xC0000005 ile çıkıyor | Açık — **düşük öncelik**; sonuçlar tam yazılıyor, iş-around `uretim.py`'de (`b469350`) |
-| 36 | `classify_answer` TP'si doğruluk değil: TP'lerin %32'si yanlış cevap | Açık — **ölçüldü, ciddi**: ret tespiti güvenilir (FN/TN 0 çelişki), ama sınıf geçişiyle "yan etki yok" demek doğruluk kaybını gizliyor. Düzeltme planı ayrı onay bekliyor |
+| 36 | `classify_answer` TP'si doğruluk değil: TP'lerin %32'si yanlış cevap | **Karar verildi** — ret tespiti güvenilir (FN/TN 0 çelişki); bağlam değişen ölçümlerde sınıfın yanında ayrı doğruluk kontrolü kural (b), raporlarda TP yerine "cevap verdi" (a), `classify_answer` koduna dokunulmaz (c) |
+
+**Uyarı (madde 36):** bağlam değişen ölçümlerde TP = doğru cevap DEĞİLDİR;
+`classify_answer` yalnız ret / cevap ayrımı yapar, doğruluk ayrıca kontrol edilir.
 
 **GT değişikliği (2026-10-28, `747fb8a`):** test_negative #214 negatiften pozitife
 alındı (`airports.json`'da IST/TR var). Negatif set **32 → 31** soru. Bu tarihten
@@ -55,7 +58,7 @@ rakamları doğrudan karşılaştırmadan önce bu farkı düşün.
 
 ### Öncelik sırası (2026-10-11, güncelleme 2026-10-13)
 
-Açık retrieval/değerlendirme maddeleri için sıra: **25 (skorlama) ✅ → 22 ✅ → 27 ✅ → 29 ✅ → 20 (top_k ✅, 2b açık) → 21 (raporlama ✅; 4 FN açık) → 32 (mekanizma ✅; bayrak kararı açık) → 36 (ölçüldü; plan onayı bekliyor) → 33 → 34 → 24 (bağıl eşik) → 30 → 28 → 26 → 31 → 35 (en alt).**
+Açık retrieval/değerlendirme maddeleri için sıra: **25 (skorlama) ✅ → 22 ✅ → 27 ✅ → 29 ✅ → 20 (top_k ✅, 2b açık) → 21 (raporlama ✅; 4 FN açık) → 32 (mekanizma ✅; bayrak kararı açık) → 36 (karar ✅: doğruluk kontrolü kural) → 33 → 34 → 24 (bağıl eşik) → 30 → 28 → 26 → 31 → 35 (en alt).**
 
 - **25 önce:** madde 24'ün başarı ölçütü negatif set FP sayısı; skorlayıcı yarım
   retleri FP saydığı sürece (#222) bu sayı yapay olarak şişik ve 24'ün etkisi
@@ -1393,7 +1396,10 @@ hibrit/RRF sırasından bağımsız olarak reranker havuzuna eklenir;
 - **#79: FN → TP** (N=1, 3, 5). **#82: FN kalıyor.** Cevap chunk'ı artık
   bağlamda 1. sırada ama model reddediyor (İngilizce, sembolleri bozuk slayt
   metni). Retrieval kısmı çözüldü, kalan üretim tarafı.
-- Pozitif setlerde yan etki yok: TP→FN 0 (bağlamı değişen soru N=1: 5, N=5: 29).
+- Pozitif setlerde **sınıfta** yan etki yok: TP→FN 0 (bağlamı değişen soru
+  N=1: 5, N=5: 29). **Düzeltme (madde 36):** doğrulukta N=1'de değişim yok,
+  ama N=3'te #87, N=5'te #30 ve #87 sınıf aynı kalırken kısmen doğrudan
+  yanlışa döndü (6 iyileşmenin yanında). N=1 önerisi etkilenmiyor.
 - Negatif sette yeni FP: N=1 #214, N=3 +#222, N=5 +#226.
   - #214 **GT etiketi yanlış**: `airports.json`'da IST/TR var; "IST" cevabı doğru.
   - #222 gürültü: ilgisiz profil chunk'ı giriyor, iki cevap da yarım cümle.
@@ -1545,7 +1551,7 @@ bakılmıştı.
 **Ciddiyet: ciddi (yorumlama açısından).** Fonksiyonun kendisi bozuk değil; ret
 dedektörü olarak doğru çalışıyor. Sorun, bağlam değişikliği ölçümlerinde tek
 kalite sinyali olarak kullanılması. **Düzeltme planı ayrı onay bekliyor.**
-Adaylar (karar yok):
+Adaylar (karar aşağıda):
 - (a) Raporlarda TP'yi "cevap verdi" diye adlandırmak, doğruluk iddiasını ayrı
   bir sinyale bağlamak.
 - (b) Bağlamı değişen sorularda doğruluk kontrolü: GT `anahtar_kelimeler`
@@ -1556,3 +1562,20 @@ Adaylar (karar yok):
 **Geçici kural (plan onaylanana kadar):** bağlam değiştiren her ölçümde
 (madde 33 Adım 2 dahil), sınıfı değişmeyen ama bağlamı değişen sorular da
 doğruluk açısından elle (ya da GT anahtar kelimesiyle) kontrol edilir.
+
+**Karar (2026-10-29) — (b) + (a), (c) sonucu:**
+- **(b) ana çözüm, kural oldu:** bağlamı değiştiren her ölçümde (retrieval,
+  chunking, prompt), bağlamı değişen soruların hepsinde sınıf geçişinin
+  YANINDA ayrı bir doğruluk kontrolü yapılır: GT `anahtar_kelimeler`
+  eşleşmesi ya da judge correctness skoru, gerekirse elle. Yukarıdaki geçici
+  kural bununla kalıcı oldu. "Yan etki yok" yalnız sınıf VE doğruluk birlikte
+  değişmediyse yazılır.
+- **(a) adlandırma:** raporlarda pozitif sorudaki TP "**cevap verdi**", FN
+  "**ret**" diye yazılır; "TP" kısaltması doğruluk çağrıştırdığı yerde
+  kullanılmaz. `classify_answer`'ın çıktı değerleri (TP/TN/FP/FN) aynı kalır.
+- **(c) `classify_answer`'ın koduna dokunulmaz.** İç mantığını doğruluk ölçecek
+  biçimde değiştirmek geçmiş tüm ölçümlerin (madde 21, 25, 32, v2–v8)
+  karşılaştırılabilirliğini bozar; seçenek olarak düşünülmüyor.
+- Geçmiş kapanmış maddelerin toplu yeniden denetimi yapılmaz (orantısız).
+  Yalnız etkilendiği kesin iddialar düzeltilir: madde 32 Adım 2'nin N=3/5 "yan
+  etki yok" notu düzeltildi.

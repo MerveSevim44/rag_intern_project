@@ -44,8 +44,11 @@ aynı girdiyi alır, koşulmadı.
   in the time domain is convolution in the frequency domain"), model yine
   reddediyor. Retrieval kısmı çözüldü; kalan sorun üretim tarafı (İngilizce,
   sembolleri bozuk PDF metni; soru "hangi türetme" diye soruyor).
-- **Pozitiflerde yan etki yok:** bağlamı değişen 29 pozitif-set sorusunun hiçbiri
-  sınıf kaybetmedi (TP→FN 0).
+- **Pozitiflerde sınıfta yan etki yok:** bağlamı değişen 29 pozitif-set sorusunun
+  hiçbiri sınıf kaybetmedi (TP→FN 0). **Düzeltme (madde 36, 2026-10-29):** sınıf
+  doğruluk değil; elle doğruluk kontrolünde N=1'de değişim yok, N=3'te #87,
+  N=5'te #30 ve #87 sınıf aynı kalırken kısmen doğrudan yanlışa döndü (6
+  iyileşmenin yanında). Bkz. [madde 36](../madde36_classify_dogruluk/README.md).
 - `test_1 #11` raporda HATA→TP görünüyor: N=0 koşusunda Ollama embedding
   hatası (status 500). `uretim_n0_tekrar11/` ile N=0 yeniden koşuldu: **TP**.
   Gerçek geçiş TP→TP.
@@ -60,7 +63,7 @@ aynı girdiyi alır, koşulmadı.
 
 ## Sonuç
 
-- **N=1** amaca yeterli: #79 TP oluyor, pozitiflerde kayıp yok. Tek "FP" (#214)
+- **N=1** amaca yeterli: #79 TP oluyor, pozitiflerde kayıp yok (sınıfta ve doğrulukta). Tek "FP" (#214)
   bir GT etiketi hatası.
 - **N=3** bir gürültü-FP (#222) ekliyor; #79/#82 için N=1'e göre kazanç yok.
 - **N=5** gerçek bir uydurma ekliyor (#226, zamansal uyumsuzluk). Asıl risk
