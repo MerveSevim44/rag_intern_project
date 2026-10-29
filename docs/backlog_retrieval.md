@@ -38,10 +38,11 @@ PR olarak ele alınır.
 | 29 | Ollama bge-m3 embedding güvenilirliği: oturumlar arası sayısal kayma sınırdaki retrieval'ı değiştiriyor | **Düzeltildi** — `EMBED_NUM_GPU=99` ile sorgu GPU'ya sabitlendi (`src/embedder.py`, `src/ingest.py`); yerel Ollama + `rag.db` ile 2 ayrı süreçte (#36, #93, #217) 0 fark doğrulanarak kapatıldı |
 | 30 | Synthesizer (a) dalı ödünleşiminin sınır vakası: "Yanlış Ön Kabul" sorusu #224 bağlama göre FP/TN arasında gidip geliyor | Açık — **bug değil, bilinçli alınmış dengenin yeniden değerlendirilmesi** (FN 25→10 karşılığında kabul edilen bedel) |
 | 31 | OCR'lı Cevap sayfalarının metin kalitesi: bir sayfa okunamıyor (#24), diğerlerinde üst simge / "\|" kaybı model cevabına aynen geçiyor | Açık — iki ayrı ciddiyet: okunamayan sayfa (yeniden OCR) / kısmi bozulma (son işleme) |
+| 32 | RRF birleştirmesi BM25=0 olan en iyi dense chunk'ını havuzdan atıyor (test_3 #79/#82) | **Kapandı (mekanizma)** — `8d3f33d` dense güvenlik slotu, N=1'de #79 FN→TP; **bayrak KAPALI, açma kararı ayrı ve AÇIK** (bkz. madde 32 kapanış notu) |
 
 ### Öncelik sırası (2026-10-11, güncelleme 2026-10-13)
 
-Açık retrieval/değerlendirme maddeleri için sıra: **25 (skorlama) ✅ → 22 ✅ → 27 ✅ → 29 ✅ → 20 (top_k ✅, 2b açık) → 21 (raporlama ✅; 4 FN açık) → 32 → 33 → 34 → 31 → 24 (bağıl eşik) → 30 → 28 → 26.**
+Açık retrieval/değerlendirme maddeleri için sıra: **25 (skorlama) ✅ → 22 ✅ → 27 ✅ → 29 ✅ → 20 (top_k ✅, 2b açık) → 21 (raporlama ✅; 4 FN açık) → 32 (mekanizma ✅; bayrak kararı açık) → 33 → 34 → 31 → 24 (bağıl eşik) → 30 → 28 → 26.**
 
 - **25 önce:** madde 24'ün başarı ölçütü negatif set FP sayısı; skorlayıcı yarım
   retleri FP saydığı sürece (#222) bu sayı yapay olarak şişik ve 24'ün etkisi
@@ -1385,6 +1386,24 @@ hibrit/RRF sırasından bağımsız olarak reranker havuzuna eklenir;
 - Öneri: N=1. Varsayılanı açmak ayrı karar.
 
 **Açık:** #82 üretim tarafı → madde 34; #214 GT düzeltmesi (ayrı commit).
+
+**Kapanış (2026-10-29) — mekanizma kapandı, bayrak kararı AÇIK.**
+- **Kapanan:** mekanizma doğrulandı ve düzeltme yolu ölçüldü. RRF birleştirmesi
+  BM25=0 olan en iyi dense chunk'ını havuz dışına itiyordu (Adım 1);
+  `RAG_DENSE_FORCE_TOP_N=1` bunu düzeltiyor: #79 FN→TP, #82'nin chunk'ı
+  bağlamda 1. sırada, pozitiflerde TP→FN 0 (Adım 2, `8c1b1da`). #214'teki FP
+  bir GT etiketi hatasıydı, düzeltildi (`747fb8a`). Testler geçiyor
+  (`tests/test_dense_force.py`; tam paket 136 geçti, 1 bilinen kırık, madde 17).
+- **Kapanmayan — bayrak varsayılanı:** `DENSE_FORCE_TOP_N` **bilinçli olarak 0
+  (kapalı)**. "Madde 32 kapandı" bayrağın açılmaya hazır olduğu anlamına
+  **gelmez**. Açmak ayrı bir karar ve henüz verilmedi; açmadan önce:
+  - N=1'in negatif setteki etkisi yeni GT ile (31 soru) yeniden doğrulanmalı.
+    #222 gürültüsü N=3'te çıktı, N=1'de yok; #226'daki gerçek FP yalnız N=5'te.
+  - Gerçek etki tek bir soruda (#79) ölçüldü; #82 madde 34 çözülmeden kazanç
+    getirmiyor.
+  - Etkinleştirme commit'i bu notu ve yeni ölçümü referans göstermeli.
+- **Ayrılan:** #82 generation → madde 34; #91 → madde 33; `run_tests.py`
+  kapanış çökmesi → madde 35.
 
 **Kapsam dışı:**
 - **test_4 #91 → madde 33** (farklı mekanizma; Adım 1'de birlikte ölçüldü).
