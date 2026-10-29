@@ -1,0 +1,7 @@
+# Madde 33 Adım 2 duman testi (2026-10-29): politika.kur(MIN) + retrieve('Alis'in çalıştığı kütüphanenin adı nedir?')
+# MIN, korpus chunk sayısı, nihai bağlam (id, page_info), 'Gümüş Yaprak'+'Alis' aynı chunk'ta
+0 911 [(4228, 'paragraf 2'), (4233, 'paragraf 7'), (4229, 'paragraf 3'), (4234, 'paragraf 8')] False
+500 898 [(4227, 'paragraf 1-2'), (4231, 'paragraf 5-9'), (4229, 'paragraf 3-4'), (4221, 'bölüm 3')] True
+800 896 [(4227, 'paragraf 1-3'), (4230, 'paragraf 4-9'), (4221, 'bölüm 3'), (3830, '$.profiles[450]')] True
+1200 894 [(4227, 'paragraf 1-9'), (4221, 'bölüm 3'), (4236, 'paragraf 1-10'), (3830, '$.profiles[450]')] True
+

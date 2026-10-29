@@ -1476,6 +1476,21 @@ tek stem'e), M (paragraf 1+2 tek chunk, embedding ingest yolundan), SM; ayrıca
   genel stemmer düzeltmesi) tam benchmark + negatif setteki yan etkisi.
   Müdahale seçildikten sonra madde 32 Adım 2 disipliniyle ölçülecek.
 
+**Adım 2 (2026-10-29, ölçüm sürüyor) — genel birleştirme politikası:**
+`.txt` paragrafları, birikmiş metin en az MIN karakter olana kadar komşularıyla
+birleştirilir (sondaki artık öncekine eklenir); `.txt` yeniden ingest'i süreç
+içinde simüle edilir (`politika.py`; embedding ingest yolundan, `src/`/DB
+değişmez). Sweep: MIN = 500 / 800 / 1200 (≈ 2 / 3 / tüm paragraflar; test1.txt
+9 → 3 / 2 / 1 chunk). Yalnız `.txt` etkilenir (19 chunk; pdf/docx/json'ın
+chunker'ı ayrı).
+- **Duman testi** (`sonuc_duman_adim2.txt`): #91'de üç MIN'de de "Gümüş
+  Yaprak" + "Alis" aynı chunk'ta ve nihai bağlamda 1. sırada; MIN=0 bugünkü
+  bağlamla aynı.
+- **Ölçüm** (`havuz2.py` Faz A: 147 soru × 4 MIN, nihai bağlam; `uretim2.py`
+  Faz B: bağlamı değişen sorularda üretim) madde 36 kuralıyla: sınıf geçişinin
+  yanında bağlamı değişen her sorunun doğruluğu. MIN seçimi "#91 düzeldi mi"
+  ile değil, "başka soru sessizce bozuldu mu" ile birlikte yapılacak.
+
 ## Madde 34 — Cevap chunk'ı bağlamda 1. sırada, model yine reddediyor (test_3 #82)
 
 "Zamanda çarpımın frekansta konvolüsyona karşılık geldiği özellik hangi
