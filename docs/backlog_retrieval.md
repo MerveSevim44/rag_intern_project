@@ -1495,6 +1495,13 @@ bozuk formül satırlarında.
 Önce: aynı bağlamla prompt varyantları / chunk metni elle temizlenmiş hâli
 üretime verilip hangi değişikliğin reti kaldırdığı ölçülmeli.
 
+**Madde 31 B ile karşılaştırma (2026-10-29):** aynı mekanizma değil. 31 B'de
+OCR'lı sayfanın içeriği okunuyor, yalnız gösterim bozuk ve model bozuk metni
+aynen **kopyalıyor** (sınıf değişmiyor). #82'de ise OCR'sız PDF metin katmanında
+semboller kaybolmuş ve gövde İngilizce; model **reddediyor** (FN). Ortak payda
+yalnız "bozuk formül metni" ailesi. Bu yüzden 34 ayrı madde kalıyor; bozuk sembol
+payı ölçülürse 31 B'nin son işleme adayları (sembol onarımı) burada da denenebilir.
+
 ## Madde 35 — `run_tests.py` kapanışta aralıklı 0xC0000005 ile çıkıyor
 
 Madde 32 Adım 2'de görüldü: N=0 koşusunda `evaluation/run_tests.py` 44 sorunun
