@@ -1,0 +1,32 @@
+{
+ "set": "test_4",
+ "commit": "8e2a0af",
+ "rag_db": "757e97059abb",
+ "bos_ram_gb_basta": 7.1,
+ "ortam": {
+  "RAG_EMBED_NUM_GPU": "99",
+  "RAG_DENSE_FORCE_TOP_N": "0",
+  "PYTHONIOENCODING": "utf-8"
+ },
+ "endpoint": "http://127.0.0.1:58440",
+ "nobet_once": "d16e556d14284ac8",
+ "cikis_kodu": 0,
+ "sure_sn": 377,
+ "satir": 10,
+ "beklenen_satir": 10,
+ "hata_ilk": [],
+ "nobet_sonra": "5b827b2a0b6f3404",
+ "ollama_cpu_yukleme": [
+  "16:04:54 0/25",
+  "16:05:13 0/25",
+  "16:05:39 0/25",
+  "16:06:04 0/25",
+  "16:06:42 0/25",
+  "16:07:07 0/25",
+  "16:07:42 0/25",
+  "16:08:18 0/25",
+  "16:08:58 0/25",
+  "16:09:26 0/25"
+ ],
+ "temiz": false
+}

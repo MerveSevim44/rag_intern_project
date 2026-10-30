@@ -12,9 +12,10 @@ sonuclari.csv yoksa set koşulur (başarı çıkış koduna göre değil satır 
 madde 35). Sonra HATA alan sorular BİR kez yeniden koşulur (hata_tekrar.csv); asıl
 sonuç dosyası değişmez, altyapı hatası gerçek ölçümden ayrı kalır.
 
-Kullanım (kökten): python -u experiments/madde39_tam_kosu/kosu.py SET
+Kullanım (kökten): python -u experiments/madde39_tam_kosu/kosu.py SET [--klasor K] [--min-ram X]
 Çıktı: SET/sonuclari.csv, SET/log.txt, SET/ortam.json, varsa SET/hata_tekrar.csv
 """
+import argparse
 import csv
 import hashlib
 import json
@@ -34,6 +35,7 @@ NOBET = ("import sys,json,hashlib;sys.path.insert(0,'src');from embedder import 
          f"print(hashlib.sha256(json.dumps(get_embedding({NOBET_METIN!r})).encode()).hexdigest()[:16])")
 NOBET_BEKLENEN = "d16e556d14284ac8"  # tam GPU (25/25) vektörü; kayma.py ile doğrulandı
 MIN_BOS_RAM_GB = 7.5  # Foundry ~5 + Ollama 1.1 + python/reranker ve pay
+LLM = "qwen2.5-7b-instruct-cuda-gpu:4"
 HATA_ON = "HATA"
 
 
@@ -87,10 +89,19 @@ def ollama_cpu_yuklemeleri(bas):
 
 
 def main():
-    set_ = sys.argv[1]
+    ap = argparse.ArgumentParser()
+    ap.add_argument("set")
+    ap.add_argument("--klasor", help="pilot: sonuçlar bu klasöre (gerçek koşuya karışmaz)")
+    ap.add_argument("--min-ram", type=float, default=MIN_BOS_RAM_GB, help="pilot: eşiği değiştir")
+    args = ap.parse_args()
+    set_ = args.set
     csv.field_size_limit(10**9)
-    if bos_ram_gb() < MIN_BOS_RAM_GB:
-        sys.exit(f"Boş RAM {bos_ram_gb():.1f} GB < {MIN_BOS_RAM_GB} GB; LLM yüklenince embedding "
+    # Önceki setten kalan LLM RAM'i tutar; eşik ölçümünden önce boşalt.
+    komut(["foundry", "model", "unload", LLM], timeout=120)
+    time.sleep(3)
+    ram = bos_ram_gb()
+    if ram < args.min_ram:
+        sys.exit(f"Boş RAM {ram:.1f} GB < {args.min_ram} GB; LLM yüklenince embedding "
                  "yüklenemiyor ya da CPU'ya düşüyor. Koşu başlatılmadı.")
     kirli = komut(["git", "status", "--porcelain", "--", "src", "evaluation", "ingest.py"])
     if kirli:
@@ -100,13 +111,13 @@ def main():
         sys.exit(f"rag.db özeti {db}, beklenen {DB_OZET}")
 
     env = {**os.environ, **ORTAM, "FOUNDRY_LOCAL_ENDPOINT": uc_nokta()}
-    out = HERE / set_
+    out = HERE / (args.klasor or set_)
     out.mkdir(exist_ok=True)
     kaynak = ROOT / "evaluation/datasets" / f"{set_}.csv"
     n = len(satirlar(kaynak))
     sonuc, log = out / "sonuclari.csv", out / "log.txt"
     bilgi = {"set": set_, "commit": komut(["git", "rev-parse", "--short", "HEAD"]), "rag_db": db,
-             "ortam": ORTAM, "endpoint": env["FOUNDRY_LOCAL_ENDPOINT"], "nobet_once": nobet(env)}
+             "bos_ram_gb_basta": round(ram, 2), "ortam": ORTAM, "endpoint": env["FOUNDRY_LOCAL_ENDPOINT"], "nobet_once": nobet(env)}
 
     bas = time.time()
     if not sonuc.exists():
