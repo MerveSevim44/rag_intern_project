@@ -148,6 +148,7 @@ coreference sorunu. Cozum chunking veya embedding tarafinda aranmali.
 
 ## Bilinen sorunlar
 
+- **Foundry servisi ayaktayken `_discover_endpoint` bulamıyor**, `FOUNDRY_LOCAL_ENDPOINT` ile elle veriliyor — araştırılmadı (madde 24 ön-testi).
 - **Foundry Local 8GB VRAM'de kosu ortasinda cokuyor — yapisal, tekrarlayan
   bir sorun (v3, v4 ve v5 negatif kosusunda ucuncu kez).** Tetikleyici uzun
   `code_interpreter` retry zincirleri; negatif set en agir yuku urettigi icin

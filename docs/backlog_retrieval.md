@@ -30,7 +30,7 @@ PR olarak ele alınır.
 | 21 | LLM-judge, ground truth'u olan sorulardaki retleri "dürüst ret" diye ödüllendiriyor | Açık — ölçüm körlüğü |
 | 22 | OCR'lı "Cevap N" sayfaları retrieval'a gelmiyor | **Düzeltildi** — `5b494b2` (Örnek/Cevap birleştirme) + yeniden ingest; hedef 5/5 Cevap bağlamda, plan ölçütlerinin hepsi geçti. Kalan açık (OCR kalitesi) → madde 31 |
 | 23 | Madde 19 korumasındaki kelimelerin çekimleri farklı token'a düşüyor ("deneyim" / "deneyimi") | Açık — bilinen sınır; bugünden kötü değil |
-| 24 | OCR'lı alıştırma sayfaları negatif sorularda dolgu olarak bağlama girip uydurma ürettiriyor (test_5 #103) | Açık — **daraltıldı** (2026-10-12): yalnız #103; #224 → madde 30. Yön C (görev notu) ölçüldü ve reddedildi, kod geri alındı (`9e3a095`). D (sabit reranker eşiği) simüle edildi ve reddedildi (1 FP için 3 TP); madde 22 #103'ü çözmüyor. Açık aday: bağıl eşik (ölçülmedi) |
+| 24 | OCR'lı alıştırma sayfaları negatif sorularda dolgu olarak bağlama girip uydurma ürettiriyor (test_5 #103) | **Beklemede (2026-10-30)** — #103 FP bugünkü sistemde tekrar etmiyor, bağıl eşik adayı not edildi, aktif müdahale yok, yeni FP görülürse yeniden açılır |
 | 25 | Ret tespiti yarım "…bulunmadığından" cevabını tanımıyor (skorlama + üretim) | **Skorlama düzeltildi** — `f888033` (ret çerçevesi, #222 FP→TN) + `8b5d26f` (tanımlayıcı yankısı, v3 #26 TP→FN); üretim kısmı → madde 26, kalan açık → madde 28 |
 | 26 | Üretim: model serbest biçimli reddi yarıda bırakıyor ("…bulunmadığından") | Açık — düşük öncelik; v8'de 1/144 (#222) |
 | 27 | bge-m3 bazı metinlere NaN embedding döndürüyor; `semantic_sim` sessizce 0.0 yazıp ortalamaya katıyor | **Düzeltildi** — `ecc7f5a` (eksik değer + skorlayıcı embedding'i CPU'ya sabit) + `0d179ab` (testler); v7 #36 0.0 → 86.7, tekrar skorlamada 0 fark (`baf5cb0`). P öncesi `semantic_sim` değerleri "cihaz karışımı" (bkz. madde 27 kapanış notu) |
@@ -45,6 +45,7 @@ PR olarak ele alınır.
 | 36 | `classify_answer` TP'si doğruluk değil: TP'lerin %32'si yanlış cevap | **Karar verildi** — ret tespiti güvenilir (FN/TN 0 çelişki); bağlam değişen ölçümlerde sınıfın yanında ayrı doğruluk kontrolü kural (b), raporlarda TP yerine "cevap verdi" (a), `classify_answer` koduna dokunulmaz (c) |
 | 37 | Yorum isteyen soruda ret kırılgan: bağlam bileşimine monoton olmayan şekilde bağlı (test_4 #100) | Açık — şüphe: yorum sınırı / subjektif soru; madde 34'ten ayrıldı, mekanizma ölçülmedi |
 | 38 | Ret kalksa da içerik hatalı: sınıf TP ama GT karşılanmıyor — içerik doğruluğu ret/kabul ayrımından ayrı bir sorun (test_2 #56, test_3 #82) | Açık — genel başlık; madde 34'ten ayrıldı, madde 36 ailesi (TP ≠ doğru). Örnekler: #56 genel geçer cevap, #82 yanlış formül |
+| 39 | Güncel sistemle tam benchmark + negatif set koşusu yok; kapsam kontrolleri eski/karma kayıtlara dayanıyor | Açık — **henüz koşulmayacak**; ileriki kapsam kontrollerinin güvenilirliği için. Son tam pozitif koşu v8 |
 
 **Uyarı (madde 36):** bağlam değişen ölçümlerde TP = doğru cevap DEĞİLDİR;
 `classify_answer` yalnız ret / cevap ayrımı yapar, doğruluk ayrıca kontrol edilir.
@@ -60,7 +61,7 @@ rakamları doğrudan karşılaştırmadan önce bu farkı düşün.
 
 ### Öncelik sırası (2026-10-11, güncelleme 2026-10-13)
 
-Açık retrieval/değerlendirme maddeleri için sıra: **25 (skorlama) ✅ → 22 ✅ → 27 ✅ → 29 ✅ → 20 (top_k ✅, 2b açık) → 21 (raporlama ✅; 4 FN açık) → 32 (mekanizma ✅; bayrak kararı açık) → 36 (karar ✅: doğruluk kontrolü kural) → 33 ✅ → 34 ✅ → 24 (bağıl eşik; madde 34 girdisi) → 30 → 28 → 26 → 31 → 35 (en alt).**
+Açık retrieval/değerlendirme maddeleri için sıra: **25 (skorlama) ✅ → 22 ✅ → 27 ✅ → 29 ✅ → 20 (top_k ✅, 2b açık) → 21 (raporlama ✅; 4 FN açık) → 32 (mekanizma ✅; bayrak kararı açık) → 36 (karar ✅: doğruluk kontrolü kural) → 33 ✅ → 34 ✅ → 24 (beklemede) → 30 → 28 → 26 → 31 → 35 (en alt).**
 
 - **25 önce:** madde 24'ün başarı ölçütü negatif set FP sayısı; skorlayıcı yarım
   retleri FP saydığı sürece (#222) bu sayı yapay olarak şişik ve 24'ün etkisi
@@ -1116,6 +1117,13 @@ dışı chunk haksız **ret (FN)** üretiyor (#82, #56).
   chunk'lar 0.0031–0.0032'de iç içe). Yukarıdaki uyarıya göre bağıl kesim bu
   tipi çözmez; bağıl eşiğin madde 24'ün asıl hedefini çözme olasılığı düşük.
 
+**Durum (2026-10-30) — beklemeye alındı.** #103 FP bugünkü sistemde tekrar etmiyor,
+bağıl eşik adayı not edildi, aktif müdahale yok, yeni FP görülürse yeniden açılır.
+Ön-test ([experiments/madde24_bagil_esik/](../experiments/madde24_bagil_esik/README.md)):
+V0 ve üst sınır (yalnız en yüksek chunk) 2/2 **TN**; bağlam s.16, s.2, s.18, s.24-25
+(skorlar 0.036 / 0.032 / 0.013 / 0.012). Kesin neden bilinmiyor. Yukarıdaki notta
+#103'ün aktif hedef gibi anlatılması ve eski skorları bu tarihten önceki duruma aittir.
+
 ## Madde 25 — Ret tespiti yarım kalmış "bulunmadığından" cevabını kaçırıyor
 
 v8 negatif #222: cevap "Z-Dönüşümü ders notlarında 12. haftanın konu başlığına
@@ -1743,3 +1751,23 @@ test edilmedi).
 
 **Ölçülmedi:** desenin kapsamı (reti kaldıran diğer müdahalelerde içerik ne kadar
 sık hatalı) ve ortak neden (bağlam eksikliği / bozuk metin / model çıkarımı).
+
+## Madde 39 — Güncel sistemle tam benchmark + negatif set koşusu yok
+
+**Boşluk:** retrieval ve DB, son tam koşudan sonra değişti, ama tam pozitif + negatif
+set hepsinden sonra yeniden koşulmadı. Madde 34 Adım 2 ve madde 24 ön-testi aynı
+sınıra takıldı: FN evreni ve taban oranı eski/karma kayıtlardan çıkarıldı; #103'ün
+FP'sinin artık tekrar etmediği ancak tek soru koşulunca görüldü.
+- **Son tam pozitif koşu:** v8 (tüm setlerin kayıtlı son tam skoru). Sonraki pozitif
+  koşular kısmi: madde 21 (5 soru), madde 22 Adım 3 (etki alanı), madde 32 Adım 2 (44),
+  madde 33 (bağlamı değişenler). "Güncel sistemde" diye anılan madde 21 koşusu tam
+  değildir.
+- **Son tam negatif koşu:** madde 33 duman testi (`test_negative`, FP 2/32: #224,
+  #232); `test_5` o koşuda yalnız kısmi.
+- **v8'den sonraki değişiklikler:** madde 20 (`top_k`), 22 ve 33 (yeniden ingest),
+  29 (embedding cihazı). Madde 32'nin bayrağı varsayılan kapalı; açılırsa ayrıca
+  sayılır.
+
+**Yapılacak (henüz koşulmayacak):** güncel sistemle test_1–5 + `test_negative` tam koşu,
+madde 36 kuralıyla, sonuçlar yeni referans olarak kaydedilir. Bu koşu olmadan yapılan
+kapsam kontrolü ve taban oranı, kayıtların hangi sisteme ait olduğunu belirtmelidir.

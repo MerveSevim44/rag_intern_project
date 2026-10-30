@@ -1,0 +1,24 @@
+[retrieval] Cache yuklendi: 898 chunk, embedding matrisi (898, 1024)
+test_5#103: Bağlamdan bağımsız dilbilgisi için pompalama (pumping) lemması nasıl ifade edilir?
+bağlam: 4342 8-Baglamdan_bagimsiz_dilbilgisi.pdf sayfa 16 rerank=0.03564 oran=1.000, 4328 8-Baglamdan_bagimsiz_dilbilgisi.pdf sayfa 2 rerank=0.03165 oran=0.888, 4344 8-Baglamdan_bagimsiz_dilbilgisi.pdf sayfa 18 rerank=0.01317 oran=0.370, 4349 8-Baglamdan_bagimsiz_dilbilgisi.pdf sayfa 24-25 rerank=0.01237 oran=0.347
+madde 34 eşiği 0.25: elenen []
+üst sınır eşiği 0.944: kalan [4342]
+
+[Foundry] Model yüklendi: qwen2.5-7b-instruct-cuda-gpu:4 | execution provider: CUDAExecutionProvider | cihaz: GPU
+[Foundry] Servis adresi: http://127.0.0.1:57347
+[Foundry] Serviste yüklü modeller: ['qwen2.5-7b-instruct-cuda-gpu:4']
+test_5#103: Bağlamdan bağımsız dilbilgisi için pompalama (pumping) lemması nasıl ifade edilir?
+bağlam: 4342 8-Baglamdan_bagimsiz_dilbilgisi.pdf sayfa 16 rerank=0.03564 oran=1.000, 4328 8-Baglamdan_bagimsiz_dilbilgisi.pdf sayfa 2 rerank=0.03165 oran=0.888, 4344 8-Baglamdan_bagimsiz_dilbilgisi.pdf sayfa 18 rerank=0.01317 oran=0.370, 4349 8-Baglamdan_bagimsiz_dilbilgisi.pdf sayfa 24-25 rerank=0.01237 oran=0.347
+madde 34 eşiği 0.25: elenen []
+üst sınır eşiği 0.944: kalan [4342]
+
+=== V0 bağlam [4342, 4328, 4344, 4349]
+  [1] TN: 'Bu bilgi dokümanlarda bulunamadı.'
+  [2] TN: 'Bu bilgi dokümanlarda bulunamadı.'
+  tekrarlar aynı: True
+
+=== UST_SINIR bağlam [4342]
+  [1] TN: 'Bu bilgi dokümanlarda bulunamadı.'
+  [2] TN: 'Bu bilgi dokümanlarda bulunamadı.'
+  tekrarlar aynı: True
+
