@@ -36,7 +36,7 @@ PR olarak ele alınır.
 | 27 | bge-m3 bazı metinlere NaN embedding döndürüyor; `semantic_sim` sessizce 0.0 yazıp ortalamaya katıyor | **Düzeltildi** — `ecc7f5a` (eksik değer + skorlayıcı embedding'i CPU'ya sabit) + `0d179ab` (testler); v7 #36 0.0 → 86.7, tekrar skorlamada 0 fark (`baf5cb0`). P öncesi `semantic_sim` değerleri "cihaz karışımı" (bkz. madde 27 kapanış notu) |
 | 28 | Ret tespitinin ikinci aşaması içerik miktarına bakmıyor; ret kapısından geçen içerik cevapları yalnız tesadüfi "iddia"larla TP kalıyor | Açık — v3 #29 gizli FN; madde 25 Adım 3'te bilinçli bırakıldı |
 | 29 | Ollama bge-m3 embedding güvenilirliği: oturumlar arası sayısal kayma sınırdaki retrieval'ı değiştiriyor | **Düzeltildi** — `EMBED_NUM_GPU=99` ile sorgu GPU'ya sabitlendi (`src/embedder.py`, `src/ingest.py`); yerel Ollama + `rag.db` ile 2 ayrı süreçte (#36, #93, #217) 0 fark doğrulanarak kapatıldı |
-| 30 | Synthesizer (a) dalı ödünleşiminin sınır vakası: "Yanlış Ön Kabul" sorusu #224 bağlama göre FP/TN arasında gidip geliyor | Açık — **bug değil, bilinçli alınmış dengenin yeniden değerlendirilmesi** (FN 25→10 karşılığında kabul edilen bedel) |
+| 30 | Synthesizer (a) dalı ödünleşiminin sınır vakası: "Yanlış Ön Kabul" sorusu #224 bağlama göre FP/TN arasında gidip geliyor | **Beklemede — madde 39'a bağlı**; bug değil, bilinçli denge. Tam koşu bitince gerçek FN/FP sayılarıyla değerlendirilecek; #224 ve #101'in durumu o koşudan doğrulanacak |
 | 31 | OCR'lı Cevap sayfalarının metin kalitesi: bir sayfa okunamıyor (#24), diğerlerinde üst simge / "\|" kaybı model cevabına aynen geçiyor | Açık — iki ayrı ciddiyet: okunamayan sayfa (yeniden OCR) / kısmi bozulma (son işleme) |
 | 32 | RRF birleştirmesi BM25=0 olan en iyi dense chunk'ını havuzdan atıyor (test_3 #79/#82) | **Kapandı (mekanizma)** — `8d3f33d` dense güvenlik slotu, N=1'de #79 FN→TP; **bayrak KAPALI, açma kararı ayrı ve AÇIK** (bkz. madde 32 kapanış notu) |
 | 33 | Stemmer tutarsızlığı + iki chunk'a bölünmüş cevap (test_4 #91) | Açık — Adım 1: belirleyici neden bölünmüş cevap; stemmer tek başına 0 kazanç. Adım 2: `.txt` birleştirme MIN=500 (#91 düzeliyor, sessiz bozulma yok). **Production'a alındı** (2026-10-29), duman testi geçti |
@@ -45,7 +45,7 @@ PR olarak ele alınır.
 | 36 | `classify_answer` TP'si doğruluk değil: TP'lerin %32'si yanlış cevap | **Karar verildi** — ret tespiti güvenilir (FN/TN 0 çelişki); bağlam değişen ölçümlerde sınıfın yanında ayrı doğruluk kontrolü kural (b), raporlarda TP yerine "cevap verdi" (a), `classify_answer` koduna dokunulmaz (c) |
 | 37 | Yorum isteyen soruda ret kırılgan: bağlam bileşimine monoton olmayan şekilde bağlı (test_4 #100) | Açık — şüphe: yorum sınırı / subjektif soru; madde 34'ten ayrıldı, mekanizma ölçülmedi |
 | 38 | Ret kalksa da içerik hatalı: sınıf TP ama GT karşılanmıyor — içerik doğruluğu ret/kabul ayrımından ayrı bir sorun (test_2 #56, test_3 #82) | Açık — genel başlık; madde 34'ten ayrıldı, madde 36 ailesi (TP ≠ doğru). Örnekler: #56 genel geçer cevap, #82 yanlış formül |
-| 39 | Güncel sistemle tam benchmark + negatif set koşusu yok; kapsam kontrolleri eski/karma kayıtlara dayanıyor | Açık — **henüz koşulmayacak**; ileriki kapsam kontrollerinin güvenilirliği için. Son tam pozitif koşu v8 |
+| 39 | Güncel sistemle tam benchmark + negatif set koşusu yok; kapsam kontrolleri eski/karma kayıtlara dayanıyor | Açık — **aktif hedef**; test_5 ölçüldü (11.6 dk), tam koşu tahmini ~1.5–2 saat, parçalı koşu planı bekliyor. Son tam pozitif koşu v8 |
 
 **Uyarı (madde 36):** bağlam değişen ölçümlerde TP = doğru cevap DEĞİLDİR;
 `classify_answer` yalnız ret / cevap ayrımı yapar, doğruluk ayrıca kontrol edilir.
@@ -61,7 +61,7 @@ rakamları doğrudan karşılaştırmadan önce bu farkı düşün.
 
 ### Öncelik sırası (2026-10-11, güncelleme 2026-10-13)
 
-Açık retrieval/değerlendirme maddeleri için sıra: **25 (skorlama) ✅ → 22 ✅ → 27 ✅ → 29 ✅ → 20 (top_k ✅, 2b açık) → 21 (raporlama ✅; 4 FN açık) → 32 (mekanizma ✅; bayrak kararı açık) → 36 (karar ✅: doğruluk kontrolü kural) → 33 ✅ → 34 ✅ → 24 (beklemede) → 30 → 28 → 26 → 31 → 35 (en alt).**
+Açık retrieval/değerlendirme maddeleri için sıra: **25 (skorlama) ✅ → 22 ✅ → 27 ✅ → 29 ✅ → 20 (top_k ✅, 2b açık) → 21 (raporlama ✅; 4 FN açık) → 32 (mekanizma ✅; bayrak kararı açık) → 36 (karar ✅: doğruluk kontrolü kural) → 33 ✅ → 34 ✅ → 24 (beklemede) → 39 → 30 (beklemede, 39'a bağlı) → 28 → 26 → 31 → 35 (en alt).**
 
 - **25 önce:** madde 24'ün başarı ölçütü negatif set FP sayısı; skorlayıcı yarım
   retleri FP saydığı sürece (#222) bu sayı yapay olarak şişik ve 24'ün etkisi
@@ -1768,6 +1768,13 @@ FP'sinin artık tekrar etmediği ancak tek soru koşulunca görüldü.
   29 (embedding cihazı). Madde 32'nin bayrağı varsayılan kapalı; açılırsa ayrıca
   sayılır.
 
-**Yapılacak (henüz koşulmayacak):** güncel sistemle test_1–5 + `test_negative` tam koşu,
+**Yapılacak (aktif hedef):** güncel sistemle test_1–5 + `test_negative` tam koşu,
 madde 36 kuralıyla, sonuçlar yeni referans olarak kaydedilir. Bu koşu olmadan yapılan
 kapsam kontrolü ve taban oranı, kayıtların hangi sisteme ait olduğunu belirtmelidir.
+
+**Süre ölçümü (2026-10-30, [experiments/madde39_tam_kosu/test_5/](../experiments/madde39_tam_kosu/test_5/)):**
+test_5 15 soru 693 sn (11.6 dk, soru başına ~46 sn). 147 soruya oran ~1.9 saat; v8'in
+set süreleri (toplam ~1 saat) bugünkü hızla (~1.4 kat) ~1.5 saat veriyor. **#102 HATA**
+(Ollama embedding runner çöktü; v8'de TN), yeniden koşulmalı; bu set henüz tam değil.
+- **#101 hâlâ FP** (v8 ile aynı; CNF dönüşümü uyduruyor), #103'ün aksine düzelmemiş.
+  #103 TN (ön-testle tutarlı), #107 FP (v8 ile aynı). Kesin hüküm tam koşudan.
