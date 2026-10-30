@@ -1,0 +1,18 @@
+{
+ "set": "test_negative",
+ "commit": "426a386",
+ "rag_db": "757e97059abb",
+ "ortam": {
+  "RAG_EMBED_NUM_GPU": "99",
+  "RAG_DENSE_FORCE_TOP_N": "0",
+  "PYTHONIOENCODING": "utf-8"
+ },
+ "endpoint": "http://127.0.0.1:64686",
+ "nobet_once": "d16e556d14284ac8",
+ "cikis_kodu": 1,
+ "sure_sn": 126,
+ "satir": 0,
+ "beklenen_satir": 32,
+ "hata_ilk": [],
+ "nobet_sonra": "5b827b2a0b6f3404"
+}

@@ -1,0 +1,146 @@
+id,zorluk,kategori,soru,beklenen_kaynak,dokumanda_var_mi,referans_cevap,cevap,bulunan_kaynaklar,sure_sn,context,dogrulama_durumu
+201,Negatif,Kapsam Disi,Blockchain tabanlı akıllı sözleşmelerde gaz (gas) ücreti nasıl hesaplanır?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,Bu bilgi dokümanlarda bulunamadı.,728_profiles.json ($.profiles[477]); 728_profiles.json ($.profiles[475]); mock-transactions.json ($.transactions[6]); 728_profiles.json ($.profiles[472]),78.13,"[1] Kaynak: 728_profiles.json, $.profiles[477]
+profileCode: DB-P4XQE34B
+synthetic: True
+profileType: individual
+displayName: Umut Şahin
+professionalName: Umut Şahin
+sector: Hukuk ve Mali Hizmetler
+occupation: Avukat
+headline: Hukuki ön görüşme ve dosya değerlendirmesi
+location.country: Türkiye
+location.city: Manisa
+location.district: Yunusemre
+location.serviceArea: Yunusemre / online
+location.exactAddressPublic: False
+serviceModes[0]: Yüz yüze
+serviceModes[1]: Online
+services[0].name: Sözleşme görüşmesi
+services[0].durationMinutes: 30
+services[0].description: Sözleşme görüşmesi için önceden planlanan birebir randevu.
+services[0].appointmentMode: Yüz yüze
+services[1].name: Hukuki ön görüşme
+services[1].durationMinutes: 30
+services[1].description: Hukuki ön görüşme için önceden planlanan birebir randevu.
+services[1].appointmentMode: Yüz yüze
+services[2].name: Dosya değerlendirme
+services[2].durationMinutes: 60
+services[2].description: Dosya değerlendirme için önceden planlanan birebir randevu.
+services[2].appointmentMode: Yüz yüze
+experience.years: 5
+experience.credentialSummary: Hukuk lisans eğitimi ve mesleki yetkinlik
+languages[0]: Türkçe
+appointmentSettings.defaultDurationMinutes: 30
+appointmentSettings.minimumNoticeHours: 2
+appointmentSettings.cancellationNoticeHours: 4
+appointmentSettings.autoApproveRequests: False
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 10:00
+weeklyAvailability[0].end: 18:30
+searchKeywords[5]: Sözleşme görüşmesi […kısaltıldı]
+
+[2] Kaynak: 728_profiles.json, $.profiles[475]
+profileCode: DB-BAV9DJLJ
+synthetic: True
+profileType: individual
+displayName: İlayda Aydın
+professionalName: İlayda Aydın
+sector: Hukuk ve Mali Hizmetler
+occupation: Avukat
+headline: Hukuki ön görüşme ve dosya değerlendirmesi
+location.country: Türkiye
+location.city: Eskişehir
+location.district: Odunpazarı
+location.serviceArea: Odunpazarı / online
+location.exactAddressPublic: False
+serviceModes[0]: Yüz yüze
+serviceModes[1]: Online
+services[0].name: Dosya değerlendirme
+services[0].durationMinutes: 60
+services[0].description: Dosya değerlendirme için önceden planlanan birebir randevu.
+services[0].appointmentMode: Online
+services[1].name: Hukuki ön görüşme
+services[1].durationMinutes: 45
+services[1].description: Hukuki ön görüşme için önceden planlanan birebir randevu.
+services[1].appointmentMode: Yüz yüze
+services[2].name: Sözleşme görüşmesi
+services[2].durationMinutes: 45
+services[2].description: Sözleşme görüşmesi için önceden planlanan birebir randevu.
+services[2].appointmentMode: Online
+experience.years: 17
+experience.credentialSummary: Hukuk lisans eğitimi ve mesleki yetkinlik
+languages[0]: Türkçe
+languages[1]: İngilizce
+languages[2]: Almanca
+appointmentSettings.defaultDurationMinutes: 45
+appointmentSettings.minimumNoticeHours: 6
+appointmentSettings.cancellationNoticeHours: 12
+appointmentSettings.autoApproveRequests: False
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+searchKeywords[6]: Sözleşme görüşmesi […kısaltıldı]
+
+[3] Kaynak: mock-transactions.json, $.transactions[6]
+id: TXN-007
+account_id: ACC-123
+type: debit
+amount: 32.5
+currency: USD
+description: Gas station
+category: transportation
+date: 2024-01-09
+status: completed
+id: TXN-007
+account_id: ACC-123
+type: debit
+amount: 32.5
+currency: USD
+description: Gas station
+category: transportation
+date: 2024-01-09
+status: completed
+
+[4] Kaynak: 728_profiles.json, $.profiles[472]
+profileCode: DB-PP5MU2EJ
+synthetic: True
+profileType: individual
+displayName: Kaan Kılıç
+professionalName: Kaan Kılıç
+sector: Hukuk ve Mali Hizmetler
+occupation: Avukat
+headline: Hukuki ön görüşme ve dosya değerlendirmesi
+location.country: Türkiye
+location.city: Bursa
+location.district: Osmangazi
+location.serviceArea: Osmangazi / online
+location.exactAddressPublic: False
+serviceModes[0]: Yüz yüze
+serviceModes[1]: Online
+services[0].name: Sözleşme görüşmesi
+services[0].durationMinutes: 60
+services[0].description: Sözleşme görüşmesi için önceden planlanan birebir randevu.
+services[0].appointmentMode: Online
+services[1].name: Hukuki ön görüşme
+services[1].durationMinutes: 45
+services[1].description: Hukuki ön görüşme için önceden planlanan birebir randevu.
+services[1].appointmentMode: Yüz yüze
+services[2].name: Dosya değerlendirme
+services[2].durationMinutes: 60
+services[2].description: Dosya değerlendirme için önceden planlanan birebir randevu.
+services[2].appointmentMode: Online
+experience.years: 2
+experience.credentialSummary: Hukuk lisans eğitimi ve mesleki yetkinlik
+languages[0]: Türkçe
+languages[1]: İngilizce
+appointmentSettings.defaultDurationMinutes: 45
+appointmentSettings.minimumNoticeHours: 24
+appointmentSettings.cancellationNoticeHours: 4
+appointmentSettings.autoApproveRequests: False
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 09:30
+searchKeywords[6]: Sözleşme görüşmesi […kısaltıldı]",
+202,Negatif,Kapsam Disi,Kuantum dolanıklığının kübit hata oranlarına etkisi nedir?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,HATA: Embedding olusturulamadi: model requires more system memory (1.1 GiB) than is available (733.5 MiB) (status code: 500),,0,,
+203,Negatif,Kapsam Disi,GDPR kapsamında kişisel verilerin azami saklama süresi ne kadardır?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,HATA: Embedding olusturulamadi: model requires more system memory (1.1 GiB) than is available (783.8 MiB) (status code: 500),,0,,
+204,Negatif,Kapsam Disi,Kubernetes'te pod autoscaling eşik değerleri nasıl yapılandırılır?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,HATA: Embedding olusturulamadi: model requires more system memory (1.1 GiB) than is available (780.3 MiB) (status code: 500),,0,,

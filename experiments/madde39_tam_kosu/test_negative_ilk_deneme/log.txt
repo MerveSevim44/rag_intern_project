@@ -1,0 +1,25 @@
+
+=== C:\Users\merve\Desktop\rag_project\evaluation\datasets\test_negative.csv -> C:\Users\merve\Desktop\rag_project\experiments\madde39_tam_kosu\test_negative\sonuclari.csv
+Model yükleniyor...
+[Foundry] Model yüklendi: qwen2.5-7b-instruct-cuda-gpu:4 | execution provider: CUDAExecutionProvider | cihaz: GPU
+[Foundry] Servis adresi: http://127.0.0.1:64686
+[Foundry] Serviste yüklü modeller: ['qwen2.5-7b-instruct-cuda-gpu:4']
+Model hazır.
+
+Soru seti: C:\Users\merve\Desktop\rag_project\evaluation\datasets\test_negative.csv
+[201] Soruluyor: Blockchain tabanlı akıllı sözleşmelerde gaz (gas) ücreti nasıl hesaplanır?
+[retrieval] Cache yuklendi: 898 chunk, embedding matrisi (898, 1024)
+    → 78.13 sn
+
+[202] Soruluyor: Kuantum dolanıklığının kübit hata oranlarına etkisi nedir?
+    → 0 sn
+
+[203] Soruluyor: GDPR kapsamında kişisel verilerin azami saklama süresi ne kadardır?
+    → 0 sn
+
+[204] Soruluyor: Kubernetes'te pod autoscaling eşik değerleri nasıl yapılandırılır?
+    → 0 sn
+
+
+3 ardışık hata: #202 (Embedding olusturulamadi), #203 (Embedding olusturulamadi), #204 (Embedding olusturulamadi) — altyapı kontrolü gerekiyor, run durduruldu.
+4/32 soru işlendi; yarım sonuçlar: C:\Users\merve\Desktop\rag_project\experiments\madde39_tam_kosu\test_negative\sonuclari.partial.csv

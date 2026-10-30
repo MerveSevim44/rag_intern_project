@@ -35,7 +35,7 @@ PR olarak ele alınır.
 | 26 | Üretim: model serbest biçimli reddi yarıda bırakıyor ("…bulunmadığından") | Açık — düşük öncelik; v8'de 1/144 (#222) |
 | 27 | bge-m3 bazı metinlere NaN embedding döndürüyor; `semantic_sim` sessizce 0.0 yazıp ortalamaya katıyor | **Düzeltildi** — `ecc7f5a` (eksik değer + skorlayıcı embedding'i CPU'ya sabit) + `0d179ab` (testler); v7 #36 0.0 → 86.7, tekrar skorlamada 0 fark (`baf5cb0`). P öncesi `semantic_sim` değerleri "cihaz karışımı" (bkz. madde 27 kapanış notu) |
 | 28 | Ret tespitinin ikinci aşaması içerik miktarına bakmıyor; ret kapısından geçen içerik cevapları yalnız tesadüfi "iddia"larla TP kalıyor | Açık — v3 #29 gizli FN; madde 25 Adım 3'te bilinçli bırakıldı |
-| 29 | Ollama bge-m3 embedding güvenilirliği: oturumlar arası sayısal kayma sınırdaki retrieval'ı değiştiriyor | **Düzeltildi** — `EMBED_NUM_GPU=99` ile sorgu GPU'ya sabitlendi (`src/embedder.py`, `src/ingest.py`); yerel Ollama + `rag.db` ile 2 ayrı süreçte (#36, #93, #217) 0 fark doğrulanarak kapatıldı |
+| 29 | Ollama bge-m3 embedding güvenilirliği: oturumlar arası sayısal kayma sınırdaki retrieval'ı değiştiriyor | **Düzeltildi** — `EMBED_NUM_GPU=99` ile sorgu GPU'ya sabitlendi (`src/embedder.py`, `src/ingest.py`); yerel Ollama + `rag.db` ile 2 ayrı süreçte (#36, #93, #217) 0 fark doğrulanarak kapatıldı **Koşullu (2026-10-30):** yalnız bellek yettiğinde geçerli; RAM yetmezse Ollama `num_gpu=99`'a rağmen sessizce CPU'ya düşüyor (0/25), bkz. madde 39 |
 | 30 | Synthesizer (a) dalı ödünleşiminin sınır vakası: "Yanlış Ön Kabul" sorusu #224 bağlama göre FP/TN arasında gidip geliyor | **Beklemede — madde 39'a bağlı**; bug değil, bilinçli denge. Tam koşu bitince gerçek FN/FP sayılarıyla değerlendirilecek; #224 ve #101'in durumu o koşudan doğrulanacak |
 | 31 | OCR'lı Cevap sayfalarının metin kalitesi: bir sayfa okunamıyor (#24), diğerlerinde üst simge / "\|" kaybı model cevabına aynen geçiyor | Açık — iki ayrı ciddiyet: okunamayan sayfa (yeniden OCR) / kısmi bozulma (son işleme) |
 | 32 | RRF birleştirmesi BM25=0 olan en iyi dense chunk'ını havuzdan atıyor (test_3 #79/#82) | **Kapandı (mekanizma)** — `8d3f33d` dense güvenlik slotu, N=1'de #79 FN→TP; **bayrak KAPALI, açma kararı ayrı ve AÇIK** (bkz. madde 32 kapanış notu) |
@@ -1324,6 +1324,12 @@ kullanılarak iki bağımsız Python sürecinde (`--run a` ve `--run b`) çalı�
    kayması tamamen ortadan kalktı.
 - **Madde 29 "Düzeltildi" olarak kapatıldı.**
 
+**Durum güncellemesi (2026-10-30) — sabitleme koşullu.** RAM yetmezse Ollama
+`num_gpu=99`'a rağmen modeli tamamen CPU'ya yüklüyor (`offloaded 0/25`), hata vermeden;
+vektör değişiyor (`d16e…` → `5b82…`). RAM yettiğinde LLM yüklüyken de yüklü değilken de
+bayt bayt aynı. Loglarda 2026-10-27'de de 8 adet 0/25 var (düzeltmeden sonra); hangi
+koşulara ait olduğu eşleştirilmedi. Ayrıntı: madde 39.
+
 ## Madde 30 — Synthesizer (a) dalı ödünleşiminin sınır vakası (#224)
 
 **Bu bir "düzeltilmesi gereken hata" değil, "yeniden değerlendirilmesi gereken
@@ -1778,3 +1784,11 @@ set süreleri (toplam ~1 saat) bugünkü hızla (~1.4 kat) ~1.5 saat veriyor. **
 (Ollama embedding runner çöktü; v8'de TN), yeniden koşulmalı; bu set henüz tam değil.
 - **#101 hâlâ FP** (v8 ile aynı; CNF dönüşümü uyduruyor), #103'ün aksine düzelmemiş.
   #103 TN (ön-testle tutarlı), #107 FP (v8 ile aynı). Kesin hüküm tam koşudan.
+
+**Bellek baskısı bulgusu (2026-10-30):** ilk `test_negative` denemesi
+(`test_negative_ilk_deneme/`, geçersiz) 4. soruda durdu: Foundry ~5 GB, boş RAM ~750 MB,
+Ollama 1.1 GiB'i yükleyemedi; ardından 0/25 ile CPU'ya düştü. `kayma.py`: RAM yettiğinde
+vektörler LLM'den bağımsız bayt bayt aynı. **test_5 ölçümü doğrulanamıyor** (Ollama logu
+yok, #102 çökmesi baskıya işaret ediyor); #101/#103/#107 sonuçları kesin değil, test_5
+yeniden koşulacak. `kosu.py`: boş RAM eşiği 7.5 GB (**tahmin, ölçülmedi**), set sonunda
+Ollama logu + embedding özeti kontrolü (`temiz`). Korumalar henüz pilotta denenmedi.
