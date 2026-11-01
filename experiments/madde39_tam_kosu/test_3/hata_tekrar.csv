@@ -1,0 +1,86 @@
+id,zorluk,soru,beklenen_kaynak,dokumanda_var_mi,cevap,bulunan_kaynaklar,sure_sn,context,dogrulama_durumu
+62,Kolay,Ters Fourier dönüşümü (inverse direction) formülünde 1/2π çarpanı nerede yer alır?,lsarSist-H8_FourierTransform.pdf,Evet,Ters Fourier dönüşümü formülünde 1/2π çarpanı x(t) = 1 için yer alır. Bu durumda 1/2π = 1/2π.,lsarSist-H8_FourierTransform.pdf (sayfa 3); lsarSist-H8_FourierTransform.pdf (sayfa 4); lsarSist-H8_FourierTransform.pdf (sayfa 5); lsarSist-H8_FourierTransform.pdf (sayfa 6),55.45,"[1] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 3
+Sürekli Zamanlı Fourier Dönüşümü
+(Continuous-Time Fourier Transform)
+
+• Forward direction  jt
+X( j)   x(t)e dt
+Analysis: extracts spectrum information from the signal x(t)
+1 
+ jt
+• Ters Yönde (Inverse x(t)  X( j)e d
+direction) 2 
+Synthesis: creates time-domain signal x(t) from its spectral info
+3
+
+[2] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 4
+Fourier Dönüşüm Çiftleri
+(Fourier Transform Pairs)
+• From the sifting property of the Dirac delta,
+
+    
+F  t    t e j  tdt  e j0 1
+
+• Consider a Dirac delta in the Fourier domain
+1  1 1
+    
+F 1     e j  td e j0t 
+2  2 2
+Using linearity property, F{ 1 } = 2 ()
+x(t) = 1
+X() = 2 ()
+1 F (2)
+t 
+0 0
+(2) means that the area under the Dirac delta is (2) 4
+
+[3] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 5
+Fourier Dönüşüm Çiftleri
+(Fourier Transform Pairs)
+  t  /2
+ 
+F    rect ejtdt   ejtdt
+  /2
+  
+sin  sin 
+1  j/2 j/2  2   2 
+  e  e  2   sinc 
+j    2
+ 
+ 2
+F()
+f(t)
+
+F
+1
+
+t
+-/2 0 /2    0   
+5
+
+[4] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 6
+Fourier Dönüşüm Çiftleri
+(Fourier Transform Pairs)
+1  1
+     jt
+F 1 0   0 e jtd e 0
+2  2
+1
+jt   jt  
+e 0 0 or e 0  2 0
+2
+1  
+  jt  jt
+Since cos 0t  e 0  e 0
+2
+      
+cos 0t 0 0
+F()
+f(t)
+() ()
+F
+t
+
+0  0 
+0 0
+6",

@@ -1,0 +1,80 @@
+id,zorluk,soru,beklenen_kaynak,dokumanda_var_mi,cevap,bulunan_kaynaklar,sure_sn,context,dogrulama_durumu
+2,Kolay,Bağlamdan bağımsız dilbilgisinde P harfi neyi temsil eder?,8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet,"P, yeniden yazma ya da türetme kuralları temsil eder. Bu kurallar, VN kümesindeki değişkenleri VT kümesindeki simgeye dönüştürür veya başka değişkenlere dönüştürür. Bu nedenle, P harfi P produce (oluşturmak) anlamına gelir.",8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 2); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 30-31); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 24-25); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 28-29),58.72,"[1] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 2
+4.BAĞLAMDAN-BAĞIMSIZ DİLBİLGİSİ
+• Programlama dilleri, derleyiciler, yorumlayıcılar, sözdizim
+çözümleyiciler, aritmetik deyimler, ..vb. birçok yazılım bileşeninin
+bünyesinde yer aldığı için bağlamdan-bağımsız dilbilgisi ve diller ile
+bu dilleri tanıyan makine modeli bilgisayar bilimleri ve mühendisliği
+açısından önem taşır.
+• Bağlamdan bağımsız dilbilgisi bir dörtlüdür.
+VN= Sözdizim değişkenleri kümesi(sonlu bir küme)
+VT=Uç simgeler kümesi (sonlu bir küme)
+VN ve VT ayrık kümelerdir. VN Π VT=Ø
+S: Başlangıç değişkeni S ε VN
+P: Yeniden yazma ya da türetme kuralları
+A=>b A ε VN b ε V*
+
+[2] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 30-31
+4.5.8. Örnek 8
+Omek8
+Asagidaki baglamdan-bagimsiz her dilbilgisinin turettigi dilin kume tanimini
+veriniz.
+a) Gs.4.8.1 = <VN, Vt. P, S >
+V={S,B,C}
+V = {a, b, d }
+P:S ==>aSaaB
+B ==>bbBdd|C
+C ==> bd
+b) Gs.4.6.2 = <Vn, Vt, P, S >
+V={S,A}
+V = { a, b, c, d }
+P:S ==>abSdcA
+A==> cdAba
+4.5.8. Cevap 8
+a) Ls.4.a.1 = {an b2k+1 d2k+1
+a2n | n≥0,k≥0}
+b)Ls.4.8.2
+n>0,k>0}
+2={(ab) (cd)(ba)(dc)
+
+[3] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 24-25
+4.5.5. Örnek 5
+Omek5
+Asagida tanimlanan baglamdan-bagimsiz dillerin her birini tureten baglamdan
+bagimsiz bir dilbilgisi tanimlayiniz.
+a)L 4.5.1 = { a2k bn c2n dk1k ≥ 1 , n ≥ 1 }
+b)L 4.52 = {an+m bk cm+k d2n I n , m , k ≥ 0 }
+4.5.5. Cevap 5
+a) G 4.5.1 = < VN, VT, P, S >
+VN={S,A}
+VT = {a, b, c, d }
+P :S  aaSdIaaAd
+A=bAcc|bcc
+b) G 4.5.2 = < Vn, Vt, P, S >
+VN ={S,A,B }
+V = { a, b, c, d }
+P:S aSdd|A
+A=aAc|B
+B=bBc|1
+
+[4] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 28-29
+4.5.7. Örnek 7
+Omek7
+Asagida tanimlanan baglamdan-bagimsiz dillerin her birini tureten baglamdan
+bagimsiz bir dilbilgisi tanimlayiniz.
+m>0,k>0,n>m+k}
+a) Ls.4.7.1 = { an bm ck
+b) Ls.4.7.2 = { an bm ck
+4.5.7. Cevap 7
+a) Gs.4.7.1 = <Vn,Vt, P S >
+VN = { S,A, B }
+VT = { a, b, c }
+P : S ==> aaAc
+A ==> aAc|aA| aBb
+B ==>aBb|aB|1
+b) Gs4.7.2 = <Vn, Vt, P, S >
+Vn = { S,A, B }
+Vr = {a. b, c }
+P : S ==> aAcc
+A ==>aAccbBc
+B ==>bBc17",

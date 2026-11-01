@@ -1,0 +1,12 @@
+[retrieval] Cache yuklendi: 898 chunk, embedding matrisi (898, 1024)
+[Foundry] Model yüklendi: qwen2.5-7b-instruct-cuda-gpu:4 | execution provider: CUDAExecutionProvider | cihaz: GPU
+[Foundry] Servis adresi: http://127.0.0.1:58852
+[Foundry] Serviste yüklü modeller: ['qwen2.5-7b-instruct-cuda-gpu:4']
+=== test_2#48  bağlam [(3464, '$.profiles[84]'), (3619, '$.profiles[239]'), (3617, '$.profiles[237]'), (3654, '$.profiles[274]')]
+  [1] FN: 'Bu bilgi dokümanlarda bulunamadı.'
+  [2] FN: 'Bu bilgi dokümanlarda bulunamadı.'
+  [3] FN: 'Bu bilgi dokümanlarda bulunamadı.'
+=== test_3#90  bağlam [(4187, 'sayfa 14'), (4184, 'sayfa 11'), (4182, 'sayfa 9'), (4183, 'sayfa 10')]
+  [1] FN: 'Bu bilgi dokümanlarda bulunamadı.'
+  [2] FN: 'Bu bilgi dokümanlarda bulunamadı.'
+  [3] FN: 'Bu bilgi dokümanlarda bulunamadı.'

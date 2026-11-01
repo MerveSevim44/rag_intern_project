@@ -1,0 +1,219 @@
+id,zorluk,soru,beklenen_kaynak,dokumanda_var_mi,cevap,bulunan_kaynaklar,sure_sn,context,dogrulama_durumu
+102,Kolay,Bağlamdan bağımsız dilleri tanıyan yığın otomatı (pushdown automaton) nasıl tanımlanır?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 2); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 1); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 16); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 22-23),75.2,"[1] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 2
+4.BAĞLAMDAN-BAĞIMSIZ DİLBİLGİSİ
+• Programlama dilleri, derleyiciler, yorumlayıcılar, sözdizim
+çözümleyiciler, aritmetik deyimler, ..vb. birçok yazılım bileşeninin
+bünyesinde yer aldığı için bağlamdan-bağımsız dilbilgisi ve diller ile
+bu dilleri tanıyan makine modeli bilgisayar bilimleri ve mühendisliği
+açısından önem taşır.
+• Bağlamdan bağımsız dilbilgisi bir dörtlüdür.
+VN= Sözdizim değişkenleri kümesi(sonlu bir küme)
+VT=Uç simgeler kümesi (sonlu bir küme)
+VN ve VT ayrık kümelerdir. VN Π VT=Ø
+S: Başlangıç değişkeni S ε VN
+P: Yeniden yazma ya da türetme kuralları
+A=>b A ε VN b ε V*
+
+[2] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 1
+Otomata Teorisi Bölüm 4
+Bağlamdan Bağımsız Dilbilgisi –Tür 2
+
+[3] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 16
+4.3 Dilbilgisinin Yalınlaştırılması
+• Bağlamdan bağımsız bir dilbilgisi verildiğinde, bu dilbilgisinin daha az
+sayıda değişken ve kural içeren ve belirli biçimdeki kuralları içermeyen bir
+dilbilgisine dönüştürülmesine dilbilgisinin yalınlaştırılması denilir.
+• 4.3.4. Yararsız Değişken, Simge ve Kurallar
+• Eğer bir dilbilgininin uç simgelerinden biri, bu dilbilgisi tarafından türetilen
+tümcelerden hiçbirinde yer almıyorsa, bu uç simgeye yararsız simge
+(useless symbol) denilir.
+• Eğer bir dilbilgisinin değişkenlerinden biri (A), en az bir tümce türetilirken
+elde edilen tümcesel yapıların en az birinde yer alıyorsa
+• S=> α1 Aα2 => w
+• Bu değişken yararlı (usefull) bir değişkendir. Bu özelliği taşımayan
+değişkenlere ise yararsız değişken (useless variable) denilir. Yararsız
+değişken hiçbir tümcenin türetilmesinde kullanılmayan; kullanıldığı
+türetmelerin hiçbirinin sonunda ise bir tümce elde edilemeyen
+değişkendir.
+
+[4] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 22-23
+4.5.2. Örnek 2
+Omek 2
+Baglamdan-bagimsiz Gs.4.2 dilbilgisi asagidaki gibi tanimlaniyor.
+Gs.4.2 = VN,VT,P, S >
+V = { S, D, E}
+Vt = { a, b, c }
+P:S ==>aaSIaaD
+D==>bEbccD
+E ==> bEbI c
+a) Gs.4.2 tarafindan taninan baglamdan-bagimsiz dilin (Ls.4.2) kume tanimini
+olusturunuz.
+b) Gs.42'yi Chomsky normal bicimine (CNF) donusturunuz. Donusturme
+sirasinda kullanacaginiz yeni degiskenleri A, B, C, ve X, Xz, X3, ... diye
+adlandiriniz. Olusturdugunuz CNF dilbilgisinin tanimini eksiksiz ve duzenli
+bicimde yaziniz.
+4.5.2. Cevap 2
+a) Ls.42 = { (aa) (cc)m b c b|  
+m20. k211
+n21,",
+110,Orta,mock-transactions.json dosyasında işlemlerin kredi kartı numaraları hangi alanda tutulmaktadır?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,728_profiles.json ($.profiles[477]); 728_profiles.json ($.profiles[641]); 728_profiles.json ($.profiles[472]); 728_profiles.json ($.profiles[647]),58.66,"[1] Kaynak: 728_profiles.json, $.profiles[477]
+profileCode: DB-P4XQE34B
+synthetic: True
+profileType: individual
+displayName: Umut Şahin
+professionalName: Umut Şahin
+sector: Hukuk ve Mali Hizmetler
+occupation: Avukat
+headline: Hukuki ön görüşme ve dosya değerlendirmesi
+location.country: Türkiye
+location.city: Manisa
+location.district: Yunusemre
+location.serviceArea: Yunusemre / online
+location.exactAddressPublic: False
+serviceModes[0]: Yüz yüze
+serviceModes[1]: Online
+services[0].name: Sözleşme görüşmesi
+services[0].durationMinutes: 30
+services[0].description: Sözleşme görüşmesi için önceden planlanan birebir randevu.
+services[0].appointmentMode: Yüz yüze
+services[1].name: Hukuki ön görüşme
+services[1].durationMinutes: 30
+services[1].description: Hukuki ön görüşme için önceden planlanan birebir randevu.
+services[1].appointmentMode: Yüz yüze
+services[2].name: Dosya değerlendirme
+services[2].durationMinutes: 60
+services[2].description: Dosya değerlendirme için önceden planlanan birebir randevu.
+services[2].appointmentMode: Yüz yüze
+experience.years: 5
+experience.credentialSummary: Hukuk lisans eğitimi ve mesleki yetkinlik
+languages[0]: Türkçe
+appointmentSettings.defaultDurationMinutes: 30
+appointmentSettings.minimumNoticeHours: 2
+appointmentSettings.cancellationNoticeHours: 4
+appointmentSettings.autoApproveRequests: False
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 10:00
+weeklyAvailability[0].end: 18:30
+searchKeywords[1]: Dosya değerlendirme […kısaltıldı]
+
+[2] Kaynak: 728_profiles.json, $.profiles[641]
+profileCode: DB-NK9LN6NP
+synthetic: True
+profileType: business
+displayName: Odak Kurumsal Etkinlik Sorumlusu Care
+professionalName: Elif Kara
+sector: Etkinlik ve Organizasyon
+occupation: Kurumsal Etkinlik Sorumlusu
+headline: Toplantı, seminer ve kurumsal etkinlik planlama
+location.country: Türkiye
+location.city: Mersin
+location.district: Yenişehir
+location.serviceArea: Yenişehir / online
+location.exactAddressPublic: False
+serviceModes[0]: Yüz yüze
+serviceModes[1]: Online
+services[0].name: Operasyon planlama
+services[0].durationMinutes: 60
+services[0].description: Operasyon planlama için önceden planlanan birebir randevu.
+services[0].appointmentMode: Online
+services[1].name: Etkinlik ihtiyaç analizi
+services[1].durationMinutes: 60
+services[1].appointmentMode: Yüz yüze
+services[2].name: Tedarikçi görüşmesi
+services[2].durationMinutes: 90
+services[2].description: Tedarikçi görüşmesi için önceden planlanan birebir randevu.
+services[2].appointmentMode: Yüz yüze
+experience.years: 7
+experience.credentialSummary: Kurumsal etkinlik deneyimi
+languages[0]: Türkçe
+languages[1]: İngilizce
+appointmentSettings.defaultDurationMinutes: 60
+appointmentSettings.minimumNoticeHours: 6
+appointmentSettings.cancellationNoticeHours: 12
+appointmentSettings.autoApproveRequests: False
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 10:00
+weeklyAvailability[0].end: 18:30
+weeklyAvailability[1].day: Salı
+weeklyAvailability[1].active: True […kısaltıldı]
+
+[3] Kaynak: 728_profiles.json, $.profiles[472]
+profileCode: DB-PP5MU2EJ
+synthetic: True
+profileType: individual
+displayName: Kaan Kılıç
+professionalName: Kaan Kılıç
+sector: Hukuk ve Mali Hizmetler
+occupation: Avukat
+headline: Hukuki ön görüşme ve dosya değerlendirmesi
+location.country: Türkiye
+location.city: Bursa
+location.district: Osmangazi
+location.serviceArea: Osmangazi / online
+location.exactAddressPublic: False
+serviceModes[0]: Yüz yüze
+serviceModes[1]: Online
+services[0].name: Sözleşme görüşmesi
+services[0].durationMinutes: 60
+services[0].description: Sözleşme görüşmesi için önceden planlanan birebir randevu.
+services[0].appointmentMode: Online
+services[1].name: Hukuki ön görüşme
+services[1].durationMinutes: 45
+services[1].description: Hukuki ön görüşme için önceden planlanan birebir randevu.
+services[1].appointmentMode: Yüz yüze
+services[2].name: Dosya değerlendirme
+services[2].durationMinutes: 60
+services[2].description: Dosya değerlendirme için önceden planlanan birebir randevu.
+services[2].appointmentMode: Online
+experience.years: 2
+experience.credentialSummary: Hukuk lisans eğitimi ve mesleki yetkinlik
+languages[0]: Türkçe
+languages[1]: İngilizce
+appointmentSettings.defaultDurationMinutes: 45
+appointmentSettings.minimumNoticeHours: 24
+appointmentSettings.cancellationNoticeHours: 4
+appointmentSettings.autoApproveRequests: False
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 09:30
+searchKeywords[2]: Dosya değerlendirme […kısaltıldı]
+
+[4] Kaynak: 728_profiles.json, $.profiles[647]
+profileCode: DB-QHN3SA63
+synthetic: True
+profileType: business
+displayName: Merkez Kurumsal Etkinlik Sorumlusu Clinic
+professionalName: Barış Kara
+sector: Etkinlik ve Organizasyon
+occupation: Kurumsal Etkinlik Sorumlusu
+headline: Toplantı, seminer ve kurumsal etkinlik planlama
+location.country: Türkiye
+location.city: Sakarya
+location.district: Serdivan
+location.serviceArea: Serdivan / online
+location.exactAddressPublic: False
+serviceModes[0]: Yüz yüze
+serviceModes[1]: Online
+services[0].name: Tedarikçi görüşmesi
+services[0].durationMinutes: 90
+services[0].description: Tedarikçi görüşmesi için önceden planlanan birebir randevu.
+services[0].appointmentMode: Yüz yüze
+services[1].name: Operasyon planlama
+services[1].durationMinutes: 60
+services[1].description: Operasyon planlama için önceden planlanan birebir randevu.
+services[1].appointmentMode: Yüz yüze
+services[2].name: Etkinlik ihtiyaç analizi
+services[2].durationMinutes: 60
+services[2].appointmentMode: Online
+experience.years: 12
+experience.credentialSummary: Kurumsal etkinlik deneyimi
+languages[0]: Türkçe
+appointmentSettings.defaultDurationMinutes: 60
+appointmentSettings.minimumNoticeHours: 4
+appointmentSettings.cancellationNoticeHours: 12
+appointmentSettings.autoApproveRequests: False
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0 […kısaltıldı]",

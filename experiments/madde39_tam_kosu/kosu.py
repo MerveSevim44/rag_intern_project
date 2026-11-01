@@ -34,7 +34,14 @@ NOBET_METIN = "Bağlamdan bağımsız dilbilgisi için türetme ağacı nedir?"
 NOBET = ("import sys,json,hashlib;sys.path.insert(0,'src');from embedder import get_embedding;"
          f"print(hashlib.sha256(json.dumps(get_embedding({NOBET_METIN!r})).encode()).hexdigest()[:16])")
 NOBET_BEKLENEN = "d16e556d14284ac8"  # tam GPU (25/25) vektörü; kayma.py ile doğrulandı
-MIN_BOS_RAM_GB = 7.5  # Foundry ~5 + Ollama 1.1 + python/reranker ve pay
+# C kararı (2026-11-01, madde 39 ön-ölçüm A): GPU/CPU düşmesi engellenecek bir şey değil,
+# yalnız işaretlenecek (`temiz`) — üretim de aynı riski taşıyor, fark küçük (147 soruda
+# %95.2 aynı bağlam). Bu eşik artık onu önlemeye çalışmıyor, yalnız gerçek Ollama yükleme
+# hatasını önlüyor (ilk denemede ~750 MB boşta "model requires more system memory (1.1
+# GiB)" ile 3 ardışık HATA, run_tests.py'yi durdurdu). 2.0 GB'ta da iki kez TAM HANG görüldü
+# (Ollama embed isteğine hiç yanıtsız kaldı — CPU'ya düşmekten farklı, daha ciddi). Servis
+# `stop` ile tam durdurulunca boş RAM ~2 GB'tan ~7.9 GB'a çıktı; 4 GB daha güvenli bir pay.
+MIN_BOS_RAM_GB = 4.0
 LLM = "qwen2.5-7b-instruct-cuda-gpu:4"
 HATA_ON = "HATA"
 
@@ -44,13 +51,26 @@ def komut(args, **kw):
                           errors="replace", **kw).stdout.strip()
 
 
+def komut_sessiz(args, **kw):
+    """Pipe YOK. `foundry service stop/start` arka planda kalan bir ajana stdout/stderr
+    tutamacını miras bırakıyor gibi görünüyor (ölçüldü: capture_output=True ile
+    subprocess.run'ın KENDİ timeout parametresi bile çalışmıyor, communicate() süresiz
+    bloke oluyor — klasik Windows "grandchild pipe handle" kilitlenmesi). DEVNULL
+    pipe'ı tamamen ortadan kaldırır; wait(timeout) güvenilir çalışır."""
+    return subprocess.run(args, cwd=ROOT, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, **kw)
+
+
 def nobet(env):
     return komut([sys.executable, "-c", NOBET], env=env, timeout=300).split("\n")[-1]
 
 
 def uc_nokta():
+    """Servis durmuşsa başlatır (main() her set öncesi `service stop` çağırıyor)."""
     m = re.search(r"http://127\.0\.0\.1:\d+", komut(["foundry", "service", "status"], timeout=120))
-    sys.exit("Foundry servisi ayakta değil") if not m else None
+    if not m:
+        komut_sessiz(["foundry", "service", "start"], timeout=90)
+        m = re.search(r"http://127\.0\.0\.1:\d+", komut(["foundry", "service", "status"], timeout=120))
+    sys.exit("Foundry servisi başlatılamadı") if not m else None
     return m.group(0)
 
 
@@ -65,6 +85,37 @@ def calistir(sorular, cikti, log, env):
 def satirlar(yol):
     with open(yol, encoding="utf-8-sig") as f:
         return list(csv.DictReader(f))
+
+
+OLLAMA_APP = r"C:\Users\merve\AppData\Local\Programs\Ollama\ollama app.exe"
+
+
+def ollama_saglikli(zaman_asimi=10):
+    """curl (alt süreç) ile; urllib + Windows soket birleşiminde timeout parametresine
+    uymayan bir tam hang görüldü (kosu.py 7+ dk alt süreçsiz donuk kaldı) — curl -m
+    kesin sonlanıyor ve subprocess.run'ın kendi timeout'u ikinci bir güvenlik ağı."""
+    try:
+        kod = komut(["curl", "-s", "-o", os.devnull, "-w", "%{http_code}",
+                     "-m", str(zaman_asimi), "-X", "POST", "http://127.0.0.1:11434/api/embed",
+                     "-H", "Content-Type: application/json",
+                     "-d", json.dumps({"model": "bge-m3", "input": "saglik kontrolu"})],
+                    timeout=zaman_asimi + 5)
+        return kod == "200"
+    except subprocess.TimeoutExpired:
+        return False
+
+
+def ollama_yeniden_baslat():
+    """Ollama embed isteklerine hiç yanıt vermeden asılı kalabiliyor (CPU'ya düşmekten
+    FARKLI — tam hang, iki kez görüldü). `ollama serve &` ile elle başlatmak kendi
+    log dosyasına (server.log) yazmıyor (stdout/stderr ayrı); tray app ikisini de
+    doğru yapıyor."""
+    komut(["powershell", "-NoProfile", "-Command",
+           "Get-Process ollama* -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue"],
+          timeout=30)
+    time.sleep(2)
+    subprocess.Popen(["powershell", "-NoProfile", "-Command", f"Start-Process '{OLLAMA_APP}'"])
+    time.sleep(5)
 
 
 def bos_ram_gb():
@@ -96,19 +147,28 @@ def main():
     args = ap.parse_args()
     set_ = args.set
     csv.field_size_limit(10**9)
-    # Önceki setten kalan LLM RAM'i tutar; eşik ölçümünden önce boşalt.
-    komut(["foundry", "model", "unload", LLM], timeout=120)
+    # "foundry model unload" servisin kendi taban belleğini (~4.9 GB) BIRAKMIYOR;
+    # yalnız "foundry service stop" boşaltıyor (ölçüldü: unload sonrası boş RAM ~2 GB,
+    # stop sonrası ~7.9 GB). Ollama'nın bu baskı altında yanıtsız kalıp hiç
+    # dönmediği (CPU'ya düşmek değil, tam hang) iki kez görüldü; eşik ölçümünden
+    # önce servisi tam yeniden başlat.
+    komut_sessiz(["foundry", "service", "stop"], timeout=60)
     time.sleep(3)
     ram = bos_ram_gb()
     if ram < args.min_ram:
-        sys.exit(f"Boş RAM {ram:.1f} GB < {args.min_ram} GB; LLM yüklenince embedding "
-                 "yüklenemiyor ya da CPU'ya düşüyor. Koşu başlatılmadı.")
+        sys.exit(f"Boş RAM {ram:.1f} GB < {args.min_ram} GB; Ollama embedding modelini "
+                 "yükleyemeyebilir (gerçek yükleme hatası riski). Koşu başlatılmadı.")
     kirli = komut(["git", "status", "--porcelain", "--", "src", "evaluation", "ingest.py"])
     if kirli:
         sys.exit(f"Commit'lenmemiş kod değişikliği var:\n{kirli}")
     db = hashlib.sha256((ROOT / "rag.db").read_bytes()).hexdigest()[:12]
     if db != DB_OZET:
         sys.exit(f"rag.db özeti {db}, beklenen {DB_OZET}")
+
+    if not ollama_saglikli():
+        ollama_yeniden_baslat()
+        if not ollama_saglikli():
+            sys.exit("Ollama embed isteğine yanıt vermiyor (yeniden başlatma denendi).")
 
     env = {**os.environ, **ORTAM, "FOUNDRY_LOCAL_ENDPOINT": uc_nokta()}
     out = HERE / (args.klasor or set_)

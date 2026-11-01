@@ -1,5 +1,5 @@
 id,zorluk,soru,beklenen_kaynak,dokumanda_var_mi,cevap,bulunan_kaynaklar,sure_sn,context,dogrulama_durumu
-101,Kolay,Bağlamdan bağımsız dilbilgisini Chomsky normal formuna dönüştürme algoritması hangi adımlardan oluşur?,-,Hayır,"Algoritma 4.5 ve Algoritma 4.6'i kullanarak bağlamdan bağımsız dilbilgisini Chomsky normal formuna dönüştürme işlemi iki adımda gerçekleştirilir. Bu adımlar şunlardır: 1. Uç simge dizgisi türeten değişkenler kümesinin bulunması (Algoritma 4.5): - TD kümesini hesapla - Teski kümesini güncelle 2. Başlangıç değişkeninden ulaşılabilecek değişkenlerin bulunması (Algoritma 4.6): - TU kümesini başlat - Teski kümesini boşalt - TU'nun değiştiğini kontrol etmek için döngü başlat - Tyeni kümesini hesapla - TEski kümesini güncelle - Tyeni'deki her değişken için döngü başlat - β'daki tüm değişkenleri TU'a ekle Bu adımlar, bağlamdan bağımsız dilbilgisini Chomsky normal formuna dönüştürmek için gereklidir.",8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 18); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 22-23); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 17); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 19),92.1,"[1] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 18
+101,Kolay,Bağlamdan bağımsız dilbilgisini Chomsky normal formuna dönüştürme algoritması hangi adımlardan oluşur?,-,Hayır,"Algoritma 4.5 ve Algoritma 4.6'i kullanarak bağlamdan bağımsız dilbilgisini Chomsky normal formuna dönüştürme işlemi iki adımda gerçekleştirilir. Bu adımlar şunlardır: 1. Uç simge dizgisi türeten değişkenler kümesinin bulunması (Algoritma 4.5): - TD kümesini hesapla - Teski kümesini güncelle 2. Başlangıç değişkeninden ulaşılabilecek değişkenlerin bulunması (Algoritma 4.6): - TU kümesini başlat - Teski kümesini boşalt - TU'nun değiştiğini kontrol etmek için döngü başlat - Tyeni kümesini hesapla - TEski kümesini güncelle - Tyeni'deki her değişken için döngü başlat - β'daki tüm değişkenleri TU'a ekle Bu adımlar, bağlamdan bağımsız dilbilgisini Chomsky normal formuna dönüştürmek için gereklidir.",8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 18); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 22-23); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 17); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 19),67.41,"[1] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 18
 4.3.4.1. Yararsız Değişken ve Kuralların Atılması
 • Bağlamdan-bağımsız bir dilbilgisi (G) verildiğinde, yararsız değişken ve kurallar
 atılarak eşdeğer bir dilbilgisinin bulunması iki adımda gerçekleştirilir.
@@ -79,7 +79,7 @@ Son 3.3.1;
 Son 3.3.1;
 Son 3;",
 102,Kolay,Bağlamdan bağımsız dilleri tanıyan yığın otomatı (pushdown automaton) nasıl tanımlanır?,-,Hayır,HATA: Embedding olusturulamadi: llama runner process has terminated: %!w(<nil>) (status code: 500),,0,,
-103,Orta,Bağlamdan bağımsız dilbilgisi için pompalama (pumping) lemması nasıl ifade edilir?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 16); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 2); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 18); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 24-25),21.54,"[1] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 16
+103,Orta,Bağlamdan bağımsız dilbilgisi için pompalama (pumping) lemması nasıl ifade edilir?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 16); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 2); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 18); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 24-25),19.64,"[1] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 16
 4.3 Dilbilgisinin Yalınlaştırılması
 • Bağlamdan bağımsız bir dilbilgisi verildiğinde, bu dilbilgisinin daha az
 sayıda değişken ve kural içeren ve belirli biçimdeki kuralları içermeyen bir
@@ -150,7 +150,7 @@ V = { a, b, c, d }
 P:S aSdd|A
 A=aAc|B
 B=bBc|1",
-104,Kolay,Fourier dönüşümünde Nyquist örnekleme teoremi hangi koşulu gerektirir?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,lsarSist-H8_FourierTransform.pdf (sayfa 2); lsarSist-H8_FourierTransform.pdf (sayfa 11); lsarSist-H8_FourierTransform.pdf (sayfa 6); lsarSist-H8_FourierTransform.pdf (sayfa 5),22.63,"[1] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 2
+104,Kolay,Fourier dönüşümünde Nyquist örnekleme teoremi hangi koşulu gerektirir?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,lsarSist-H8_FourierTransform.pdf (sayfa 2); lsarSist-H8_FourierTransform.pdf (sayfa 11); lsarSist-H8_FourierTransform.pdf (sayfa 6); lsarSist-H8_FourierTransform.pdf (sayfa 5),17.14,"[1] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 2
 Fourier Integral
  
        
@@ -243,7 +243,7 @@ F
 t
 -/2 0 /2    0   
 5",
-105,Orta,Dalgacık (wavelet) dönüşümü ile Fourier dönüşümü arasındaki fark dokümanda nasıl açıklanmıştır?,-,Hayır,Bu bilgi dokümentede bulunamadı.,lsarSist-H8_FourierTransform.pdf (sayfa 4); lsarSist-H8_FourierTransform.pdf (sayfa 11); lsarSist-H8_FourierTransform.pdf (sayfa 5); lsarSist-H8_FourierTransform.pdf (sayfa 6),22.23,"[1] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 4
+105,Orta,Dalgacık (wavelet) dönüşümü ile Fourier dönüşümü arasındaki fark dokümanda nasıl açıklanmıştır?,-,Hayır,Bu bilgi dokümentede bulunamadı.,lsarSist-H8_FourierTransform.pdf (sayfa 4); lsarSist-H8_FourierTransform.pdf (sayfa 11); lsarSist-H8_FourierTransform.pdf (sayfa 5); lsarSist-H8_FourierTransform.pdf (sayfa 6),17.23,"[1] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 4
 Fourier Dönüşüm Çiftleri
 (Fourier Transform Pairs)
 • From the sifting property of the Dirac delta,
@@ -334,7 +334,7 @@ t
 0  0 
 0 0
 6",
-106,Zor,Hızlı Fourier Dönüşümü (FFT) algoritmasının hesaplama karmaşıklığı kaçtır?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,lsarSist-H8_FourierTransform.pdf (sayfa 6); lsarSist-H8_FourierTransform.pdf (sayfa 5); lsarSist-H8_FourierTransform.pdf (sayfa 11); lsarSist-H8_FourierTransform.pdf (sayfa 4),20.86,"[1] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 6
+106,Zor,Hızlı Fourier Dönüşümü (FFT) algoritmasının hesaplama karmaşıklığı kaçtır?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,lsarSist-H8_FourierTransform.pdf (sayfa 6); lsarSist-H8_FourierTransform.pdf (sayfa 5); lsarSist-H8_FourierTransform.pdf (sayfa 11); lsarSist-H8_FourierTransform.pdf (sayfa 4),17.61,"[1] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 6
 Fourier Dönüşüm Çiftleri
 (Fourier Transform Pairs)
 1  1
@@ -425,177 +425,17 @@ X() = 2 ()
 t 
 0 0
 (2) means that the area under the Dirac delta is (2) 4",
-107,Kolay,728_profiles.json veri setinde profillerin ortalama randevu ücreti kaç TL'dir?,-,Hayır,728_profiles.json veri setinde profillerin ortalama randevu ücreti 45.12'dir.,728_profiles.json (code_interpreter (code_interpreter_sandbox)),32.47,"[1] Kaynak: 728_profiles.json, code_interpreter (code_interpreter_sandbox)
+107,Kolay,728_profiles.json veri setinde profillerin ortalama randevu ücreti kaç TL'dir?,-,Hayır,728_profiles.json veri setinde profillerin ortalama randevu ücreti 45.12'dir.,728_profiles.json (code_interpreter (code_interpreter_sandbox)),26.17,"[1] Kaynak: 728_profiles.json, code_interpreter (code_interpreter_sandbox)
 [KESİN HESAPLAMA SONUCU]
 728_profiles.json veri setinde profillerin ortalama randevu ücreti 45.12'dir.",ok
-108,Kolay,728_profiles.json veri setinde profillerin cinsiyet dağılımı nedir?,-,Hayır,Veri setindeki profillerin cinsiyet dağılımı konusunda bilgi bulunamadı.,728_profiles.json (code_interpreter (code_interpreter_sandbox)),34.73,"[1] Kaynak: 728_profiles.json, code_interpreter (code_interpreter_sandbox)
+108,Kolay,728_profiles.json veri setinde profillerin cinsiyet dağılımı nedir?,-,Hayır,Veri setindeki profillerin cinsiyet dağılımı konusunda bilgi bulunamadı.,728_profiles.json (code_interpreter (code_interpreter_sandbox)),23.89,"[1] Kaynak: 728_profiles.json, code_interpreter (code_interpreter_sandbox)
 [KESİN HESAPLAMA SONUCU]
 Individual profil sayısı 599'dur, Business profil sayısı 129'tür.",ok
-109,Orta,728_profiles.json veri setindeki profillerin müşteri memnuniyet puanı ortalaması kaçtır?,-,Hayır,Bu bilgi dokümanlarda bulunamadı; sonuç doğrulanamadığı için aktarılmadı.,728_profiles.json (code_interpreter (code_interpreter_sandbox)),65.83,"[1] Kaynak: 728_profiles.json, code_interpreter (code_interpreter_sandbox)
+109,Orta,728_profiles.json veri setindeki profillerin müşteri memnuniyet puanı ortalaması kaçtır?,-,Hayır,Bu bilgi dokümanlarda bulunamadı; sonuç doğrulanamadığı için aktarılmadı.,728_profiles.json (code_interpreter (code_interpreter_sandbox)),42.58,"[1] Kaynak: 728_profiles.json, code_interpreter (code_interpreter_sandbox)
 [DOĞRULANAMAYAN SONUÇ]
 Sorgu veri seti uzerinde calistirildi ancak uretilen kodun soruyu dogru yorumladigi DOGRULANAMADI: semantik dogrulayici itiraz etti ve izleyen duzeltme denemeleri de basarisiz oldu. Elde kalan sonuc guvenilir degil; sorulan buyukluk veri setinde mevcut olmayabilir.",objection
-110,Orta,mock-transactions.json dosyasında işlemlerin kredi kartı numaraları hangi alanda tutulmaktadır?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,728_profiles.json ($.profiles[477]); 728_profiles.json ($.profiles[641]); 728_profiles.json ($.profiles[472]); 728_profiles.json ($.profiles[647]),44.59,"[1] Kaynak: 728_profiles.json, $.profiles[477]
-profileCode: DB-P4XQE34B
-synthetic: True
-profileType: individual
-displayName: Umut Şahin
-professionalName: Umut Şahin
-sector: Hukuk ve Mali Hizmetler
-occupation: Avukat
-headline: Hukuki ön görüşme ve dosya değerlendirmesi
-location.country: Türkiye
-location.city: Manisa
-location.district: Yunusemre
-location.serviceArea: Yunusemre / online
-location.exactAddressPublic: False
-serviceModes[0]: Yüz yüze
-serviceModes[1]: Online
-services[0].name: Sözleşme görüşmesi
-services[0].durationMinutes: 30
-services[0].description: Sözleşme görüşmesi için önceden planlanan birebir randevu.
-services[0].appointmentMode: Yüz yüze
-services[1].name: Hukuki ön görüşme
-services[1].durationMinutes: 30
-services[1].description: Hukuki ön görüşme için önceden planlanan birebir randevu.
-services[1].appointmentMode: Yüz yüze
-services[2].name: Dosya değerlendirme
-services[2].durationMinutes: 60
-services[2].description: Dosya değerlendirme için önceden planlanan birebir randevu.
-services[2].appointmentMode: Yüz yüze
-experience.years: 5
-experience.credentialSummary: Hukuk lisans eğitimi ve mesleki yetkinlik
-languages[0]: Türkçe
-appointmentSettings.defaultDurationMinutes: 30
-appointmentSettings.minimumNoticeHours: 2
-appointmentSettings.cancellationNoticeHours: 4
-appointmentSettings.autoApproveRequests: False
-weeklyAvailability[0].day: Pazartesi
-weeklyAvailability[0].active: True
-weeklyAvailability[0].start: 10:00
-weeklyAvailability[0].end: 18:30
-searchKeywords[1]: Dosya değerlendirme […kısaltıldı]
-
-[2] Kaynak: 728_profiles.json, $.profiles[641]
-profileCode: DB-NK9LN6NP
-synthetic: True
-profileType: business
-displayName: Odak Kurumsal Etkinlik Sorumlusu Care
-professionalName: Elif Kara
-sector: Etkinlik ve Organizasyon
-occupation: Kurumsal Etkinlik Sorumlusu
-headline: Toplantı, seminer ve kurumsal etkinlik planlama
-location.country: Türkiye
-location.city: Mersin
-location.district: Yenişehir
-location.serviceArea: Yenişehir / online
-location.exactAddressPublic: False
-serviceModes[0]: Yüz yüze
-serviceModes[1]: Online
-services[0].name: Operasyon planlama
-services[0].durationMinutes: 60
-services[0].description: Operasyon planlama için önceden planlanan birebir randevu.
-services[0].appointmentMode: Online
-services[1].name: Etkinlik ihtiyaç analizi
-services[1].durationMinutes: 60
-services[1].appointmentMode: Yüz yüze
-services[2].name: Tedarikçi görüşmesi
-services[2].durationMinutes: 90
-services[2].description: Tedarikçi görüşmesi için önceden planlanan birebir randevu.
-services[2].appointmentMode: Yüz yüze
-experience.years: 7
-experience.credentialSummary: Kurumsal etkinlik deneyimi
-languages[0]: Türkçe
-languages[1]: İngilizce
-appointmentSettings.defaultDurationMinutes: 60
-appointmentSettings.minimumNoticeHours: 6
-appointmentSettings.cancellationNoticeHours: 12
-appointmentSettings.autoApproveRequests: False
-weeklyAvailability[0].day: Pazartesi
-weeklyAvailability[0].active: True
-weeklyAvailability[0].start: 10:00
-weeklyAvailability[0].end: 18:30
-weeklyAvailability[1].day: Salı
-weeklyAvailability[1].active: True […kısaltıldı]
-
-[3] Kaynak: 728_profiles.json, $.profiles[472]
-profileCode: DB-PP5MU2EJ
-synthetic: True
-profileType: individual
-displayName: Kaan Kılıç
-professionalName: Kaan Kılıç
-sector: Hukuk ve Mali Hizmetler
-occupation: Avukat
-headline: Hukuki ön görüşme ve dosya değerlendirmesi
-location.country: Türkiye
-location.city: Bursa
-location.district: Osmangazi
-location.serviceArea: Osmangazi / online
-location.exactAddressPublic: False
-serviceModes[0]: Yüz yüze
-serviceModes[1]: Online
-services[0].name: Sözleşme görüşmesi
-services[0].durationMinutes: 60
-services[0].description: Sözleşme görüşmesi için önceden planlanan birebir randevu.
-services[0].appointmentMode: Online
-services[1].name: Hukuki ön görüşme
-services[1].durationMinutes: 45
-services[1].description: Hukuki ön görüşme için önceden planlanan birebir randevu.
-services[1].appointmentMode: Yüz yüze
-services[2].name: Dosya değerlendirme
-services[2].durationMinutes: 60
-services[2].description: Dosya değerlendirme için önceden planlanan birebir randevu.
-services[2].appointmentMode: Online
-experience.years: 2
-experience.credentialSummary: Hukuk lisans eğitimi ve mesleki yetkinlik
-languages[0]: Türkçe
-languages[1]: İngilizce
-appointmentSettings.defaultDurationMinutes: 45
-appointmentSettings.minimumNoticeHours: 24
-appointmentSettings.cancellationNoticeHours: 4
-appointmentSettings.autoApproveRequests: False
-weeklyAvailability[0].day: Pazartesi
-weeklyAvailability[0].active: True
-weeklyAvailability[0].start: 09:30
-searchKeywords[2]: Dosya değerlendirme […kısaltıldı]
-
-[4] Kaynak: 728_profiles.json, $.profiles[647]
-profileCode: DB-QHN3SA63
-synthetic: True
-profileType: business
-displayName: Merkez Kurumsal Etkinlik Sorumlusu Clinic
-professionalName: Barış Kara
-sector: Etkinlik ve Organizasyon
-occupation: Kurumsal Etkinlik Sorumlusu
-headline: Toplantı, seminer ve kurumsal etkinlik planlama
-location.country: Türkiye
-location.city: Sakarya
-location.district: Serdivan
-location.serviceArea: Serdivan / online
-location.exactAddressPublic: False
-serviceModes[0]: Yüz yüze
-serviceModes[1]: Online
-services[0].name: Tedarikçi görüşmesi
-services[0].durationMinutes: 90
-services[0].description: Tedarikçi görüşmesi için önceden planlanan birebir randevu.
-services[0].appointmentMode: Yüz yüze
-services[1].name: Operasyon planlama
-services[1].durationMinutes: 60
-services[1].description: Operasyon planlama için önceden planlanan birebir randevu.
-services[1].appointmentMode: Yüz yüze
-services[2].name: Etkinlik ihtiyaç analizi
-services[2].durationMinutes: 60
-services[2].appointmentMode: Online
-experience.years: 12
-experience.credentialSummary: Kurumsal etkinlik deneyimi
-languages[0]: Türkçe
-appointmentSettings.defaultDurationMinutes: 60
-appointmentSettings.minimumNoticeHours: 4
-appointmentSettings.cancellationNoticeHours: 12
-appointmentSettings.autoApproveRequests: False
-weeklyAvailability[0].day: Pazartesi
-weeklyAvailability[0].active: True
-weeklyAvailability[0 […kısaltıldı]",
-111,Zor,728_profiles.json veri setinde profillerin IBAN bilgileri hangi şema alanında saklanır?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,728_profiles.json ($.statistics); 728_profiles.json ($.profiles[395]); 728_profiles.json ($.profiles[396]); 728_profiles.json ($.profiles[394]),41.79,"[1] Kaynak: 728_profiles.json, $.statistics
+110,Orta,mock-transactions.json dosyasında işlemlerin kredi kartı numaraları hangi alanda tutulmaktadır?,-,Hayır,HATA: Embedding olusturulamadi: llama runner process has terminated: %!w(<nil>) (status code: 500),,0,,
+111,Zor,728_profiles.json veri setinde profillerin IBAN bilgileri hangi şema alanında saklanır?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,728_profiles.json ($.statistics); 728_profiles.json ($.profiles[395]); 728_profiles.json ($.profiles[396]); 728_profiles.json ($.profiles[394]),53.85,"[1] Kaynak: 728_profiles.json, $.statistics
 profileCount: 728
 sectorCount: 22
 occupationCount: 91
@@ -734,7 +574,7 @@ weeklyAvailability[1].active: True
 weeklyAvailability[1].start: 09:00
 searchKeywords[5]: Veri Bilimi Danışmanı
 about: 12 yıllık deneyimimle veri bilimi danışmanı alanında bireysel hizmet sunuyorum. İlk görüşmede ihtiyacı değerlendiriyor, sonraki adımları açık ve planlı biçimde belirliyorum. […kısaltıldı]",
-112,Kolay,Summer School Foundry Local planında Kubernetes kurulumu hangi adımda anlatılır?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,Summer School Foundry Local Plan.docx (bölüm 5); Summer School Foundry Local Plan.docx (bölüm 3); Summer School Foundry Local Plan.docx (bölüm 6); Summer School Foundry Local Plan.docx (bölüm 2),80.74,"[1] Kaynak: Summer School Foundry Local Plan.docx, bölüm 5
+112,Kolay,Summer School Foundry Local planında Kubernetes kurulumu hangi adımda anlatılır?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,Summer School Foundry Local Plan.docx (bölüm 5); Summer School Foundry Local Plan.docx (bölüm 3); Summer School Foundry Local Plan.docx (bölüm 6); Summer School Foundry Local Plan.docx (bölüm 2),81.28,"[1] Kaynak: Summer School Foundry Local Plan.docx, bölüm 5
 Objectives: Build a strong conceptual foundation in RAG and local AI tools. By end of Week 2, students should understand how RAG works and be comfortable with the basic technologies and development environment. They’ll have Foundry Local installed and tested on their laptops (both Windows & macOS), a sample SQLite database created, and perhaps small test programs run (embedding generation and vector similarity search).
 Week 1: RAG Concept & Local AI Setup
 Resource: Microsoft Tech Community blog post “Building Your First Local RAG Application with Foundry Local” – read the introduction and “What is RAG” section for an accessible overview (community content). [azurefeeds.com]
@@ -761,7 +601,7 @@ Program Structure: We divide the month into three phases, each focusing on speci
 Phase 1 – Foundational Learning (Weeks 1–2): Introduction to RAG concepts, Foundry Local, embeddings, vector search, SQLite, and prompt engineering fundamentals.
 Phase 2 – Project Implementation (Weeks 3–4): Hands-on development of the RAG application, from data ingestion and retrieval pipeline to app integration with the on-device LLM (Large Language Model).
 Phase 3 – Testing & Documentation (Week 5, and optionally Week 6): System testing and evaluation, performance tuning, and preparing project documentation and final presentations. […kısaltıldı]",
-113,Orta,Summer School Foundry Local planında projenin Kanban panosu hangi araçla yönetilmektedir?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,Summer School Foundry Local Plan.docx (bölüm 5); Summer School Foundry Local Plan.docx (bölüm 6); Summer School Foundry Local Plan.docx (bölüm 3); Summer School Foundry Local Plan.docx (bölüm 2),83.01,"[1] Kaynak: Summer School Foundry Local Plan.docx, bölüm 5
+113,Orta,Summer School Foundry Local planında projenin Kanban panosu hangi araçla yönetilmektedir?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,Summer School Foundry Local Plan.docx (bölüm 5); Summer School Foundry Local Plan.docx (bölüm 6); Summer School Foundry Local Plan.docx (bölüm 3); Summer School Foundry Local Plan.docx (bölüm 2),83.5,"[1] Kaynak: Summer School Foundry Local Plan.docx, bölüm 5
 Objectives: Build a strong conceptual foundation in RAG and local AI tools. By end of Week 2, students should understand how RAG works and be comfortable with the basic technologies and development environment. They’ll have Foundry Local installed and tested on their laptops (both Windows & macOS), a sample SQLite database created, and perhaps small test programs run (embedding generation and vector similarity search).
 Week 1: RAG Concept & Local AI Setup
 Resource: Microsoft Tech Community blog post “Building Your First Local RAG Application with Foundry Local” – read the introduction and “What is RAG” section for an accessible overview (community content). [azurefeeds.com]
@@ -788,7 +628,7 @@ Program Structure: We divide the month into three phases, each focusing on speci
 Phase 1 – Foundational Learning (Weeks 1–2): Introduction to RAG concepts, Foundry Local, embeddings, vector search, SQLite, and prompt engineering fundamentals.
 Phase 2 – Project Implementation (Weeks 3–4): Hands-on development of the RAG application, from data ingestion and retrieval pipeline to app integration with the on-device LLM (Large Language Model).
 Phase 3 – Testing & Documentation (Week 5, and optionally Week 6): System testing and evaluation, performance tuning, and preparing project documentation and final presentations. […kısaltıldı]",
-114,Zor,Unutulmuş Parşömen hikayesinde Alis'in ailesi hangi şehirde yaşamaktadır?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,test1.txt (paragraf 1-2); test1.txt (paragraf 3-4); us-states-with-detail.json ($.states[13]); test1.txt (paragraf 5-9),31.27,"[1] Kaynak: test1.txt, paragraf 1-2
+114,Zor,Unutulmuş Parşömen hikayesinde Alis'in ailesi hangi şehirde yaşamaktadır?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,test1.txt (paragraf 1-2); test1.txt (paragraf 3-4); us-states-with-detail.json ($.states[13]); test1.txt (paragraf 5-9),31.64,"[1] Kaynak: test1.txt, paragraf 1-2
 Unutulmuş Parşömen
 Zamanın durduğu, gökyüzünün ise her daim mor bir alacakaranlığa büründüğü Eloria kentinde, devasa bir kütüphane yükselirdi: Gümüş Yaprak. Bu kütüphane, sadece kitapların değil, krallıkların kaderini değiştiren sırların da saklandığı bir labirent gibiydi.
 
@@ -827,7 +667,7 @@ Alis nefesini tuttu. Bu yazı, kütüphanenin baş yöneticisi ve kendisinin de 
 Alis, yıllardır koruyucusu olarak gördüğü Usta Magnus’un aslında neyin peşinde olduğunu, bu defterin neden saklandığını ve en önemlisi; geleceği değiştirip değiştiremeyeceğini çözmek zorundaydı. Zamanı azalıyordu ve ilk saat kulesinin çanları çalmaya başlamıştı...
 
 Hikayenin bu noktasında gizem kapıları iyice aralandı. Sence Alis şimdi ne yapmalı?",
-115,Orta,Oda No: 304 hikayesinde anlatıcının mesleği nedir?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,test2.txt (paragraf 1-2); test1.txt (paragraf 5-9); 728_profiles.json ($.profiles[314]); 728_profiles.json ($.profiles[447]),41.18,"[1] Kaynak: test2.txt, paragraf 1-2
+115,Orta,Oda No: 304 hikayesinde anlatıcının mesleği nedir?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,test2.txt (paragraf 1-2); test1.txt (paragraf 5-9); 728_profiles.json ($.profiles[314]); 728_profiles.json ($.profiles[447]),54.7,"[1] Kaynak: test2.txt, paragraf 1-2
 Oda No: 304 ve Sarı Yapraklar
 Her şey, İstanbul’un o meşhur, yağmurlu kasım sabahlarından birinde başladı. İstiklal Caddesi’nin ara sokaklarında, zamanın teğet geçtiği o eski apartmanlardan birinde küçük bir daire kiralamıştım: Oda No: 304. Ev sahibi, antikacı bir amcaydı ve evi bana teslim ederken tek bir şey söylemişti: ""Eşyaların bazıları bir önceki kiracıdan kaldı, istersen atabilirsin.""
 

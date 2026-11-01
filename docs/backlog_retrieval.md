@@ -62,7 +62,7 @@ rakamları doğrudan karşılaştırmadan önce bu farkı düşün.
 
 ### Öncelik sırası (2026-10-11, güncelleme 2026-10-13)
 
-Açık retrieval/değerlendirme maddeleri için sıra: **25 (skorlama) ✅ → 22 ✅ → 27 ✅ → 29 ✅ → 20 (top_k ✅, 2b açık) → 21 (raporlama ✅; 4 FN açık) → 32 (mekanizma ✅; bayrak kararı açık) → 36 (karar ✅: doğruluk kontrolü kural) → 33 ✅ → 34 ✅ → 24 (beklemede) → 39 (ön-ölçüm A ✅, tam koşu sürüyor) → 40 (düşük öncelik) → 30 (beklemede, 39'a bağlı) → 28 → 26 → 31 → 35 (en alt).**
+Açık retrieval/değerlendirme maddeleri için sıra: **25 (skorlama) ✅ → 22 ✅ → 27 ✅ → 29 ✅ → 20 (top_k ✅, 2b açık) → 21 (raporlama ✅; 4 FN açık) → 32 (mekanizma ✅; bayrak kararı açık) → 36 (karar ✅: doğruluk kontrolü kural) → 33 ✅ → 34 ✅ → 24 (beklemede) → 39 ✅ (tam koşu + yeni referans) → 40 (düşük öncelik) → 30 (güncel taban hazır, karar açık) → 28 → 26 → 31 → 35 (en alt).**
 
 - **25 önce:** madde 24'ün başarı ölçütü negatif set FP sayısı; skorlayıcı yarım
   retleri FP saydığı sürece (#222) bu sayı yapay olarak şişik ve 24'ün etkisi
@@ -1378,6 +1378,15 @@ cevabı ("Ret. … belgede açıkça anlatılmamıştır.") anlamca ret ama skor
 "anlatılmamıştır"ı tanımıyor; kapı genişletmesi madde 28 ile birlikte düşünülmeli
 (bkz. madde 24 planı §6).
 
+**Güncel taban (2026-11-01, madde 39 tam koşusundan) — önceki paragrafın istediği
+üçü de artık taze veriden:** #224 **hâlâ FP** (test_negative, fresh koşu — madde
+33'ün duman kaydına değil, bugünkü koşuya dayanıyor; ikisi de aynı: regresyon yok).
+#101 **hâlâ FP** (test_5, fresh koşu). FN tarafı (test_1–5, kronik HATA hariç 145
+soru): **6 FN** (test_2: 2, test_3: 3, test_4: 1) — tarihsel "baz 10 / v7 13 / v8 6"
+karşılaştırmasındaki v8 sayısıyla aynı düzeyde, kötüleşme yok. **Karar hâlâ
+verilmedi** — bu yalnız bölümün istediği taze tam ölçüm; (a)/(b) dalı ayarı
+tartışmaya açılırsa bu sayılar taban olarak kullanılabilir.
+
 ## Madde 31 — OCR'lı Cevap sayfalarının metin kalitesi
 
 Madde 22 Adım 3'te ortaya çıktı
@@ -1825,3 +1834,63 @@ set süreleri (toplam ~1 saat) bugünkü hızla (~1.4 kat) ~1.5 saat veriyor. **
   CPU'ya düşmeyi işaretler ama koşuyu **durdurmaz**). B (GPU'yu zorlayan iki aşamalı
   koşu) gereksiz: fark küçük ve üretim de aynı riski taşıyıyor (madde 40), yapay bir
   GPU-referans üretimden farklı bir sistem ölçerdi.
+
+**Kapanış (2026-11-01) — tam koşu tamamlandı, yeni referans kaydedildi.**
+Tüm setler (test_1–5 + test_negative, 147 soru) C kararıyla, sıralı, `kosu.py` ile
+koşuldu. Ham sonuçlar ve ortam kanıtı: `experiments/madde39_tam_kosu/{SET}/`
+(`sonuclari.csv`, `ortam.json`, `hata_tekrar.csv`); birleşik sınıflandırma
+`tum_sonuclar.json`.
+
+| Set | n | Sınıf | Not |
+|---|---|---|---|
+| test_1 | 30 | 30 TP | #2 ilk denemede HATA, tekrarda düzeldi |
+| test_2 | 30 | 26 TP, 2 FN, **2 HATA (kalıcı)** | #43/#53 bilinen kronik GPU hatası (EXPERIMENTS.md), tekrar da düzeltmedi — **98 soruluk temiz set kuralıyla hariç** |
+| test_3 | 30 | 27 TP, 3 FN | #62 ilk denemede HATA, tekrarda düzeldi |
+| test_4 | 10 | 9 TP, 1 FN | #92/#94 ilk denemede HATA, tekrarda düzeldi |
+| test_5 | 15 | 13 TN, 2 FP | #102/#110 ilk denemede HATA, tekrarda düzeldi |
+| test_negative | 32 | 29 TN, 1 FN, 2 FP | — |
+| **GENEL** | **145** (147 − 2 kronik HATA) | **92 TP, 42 TN, 7 FN, 4 FP** | |
+
+- **Negatif set: sıfır regresyon.** FP = {#224, #232} — madde 33 prod duman kaydıyla
+  (son tam negatif koşu) **birebir aynı** (32/32 cevap karşılaştırıldı, 0 fark). #214
+  FN, bilinen GT düzeltmesi (pozitife alındı).
+- **v8 (son tam pozitif koşu) ile farklar — 6 soru, hepsi açıklandı:**
+  - #91 (FN→TP): madde 33'ün prod düzeltmesi (`.txt` birleştirme) — beklenen.
+  - #103 (FP→TN): madde 24'ün bugün bulduğu düzelme — beklenen, ikinci kez doğrulandı.
+  - #50 (FN→TP, sınıf): içerik hâlâ **yanlış** (GT: 248 profil Cumartesi açık; cevap
+    "hafta sonu çalışan yok" diyor) — madde 21/36'nın bilinen "ifadeye bağlı sınıf"
+    sorunu, yeni değil; TP ≠ doğru.
+  - **#48, #90 (TP→FN) — açıklanamadı, ama gerçek ve kararlı.** Ön-ölçüm A ikisinde de
+    bağlamı **değiştirmiyor** (test_3'te 0 fark, #48 test_2'nin 3 farklılığında yok).
+    `tekrar_kontrol.py`: aynı bağlamla 3 tekrar, ikisi de **3/3 FN** — rastgele değil.
+    v8 bu karşılaştırma için zaten güvenilir bir taban değil (bu maddenin kendi
+    uyarısı: madde 20 top_k, 22/33 yeniden ingest v8'den SONRA); en olası açıklama
+    v8'in bağlamının bugünkünden farklı olması (ör. top_k düzeltmesi öncesi). Kök
+    neden araştırılmadı — ayrı bir madde açılmadı, bu nottan takip edilebilir.
+- **`temiz: false` beklendiği gibi hemen her sette** (CPU'ya düşme, madde 29/40); hiçbir
+  CPU etkisi Ön-ölçüm A'nın öngördüğü küçük/zararsız kümenin dışına çıkmadı.
+
+**Operasyonel bulgular (kosu.py'ye işlendi, retrieval/eval koduna dokunulmadı):**
+1. `foundry model unload` servisin taban belleğini (~4.9 GB) bırakmıyor; yalnız
+   `foundry service stop` bırakıyor (boş RAM ~2 GB → ~7.9 GB). `kosu.py` artık set
+   başına tam `stop` + gerekirse `start` yapıyor.
+2. **`foundry service stop/start`'ı `capture_output=True` ile çağırmak Windows'ta
+   süresiz kilitleniyor** (muhtemelen arka planda kalan bir ajan stdout/stderr
+   tutamacını miras alıp pipe'ı açık tutuyor) — `subprocess.run`'ın kendi `timeout`
+   parametresi bile işlemiyor; iki kez ~7 dk "takılı" göründü. Düzeltme: bu iki komut
+   `stdout=DEVNULL, stderr=DEVNULL` ile (pipe yok) çağrılıyor.
+3. Ollama embed isteğine **hiç yanıt vermeden** asılı kalabiliyor (CPU'ya düşmekten
+   farklı, daha ciddi — tam hang); `ollama app.exe` ile yeniden başlatmak düzeltiyor.
+   `kosu.py` artık her set öncesi `curl` tabanlı bir sağlık kontrolü yapıyor, gerekirse
+   otomatik yeniden başlatıyor (ilk denemede `urllib` ile yazılan sağlık kontrolü de
+   benzer şekilde timeout'a uymadan kilitlendi — `curl` alt sürecine çevrildi).
+4. RAM eşiği 2 GB → 4 GB (1 numaralı düzeltme sonrası `service stop` daha fazla RAM
+   geri verdiği için daha güvenli bir pay mümkün).
+5. `kosu.py` yalnız `sonuclari.csv` yoksa koşuyor; test_5 klasöründe 2026-10-30'dan
+   kalma eski bir sonuç dosyası vardı, ilk "tam koşu" denemesi bunu sessizce
+   yeniden kullandı (koşmadı). Silinip yeniden koşuldu; script bu konuda
+   uyarmıyor — ileride aynı tuzağa düşülmemeli.
+
+**Kapanış kararı:** madde 39 kapandı. Yeni referans yukarıdaki tablo; #48/#90'ın
+açıklanamayan kısmı ayrı bir maddeye çıkarılmadı (küçük, v8-karşılaştırma zaten
+güvenilmez taban uyarısı altında), gerekirse ileride buradan takip edilir.

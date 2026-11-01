@@ -45,3 +45,40 @@ B fazı (GPU'yu garanti eden iki aşamalı koşu) üretimden farklı, yapay bir 
 üretir. Tam benchmark + negatif set, bugünkü üretim yoluyla (LLM önce yüklenir) koşulur;
 her set `kosu.py`'nin `temiz` kontrolüyle (Ollama logu + nöbet özeti) işaretlenir — CPU'ya
 düşerse not edilir ama koşu **durdurulmaz**, çünkü bu üretimin kendi davranışı.
+
+# Kapanış (2026-11-01) — tam koşu, yeni referans
+
+C kararıyla tüm setler sıralı koşuldu (`kosu.py`). Birleşik sonuç: `tum_sonuclar.json`;
+set bazlı: `{SET}/sonuclari.csv`, `ortam.json`, `hata_tekrar.csv`.
+
+| Set | n | Sınıf | Not |
+|---|---|---|---|
+| test_1 | 30 | 30 TP | #2 tekrarda düzeldi |
+| test_2 | 30 | 26 TP, 2 FN, 2 HATA (kalıcı) | #43/#53 bilinen kronik GPU hatası, hariç |
+| test_3 | 30 | 27 TP, 3 FN | #62 tekrarda düzeldi |
+| test_4 | 10 | 9 TP, 1 FN | #92/#94 tekrarda düzeldi |
+| test_5 | 15 | 13 TN, 2 FP | #102/#110 tekrarda düzeldi |
+| test_negative | 32 | 29 TN, 1 FN, 2 FP | — |
+| **GENEL** | **145** | **92 TP, 42 TN, 7 FN, 4 FP** | 147 − 2 kronik HATA |
+
+- **Negatif set sıfır regresyon:** FP {#224, #232} madde 33 prod kaydıyla birebir aynı.
+- **v8 farkları (6 soru) hepsi açıklandı:** #91/#103 bilinen düzelmeler (madde 33/24);
+  #50 içerik hâlâ yanlış ama sınıf TP (madde 21/36, yeni değil); **#48/#90 (TP→FN)
+  açıklanamadı** — bağlam aynı (Ön-ölçüm A), `tekrar_kontrol.py` ile 3/3 kararlı FN
+  (rastgele değil); en olası neden v8'in top_k/ingest öncesi farklı bir taban olması.
+  Ayrı madde açılmadı.
+
+## Koşu sırasında bulunan ve düzeltilen operasyonel hatalar (`kosu.py`)
+
+1. `foundry model unload` servisin taban belleğini (~4.9 GB) bırakmıyor; yalnız
+   `foundry service stop` bırakıyor. → set başına tam stop/start.
+2. **`foundry service stop/start`'ı `capture_output=True` ile çağırmak Windows'ta
+   süresiz kilitleniyordu** (pipe tutamacı sorunu, `subprocess.run`'ın timeout'u da
+   işlemiyor) → `stdout=DEVNULL, stderr=DEVNULL` ile çağrılıyor.
+3. Ollama embed isteğine hiç yanıt vermeden asılı kalabiliyor (CPU'ya düşmekten
+   farklı, tam hang) → her set öncesi `curl` tabanlı sağlık kontrolü + otomatik
+   yeniden başlatma (`ollama app.exe`). İlk yazılan `urllib` tabanlı kontrol de
+   benzer şekilde kilitlenmişti, `curl` alt sürecine çevrildi.
+4. RAM eşiği 2 → 4 GB (1 numaralı düzeltme sonrası daha fazla pay mümkün).
+5. `kosu.py` yalnız `sonuclari.csv` yoksa koşuyor; test_5'te 2026-10-30'dan kalma
+   eski bir dosya sessizce yeniden kullanıldı (koşulmadı) — silinip yeniden koşuldu.
