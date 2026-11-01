@@ -1,0 +1,176 @@
+cpu: nöbet başta 5b827b2a0b6f3404 (beklenen 5b827b2a0b6f3404)
+[retrieval] Cache yuklendi: 898 chunk, embedding matrisi (898, 1024)
+cpu test_1#1
+cpu test_1#2
+cpu test_1#3
+cpu test_1#4
+cpu test_1#5
+cpu test_1#6
+cpu test_1#7
+cpu test_1#8
+cpu test_1#9
+cpu test_1#10
+cpu test_1#11
+cpu test_1#12
+cpu test_1#13
+cpu test_1#14
+cpu test_1#15
+cpu test_1#16
+cpu test_1#17
+cpu test_1#18
+cpu test_1#19
+cpu test_1#20
+cpu test_1#21
+cpu test_1#22
+cpu test_1#23
+cpu test_1#24
+cpu test_1#25
+cpu test_1#26
+cpu test_1#27
+cpu test_1#28
+cpu test_1#29
+cpu test_1#30
+cpu test_2#31
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode~profile', 'profileType~profile', 'sector', 'occupation', 'profileMedia.avatarUrl~profile', 'profileMedia.coverImageUrl~profile']
+cpu test_2#32
+cpu test_2#33
+cpu test_2#34
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=10.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'location.exactAddressPublic~Public', 'publicContact.phoneVisible~public', 'publicContact.emailVisible~emailVisible', 'publicContact.phone~public']
+cpu test_2#35
+cpu test_2#36
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=5.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'sector', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+cpu test_2#37
+cpu test_2#38
+[data_engine] route=code_interpreter (dataset_signal+interrogative) | dataset=728_profiles.json (score=7.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'serviceModes~service', 'services', 'location.serviceArea~service', 'profileMedia.avatarUrl~profil']
+cpu test_2#39
+cpu test_2#40
+cpu test_2#41
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'appointmentSettings.minimumNoticeHours~minimumNoticeHours', 'appointmentSettings.cancellationNoticeHours~cancellation', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+cpu test_2#42
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['occupation', 'experience.years~experience', 'experience.credentialSummary', 'profileType~tür', 'type~tür']
+cpu test_2#43
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['appointmentSettings.defaultDurationMinutes~appointment', 'appointmentSettings.minimumNoticeHours~appointment', 'appointmentSettings.cancellationNoticeHours~appointment', 'appointmentSettings.autoApproveRequests~appointment']
+cpu test_2#44
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode', 'profileType~profile', 'displayName', 'slug', 'profileMedia.avatarUrl~profile', 'profileMedia.coverImageUrl~profile']
+cpu test_2#45
+cpu test_2#46
+cpu test_2#47
+cpu test_2#48
+cpu test_2#49
+cpu test_2#50
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=5.0, best_score, ambiguous=False) | schema_cols=['profileCode~profile', 'profileType~profile', 'sector', 'profileMedia.avatarUrl~profile', 'profileMedia.coverImageUrl~profile']
+cpu test_2#51
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=11.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'sector~sektör', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+cpu test_2#52
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=8.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'occupation', 'appointmentSettings.defaultDurationMinutes~appointment', 'appointmentSettings.minimumNoticeHours~appointment', 'appointmentSettings.cancellationNoticeHours~appointment']
+cpu test_2#53
+cpu test_2#54
+cpu test_2#55
+cpu test_2#56
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'sector', 'occupation', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+cpu test_2#57
+cpu test_2#58
+cpu test_2#59
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'experience.years', 'experience.credentialSummary~experience', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+cpu test_2#60
+cpu test_3#61
+cpu test_3#62
+cpu test_3#63
+cpu test_3#64
+cpu test_3#65
+cpu test_3#66
+cpu test_3#67
+cpu test_3#68
+cpu test_3#69
+cpu test_3#70
+cpu test_3#71
+cpu test_3#72
+cpu test_3#73
+cpu test_3#74
+cpu test_3#75
+cpu test_3#76
+cpu test_3#77
+cpu test_3#78
+cpu test_3#79
+cpu test_3#80
+cpu test_3#81
+cpu test_3#82
+cpu test_3#83
+cpu test_3#84
+cpu test_3#85
+cpu test_3#86
+cpu test_3#87
+cpu test_3#88
+cpu test_3#89
+cpu test_3#90
+cpu test_4#91
+cpu test_4#92
+cpu test_4#93
+cpu test_4#94
+cpu test_4#95
+cpu test_4#96
+cpu test_4#97
+cpu test_4#98
+cpu test_4#99
+cpu test_4#100
+cpu test_5#101
+cpu test_5#102
+cpu test_5#103
+cpu test_5#104
+cpu test_5#105
+cpu test_5#106
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+cpu test_5#107
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+cpu test_5#108
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+cpu test_5#109
+cpu test_5#110
+cpu test_5#111
+cpu test_5#112
+cpu test_5#113
+cpu test_5#114
+cpu test_5#115
+cpu test_negative#201
+cpu test_negative#202
+cpu test_negative#203
+cpu test_negative#204
+cpu test_negative#205
+cpu test_negative#206
+cpu test_negative#207
+cpu test_negative#208
+cpu test_negative#209
+cpu test_negative#210
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=7.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'sector~sektör', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil', 'experience.years~deneyim']
+cpu test_negative#211
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+cpu test_negative#212
+cpu test_negative#213
+cpu test_negative#214
+[data_engine] route=code_interpreter (dataset_signal+interrogative) | dataset=us-states-with-detail.json (score=3.0, best_score, ambiguous=False) | schema_cols=[]
+cpu test_negative#215
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+cpu test_negative#216
+cpu test_negative#217
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=mock-transactions.json (score=3.0, best_score, ambiguous=False) | schema_cols=[]
+cpu test_negative#218
+cpu test_negative#219
+cpu test_negative#220
+cpu test_negative#221
+cpu test_negative#222
+cpu test_negative#223
+cpu test_negative#224
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=mock-transactions.json (score=4.0, best_score, ambiguous=False) | schema_cols=['amount~tutar']
+cpu test_negative#225
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=mock-transactions.json (score=4.0, best_score, ambiguous=False) | schema_cols=['category~kategori']
+cpu test_negative#226
+cpu test_negative#227
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil', 'date~ay']
+cpu test_negative#228
+cpu test_negative#229
+cpu test_negative#230
+[data_engine] route=code_interpreter (dataset_signal+interrogative) | dataset=airports.json (score=3.0, best_score, ambiguous=False) | schema_cols=[]
+cpu test_negative#231
+[data_engine] route=code_interpreter (dataset_signal+interrogative) | dataset=us-states-with-detail.json (score=3.0, best_score, ambiguous=False) | schema_cols=['date~tarih']
+cpu test_negative#232
+cpu: nöbet sonda 5b827b2a0b6f3404

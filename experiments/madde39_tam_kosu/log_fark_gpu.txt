@@ -1,0 +1,219 @@
+gpu: nÃ¶bet baÅŸta d16e556d14284ac8 (beklenen d16e556d14284ac8)
+[retrieval] Cache yuklendi: 898 chunk, embedding matrisi (898, 1024)
+gpu test_1#1
+gpu test_1#2
+gpu test_1#3
+gpu test_1#4
+gpu test_1#5
+gpu test_1#6
+gpu test_1#7
+gpu test_1#8
+gpu test_1#9
+gpu test_1#10
+gpu test_1#11
+gpu test_1#12
+gpu test_1#13
+gpu test_1#14
+gpu test_1#15
+gpu test_1#16
+gpu test_1#17
+gpu test_1#18
+gpu test_1#19
+gpu test_1#20
+gpu test_1#21
+gpu test_1#22
+gpu test_1#23
+gpu test_1#24
+gpu test_1#25
+gpu test_1#26
+gpu test_1#27
+gpu test_1#28
+gpu test_1#29
+gpu test_1#30
+gpu test_2#31
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode~profile', 'profileType~profile', 'sector', 'occupation', 'profileMedia.avatarUrl~profile', 'profileMedia.coverImageUrl~profile']
+gpu test_2#32
+gpu test_2#33
+gpu test_2#34
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=10.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'location.exactAddressPublic~Public', 'publicContact.phoneVisible~phone', 'publicContact.emailVisible~emailVisible', 'publicContact.phone~public']
+gpu test_2#35
+gpu test_2#36
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=5.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'sector', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+gpu test_2#37
+gpu test_2#38
+[data_engine] route=code_interpreter (dataset_signal+interrogative) | dataset=728_profiles.json (score=7.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'serviceModes~service', 'services', 'location.serviceArea~service', 'profileMedia.avatarUrl~profil']
+gpu test_2#39
+gpu test_2#40
+gpu test_2#41
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'appointmentSettings.minimumNoticeHours~minimumNoticeHours', 'appointmentSettings.cancellationNoticeHours~cancellationNoticeHours', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+gpu test_2#42
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['occupation', 'experience.years~experience', 'experience.credentialSummary', 'profileType~tÃ¼r', 'type~tÃ¼r']
+gpu test_2#43
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['appointmentSettings.defaultDurationMinutes~appointment', 'appointmentSettings.minimumNoticeHours~appointment', 'appointmentSettings.cancellationNoticeHours~cancellationNoticeHours', 'appointmentSettings.autoApproveRequests~appointment']
+gpu test_2#44
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode', 'profileType~profile', 'displayName', 'slug', 'profileMedia.avatarUrl~profile', 'profileMedia.coverImageUrl~profile']
+gpu test_2#45
+gpu test_2#46
+gpu test_2#47
+gpu test_2#48
+gpu test_2#49
+gpu test_2#50
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=5.0, best_score, ambiguous=False) | schema_cols=['profileCode~profile', 'profileType~profile', 'sector', 'profileMedia.avatarUrl~profile', 'profileMedia.coverImageUrl~profile']
+gpu test_2#51
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=11.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'sector~sektÃ¶r', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+gpu test_2#52
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=8.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'occupation', 'appointmentSettings.defaultDurationMinutes~appointment', 'appointmentSettings.minimumNoticeHours~appointment', 'appointmentSettings.cancellationNoticeHours~cancellationNoticeHours']
+gpu test_2#53
+gpu test_2#54
+gpu test_2#55
+gpu test_2#56
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'sector', 'occupation', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+gpu test_2#57
+gpu test_2#58
+gpu test_2#59
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'experience.years', 'experience.credentialSummary~experience', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+gpu test_2#60
+gpu test_3#61
+gpu test_3#62
+gpu test_3#63
+gpu test_3#64
+gpu test_3#65
+gpu test_3#66
+gpu test_3#67
+gpu test_3#68
+gpu test_3#69
+gpu test_3#70
+gpu test_3#71
+gpu test_3#72
+gpu test_3#73
+gpu test_3#74
+gpu test_3#75
+gpu test_3#76
+gpu test_3#77
+gpu test_3#78
+gpu test_3#79
+gpu test_3#80
+gpu test_3#81
+gpu test_3#82
+gpu test_3#83
+gpu test_3#84
+gpu test_3#85
+gpu test_3#86
+gpu test_3#87
+gpu test_3#88
+gpu test_3#89
+gpu test_3#90
+gpu test_4#91
+gpu test_4#92
+gpu test_4#93
+gpu test_4#94
+gpu test_4#95
+gpu test_4#96
+gpu test_4#97
+gpu test_4#98
+gpu test_4#99
+'(ReadTimeoutError("HTTPSConnectionPool(host='huggingface.co', port=443): Read timed out. (read timeout=10)"), '(Request ID: 91b36e9e-a0de-4ad7-af5c-746895756ffc)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/config.json
+Retrying in 1s [Retry 1/5].
+'(MaxRetryError("HTTPSConnectionPool(host='huggingface.co', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/config.json (Caused by ConnectTimeoutError(<HTTPSConnection(host='huggingface.co', port=443) at 0x2d396283320>, 'Connection to huggingface.co timed out. (connect timeout=10)'))"), '(Request ID: 035d437c-9cb3-4eaf-ba9d-ce883f361b87)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/config.json
+Retrying in 2s [Retry 2/5].
+'(MaxRetryError("HTTPSConnectionPool(host='huggingface.co', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/config.json (Caused by ConnectTimeoutError(<HTTPSConnection(host='huggingface.co', port=443) at 0x2d396153110>, 'Connection to huggingface.co timed out. (connect timeout=10)'))"), '(Request ID: aa08207e-c2a5-4c16-a13a-8d0610c984bb)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/config.json
+Retrying in 4s [Retry 3/5].
+'(MaxRetryError("HTTPSConnectionPool(host='huggingface.co', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/config.json (Caused by ConnectTimeoutError(<HTTPSConnection(host='huggingface.co', port=443) at 0x2d396282210>, 'Connection to huggingface.co timed out. (connect timeout=10)'))"), '(Request ID: 21b1f259-962e-40d3-a744-92079ea405fb)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/config.json
+Retrying in 8s [Retry 4/5].
+'(MaxRetryError("HTTPSConnectionPool(host='huggingface.co', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/config.json (Caused by ConnectTimeoutError(<HTTPSConnection(host='huggingface.co', port=443) at 0x2d396283740>, 'Connection to huggingface.co timed out. (connect timeout=10)'))"), '(Request ID: 5d355e56-acc6-4ae0-bdac-6af718511c2a)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/config.json
+Retrying in 8s [Retry 5/5].
+'(MaxRetryError("HTTPSConnectionPool(host='huggingface.co', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/config.json (Caused by ConnectTimeoutError(<HTTPSConnection(host='huggingface.co', port=443) at 0x2d396281fd0>, 'Connection to huggingface.co timed out. (connect timeout=10)'))"), '(Request ID: ea3e3c04-0115-4eab-95bb-f394c71490d0)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/config.json
+'(MaxRetryError("HTTPSConnectionPool(host='huggingface.co', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/tokenizer_config.json (Caused by ConnectTimeoutError(<HTTPSConnection(host='huggingface.co', port=443) at 0x2d398526390>, 'Connection to huggingface.co timed out. (connect timeout=10)'))"), '(Request ID: 3140eabe-6cdd-4e96-a057-ffaa7db4335e)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/tokenizer_config.json
+Retrying in 1s [Retry 1/5].
+'(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/tokenizer_config.json (Caused by NewConnectionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to establish a new connection: [WinError 10053] Kurulan bir baðlantý, ana makinenizdeki yazýlým tarafýndan iptal edildi"))'), '(Request ID: 8e331195-00da-4f99-9214-0d5864cf2c6c)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/tokenizer_config.json
+Retrying in 2s [Retry 2/5].
+gpu test_4#100
+'(ReadTimeoutError("HTTPSConnectionPool(host='huggingface.co', port=443): Read timed out. (read timeout=10)"), '(Request ID: 9fd908d7-d4d6-478e-816e-464b24550946)')' thrown while requesting HEAD https://huggingface.co/api/resolve-cache/models/BAAI/bge-reranker-v2-m3/953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e/config.json
+Retrying in 1s [Retry 1/5].
+gpu test_5#101
+gpu test_5#102
+gpu test_5#103
+gpu test_5#104
+gpu test_5#105
+gpu test_5#106
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+gpu test_5#107
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+gpu test_5#108
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+gpu test_5#109
+gpu test_5#110
+gpu test_5#111
+gpu test_5#112
+gpu test_5#113
+gpu test_5#114
+gpu test_5#115
+gpu test_negative#201
+gpu test_negative#202
+gpu test_negative#203
+gpu test_negative#204
+gpu test_negative#205
+gpu test_negative#206
+gpu test_negative#207
+gpu test_negative#208
+gpu test_negative#209
+gpu test_negative#210
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=7.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'sector~sektÃ¶r', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil', 'experience.years~deneyim']
+gpu test_negative#211
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+gpu test_negative#212
+gpu test_negative#213
+'(ReadTimeoutError("HTTPSConnectionPool(host='huggingface.co', port=443): Read timed out. (read timeout=10)"), '(Request ID: 51a3fd30-7d14-40ca-a495-6d91fa9c6464)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/config.json
+Retrying in 1s [Retry 1/5].
+'(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/config.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 42c8a4fd-f15e-4c89-853e-aaf8bf55d695)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/config.json
+Retrying in 2s [Retry 2/5].
+'(ReadTimeoutError("HTTPSConnectionPool(host='huggingface.co', port=443): Read timed out. (read timeout=10)"), '(Request ID: 3e1f9e93-000f-4b93-8124-93fa98fb509b)')' thrown while requesting HEAD https://huggingface.co/api/resolve-cache/models/BAAI/bge-reranker-v2-m3/953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e/tokenizer_config.json
+Retrying in 1s [Retry 1/5].
+gpu test_negative#214
+[data_engine] route=code_interpreter (dataset_signal+interrogative) | dataset=us-states-with-detail.json (score=3.0, best_score, ambiguous=False) | schema_cols=[]
+gpu test_negative#215
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+gpu test_negative#216
+gpu test_negative#217
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=mock-transactions.json (score=3.0, best_score, ambiguous=False) | schema_cols=[]
+gpu test_negative#218
+gpu test_negative#219
+gpu test_negative#220
+gpu test_negative#221
+gpu test_negative#222
+'(ReadTimeoutError("HTTPSConnectionPool(host='huggingface.co', port=443): Read timed out. (read timeout=10)"), '(Request ID: 60d82332-9671-4ead-9f44-7743b8d40fc0)')' thrown while requesting HEAD https://huggingface.co/api/resolve-cache/models/BAAI/bge-reranker-v2-m3/953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e/config.json
+Retrying in 1s [Retry 1/5].
+'(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /api/resolve-cache/models/BAAI/bge-reranker-v2-m3/953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e/config.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 3a221ef0-b026-4484-ae9b-d1d3d07065f6)')' thrown while requesting HEAD https://huggingface.co/api/resolve-cache/models/BAAI/bge-reranker-v2-m3/953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e/config.json
+Retrying in 2s [Retry 2/5].
+'(ReadTimeoutError("HTTPSConnectionPool(host='huggingface.co', port=443): Read timed out. (read timeout=10)"), '(Request ID: 9ec1da53-9345-4cc6-b91c-cf9caa3c7ad9)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/tokenizer_config.json
+Retrying in 1s [Retry 1/5].
+gpu test_negative#223
+'(ReadTimeoutError("HTTPSConnectionPool(host='huggingface.co', port=443): Read timed out. (read timeout=10)"), '(Request ID: 96e8c35b-1c9a-4eec-9437-8d5caebc142b)')' thrown while requesting HEAD https://huggingface.co/api/resolve-cache/models/BAAI/bge-reranker-v2-m3/953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e/config.json
+Retrying in 1s [Retry 1/5].
+'(ProtocolError('Connection aborted.', RemoteDisconnected('Remote end closed connection without response')), '(Request ID: a8b5d9b3-600d-4a46-a137-3922fe8de9ea)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/tokenizer_config.json
+Retrying in 1s [Retry 1/5].
+gpu test_negative#224
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=mock-transactions.json (score=4.0, best_score, ambiguous=False) | schema_cols=['amount~tutar']
+'(ProtocolError('Connection aborted.', RemoteDisconnected('Remote end closed connection without response')), '(Request ID: 6101de45-b2b6-4e82-98f8-0b921129033f)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/config.json
+Retrying in 1s [Retry 1/5].
+'(ReadTimeoutError("HTTPSConnectionPool(host='huggingface.co', port=443): Read timed out. (read timeout=10)"), '(Request ID: 438c336d-cdf9-4782-8df9-e928274925ad)')' thrown while requesting HEAD https://huggingface.co/api/resolve-cache/models/BAAI/bge-reranker-v2-m3/953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e/config.json
+Retrying in 1s [Retry 1/5].
+gpu test_negative#225
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=mock-transactions.json (score=4.0, best_score, ambiguous=False) | schema_cols=['category~kategori']
+gpu test_negative#226
+gpu test_negative#227
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil', 'date~ay']
+gpu test_negative#228
+'(ReadTimeoutError("HTTPSConnectionPool(host='huggingface.co', port=443): Read timed out. (read timeout=10)"), '(Request ID: e3dad4ee-70fb-46b9-bea8-1773de68c426)')' thrown while requesting HEAD https://huggingface.co/api/resolve-cache/models/BAAI/bge-reranker-v2-m3/953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e/config.json
+Retrying in 1s [Retry 1/5].
+'(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /api/resolve-cache/models/BAAI/bge-reranker-v2-m3/953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e/config.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 1b4d02af-9a46-428c-aa3d-820a25326b70)')' thrown while requesting HEAD https://huggingface.co/api/resolve-cache/models/BAAI/bge-reranker-v2-m3/953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e/config.json
+Retrying in 2s [Retry 2/5].
+gpu test_negative#229
+gpu: nÃ¶bet baÅŸta d16e556d14284ac8 (beklenen d16e556d14284ac8)
+[retrieval] Cache yuklendi: 898 chunk, embedding matrisi (898, 1024)
+gpu test_negative#230
+[data_engine] route=code_interpreter (dataset_signal+interrogative) | dataset=airports.json (score=3.0, best_score, ambiguous=False) | schema_cols=[]
+gpu test_negative#231
+[data_engine] route=code_interpreter (dataset_signal+interrogative) | dataset=us-states-with-detail.json (score=3.0, best_score, ambiguous=False) | schema_cols=['date~tarih']
+gpu test_negative#232
+gpu: nÃ¶bet sonda d16e556d14284ac8

@@ -1,0 +1,40 @@
+soru: gpu 147, cpu 147
+gpu == madde 33 prod kaydı: 147/147
+
+test_1         aynı= 29  sıra=  0  küme=  1  1. chunk=  0
+test_2         aynı= 27  sıra=  0  küme=  3  1. chunk=  1
+test_3         aynı= 30  sıra=  0  küme=  0  1. chunk=  0
+test_4         aynı= 10  sıra=  0  küme=  0  1. chunk=  0
+test_5         aynı= 13  sıra=  0  küme=  2  1. chunk=  0
+test_negative  aynı= 31  sıra=  0  küme=  1  1. chunk=  0
+GENEL          aynı=140  sıra=  0  küme=  7  1. chunk=  1
+
+== Farklı olanlar
+  test_1#11 [küme farklı] rota=semantic_rag
+    gpu [4336, 4333, 4328, 3671] [0.98726, 0.00108, 0.00107, 0.00106]
+    cpu [4336, 4333, 4328, 3674] [0.98726, 0.00108, 0.00107, 0.001]
+    Bir dilin belirgin (unambiguous) olması ne anlama gelir?
+  test_2#35 [küme farklı] rota=code_interpreter
+    gpu [4047, 3819, 3798, 3657] [0.55623, 0.51652, 0.50492, 0.49696]
+    cpu [3819, 3798, 3657, 3663] [0.51652, 0.50492, 0.49696, 0.4867]
+    publicContact alanı altında phoneVisible ve emailVisible değerleri örnek profill
+  test_2#36 [küme farklı] rota=semantic_rag
+    gpu [3691, 3687, 3906, 3775] [0.73773, 0.63615, 0.58856, 0.54977]
+    cpu [3691, 3687, 3777, 3906] [0.73773, 0.63615, 0.63255, 0.58856]
+    weeklyAvailability dizisinde her gün nesnesi hangi alanları (day, active, start,
+  test_2#46 [küme farklı] rota=semantic_rag
+    gpu [4109, 4108, 3777, 4110] [0.10913, 0.0817, 0.00089, 0.00081]
+    cpu [4109, 4108, 3777, 3773] [0.10913, 0.0817, 0.00089, 0.00084]
+    sourceReference.note alanı bu veri setinin gerçek kişi/işletme doğrulaması iddia
+  test_5#102 [küme farklı] rota=semantic_rag
+    gpu [4328, 4327, 4342, 4344] [0.27318, 0.01472, 0.0099, 0.00503]
+    cpu [4328, 4327, 4342, 4348] [0.27318, 0.01472, 0.0099, 0.00638]
+    Bağlamdan bağımsız dilleri tanıyan yığın otomatı (pushdown automaton) nasıl tanı
+  test_5#107 [küme farklı] rota=code_interpreter
+    gpu [3777, 3775, 3773, 3776] [0.01881, 0.01252, 0.00939, 0.0077]
+    cpu [3777, 3775, 3773, 4099] [0.01881, 0.01252, 0.00939, 0.00829]
+    728_profiles.json veri setinde profillerin ortalama randevu ücreti kaç TL'dir?
+  test_negative#215 [küme farklı] rota=code_interpreter
+    gpu [3773, 3775, 3779, 3776] [0.00102, 0.00068, 0.00068, 0.00061]
+    cpu [3773, 3775, 3779, 3774] [0.00102, 0.00068, 0.00068, 0.00066]
+    us-states veri setinde her eyaletin nüfusu kaç olarak belirtilmiştir?

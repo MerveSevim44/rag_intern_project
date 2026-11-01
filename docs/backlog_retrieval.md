@@ -46,6 +46,7 @@ PR olarak ele alınır.
 | 37 | Yorum isteyen soruda ret kırılgan: bağlam bileşimine monoton olmayan şekilde bağlı (test_4 #100) | Açık — şüphe: yorum sınırı / subjektif soru; madde 34'ten ayrıldı, mekanizma ölçülmedi |
 | 38 | Ret kalksa da içerik hatalı: sınıf TP ama GT karşılanmıyor — içerik doğruluğu ret/kabul ayrımından ayrı bir sorun (test_2 #56, test_3 #82) | Açık — genel başlık; madde 34'ten ayrıldı, madde 36 ailesi (TP ≠ doğru). Örnekler: #56 genel geçer cevap, #82 yanlış formül |
 | 39 | Güncel sistemle tam benchmark + negatif set koşusu yok; kapsam kontrolleri eski/karma kayıtlara dayanıyor | Açık — **aktif hedef**; test_5 ölçüldü (11.6 dk), tam koşu tahmini ~1.5–2 saat, parçalı koşu planı bekliyor. Son tam pozitif koşu v8 |
+| 40 | Üretim (Streamlit app.py) aynı VRAM açlığı riskini taşıyor; gerçek oturumda doğrulanmadı | Açık — düşük öncelik, doğrulanmamış; madde 39'dan ayrıldı |
 
 **Uyarı (madde 36):** bağlam değişen ölçümlerde TP = doğru cevap DEĞİLDİR;
 `classify_answer` yalnız ret / cevap ayrımı yapar, doğruluk ayrıca kontrol edilir.
@@ -61,7 +62,7 @@ rakamları doğrudan karşılaştırmadan önce bu farkı düşün.
 
 ### Öncelik sırası (2026-10-11, güncelleme 2026-10-13)
 
-Açık retrieval/değerlendirme maddeleri için sıra: **25 (skorlama) ✅ → 22 ✅ → 27 ✅ → 29 ✅ → 20 (top_k ✅, 2b açık) → 21 (raporlama ✅; 4 FN açık) → 32 (mekanizma ✅; bayrak kararı açık) → 36 (karar ✅: doğruluk kontrolü kural) → 33 ✅ → 34 ✅ → 24 (beklemede) → 39 → 30 (beklemede, 39'a bağlı) → 28 → 26 → 31 → 35 (en alt).**
+Açık retrieval/değerlendirme maddeleri için sıra: **25 (skorlama) ✅ → 22 ✅ → 27 ✅ → 29 ✅ → 20 (top_k ✅, 2b açık) → 21 (raporlama ✅; 4 FN açık) → 32 (mekanizma ✅; bayrak kararı açık) → 36 (karar ✅: doğruluk kontrolü kural) → 33 ✅ → 34 ✅ → 24 (beklemede) → 39 (ön-ölçüm A ✅, tam koşu sürüyor) → 40 (düşük öncelik) → 30 (beklemede, 39'a bağlı) → 28 → 26 → 31 → 35 (en alt).**
 
 - **25 önce:** madde 24'ün başarı ölçütü negatif set FP sayısı; skorlayıcı yarım
   retleri FP saydığı sürece (#222) bu sayı yapay olarak şişik ve 24'ün etkisi
@@ -1124,6 +1125,20 @@ V0 ve üst sınır (yalnız en yüksek chunk) 2/2 **TN**; bağlam s.16, s.2, s.1
 (skorlar 0.036 / 0.032 / 0.013 / 0.012). Kesin neden bilinmiyor. Yukarıdaki notta
 #103'ün aktif hedef gibi anlatılması ve eski skorları bu tarihten önceki duruma aittir.
 
+## Madde 40 — Üretim aynı VRAM açlığı riskini taşıyor, doğrulanmadı
+
+Madde 39 Adım A'da bulundu: `src/app.py`, `load_model()` (LLM) çağrısını
+`get_top_chunks()` (retrieval/embedding) çağrısından önce yapıyor — `run_tests.py`
+benchmark'ıyla aynı sıra. Repoda ayrı bir dağıtım/Docker dosyası yok; README referans
+donanımı "8 GB VRAM". Yani gerçek bir Streamlit oturumunda da, LLM yüklüyken boş VRAM
+Ollama'nın istediği 457 MiB'ın altına düşerse, sorgu embedding'i sessizce CPU'ya kayabilir.
+
+**Ölçülmedi:** gerçek bir Streamlit oturumunda VRAM/RAM izlenmedi; bu bir çıkarım, teyit
+değil. Madde 39 Adım A'nın ölçtüğü fark küçük (%95.2 aynı bağlam) olduğu için pratik
+etkisi de muhtemelen küçük, ama ayrı bir ciddiyet taşıyor: üretim kullanıcısını etkiler,
+oysa madde 39 bir ölçüm/değerlendirme altyapısı sorunuydu. Doğrulama madde 39 kapandıktan
+sonra, ayrı bir zamanda ele alınabilir.
+
 ## Madde 25 — Ret tespiti yarım kalmış "bulunmadığından" cevabını kaçırıyor
 
 v8 negatif #222: cevap "Z-Dönüşümü ders notlarında 12. haftanın konu başlığına
@@ -1797,5 +1812,16 @@ set süreleri (toplam ~1 saat) bugünkü hızla (~1.4 kat) ~1.5 saat veriyor. **
   7543/8188 MiB dolu); bugünkü koşularla farkı açıklanamadı. Ayrıca `kosu.py`'nin 7.5 GB RAM
   eşiği (tahmin) bu sorunu önlemiyor. `temiz` kontrolü doğru çalışıyor.
 - **test_5 ölçümü doğrulanamıyor** (Ollama logu yok); #101/#103/#107 kesin değil.
-- **Açık:** `run_tests.py` embedding'i LLM yüklüyken aldığı için sorgular muhtemelen CPU
-  vektörüyle koşuyor, DB vektörleri GPU'dan. Tam koşu yolu bu farkın ölçümüne bağlı.
+
+**Ön-ölçüm A sonucu (2026-11-01) — fark küçük, C kararı verildi.**
+[experiments/madde39_tam_kosu/](../experiments/madde39_tam_kosu/README.md): LLM yok,
+147 soru iki süreçte (`RAG_EMBED_NUM_GPU=99` / `=0`) `retrieve()` ile karşılaştırıldı.
+- **%95.2 (140/147) nihai bağlam birebir aynı.** 7 farklılığın 6'sı yalnız en düşük
+  güvenli (son) chunk'ta, rerank skorları ≤0.01 farkla ("net kazanan yok" bölgesi);
+  biri bilinen vaka (test_5#107, FP). Yalnız **test_2#35**'te 1. chunk da değişiyor —
+  madde 33'ün işaretlediği BM25 korpus kaymasına duyarlı, zaten cevabı değişmeyen bir
+  soru. Madde 29'un "düzeltildi" bulgusu 147 sorunun tamamında doğrulandı.
+- **Karar: C** (bugünkü üretim yolu, LLM önce yüklenir; `kosu.py`'nin `temiz` kontrolü
+  CPU'ya düşmeyi işaretler ama koşuyu **durdurmaz**). B (GPU'yu zorlayan iki aşamalı
+  koşu) gereksiz: fark küçük ve üretim de aynı riski taşıyıyor (madde 40), yapay bir
+  GPU-referans üretimden farklı bir sistem ölçerdi.
