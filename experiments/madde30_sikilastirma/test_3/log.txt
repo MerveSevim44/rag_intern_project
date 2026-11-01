@@ -1,0 +1,178 @@
+
+=== C:\Users\merve\Desktop\rag_project\evaluation\datasets\test_3.csv -> C:\Users\merve\Desktop\rag_project\experiments\madde30_sikilastirma\test_3\sonuclari.csv
+Model yükleniyor...
+[Foundry] Model yüklendi: qwen2.5-7b-instruct-cuda-gpu:4 | execution provider: CUDAExecutionProvider | cihaz: GPU
+[Foundry] Servis adresi: http://127.0.0.1:63201
+[Foundry] Serviste yüklü modeller: ['qwen2.5-7b-instruct-cuda-gpu:4']
+Model hazır.
+
+Soru seti: C:\Users\merve\Desktop\rag_project\evaluation\datasets\test_3.csv
+[61] Soruluyor: Fourier dönüşümünün ileri yöndeki (forward) tanımı X(jω) hangi integral ile verilir?
+[retrieval] Cache yuklendi: 898 chunk, embedding matrisi (898, 1024)
+'(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/config.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 699b01ef-9268-4797-8c73-1f0ea11c2ece)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/config.json
+Retrying in 1s [Retry 1/5].
+'(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/config.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 1b47d7b1-2a52-48c3-9b7d-44ada2e7c588)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/config.json
+Retrying in 2s [Retry 2/5].
+'(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/config.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 8e92cf3d-2e67-4886-b689-3158632d873b)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/config.json
+Retrying in 4s [Retry 3/5].
+'(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/config.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: b043d09d-e63d-4f90-b14a-c8181ceb3463)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/config.json
+Retrying in 8s [Retry 4/5].
+'(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/config.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: ce793305-8ab6-4ffb-898b-70b61757a4b2)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/config.json
+Retrying in 8s [Retry 5/5].
+'(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/config.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 4a357b1b-230f-4731-9072-ed73acb18881)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/config.json
+'(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/tokenizer_config.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 134a4e68-a44f-4f24-a9e6-86b2419f5276)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/tokenizer_config.json
+Retrying in 1s [Retry 1/5].
+'(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/tokenizer_config.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 7fec5d44-dfbd-41f8-8b1b-ef6607f33b42)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/tokenizer_config.json
+Retrying in 2s [Retry 2/5].
+'(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/tokenizer_config.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: e717b0c8-a410-477e-aefd-cfd2055dd7a8)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/tokenizer_config.json
+Retrying in 4s [Retry 3/5].
+'(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/tokenizer_config.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: b93019aa-3295-43da-8816-0755d62bc870)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/tokenizer_config.json
+Retrying in 8s [Retry 4/5].
+'(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/tokenizer_config.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: a02ff08b-3202-4f3d-a358-0e283e01d530)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/tokenizer_config.json
+Retrying in 8s [Retry 5/5].
+'(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/tokenizer_config.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: e1d77ead-cd8f-414d-b735-7ef0c4b533d2)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/tokenizer_config.json
+'(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/README.md (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 06dd216c-1d99-4940-a3b7-d0df995397e8)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/README.md
+Retrying in 1s [Retry 1/5].
+'(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/README.md (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 9506d10e-5d25-48cf-bb6d-dd4f13debfb5)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/README.md
+Retrying in 2s [Retry 2/5].
+'(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/README.md (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: d9834e44-3c2c-4655-9b90-20132a097769)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/README.md
+Retrying in 4s [Retry 3/5].
+'(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/README.md (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 9d04af6b-1fa3-469d-9a54-e5894cc25ca2)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/README.md
+Retrying in 8s [Retry 4/5].
+'(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/README.md (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: c09e17b7-9fdb-4172-a95d-158db458d3d7)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/README.md
+Retrying in 8s [Retry 5/5].
+'(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/README.md (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: d8981477-7eaa-4daa-82f2-f203434f2870)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/README.md
+    → 122.06 sn
+
+[62] Soruluyor: Ters Fourier dönüşümü (inverse direction) formülünde 1/2π çarpanı nerede yer alır?
+'(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/config.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 67a453ad-6f89-4f74-a70b-266ee2848200)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/config.json
+Retrying in 1s [Retry 1/5].
+'(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/config.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: a47dc4b3-ba3a-4890-be3d-016972e7104c)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/config.json
+Retrying in 2s [Retry 2/5].
+'(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/config.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: c291cd28-b9af-475a-8371-bbae8eac43de)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/config.json
+Retrying in 4s [Retry 3/5].
+'(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/config.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 34dd018f-24f4-4386-964d-969ca3a12de7)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/config.json
+Retrying in 8s [Retry 4/5].
+'(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/config.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 61293b98-70e7-43d6-9d0e-d9ebfa350c8e)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/config.json
+Retrying in 8s [Retry 5/5].
+'(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/config.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 831d6411-550e-4697-8ef1-b97ec51fad37)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/config.json
+'(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/tokenizer_config.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: ca4ee9bc-6ede-4e7f-9352-60e74aa01764)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/tokenizer_config.json
+Retrying in 1s [Retry 1/5].
+'(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/tokenizer_config.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: a7ff0d30-4ac8-4d06-894c-8761d15d70e9)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/tokenizer_config.json
+Retrying in 2s [Retry 2/5].
+'(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/tokenizer_config.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 0dd93c45-24c0-4d0e-a6bc-1aeda79881c1)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/tokenizer_config.json
+Retrying in 4s [Retry 3/5].
+'(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/tokenizer_config.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 4768492a-7da5-4d56-9cfc-6e5ae0ffb109)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/tokenizer_config.json
+Retrying in 8s [Retry 4/5].
+'(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/tokenizer_config.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 6a4f18f0-09c8-47f1-9075-f46d79fe23b5)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/tokenizer_config.json
+Retrying in 8s [Retry 5/5].
+'(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/tokenizer_config.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: e5925444-d6c4-431e-a1f3-9dc64eba096c)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/tokenizer_config.json
+'(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/README.md (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 1f6d371c-ee00-41da-8ee5-8e9f70a0b975)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/README.md
+Retrying in 1s [Retry 1/5].
+'(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/README.md (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 8c7d9158-20d0-4676-9599-587f9a51560c)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/README.md
+Retrying in 2s [Retry 2/5].
+'(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/README.md (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: b7702bb3-d635-4335-9d0a-985fa94586ae)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/README.md
+Retrying in 4s [Retry 3/5].
+'(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/README.md (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: f353a38b-da06-4110-9a2b-cd0fdd05dc5e)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/README.md
+Retrying in 8s [Retry 4/5].
+'(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/README.md (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 549db186-39d3-4b38-b56b-abc3d8564b3f)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/README.md
+Retrying in 8s [Retry 5/5].
+'(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/README.md (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: e0f1e562-86c3-4e1a-af52-891d4422ce4a)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/README.md
+    → 87.13 sn
+
+[63] Soruluyor: x(t)=e^{-at}u(t) nedensel üstel işaretinin Fourier dönüşümü hangi koşul altında (Re{a}>0) X(jω)=1/(a+jω) olarak bulunur?
+'(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/config.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 49cef80c-7b43-4991-9ab2-a61ac76c91ce)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/config.json
+Retrying in 1s [Retry 1/5].
+'(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/config.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 5a9c2568-8c38-420b-bf42-f38de92ff779)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/config.json
+Retrying in 2s [Retry 2/5].
+'(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/config.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 7d730d94-b95c-4d19-b440-c278a5de57ae)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/config.json
+Retrying in 4s [Retry 3/5].
+'(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/config.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 7b61a7f4-7511-47a9-9fa1-a845a252dde9)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/config.json
+Retrying in 8s [Retry 4/5].
+    → 38.09 sn
+
+[64] Soruluyor: Analiz (analysis) ve sentez (synthesis) işlemleri Fourier dönüşümü bağlamında nasıl tanımlanmıştır?
+    → 17.23 sn
+
+[65] Soruluyor: F{1}=2πδ(ω) eşitliği hangi özellikten (Dirac delta'nın sifting property'si) yararlanılarak elde edilmiştir?
+    → 22.45 sn
+
+[66] Soruluyor: Bir x(t) işaretinin Fourier dönüşümünün var olabilmesi için gerekli üç koşuldan biri olan "mutlak integrallenebilirlik" ne anlama gelir?
+    → 17.15 sn
+
+[67] Soruluyor: cos(t), sin(t) ve u(t) işaretleri neden klasik Fourier dönüşüm koşullarını sağlamaz?
+    → 21.45 sn
+
+[68] Soruluyor: x(t) işaretinin Fourier dönüşümünün var olması için gereken üç koşulu (single-valued, piecewise continuous, absolutely integrable) birlikte açıklayınız.
+    → 17.75 sn
+
+[69] Soruluyor: rect(t/τ) işaretinin Fourier dönüşümünün sinc fonksiyonu ile ifade edilme süreci nasıl gerçekleşir?
+    → 20.62 sn
+
+[70] Soruluyor: cos(ω0t) işaretinin Fourier dönüşümünün π[δ(ω-ω0)+δ(ω+ω0)] biçiminde elde edilme adımları nelerdir?
+    → 23.37 sn
+
+[71] Soruluyor: Nedensel üstel işaretin Fourier dönüşümü türetilirken lim(t→∞) e^{-at}e^{-jωt} teriminin sıfıra gitmesi neden Re{a}>0 koşuluna bağlıdır?
+    → 24.43 sn
+
+[72] Soruluyor: X(jω)=1/(a+jω) ifadesinin genlik-faz (magnitude-phase) formu nasıl elde edilir?
+    → 22.05 sn
+
+[73] Soruluyor: Nedensel üstel işaretin Fourier dönüşümünün faz açısı ∠X(jω) hangi ifade ile hesaplanır?
+    → 19.87 sn
+
+[74] Soruluyor: Fourier dönüşümünün "memoryless", "causal" ve "linear" sistem özellikleriyle ilişkisi nasıl açıklanmıştır?
+    → 24.32 sn
+
+[75] Soruluyor: Fourier dönüşümünün bir işaret hakkında ne söylediği ve ne söylemediği (frekans içeriği vs. zaman bilgisi) nasıl özetlenmiştir?
+    → 23.26 sn
+
+[76] Soruluyor: Duallik (duality) özelliği ileri ve ters dönüşümlerin benzerliğinden nasıl yararlanmaktadır?
+    → 19.93 sn
+
+[77] Soruluyor: rect(t/τ)↔τsinc(ωτ/2) dönüşüm çiftine duallik uygulandığında hangi yeni dönüşüm çifti elde edilir?
+    → 23.76 sn
+
+[78] Soruluyor: Ölçekleme (scaling) özelliğine göre |a|>1 olduğunda zaman ve frekans eksenlerinde ne tür bir değişim meydana gelir?
+    → 24.53 sn
+
+[79] Soruluyor: Zaman ekseninde genişleme ile frekans ekseninde daralma (bant genişliği) arasındaki ters orantı nasıl açıklanmıştır?
+    → 25.4 sn
+
+[80] Soruluyor: Zamanda kaydırma (shifting in time) özelliğine göre bir işaretin gecikmesi Fourier dönüşümünün genliğini mi yoksa fazını mı etkiler?
+    → 24.2 sn
+
+[81] Soruluyor: Zamanda kaydırma özelliğinin ispatında u=t-t0 değişken dönüşümü nasıl kullanılmıştır?
+    → 18.94 sn
+
+[82] Soruluyor: Zamanda çarpımın frekansta konvolüsyona karşılık geldiği özellik hangi türetme ile gösterilmiştir?
+    → 18.65 sn
+
+[83] Soruluyor: Sinüzoidal genlik modülasyonunda (y(t)=f(t)cos(ω0t)) elde edilen Y(ω) ifadesi F(ω) cinsinden nasıl yazılır?
+    → 18.79 sn
+
+[84] Soruluyor: Sinüzoidal genlik modülasyonunda demodülasyon (f(t)'nin geri kazanılması) hangi iki adımdan oluşur?
+    → 18.73 sn
+
+[85] Soruluyor: Frekans-kaydırma özelliğine göre e^{jω0t}f(t) işaretinin Fourier dönüşümü F(ω) cinsinden nasıl ifade edilir?
+    → 17.56 sn
+
+[86] Soruluyor: cos(ω0t)f(t) işaretinin frekans-kaydırma özelliği kullanılarak elde edilen Fourier dönüşümü hangi iki terimin toplamı şeklindedir?
+    → 24.17 sn
+
+[87] Soruluyor: Nedensel üstel işaretin genlik yanıtı |X(jω)|=1/√(Re{a}²+(ω+Im{a})²) ifadesinde Re{a} ve Im{a} terimleri fiziksel olarak neyi temsil eder ve a=1 için genlik-faz grafiklerinin şekli nasıl yorumlanır?
+    → 22.92 sn
+
+[88] Soruluyor: F{1}=2πδ(ω) sonucunun elde edilme sürecinde ters Fourier dönüşümü tanımı ile sifting property arasındaki matematiksel bağlantı adım adım nasıl kurulmuştur?
+    → 25.69 sn
+
+[89] Soruluyor: Sinüzoidal genlik modülasyonu örneğinde ω1<<ω0 varsayımının demodülasyon sürecinde alçak geçiren filtreleme adımı için neden gerekli olduğunu, Y(ω) spektrumundaki F(ω-ω0) ve F(ω+ω0) bileşenlerinin konumu üzerinden açıklayınız.
+    → 21.68 sn
+
+[90] Soruluyor: Zamanda kaydırma özelliğinin türetmesinde elde edilen e^{-jωt0}F(ω) ifadesi ile frekans-kaydırma özelliğindeki e^{jω0t}f(t)↔F(ω-ω0) ifadesi arasındaki dualite ilişkisini, her iki türetmenin matematiksel adımlarını karşılaştırarak açıklayınız.
+[llm_client] Yabanci alfabe parcasi temizlendi (1671 -> 1296 karakter)
+    → 31.25 sn
+
+
+Tamamlandı. 30 soru test edildi.
+Sonuçlar: C:\Users\merve\Desktop\rag_project\experiments\madde30_sikilastirma\test_3\sonuclari.csv

@@ -1,0 +1,163 @@
+
+=== C:\Users\merve\Desktop\rag_project\evaluation\datasets\test_1.csv -> C:\Users\merve\Desktop\rag_project\experiments\madde30_sikilastirma\test_1\sonuclari.csv
+Model yükleniyor...
+[Foundry] Model yüklendi: qwen2.5-7b-instruct-cuda-gpu:4 | execution provider: CUDAExecutionProvider | cihaz: GPU
+[Foundry] Servis adresi: http://127.0.0.1:55895
+[Foundry] Serviste yüklü modeller: ['qwen2.5-7b-instruct-cuda-gpu:4']
+Model hazır.
+
+Soru seti: C:\Users\merve\Desktop\rag_project\evaluation\datasets\test_1.csv
+[1] Soruluyor: G4.1 dilbilgisinde VT kümesinin elemanları nelerdir?
+[retrieval] Cache yuklendi: 898 chunk, embedding matrisi (898, 1024)
+    → 63.95 sn
+
+[2] Soruluyor: Bağlamdan bağımsız dilbilgisinde P harfi neyi temsil eder?
+    → 0 sn
+
+[3] Soruluyor: Başlangıç değişkeni hangi sembolle gösterilir ve hangi kümenin elemanıdır?
+    → 0 sn
+
+[4] Soruluyor: VN ve VT kümeleri arasındaki ilişki nedir (ayrık mıdır kesişir mi)?
+    → 0 sn
+
+
+3 ardışık hata: #2 (Embedding olusturulamadi), #3 (Embedding olusturulamadi), #4 (Embedding olusturulamadi) — altyapı kontrolü gerekiyor, run durduruldu.
+4/30 soru işlendi; yarım sonuçlar: C:\Users\merve\Desktop\rag_project\experiments\madde30_sikilastirma\test_1\sonuclari.partial.csv
+
+=== C:\Users\merve\Desktop\rag_project\evaluation\datasets\test_1.csv -> C:\Users\merve\Desktop\rag_project\experiments\madde30_sikilastirma\test_1\sonuclari.csv
+Model yükleniyor...
+[Foundry] Model yüklendi: qwen2.5-7b-instruct-cuda-gpu:4 | execution provider: CUDAExecutionProvider | cihaz: GPU
+[Foundry] Servis adresi: http://127.0.0.1:54574
+[Foundry] Serviste yüklü modeller: ['qwen2.5-7b-instruct-cuda-gpu:4']
+Model hazır.
+
+Soru seti: C:\Users\merve\Desktop\rag_project\evaluation\datasets\test_1.csv
+[1] Soruluyor: G4.1 dilbilgisinde VT kümesinin elemanları nelerdir?
+[retrieval] Cache yuklendi: 898 chunk, embedding matrisi (898, 1024)
+    → 68.85 sn
+
+[2] Soruluyor: Bağlamdan bağımsız dilbilgisinde P harfi neyi temsil eder?
+    → 0 sn
+
+[3] Soruluyor: Başlangıç değişkeni hangi sembolle gösterilir ve hangi kümenin elemanıdır?
+    → 23.29 sn
+
+[4] Soruluyor: VN ve VT kümeleri arasındaki ilişki nedir (ayrık mıdır kesişir mi)?
+    → 30.82 sn
+
+[5] Soruluyor: Bir türetme ağacının kökünün etiketi ne olmalıdır?
+    → 21.14 sn
+
+[6] Soruluyor: G4.2 dilbilgisinin uç simgeler (VT) kümesi nelerdir?
+    → 25.5 sn
+
+[7] Soruluyor: G4.1 dilbilgisinde S=>S*S=>S*(S)=>S*(S-S)=>v*(S-S)=>v*(v-S)=>v*(v-c) türetmesi sonunda hangi tümce elde edilmiştir?
+[llm_client] Yabanci alfabe parcasi temizlendi (48 -> 44 karakter)
+    → 23.58 sn
+
+[8] Soruluyor: L(G4.2) dili nasıl tanımlanmıştır; n, m, p, k parametreleri arasındaki koşullar nelerdir?
+    → 31.72 sn
+
+[9] Soruluyor: G4.3 dilbilgisi tarafından türetilen L(G4.3) dilinin küme tanımını yazınız.
+    → 22.78 sn
+
+[10] Soruluyor: Soldan türetme ile sağdan türetme arasındaki temel fark nedir?
+    → 27.94 sn
+
+[11] Soruluyor: Bir dilin belirgin (unambiguous) olması ne anlama gelir?
+[llm_client] Yabanci alfabe parcasi temizlendi (261 -> 139 karakter)
+    → 38.73 sn
+
+[12] Soruluyor: Belirgin olmayan (ambiguous) dillerin uygulamada neden değeri olmadığı belirtilmiştir?
+    → 34.33 sn
+
+[13] Soruluyor: Türetme ağacında bir düğümün etiketi λ ise bu düğümle ilgili hangi koşullar sağlanmalıdır?
+    → 22.73 sn
+
+[14] Soruluyor: Bir A değişkeninin yararlı (useful) bir değişken olabilmesi için sağlaması gereken iki koşul nedir?
+    → 38.56 sn
+
+[15] Soruluyor: Yararsız simge (useless symbol) kavramı nasıl tanımlanmıştır?
+    → 26.73 sn
+
+[16] Soruluyor: Yararsız kural (useless rule) ne demektir?
+    → 23.3 sn
+
+[17] Soruluyor: Algoritma 4.5 hangi amaçla kullanılır ve sonucunda hangi küme elde edilir?
+    → 27.11 sn
+
+[18] Soruluyor: Algoritma 4.6 hangi amaçla kullanılır ve sonucunda hangi küme elde edilir?
+    → 26.19 sn
+
+[19] Soruluyor: G4.7 dilbilgisinde uç simge dizgisi türeten değişkenler kümesi (TD) nedir ve hangi değişkenler yararsız bulunur?
+    → 25.93 sn
+
+[20] Soruluyor: G'4.7 dilbilgisinde başlangıç değişkeninden ulaşılabilen değişkenler kümesi (TU) nedir?
+    → 32.07 sn
+
+[21] Soruluyor: G4.7'nin yalınlaştırılmış son hali olan G''4.7 dilbilgisinin kuralları nelerdir?
+    → 29.03 sn
+
+[22] Soruluyor: Dilbilgisinin yalınlaştırılması (yararsız öğelerin atılması) kaç adımda gerçekleştirilir ve bu adımlarda ne yapılır?
+    → 35.06 sn
+
+[23] Soruluyor: w1=(v+c)*(v-c) tümcesinin soldan türetilmesindeki ilk üç adımı yazınız.
+    → 26.95 sn
+
+[24] Soruluyor: G_S.4.2 dilbilgisinde L_S.4.2 dilinin küme tanımı nedir?
+    → 19.27 sn
+
+[25] Soruluyor: Örnek 6'daki G_S.4.6.1 dilbilgisinin türettiği dilin (L_S.4.6.1) küme tanımı nedir?
+    → 24.07 sn
+
+[26] Soruluyor: Örnek 5'teki G_4.5.1 dilbilgisinin kuralları, L_4.5.1={a^2k b^n c^2n d^k | k≥1, n≥1} dilini nasıl üretir?
+    → 29.33 sn
+
+[27] Soruluyor: G4.4 dilbilgisi tarafından türetilen L(G4.4) dili uv(v')^R u^R biçiminde tanımlanmıştır; u ve v üzerindeki kısıtlar nelerdir ve bu gösterim ne anlama gelir?
+    → 34.18 sn
+
+[28] Soruluyor: G_S.4.7.2 dilbilgisi L_S.4.7.2={a^n b^m c^k | n>0, m>0, k=2n+m} dilini nasıl üretir; S=>aAcc kuralının bu eşitlikteki rolü nedir?
+    → 28.45 sn
+
+[29] Soruluyor: Örnek 8'deki G_S.4.8.1 dilbilgisinin türettiği L_S.4.8.1 dilinde üs olarak neden 2k+1 kullanılmıştır; B=>bbBdd|C kuralı bunu nasıl sağlar?
+[llm_client] Yabanci alfabe parcasi temizlendi (347 -> 55 karakter)
+    → 32.93 sn
+
+[30] Soruluyor: G4.3 dilbilgisinde X=>aXbb|aZbb|abb ve Z=>Zb|Xb kuralları birlikte çalışarak L(G4.3)={a^n b^m c^k | n≥1, k≥1, m≥2n} koşulunu nasıl sağlar?
+    → 36.52 sn
+
+
+Tamamlandı. 30 soru test edildi.
+Sonuçlar: C:\Users\merve\Desktop\rag_project\experiments\madde30_sikilastirma\test_1\sonuclari.csv
+
+=== C:\Users\merve\Desktop\rag_project\experiments\madde30_sikilastirma\test_1\sorular_hata.csv -> C:\Users\merve\Desktop\rag_project\experiments\madde30_sikilastirma\test_1\hata_tekrar.csv
+Model yükleniyor...
+[Foundry] Model yüklendi: qwen2.5-7b-instruct-cuda-gpu:4 | execution provider: CUDAExecutionProvider | cihaz: GPU
+[Foundry] Servis adresi: http://127.0.0.1:54574
+[Foundry] Serviste yüklü modeller: ['qwen2.5-7b-instruct-cuda-gpu:4']
+Model hazır.
+
+Soru seti: C:\Users\merve\Desktop\rag_project\experiments\madde30_sikilastirma\test_1\sorular_hata.csv
+[2] Soruluyor: Bağlamdan bağımsız dilbilgisinde P harfi neyi temsil eder?
+[retrieval] Cache yuklendi: 898 chunk, embedding matrisi (898, 1024)
+    → 61.27 sn
+
+
+Tamamlandı. 1 soru test edildi.
+Sonuçlar: C:\Users\merve\Desktop\rag_project\experiments\madde30_sikilastirma\test_1\hata_tekrar.csv
+
+=== C:\Users\merve\Desktop\rag_project\experiments\madde30_sikilastirma\test_1\sorular_hata.csv -> C:\Users\merve\Desktop\rag_project\experiments\madde30_sikilastirma\test_1\hata_tekrar.csv
+Model yükleniyor...
+[Foundry] Model yüklendi: qwen2.5-7b-instruct-cuda-gpu:4 | execution provider: CUDAExecutionProvider | cihaz: GPU
+[Foundry] Servis adresi: http://127.0.0.1:55548
+[Foundry] Serviste yüklü modeller: ['qwen2.5-7b-instruct-cuda-gpu:4']
+Model hazır.
+
+Soru seti: C:\Users\merve\Desktop\rag_project\experiments\madde30_sikilastirma\test_1\sorular_hata.csv
+[2] Soruluyor: Bağlamdan bağımsız dilbilgisinde P harfi neyi temsil eder?
+[retrieval] Cache yuklendi: 898 chunk, embedding matrisi (898, 1024)
+    → 77.39 sn
+
+
+Tamamlandı. 1 soru test edildi.
+Sonuçlar: C:\Users\merve\Desktop\rag_project\experiments\madde30_sikilastirma\test_1\hata_tekrar.csv

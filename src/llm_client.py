@@ -760,17 +760,6 @@ def ask(llm, context, question, extra_instruction=None, debug=False):
         #
         # Son paragraf (uydurma yasagi) bu dengenin tasiyicisi; kaldirilirsa
         # FP tarafi korunmaz.
-        #
-        # (a2) MADDE 30 yeniden-test kolu (2026-11-01): madde 24 Adim 3'teki
-        # izole denemenin (#224/#101 anlamca rete donuyor, 4 alistirma TP'si
-        # FN oluyor) genellenmis hali. O denemedeki kural context'e enjekte
-        # edilen "[Not: gorev/alistirma...]" isaretine bagliydi; isaretleme
-        # ozelligi ayni gun geri alindigi icin (6bdc21e) bugun context'te boyle
-        # bir isaret yok ve kural isarete baglanirsa no-op kalirdi. Bu yuzden
-        # on kosul kaldirilip model dogrudan metni ayirt etmeye yonlendirildi:
-        # bir gorev/alistirma TANIMI (okuyucuya "...yapiniz/bulunuz/gosteriniz"
-        # diyen cumle), o islemi/yontemi ACIKCA ANLATAN baska bir parca yoksa,
-        # (a) dalini tetiklememeli.
         system_parts = [
             base_instruction,
             "ÖNCE şunu değerlendir: bağlamda soruyla ilgili HERHANGİ bir bilgi var mı?\n"
@@ -779,10 +768,6 @@ def ask(llm, context, question, extra_instruction=None, debug=False):
             "cevaplayabiliyorsan çıkarımını yap ve neye dayandığını belirt. "
             "Cevabın eksik ya da kısmi olması, cevap vermemenden İYİDİR. "
             "'Emin değilim' diye susma; bağlamda dayanak varken ret cümlesini KULLANMA.\n"
-            "(a2) İSTİSNA: bağlamdaki parça yalnızca okuyucuya bir görev/alıştırma "
-            "TANIMLIYORSA (örn. '...haline getiriniz', '...gösteriniz', '...bulunuz' gibi "
-            "bir ödev veriyorsa) ve o işlemi/yöntemi/kavramı AÇIKÇA ANLATAN başka bir parça "
-            "yoksa, bu görev tanımı sorunun cevabına kanıt SAYILMAZ; bu durumda (b)'yi uygula.\n"
             "(b) Bağlamda soruyla İLGİLİ HİÇBİR şey yoksa, cevabın TAMAMI tek bir cümle "
             f"olmalı: '{NOT_FOUND_ANSWER}' Bu cümleyi yazdıktan sonra ÜRETİMİ BİTİR; "
             "açıklama, genel/ansiklopedik bilgi, öneri ekleme.\n"

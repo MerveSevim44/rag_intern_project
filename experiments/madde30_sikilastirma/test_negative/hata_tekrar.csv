@@ -1,0 +1,136 @@
+id,zorluk,kategori,soru,beklenen_kaynak,dokumanda_var_mi,referans_cevap,cevap,bulunan_kaynaklar,sure_sn,context,dogrulama_durumu
+216,Negatif,Yakin-Gurultulu,728_profiles veri setinde profillerin kredi puanı (credit score) ortalaması kaçtır?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,Bu bilgi dokümanlarda bulunamadı.,728_profiles.json ($.statistics); 728_profiles.json ($.profiles[397]); 728_profiles.json ($.profiles[393]); 728_profiles.json ($.profiles[395]),363.27,"[1] Kaynak: 728_profiles.json, $.statistics
+profileCount: 728
+sectorCount: 22
+occupationCount: 91
+sectorDistribution.Ağız ve Diş Sağlığı: 32
+sectorDistribution.Beslenme ve Sağlıklı Yaşam: 32
+sectorDistribution.Dil Eğitimi: 32
+sectorDistribution.Etkinlik ve Organizasyon: 32
+sectorDistribution.Ev ve Yerinde Hizmet: 32
+sectorDistribution.Evcil Hayvan Hizmetleri: 32
+sectorDistribution.Eğitim ve Özel Ders: 40
+sectorDistribution.Fizyoterapi ve Rehabilitasyon: 32
+sectorDistribution.Güzellik ve Kişisel Bakım: 32
+sectorDistribution.Hukuk ve Mali Hizmetler: 32
+sectorDistribution.Kamu ve STK: 32
+sectorDistribution.Kreatif ve Tasarım: 32
+sectorDistribution.Kuaför ve Berber: 32
+sectorDistribution.Otomotiv: 32
+sectorDistribution.Psikoloji ve Danışmanlık: 32
+sectorDistribution.Sanat ve Hobi: 32
+sectorDistribution.Sağlık: 40
+sectorDistribution.Spor ve Fitness: 40
+sectorDistribution.Teknik Servis ve Bakım: 32
+sectorDistribution.Teknoloji ve Yazılım: 32
+sectorDistribution.İş ve Kariyer: 32
+sectorDistribution.İşe Alım ve Görüşme: 32
+
+[2] Kaynak: 728_profiles.json, $.profiles[397]
+profileCode: DB-MR88GBNQ
+synthetic: True
+profileType: individual
+displayName: Gökçe Efe
+professionalName: Gökçe Efe
+sector: Teknoloji ve Yazılım
+occupation: Veri Bilimi Danışmanı
+headline: Veri analitiği ve makine öğrenmesi proje danışmanlığı
+location.country: Türkiye
+location.city: Mersin
+location.district: Yenişehir
+location.serviceArea: Türkiye geneli (online)
+location.exactAddressPublic: False
+serviceModes[0]: Online
+services[0].name: Proje keşif görüşmesi
+services[0].durationMinutes: 45
+services[0].appointmentMode: Online
+services[1].name: Model değerlendirme
+services[1].durationMinutes: 45
+services[1].description: Model değerlendirme için önceden planlanan birebir randevu.
+services[1].appointmentMode: Online
+services[2].name: Veri stratejisi görüşmesi
+services[2].durationMinutes: 60
+services[2].appointmentMode: Online
+experience.years: 19
+experience.credentialSummary: Veri bilimi alanında eğitim ve deneyim
+languages[0]: Türkçe
+appointmentSettings.defaultDurationMinutes: 45
+appointmentSettings.minimumNoticeHours: 24
+appointmentSettings.cancellationNoticeHours: 6
+searchKeywords[4]: Veri Bilimi Danışmanı
+searchKeywords[5]: Veri stratejisi görüşmesi
+about: Yenişehir, Mersin merkezli olarak veri bilimi danışmanı alanında 19 yıldır çalışıyorum. Randevularımı düzenli, zamanında ve ihtiyaca göre yapılandırılmış şekilde yürütüyorum.
+services[2].description: Veri stratejisi görüşmesi için önceden planlanan birebir randevu. […kısaltıldı]
+
+[3] Kaynak: 728_profiles.json, $.profiles[393]
+profileCode: DB-GEUFBB5C
+synthetic: True
+profileType: individual
+displayName: Derya Karaca
+professionalName: Derya Karaca
+sector: Teknoloji ve Yazılım
+occupation: Veri Bilimi Danışmanı
+headline: Veri analitiği ve makine öğrenmesi proje danışmanlığı
+location.country: Türkiye
+location.city: Kayseri
+location.district: Talas
+location.serviceArea: Türkiye geneli (online)
+location.exactAddressPublic: False
+serviceModes[0]: Online
+services[0].name: Proje keşif görüşmesi
+services[0].durationMinutes: 90
+services[0].appointmentMode: Online
+services[1].name: Veri stratejisi görüşmesi
+services[1].durationMinutes: 60
+services[1].appointmentMode: Online
+services[2].name: Model değerlendirme
+services[2].durationMinutes: 45
+services[2].description: Model değerlendirme için önceden planlanan birebir randevu.
+services[2].appointmentMode: Online
+experience.years: 15
+experience.credentialSummary: Veri bilimi alanında eğitim ve deneyim
+languages[0]: Türkçe
+languages[1]: Rusça
+appointmentSettings.defaultDurationMinutes: 45
+appointmentSettings.minimumNoticeHours: 4
+appointmentSettings.cancellationNoticeHours: 4
+searchKeywords[5]: Veri Bilimi Danışmanı
+searchKeywords[6]: Veri stratejisi görüşmesi
+about: 15 yıllık deneyimimle veri bilimi danışmanı alanında bireysel hizmet sunuyorum. İlk görüşmede ihtiyacı değerlendiriyor, sonraki adımları açık ve planlı biçimde belirliyorum.
+services[1].description: Veri stratejisi görüşmesi için önceden planlanan birebir randevu. […kısaltıldı]
+
+[4] Kaynak: 728_profiles.json, $.profiles[395]
+profileCode: DB-D44RAXGA
+synthetic: True
+profileType: individual
+displayName: İlayda Aksoy
+professionalName: İlayda Aksoy
+sector: Teknoloji ve Yazılım
+occupation: Veri Bilimi Danışmanı
+headline: Veri analitiği ve makine öğrenmesi proje danışmanlığı
+location.country: Türkiye
+location.city: Kocaeli
+location.district: Kartepe
+location.serviceArea: Türkiye geneli (online)
+location.exactAddressPublic: False
+serviceModes[0]: Online
+services[0].name: Proje keşif görüşmesi
+services[0].durationMinutes: 60
+services[0].appointmentMode: Online
+services[1].name: Veri stratejisi görüşmesi
+services[1].durationMinutes: 90
+services[1].appointmentMode: Online
+services[2].name: Model değerlendirme
+services[2].durationMinutes: 90
+services[2].description: Model değerlendirme için önceden planlanan birebir randevu.
+services[2].appointmentMode: Online
+experience.years: 8
+experience.credentialSummary: Veri bilimi alanında eğitim ve deneyim
+languages[0]: Türkçe
+appointmentSettings.defaultDurationMinutes: 60
+appointmentSettings.minimumNoticeHours: 24
+appointmentSettings.cancellationNoticeHours: 12
+searchKeywords[5]: Veri Bilimi Danışmanı
+searchKeywords[6]: Veri stratejisi görüşmesi
+about: Kartepe, Kocaeli merkezli olarak veri bilimi danışmanı alanında 8 yıldır çalışıyorum. Randevularımı düzenli, zamanında ve ihtiyaca göre yapılandırılmış şekilde yürütüyorum.
+services[1].description: Veri stratejisi görüşmesi için önceden planlanan birebir randevu. […kısaltıldı]",

@@ -1387,6 +1387,37 @@ karşılaştırmasındaki v8 sayısıyla aynı düzeyde, kötüleşme yok. **Kar
 verilmedi** — bu yalnız bölümün istediği taze tam ölçüm; (a)/(b) dalı ayarı
 tartışmaya açılırsa bu sayılar taban olarak kullanılabilir.
 
+**(a2) denemesi — negatif sonuç (2026-11-02).** Madde 24 Adım 3'teki izole
+denemenin (bkz. yukarı) markörden bağımsız genelleştirilmiş hali
+[src/llm_client.py](../src/llm_client.py)'a eklendi: bağlamdaki bir parça
+yalnızca okuyucuya bir görev/alıştırma tanımlıyorsa ve konuyu açıkça anlatan
+başka bir parça yoksa, bu görev tanımının (a) dalını tetiklememesi istendi.
+Tüm setler taze tabanla (6c60f60) birebir aynı kapsamda yeniden koşuldu
+(`experiments/madde30_sikilastirma/`, commit `5764296`).
+
+Sonuç: **genel sayılar birebir aynı** (92 TP, 42 TN, 7 FN, 4 FP) — kazanç da
+kayıp da yok. **#224 ve #101 hâlâ FP**, cevapları öncekiyle aynı mantıkla
+üretiliyor (CNF dönüştürme adımlarını sayıyor). Neden: (a2)'nin koşulu
+("o işlemi AÇIKÇA ANLATAN başka bir parça yoksa") bu vakada sağlanmıyor —
+bağlamda CNF'ye yakın, gerçek bir açıklayıcı sayfa VAR (sayfa 18, "yararsız
+değişken/kural atma" adımı; bu paragrafın üstünde zaten teşhis edilen
+mekanizma). Yani sorun bir görev-tanımı cümlesini kanıt sayma değil,
+**alakalı ama yanlış bir açıklama sayfasının CNF sorusuna yanlış eşlenmesi**;
+(a2) bu mekanizmayı hedeflemiyordu, o yüzden hiç tetiklenmedi.
+
+İki soruda sınıf değişti ama her ikisi de (a2) ile ilgisiz: test_2#50 TP→FN
+(içerik aynı, cevaba eklenen bir kuyruk cümle ret kapısını tetiklemiş
+olabilir), test_3#90 FN→TP (bu soru madde 39'un kendi notunda zaten
+"açıklanamayan" bir nondeterminizm/bağlam kayması şüphesi olarak
+işaretliydi; bu koşuda test_2/test_3 Ollama'nın CPU'ya düştüğü sete denk
+geldi — madde 29'un embedding kayması olası açıklama).
+
+(a2) no-op olduğu için [src/llm_client.py](../src/llm_client.py)'dan geri
+alındı. Gerçek mekanizmayı (sayfa 18 yanlış eşlemesi) hedefleyen bir kural
+denenmek istenirse bu not başlangıç noktası olmalı; tek soruya göre değil,
+tam 32 negatif + FN tarafı birlikte ölçülmeli (bu bölümün yukarıdaki
+uyarısı hâlâ geçerli).
+
 ## Madde 31 — OCR'lı Cevap sayfalarının metin kalitesi
 
 Madde 22 Adım 3'te ortaya çıktı
