@@ -140,22 +140,56 @@ def test_altair_chart_generation():
     print("  [OK] Altair Bar ve Donut grafikleri hatasız oluşturuldu.")
 
 
+def test_sector_comparison_chart_from_fixed_dict():
+    """Sektör karşılaştırma sorgusunun grafiği (backlog madde 17).
+
+    "Psikoloji ... ve Ağız ve Diş Sağlığı ... 45 dk üzeri seans oranları karşılaştırması"
+    sorusunu karşılayan kural motoru kuralı (1B) 3f89ad9'da (2026-09-11) bilerek
+    silindi: karmaşık/çok koşullu sorgular artık execute_query() kapsamında değil,
+    code_interpreter kademesine gider. Bu yüzden grafik hattı, sandbox'ın dönebileceği
+    sabit bir sonuçla test edilir (LLM'siz). Değerler data/728_profiles.json'dan
+    hesaplandı: durationMinutes >= 45 olan hizmetlerin yüzdesi (Psikoloji 85/85,
+    Ağız ve Diş Sağlığı 44/79).
+    """
+    print("\n--- Test 9: Sektör Karşılaştırma Grafiği (sabit sandbox sonucu) ---")
+    q = "Psikoloji ve Danışmanlık ve Ağız ve Diş Sağlığı sektörlerindeki 45 dk üzeri seans oranları karşılaştırması"
+    data = {"Psikoloji ve Danışmanlık": 100.0, "Ağız ve Diş Sağlığı": 55.7}
+    chart_data = extract_chart_data(data, query=q)
+    assert chart_data is not None, "Sektör karşılaştırması için chart_data üretilemedi"
+    assert len(chart_data["df"]) == 2
+    assert chart_data["kpis"]["max_category"] == "Psikoloji ve Danışmanlık"
+    fig = create_plotly_figure(chart_data, chart_type=chart_data.get("default_chart_type", "bar"))
+    assert fig is not None
+    print(f"  [OK] Grafik: '{chart_data['title']}' ({len(chart_data['df'])} kategori)")
+
+
 def test_data_engine_end_to_end_visualization():
+    """Kural motoru (execute_query) -> görselleştirici. Kural motoru yalnız tekil/basit
+    sorguları karşılar; her sorgu için BEKLENEN kuralın (operation) çalıştığı da
+    doğrulanır (eskiden yalnız yazdırılıyordu, bu yüzden yanlış kural fark edilmedi).
+
+    Dışarıda bırakılanlar:
+    - "45 dk üzeri seans oranları" sorgusu: 1B kuralı silindi, bkz.
+      test_sector_comparison_chart_from_fixed_dict.
+    - "Türkçe dışında en sık geçen diller" sorgusu: kural motorunda alt dize eşleşmesi
+      yüzünden yanlış kurala (şehir) düşüyordu ("diller" ⊃ "iller"); düzeltme ve sorgunun
+      geri eklenmesi ayrı commit'te (backlog madde 17).
+    """
     print("\n--- Test 8: Data Engine -> Visualizer Uçtan Uca Entegrasyon Testi ---")
     engine = TabularDataEngine()
 
     queries = [
         ("Veri setinde en çok profile sahip ilk 3 şehir hangisidir?", "nunique_city_topn"),
-        ("profileType alanına göre kaç profil individual kaç profil business?", "profile_type_counts"),
-        ("serviceModes alanında Yerinde hizmet, Yüz yüze ve Online modlarının sayısal karşılaştırması nedir?", "service_modes_comparison"),
-        ("Psikoloji ve Danışmanlık ve Ağız ve Diş Sağlığı sektörlerindeki 45 dk üzeri seans oranları karşılaştırması", "service_duration_sector_comparison"),
+        ("profileType alanına göre kaç profil individual kaç profil business?", "value_counts_profiletype"),
+        ("serviceModes alanında Yerinde hizmet, Yüz yüze ve Online modlarının sayısal karşılaştırması nedir?", "explode_servicemodes"),
         ("Veri setindeki sektör dağılımı (sectorDistribution) nasıldır?", "meta_sector_distribution"),
-        ("Türkçe dışında en sık geçen diller hangileridir?", "explode_languages")
     ]
 
     for q, op_expected in queries:
         res = engine.execute_query(q)
         assert res is not None, f"Query sonuç üretmedi: {q}"
+        assert res.get("operation") == op_expected, (
+            f"Yanlış kural: beklenen {op_expected}, çalışan {res.get('operation')} | {q}")
         data_to_plot = res.get("data_points") or res.get("result")
         chart_data = extract_chart_data(data_to_plot, query=q, summary=res.get("summary", ""), operation=res.get("operation", ""))
         assert chart_data is not None, f"Sorgu için chart_data üretilemedi: {q}"

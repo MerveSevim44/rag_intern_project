@@ -826,8 +826,7 @@ Plan, ölçüm ve okuma kuralı:
 ## Madde 17 — Bilinen kırık test: `test_data_engine_end_to_end_visualization`
 
 Validator A (`10f5efc`) sırasında tam test paketi koşulurken fark edildi; o
-değişiklik geri alınınca da aynı şekilde kırık, yani **önceden var**. Ne zaman
-kırıldığı bilinmiyor (test dosyası `22028c4`'ten beri değişmedi).
+değişiklik geri alınınca da aynı şekilde kırık, yani **önceden var**.
 
 Hata:
 
@@ -836,15 +835,42 @@ AssertionError: Sorgu için chart_data üretilemedi: Psikoloji ve Danışmanlık
 Ağız ve Diş Sağlığı sektörlerindeki 45 dk üzeri seans oranları karşılaştırması
 ```
 
-Kök neden testte değil, rule engine'de: soru beklenen
-`service_duration_sector_comparison` kuralı yerine `filtered_count_sector`
-kuralına eşleşiyor ve yalnızca `{'sector': 'Ağız ve Diş Sağlığı', 'count': 32}`
-dönüyor. Tek veri noktasıyla grafik çizilemediği için `chart_data` None.
-Kullanıcı açısından bu bir **yanlış cevap**: iki sektörün 45 dk üzeri seans
-oranı sorulmuş, bir sektörün toplam profil sayısı veriliyor.
+### Teşhis (2026-11-04) — ilk kaydın bazı iddiaları düzeltildi
+- **Ne zaman kırıldı:** `3f89ad9` (2026-09-11, "refactor: optimize dataset loading…").
+  Sorgunun karşılandığı kural (1B "hizmet süresi ve sektör karşılaştırması") 1A, 1C, 1D ile
+  birlikte **bilerek silindi**: karmaşık/çok koşullu sorgular artık `execute_query()`
+  kapsamında değil, `code_interpreter` kademesine gider (`data_engine.py` belge notu).
+  Test (`e75654c`) o kural varken yazılmıştı ve güncellenmedi.
+- **Kök neden iki katmanlı:** (1) **eskimiş test** — silinen kuralı bekliyor; ayrıca beklenen
+  `operation` adı hiçbir yerde assert edilmiyordu, yalnız yazdırılıyordu (6 sorgudan ikisinde
+  adlar eskimişti, biri — "Türkçe dışında en sık geçen diller" — yanlış kurala, şehir kuralına,
+  düşüp yine de "geçiyordu"); (2) **aşırı geniş alt dize eşleşmesi** — soru, kural 2D'ye
+  (`filtered_count_sector`) düşüyor: `"sektor" in q_norm` ("sektörlerindeki" de uyar), sonra
+  sektör adlarından sorguda geçen İLKİNİ sayıyor; iki sektörün, eşiğin, "oran/karşılaştırma"nın
+  varlığı denetlenmiyor → `{'sector': 'Ağız ve Diş Sağlığı', 'count': 32}`, tek veri noktası,
+  `chart_data` None. Aynı sınıf: 2H'deki `"iller" in q_norm` "dil**ler**"i ve "profil**ler**"i
+  yakalıyor (147 sorunun 17'sinde alt dize eşleşir, kelime sınırıyla 0).
+- **Düzeltilen iddia:** ilk kayıt bunu "kullanıcı açısından **yanlış cevap**" diye yazmıştı.
+  **Üretimde ulaşılamıyor:** `execute_smart_query` kural motorunu yalnızca rota `rule_engine`
+  ise çalıştırır; router bu rotayı yalnızca **3 sabit, çapalı cümleye** verir
+  (`SIMPLE_RULE_PATTERNS`: toplam profil sayısı, kaç farklı sektör, kaç farklı meslek). 147
+  benchmark sorusunun hiçbiri `rule_engine` rotasına gitmiyor (121 semantic_rag, 26
+  code_interpreter); bu sorunun rotası `code_interpreter`. `execute_query`'yi doğrudan çağırınca
+  27 soruya anlamsız bir kural uyar, ama bu yol yalnız testte ve `__main__` demosunda var.
+  Etki: CI güveni ve kodun gelecekteki kullanımı, kullanıcı cevabı değil.
 
-Kural: tam paket koşulduğunda bu tek hata beklenen durumdur; başka bir
-kırmızı test yeni bir regresyondur. Düzeltilince bu madde kapatılmalı.
+### Durum
+1. **Test düzeltildi (A):** sektör karşılaştırma sorgusu rule-engine testinden çıktı; grafik hattı
+   sabit sandbox sonucuyla ayrıca test ediliyor (`test_sector_comparison_chart_from_fixed_dict`);
+   `operation` adları güncellendi ve **assert ediliyor**. "Diller" sorgusu bilerek testten
+   çıkarıldı (yanlış kuralla geçiyordu), 2. adımda geri eklenecek.
+2. **Alt dize eşleşmeleri (C + 2G):** ayrı commit, yapılacak.
+3. **2D koruması (B):** ayrı commit; önce test_2 #52'nin 2D'ye gerçekten bağımlı olup olmadığı
+   doğrulanacak.
+4. **Ertelendi (D):** "ölü kuralları buda / `execute_query`'yi router desenlerine bağla"
+   seçeneği ertelendi, öncelik verilmedi. Gerekçe: üretimde yalnız 3 cümle rule_engine'e
+   gidiyor, 2A–2H'nin çoğu fiilen ölü; ama router desenleri genişlerse yeniden canlanırlar —
+   ayrı, daha büyük bir karar.
 
 ## Madde 18 — Semantik doğrulayıcının gevşekliği ("emin değilsen TAMAM")
 
