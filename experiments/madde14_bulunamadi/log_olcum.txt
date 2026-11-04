@@ -1,0 +1,26 @@
+[retrieval] Cache yuklendi: 898 chunk, embedding matrisi (898, 1024)
+[Foundry] Model yüklendi: qwen2.5-7b-instruct-cuda-gpu:4 | execution provider: CUDAExecutionProvider | cihaz: GPU
+[Foundry] Servis adresi: http://127.0.0.1:63146
+[Foundry] Serviste yüklü modeller: ['qwen2.5-7b-instruct-cuda-gpu:4']
+D1 yok (semantik RAG, alakasız bağlam) [1] kırpma çağrıldı: True | girdi: 'Bu bilgi dokümanlarda bulunamadı.'
+   KULLANICIYA GİDEN: 'Bu bilgi dokümanlarda bulunamadı.'
+D1 yok (semantik RAG, alakasız bağlam) [2] kırpma çağrıldı: True | girdi: 'Bu bilgi dokümanlarda bulunamadı.'
+   KULLANICIYA GİDEN: 'Bu bilgi dokümanlarda bulunamadı.'
+D2 filtre 0 satır [1] kırpma çağrıldı: False | girdi: None
+   KULLANICIYA GİDEN: 'Bu bilgi dokümanlarda bulunamadı; belirtilen koşullara uyan kayıt yok.'
+D2 filtre 0 satır [2] kırpma çağrıldı: False | girdi: None
+   KULLANICIYA GİDEN: 'Bu bilgi dokümanlarda bulunamadı; belirtilen koşullara uyan kayıt yok.'
+D3 doğrulanamadı [1] kırpma çağrıldı: False | girdi: None
+   KULLANICIYA GİDEN: 'Bu bilgi dokümanlarda bulunamadı; sonuç doğrulanamadığı için aktarılmadı.'
+D3 doğrulanamadı [2] kırpma çağrıldı: False | girdi: None
+   KULLANICIYA GİDEN: 'Bu bilgi dokümanlarda bulunamadı; sonuç doğrulanamadığı için aktarılmadı.'
+D4 işlenemedi (service_failure) [1] kırpma çağrıldı: False | girdi: None
+   KULLANICIYA GİDEN: 'Bu bilgi dokümanlarda bulunamadı; soru şu an işlenemedi, tekrar denenebilir.'
+D4 işlenemedi (service_failure) [2] kırpma çağrıldı: False | girdi: None
+   KULLANICIYA GİDEN: 'Bu bilgi dokümanlarda bulunamadı; soru şu an işlenemedi, tekrar denenebilir.'
+
+KULLANICIYA GİDEN FARKLI SON CÜMLELER:
+  ['D1'] -> 'Bu bilgi dokümanlarda bulunamadı.'
+  ['D2'] -> 'Bu bilgi dokümanlarda bulunamadı; belirtilen koşullara uyan kayıt yok.'
+  ['D3'] -> 'Bu bilgi dokümanlarda bulunamadı; sonuç doğrulanamadığı için aktarılmadı.'
+  ['D4'] -> 'Bu bilgi dokümanlarda bulunamadı; soru şu an işlenemedi, tekrar denenebilir.'

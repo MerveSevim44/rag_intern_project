@@ -1,0 +1,158 @@
+[Foundry] Model yüklendi: qwen2.5-7b-instruct-cuda-gpu:4 | execution provider: CUDAExecutionProvider | cihaz: GPU
+[Foundry] Servis adresi: http://127.0.0.1:63146
+[Foundry] Serviste yüklü modeller: ['qwen2.5-7b-instruct-cuda-gpu:4']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'experience.years', 'experience.credentialSummary~experience', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['experience.years'].mean()
+[CodeInterpreter] Basarili! Cikti: 11.998626373626374
+[llm_client] Para birimi duzeltildi: 'TL' -> '(kaldirildi)'
+#A1 kontrol[1] bozuk_kod_cagrisi=0 sinif=(GT=11.9986)
+   kaynaklar: 728_profiles.json (code_interpreter (code_interpreter_sandbox))
+   CEVAP: '728_profiles.json veri setinde profillerin ortalama deneyim yılı 11.998626373626374 tutar.'
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'experience.years', 'experience.credentialSummary~experience', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['experience.years'].mean()
+[CodeInterpreter] Basarili! Cikti: 11.998626373626374
+[llm_client] Para birimi duzeltildi: 'TL' -> '(kaldirildi)'
+#A1 kontrol[2] bozuk_kod_cagrisi=0 sinif=(GT=11.9986)
+   kaynaklar: 728_profiles.json (code_interpreter (code_interpreter_sandbox))
+   CEVAP: '728_profiles.json veri setinde profillerin ortalama deneyim yılı 11.998626373626374 tutar.'
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'experience.years', 'experience.credentialSummary~experience', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (1. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] Deneme 2/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (2. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] Deneme 3/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (3. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] 3 deneme basarisiz oldu. Son hata: KeyError: 'olmayan_sutun'
+[retrieval] Cache yuklendi: 898 chunk, embedding matrisi (898, 1024)
+#A1 D5[1] bozuk_kod_cagrisi=3 sinif=(GT=11.9986)
+   kaynaklar: 728_profiles.json ($.statistics); 728_profiles.json ($.profiles[397]); 728_profiles.json ($.profiles[396]); 728_profiles.json ($.profiles[394])
+   CEVAP: "728_profilerin ortalama deneyim yılı, verilen profillerin deneyim yıllarının ortalaması olarak hesaplanabilir. Verilen profillerde toplam deneyim yıl sayısı 19 + 13 + 12 = 44'tür. Toplam profil sayısının yarısına (728/2 = 364) bu toplam deneyim yıl sayısını böldüğümüzde ortalama deneyim yılı 44/364 "
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'experience.years', 'experience.credentialSummary~experience', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (1. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] Deneme 2/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (2. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] Deneme 3/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (3. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] 3 deneme basarisiz oldu. Son hata: KeyError: 'olmayan_sutun'
+#A1 D5[2] bozuk_kod_cagrisi=3 sinif=(GT=11.9986)
+   kaynaklar: 728_profiles.json ($.statistics); 728_profiles.json ($.profiles[397]); 728_profiles.json ($.profiles[396]); 728_profiles.json ($.profiles[394])
+   CEVAP: "728_profilerin ortalama deneyim yılı, verilen profillerin deneyim yıllarının ortalaması olarak hesaplanabilir. Verilen profillerde toplam deneyim yıl sayısı 19 + 13 + 12 = 44'tür. Toplam profil sayısının yarısına (728/2 = 364) bu toplam deneyim yıl sayısını böldüğümüzde ortalama deneyim yılı 44/364 "
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df[df['profileType'] == 'business'].shape[0]
+[CodeInterpreter] Basarili! Cikti: 129
+#A2 kontrol[1] bozuk_kod_cagrisi=0 sinif=(GT=129)
+   kaynaklar: 728_profiles.json (code_interpreter (code_interpreter_sandbox))
+   CEVAP: '728_profiles.json veri setinde 129 profil business türündedir.'
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df[df['profileType'] == 'business'].shape[0]
+[CodeInterpreter] Basarili! Cikti: 129
+#A2 kontrol[2] bozuk_kod_cagrisi=0 sinif=(GT=129)
+   kaynaklar: 728_profiles.json (code_interpreter (code_interpreter_sandbox))
+   CEVAP: '728_profiles.json veri setinde 129 profil business türündedir.'
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (1. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] Deneme 2/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (2. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] Deneme 3/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (3. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] 3 deneme basarisiz oldu. Son hata: KeyError: 'olmayan_sutun'
+#A2 D5[1] bozuk_kod_cagrisi=3 sinif=(GT=129)
+   kaynaklar: 728_profiles.json ($.statistics); 728_profiles.json ($.sourceReference); 728_profiles.json ($.profiles[393]); 728_profiles.json ($.profiles[395])
+   CEVAP: 'Bu bilgi dokümanlarda bulunamadı.'
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (1. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] Deneme 2/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (2. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] Deneme 3/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (3. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] 3 deneme basarisiz oldu. Son hata: KeyError: 'olmayan_sutun'
+#A2 D5[2] bozuk_kod_cagrisi=3 sinif=(GT=129)
+   kaynaklar: 728_profiles.json ($.statistics); 728_profiles.json ($.sourceReference); 728_profiles.json ($.profiles[393]); 728_profiles.json ($.profiles[395])
+   CEVAP: 'Bu bilgi dokümanlarda bulunamadı.'
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=5.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'appointmentSettings.minimumNoticeHours~minimumNoticeHours', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['appointmentSettings.minimumNoticeHours'].mean()
+[CodeInterpreter] Basarili! Cikti: 9.75
+[llm_client] Para birimi duzeltildi: 'TL' -> '(kaldirildi)'
+#A3 kontrol[1] bozuk_kod_cagrisi=0 sinif=(GT=9.75)
+   kaynaklar: 728_profiles.json (code_interpreter (code_interpreter_sandbox))
+   CEVAP: '9.75'
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=5.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'appointmentSettings.minimumNoticeHours~minimumNoticeHours', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['appointmentSettings.minimumNoticeHours'].mean()
+[CodeInterpreter] Basarili! Cikti: 9.75
+[llm_client] Para birimi duzeltildi: 'TL' -> '(kaldirildi)'
+#A3 kontrol[2] bozuk_kod_cagrisi=0 sinif=(GT=9.75)
+   kaynaklar: 728_profiles.json (code_interpreter (code_interpreter_sandbox))
+   CEVAP: '9.75'
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=5.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'appointmentSettings.minimumNoticeHours~minimumNoticeHours', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (1. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] Deneme 2/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (2. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] Deneme 3/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (3. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] 3 deneme basarisiz oldu. Son hata: KeyError: 'olmayan_sutun'
+#A3 D5[1] bozuk_kod_cagrisi=3 sinif=(GT=9.75)
+   kaynaklar: 728_profiles.json ($.profiles[397]); 728_profiles.json ($.profiles[392]); 728_profiles.json ($.profiles[393]); 728_profiles.json ($.profiles[395])
+   CEVAP: '24'
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=5.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'appointmentSettings.minimumNoticeHours~minimumNoticeHours', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (1. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] Deneme 2/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (2. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] Deneme 3/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (3. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] 3 deneme basarisiz oldu. Son hata: KeyError: 'olmayan_sutun'
+#A3 D5[2] bozuk_kod_cagrisi=3 sinif=(GT=9.75)
+   kaynaklar: 728_profiles.json ($.profiles[397]); 728_profiles.json ($.profiles[392]); 728_profiles.json ($.profiles[393]); 728_profiles.json ($.profiles[395])
+   CEVAP: '24'

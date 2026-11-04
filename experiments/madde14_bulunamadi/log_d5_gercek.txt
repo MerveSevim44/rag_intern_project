@@ -1,0 +1,284 @@
+[Foundry] Model yüklendi: qwen2.5-7b-instruct-cuda-gpu:4 | execution provider: CUDAExecutionProvider | cihaz: GPU
+[Foundry] Servis adresi: http://127.0.0.1:63146
+[Foundry] Serviste yüklü modeller: ['qwen2.5-7b-instruct-cuda-gpu:4']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode~profile', 'profileType~profile', 'sector', 'occupation', 'profileMedia.avatarUrl~profile', 'profileMedia.coverImageUrl~profile']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = {
+    'profileCount': df['profileType'].count(),
+    'sectorCount': df['sector'].nunique(),
+    'occupationCount': df['occupation'].nunique()
+}
+[CodeInterpreter] Basarili! Cikti: {'profileCount': np.int64(728), 'sectorCount': 22, 'occupationCount': 91}
+[llm_client] Para birimi duzeltildi: 'TL' -> '(kaldirildi)'
+#32 kontrol[1] bozuk_kod_cagrisi=0 sinif=TP
+   kaynaklar: 728_profiles.json (code_interpreter (code_interpreter_sandbox))
+   CEVAP: 'Veri setinde toplam 728 profil, 22 sektör ve 91 meslek bulunmaktadır.'
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode~profile', 'profileType~profile', 'sector', 'occupation', 'profileMedia.avatarUrl~profile', 'profileMedia.coverImageUrl~profile']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = {
+    'profileCount': df['profileType'].count(),
+    'sectorCount': df['sector'].nunique(),
+    'occupationCount': df['occupation'].nunique()
+}
+[CodeInterpreter] Basarili! Cikti: {'profileCount': np.int64(728), 'sectorCount': 22, 'occupationCount': 91}
+[llm_client] Para birimi duzeltildi: 'TL' -> '(kaldirildi)'
+#32 kontrol[2] bozuk_kod_cagrisi=0 sinif=TP
+   kaynaklar: 728_profiles.json (code_interpreter (code_interpreter_sandbox))
+   CEVAP: 'Veri setinde toplam 728 profil, 22 sektör ve 91 meslek bulunmaktadır.'
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode~profile', 'profileType~profile', 'sector', 'occupation', 'profileMedia.avatarUrl~profile', 'profileMedia.coverImageUrl~profile']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (1. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] Deneme 2/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (2. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] Deneme 3/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (3. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] 3 deneme basarisiz oldu. Son hata: KeyError: 'olmayan_sutun'
+[retrieval] Cache yuklendi: 898 chunk, embedding matrisi (898, 1024)
+#32 D5[1] bozuk_kod_cagrisi=3 sinif=TP
+   kaynaklar: 728_profiles.json ($.statistics); 728_profiles.json ($.fieldGuide); 728_profiles.json ($.profiles[397]); 728_profiles.json ($.profiles[393])
+   CEVAP: 'Toplam 728 profil, 22 sektör ve 91 meslek bulunmaktadır.'
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode~profile', 'profileType~profile', 'sector', 'occupation', 'profileMedia.avatarUrl~profile', 'profileMedia.coverImageUrl~profile']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (1. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] Deneme 2/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (2. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] Deneme 3/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (3. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] 3 deneme basarisiz oldu. Son hata: KeyError: 'olmayan_sutun'
+#32 D5[2] bozuk_kod_cagrisi=3 sinif=TP
+   kaynaklar: 728_profiles.json ($.statistics); 728_profiles.json ($.fieldGuide); 728_profiles.json ($.profiles[397]); 728_profiles.json ($.profiles[393])
+   CEVAP: 'Toplam 728 profil, 22 sektör ve 91 meslek bulunmaktadır.'
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=10.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'location.exactAddressPublic~Public', 'publicContact.phoneVisible~phoneVisible', 'publicContact.emailVisible~emailVisible', 'publicContact.phone~public']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df[['publicContact.phoneVisible', 'publicContact.emailVisible']].value_counts().to_dict()
+[CodeInterpreter] Basarili! Cikti: {(False, False): 728}
+#35 kontrol[1] bozuk_kod_cagrisi=0 sinif=TP
+   kaynaklar: 728_profiles.json (code_interpreter (code_interpreter_sandbox))
+   CEVAP: "PublicContact alanındaki (phoneVisible, emailVisible) değerleri, örnek profillerde genellikle (False, False) olarak ayarlanmıştır ve bu durum %72,8'lük oranla gözlemlenebilir."
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=10.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'location.exactAddressPublic~Public', 'publicContact.phoneVisible~phoneVisible', 'publicContact.emailVisible~emailVisible', 'publicContact.phone~public']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df[['publicContact.phoneVisible', 'publicContact.emailVisible']].value_counts().to_dict()
+[CodeInterpreter] Basarili! Cikti: {(False, False): 728}
+#35 kontrol[2] bozuk_kod_cagrisi=0 sinif=TP
+   kaynaklar: 728_profiles.json (code_interpreter (code_interpreter_sandbox))
+   CEVAP: "PublicContact alanındaki (phoneVisible, emailVisible) değerleri, örnek profillerde genellikle (False, False) olarak ayarlanmıştır ve bu durum %72,8'lük oranla gözlemlenebilir."
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=10.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'location.exactAddressPublic~Public', 'publicContact.phoneVisible~phoneVisible', 'publicContact.emailVisible~emailVisible', 'publicContact.phone~public']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (1. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] Deneme 2/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (2. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] Deneme 3/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (3. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] 3 deneme basarisiz oldu. Son hata: KeyError: 'olmayan_sutun'
+#35 D5[1] bozuk_kod_cagrisi=3 sinif=TP
+   kaynaklar: 728_profiles.json ($.profiles[439]); 728_profiles.json ($.profiles[418]); 728_profiles.json ($.profiles[277]); 728_profiles.json ($.profiles[283])
+   CEVAP: 'PublicContact alanındaki phoneVisible ve emailVisible değerleri genellikle false olarak ayarlanmıştır. Bu, kullanıcıların kişisel bilgilerini korumak için telefon numarasının ve e-posta adresinin genel olarak görünmemesi anlamına gelir.'
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=10.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'location.exactAddressPublic~Public', 'publicContact.phoneVisible~phoneVisible', 'publicContact.emailVisible~emailVisible', 'publicContact.phone~public']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (1. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] Deneme 2/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (2. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] Deneme 3/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (3. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] 3 deneme basarisiz oldu. Son hata: KeyError: 'olmayan_sutun'
+#35 D5[2] bozuk_kod_cagrisi=3 sinif=TP
+   kaynaklar: 728_profiles.json ($.profiles[439]); 728_profiles.json ($.profiles[418]); 728_profiles.json ($.profiles[277]); 728_profiles.json ($.profiles[283])
+   CEVAP: 'PublicContact alanındaki phoneVisible ve emailVisible değerleri genellikle false olarak ayarlanmıştır. Bu, kullanıcıların kişisel bilgilerini korumak için telefon numarasının ve e-posta adresinin genel olarak görünmemesi anlamına gelir.'
+[data_engine] route=code_interpreter (dataset_signal+interrogative) | dataset=728_profiles.json (score=7.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'serviceModes~service', 'services', 'location.serviceArea~service', 'profileMedia.avatarUrl~profil']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+# Umut Aslan profilini filtrele
+mutum_aslan_profile = df[df['displayName'] == 'Umut Aslan']
+
+# services sütununu JSON formatından listeye dönüştür
+services_list = mutum_aslan_profile['services'].iloc[0]
+
+# Online ve Yüz yüze hizmetleri ayırt et
+online_services = [service for service in services_list if service['appointmentMode'] == 'Online']
+face_to_face_services = [service for service in services_list if service['appointmentMode'] == 'Yüz yüze']
+
+# Sonuçları sözlük olarak döndür
+result = {
+    'Online Services': online_services,
+    'Face to Face Services': face_to_face_services
+}
+[CodeInterpreter] Basarili! Cikti: {'Online Services': [{'name': 'Gelişim görüşmesi', 'durationMinutes': 60, 'description': 'Gelişim görüşmesi için önceden planlanan birebir randevu.', 'appointmentMode': 'Online'}, {'name': 'Yetkinlik değerlendirme', 'durationMinutes': 30, 'description': 'Yetkinlik değerlendirme için önceden planlanan birebir randevu.', 'appointmentMode': 'Online'}], 'Face to Face Services': [{'name': 'Kariyer görüşmesi', 'durationMinutes': 30, 'description': 'Kariyer görüşmesi için önceden planlanan birebir randevu.', 'appointmentMode': 'Yüz yüze'}]}
+#39 kontrol[1] bozuk_kod_cagrisi=0 sinif=TP
+   kaynaklar: 728_profiles.json (code_interpreter (code_interpreter_sandbox))
+   CEVAP: 'Umut Aslan profilinde services dizisindeki hizmetlerin modu şu şekildedir: Online hizmetler: Gelişim görüşmesi (60 dk), Yetkinlik değerlendirme (30 dk). Yüz yüze hizmet: Kariyer görüşmesi (30 dk).'
+[data_engine] route=code_interpreter (dataset_signal+interrogative) | dataset=728_profiles.json (score=7.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'serviceModes~service', 'services', 'location.serviceArea~service', 'profileMedia.avatarUrl~profil']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+# Umut Aslan profilini filtrele
+mutum_aslan_profile = df[df['displayName'] == 'Umut Aslan']
+
+# services sütununu JSON formatından listeye dönüştür
+services_list = mutum_aslan_profile['services'].iloc[0]
+
+# Online ve Yüz yüze hizmetleri ayırt et
+online_services = [service for service in services_list if service['appointmentMode'] == 'Online']
+face_to_face_services = [service for service in services_list if service['appointmentMode'] == 'Yüz yüze']
+
+# Sonuçları sözlük olarak döndür
+result = {
+    'Online Services': online_services,
+    'Face to Face Services': face_to_face_services
+}
+[CodeInterpreter] Basarili! Cikti: {'Online Services': [{'name': 'Gelişim görüşmesi', 'durationMinutes': 60, 'description': 'Gelişim görüşmesi için önceden planlanan birebir randevu.', 'appointmentMode': 'Online'}, {'name': 'Yetkinlik değerlendirme', 'durationMinutes': 30, 'description': 'Yetkinlik değerlendirme için önceden planlanan birebir randevu.', 'appointmentMode': 'Online'}], 'Face to Face Services': [{'name': 'Kariyer görüşmesi', 'durationMinutes': 30, 'description': 'Kariyer görüşmesi için önceden planlanan birebir randevu.', 'appointmentMode': 'Yüz yüze'}]}
+#39 kontrol[2] bozuk_kod_cagrisi=0 sinif=TP
+   kaynaklar: 728_profiles.json (code_interpreter (code_interpreter_sandbox))
+   CEVAP: 'Umut Aslan profilinde services dizisindeki hizmetlerin modu şu şekildedir: Online hizmetler: Gelişim görüşmesi (60 dk), Yetkinlik değerlendirme (30 dk). Yüz yüze hizmet: Kariyer görüşmesi (30 dk).'
+[data_engine] route=code_interpreter (dataset_signal+interrogative) | dataset=728_profiles.json (score=7.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'serviceModes~service', 'services', 'location.serviceArea~service', 'profileMedia.avatarUrl~profil']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (1. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] Deneme 2/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (2. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] Deneme 3/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (3. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] 3 deneme basarisiz oldu. Son hata: KeyError: 'olmayan_sutun'
+#39 D5[1] bozuk_kod_cagrisi=3 sinif=TP
+   kaynaklar: 728_profiles.json ($.profiles[726]); 728_profiles.json ($.profiles[95]); 728_profiles.json ($.profiles[477]); 728_profiles.json ($.profiles[93])
+   CEVAP: 'Umut Aslan profilinde services dizisindeki hizmetlerden Gelişim görüşmesi ve Yetkinlik değerlendirme Online modda sunulurken, Kariyer görüşmesi Yüz yüze modda sunulur.'
+[data_engine] route=code_interpreter (dataset_signal+interrogative) | dataset=728_profiles.json (score=7.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'serviceModes~service', 'services', 'location.serviceArea~service', 'profileMedia.avatarUrl~profil']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (1. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] Deneme 2/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (2. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] Deneme 3/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (3. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] 3 deneme basarisiz oldu. Son hata: KeyError: 'olmayan_sutun'
+#39 D5[2] bozuk_kod_cagrisi=3 sinif=TP
+   kaynaklar: 728_profiles.json ($.profiles[726]); 728_profiles.json ($.profiles[95]); 728_profiles.json ($.profiles[477]); 728_profiles.json ($.profiles[93])
+   CEVAP: 'Umut Aslan profilinde services dizisindeki hizmetlerden Gelişim görüşmesi ve Yetkinlik değerlendirme Online modda sunulurken, Kariyer görüşmesi Yüz yüze modda sunulur.'
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'appointmentSettings.minimumNoticeHours~minimum', 'appointmentSettings.cancellationNoticeHours~cancellationNoticeHours', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+# Emre Korkmaz ve Umut Aslan profillerini filtreleyelim
+emre_profile = df[df['displayName'] == 'Emre Korkmaz']
+umut_profile = df[df['displayName'] == 'Umut Aslan']
+
+# Minimum Notice Hours ve Cancellation Notice Hours değerlerini alalım
+emre_values = {
+    'Minimum Notice Hours': emre_profile['appointmentSettings.minimumNoticeHours'].values[0],
+    'Cancellation Notice Hours': emre_profile['appointmentSettings.cancellationNoticeHours'].values[0]
+}
+
+umut_values = {
+    'Minimum Notice Hours': umut_profile['appointmentSettings.minimumNoticeHours'].values[0],
+    'Cancellation Notice Hours': umut_profile['appointmentSettings.cancellationNoticeHours'].values[0]
+}
+
+# Farkları hesaplayalım
+result = {
+    'Emre Korkmaz': emre_values,
+    'Umut Aslan': umut_values,
+    'Fark Minimum Notice Hours': emre_values['Minimum Notice Hours'] - umut_values['Minimum Notice Hours'],
+    'Fark Cancellation Notice Hours': emre_values['Cancellation Notice Hours'] - umut_values['Cancellation Notice Hours']
+}
+[CodeInterpreter] Basarili! Cikti: {'Emre Korkmaz': {'Minimum Notice Hours': np.int64(6), 'Cancellation Notice Hours': np.int64(24)}, 'Umut Aslan': {'Minimum Notice Hours': np.int64(4), 'Cancellation Notice Hours': np.int64(24)}, 'Fark Minimum Notice Hours': np.int64(2), 'Fark Cancellation Notice Hours': np.int64(0)}
+#42 kontrol[1] bozuk_kod_cagrisi=0 sinif=TP
+   kaynaklar: 728_profiles.json (code_interpreter (code_interpreter_sandbox))
+   CEVAP: "Emre Korkmaz'ın en az uyarı saatleri 6 saat, Umut Aslan'ın ise 4 saat; ikisinin de iptal uyarı saatleri 24 saat olduğuna göre, çubuk grafikte Emre Korkmaz'ın en az uyarı saatları Umut Aslan'ın en az uyarı saatlarına kıyasla 2 saat fazladır."
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'appointmentSettings.minimumNoticeHours~minimum', 'appointmentSettings.cancellationNoticeHours~cancellationNoticeHours', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+# Emre Korkmaz ve Umut Aslan profillerini filtreleyelim
+emre_profile = df[df['displayName'] == 'Emre Korkmaz']
+umut_profile = df[df['displayName'] == 'Umut Aslan']
+
+# Minimum Notice Hours ve Cancellation Notice Hours değerlerini alalım
+emre_values = {
+    'Minimum Notice Hours': emre_profile['appointmentSettings.minimumNoticeHours'].values[0],
+    'Cancellation Notice Hours': emre_profile['appointmentSettings.cancellationNoticeHours'].values[0]
+}
+
+umut_values = {
+    'Minimum Notice Hours': umut_profile['appointmentSettings.minimumNoticeHours'].values[0],
+    'Cancellation Notice Hours': umut_profile['appointmentSettings.cancellationNoticeHours'].values[0]
+}
+
+# Farkları hesaplayalım
+result = {
+    'Emre Korkmaz': emre_values,
+    'Umut Aslan': umut_values,
+    'Fark Minimum Notice Hours': emre_values['Minimum Notice Hours'] - umut_values['Minimum Notice Hours'],
+    'Fark Cancellation Notice Hours': emre_values['Cancellation Notice Hours'] - umut_values['Cancellation Notice Hours']
+}
+[CodeInterpreter] Basarili! Cikti: {'Emre Korkmaz': {'Minimum Notice Hours': np.int64(6), 'Cancellation Notice Hours': np.int64(24)}, 'Umut Aslan': {'Minimum Notice Hours': np.int64(4), 'Cancellation Notice Hours': np.int64(24)}, 'Fark Minimum Notice Hours': np.int64(2), 'Fark Cancellation Notice Hours': np.int64(0)}
+#42 kontrol[2] bozuk_kod_cagrisi=0 sinif=TP
+   kaynaklar: 728_profiles.json (code_interpreter (code_interpreter_sandbox))
+   CEVAP: "Emre Korkmaz'ın en az uyarı saatleri 6 saat, Umut Aslan'ın ise 4 saat; ikisinin de iptal uyarı saatleri 24 saat olduğuna göre, çubuk grafikte Emre Korkmaz'ın en az uyarı saatları Umut Aslan'ın en az uyarı saatlarına kıyasla 2 saat fazladır."
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'appointmentSettings.minimumNoticeHours~minimum', 'appointmentSettings.cancellationNoticeHours~cancellationNoticeHours', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (1. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] Deneme 2/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (2. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] Deneme 3/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (3. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] 3 deneme basarisiz oldu. Son hata: KeyError: 'olmayan_sutun'
+#42 D5[1] bozuk_kod_cagrisi=3 sinif=TP
+   kaynaklar: 728_profiles.json ($.profiles[726]); 728_profiles.json ($.profiles[727]); 728_profiles.json ($.profiles[95]); 728_profiles.json ($.profiles[33])
+   CEVAP: "Emre Korkmaz'in minimumNoticeHours değeri 6 saat, Umut Aslan'in ise 4 saat olarak belirtilmiştir. Ayrıca, Emre Korkmaz'in cancellationNoticeHours değeri 24 saat, Umut Aslan'in ise 24 saat olarak belirtilmiştir. Bu durumda, her iki profesyonelin de iptal notuwresi same (24 saat), ancak minimum dikkat"
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'appointmentSettings.minimumNoticeHours~minimum', 'appointmentSettings.cancellationNoticeHours~cancellationNoticeHours', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (1. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] Deneme 2/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (2. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] Deneme 3/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (3. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] 3 deneme basarisiz oldu. Son hata: KeyError: 'olmayan_sutun'
+#42 D5[2] bozuk_kod_cagrisi=3 sinif=TP
+   kaynaklar: 728_profiles.json ($.profiles[726]); 728_profiles.json ($.profiles[727]); 728_profiles.json ($.profiles[95]); 728_profiles.json ($.profiles[33])
+   CEVAP: "Emre Korkmaz'in minimumNoticeHours değeri 6 saat, Umut Aslan'in ise 4 saat olarak belirtilmiştir. Ayrıca, Emre Korkmaz'in cancellationNoticeHours değeri 24 saat, Umut Aslan'in ise 24 saat olarak belirtilmiştir. Bu durumda, her iki profesyonelin de iptal notuwresi same (24 saat), ancak minimum dikkat"

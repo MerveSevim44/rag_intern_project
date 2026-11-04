@@ -666,13 +666,78 @@ Bu bir kullanıcı güveni / netlik sorunu.
 yansıtılması gerekiyor; bu iki farklı durumu aynı cümlede birleştirmek
 yanıltıcıdır.
 
-Çözüm şimdi tasarlanmadı. Ele alınırken dikkat: `EMPTY_RESULT_INSTRUCTION`
+*[Güncel değil — bu paragraf ayrımın kodda uygulanmasından önce yazıldı; aşağıdaki
+"Durum (2026-11-04)" bölümüne bakın.]* Çözüm şimdi tasarlanmadı. Ele alınırken dikkat: `EMPTY_RESULT_INSTRUCTION`
 bilinçli olarak ÇIPLAK ret istiyor, çünkü `benchmark_eval`'in
 `check_is_not_found` kontrolü ret cümlesinden sonra 3+ içerik kelimesi kalırsa
 cevabı ret DEĞİL "iddia" sayıyor (bkz. `retrieval.py` içindeki açıklama ve
 negatif set #231). Mesajı zenginleştiren her çözüm bu ölçüm tanımıyla
 çakışabilir — yani düzeltme, ölçüm tarafını da beraberinde düşünmeyi
 gerektiriyor.
+
+### Durum (2026-11-04) — ayrım kodda zaten uygulanmış; D5 açık
+Ölçüm ve testler: [experiments/madde14_bulunamadi/](../experiments/madde14_bulunamadi/),
+[tests/test_refusal_messages.py](../tests/test_refusal_messages.py).
+
+**Referans düzeltmesi.** "Madde 11'in D ölçümü" diye anılan
+[implementation_plan_retry_oom.md](implementation_plan_retry_oom.md) **madde 11'in**
+planıdır; "D" onun D seçeneğidir (LLM istisnasını yakala, `success: False` dön). Dosya
+D'yi ve ölçüm planını tanımlar, D sonrası bir ölçüm sonucu içermez; madde 14 o
+seçeneğin sonucundan doğdu.
+
+**Ayrım zaten koddadır.** `data_engine.py` + `retrieval.py` dört durumu ayrı etiket,
+özet ve synthesizer talimatıyla taşır; `run_tests.py` servis çökmesini `HATA`'ya çevirir
+(test_2 #43/#53'ün kronik HATA'sı bu yolun çalıştığının işaretidir, skorlanmaz).
+
+| Durum | Etiket | Kullanıcıya giden cümle |
+|---|---|---|
+| D1 veri gerçekten yok | — (semantik RAG) | "Bu bilgi dokümanlarda bulunamadı." |
+| D2 filtre 0 satır | `[KAYIT BULUNAMADI]` | "…bulunamadı; belirtilen koşullara uyan kayıt yok." |
+| D3 doğrulanamadı | `[DOĞRULANAMAYAN SONUÇ]` | "…bulunamadı; sonuç doğrulanamadığı için aktarılmadı." |
+| D4 servis çöktü | `[İŞLENEMEDİ]` | "…bulunamadı; soru şu an işlenemedi, tekrar denenebilir." |
+| **D5** kod 3 denemede çözülemedi (servis sağlam) | yok → semantik RAG'e düşer | semantik RAG ne üretirse (aşağıya bakın) |
+
+**Ölçüm sınırı (açıkça):** D2–D4 cümleleri `olcum.py` ile, retrieval'ın ürettiği bloğun
+biçimi **elle kurularak** gerçek modele sorularak ölçüldü — gerçek bir çökme, boş filtre
+ya da doğrulayıcı itirazı üretilmedi. Tek soru (#43), 2 tekrar (aynı). Betiğin ilk
+sürümünde "ham/kırpma" sütunu hatalıydı (kırpma bu yolda hiç çağrılmıyor); düzeltilip
+yeniden koşuldu.
+
+**Kırılgan nokta kilitlendi.** `llm_client.ask`, `extra_instruction` varken
+`_trim_after_not_found`'u çağırmaz; çağırsaydı D2–D4 cümlelerinin üçü de düz
+`NOT_FOUND_ANSWER`'a çökerdi (fonksiyonda doğrudan ölçüldü). Ayrım yalnız bu erken
+dönüş sayesinde yaşıyor. `tests/test_refusal_messages.py` (21 test) dört cümleyi,
+skorlayıcıdaki ret geçerliliğini, bu davranışı, retrieval etiket/talimat eşlemesini ve
+D4/D5'in data_engine'de ayrı yola gidişini kilitler; erken dönüşü bozmak testleri düşürür
+(mutasyonla doğrulandı).
+
+**D5 — gerçek vaka (`d5_gercek.py`).** Sandbox'ın kod üreten çağrısı hata veren kod
+döndürecek şekilde yamalandı (3 deneme `KeyError`, servis sağlam); geri kalan her şey
+gerçek (router, semantik fallback, reranker, synthesizer). Bilgisi veride bulunan sorular:
+- **Tek kayıttan/özet bloktan cevaplananlar (benchmark #32, #35, #39, #42): 4/4
+  semantik fallback doğru cevabı buldu** (TP; #42'nin cevabı bozuk ve kesik:
+  "iptal notuwresi same", "…minimum dikkat").
+- **Tüm 728 kaydın hesabını isteyen toplulaştırma soruları (benchmark dışı, gerçek
+  değer pandas'tan): 0/3 doğru cevap.** A1 ortalama deneyim (gerçek 11.9986): uydurma
+  hesap ("19+13+12=44 … 44/364"). A2 business profil sayısı (gerçek 129): "Bu bilgi
+  dokümanlarda bulunamadı." — bilgi VAR, kullanıcıya "yok" deniyor, tekrar ipucu yok.
+  A3 ortalama minimumNoticeHours (gerçek 9.75): "24", güvenle yanlış.
+
+**D5 kararı: ayrı bir mesaj tek başına yetersiz; davranış değişikliği
+madde 41'e
+devredildi, burada UYGULANMADI.** Gerekçe: D5'te gözlenen zarar çoğunlukla ret değil
+**yanlış sayı** (2/3) — yeni bir cümle yalnız A2'yi (1/3) düzeltirdi; asıl mekanizma
+mesaj değil, sandbox başarısız olunca toplulaştırma sorusunun semantik RAG'e düşmesi.
+Ayrıntı, çözüm adayı ve blokaj şartları madde 41'de. Bu işin mesaj/durum ayrımıyla
+(madde 14'ün konusu) farklı bir risk sınıfı olduğu orada yazılı.
+
+**#42'nin bozuk cevabı** (D5 enjeksiyonunda "iptal notuwresi same", cümle yarıda kesik)
+ayrı bir gözlem olarak madde 38'e Örnek 3 diye kaydedildi; araştırılmadı.
+
+**Madde 14 kapanışı (tamamlandı DEĞİL):** ayrım kodda zaten var + D5 gözlemi yapıldı +
+davranış değişikliği yeni açılan madde 41'e devredildi. Mesaj metinlerinde ve ayrımda bu
+turda hiçbir değişiklik yapılmadı; testler (`tests/test_refusal_messages.py`) mevcut
+davranışı kilitler.
 
 ## Madde 15 — Servis süreç yönetimi ve toparlanma güvenilirliği
 Madde 11'den **ayrı bir problem sınıfı.** Madde 11 prompt mühendisliği /
@@ -1928,6 +1993,16 @@ chunk'ındaki formül satırları PUA sembolleri ve parçalı düzen yüzünden 
 34 Adım 1); hatanın bundan mı geldiği ölçülmedi (A1/A2 varyantları retti, içeriği
 test edilmedi).
 
+**Örnek 3 — test_2 #42, yalnız D5 enjeksiyonunda** (madde 14 Durum; `d5_gercek.py`,
+`d5_gercek.jsonl`): sandbox'ın kod üretimi bozulup (servis sağlam) akış semantik RAG'e
+düşünce cevap sınıfta TP ama **metni bozuk ve yarıda kesik**: "Emre Korkmaz'in
+minimumNoticeHours değeri 6 saat, Umut Aslan'in ise 4 saat … her iki profesyonelin de
+iptal **notuwresi same** (24 saat), ancak minimum dikkat" (cümle burada bitiyor). Sayılar
+sandbox kontrolüyle (6/4/24/24) tutarlı; bozuk olan söz dizimi (uydurma sözcük
+"notuwresi", İngilizce "same"). İki tekrar bayt bayt aynı. Yalnız gözlem: kesilmenin
+nedeni (`MAX_ANSWER_TOKENS`, dil sızıntısı, bağlam) ve normal (enjeksiyonsuz) yolda
+görülüp görülmediği **ölçülmedi**; araştırma/düzeltme yapılmadı.
+
 **Ölçülmedi:** desenin kapsamı (reti kaldıran diğer müdahalelerde içerik ne kadar
 sık hatalı) ve ortak neden (bağlam eksikliği / bozuk metin / model çıkarımı).
 
@@ -2043,3 +2118,58 @@ koşuldu. Ham sonuçlar ve ortam kanıtı: `experiments/madde39_tam_kosu/{SET}/`
 **Kapanış kararı:** madde 39 kapandı. Yeni referans yukarıdaki tablo; #48/#90'ın
 açıklanamayan kısmı ayrı bir maddeye çıkarılmadı (küçük, v8-karşılaştırma zaten
 güvenilmez taban uyarısı altında), gerekirse ileride buradan takip edilir.
+
+## Madde 41 — Toplulaştırma sorularında sandbox+fallback güvenilmezliği — sessizce yanlış sayı
+Madde 14 Durum bölümünün D5 gözleminden doğdu
+([experiments/madde14_bulunamadi/](../experiments/madde14_bulunamadi/), `d5_gercek.py`,
+`d5_gercek_ek.jsonl`). **Önceliklendirme kullanıcıya bırakıldı; "düşük öncelikli"
+etiketi bilerek konmadı.**
+
+**Neden ayrı bir risk sınıfı.** Madde 14 mesaj netliğiyle ilgilidir (kullanıcı yanlış
+cümle okur). Burada kullanıcı **hiç uyarı almadan, güvenle yanlış bir sayı** okuyor:
+D4/D3/D2'deki gibi ret cümlesi yok, `[KESİN HESAPLAMA SONUCU]` da yok — semantik
+fallback sıradan bir cevap gibi sunuyor. Judge ve `classify_answer` bu sınıfı
+yakalamaz (madde 13, madde 36).
+
+**Düzenek.** Sandbox'ın kod üreten çağrısı hata veren kod döndürecek şekilde yamalandı
+(3 deneme `KeyError: 'olmayan_sutun'`, servis sağlam, `service_failure` False); router,
+semantik fallback, reranker ve synthesizer gerçek. Soru tüm 728 kaydın hesabını ister
+(tek kayıt/özet bloktan okunamaz). Kontrol: aynı soru yamasız (sandbox doğru cevaplar).
+Gerçek değerler `data/728_profiles.json`'dan pandas ile hesaplandı. Her biri 2 tekrar,
+tekrarlar aynı.
+
+| Soru | Gerçek değer | Yamasız (sandbox) | D5 (fallback) |
+|---|---|---|---|
+| Ortalama deneyim yılı (`experience.years`) | **11.9986** | 11.9986 | uydurma hesap: "…toplam deneyim yıl sayısı 19 + 13 + 12 = 44'tür … 44/364…" |
+| Kaç profil `business` türünde? | **129** | 129 | "Bu bilgi dokümanlarda bulunamadı." (bilgi VAR; tekrar ipucu da yok) |
+| Ortalama `minimumNoticeHours` | **9.75** | 9.75 | **"24"** (güvenle yanlış) |
+
+Karşıt gözlem (adil olmak için): tek kayıt/özet bloktan cevaplanabilen benchmark
+sorularında (#32, #35, #39, #42) fallback doğru cevabı buldu (4/4 TP). Zarar
+**toplulaştırma** sorularında; fallback hesap yapamayan bir yöntemle birkaç kayıttan
+"hesaplıyor".
+
+**Mekanizma (gözlenen, tam ölçülmedi).** `code_interpreter_with_retry` 3 denemede
+çözemeyince `success: False` döner; `data_engine` yalnız `service_failure` için özel
+blok üretir, aksi halde `None` → `retrieve` semantik aramaya düşer
+(`tests/test_refusal_messages.py::test_d5_kod_cozulemedi_none_doner_semantik_rag_e_duser`).
+Bu yolda hiçbir etiket/talimat yok.
+
+**Çözüm adayı (UYGULANMADI).** Toplulaştırma sorusunda sandbox çözemezse semantik
+fallback yerine D4 benzeri "hesaplanamadı" döndürmek (davranış değişikliği; mesaj
+değil). Açık alt sorular: "toplulaştırma sorusu"nu neyin tanıdığı (router sinyali mi,
+sandbox rotasında olmak mı), yeni mesajın ret skorlayıcısıyla uyumu (madde 14 yorumları).
+
+**Blokaj şartları — bunlar sağlanmadan uygulanmaz.**
+1. Tam negatif set (32) + test_2 ölçümü. Özellikle negatif sette kodu çözemeyip semantik
+   fallback ile **doğru TN** olan #215, #216, #226'yı bozma riski: bu üç soru D5 yolunu
+   zaten kullanıyor (madde 18 Adım 3 / madde 14 Durum).
+2. Pozitif sette sandbox'ı zor/belirsiz soru nedeniyle 3 denemede çözemeyen ve fallback
+   ile doğru cevaplanan vaka olup olmadığı. 147 soruluk benchmark'ta pozitif D5 yok
+   (madde 30 tam koşusu), yani bu risk ölçüm tarafında görünmez (madde 13).
+3. Tek soruya göre ayar yapılmaz (madde 30 disiplini).
+
+**Sınırlar.** Hata enjeksiyonu sentetik; gerçek D5 hataları (modelin kodu 3 kez
+bozması) belirsiz/zor sorulara kayıyor olabilir. Toplulaştırma sorusu 3 adet ve
+benchmark dışı (GT pandas'tan). Doğal sıklık bilinmiyor.
+

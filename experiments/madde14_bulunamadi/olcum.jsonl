@@ -1,0 +1,8 @@
+{"durum": "D1 yok (semantik RAG, alakasız bağlam)", "tekrar": 1, "kirpma_cagrildi": true, "kirpma_girdisi": "Bu bilgi dokümanlarda bulunamadı.", "son_cikti": "Bu bilgi dokümanlarda bulunamadı.", "kirpma_degistirdi": false}
+{"durum": "D1 yok (semantik RAG, alakasız bağlam)", "tekrar": 2, "kirpma_cagrildi": true, "kirpma_girdisi": "Bu bilgi dokümanlarda bulunamadı.", "son_cikti": "Bu bilgi dokümanlarda bulunamadı.", "kirpma_degistirdi": false}
+{"durum": "D2 filtre 0 satır", "tekrar": 1, "kirpma_cagrildi": false, "kirpma_girdisi": null, "son_cikti": "Bu bilgi dokümanlarda bulunamadı; belirtilen koşullara uyan kayıt yok.", "kirpma_degistirdi": false}
+{"durum": "D2 filtre 0 satır", "tekrar": 2, "kirpma_cagrildi": false, "kirpma_girdisi": null, "son_cikti": "Bu bilgi dokümanlarda bulunamadı; belirtilen koşullara uyan kayıt yok.", "kirpma_degistirdi": false}
+{"durum": "D3 doğrulanamadı", "tekrar": 1, "kirpma_cagrildi": false, "kirpma_girdisi": null, "son_cikti": "Bu bilgi dokümanlarda bulunamadı; sonuç doğrulanamadığı için aktarılmadı.", "kirpma_degistirdi": false}
+{"durum": "D3 doğrulanamadı", "tekrar": 2, "kirpma_cagrildi": false, "kirpma_girdisi": null, "son_cikti": "Bu bilgi dokümanlarda bulunamadı; sonuç doğrulanamadığı için aktarılmadı.", "kirpma_degistirdi": false}
+{"durum": "D4 işlenemedi (service_failure)", "tekrar": 1, "kirpma_cagrildi": false, "kirpma_girdisi": null, "son_cikti": "Bu bilgi dokümanlarda bulunamadı; soru şu an işlenemedi, tekrar denenebilir.", "kirpma_degistirdi": false}
+{"durum": "D4 işlenemedi (service_failure)", "tekrar": 2, "kirpma_cagrildi": false, "kirpma_girdisi": null, "son_cikti": "Bu bilgi dokümanlarda bulunamadı; soru şu an işlenemedi, tekrar denenebilir.", "kirpma_degistirdi": false}
