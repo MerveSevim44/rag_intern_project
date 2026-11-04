@@ -171,9 +171,9 @@ def test_data_engine_end_to_end_visualization():
     Dışarıda bırakılanlar:
     - "45 dk üzeri seans oranları" sorgusu: 1B kuralı silindi, bkz.
       test_sector_comparison_chart_from_fixed_dict.
-    - "Türkçe dışında en sık geçen diller" sorgusu: kural motorunda alt dize eşleşmesi
-      yüzünden yanlış kurala (şehir) düşüyordu ("diller" ⊃ "iller"); düzeltme ve sorgunun
-      geri eklenmesi ayrı commit'te (backlog madde 17).
+    - "Türkçe dışında en sık geçen diller" sorgusu eskiden yanlış kurala (şehir) düşüyordu
+      ("diller" ⊃ "iller", alt dize eşleşmesi) ama test geçiyordu; kelime-başı sınırıyla
+      düzeltildi ve geri eklendi (backlog madde 17, tests/test_rule_engine_matching.py).
     """
     print("\n--- Test 8: Data Engine -> Visualizer Uçtan Uca Entegrasyon Testi ---")
     engine = TabularDataEngine()
@@ -183,6 +183,7 @@ def test_data_engine_end_to_end_visualization():
         ("profileType alanına göre kaç profil individual kaç profil business?", "value_counts_profiletype"),
         ("serviceModes alanında Yerinde hizmet, Yüz yüze ve Online modlarının sayısal karşılaştırması nedir?", "explode_servicemodes"),
         ("Veri setindeki sektör dağılımı (sectorDistribution) nasıldır?", "meta_sector_distribution"),
+        ("Türkçe dışında en sık geçen diller hangileridir?", "explode_languages"),
     ]
 
     for q, op_expected in queries:

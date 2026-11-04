@@ -35,6 +35,16 @@ def _tr_normalize(text: str) -> str:
     return text
 
 
+def _word_start(q_norm: str, *kaliplar: str) -> bool:
+    """Normalize sorguda kalıplardan biri KELİME BAŞINDA geçiyor mu?
+
+    Türkçe çekim ekleri sonda olduğu için sonda sınır aranmaz ("sektorlerindeki"
+    içindeki "sektor" uyar); ama kelime ortasındaki alt dize uymaz: "diller" ⊅ "iller",
+    "profiller" ⊅ "iller", "kalan" ⊅ "alan" (backlog madde 17).
+    """
+    return any(re.search(r"(?<![a-z0-9])" + re.escape(k), q_norm) for k in kaliplar)
+
+
 # Sandbox'ta filtre 0 satir dondurdugunde synthesizer'a gecilen govde.
 # Sayisal bir sonuc ICERMEZ — amaci modelin "0" gibi bir degeri olgu diye
 # aktarmasini engellemek.
@@ -350,7 +360,7 @@ class TabularDataEngine:
         if "autoapproverequests" in q_norm or "autoapprove" in q_norm:
             auto_col = next((col for col in df.columns if "autoapproverequests" in _tr_normalize(col)), None)
             if auto_col:
-                is_true_req = "true" in q_norm or "otomatik" in q_norm or "aktif" in q_norm or "evet" in q_norm
+                is_true_req = _word_start(q_norm, "true", "otomatik", "aktif", "evet")
                 val_to_match = True if is_true_req else False
                 count = int(len(df[df[auto_col] == val_to_match]))
                 total = len(df)
@@ -407,10 +417,10 @@ class TabularDataEngine:
 
         # ── 2D. FİLTRELİ SAYMA: SEKTÖRE GÖRE SAYI (örn: 'Sağlık' sektöründe kaç profil var?) ──
         sector_col = next((col for col in df.columns if col.lower() in ("sector", "industry", "kategori", "category")), None)
-        if ("sektor" in q_norm or "alan" in q_norm or "kategori" in q_norm) and sector_col:
+        if _word_start(q_norm, "sektor", "alan", "kategori") and sector_col:
             for sector_name in df[sector_col].dropna().unique():
                 norm_sec = _tr_normalize(sector_name)
-                if norm_sec in q_norm:
+                if _word_start(q_norm, norm_sec):
                     count = int(len(df[df[sector_col] == sector_name]))
                     return {
                         "operation": "filtered_count_sector",
@@ -457,7 +467,11 @@ class TabularDataEngine:
                 }
 
         # ── 2G. languages DAĞILIMI (Türkçe dışında 1. ve 2. dil) ──
-        if "language" in q_norm or re.search(r"\bdil\b", q_norm):
+        # Yalın "dil"/"diller" (çekim eki YOK): "dilbilgisi" gibi bileşikler uymaz. Çekimli
+        # biçimler ("dilin", "dili", "dillerin") bilerek hariç: kural motorunda veri-seti
+        # bağlamı kapısı yok ve gramer PDF'inde "dil" biçimsel dil demek (benchmark'ta 6
+        # yanlış eşleşme çıkardı, backlog madde 17).
+        if _word_start(q_norm, "language") or re.search(r"(?<![a-z0-9])dil(?:ler)?(?![a-z0-9])", q_norm):
             lang_col = next((col for col in df.columns if col.lower() == "languages"), None)
             if lang_col:
                 exploded = df[lang_col].explode()
@@ -487,8 +501,8 @@ class TabularDataEngine:
                 }
 
         # ── 2H. KAÇ FARKLI SEKTÖR / MESLEK / ŞEHİR (NUNIQUE) + Top-N / ŞEHİR DAĞILIMI ──
-        if "sehir" in q_norm or "city" in q_norm or " il " in f" {q_norm} " or "iller" in q_norm or "kac farkli" in q_norm or "farkli" in q_norm:
-            if "sehir" in q_norm or "city" in q_norm or " il " in f" {q_norm} " or "iller" in q_norm:
+        if _word_start(q_norm, "sehir", "city", "iller", "kac farkli", "farkli") or " il " in f" {q_norm} ":
+            if _word_start(q_norm, "sehir", "city", "iller") or " il " in f" {q_norm} ":
                 city_col = next((col for col in df.columns if "city" in col.lower()), None)
                 if city_col:
                     unique_count = int(df[city_col].nunique())
@@ -497,14 +511,14 @@ class TabularDataEngine:
                     top_cities = df[city_col].value_counts()
                     if top_n:
                         top_cities = top_cities.head(top_n)
-                    elif "en cok" in q_norm or "en fazla" in q_norm or "ilk" in q_norm or "yogun" in q_norm or "dagilim" in q_norm:
+                    elif _word_start(q_norm, "en cok", "en fazla", "ilk", "yogun", "dagilim"):
                         top_cities = top_cities.head(5)
                     else:
                         top_cities = top_cities.head(3)
                     top_dict = {str(k): int(v) for k, v in top_cities.items()}
                     top_parts = [f"{k} ({v})" for k, v in top_dict.items()]
                     summary = f"Veri setindeki profillerde toplam {unique_count} farklı şehir yer almaktadır."
-                    if top_n_match or "en cok" in q_norm or "en fazla" in q_norm or "ilk" in q_norm or "yogun" in q_norm or "dagilim" in q_norm:
+                    if top_n_match or _word_start(q_norm, "en cok", "en fazla", "ilk", "yogun", "dagilim"):
                         summary += f" En çok profile sahip ilk {len(top_dict)} şehir: {', '.join(top_parts)}."
                     return {
                         "operation": "nunique_city_topn",
@@ -512,7 +526,7 @@ class TabularDataEngine:
                         "summary": summary,
                         "data_points": top_dict
                     }
-            elif "sektor" in q_norm:
+            elif _word_start(q_norm, "sektor"):
                 if "sector" in df.columns:
                     unique_count = int(df["sector"].nunique())
                     return {
@@ -521,7 +535,7 @@ class TabularDataEngine:
                         "summary": f"Veri setinde toplam {unique_count} farklı sektör bulunmaktadır.",
                         "data_points": {"unique_sectors": unique_count}
                     }
-            elif "meslek" in q_norm or "occupation" in q_norm:
+            elif _word_start(q_norm, "meslek", "occupation"):
                 if "occupation" in df.columns:
                     unique_count = int(df["occupation"].nunique())
                     return {
@@ -549,19 +563,19 @@ class TabularDataEngine:
         if not stats:
             return None
 
-        if "profil" in q_norm and ("toplam" in q_norm or "kac" in q_norm) and "profileCount" in stats:
+        if "profil" in q_norm and _word_start(q_norm, "toplam", "kac") and "profileCount" in stats:
             return {
                 "operation": "meta_profile_count",
                 "result": stats["profileCount"],
                 "summary": f"Veri setindeki toplam profil sayısı: {stats['profileCount']}",
             }
-        if "sektor" in q_norm and "farkli" in q_norm and "sectorCount" in stats:
+        if _word_start(q_norm, "sektor") and _word_start(q_norm, "farkli") and "sectorCount" in stats:
             return {
                 "operation": "meta_sector_count",
                 "result": stats["sectorCount"],
                 "summary": f"Veri setinde toplam {stats['sectorCount']} farklı sektör bulunmaktadır.",
             }
-        if "meslek" in q_norm and "farkli" in q_norm and "occupationCount" in stats:
+        if _word_start(q_norm, "meslek") and _word_start(q_norm, "farkli") and "occupationCount" in stats:
             return {
                 "operation": "meta_occupation_count",
                 "result": stats["occupationCount"],
@@ -570,7 +584,7 @@ class TabularDataEngine:
 
         # ── sectorDistribution analizi ──
         sector_dist = stats.get("sectorDistribution", {})
-        if sector_dist and ("sectordistribution" in q_norm or "sektor" in q_norm):
+        if sector_dist and ("sectordistribution" in q_norm or _word_start(q_norm, "sektor")):
             target_count_match = re.search(r"(\d+)\s*profil", q_norm)
             if target_count_match:
                 target_count = int(target_count_match.group(1))

@@ -864,13 +864,37 @@ Ağız ve Diş Sağlığı sektörlerindeki 45 dk üzeri seans oranları karşı
    sabit sandbox sonucuyla ayrıca test ediliyor (`test_sector_comparison_chart_from_fixed_dict`);
    `operation` adları güncellendi ve **assert ediliyor**. "Diller" sorgusu bilerek testten
    çıkarıldı (yanlış kuralla geçiyordu), 2. adımda geri eklenecek.
-2. **Alt dize eşleşmeleri (C + 2G):** ayrı commit, yapılacak.
+2. **Alt dize eşleşmeleri (C + 2G) düzeltildi:** `data_engine._word_start` (kelime BAŞI sınırı;
+   Türkçe ekler sonda olduğundan "sektorlerindeki" ⊃ "sektor" hâlâ uyar, "diller" ⊅ "iller",
+   "kalan" ⊅ "alan"). 2A, 2D, 2G, 2H ve metadata fallback tetikleyicilerine uygulandı;
+   `tests/test_rule_engine_matching.py` (20 test) kilitler, eski kodda 5 davranış testi düşer.
+   Ölçüm (173 sorgu, önce/sonra): benchmark'ta kural sonucu döndüren soru **27 → 18**,
+   `nunique_city_topn` **16 → 3** (kalan 3: #55 gerçekten şehir sorusu, #92/#114 hikâye
+   sorularındaki "şehir", kural motorunda veri-seti kapısı olmadığı için; kapsam dışı).
+   Demo (`__main__`) sorgularının hiçbiri değişmedi.
+   - **2G bilerek dar:** yalnız yalın "dil"/"diller". Çekim ekleriyle genişletince ("dilin",
+     "dili", "dillerin") gramer PDF'indeki biçimsel-dil sorularında 6 yanlış `explode_languages`
+     çıktı (test_1 #8/#11/#12/#25/#27, test_5 #102); benchmark'ta dil-alanı sorusu yok, yani hepsi
+     yanlıştı. Çekimli biçimler ancak veri-seti bağlamı kapısıyla birlikte düşünülebilir.
+   - **Açığa çıkan yan etki (kapsam dışı, üretimde ulaşılamıyor):** yanlış şehir kuralı artık
+     engellemediği için test_5 #107/#109 ve test_negative #216 ("randevu ücreti / memnuniyet /
+     kredi puanı … kaç") `_query_from_metadata_only`'nin `meta_profile_count` koluna düşüyor
+     (`"profil"` + `"kac"` koşulu fazla gevşek); test_2 #58 `nunique_occupation`'a düşüyor. Önceki
+     sonuç (şehir sayısı) da yanlıştı; yani "farklı yanlış", yeni bir gerileme değil. Düzeltme
+     ayrı bir karar.
 3. **2D koruması (B):** ayrı commit; önce test_2 #52'nin 2D'ye gerçekten bağımlı olup olmadığı
    doğrulanacak.
 4. **Ertelendi (D):** "ölü kuralları buda / `execute_query`'yi router desenlerine bağla"
    seçeneği ertelendi, öncelik verilmedi. Gerekçe: üretimde yalnız 3 cümle rule_engine'e
    gidiyor, 2A–2H'nin çoğu fiilen ölü; ama router desenleri genişlerse yeniden canlanırlar —
    ayrı, daha büyük bir karar.
+5. **Ertelendi (çekimli dil biçimleri):** "dilin / dili / dillerin" biçimleri veri-seti bağlamı
+   kapısı olmadan 2G'ye eklenemez — kapısız genişletme 6 yanlış pozitif üretiyor (test_1
+   #8/#11/#12/#25/#27, test_5 #102), bu yüzden ertelendi, öncelik verilmedi.
+6. **Ertelendi (metadata fallback koşulları):** `_query_from_metadata_only`'nin gevşek koşulları
+   (`"profil"` + `"kac"`, occupation kolu) şimdi test_5 #107/#109, test_negative #216 ve test_2
+   #58'de farklı yanlış eşleşmelere yol açıyor (gerileme değil, önceki sonuç da yanlıştı);
+   üretimde ulaşılamıyor, düzeltme ayrı karara bırakıldı, öncelik verilmedi.
 
 ## Madde 18 — Semantik doğrulayıcının gevşekliği ("emin değilsen TAMAM")
 
