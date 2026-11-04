@@ -816,6 +816,31 @@ aynı, tek model, n=4). **Dört vaka aynı kök nedenden gelmiyor:**
   (ör. son satır tam olarak `VERDICT: TAMAM|SORUN`) verilmeli; bu, 7 "kalmalı"
   vakada yanlış pozitif maliyeti ölçüldükten SONRA tasarlanacak.
 
+### Adım 2 (2026-11-04) — gerekçe-önce biçimin bedeli: net zararlı; madde kapatıldı
+`experiments/madde18_dogrulayici/adim2_kalmali.py`: 7 "kalmalı" vakada V0 / VE /
+VNE (gerçek `_semantic_check` prompt'u, tek model, tanı amaçlı ayrıştırma:
+yanıttaki SON hüküm).
+- **Yanlış itiraz:** VE 1/7 (#35), VNE 4/7 (#35, #42, #52, #108; #60 çift
+  hüküm). Kazanç: ikisi de 3 vakanın en fazla 2'si, hiçbiri 3/3 değil ve #57
+  yanlış nedenle (grafik yok; formül hiç adlandırılmıyor). Doğru nedenle
+  yakalanan tek vaka: VE'de #107, VNE'de #44.
+- **Gerekçe ile hüküm tutarsız:** #44, #42, #52, #60'ta (VE) model sorunu yazıp
+  yine TAMAM diyor; biçim güvenilir sinyal vermiyor.
+- **"Grafik yok" itirazı ayırt edici değil:** #57, #42, #60'ta aynı gerekçe;
+  sorular "grafikle göster" diyor, doğrulayıcının gördüğü kod grafik üretmiyor.
+- **Referans setindeki etiket hataları** (ayrı commit'te düzeltildi): #108 negatif
+  soru ve baseline'da TN (itirazı içerik olarak doğru); #52'nin kodunda gözlenen
+  gerçek hata var. Bunlar "kalmalı" değil. #60 production'da doğrulayıcıya hiç
+  gitmiyor (3. denemede çözülüyor; `attempt < max_retries`).
+
+**Karar: reasoning-first benimsenmiyor; madde 18 kabul edilmiş sınırlama olarak
+kapatıldı.** İki mekanizma var (biçim: #44/#107/#57, kapasite: #51) ve bu
+yaklaşım ikisini de çözmüyor. **#44, #51, #57 için şu an geçerli bir müdahale
+yok** — araştırma burada durduruldu. #107 (kavram veride yok: "ücret" sorulmuş,
+kod süre ortalamasını alıyor) farklı, dar bir desen; kapsamı ayrıca ölçülüyor
+(LLM'siz kapsam kontrolü), tek soru çıkarsa o da kabul edilmiş sınırlama
+listesine eklenecek.
+
 ## Madde 19 — Snowball "deneyim" → "de" ve stopword çakışması
 
 [implementation_plan_retrieval_fixes.md](implementation_plan_retrieval_fixes.md)
