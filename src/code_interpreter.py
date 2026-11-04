@@ -368,6 +368,63 @@ Soru: {question}
 Kod:"""
 
 
+# Duzeltme promptu icin toplam karakter tavani (backlog madde 11, secenek C).
+# Olculen: #53'te 9.351 -> 12.575 krk'lik duzeltme promptu servisi cokertti
+# (DOGRULANDI); #43'te 10.735 gecti / 11.970 dustu (tarihi, dogrulanmamis veri).
+# Esik GPU'da bos kalan belleğe bagli, deterministik degil; tavan bilinen en yuksek
+# gecen degerin altinda muhafazakar secildi. Temel prompt ~9.2-9.4 krk oldugundan
+# gecmise kalan yer kucuktur: once HATA metni, sonra kodun basi korunur.
+MAX_CORRECTION_PROMPT_CHARS = 10_500
+MAX_HISTORY_ERROR_CHARS = 400
+_MIN_CODE_CHARS = 80
+_MIN_ERROR_CHARS = 40
+_TRUNC_MARK = "\n...[kirpildi]"
+
+
+def _fit_history_once(history, budget: int):
+    parts = []
+    remaining = budget
+    for idx in range(len(history), 0, -1):
+        code, err = history[idx - 1]
+        err = err if len(err) <= MAX_HISTORY_ERROR_CHARS else err[:MAX_HISTORY_ERROR_CHARS] + "..."
+        sep = 1 if parts else 0  # "\n".join ayraci
+        full = f"--- Deneme {idx} ---\nKod:\n{code}\nHATA: {err}\n"
+        if len(full) + sep <= remaining:
+            parts.append(full)
+            remaining -= len(full) + sep
+            continue
+        # Sigmadi: kodu kirp, hata metnini koru; daha eskiler dusurulur.
+        head, mid, tail = f"--- Deneme {idx} ---\nKod:\n", "\nHATA: ", "\n"
+        room = remaining - sep - len(head) - len(mid) - len(err) - len(tail)
+        if room >= _MIN_CODE_CHARS:
+            parts.append(head + code[:room - len(_TRUNC_MARK)] + _TRUNC_MARK + mid + err + tail)
+        else:
+            prefix, tail = f"--- Deneme {idx} ---\nKod: (kirpildi)\nHATA: ", "\n"
+            avail = remaining - sep - len(prefix) - len(tail)
+            if avail >= _MIN_ERROR_CHARS:
+                parts.append(prefix + (err if len(err) <= avail else err[:avail - 3] + "...") + tail)
+        break
+    return list(reversed(parts)), len(history) - len(parts)
+
+
+def _fit_history(history, budget: int) -> str:
+    """
+    Basarisiz deneme gecmisini `budget` karaktere sigdirir.
+
+    En yeni deneme onceliklidir; en eski girdiler once duser. Bir girdi
+    sigmazsa HATA metni (<= MAX_HISTORY_ERROR_CHARS) korunur, kodun yalniz
+    basi tutulur; kod icin hic yer yoksa yalniz hata kalir. Butce yetiyorsa
+    cikti eski bicimle BIREBIR aynidir (kirpma notu yalniz kirpilinca eklenir).
+    """
+    parts, dropped = _fit_history_once(history, budget)
+    if not dropped and all("[kirpildi]" not in p and "(kirpildi)" not in p for p in parts):
+        return "\n".join(parts)
+    # Kirpildi: not icin yer ayir, yeniden sigdir.
+    note = "(eski denemeler prompt boyutu icin kirpildi)\n"
+    parts, _ = _fit_history_once(history, max(budget - len(note), 0))
+    return note + "\n".join(parts)
+
+
 def build_correction_prompt(question: str, df: pd.DataFrame,
                             history, repeated: bool = False) -> str:
     """
@@ -379,14 +436,10 @@ def build_correction_prompt(question: str, df: pd.DataFrame,
     retry dongusu hicbir bilgi kazanci saglamadan tukeniyordu. Artik:
       - Tum basarisiz denemelerin gecmisi verilir (yalnizca sonuncusu degil),
       - Duzeltme talimati prompt'un EN SONUNA konur,
-      - Ayni kod tekrar uretilirse acik bir "farkli yaklasim kullan" yasagi eklenir.
+      - Ayni kod tekrar uretilirse acik bir "farkli yaklasim kullan" yasagi eklenir,
+      - Toplam boyut MAX_CORRECTION_PROMPT_CHARS ile sinirlidir (gecmis kirpilir).
     """
     base_prompt = build_code_gen_prompt(question, df)
-
-    attempts_block = "\n".join(
-        f"--- Deneme {i} ---\nKod:\n{code}\nHATA: {err}\n"
-        for i, (code, err) in enumerate(history, 1)
-    )
 
     repeat_warning = ""
     if repeated:
@@ -398,7 +451,8 @@ def build_correction_prompt(question: str, df: pd.DataFrame,
             "aritmetik yaz.\n"
         )
 
-    return f"""{base_prompt}
+    def render(attempts_block: str) -> str:
+        return f"""{base_prompt}
 
 === ONCEKI BASARISIZ DENEMELER (tekrarlama!) ===
 {attempts_block}
@@ -412,6 +466,9 @@ Sadece calistirilabilir Python kodu yaz, aciklama yazma. Sonucu 'result' degiske
 Soru: {question}
 
 Kod:"""
+
+    budget = MAX_CORRECTION_PROMPT_CHARS - len(render(""))
+    return render(_fit_history(history, max(budget, 0)))
 
 
 def _normalize_code(code: str) -> str:
