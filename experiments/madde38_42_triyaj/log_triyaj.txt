@@ -1,0 +1,117 @@
+[Foundry] Model yüklendi: qwen2.5-7b-instruct-cuda-gpu:4 | execution provider: CUDAExecutionProvider | cihaz: GPU
+[Foundry] Servis adresi: http://127.0.0.1:63146
+[Foundry] Serviste yüklü modeller: ['qwen2.5-7b-instruct-cuda-gpu:4']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'appointmentSettings.minimumNoticeHours~minimum', 'appointmentSettings.cancellationNoticeHours~cancellationNoticeHours', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+# Emre Korkmaz ve Umut Aslan profillerini filtreleyelim
+emre_profile = df[df['displayName'] == 'Emre Korkmaz']
+umut_profile = df[df['displayName'] == 'Umut Aslan']
+
+# Minimum Notice Hours ve Cancellation Notice Hours değerlerini alalım
+emre_values = {
+    'Minimum Notice Hours': emre_profile['appointmentSettings.minimumNoticeHours'].values[0],
+    'Cancellation Notice Hours': emre_profile['appointmentSettings.cancellationNoticeHours'].values[0]
+}
+
+umut_values = {
+    'Minimum Notice Hours': umut_profile['appointmentSettings.minimumNoticeHours'].values[0],
+    'Cancellation Notice Hours': umut_profile['appointmentSettings.cancellationNoticeHours'].values[0]
+}
+
+# Farkları hesaplayalım
+result = {
+    'Emre Korkmaz': emre_values,
+    'Umut Aslan': umut_values,
+    'Fark Minimum Notice Hours': emre_values['Minimum Notice Hours'] - umut_values['Minimum Notice Hours'],
+    'Fark Cancellation Notice Hours': emre_values['Cancellation Notice Hours'] - umut_values['Cancellation Notice Hours']
+}
+[CodeInterpreter] Basarili! Cikti: {'Emre Korkmaz': {'Minimum Notice Hours': np.int64(6), 'Cancellation Notice Hours': np.int64(24)}, 'Umut Aslan': {'Minimum Notice Hours': np.int64(4), 'Cancellation Notice Hours': np.int64(24)}, 'Fark Minimum Notice Hours': np.int64(2), 'Fark Cancellation Notice Hours': np.int64(0)}
+N[1] sinif=TP cevap_uzunluk=240 kelime=40 ham==son=True bozuk(cevap)={'notuwresi': False, 'same': False} bozuk(bağlam)={'notuwresi': False, 'same': False}
+   kaynaklar: 728_profiles.json (code_interpreter (code_interpreter_sandbox))
+   CEVAP: Emre Korkmaz'ın en az uyarı saatleri 6 saat, Umut Aslan'ın ise 4 saat; ikisinin de iptal uyarı saatleri 24 saat olduğuna göre, çubuk grafikte Emre Korkmaz'ın en az uyarı saatları Umut Aslan'ın en az uyarı saatlarına kıyasla 2 saat fazladır.
+
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'appointmentSettings.minimumNoticeHours~minimum', 'appointmentSettings.cancellationNoticeHours~cancellationNoticeHours', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+# Emre Korkmaz ve Umut Aslan profillerini filtreleyelim
+emre_profile = df[df['displayName'] == 'Emre Korkmaz']
+umut_profile = df[df['displayName'] == 'Umut Aslan']
+
+# Minimum Notice Hours ve Cancellation Notice Hours değerlerini alalım
+emre_values = {
+    'Minimum Notice Hours': emre_profile['appointmentSettings.minimumNoticeHours'].values[0],
+    'Cancellation Notice Hours': emre_profile['appointmentSettings.cancellationNoticeHours'].values[0]
+}
+
+umut_values = {
+    'Minimum Notice Hours': umut_profile['appointmentSettings.minimumNoticeHours'].values[0],
+    'Cancellation Notice Hours': umut_profile['appointmentSettings.cancellationNoticeHours'].values[0]
+}
+
+# Farkları hesaplayalım
+result = {
+    'Emre Korkmaz': emre_values,
+    'Umut Aslan': umut_values,
+    'Fark Minimum Notice Hours': emre_values['Minimum Notice Hours'] - umut_values['Minimum Notice Hours'],
+    'Fark Cancellation Notice Hours': emre_values['Cancellation Notice Hours'] - umut_values['Cancellation Notice Hours']
+}
+[CodeInterpreter] Basarili! Cikti: {'Emre Korkmaz': {'Minimum Notice Hours': np.int64(6), 'Cancellation Notice Hours': np.int64(24)}, 'Umut Aslan': {'Minimum Notice Hours': np.int64(4), 'Cancellation Notice Hours': np.int64(24)}, 'Fark Minimum Notice Hours': np.int64(2), 'Fark Cancellation Notice Hours': np.int64(0)}
+N[2] sinif=TP cevap_uzunluk=240 kelime=40 ham==son=True bozuk(cevap)={'notuwresi': False, 'same': False} bozuk(bağlam)={'notuwresi': False, 'same': False}
+   kaynaklar: 728_profiles.json (code_interpreter (code_interpreter_sandbox))
+   CEVAP: Emre Korkmaz'ın en az uyarı saatleri 6 saat, Umut Aslan'ın ise 4 saat; ikisinin de iptal uyarı saatleri 24 saat olduğuna göre, çubuk grafikte Emre Korkmaz'ın en az uyarı saatları Umut Aslan'ın en az uyarı saatlarına kıyasla 2 saat fazladır.
+
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'appointmentSettings.minimumNoticeHours~minimum', 'appointmentSettings.cancellationNoticeHours~cancellationNoticeHours', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (1. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] Deneme 2/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (2. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] Deneme 3/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (3. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] 3 deneme basarisiz oldu. Son hata: KeyError: 'olmayan_sutun'
+[retrieval] Cache yuklendi: 898 chunk, embedding matrisi (898, 1024)
+   ! embedding hatası, Ollama yeniden başlatılıyor (1/2)
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'appointmentSettings.minimumNoticeHours~minimum', 'appointmentSettings.cancellationNoticeHours~cancellationNoticeHours', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (1. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] Deneme 2/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (2. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] Deneme 3/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (3. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] 3 deneme basarisiz oldu. Son hata: KeyError: 'olmayan_sutun'
+D5[1] sinif=TP cevap_uzunluk=709 kelime=100 ham==son=False bozuk(cevap)={'notuwresi': True, 'same': True} bozuk(bağlam)={'notuwresi': False, 'same': False}
+   kaynaklar: 728_profiles.json ($.profiles[726]); 728_profiles.json ($.profiles[727]); 728_profiles.json ($.profiles[95]); 728_profiles.json ($.profiles[33])
+   CEVAP: Emre Korkmaz'in minimumNoticeHours değeri 6 saat, Umut Aslan'in ise 4 saat olarak belirtilmiştir. Ayrıca, Emre Korkmaz'in cancellationNoticeHours değeri 24 saat, Umut Aslan'in ise 24 saat olarak belirtilmiştir. Bu durumda, her iki profesyonelin de iptal notuwresi same (24 saat), ancak minimum dikkat edilecek uyarı süresi Emre Korkmaz'da daha uzun (6 saat) olarak ayarlanmıştır. Bu bilgilere dayanarak çubuk grafiği oluşturabiliriz: - Emre Korkmaz: Minimum Notuwresi: 6 saat / İptal Notuwresi: 24 saat
+- Umut Aslan: Minimum Notuwresi: 4 saat / İptal Notuwresi: 24 saat Bu fark, Emre Korkmaz'in randevularının daha fazla dikkate alınması gereken daha uzun minimum uyarı süresine sahip olduğunu göstermektedir.
+
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'appointmentSettings.minimumNoticeHours~minimum', 'appointmentSettings.cancellationNoticeHours~cancellationNoticeHours', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (1. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] Deneme 2/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (2. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] Deneme 3/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (3. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] 3 deneme basarisiz oldu. Son hata: KeyError: 'olmayan_sutun'
+D5[2] sinif=TP cevap_uzunluk=709 kelime=100 ham==son=False bozuk(cevap)={'notuwresi': True, 'same': True} bozuk(bağlam)={'notuwresi': False, 'same': False}
+   kaynaklar: 728_profiles.json ($.profiles[726]); 728_profiles.json ($.profiles[727]); 728_profiles.json ($.profiles[95]); 728_profiles.json ($.profiles[33])
+   CEVAP: Emre Korkmaz'in minimumNoticeHours değeri 6 saat, Umut Aslan'in ise 4 saat olarak belirtilmiştir. Ayrıca, Emre Korkmaz'in cancellationNoticeHours değeri 24 saat, Umut Aslan'in ise 24 saat olarak belirtilmiştir. Bu durumda, her iki profesyonelin de iptal notuwresi same (24 saat), ancak minimum dikkat edilecek uyarı süresi Emre Korkmaz'da daha uzun (6 saat) olarak ayarlanmıştır. Bu bilgilere dayanarak çubuk grafiği oluşturabiliriz: - Emre Korkmaz: Minimum Notuwresi: 6 saat / İptal Notuwresi: 24 saat
+- Umut Aslan: Minimum Notuwresi: 4 saat / İptal Notuwresi: 24 saat Bu fark, Emre Korkmaz'in randevularının daha fazla dikkate alınması gereken daha uzun minimum uyarı süresine sahip olduğunu göstermektedir.
+

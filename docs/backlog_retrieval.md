@@ -715,8 +715,9 @@ D4/D5'in data_engine'de ayrı yola gidişini kilitler; erken dönüşü bozmak t
 döndürecek şekilde yamalandı (3 deneme `KeyError`, servis sağlam); geri kalan her şey
 gerçek (router, semantik fallback, reranker, synthesizer). Bilgisi veride bulunan sorular:
 - **Tek kayıttan/özet bloktan cevaplananlar (benchmark #32, #35, #39, #42): 4/4
-  semantik fallback doğru cevabı buldu** (TP; #42'nin cevabı bozuk ve kesik:
-  "iptal notuwresi same", "…minimum dikkat").
+  semantik fallback doğru cevabı buldu** (TP; #42'nin cevabında bozuk sözcükler var:
+  "iptal notuwresi same" — ilk kayıttaki "yarıda kesik" ifadesi YANLIŞTI, betiğin 300
+  karakterlik yazdırma sınırından kaynaklanıyordu; bkz. madde 38 Örnek 3).
 - **Tüm 728 kaydın hesabını isteyen toplulaştırma soruları (benchmark dışı, gerçek
   değer pandas'tan): 0/3 doğru cevap.** A1 ortalama deneyim (gerçek 11.9986): uydurma
   hesap ("19+13+12=44 … 44/364"). A2 business profil sayısı (gerçek 129): "Bu bilgi
@@ -731,8 +732,8 @@ mesaj değil, sandbox başarısız olunca toplulaştırma sorusunun semantik RAG
 Ayrıntı, çözüm adayı ve blokaj şartları madde 41'de. Bu işin mesaj/durum ayrımıyla
 (madde 14'ün konusu) farklı bir risk sınıfı olduğu orada yazılı.
 
-**#42'nin bozuk cevabı** (D5 enjeksiyonunda "iptal notuwresi same", cümle yarıda kesik)
-ayrı bir gözlem olarak madde 38'e Örnek 3 diye kaydedildi; araştırılmadı.
+**#42'nin bozuk cevabı** (D5 yolunda "iptal notuwresi same") madde 38'e Örnek 3 diye
+kaydedildi; triyajı orada.
 
 **Madde 14 kapanışı (tamamlandı DEĞİL):** ayrım kodda zaten var + D5 gözlemi yapıldı +
 davranış değişikliği yeni açılan madde 41'e devredildi. Mesaj metinlerinde ve ayrımda bu
@@ -2091,15 +2092,36 @@ chunk'ındaki formül satırları PUA sembolleri ve parçalı düzen yüzünden 
 34 Adım 1); hatanın bundan mı geldiği ölçülmedi (A1/A2 varyantları retti, içeriği
 test edilmedi).
 
-**Örnek 3 — test_2 #42, yalnız D5 enjeksiyonunda** (madde 14 Durum; `d5_gercek.py`,
-`d5_gercek.jsonl`): sandbox'ın kod üretimi bozulup (servis sağlam) akış semantik RAG'e
-düşünce cevap sınıfta TP ama **metni bozuk ve yarıda kesik**: "Emre Korkmaz'in
-minimumNoticeHours değeri 6 saat, Umut Aslan'in ise 4 saat … her iki profesyonelin de
-iptal **notuwresi same** (24 saat), ancak minimum dikkat" (cümle burada bitiyor). Sayılar
-sandbox kontrolüyle (6/4/24/24) tutarlı; bozuk olan söz dizimi (uydurma sözcük
-"notuwresi", İngilizce "same"). İki tekrar bayt bayt aynı. Yalnız gözlem: kesilmenin
-nedeni (`MAX_ANSWER_TOKENS`, dil sızıntısı, bağlam) ve normal (enjeksiyonsuz) yolda
-görülüp görülmediği **ölçülmedi**; araştırma/düzeltme yapılmadı.
+**Örnek 3 — test_2 #42, yalnız D5 yolunda** (madde 14 Durum; `d5_gercek.py`; triyaj
+2026-11-04: [experiments/madde38_42_triyaj/](../experiments/madde38_42_triyaj/)).
+Sandbox'ın kod üretimi bozulup (servis sağlam) akış semantik RAG'e düşünce cevap sınıfta TP
+ama metinde uydurma/yabancı sözcükler var: "…her iki profesyonelin de iptal **notuwresi
+same** (24 saat) … Minimum **Notuwresi**: 6 saat / İptal **Notuwresi**: 24 saat". Sayılar
+sandbox kontrolüyle (6/4/24/24) tutarlı.
+- **Düzeltme:** ilk kayıttaki "yarıda kesik" ifadesi **yanlıştı**; kesiklik betiğimin 300
+  karakterlik yazdırma sınırının eseriydi. Cevap 709 karakter, tam bir cümleyle bitiyor.
+- **Normal yolda çıkmıyor:** enjeksiyonsuz (sandbox çözüyor) 2/2 temiz, madde 39 ve madde 30 tam
+  koşularındaki kayıtlarla aynı; cevapta "notuwresi/same" yok (yalnız küçük biçimbilim
+  kaymaları: "uyarı saatları / saatlarına").
+- **D5 yolunda tekrar üretiliyor:** 4/4 (iki ayrı koşu × 2 tekrar), bayt bayt aynı. D5 enjeksiyonu
+  yalnız TETİKLEYİCİ; semantik fallback yolu gerçek ve sandbox çözemediğinde üretimde de
+  kullanılır. Yani "yalnız stres koşulunun yan etkisi" denemez ama yol nadir (benchmark'ta
+  pozitif D5 yok).
+- **Bozulma modelin kendi çıktısında:** ham model çıktısı (712 karakter) bozuk sözcükleri zaten
+  içeriyor; son işleme yalnız boşluk/satır sonu düzenliyor. Token tavanına (`MAX_ANSWER_TOKENS`
+  = 600) dayanma yok (~100 kelime, doğal bitiş), yabancı-yazı temizliği tetiklenmedi, bağlamda
+  bu sözcükler **yok** (bağlam İngilizce alan adlı ham profil JSON'ları: `minimumNoticeHours`
+  vb.). Yani retrieval bloğu ve token sınırı suçlu değil; 7B modelin İngilizce alan adlarını
+  Türkçeleştirirken uydurduğu sözcükler.
+
+**Kapanış (2026-11-04): #42 / Örnek 3 kendi başına, doğru kök nedenle kapatıldı.** Kök neden
+kesiklik değil: 7B sentezleyici, ham İngilizce alan adlı JSON bağlamından Türkçe üretirken
+sözcük uyduruyor (confabülasyon). Normal yolda görülmüyor; D5 fallback'inde 4/4 tekrar
+üretiliyor. Bu, **madde 41'den ayrı bir hata sınıfı** (madde 41 sayısal toplulaştırma
+hatası; burada sayılar doğru, bozuk olan metin sentezi) ve ona bağlanmadı.
+- **Ertelendi (sentezleyici confabülasyonu):** Sentezleyici, ham İngilizce alan adlı JSON
+  bağlamından Türkçe üretirken kelime uydurabilir (confabülasyon). Normal semantik RAG yolunda
+  da (D5 dışında) olup olmadığı ölçülmedi. Öncelik verilmedi, ayrı değerlendirilecek.
 
 **Ölçülmedi:** desenin kapsamı (reti kaldıran diğer müdahalelerde içerik ne kadar
 sık hatalı) ve ortak neden (bağlam eksikliği / bozuk metin / model çıkarımı).
