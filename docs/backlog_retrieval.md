@@ -1413,10 +1413,49 @@ işaretliydi; bu koşuda test_2/test_3 Ollama'nın CPU'ya düştüğü sete denk
 geldi — madde 29'un embedding kayması olası açıklama).
 
 (a2) no-op olduğu için [src/llm_client.py](../src/llm_client.py)'dan geri
-alındı. Gerçek mekanizmayı (sayfa 18 yanlış eşlemesi) hedefleyen bir kural
-denenmek istenirse bu not başlangıç noktası olmalı; tek soruya göre değil,
-tam 32 negatif + FN tarafı birlikte ölçülmeli (bu bölümün yukarıdaki
-uyarısı hâlâ geçerli).
+alındı.
+
+**Adım 2 — X/XR izolasyonu (2026-11-02): "tek kötü chunk" teorisi çürüdü.**
+Madde 34 disipliniyle (`experiments/madde30_sikilastirma/adim2_izolasyon.py`
++ ad-hoc `sayfa 22-23` varyantı): #224 ve #101 için V0 (bugünkü bağlam, FP),
+X (sayfa 18 chunk'ı — 4344 — çıkarılmış), XR (yerine konuyla ilgisiz bir
+Fourier chunk'ı konmuş) ve ayrıca sayfa 22-23 chunk'ı (4348, bir CNF
+alıştırmasının SORU+ÇÖZÜMÜ — "Örnek 2"/"Cevap 2") için de X2/XR2.
+**Her varyant (6+4=10 koşu, hepsi 2/2 tekrar birebir aynı) hâlâ FP.** Tek
+bir chunk'ı çıkarmak (18 ya da 22-23, ayrı ayrı) sonucu değiştirmiyor —
+geri kalan chunk'lar (16/17/19/22-23 ya da 16/17/18/19, hepsi aynı
+dilbilgisinin yalınlaştırma/CNF algoritmalarına ait sayfalar) tek başına
+yetiyor. **Taban oranı kontrolü de aynı yöne işaret ediyor:** sayfa 18
+chunk'ını taşıyan 13 sorudan 10'u (test_1, VN/VT/yararsız-öğe soruları) TP,
+1'i (test_5#103, pompalama lemması) TN — yalnız SORU "CNF'ye dönüştürme
+adımları" olduğunda (#101, #224) FP çıkıyor. Yani **sayfa 18 (ya da 22-23)
+tek başına bir "kötü chunk" değil**; FP'yi üreten şey bu belgenin CNF'ye
+komşu birkaç algoritma sayfasının (16/17/18/19/22-23) BİRLİKTE, soru tam
+olarak "genel CNF dönüştürme adımları" olduğunda modele "yeterince ilgili
+görünen" bir malzeme havuzu sunması — herhangi bir alt kümesi yetiyor.
+Retrieval tarafında tek-chunk filtresi (madde 24/32 tarzı) bu nedenle işe
+yaramaz; müdahale (varsa) ya tüm bu sayfa kümesini birlikte hedeflemeli ya
+da üretim tarafında (ör. "adımları say" türü sorularda genel algoritma
+adı/numarası yoksa ret) olmalı — bu hâlâ denenmedi, sayılarla ölçülmedi.
+
+Ham çıktı: `experiments/madde30_sikilastirma/adim2_izolasyon.jsonl`,
+`sonuc_adim2_izolasyon.txt`, `sonuc_adim2b_sayfa2223.txt`. Tek soruya göre
+değil, tam 32 negatif + FN tarafı birlikte ölçülmeli (bu bölümün yukarıdaki
+uyarısı hâlâ geçerli) — herhangi bir müdahale denenirse.
+
+**Durum (2026-11-04): ödünleşim yeniden değerlendirildi, iki müdahale/hipotez
+denendi (ikisi de no-op/çürütüldü), kabul edilmiş sınırlama olarak kapatıldı.**
+#224 ve #101 FP olarak kalıyor; taban 92 TP / 42 TN / 7 FN / 4 FP (madde 39).
+
+**İzleme notu — "adım sayma + komşu sayfa havuzu" deseni.** "…adımları
+nelerdir / hangi adımlardan oluşur" tipi sorularda, belgede genel adım listesi
+açıkça yazılı değilken ama komşu algoritma sayfaları (burada 16-19 ve 22-23)
+birlikte bağlama girdiğinde model bu sayfalardan bir adım listesi kuruyor ve
+FP üretiyor; tek bir chunk'ı çıkarmak etkisiz. Yeni bir FP bu desene uyuyorsa
+(adım/aşama sorusu + aynı konuya ait çok sayıda komşu sayfa) madde 30'un aynı
+ailesi sayılmalı, yeniden soruşturulmamalı. Müdahale denenmek istenirse yön:
+tüm sayfa kümesini birlikte hedefleyen retrieval kuralı ya da üretimde "genel
+algoritma adı/numarası yoksa ret" — ikisi de denenmedi.
 
 ## Madde 31 — OCR'lı Cevap sayfalarının metin kalitesi
 

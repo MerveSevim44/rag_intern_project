@@ -1,0 +1,44 @@
+# Taban oranı kontrolü (madde 39, sayfa 18 chunk'ını taşıyan tüm sorular)
+  test_1#1: TP  G4.1 dilbilgisinde VT kümesinin elemanları nelerdir?
+  test_1#6: TP  G4.2 dilbilgisinin uç simgeler (VT) kümesi nelerdir?
+  test_1#14: TP  Bir A değişkeninin yararlı (useful) bir değişken olabilmesi için sağla
+  test_1#16: TP  Yararsız kural (useless rule) ne demektir?
+  test_1#17: TP  Algoritma 4.5 hangi amaçla kullanılır ve sonucunda hangi küme elde edi
+  test_1#18: TP  Algoritma 4.6 hangi amaçla kullanılır ve sonucunda hangi küme elde edi
+  test_1#19: TP  G4.7 dilbilgisinde uç simge dizgisi türeten değişkenler kümesi (TD) ne
+  test_1#20: TP  G'4.7 dilbilgisinde başlangıç değişkeninden ulaşılabilen değişkenler k
+  test_1#21: TP  G4.7'nin yalınlaştırılmış son hali olan G''4.7 dilbilgisinin kuralları
+  test_1#22: TP  Dilbilgisinin yalınlaştırılması (yararsız öğelerin atılması) kaç adımd
+  test_5#101: FP  Bağlamdan bağımsız dilbilgisini Chomsky normal formuna dönüştürme algo
+  test_5#103: TN  Bağlamdan bağımsız dilbilgisi için pompalama (pumping) lemması nasıl i
+  test_negative#224: FP  Bağlamdan bağımsız dilbilgisi dokümanında anlatılan Chomsky normal for
+
+=== test_negative#224 V0  bağlam [(4348, 'sayfa 22-23'), (4344, 'sayfa 18'), (4328, 'sayfa 2'), (4342, 'sayfa 16')]
+  [1] FP: 'Bağlamdan bağımsız dilbilgisinin Chomsky normal formuna dönüştürme adımları şunlardır: 1. Yararsız değişken ve kurallar atılır.\n2. Uç simge dizgisi türeten değişkenler kümesi bulunur.\n3. Yeni kurallar'
+  [2] FP: 'Bağlamdan bağımsız dilbilgisinin Chomsky normal formuna dönüştürme adımları şunlardır: 1. Yararsız değişken ve kurallar atılır.\n2. Uç simge dizgisi türeten değişkenler kümesi bulunur.\n3. Yeni kurallar'
+  tekrarlar aynı: True
+
+=== test_negative#224 X  bağlam [(4348, 'sayfa 22-23'), (4328, 'sayfa 2'), (4342, 'sayfa 16')]
+  [1] FP: "Bağlamdan bağımsız dilbilgisi için Chomsky normal formuna dönüştürme adımları şunlardır: 1. Yararsız değişken ve simgeyi kaldır.\n2. VN içindeki her değişken için P'de bulunan en az bir kural oluştur.\n"
+  [2] FP: "Bağlamdan bağımsız dilbilgisi için Chomsky normal formuna dönüştürme adımları şunlardır: 1. Yararsız değişken ve simgeyi kaldır.\n2. VN içindeki her değişken için P'de bulunan en az bir kural oluştur.\n"
+  tekrarlar aynı: True
+
+=== test_negative#224 XR  bağlam [(4348, 'sayfa 22-23'), (4181, 'sayfa 8'), (4328, 'sayfa 2'), (4342, 'sayfa 16')]
+  [1] FP: 'Bağlamdan bağımsız dilbilgisi Chomsky normal formuna dönüştürme adımları şunlardır: 1. Yararsız değişken ve simgeyi kaldır.\n2. Türetme kurallarını ikili yap.\n3. Türetme kurallarındaki uzun ifadeleri p'
+  [2] FP: 'Bağlamdan bağımsız dilbilgisi Chomsky normal formuna dönüştürme adımları şunlardır: 1. Yararsız değişken ve simgeyi kaldır.\n2. Türetme kurallarını ikili yap.\n3. Türetme kurallarındaki uzun ifadeleri p'
+  tekrarlar aynı: True
+
+=== test_5#101 V0  bağlam [(4344, 'sayfa 18'), (4348, 'sayfa 22-23'), (4343, 'sayfa 17'), (4345, 'sayfa 19')]
+  [1] FP: "Algoritma 4.5 ve Algoritma 4.6'i kullanarak bağlamdan bağımsız dilbilgisini Chomsky normal formuna dönüştürme işlemi iki adımda gerçekleştirilir. Bu adımlar şunlardır: 1. Uç simge dizgisi türeten deği"
+  [2] FP: "Algoritma 4.5 ve Algoritma 4.6'i kullanarak bağlamdan bağımsız dilbilgisini Chomsky normal formuna dönüştürme işlemi iki adımda gerçekleştirilir. Bu adımlar şunlardır: 1. Uç simge dizgisi türeten deği"
+  tekrarlar aynı: True
+
+=== test_5#101 X  bağlam [(4348, 'sayfa 22-23'), (4343, 'sayfa 17'), (4345, 'sayfa 19')]
+  [1] FP: "Bağlamdan bağımsız dilbilgisini Chomsky normal formuna dönüştürme algoritması iki adımdan oluşur. Bu adımlar: 1. Yararsız değişken ve kuralların atılması.\n2. Algoritma 4.6'u kullanarak başlangıç değiş"
+  [2] FP: "Bağlamdan bağımsız dilbilgisini Chomsky normal formuna dönüştürme algoritması iki adımdan oluşur. Bu adımlar: 1. Yararsız değişken ve kuralların atılması.\n2. Algoritma 4.6'u kullanarak başlangıç değiş"
+  tekrarlar aynı: True
+
+=== test_5#101 XR  bağlam [(4181, 'sayfa 8'), (4348, 'sayfa 22-23'), (4343, 'sayfa 17'), (4345, 'sayfa 19')]
+  [1] FP: 'Bağlamdan bağımsız dilbilgisini Chomsky normal formuna dönüştürme algoritması üç adımdan oluşur: 1. Yararsız değişken ve kurallar atılmalıdır.\n2. Dilbilginin değişkenlerinden hangilerine başlangıç değ'
+  [2] FP: 'Bağlamdan bağımsız dilbilgisini Chomsky normal formuna dönüştürme algoritması üç adımdan oluşur: 1. Yararsız değişken ve kurallar atılmalıdır.\n2. Dilbilginin değişkenlerinden hangilerine başlangıç değ'
+  tekrarlar aynı: True

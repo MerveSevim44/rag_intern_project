@@ -1,0 +1,19 @@
+=== test_negative#224 X2  baglam [(4344, 'sayfa 18'), (4328, 'sayfa 2'), (4342, 'sayfa 16')]
+  [1] FP: 'Bağlamdan bağımsız dilbilgisi dokümanında anlatılan Chomsky normal formuna dönüştürme adımları yararsız değişken ve kuralların atılmasıdır. Bu adımlar, algoritma 4.5 kullanılarak uç simge dizgisi türe'
+  [2] FP: 'Bağlamdan bağımsız dilbilgisi dokümanında anlatılan Chomsky normal formuna dönüştürme adımları yararsız değişken ve kuralların atılmasıdır. Bu adımlar, algoritma 4.5 kullanılarak uç simge dizgisi türe'
+  tekrarlar ayni: True
+
+=== test_negative#224 XR2  baglam [(4181, 'sayfa 8'), (4344, 'sayfa 18'), (4328, 'sayfa 2'), (4342, 'sayfa 16')]
+  [1] FP: 'Bağlamdan bağımsız dilbilgisinin Chomsky normal formuna dönüştürülmesi adımları şunlardır: 1. Yararsız değişken ve kurallar atılmalıdır.\n2. Dilbilginin uç simgelerinden biri hiç bir türetilen cümlede '
+  [2] FP: 'Bağlamdan bağımsız dilbilgisinin Chomsky normal formuna dönüştürülmesi adımları şunlardır: 1. Yararsız değişken ve kurallar atılmalıdır.\n2. Dilbilginin uç simgelerinden biri hiç bir türetilen cümlede '
+  tekrarlar ayni: True
+
+=== test_5#101 X2  baglam [(4344, 'sayfa 18'), (4343, 'sayfa 17'), (4345, 'sayfa 19')]
+  [1] FP: 'Bağlamdan bağımsız dilbilgisini Chomsky normal formuna dönüştürme algoritması, yararsız değişken ve kuralların atılması işlemi iki adımda gerçekleştirilir. Bu adımlar: 1. Uç simge dizgisi türeten deği'
+  [2] FP: 'Bağlamdan bağımsız dilbilgisini Chomsky normal formuna dönüştürme algoritması, yararsız değişken ve kuralların atılması işlemi iki adımda gerçekleştirilir. Bu adımlar: 1. Uç simge dizgisi türeten deği'
+  tekrarlar ayni: True
+
+=== test_5#101 XR2  baglam [(4344, 'sayfa 18'), (4181, 'sayfa 8'), (4343, 'sayfa 17'), (4345, 'sayfa 19')]
+  [1] FP: 'Bağlamdan bağımsız dilbilgisini Chomsky normal formuna dönüştürme algoritması, yararsız değişken ve kuralların atılması işlemi iki adımda gerçekleştirilir. Bu adımlar: 1. Uç simge dizgisi türeten deği'
+  [2] FP: 'Bağlamdan bağımsız dilbilgisini Chomsky normal formuna dönüştürme algoritması, yararsız değişken ve kuralların atılması işlemi iki adımda gerçekleştirilir. Bu adımlar: 1. Uç simge dizgisi türeten deği'
+  tekrarlar ayni: True
