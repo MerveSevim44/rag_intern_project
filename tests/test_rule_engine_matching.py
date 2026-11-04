@@ -100,3 +100,55 @@ def test_cekimli_sektor_hala_eslesir(motor):
 def test_kalan_alan_sayilmaz(motor):
     """"kalan" ⊃ "alan" (kelime ortası): 'sektor/alan/kategori' sözcüğü yok -> 2D tetiklenmez."""
     assert _op(motor, "Sağlık dışında kalan profillerin sayısı kaçtır?") != "filtered_count_sector"
+
+
+# ─── 2D (B): tek tam sektör adı + eşik/oran sözcüğü yok ─────────────────────
+
+def _sektor_sayisi(motor, ad):
+    df = motor.get_dataframe()
+    return int((df["sector"] == ad).sum())
+
+
+def test_tek_sektor_sayisi_dogru(motor):
+    r = motor.execute_query("Sağlık sektöründe kaç profil var?")
+    assert r["operation"] == "filtered_count_sector"
+    assert r["data_points"] == {"sector": "Sağlık", "count": _sektor_sayisi(motor, "Sağlık")}
+
+
+def test_ic_ice_gecen_ad_dogru_sektoru_secer(motor):
+    """"Sağlık" ⊂ "Beslenme ve Sağlıklı Yaşam": eskiden bu soru Sağlık'ın sayısını döndürüyordu."""
+    r = motor.execute_query("Beslenme ve Sağlıklı Yaşam sektöründe kaç profil var?")
+    assert r["operation"] == "filtered_count_sector"
+    assert r["data_points"]["sector"] == "Beslenme ve Sağlıklı Yaşam"
+    assert r["data_points"]["count"] == _sektor_sayisi(motor, "Beslenme ve Sağlıklı Yaşam")
+    assert r["data_points"]["count"] != _sektor_sayisi(motor, "Sağlık")
+
+
+@pytest.mark.parametrize("q", [
+    "Psikoloji ve Danışmanlık ve Ağız ve Diş Sağlığı sektörlerindeki profil sayısı kaçtır?",
+    "Sağlık ve Beslenme ve Sağlıklı Yaşam sektörlerinde kaç profil var?",   # ikisi AYRI geçiyor
+])
+def test_iki_sektor_adi_eslesmez(motor, q):
+    assert _op(motor, q) != "filtered_count_sector"
+
+
+@pytest.mark.parametrize("q", [
+    "Sağlık sektöründeki oran kaçtır?",
+    "Sağlık sektöründe yüzde kaç profil var?",
+    "Sağlık sektörünü diğerleriyle karşılaştırırsak kaç profil var?",
+    "Sağlık sektöründeki 45 dk üzeri seans oranı kaçtır?",
+    "Sağlık sektöründe 45 dk seans veren kaç profil var?",
+    "Sağlık sektöründe ortalama kaç profil var?",
+])
+def test_oran_esik_karsilastirma_sozcugu_varsa_eslesmez(motor, q):
+    assert _op(motor, q) != "filtered_count_sector"
+
+
+def test_bilinen_karmasik_sektor_sorgulari_sayim_donmez(motor):
+    import csv
+    with open(_ROOT / "evaluation" / "datasets" / "test_2.csv", encoding="utf-8-sig") as f:
+        s52 = next(r["soru"] for r in csv.DictReader(f) if r["id"] == "52")
+    t4 = ("Psikoloji ve Danışmanlık ve Ağız ve Diş Sağlığı sektörlerindeki "
+          "45 dk üzeri seans oranları karşılaştırması")
+    assert _op(motor, s52) != "filtered_count_sector"
+    assert _op(motor, t4) != "filtered_count_sector"

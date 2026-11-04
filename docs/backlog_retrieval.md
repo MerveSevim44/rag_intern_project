@@ -882,8 +882,27 @@ Ağız ve Diş Sağlığı sektörlerindeki 45 dk üzeri seans oranları karşı
      (`"profil"` + `"kac"` koşulu fazla gevşek); test_2 #58 `nunique_occupation`'a düşüyor. Önceki
      sonuç (şehir sayısı) da yanlıştı; yani "farklı yanlış", yeni bir gerileme değil. Düzeltme
      ayrı bir karar.
-3. **2D koruması (B):** ayrı commit; önce test_2 #52'nin 2D'ye gerçekten bağımlı olup olmadığı
-   doğrulanacak.
+3. **2D koruması (B) uygulandı.** Önce #52'nin 2D'ye bağımlı olmadığı doğrulandı: rotası
+   `code_interpreter`, `execute_smart_query` içinde `execute_query` 0 kez çağrılıyor (router'ın
+   3 sabit cümlesinde 1 kez, kontrol), iki benchmark koşusunda da cevabı sandbox'tan
+   (`[KESİN HESAPLAMA SONUCU]`, doğrulama `ok`); `filtered_count_sector` adına başka kullanıcı yok.
+   B'nin düzelttiği iki hata:
+   - **Eşik/oran dışlama:** 2D, iki sektör adı ve "45 dk üzeri seans oranları karşılaştırması"
+     içeren soruda yalnız ilk sektörün sayısını döndürüyordu (bu maddenin kırık testi).
+     Artık yalnız tam bir sektör adı kaldıysa ve soruda oran/yüzde/karşılaştır/fark/daha/üzeri/üstü/
+     altında/dakika/ortalama ya da "N dk" yoksa eşleşir.
+   - **İç içe geçen ad hatası (önceden vardı):** "Sağlık", "Beslenme ve Sağlıklı Yaşam"
+     içinde kelime başında geçtiği için "Beslenme ve Sağlıklı Yaşam sektöründe kaç profil var?"
+     **Sağlık'ın sayısını (40)** döndürüyordu (doğrusu 32). Başka bir sektör adının içinde kalan
+     eşleşme artık elenir; ikisi ayrı ayrı geçerse (iki sektör) eşleşmez.
+   Ölçüm (173 sorgu, önce/sonra): yalnız test_2 #52 (`filtered_count_sector` →
+   `meta_sector_distribution_filter`) ve T4 değişti; benchmark'ta 2D hit'i 1 → 0; `__main__` demo
+   sorguları değişmedi. `tests/test_rule_engine_matching.py` 31 test; eski kodla 10'u düşer.
+   **Bilinen sınırlama (uygulanıyor, ama eksiksiz değil):** oran/eşik/karşılaştırma sözcük
+   listesi (`_SEKTOR_KARMASIK_KALIPLARI`) **sezgiseldir ve kapsayıcı değildir**; listede olmayan
+   bir eşik ifadesi ("… en az 60 dakikalık …" gibi listedeki köklerle yakalanmayan bir kurgu)
+   2D'den tek sektörlü bir soruda yine sessizce bir sayım döndürebilir. Kural üretimde
+   ulaşılamadığı için etki CI güveni/gelecekteki kullanımla sınırlı.
 4. **Ertelendi (D):** "ölü kuralları buda / `execute_query`'yi router desenlerine bağla"
    seçeneği ertelendi, öncelik verilmedi. Gerekçe: üretimde yalnız 3 cümle rule_engine'e
    gidiyor, 2A–2H'nin çoğu fiilen ölü; ama router desenleri genişlerse yeniden canlanırlar —
@@ -895,6 +914,35 @@ Ağız ve Diş Sağlığı sektörlerindeki 45 dk üzeri seans oranları karşı
    (`"profil"` + `"kac"`, occupation kolu) şimdi test_5 #107/#109, test_negative #216 ve test_2
    #58'de farklı yanlış eşleşmelere yol açıyor (gerileme değil, önceki sonuç da yanlıştı);
    üretimde ulaşılamıyor, düzeltme ayrı karara bırakıldı, öncelik verilmedi.
+
+### Kapanış (2026-11-04) — madde KAPALI
+Planlanan dört adım tamamlandı:
+- **A** (`c135935`): eskimiş test düzeltildi; `operation` adları assert ediliyor, sektör
+  karşılaştırma grafiği sabit dict ile ayrı test ediliyor.
+- **C + 2G** (`caf6aca`): kural motorundaki alt dize eşleşmeleri kelime başına çevrildi
+  (`_word_start`); yalın "dil/diller" `explode_languages`'a gidiyor. Benchmark'ta kural sonucu
+  döndüren soru 27 → 18, yanlış şehir eşleşmesi 16 → 3.
+- **B** (bu commit): 2D kuralı iç içe geçen sektör adını eler ("Beslenme ve Sağlıklı Yaşam" artık
+  Sağlık'ın sayısını döndürmez) ve oran/eşik/karşılaştırma sözcüğü varsa eşleşmez.
+- **D** ertelendi (aşağıda).
+
+Sonuç: tam paket yeşil (196 test), kırık test kalmadı. Kök neden (eskimiş test + aşırı geniş
+alt dize eşleşmeleri) giderildi; kural motoru üretimde yalnız router'ın 3 sabit cümlesi için
+çalıştığından kullanıcı cevabı hiç etkilenmemişti, kazanç CI güveni ve kodun gelecekteki
+kullanımı.
+
+**Bilerek ertelenen / bilinen sınırlamalar** (hiçbiri bu maddenin kapsamında çözülmedi):
+- **Çekimli dil biçimleri** (dilin, dili, dillerin): veri-seti bağlamı kapısı olmadan
+  eklenemez (kapısız genişletme 6 yanlış pozitif üretiyor); öncelik verilmedi.
+- **Metadata fallback gevşekliği** (`"profil"` + `"kac"`, occupation kolu): test_5 #107/#109,
+  test_negative #216, test_2 #58'de farklı yanlış eşleşmelere yol açıyor (gerileme değil);
+  öncelik verilmedi.
+- **Sözcük listesi eksiksiz değil:** 2D'nin oran/eşik/karşılaştırma listesi sezgisel;
+  listede olmayan bir eşik ifadesi kaçabilir.
+- **D** (ölü kuralları buda / `execute_query`'yi router desenlerine bağla): ertelendi,
+  öncelik verilmedi.
+- Kural motorunda hâlâ veri-seti bağlamı kapısı yok (#92/#114 hikâye sorularındaki "şehir"
+  sözcüğü şehir kuralına uyuyor); üretimde ulaşılamıyor.
 
 ## Madde 18 — Semantik doğrulayıcının gevşekliği ("emin değilsen TAMAM")
 

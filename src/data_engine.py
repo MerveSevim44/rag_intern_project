@@ -45,6 +45,18 @@ def _word_start(q_norm: str, *kaliplar: str) -> bool:
     return any(re.search(r"(?<![a-z0-9])" + re.escape(k), q_norm) for k in kaliplar)
 
 
+# Sektör sayım kuralının (2D) KARŞILAYAMAYACAĞI ifadeler: oran, eşik, karşılaştırma, ortalama.
+# SEZGİSEL ve kapsayıcı DEĞİL: listede olmayan bir eşik/karşılaştırma ifadesi kaçabilir
+# (backlog madde 17, bilinen sınırlama).
+_SEKTOR_KARMASIK_KALIPLARI = ("oran", "yuzde", "karsilastir", "fark", "daha", "uzeri", "ustu",
+                              "altinda", "dakika", "ortalama")
+
+
+def _sektor_sorusu_karmasik(q_norm: str) -> bool:
+    return (_word_start(q_norm, *_SEKTOR_KARMASIK_KALIPLARI)
+            or bool(re.search(r"(?<![a-z0-9])\d+\s*dk(?![a-z0-9])", q_norm)))
+
+
 # Sandbox'ta filtre 0 satir dondurdugunde synthesizer'a gecilen govde.
 # Sayisal bir sonuc ICERMEZ — amaci modelin "0" gibi bir degeri olgu diye
 # aktarmasini engellemek.
@@ -418,17 +430,26 @@ class TabularDataEngine:
         # ── 2D. FİLTRELİ SAYMA: SEKTÖRE GÖRE SAYI (örn: 'Sağlık' sektöründe kaç profil var?) ──
         sector_col = next((col for col in df.columns if col.lower() in ("sector", "industry", "kategori", "category")), None)
         if _word_start(q_norm, "sektor", "alan", "kategori") and sector_col:
+            # Sorguda geçen sektör adlarının konumları. Bir ad başka bir sektör adının İÇİNDE
+            # kalıyorsa elenir ("Sağlık" ⊂ "Beslenme ve Sağlıklı Yaşam": eskiden bu soru Sağlık'ın
+            # sayısını döndürüyordu). Kural YALNIZ tam bir sektör adı kaldıysa ve soru eşik/oran/
+            # karşılaştırma istemiyorsa eşleşir; aksi halde None (backlog madde 17).
+            konumlar = []
             for sector_name in df[sector_col].dropna().unique():
-                norm_sec = _tr_normalize(sector_name)
-                if _word_start(q_norm, norm_sec):
-                    count = int(len(df[df[sector_col] == sector_name]))
-                    return {
-                        "operation": "filtered_count_sector",
-                        "filter": {"sector": sector_name},
-                        "result": count,
-                        "summary": f"'{sector_name}' sektöründe toplam {count} profil bulunmaktadır.",
-                        "data_points": {"sector": sector_name, "count": count}
-                    }
+                for m in re.finditer(r"(?<![a-z0-9])" + re.escape(_tr_normalize(sector_name)), q_norm):
+                    konumlar.append((sector_name, m.span()))
+            kalan = {ad for ad, (b, s) in konumlar
+                     if not any((b2 <= b and s <= s2 and (b2, s2) != (b, s)) for _, (b2, s2) in konumlar)}
+            if len(kalan) == 1 and not _sektor_sorusu_karmasik(q_norm):
+                sector_name = next(iter(kalan))
+                count = int(len(df[df[sector_col] == sector_name]))
+                return {
+                    "operation": "filtered_count_sector",
+                    "filter": {"sector": sector_name},
+                    "result": count,
+                    "summary": f"'{sector_name}' sektöründe toplam {count} profil bulunmaktadır.",
+                    "data_points": {"sector": sector_name, "count": count}
+                }
 
         # ── 2E. profileType DAĞILIMI (individual vs business) ──
         if "profiletype" in q_norm or "profil tipi" in q_norm or "profil turu" in q_norm:
