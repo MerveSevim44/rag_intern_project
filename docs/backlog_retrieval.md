@@ -550,10 +550,35 @@ Ayırmak kod yapısını ayrıştırmayı gerektirir.
   maliyeti (ek çağrı, gecikme) ve güvenilirlik ödünleşimiyle. Madde 8 boyunca
   LLM muhakemesine bel bağlamaktan kaçınıldı çünkü `_semantic_check` #107'de
   zaten çalışıp itiraz etmemişti; ayrı bir katman bu deneyimi hesaba katmalı.
+  **Uyarı (2026-11-04, madde 18):** bu seçenek "kolay yedek" değil. Madde 18'in
+  ölçümünde aynı 7B model, kendi gerekçesinde sorunu yazıp yine TAMAM dedi
+  (#44, #42, #52, #60), gerekçe-önce biçim 3 hedef vakanın en fazla 2'sini
+  yakaladı ve yanlış itiraz üretti (VE 1/7, VNE 4/7); #51'i gerekçeyle bile
+  göremedi. Ayrı bir LLM katmanına geçmek büyük olasılıkla aynı kapasite
+  duvarına çarpar; beklenti düşük tutulmalı, denenirse farklı/daha büyük bir
+  model ya da yapılandırılmış çıktı sözleşmesi gibi somut bir değişkenle.
 
 Heuristik yarışına devam edilmemesinin gerekçesi: her katman kendi test yükünü,
 kendi kenar durumlarını ve kendi bakım borcunu getiriyor; çözülen tek vakanın
 (#107) değeri bu maliyeti karşılamıyor.
+
+### Ek (2026-11-04): #232 aynı desen; kapsam sonucu
+Madde 18 Adım 3 (`experiments/madde18_dogrulayici/adim3_kapsam.py`, LLM'siz,
+madde 30 tam koşusunun logları): sandbox'tan sonuç dönen 14 soruda (147'den;
+11 TP, 2 FP, 1 TN) "soru bir kavramdan bahsediyor, kod+sonuçta yok" deseni
+**3 soruda, üçü de negatif**: **#107** (FP; "ücret" → `defaultDurationMinutes`),
+**#232** (FP, test_negative; "en son hangi tarihte sınır değişikliği" → kod
+`founded` ile eyalet adı (Hawaii) döndürüyor, tarih/değişiklik yok;
+doğrulayıcı `ok`), **#108** (TN; başka katman "bilgi bulunamadı" diyor).
+Benchmark'taki 4 FP'nin 2'si (#107, #232) bu desen; diğer ikisi madde 30.
+**#232 de aynı kök nedenle kabul edilmiş sınırlamaya eklendi.** 11 pozitif
+sorunun hiçbirinde gerçek eksik kavram yok.
+
+Deterministik kapı yine açılmadı: sorular Türkçe, kolonlar İngilizce
+(doğru #32'de bile "meslek"/"sektör" kodda geçmiyor), yani düz sözcük
+eşleştirmesi #107'yi #32'den ayıramaz; alias tabanlı kapı ise bu maddenin 2.
+denemesi olarak zaten çürüdü ve #39/#42'de (gerçekten `ok` kalması gereken
+vakalar, madde 18) filtre/hesaplanan sütun ayrımında kırılırdı.
 
 ## Madde 13 — Tam eval'in yeşil olması `data_engine` için kanıt DEĞİLDİR
 Bu bir bug kaydı değil, **ölçüm altyapımızdaki yapısal bir körlüğün** kaydıdır.

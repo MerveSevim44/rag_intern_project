@@ -1,0 +1,33 @@
+sandbox'a giden ve başarılı sonuç dönen soru: 14 / 147
+sınıf dağılımı: {'TP': 11, 'FP': 2, 'TN': 1}
+negatif (dokumanda_var_mi=Hayır) olanlar: [('test_5', '107', 'FP'), ('test_5', '108', 'TN'), ('test_negative', '232', 'FP')]
+
+== Eksik terim taraması (soruda var, kod+sonuçta ön ek yok) ==
+test_2#32 [TP] eksik=['bolumune', 'bulunmaktadir', 'meslek', 'sektor', 'setinde', 'statistics', 'toplam']
+    S: statistics bölümüne göre veri setinde toplam kaç profil (profileCount), kaç sektör (sectorCount) ve kaç meslek (occupationCount) b
+test_2#35 [TP] eksik=['alani', 'altinda', 'ayarlanmistir', 'degerleri', 'genellikle', 'ornek', 'profillerde']
+    S: publicContact alanı altında phoneVisible ve emailVisible değerleri örnek profillerde genellikle nasıl ayarlanmıştır?
+test_2#37 [TP] eksik=['cubuk', 'digerlerinden', 'edilmektedir', 'fazla', 'grafikle', 'icindeki', 'karsilastirdiginizda']
+    S: sectorDistribution içindeki 22 sektörün profil sayılarını bir çubuk grafikle karşılaştırdığınızda hangi üç sektör diğerlerinden (3
+test_2#39 [TP] eksik=['dizisindeki', 'hangileri', 'modda', 'sunulmaktadir']
+    S: Umut Aslan profilinde services dizisindeki hizmetlerden hangileri Online, hangileri Yüz yüze modda sunulmaktadır?
+test_2#42 [TP] eksik=['cikar', 'cubuk', 'grafikle', 'karsilastirdiginizda', 'ortaya']
+    S: Emre Korkmaz ve Umut Aslan profillerinin minimumNoticeHours ve cancellationNoticeHours değerlerini bir çubuk grafikle karşılaştırd
+test_2#44 [TP] eksik=['ayrilmaktadir', 'birbirinden', 'icindeki', 'kavramsal']
+    S: appointmentSettings içindeki minimumNoticeHours ile cancellationNoticeHours kavramsal olarak birbirinden nasıl ayrılmaktadır?
+test_2#45 [TP] eksik=['gosterin', 'kurala', 'uzerinden']
+    S: slug alanı displayName ve profileCode alanlarından nasıl bir kurala göre oluşturulmuş görünmektedir? Örnek profil üzerinden göster
+test_2#51 [TP] eksik=['degeri', 'dogrulanir', 'gosteren', 'grafik', 'icindeki', 'olmadigi', 'olusturdugunuzda', 'sayilarini', 'statistics']
+    S: sectorDistribution içindeki 22 sektörün profil sayılarını gösteren bir grafik oluşturduğunuzda toplamın statistics.profileCount de
+test_2#52 [TP] eksik=['analizine', 'dagilim', 'edilmesini', 'etkisi', 'gorsellestirdiginizde', 'olasi', 'setinin', 'tanesinin', 'temsil']
+    S: 22 sektörden 3 tanesinin (Sağlık, Spor ve Fitness, Eğitim ve Özel Ders) 40 profille diğerlerinden fazla temsil edilmesini bir dağı
+test_2#57 [TP] eksik=['arasinda', 'dagilim', 'gosterdiginizde', 'gosterir', 'grafikle', 'icinde', 'profil']
+    S: 728 profil içinde her sektördeki ortalama meslek (occupation) sayısını bir grafikle gösterdiğinizde, occupationCount/sectorCount o
+test_2#60 [TP] eksik=['egilim', 'gostermektedir', 'setindeki']
+    S: Profillerin deneyim yıllarını (experience.years) bir histogramla görselleştirdiğinizde veri setindeki deneyim dağılımı nasıl bir e
+test_5#107 [FP NEG] eksik=['ortalama', 'profiles', 'profillerin', 'randevu', 'setinde', 'ucreti']
+    S: 728_profiles.json veri setinde profillerin ortalama randevu ücreti kaç TL'dir?
+test_5#108 [TN NEG] eksik=['cinsiyet', 'dagilimi', 'setinde']
+    S: 728_profiles.json veri setinde profillerin cinsiyet dağılımı nedir?
+test_negative#232 [FP NEG] eksik=['degisikligi', 'eyalet', 'kaydedilmistir', 'setinde', 'siniri', 'states', 'tarihte']
+    S: us-states veri setinde en son hangi tarihte eyalet sınırı değişikliği kaydedilmiştir?
