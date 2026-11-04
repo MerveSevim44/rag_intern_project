@@ -1,0 +1,21 @@
+{"adim": "snap", "prompt_krk": 9351, "prob_9k": [200, "", 14.41], "foundry_surec": 1, "foundry_rss_gb": 2.27, "bos_ram_gb": 0.75, "gpu_mib": "7859 MiB, 8188 MiB", "t": "20:17:20"}
+{"adim_cikis": "snap", "cikis": 0}
+{"adim": "wear", "istek": 9, "hata": 0, "prob_9k": [200, "", 3.6], "foundry_surec": 1, "foundry_rss_gb": 2.24, "bos_ram_gb": 1.5, "gpu_mib": "7859 MiB, 8188 MiB", "t": "20:18:43"}
+{"adim_cikis": "wear", "cikis": 0}
+{"adim": "wear", "istek": 10, "hata": 0, "prob_9k": [200, "", 3.52], "foundry_surec": 1, "foundry_rss_gb": 2.25, "bos_ram_gb": 1.32, "gpu_mib": "7859 MiB, 8188 MiB", "t": "20:20:01"}
+{"adim_cikis": "wear", "cikis": 0}
+{"adim": "cycle_12600", "buyuk_krk": 12600, "normal_5": [200, 200, 200, 200, 200], "buyuk": [200, "", 5.96], "prob_hemen": [200, "", 3.58], "prob_5sn": [200, "", 3.85], "BOZUK": false, "foundry_surec": 1, "foundry_rss_gb": 2.25, "bos_ram_gb": 1.06, "gpu_mib": "7859 MiB, 8188 MiB", "t": "20:20:53"}
+{"adim_cikis": "cycle 12600", "cikis": 0}
+{"adim": "cycle_15000", "buyuk_krk": 15000, "normal_5": [200, 200, 200, 200, 200], "buyuk": [500, "{\"type\":\"https://tools.ietf.org/html/rfc9110#section-15.6.1\",\"title\":\"Failed to handle openAI completion\",\"status\":500,\"detail\":\"E:\\\\_work\\\\1\\\\s\\\\onnxruntime\\\\c", 7.04], "prob_hemen": [200, "", 3.68], "prob_5sn": [200, "", 3.95], "BOZUK": false, "foundry_surec": 1, "foundry_rss_gb": 2.24, "bos_ram_gb": 0.69, "gpu_mib": "7859 MiB, 8188 MiB", "t": "20:21:48"}
+{"adim_cikis": "cycle 15000", "cikis": 0}
+{"adim": "cycle_12600", "buyuk_krk": 12600, "normal_5": [200, 200, 200, 200, 200], "buyuk": [200, "", 5.9], "prob_hemen": [200, "", 3.59], "prob_5sn": [200, "", 3.99], "BOZUK": false, "foundry_surec": 1, "foundry_rss_gb": 2.23, "bos_ram_gb": 0.89, "gpu_mib": "7859 MiB, 8188 MiB", "t": "20:22:46"}
+{"adim_cikis": "cycle 12600", "cikis": 0}
+{"adim": "cycle_15000", "buyuk_krk": 15000, "normal_5": [200, 200, 200, 200, 200], "buyuk": [500, "{\"type\":\"https://tools.ietf.org/html/rfc9110#section-15.6.1\",\"title\":\"Failed to handle openAI completion\",\"status\":500,\"detail\":\"E:\\\\_work\\\\1\\\\s\\\\onnxruntime\\\\c", 6.48], "prob_hemen": [200, "", 3.57], "prob_5sn": [500, "{\"type\":\"https://tools.ietf.org/html/rfc9110#section-15.6.1\",\"title\":\"Failed to handle openAI completion\",\"status\":500,\"detail\":\"E:\\\\_work\\\\1\\\\s\\\\onnxruntime\\\\c", 4.19], "BOZUK": true, "foundry_surec": 1, "foundry_rss_gb": 2.23, "bos_ram_gb": 0.97, "gpu_mib": "7859 MiB, 8188 MiB", "t": "20:23:47"}
+{"adim_cikis": "cycle 15000", "cikis": 0}
+{"adim": "tier2_basta", "prob_9k": [200, "", 4.0], "foundry_surec": 1, "foundry_rss_gb": 2.23, "bos_ram_gb": 0.95, "gpu_mib": "7859 MiB, 8188 MiB", "t": "20:24:28"}
+{"adim": "tier2_unload", "sure": 0.0, "prob_9k": [200, "", 3.56], "t": "20:24:31"}
+{"adim": "tier2_load", "sure": 24.0, "t": "20:24:55"}
+{"adim": "tier2_sonra", "prob_9k": [200, "", 4.83], "DUZELDI": true, "foundry_surec": 1, "foundry_rss_gb": 2.42, "bos_ram_gb": 0.96, "gpu_mib": "7793 MiB, 8188 MiB", "t": "20:25:01"}
+{"adim_cikis": "tier2", "cikis": 0}
+{"adim": "snap", "prompt_krk": 9351, "prob_9k": [200, "", 6.86], "foundry_surec": 1, "foundry_rss_gb": 2.42, "bos_ram_gb": 1.05, "gpu_mib": "7793 MiB, 8188 MiB", "t": "20:25:22"}
+{"adim_cikis": "snap", "cikis": 0}

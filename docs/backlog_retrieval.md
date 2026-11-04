@@ -17,11 +17,11 @@ PR olarak ele alınır.
 | 8 | Var olmayan/yanlış kolon sorulduğunda halüsinasyon | **Kısmi kapandı** — #109 ve #115 çözüldü; #107 kabul edilmiş sınırlama olarak açık |
 | 9 | RRF sıra tabanlı olduğu için BM25'teki güçlü skor marjını düzleştiriyor | Açık — teorik, somut regresyon örneği bekliyor |
 | 10 | Para birimi koruması birimi siliyor ama sayıyı bırakıyor; halüsinasyonu engellemeden denetlenebilirliği azaltıyor | Açık — düşük öncelik |
-| 11 | Aşırı uzun model yanıtı prompt'u ~12 KB'a taşıyor → Foundry GPU OOM | **Kısmen ele alındı** — D (`90a08e9`) 1. katmanı kapsıyor; C açık seçenek |
+| 11 | Aşırı uzun model yanıtı prompt'u ~12 KB'a taşıyor → Foundry GPU OOM | **C kapandı** (`245a78c`: prompt tavanı 10.500, #43/#53 çökmüyor); D (`90a08e9`) 1. katmanı kapsıyor; toparlanma UYGULANMADI → madde 15 |
 | 12 | `result_to_natural_language` `bool` sonuçta devrik cümle üretiyor ve ham `True` sızdırıyor | Açık — madde 8 adım 4'ten SONRA |
 | 13 | **Ölçüm altyapısı körlüğü**: tam eval `data_engine`/`code_interpreter` davranışını HİÇ çalıştırmıyor | **Yapısal sınırlama** — her `data_engine` değişikliğinde hatırlanmalı; kapatılacak bir bug değil |
 | 14 | "Bulunamadı" mesajı iki farklı durumu birleştiriyor: *bilgi yok* ile *şu an işlenemedi* | Açık — **kullanıcı güvenini etkileyen netlik sorunu**, düşük öncelikli değil |
-| 15 | Servis süreç yönetimi: OOM sonrası Foundry bozuk kalıyor, toparlanma askıda kalabiliyor | Açık — **işletimsel dayanıklılık**, madde 11'den ayrı problem sınıfı |
+| 15 | Servis süreç yönetimi: OOM sonrası Foundry bozuk kalıyor, toparlanma askıda kalabiliyor | Açık — **işletimsel dayanıklılık**, madde 11'den ayrı problem sınıfı; kapı deneyi 2026-11-04 (§5): servis kendiliğinden kapanmış bulundu, kalıcı bozulma yeniden üretilemedi |
 | 16 | Semantik doğrulayıcının LLM çağrısı çökünce sonuç doğrulanmış gibi `[KESİN HESAPLAMA SONUCU]` olarak gidiyor | **A uygulandı ve ölçüldü** — izole koşuda `failed` 0/26; B düşük öncelik (gözlenmiş vaka yok, asıl sorun madde 18). Bkz. [implementation_plan_validator_failure.md](implementation_plan_validator_failure.md) §9 |
 | 17 | `test_visualization::test_data_engine_end_to_end_visualization` kırık: rule engine karşılaştırma sorusunu tek sektör sayımına eşliyor | Açık — **bilinen kırık test**, `10f5efc` öncesinden beri; ne zaman başladığı bilinmiyor |
 | 18 | Semantik doğrulayıcı gevşek: "emin değilsen TAMAM" yanlış hesapları `ok` ile geçiriyor | Açık — **4 deterministik test vakası** (#44, #51, #57, #107); madde 16'nın asıl sorunu |
@@ -501,6 +501,25 @@ kurban oturumun çağrısını kurtarmaz. Çok kullanıcılı üretime geçilirs
 yeniden değerlendirilmeli (ör. toparlanmayı yalnız hiçbir çağrı uçuşta değilken
 yapmak ya da servisi oturum başına ayırmak).
 
+### Kapanış (2026-11-04) — C uygulandı ve ölçüldü; toparlanma UYGULANMADI (madde 15'e devredildi)
+- **C kapandı** (`245a78c`): düzeltme prompt'u 10.500 krk ile sınırlı, geçmiş bütçeli kırpılıyor.
+  Ölçüm: #53 eskiden 9.351 → 12.575 krk'ta 500 verip servisi bozuyordu (doğrulandı); artık
+  9.351 → 10.500 → 10.500 ile çökmüyor ve yanıt veriyor (3/3 tekrar aynı). #43 de çökmüyor
+  (2/2), cevabı pandas ile doğrulandı. Tam paket 203 geçti. Kalan iki test (`test_code_interpreter`,
+  `test_full_pipeline`) canlı servis ister ve değişiklikten önce de kalıyordu.
+- **Gerçek C etkisi yalnız #43 ve #53 üzerinden raporlanır.** test_5 #102/#110'un HATA'dan
+  düzelmesi C'ye YAZILMAZ (ikisi `call_llm_text` çağırmıyor).
+- **#53'ün yanıtı yanlış sayı içeriyor** (Sinem iptal 4 / gerçek 12, Umut min 6 / gerçek 4); bu
+  C'den bağımsız sentez confabülasyonu: madde 41'in sonundaki nota bakınız. README'de #53 ayrı
+  kategoride tutulur.
+- **Toparlanma uygulanmadı.** Kapı deneyi kademe 2'nin bozuk servisi düzelttiğini kanıtlamadı
+  (bozulma kalıcı olarak yeniden üretilemedi); ayrıntı ve açık sorular
+  [madde 15 §5](#5-madde-11-toparlanma-kapı-deneyi-2026-11-04--toparlanma-uygulanmadı)'te.
+  Aşağıdaki "eşzamanlı oturum riski" bu yüzden şu an teoriktir: toparlanma kodu yok. Toparlanma
+  ileride yazılırsa yeniden değerlendirilmelidir.
+- Katmanlar: **1. katman** (sorunun cevabı kayboluyor) D ile (`90a08e9`); **önleme** C ile;
+  **2. katman** (servis sonraki istekler için bozuluyor) → madde 15, açık.
+
 ## Madde 12 — `bool` sonuçta devrik cümle ve ham değer sızması
 Madde 8'in adım 4 envanterinde çıktı (bkz.
 [implementation_plan_alias_gate.md](implementation_plan_alias_gate.md)).
@@ -809,6 +828,36 @@ görülürse buraya eklenmeli; görülmezse bu satır tekil bir olay olarak kalm
   çalışır hâle geldi (`foundry service status` 40 sn zaman aşımıyla doğrulandı).
   `recover.sh` ile aynı desen (komuta zaman aşımı + ardından durumu ayrıca
   doğrulamak; burada PowerShell iş zaman aşımıyla uygulandı) yeterli oldu.
+
+### 5. Madde 11 toparlanma kapı deneyi (2026-11-04) — toparlanma UYGULANMADI
+Madde 11'in C kısmı (`245a78c`) uygulandıktan sonra "toparlanma" (sağlık kontrolü + modeli
+HTTP ile unload/load, "kademe 2") tasarlandı ve uygulanmadan önce bir kapı deneyiyle sınandı
+([experiments/madde11_toparlanma/](../experiments/madde11_toparlanma/)). **Sonuç: kademe 2'nin
+bozuk servisi düzelttiği kanıtlanamadı; bu yüzden uygulanmadı, iş bu maddede açık duruyor.**
+
+- **Servis kesintiden sonra kendiliğinden kapanmış bulundu.** Bir oturum kesintisinin ardından
+  `foundry service status` "not running" döndü (başlatan biz değildik). Üretimde bunu tespit
+  eden ya da yeniden başlatan **hiçbir şey yok**: `src/` içinde `foundry service start/stop`,
+  sağlık kontrolü ya da restart yok; `llm_client._endpoint_cache` bir kez yazılır ve servis
+  ölse/port değişse bile hiç temizlenmez; `app.py` modeli bir kez yükleyip `session_state`'te tutar.
+- **Kalıcı bozulma koşula bağlı ve güvenilir biçimde yeniden üretilemedi.** Yukarıdaki §4 ve bu
+  sabahki gözlem (uzun süredir açık serviste #53'ün OOM'undan sonra #43'ün 9 KB'lık ilk çağrısı
+  `Exception during initialization` verdi) kalıcı bozulmanın GERÇEK olduğunu gösteriyor. Ama
+  bugün: taze başlatılmış serviste tek OOM kalıcı bozulma bırakmadı; ~30 dk açık bir örnekte
+  ~29 normal istek + 4 OOM denemesi (12.600 / 15.000 krk, GPU 7.9/8.2 GB dolu, boş RAM 0.7-1.5 GB)
+  yalnız **1 geçici** başarısızlık üretti (9 KB prob OOM'dan 5 sn sonra 500), ~1,5 dk içinde,
+  müdahale olmadan kendiliğinden düzeldi. **Süre/durum birikimiyle ilişkili olabilir,
+  kanıtlanmadı**: saatler süren bir örnek simüle edilemedi (denenen birikim yalnız istek sayısı,
+  OOM sayısı ve bellek baskısı). Eşik de duruma göre kayıyor (12.575 krk bir serviste çöktü, taze
+  bir örnekte geçti).
+- **Kademe 2'nin etkisi ölçülemedi.** Mekanik güvenli: `unload_model` anında döner, `load_model`
+  6,5-24 sn sürdü, askıda kalma olmadı. Ama deneydeki "DÜZELDİ: true" **boş bir doğrulama**:
+  geçici bozulma kademe 2 çalıştığında zaten kendiliğinden geçmişti (`tier2_basta` probu
+  müdahalesiz 200). Bozuk bir servisi onardığı gösterilmedi. (Kademe 3, `service stop/start`,
+  denenmedi: yukarıdaki §4'te 3 kez askıda kaldığı kayıtlı.)
+- **Bırakılan açık sorular:** sağlık kontrolünün probu ne boyutta olmalı (kısa prob mu, ~9 KB mı —
+  bozuk durumda hangisinin başarısız olduğu ölçülemedi); kalıcı bozulmanın yeniden üretilebileceği
+  bir koşul (uzun süre açık örnek).
 
 ### Uzun vadeli çerçeve
 Bu madde muhtemelen bir **process supervisor** tasarımı gerektiriyor:

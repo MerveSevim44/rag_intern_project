@@ -1,0 +1,4 @@
+{"adim": "B0_basta", "prob_kisa": [200, 0.52], "prob_9k": [200, "{\"model\":\"qwen2.5-7b-instruct-cuda-gpu:4\",\"choices\":[{\"delta\":{\"role\":\"assistant\",\"content", 1.97], "status": 200, "t": "20:05:45"}
+{"adim": "B1_unload", "sure": 0.0, "prob_kisa": [200, 0.14], "t": "20:05:46"}
+{"adim": "B2_load", "sure": 6.5, "t": "20:05:52"}
+{"adim": "B3_sonra", "prob_kisa": [200, 0.54], "prob_9k": [200, "{\"model\":\"qwen2.5-7b-instruct-cuda-gpu:4\",\"choices\":[{\"delta\":{\"role\":\"assistant\",\"content", 1.99], "t": "20:05:55"}
