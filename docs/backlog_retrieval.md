@@ -486,6 +486,21 @@ değerlendirilmesi gereken bir madde olarak duruyor.
 Şimdi çözülmüyor: madde 8'in adım 3'ü (regresyon koşusu + test_5 + tam eval)
 tamamlanmadan ne bu maddeye ne de madde 8'in adım 4'üne geçilmiyor.
 
+### AÇIK ÜRETİM RİSKİ — eşzamanlı oturumlarda toparlanma (2026-11-04)
+Madde 11'in toparlanma tasarımı (kademe 2: Foundry'de modeli HTTP ile
+unload/load etmek) **başka bir oturumun uçuştaki LLM çağrısını öldürebilir**:
+model servis genelinde tek bir örnek, yeniden yükleme sırasında tüm çağrılar
+düşer. Tasarım **tek kullanıcı / düşük eşzamanlılık** varsayımıyla yapıldı
+(ağır işlemler zaten ardışık; Foundry + Ollama + reranker 8 GB VRAM'i tek iş
+yüküyle dolduruyor, bkz. madde 39/40). Kaç eşzamanlı oturumun "olağan"
+sayıldığı ÖLÇÜLMEDİ; varsayım: tipik 1, en çok birkaç, çoğu zaman aynı anda
+LLM çağıran tek oturum. Azaltıcılar tasarımda: tek uçuşlu kilit (aynı anda tek
+toparlanma), devre kesici (60 sn'de en fazla 1, art arda 3 başarısızlıkta
+bırak). **Ortadan kaldırmıyorlar** — kilit toparlanmaları serileştirir ama
+kurban oturumun çağrısını kurtarmaz. Çok kullanıcılı üretime geçilirse bu risk
+yeniden değerlendirilmeli (ör. toparlanmayı yalnız hiçbir çağrı uçuşta değilken
+yapmak ya da servisi oturum başına ayırmak).
+
 ## Madde 12 — `bool` sonuçta devrik cümle ve ham değer sızması
 Madde 8'in adım 4 envanterinde çıktı (bkz.
 [implementation_plan_alias_gate.md](implementation_plan_alias_gate.md)).
@@ -823,6 +838,19 @@ chunk'ına kadar taşındı. Çökme `verbose`'dan bağımsız
 `[DOĞRULANAMAYAN SONUÇ]` mı, tek retry mı) ölçüm sonrasında kararlaştırılacak.
 Plan, ölçüm ve okuma kuralı:
 [implementation_plan_validator_failure.md](implementation_plan_validator_failure.md).
+
+**Servis ölürse boşluğu (madde 11 turunda tespit edildi, 2026-11-04) — B'ye bağlı,
+BU TURDA DOKUNULMADI.** `_semantic_check` sırasında LLM servisi ölürse
+`info["error"]` dolar, `validation_status="failed"` olur, ama sonuç yine de
+`success=True` ile ve doğrulanmış gibi döner (`code_interpreter.py`, B'nin
+konusu olan aynı dal). Madde 11'in toparlanma kancası bu çağrı noktasına
+eklense bile **dönüş değeri bilinçli olarak değişmez** (A aşamasının "davranış
+değişmez" kararı korunur); kanca yalnız servisi onarmayı dener. Sonuç: servis
+doğrulayıcıdan sonra ölürse sıradaki çağrılar (`result_to_natural_language`,
+`ask`) başarısız olabilir ya da `failed` bir sonuç temiz görünmeye devam eder.
+`failed` → `[DOĞRULANAMAYAN SONUÇ]` / `service_failure`'a çevirme kararı B'nin
+(yukarıdaki plan) kapsamında verilecek. Not: yalnızca bu yol için gözlenmiş
+vaka yok (izole koşuda `failed` 0/26).
 
 ## Madde 17 — Bilinen kırık test: `test_data_engine_end_to_end_visualization`
 
@@ -2334,3 +2362,38 @@ Madde açık kalır (sessizce yanlış sayı riski duruyor); yeni bir çözüm a
 - **Ertelendi (nötr ret cümlesi):** D5 bloğunda "tekrar denenebilir" ifadesini kaldırıp nötr bir
   cümle (ne yeniden deneme vaadi ne kesin yokluk iddiası) kullanma fikri ölçülmedi, gelecekte ayrıca
   değerlendirilebilir, öncelik verilmedi.
+
+
+### Not (2026-11-04): normal yolda iki adımlı confabülasyon zinciri — `result_to_natural_language` → `ask()` (test_2 #53)
+Madde 11 C ölçümü sırasında bulundu; **madde 38'in confabülasyon bulgusuyla ve bu maddenin
+"benchmark'ta TP görünüp gerçekte yanlış sayı" riskiyle aynı sınıf**, ama farklı yol: burada
+sandbox **doğru** hesaplıyor (D5/fallback değil). **Öncelik verilmedi, izleniyor.**
+
+**Örnek (test_2 #53, sandbox çıktısı gerçek veriyle birebir doğru):**
+
+| Kişi | min saat (gerçek) | iptal saati (gerçek) | Son cevap |
+|---|---|---|---|
+| Sinem Arslan | 12 | **12** | min 12 ✅, iptal **4** ❌ |
+| Umut Aslan | **4** | 24 | min **6** ❌, iptal 24 ✅ |
+| Emre Korkmaz | 6 | 24 | 6 ✅ / 24 ✅ |
+
+**Zincir (bağlam ve ara çıktılar kaydedilerek ölçüldü):**
+1. `result_to_natural_language` doğru dict'i alıyor ve onu bulanık bir cümleye indiriyor:
+   *"Emre Korkmaz ve Umut Aslan'ın iptal bildirme saatleri 24 saat, minimum uyarı saatleri ise
+   Emre Korkmaz 6 saat, Sinem Arslan ve Umut Aslan 12-4 saat arasındadır."*
+2. `ask()` bağlamında yalnızca bu cümle var (394 krk, ham sayı yok). Bulanıklıktan **spesifik ama
+   yanlış** sayılar üretiyor (Sinem iptal=4, Umut min=6).
+
+**Düzeltme prompt'u kırpmasından (madde 11 C) bağımsız — kanıtlandı.** Kod üretimi tamamen
+atlanıp doğru sandbox çıktısı doğrudan verildiğinde (`stub` varyantı, C devre dışı, 2 koşu) birebir
+aynı yanlış cevap çıkıyor; C'li koşu da (tavan 10.500) aynı. Kırpılan düzeltme prompt'u yalnız
+kod+hata geçmişi taşır, kişi değerleri taşımaz, dolayısıyla değerleri karıştıramaz. Tavan 11.500
+koşusu farklı bir kod/çıktı ürettiği için (n=1) bu soruyu ayırmakta kullanılmadı.
+
+**Benchmark etkisi:** `classify_answer` bu cevabı TP sayıyor (madde 36), judge de yakalamaz
+(madde 13). README'de bu soru **"yanıt veriyor, içerik hatası bilinen"** üçüncü kategorisine
+konuldu (temiz sete eklenmedi, HATA da sayılmadı).
+
+**Çözüm adayı (UYGULANMADI, öncelik yok):** sentezleyiciye sandbox'ın ham sonucunu da vermek ya da
+`result_to_natural_language` çıktısında girdideki sayıların korunduğunu denetlemek. Ölçülmedi.
+Ölçüm betikleri `experiments/` altına taşınmadı (scratchpad'de kaldı).

@@ -145,8 +145,20 @@ python -c "from src.retrieval import retrieve; print(retrieve('Fourier dönüş�
 
 Ölçüm iki parçadır:
 
-- **Doğruluk seti** — `test_1`..`test_4`, 100 soru. Sürüm karşılaştırmalarında, her deneyde
-  kronik GPU bellek hatası veren `test_2#43` ve `test_2#53` iki taraftan da çıkarılır → **98 soru**.
+- **Doğruluk seti** — `test_1`..`test_4`, 100 soru. Her soru üç kategoriden birindedir
+  (güncel tanım, 2026-11-04, madde 11 C sonrası):
+  - **Temiz set (99 soru):** `test_2#53` dışındaki tüm sorular. `test_2#43` dahildir: eskiden
+    kronik GPU bellek hatası verdiği için hariçti; düzeltme prompt'u tavanı (C) sonrası
+    çökmüyor ve cevabı `data/728_profiles.json`'dan pandas ile doğrulandı (doğru).
+  - **"Yanıt veriyor, içerik hatası bilinen" (1 soru):** `test_2#53`. Artık çökmüyor ama
+    cevabındaki iki sayı yanlış (Sinem iptal 4 / gerçek 12, Umut min 6 / gerçek 4). Ne temiz
+    sete ne HATA'ya sayılır; sürüm karşılaştırmalarında temiz setten ayrı tutulur. Kök neden
+    kırpmadan bağımsız sentez confabülasyonu: [backlog madde 41 notu](docs/backlog_retrieval.md).
+  - **HATA:** altyapı çökmesi (şu an bu sette yok; bir soru HATA verirse buraya girer).
+
+  Not: aşağıdaki v5–v6 sonuçları ve karşılaştırmaları **eski tanımla (98 soru, #43 ve #53
+  hariç)** ölçüldü ve yeniden hesaplanmadı; #43'ün sete eklenmesi o rakamları değiştirmez,
+  çünkü o koşularda #43 cevap vermiyordu.
 - **Negatif set** — `test_negative`, 32 tuzak soru (cevabı veri setinde olmayan sorular;
   burada doğru davranış cevap vermeyi reddetmektir). v5–v6 kıyası `#216` çıkarılarak **n=31**
   üzerinden yapılır.
