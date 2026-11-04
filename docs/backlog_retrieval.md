@@ -39,7 +39,7 @@ PR olarak ele alınır.
 | 30 | Synthesizer (a) dalı ödünleşiminin sınır vakası: "Yanlış Ön Kabul" sorusu #224 bağlama göre FP/TN arasında gidip geliyor | **Beklemede — madde 39'a bağlı**; bug değil, bilinçli denge. Tam koşu bitince gerçek FN/FP sayılarıyla değerlendirilecek; #224 ve #101'in durumu o koşudan doğrulanacak |
 | 31 | OCR'lı Cevap sayfalarının metin kalitesi: bir sayfa okunamıyor (#24), diğerlerinde üst simge / "\|" kaybı model cevabına aynen geçiyor | Açık — iki ayrı ciddiyet: okunamayan sayfa (yeniden OCR) / kısmi bozulma (son işleme) |
 | 32 | RRF birleştirmesi BM25=0 olan en iyi dense chunk'ını havuzdan atıyor (test_3 #79/#82) | **Kapandı (mekanizma)** — `8d3f33d` dense güvenlik slotu, N=1'de #79 FN→TP; **bayrak KAPALI, açma kararı ayrı ve AÇIK** (bkz. madde 32 kapanış notu) |
-| 33 | Stemmer tutarsızlığı + iki chunk'a bölünmüş cevap (test_4 #91) | Açık — Adım 1: belirleyici neden bölünmüş cevap; stemmer tek başına 0 kazanç. Adım 2: `.txt` birleştirme MIN=500 (#91 düzeliyor, sessiz bozulma yok). **Production'a alındı** (2026-10-29), duman testi geçti |
+| 33 | Stemmer tutarsızlığı + iki chunk'a bölünmüş cevap (test_4 #91) | **Kısmen kapandı** — `.txt` birleştirme MIN=500 üretimde (`ba46059`, 2026-10-29; DB `757e97059abb`; #91 düzeldi, madde 39'da TP; duman testi geçti). **Açık:** stemmer tutarsızlığı (kapsamı ölçülmedi, #91'e katkısı 0; ayrı satırı yok, madde 23'te izleniyor); birleştirme politikası yalnız 2 kısa `.txt` üzerinde, tek koşu/tek değerlendiriciyle ölçüldü; **açık üretim riski:** `rag.db` git'te izlenmiyor (aşağıdaki not) |
 | 34 | Cevap chunk'ı bağlamda 1. sırada, model yine reddediyor (test_3 #82) | **Kapandı (2026-10-29)** — neden dil/sembol değil, konu dışı "türetme" chunk'ı (4333); desen #56'da da doğrulandı ama kapsam dar (net getiri ≤1 soru, kısmen doğru, yalnız dense bayrağı açıkken). Müdahale yapılmadı; bağıl eşik bulgusu → madde 24 |
 | 35 | `run_tests.py` kapanışta aralıklı 0xC0000005 ile çıkıyor | Açık — **düşük öncelik**; sonuçlar tam yazılıyor, iş-around `uretim.py`'de (`b469350`) |
 | 36 | `classify_answer` TP'si doğruluk değil: TP'lerin %32'si yanlış cevap | **Karar verildi** — ret tespiti güvenilir (FN/TN 0 çelişki); bağlam değişen ölçümlerde sınıfın yanında ayrı doğruluk kontrolü kural (b), raporlarda TP yerine "cevap verdi" (a), `classify_answer` koduna dokunulmaz (c) |
@@ -1266,6 +1266,12 @@ ayrı bir FN sayacıyla raporlanmalı.
   tekrarlanabilirlik gösteriyor. Cevap, kayıtlı bağlamda yok (#79
   "dar/geniş/ölçekleme", #82 "konvolüsyon/çarpım", #91 "Gümüş Yaprak");
   top_k 5→8 bu sorularda yalnız dolgu chunk'ı değiştirdi.
+  **Güncellendi (2026-11-04): #91 artık FN değil.** Bu tespit (2026-10-27) madde 33'ün
+  düzeltmesinden ÖNCE, eski DB'yle (911 chunk) yapıldı; `.txt` birleştirmesi 2026-10-29'da
+  üretime alındı (`ba46059`, DB `757e97059abb`) ve madde 39 tam koşusunda (6/6 set bu DB'yle)
+  #91 TP ("Gümüş Yaprak"). #56, #79, #82 için bu tespit değişmedi (üretimdeki DB ile yeniden
+  ölçülmedi). Madde 33'ten önceki judge çıktıları (baz/v7/v8, bu yeniden koşu) güncel DB ile
+  karşılaştırılamaz: bağlamı değişen 13 soru farklı.
 - **Açık kalan (ayrı iş):** bu 4 FN'nin kendisi, yani chunk düzeyinde
   retrieval kaçırması. Madde 21 yalnız görünmezliği çözdü.
 
@@ -1312,6 +1318,12 @@ sayfayla aynı bölüm numarasını taşıyor" gibi genel tanımlanmalı.
   negatif set, bkz. üstteki GT değişikliği notu), tripwire 0.
 
 ## Madde 23 — Korunan kelimelerin çekimleri farklı token'a düşüyor
+
+**Çapraz referans (2026-11-04):** [madde 33](#madde-33--stemmer-tutarsızlığı--iki-chunka-bölünmüş-cevap-test_4-91)'ün
+stemmer yarısı (`kütüphane`/`kütüphanenin`/`kütüphanesi` farklı token'a düşüyor) bu maddeyle aynı
+aileden; madde 33'ün özet tablosunda ayrı satırı yok, burada izlenir. Madde 33 Adım 1'de bu
+tutarsızlığın #91'e katkısı 0 ölçüldü; kapsamı (kaç soruda BM25'i sıfırlıyor) iki maddede de
+ölçülmedi.
 
 Madde 19 düzeltmesinin (plan: [implementation_plan_bm25_stopword.md](implementation_plan_bm25_stopword.md),
 varyant V3) bilinen sınırı. V3, stem'i bir stopword stem'ine denk gelen
@@ -1922,6 +1934,8 @@ tek stem'e), M (paragraf 1+2 tek chunk, embedding ingest yolundan), SM; ayrıca
 - **Ölçülmedi:** genel politikaların (tüm .txt'de komşu paragraf birleştirme,
   genel stemmer düzeltmesi) tam benchmark + negatif setteki yan etkisi.
   Müdahale seçildikten sonra madde 32 Adım 2 disipliniyle ölçülecek.
+  **Güncellendi (2026-11-04): birleştirme yarısı ölçüldü** (Adım 2: 147 soru × 4 MIN +
+  negatif setler + üretim duman testi, aşağıda), **stemmer yarısı hâlâ ölçülmedi ve yapılmadı.**
 
 **Adım 2 (2026-10-29) — genel birleştirme politikası:**
 `.txt` paragrafları, birikmiş metin en az MIN karakter olana kadar komşularıyla
@@ -1949,6 +1963,9 @@ chunker'ı ayrı).
   - **Öneri: MIN=500** (en küçük ayak izi, sessiz bozulma yok). Sınır: tek
     koşu, tek değerlendirici, 2 kısa `.txt`. Uygulama (ingest'te birleştirme +
     `.txt` yeniden ingest) ayrı onay bekliyor.
+    **Güncellendi (2026-11-04): `ba46059` bunu geçersiz kılıyor** — uygulama aynı gün
+    (2026-10-29) yapıldı; aşağıdaki "Durum — production'a alındı" bloğuna bakınız. (Onayın
+    kaydı bu dosyada yok; commit'in varlığı onay verildiğini ima eder.)
 
 **Durum (2026-10-29) — production'a alındı (MIN=500).**
 - Kod: `ingest.extract_chunks_from_txt` → `_merge_txt_paragraphs`,
@@ -1964,6 +1981,31 @@ chunker'ı ayrı).
   sorusunda cevap metni 13/13 birebir aynı (doğruluk etiketleri geçerli); tam
   negatif set aynı oturumda yedek vs yeni DB: 32/32 cevap aynı, FP 2/32 → 2/32
   (#224, #232), yeni FP yok.
+
+**Açık kalan (2026-11-04 güncellemesi):** (1) stemmer tutarsızlığı — ayrı bir tablo satırı yok,
+aynı aile olduğu için [madde 23](#madde-23--korunan-kelimelerin-çekimleri-farklı-tokena-düşüyor)
+üzerinden izlenir (`kütüphane`→`kutupha`, `kütüphanenin`→`kutuphane`, `kütüphanesi`→`kutuphanes`;
+#91'e katkısı 0 ölçüldü, kapsamı ölçülmedi). (2) Birleştirme politikasının MIN=500 seçimi yalnız
+2 kısa `.txt`, tek koşu, tek değerlendirici üzerinden; yeni `.txt` eklenirse kodda otomatik
+uygulanır ama o dosyalarda ölçülmedi.
+
+### AÇIK ÜRETİM RİSKİ — `rag.db` git'te izlenmiyor, üretim durumu yerel dosyada (2026-11-04)
+Madde 33'ün üretim durumu **kodda DEĞİL, yerel `rag.db` dosyasında** taşınıyor: `.txt`
+birleştirmesi ingest sırasında uygulanıyor (`src/ingest.py`), sonucu ise veritabanında duruyor.
+`rag.db*` `.gitignore`'da ve git'te izlenmiyor (`git ls-files rag.db*` boş). Güncel DB: 898 chunk
+(`.txt` için 6), özet `757e97059abb`.
+- **Sessiz geri dönüş riski:** eski bir yedekten geri dönülürse (`rag.db.bak` 916 chunk,
+  `rag.db.bak_madde22_2026-10-12` 916, `rag.db.bak_madde33_2026-10-29` 911 — üçünde de `.txt`
+  için 19 chunk) madde 33 düzeltmesi **hiçbir uyarı olmadan** geri alınır: #91 ve bağlamı
+  değişen diğer 12 soru eski davranışa döner. Uygulama çalışmaya devam eder, hata vermez.
+- **Yakalayan mekanizma yok:** `src/` ve `app.py` içinde DB özeti/şema sürümü doğrulaması yok
+  (`src/` ve `app.py`'de `sha256`/`hashlib`/`DB_OZET` arandı, bulunamadı). Tek koruma `experiments/
+  madde39_tam_kosu/kosu.py`'deki `DB_OZET` denetimi ve o yalnız **benchmark** koşusunu korur;
+  üretim uygulamasını korumaz.
+- Ölçülmedi: üretimde `rag.db`'nin kaç kez, hangi koşullarda değiştiği/geri alındığı.
+- Çözüm adayları (UYGULANMADI, öncelik verilmedi): başlangıçta DB özetini veya bir şema/sürüm
+  damgasını doğrulamak; DB'yi ingest'ten yeniden üretilebilir kılan bir betik ve beklenen
+  chunk sayısı denetimi.
 
 ## Madde 34 — Cevap chunk'ı bağlamda 1. sırada, model yine reddediyor (test_3 #82)
 
