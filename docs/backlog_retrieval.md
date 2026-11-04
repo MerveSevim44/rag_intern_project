@@ -789,7 +789,13 @@ ama aşağıdaki türleri geçiriyor:
   tutmazsa sonuç `[DOĞRULANAMAYAN SONUÇ]` olur ve kullanıcı "bulunamadı"
   görür. Doğru cevapları da reddetme riski var: 13 adaydan bu dördü ve
   context'ten sapan #37/#45 dışındaki 7'si (#32, #35, #39, #42, #52, #60,
-  #108) `ok` kalmalı.
+  #108) `ok` kalmalı. **[Düzeltme 2026-11-04: bu 7'nin ikisi yanlış etiketli.
+  #108 negatif soru (veride cinsiyet sütunu yok), baseline'da zaten TN —
+  doğrulayıcı itiraz etse doğru olur, "kalmalı" değil. #52'nin kodunda gerçek
+  hata var ("Diğer Sektörlerden Fazla Sayı": 0 anlamsız, değişken iki kez
+  ezilmiş) — itiraz savunulabilir, "kalmalı" değil. #60 doğrulayıcıya hiç
+  gitmiyor (3. denemede çözülüyor). Gerçek "kalmalı" kümesi: #32, #35, #39,
+  #42 (4 vaka). Madde 18 Adım 2'ye bakın.]**
 - Ölçüm: dört vaka + yedi "kalmalı" vaka birlikte koşulmalı; tam eval bu
   katmanı tek başına yeterince ölçmez (madde 13).
 
