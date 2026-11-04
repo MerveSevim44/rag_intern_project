@@ -793,6 +793,29 @@ ama aşağıdaki türleri geçiriyor:
 - Ölçüm: dört vaka + yedi "kalmalı" vaka birlikte koşulmalı; tam eval bu
   katmanı tek başına yeterince ölçmez (madde 13).
 
+### Teşhis (2026-11-04) — aday çözüm değil
+[experiments/madde18_dogrulayici/](../experiments/madde18_dogrulayici/): doğrulayıcının
+HAM yanıtı 4 vakada yakalandı (V0 bugünkü prompt, VN "Emin değilsen TAMAM"
+cümlesi çıkarılmış, VE/VNE gerekçe-önce tanı varyantları; tekrarlar birebir
+aynı, tek model, n=4). **Dört vaka aynı kök nedenden gelmiyor:**
+- **Yanıt biçimi (#44, #107, kısmen #57).** Tek kelimelik TAMAM/SORUN formatı
+  modelin kendi doğru tespitini engelliyor; gerekçe yazdırınca üçünde de
+  uyuşmazlığı görüyor (#44 süre/fark ≠ kavramsal soru, #107 süre ≠ ücret).
+  #57'de itiraz yanlış nedenle ("grafik yok"); asıl hata olan formülü hiç
+  adlandırmıyor.
+- **Model kapasitesi (#51).** Gerekçe yazarken bile görmüyor (uydurma kontrol
+  listesi). **Beklenti notu: gerekçe-önce biçim "3/4 vakayı çözer, #51
+  kalır"; #51 bu müdahalenin başarısızlığı sayılmaz, kapsam dışıdır.** #51 için
+  ayrı yol (LLM yargısı yerine deterministik kontrol ya da kabul edilmiş
+  sınırlama) gerekirse ayrıca konuşulur.
+- "Emin değilsen TAMAM" cümlesi tek başına suçlu değil (VN: 12/12 TAMAM);
+  yalnız gerekçe-önce biçimde etkili (#44: VE TAMAM, VNE SORUN).
+- Çözülmeden bırakılan: `_semantic_check` "SORUN ile başlıyorsa" ayrıştırması
+  gerekçe-önce yanıtla uyumsuz, #107'de çift hüküm (SORUN sonra TAMAM) var.
+  Yön seçilirse serbest metinden "son satırı oku" yerine modele net sözleşme
+  (ör. son satır tam olarak `VERDICT: TAMAM|SORUN`) verilmeli; bu, 7 "kalmalı"
+  vakada yanlış pozitif maliyeti ölçüldükten SONRA tasarlanacak.
+
 ## Madde 19 — Snowball "deneyim" → "de" ve stopword çakışması
 
 [implementation_plan_retrieval_fixes.md](implementation_plan_retrieval_fixes.md)

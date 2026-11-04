@@ -1,0 +1,23 @@
+[Foundry] Model yüklendi: qwen2.5-7b-instruct-cuda-gpu:4 | execution provider: CUDAExecutionProvider | cihaz: GPU
+[Foundry] Servis adresi: http://127.0.0.1:63146
+[Foundry] Serviste yüklü modeller: ['qwen2.5-7b-instruct-cuda-gpu:4']
+#44 V0[1] itiraz=False: 'TAMAM'
+#44 V0[2] itiraz=False: 'TAMAM'
+#44 V0[3] itiraz=False: 'TAMAM'
+#44 VE[1] itiraz=False: 'Soru, `minimumNoticeHours` ve `cancellationNoticeHours` kavramlarının kavramsal olarak nasıl ayrıldığını anlamak istiyor. Ancak, verilen kod bu soruyu doğrudan cevaplamıyor. Kod, bu iki sütunların farkını hesaplıyor ve bu farkların ortalamasını ve standart sapmasını buluyor. Bu, sorunun istedikleri bilgiyi tam olarak vermiyor.\n\nTAMAM'
+#44 VE[2] itiraz=False: 'Soru, `minimumNoticeHours` ve `cancellationNoticeHours` kavramlarının kavramsal olarak nasıl ayrıldığını anlamak istiyor. Ancak, verilen kod bu soruyu doğrudan cevaplamıyor. Kod, bu iki sütunların farkını hesaplıyor ve bu farkların ortalamasını ve standart sapmasını buluyor. Bu, sorunun istedikleri bilgiyi tam olarak vermiyor.\n\nTAMAM'
+#51 V0[1] itiraz=False: 'TAMAM'
+#51 V0[2] itiraz=False: 'TAMAM'
+#51 V0[3] itiraz=False: 'TAMAM'
+#51 VE[1] itiraz=False: "Soru, `sectorDistribution` içindeki 22 sektörün profil sayılarının toplamının `statistics.profileCount` değerine (bu durumda 728) eşit olup olmadığını doğrulamak istiyor. Kod, `df['sector']` sütunundan farklı sektörlerin sayısını hesaplıyor ve bu toplamın 728 ile eşit olup olmadığını kontrol ediyor. \n\nKodu incelediğimde, aşağıdaki noktalarda kontrol edildi ve doğru yapıldığı görüldü:\n1. Filtre veya esik değerleri kullanılmadı.\n2. Uç değer etiketleri doğru yönde kullanılmadı.\n3. Sonuçta toplam profillerin sayısına (728) eşit olup durumu kontrol edildi.\n4. Kullanılan formül soruda istenen formülü doğru şekilde uyguladı.\n\nTAMAM"
+#51 VE[2] itiraz=False: "Soru, `sectorDistribution` içindeki 22 sektörün profil sayılarının toplamının `statistics.profileCount` değerine (bu durumda 728) eşit olup olmadığını doğrulamak istiyor. Kod, `df['sector']` sütunundan farklı sektörlerin sayısını hesaplıyor ve bu toplamın 728 ile eşit olup olmadığını kontrol ediyor. \n\nKodu incelediğimde, aşağıdaki noktalarda kontrol edildi ve doğru yapıldığı görüldü:\n1. Filtre veya esik değerleri kullanılmadı.\n2. Uç değer etiketleri doğru yönde kullanılmadı.\n3. Sonuçta toplam profillerin sayısına (728) eşit olup durumu kontrol edildi.\n4. Kullanılan formül soruda istenen formülü doğru şekilde uyguladı.\n\nTAMAM"
+#57 V0[1] itiraz=False: 'TAMAM'
+#57 V0[2] itiraz=False: 'TAMAM'
+#57 V0[3] itiraz=False: 'TAMAM'
+#57 VE[1] itiraz=False: 'Soru, 728 profil içinde her sektördeki ortalama meslek sayısını gösteren bir grafiklesectirmek ve bu oranı sektörler arasında nasıl dağıldığını göstermek istiyor. Ancak, verilen kod sadece ortalama meslek sayısını hesaplar ve oranı hesaplar, ancak bir grafik oluşturmadan ve hesaplanan oranı görselleştirmeden devam ediyor. Bu nedenle, sorunun istedikleri tüm bilgileri içermez.\n\nSORUN: Koda göre bir grafik oluşturulmamış ve hesaplanan oranı görselleştirilmemiş.'
+#57 VE[2] itiraz=False: 'Soru, 728 profil içinde her sektördeki ortalama meslek sayısını gösteren bir grafiklesectirmek ve bu oranı sektörler arasında nasıl dağıldığını göstermek istiyor. Ancak, verilen kod sadece ortalama meslek sayısını hesaplar ve oranı hesaplar, ancak bir grafik oluşturmadan ve hesaplanan oranı görselleştirmeden devam ediyor. Bu nedenle, sorunun istedikleri tüm bilgileri içermez.\n\nSORUN: Koda göre bir grafik oluşturulmamış ve hesaplanan oranı görselleştirilmemiş.'
+#107 V0[1] itiraz=False: 'TAMAM'
+#107 V0[2] itiraz=False: 'TAMAM'
+#107 V0[3] itiraz=False: 'TAMAM'
+#107 VE[1] itiraz=False: 'Soru, 728_profiles.json veri setindeki profillerin ortalama randevu ücretini sormaktadir. Ancak, verilen kod randevu süresinin ortalama değerini hesaplamaya calisiyor, degil de randevu ücretini. Bu nedenle kod soruya cevap vermiyor.\n\nSORUN: Kod, sorudan istenen randevu ücretini hesaplamiyor, randevu süresinin ortalamasını hesaplıyor.'
+#107 VE[2] itiraz=False: 'Soru, 728_profiles.json veri setindeki profillerin ortalama randevu ücretini sormaktadir. Ancak, verilen kod randevu süresinin ortalama değerini hesaplamaya calisiyor, degil de randevu ücretini. Bu nedenle kod soruya cevap vermiyor.\n\nSORUN: Kod, sorudan istenen randevu ücretini hesaplamiyor, randevu süresinin ortalamasını hesaplıyor.'
