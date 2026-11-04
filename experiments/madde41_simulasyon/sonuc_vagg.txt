@@ -1,0 +1,13 @@
+V_agg kuralı (heuristik): ('ortalama', 'toplam', 'kac', 'sayisi', 'en yuksek', 'en dusuk', 'en cok', 'en az', 'oran', 'yuzde') 
+
+grup                         id    V_agg_ipucu  soru
+doğal D5 (negatif)           215   True          us-states veri setinde her eyaletin nüfusu kaç olarak belirtilmiştir?
+doğal D5 (negatif)           216   True          728_profiles veri setinde profillerin kredi puanı (credit score) ortal
+doğal D5 (negatif)           226   True          mock-transactions veri setinde 2023 yılının en yüksek harcaması hangi 
+zorla D5 (pozitif)           32    True          statistics bölümüne göre veri setinde toplam kaç profil (profileCount)
+zorla D5 (pozitif)           35    False         publicContact alanı altında phoneVisible ve emailVisible değerleri örn
+zorla D5 (pozitif)           39    False         Umut Aslan profilinde services dizisindeki hizmetlerden hangileri Onli
+zorla D5 (pozitif)           42    False         Emre Korkmaz ve Umut Aslan profillerinin minimumNoticeHours ve cancell
+zorla D5 (toplulaştırma)     A1    True          ortalama deneyim yılı
+zorla D5 (toplulaştırma)     A2    True          kaç profil business
+zorla D5 (toplulaştırma)     A3    True          ortalama minimumNoticeHours

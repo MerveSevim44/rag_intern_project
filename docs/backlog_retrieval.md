@@ -2293,3 +2293,44 @@ sandbox rotasında olmak mı), yeni mesajın ret skorlayıcısıyla uyumu (madde
 bozması) belirsiz/zor sorulara kayıyor olabilir. Toplulaştırma sorusu 3 adet ve
 benchmark dışı (GT pandas'tan). Doğal sıklık bilinmiyor.
 
+
+### Kapanış (2026-11-04) — önerilen davranış değişikliği araştırıldı ve ölçüldü; net kazanç vermediği için UYGULANMADI
+**Bu madde "çözüldü" değildir.** Sorun (toplulaştırma sorusunda sandbox çözemeyince semantik
+fallback'in sessizce yanlış sayı üretebilmesi) olduğu gibi duruyor; yalnız önerilen çözüm
+(fallback yerine D4 benzeri "hesaplanamadı") ölçülüp reddedildi. Bu, madde 17'deki ölü kodun
+aksine **canlı üretim yolu**; bu yüzden "net kazanç yoksa uygulama" eşiği daha sıkı uygulandı.
+
+Ölçüm: `experiments/madde41_simulasyon/` — davranış bellekte monkeypatch ile simüle edildi
+(`sim_run_tests.py`, src/ değişmedi), gerçek hat `test_negative` (32) ve `test_2` (30) üzerinde tam
+koşturuldu; madde 39 taban ve madde 30 koşusuyla karşılaştırıldı (`karsilastir.py`,
+`sonuc_karsilastir.txt`); zorla D5 vakaları `d5_zorla_sim.py` ile (`sonuc_vagg.txt`: V_agg kelime
+ipucu hesabı). (İlk deneme sarmalayıcı yalnız üst düzey `data_engine` modülünü yamaladığı için
+geçersizdi — `retrieval` `src.data_engine`'i kullanıyor; düzeltilip baştan koşuldu.)
+
+Uygulanmama gerekçeleri:
+- **Sıfır net sınıflandırma etkisi.** test_negative 29 TN / 1 FN / 2 FP → aynı; test_2 26 TP / 2 FN /
+  2 HATA → aynı. test_2'de hiç D5 olayı yok; doğal D5 yalnız 3 negatifte (#215, #216, #226) ve üçü
+  TN → TN. Kazanç yalnız zorla/enjekte edilmiş vakalarda görünüyor.
+- **Doğal negatiflerde yanıltıcı mesaj.** Üç soru da veride gerçekten olmayan bilgiyi soruyor
+  (`KeyError: 'population'`, `'creditScore'`, boş filtre); düz "…bulunamadı." yerine "…soru şu an
+  işlenemedi, **tekrar denenebilir**" kullanıcıya yeniden denemenin işe yarayacağını söylüyor —
+  yanlış. Skorlayıcı farkı görmez, kullanıcı görür.
+- **Zorlanmış D5'te 4 doğru cevap kaybı.** #32, #35, #39, #42 bugün fallback'le doğru cevaplanıyor
+  (TP) → ret (FN). Kazanç: A1 uydurma hesap ve A3 "24" (gerçek 9.75) önlenir, A2 "bulunamadı"
+  (gerçek 129) "tekrar denenebilir"e döner: **4 doğru cevap kaybına karşı 2 yanlış sayı önleme +
+  1 kısmi iyileşme**, net pozitif değil.
+- **V_agg (kelime ipucu) yetmiyor.** "ortalama/toplam/kaç/sayısı/en yüksek/oran…" ipucu #35/#39/#42'yi
+  korur ama #32'yi ("toplam kaç profil") yine kaybeder ve üç doğal negatifin üçünde de tetiklenir;
+  üstelik sezgisel ve kapsayıcı değil.
+- **Güvenilir hata-tipi ayırıcısı yok.** "Sütun yok (`KeyError`) = veri yok" fikri 3 örnekte tutarsız:
+  #215 `KeyError`, #216 son hata `ValueError` (`result` atanmadı; ilk denemelerde `KeyError`),
+  #226 `IndexError`.
+
+Sınırlar: zorla D5 sentetik ve 7 soru; doğal D5 yalnız 3 negatif; D5 dışı sorularda koşular arası
+metin farkı var (negatifte 29'un 26'sı, test_2'de 30'un 16'sı birebir aynı), sınıf sayıları sabit.
+Madde açık kalır (sessizce yanlış sayı riski duruyor); yeni bir çözüm adayı çıkarsa aynı eşikle
+ölçülmeli.
+
+- **Ertelendi (nötr ret cümlesi):** D5 bloğunda "tekrar denenebilir" ifadesini kaldırıp nötr bir
+  cümle (ne yeniden deneme vaadi ne kesin yokluk iddiası) kullanma fikri ölçülmedi, gelecekte ayrıca
+  değerlendirilebilir, öncelik verilmedi.

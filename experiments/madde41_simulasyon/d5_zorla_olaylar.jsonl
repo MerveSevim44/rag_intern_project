@@ -1,0 +1,7 @@
+{"soru": "statistics bölümüne göre veri setinde toplam kaç profil (profileCount), kaç sektör (sectorCount) ve kaç meslek (occupationCount) bulunmaktadır?", "denemeler": 3, "hata": "3 denemede cozulemedi: KeyError: 'olmayan_sutun'"}
+{"soru": "publicContact alanı altında phoneVisible ve emailVisible değerleri örnek profillerde genellikle nasıl ayarlanmıştır?", "denemeler": 3, "hata": "3 denemede cozulemedi: KeyError: 'olmayan_sutun'"}
+{"soru": "Umut Aslan profilinde services dizisindeki hizmetlerden hangileri Online, hangileri Yüz yüze modda sunulmaktadır?", "denemeler": 3, "hata": "3 denemede cozulemedi: KeyError: 'olmayan_sutun'"}
+{"soru": "Emre Korkmaz ve Umut Aslan profillerinin minimumNoticeHours ve cancellationNoticeHours değerlerini bir çubuk grafikle karşılaştırdığınızda nasıl bir fark ortaya çıkar?", "denemeler": 3, "hata": "3 denemede cozulemedi: KeyError: 'olmayan_sutun'"}
+{"soru": "728_profiles.json veri setinde profillerin ortalama deneyim yılı (experience.years) kaçtır?", "denemeler": 3, "hata": "3 denemede cozulemedi: KeyError: 'olmayan_sutun'"}
+{"soru": "728_profiles.json veri setinde kaç profil business türündedir?", "denemeler": 3, "hata": "3 denemede cozulemedi: KeyError: 'olmayan_sutun'"}
+{"soru": "728_profiles.json veri setinde profillerin ortalama minimumNoticeHours değeri kaçtır?", "denemeler": 3, "hata": "3 denemede cozulemedi: KeyError: 'olmayan_sutun'"}

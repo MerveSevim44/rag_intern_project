@@ -1,0 +1,115 @@
+[Foundry] Model yüklendi: qwen2.5-7b-instruct-cuda-gpu:4 | execution provider: CUDAExecutionProvider | cihaz: GPU
+[Foundry] Servis adresi: http://127.0.0.1:51583
+[Foundry] Serviste yüklü modeller: ['qwen2.5-7b-instruct-cuda-gpu:4']
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode~profile', 'profileType~profile', 'sector', 'occupation', 'profileMedia.avatarUrl~profile', 'profileMedia.coverImageUrl~profile']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (1. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] Deneme 2/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (2. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] Deneme 3/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (3. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] 3 deneme basarisiz oldu. Son hata: KeyError: 'olmayan_sutun'
+#32 FN | kaynak: 728_profiles.json (code_interpreter (sandbox_unsolved))
+   CEVAP: 'Bu bilgi dokümanlarda bulunamadı; soru şu an işlenemedi, tekrar denenebilir.'
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=10.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'location.exactAddressPublic~Public', 'publicContact.phoneVisible~phone', 'publicContact.emailVisible~public', 'publicContact.phone~public']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (1. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] Deneme 2/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (2. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] Deneme 3/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (3. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] 3 deneme basarisiz oldu. Son hata: KeyError: 'olmayan_sutun'
+#35 FN | kaynak: 728_profiles.json (code_interpreter (sandbox_unsolved))
+   CEVAP: 'Bu bilgi dokümanlarda bulunamadı; soru şu an işlenemedi, tekrar denenebilir.'
+[data_engine] route=code_interpreter (dataset_signal+interrogative) | dataset=728_profiles.json (score=7.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'serviceModes~service', 'services', 'location.serviceArea~service', 'profileMedia.avatarUrl~profil']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (1. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] Deneme 2/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (2. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] Deneme 3/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (3. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] 3 deneme basarisiz oldu. Son hata: KeyError: 'olmayan_sutun'
+#39 FN | kaynak: 728_profiles.json (code_interpreter (sandbox_unsolved))
+   CEVAP: 'Bu bilgi dokümanlarda bulunamadı; soru şu an işlenemedi, tekrar denenebilir.'
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'appointmentSettings.minimumNoticeHours~minimumNoticeHours', 'appointmentSettings.cancellationNoticeHours~cancellation', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (1. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] Deneme 2/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (2. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] Deneme 3/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (3. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] 3 deneme basarisiz oldu. Son hata: KeyError: 'olmayan_sutun'
+#42 FN | kaynak: 728_profiles.json (code_interpreter (sandbox_unsolved))
+   CEVAP: 'Bu bilgi dokümanlarda bulunamadı; soru şu an işlenemedi, tekrar denenebilir.'
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'experience.years', 'experience.credentialSummary~experience', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (1. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] Deneme 2/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (2. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] Deneme 3/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (3. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] 3 deneme basarisiz oldu. Son hata: KeyError: 'olmayan_sutun'
+#A1 (GT=11.9986) | kaynak: 728_profiles.json (code_interpreter (sandbox_unsolved))
+   CEVAP: 'Bu bilgi dokümanlarda bulunamadı; soru şu an işlenemedi, tekrar denenebilir.'
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (1. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] Deneme 2/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (2. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] Deneme 3/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (3. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] 3 deneme basarisiz oldu. Son hata: KeyError: 'olmayan_sutun'
+#A2 (GT=129) | kaynak: 728_profiles.json (code_interpreter (sandbox_unsolved))
+   CEVAP: 'Bu bilgi dokümanlarda bulunamadı; soru şu an işlenemedi, tekrar denenebilir.'
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=5.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'appointmentSettings.minimumNoticeHours~minimumNoticeHours', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (1. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] Deneme 2/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (2. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] Deneme 3/3...
+[CodeInterpreter] Uretilen Kod:
+result = df['olmayan_sutun'].mean()
+[CodeInterpreter] Hata alindi (3. deneme): KeyError: 'olmayan_sutun'
+[CodeInterpreter] 3 deneme basarisiz oldu. Son hata: KeyError: 'olmayan_sutun'
+#A3 (GT=9.75) | kaynak: 728_profiles.json (code_interpreter (sandbox_unsolved))
+   CEVAP: 'Bu bilgi dokümanlarda bulunamadı; soru şu an işlenemedi, tekrar denenebilir.'

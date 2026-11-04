@@ -1,0 +1,25 @@
+
+===== test_negative =====
+  taban39  {'TN': 29, 'FN': 1, 'FP': 2}
+  kosu30   {'TN': 29, 'FN': 1, 'FP': 2}
+  SIM      {'TN': 29, 'FN': 1, 'FP': 2}
+  sınıfı değişen sorular (taban39, kosu30, SIM): YOK
+  D5 olayı (sandbox 3 denemede çözemedi): 3 olay, 3 soru
+   #215 sınıf taban39=TN kosu30=TN SIM=TN | us-states veri setinde her eyaletin nüfusu kaç olarak belirtilmiştir?
+      taban39 cevap: 'Bu bilgi dokümanlarda bulunamadı.'
+      SIM     cevap: 'Bu bilgi dokümanlarda bulunamadı; soru şu an işlenemedi, tekrar denenebilir.'
+   #216 sınıf taban39=TN kosu30=TN SIM=TN | 728_profiles veri setinde profillerin kredi puanı (credit score) ortal
+      taban39 cevap: 'Bu bilgi dokümanlarda bulunamadı.'
+      SIM     cevap: 'Bu bilgi dokümanlarda bulunamadı; soru şu an işlenemedi, tekrar denenebilir.'
+   #226 sınıf taban39=TN kosu30=TN SIM=TN | mock-transactions veri setinde 2023 yılının en yüksek harcaması hangi 
+      taban39 cevap: 'Bu bilgi dokümanlarda bulunamadı.'
+      SIM     cevap: 'Bu bilgi dokümanlarda bulunamadı; soru şu an işlenemedi, tekrar denenebilir.'
+  D5 dışı 29 sorudan SIM cevabı madde 30 koşusuyla birebir aynı: 26
+
+===== test_2 =====
+  taban39  {'TP': 26, 'HATA': 2, 'FN': 2}
+  kosu30   {'TP': 25, 'HATA': 2, 'FN': 3}
+  SIM      {'TP': 26, 'HATA': 2, 'FN': 2}
+  sınıfı değişen sorular (taban39, kosu30, SIM): [('50', 'TP', 'FN', 'TP')]
+  D5 olayı (sandbox 3 denemede çözemedi): 0 olay, 0 soru
+  D5 dışı 30 sorudan SIM cevabı madde 30 koşusuyla birebir aynı: 16
