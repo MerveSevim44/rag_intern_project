@@ -1272,6 +1272,14 @@ ayrı bir FN sayacıyla raporlanmalı.
   #91 TP ("Gümüş Yaprak"). #56, #79, #82 için bu tespit değişmedi (üretimdeki DB ile yeniden
   ölçülmedi). Madde 33'ten önceki judge çıktıları (baz/v7/v8, bu yeniden koşu) güncel DB ile
   karşılaştırılamaz: bağlamı değişen 13 soru farklı.
+  **Güncellendi (2026-11-05): #56, #79, #82 güncel DB (`757e97059abb`, HEAD `dcf754b`) ile
+  yeniden ölçüldü; orijinal bulgu doğrulandı.** Üçü hâlâ FN ("Bu bilgi dokümanlarda
+  bulunamadı.") ve judge hâlâ ödüllendiriyor: F/AR/TP/AL = 5/4/4/5 (AR=4, TP=4 → "judge'ın
+  ödüllendirdiği" sayacına giriyor). Yukarıdaki "yeniden ölçülmedi" ifadesi artık geçerli
+  değil (eski metin korundu). Aynı koşuda #91 5/5/5/5 (TP), #43 5/5/5/5, #53 F=3 (judge
+  yalnız Umut min=6'yı yakaladı, Sinem iptal=4'ü yakalamadı; bkz. madde 41 notu).
+  Ölçüm: `experiments/madde39_tam_kosu/head_test_{2,3,4}/judge_alt_kume.{csv,log}`; tek koşu,
+  tek değerlendirici (`openai/gpt-oss-120b`, `temperature=0`).
 - **Açık kalan (ayrı iş):** bu 4 FN'nin kendisi, yani chunk düzeyinde
   retrieval kaçırması. Madde 21 yalnız görünmezliği çözdü.
 

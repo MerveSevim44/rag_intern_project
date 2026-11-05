@@ -1,0 +1,148 @@
+
+=== C:\Users\merve\Desktop\rag_project\evaluation\datasets\test_3.csv -> C:\Users\merve\Desktop\rag_project\experiments\madde39_tam_kosu\head_test_3\sonuclari.csv
+Model yükleniyor...
+[Foundry] Model yüklendi: qwen2.5-7b-instruct-cuda-gpu:4 | execution provider: CUDAExecutionProvider | cihaz: GPU
+[Foundry] Servis adresi: http://127.0.0.1:49303
+[Foundry] Serviste yüklü modeller: ['qwen2.5-7b-instruct-cuda-gpu:4']
+Model hazır.
+
+Soru seti: C:\Users\merve\Desktop\rag_project\evaluation\datasets\test_3.csv
+[61] Soruluyor: Fourier dönüşümünün ileri yöndeki (forward) tanımı X(jω) hangi integral ile verilir?
+[retrieval] Cache yuklendi: 898 chunk, embedding matrisi (898, 1024)
+'(MaxRetryError("HTTPSConnectionPool(host='huggingface.co', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/config.json (Caused by SSLError(SSLError(1, '[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] sslv3 alert handshake failure (_ssl.c:1010)')))"), '(Request ID: 578dac6d-c3a2-4c48-8452-98444e2255d3)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/config.json
+Retrying in 1s [Retry 1/5].
+'(MaxRetryError("HTTPSConnectionPool(host='huggingface.co', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/config.json (Caused by SSLError(SSLError(1, '[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] sslv3 alert handshake failure (_ssl.c:1010)')))"), '(Request ID: 694c4d94-cba9-498d-8f62-cb88bdcb4e16)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/config.json
+Retrying in 2s [Retry 2/5].
+'(MaxRetryError("HTTPSConnectionPool(host='huggingface.co', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/config.json (Caused by SSLError(SSLError(1, '[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] sslv3 alert handshake failure (_ssl.c:1010)')))"), '(Request ID: 3b6d817d-ddde-48fc-a83e-da2cef461c9b)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/config.json
+Retrying in 4s [Retry 3/5].
+'(MaxRetryError("HTTPSConnectionPool(host='huggingface.co', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/config.json (Caused by SSLError(SSLError(1, '[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] sslv3 alert handshake failure (_ssl.c:1010)')))"), '(Request ID: 273be357-a860-4d24-8523-cddeda1a6b54)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/config.json
+Retrying in 8s [Retry 4/5].
+'(MaxRetryError("HTTPSConnectionPool(host='huggingface.co', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/config.json (Caused by SSLError(SSLError(1, '[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] sslv3 alert handshake failure (_ssl.c:1010)')))"), '(Request ID: aa808d5e-dcec-46a3-9941-2305c2f2185b)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/config.json
+Retrying in 8s [Retry 5/5].
+'(MaxRetryError("HTTPSConnectionPool(host='huggingface.co', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/config.json (Caused by SSLError(SSLError(1, '[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] sslv3 alert handshake failure (_ssl.c:1010)')))"), '(Request ID: 7f42a43a-6678-49fd-9adb-049e9ff568a7)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/config.json
+'(MaxRetryError("HTTPSConnectionPool(host='huggingface.co', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/tokenizer_config.json (Caused by SSLError(SSLError(1, '[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] sslv3 alert handshake failure (_ssl.c:1010)')))"), '(Request ID: f351a703-b070-4a78-84e9-2e298a37e4f6)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/tokenizer_config.json
+Retrying in 1s [Retry 1/5].
+'(MaxRetryError("HTTPSConnectionPool(host='huggingface.co', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/tokenizer_config.json (Caused by SSLError(SSLError(1, '[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] sslv3 alert handshake failure (_ssl.c:1010)')))"), '(Request ID: 15e30420-cd6a-4dc1-8ad1-11d449a56d74)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/tokenizer_config.json
+Retrying in 2s [Retry 2/5].
+'(MaxRetryError("HTTPSConnectionPool(host='huggingface.co', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/tokenizer_config.json (Caused by SSLError(SSLError(1, '[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] sslv3 alert handshake failure (_ssl.c:1010)')))"), '(Request ID: df97bd9b-a115-48df-a605-78e3a0ef7db0)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/tokenizer_config.json
+Retrying in 4s [Retry 3/5].
+'(ReadTimeoutError("HTTPSConnectionPool(host='huggingface.co', port=443): Read timed out. (read timeout=10)"), '(Request ID: a5f1e0b5-8f3e-4767-8d7c-b3b10096bf6f)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/tokenizer_config.json
+Retrying in 8s [Retry 4/5].
+'(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/tokenizer_config.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 6c55b085-ec87-453d-b79a-d628b372fcec)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/tokenizer_config.json
+Retrying in 8s [Retry 5/5].
+'(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/tokenizer_config.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: eed84095-e89a-4abd-b47c-afda5c7269c3)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/tokenizer_config.json
+'(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/README.md (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: ecd18bce-6324-4f2c-960a-4b71e5b9d660)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/README.md
+Retrying in 1s [Retry 1/5].
+'(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/README.md (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: f4f20f48-4acc-456e-9981-1b67b5b5fa3c)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/README.md
+Retrying in 2s [Retry 2/5].
+'(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /BAAI/bge-reranker-v2-m3/resolve/main/README.md (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 417a07ff-c4dd-490c-be6f-0c94d88d6f4e)')' thrown while requesting HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/README.md
+Retrying in 4s [Retry 3/5].
+    → 119.9 sn
+
+[62] Soruluyor: Ters Fourier dönüşümü (inverse direction) formülünde 1/2π çarpanı nerede yer alır?
+    → 0 sn
+
+[63] Soruluyor: x(t)=e^{-at}u(t) nedensel üstel işaretinin Fourier dönüşümü hangi koşul altında (Re{a}>0) X(jω)=1/(a+jω) olarak bulunur?
+    → 18.22 sn
+
+[64] Soruluyor: Analiz (analysis) ve sentez (synthesis) işlemleri Fourier dönüşümü bağlamında nasıl tanımlanmıştır?
+    → 20.44 sn
+
+[65] Soruluyor: F{1}=2πδ(ω) eşitliği hangi özellikten (Dirac delta'nın sifting property'si) yararlanılarak elde edilmiştir?
+    → 27.04 sn
+
+[66] Soruluyor: Bir x(t) işaretinin Fourier dönüşümünün var olabilmesi için gerekli üç koşuldan biri olan "mutlak integrallenebilirlik" ne anlama gelir?
+    → 22.42 sn
+
+[67] Soruluyor: cos(t), sin(t) ve u(t) işaretleri neden klasik Fourier dönüşüm koşullarını sağlamaz?
+    → 25.55 sn
+
+[68] Soruluyor: x(t) işaretinin Fourier dönüşümünün var olması için gereken üç koşulu (single-valued, piecewise continuous, absolutely integrable) birlikte açıklayınız.
+    → 22.95 sn
+
+[69] Soruluyor: rect(t/τ) işaretinin Fourier dönüşümünün sinc fonksiyonu ile ifade edilme süreci nasıl gerçekleşir?
+    → 22.73 sn
+
+[70] Soruluyor: cos(ω0t) işaretinin Fourier dönüşümünün π[δ(ω-ω0)+δ(ω+ω0)] biçiminde elde edilme adımları nelerdir?
+    → 27.03 sn
+
+[71] Soruluyor: Nedensel üstel işaretin Fourier dönüşümü türetilirken lim(t→∞) e^{-at}e^{-jωt} teriminin sıfıra gitmesi neden Re{a}>0 koşuluna bağlıdır?
+[llm_client] Yabanci alfabe parcasi temizlendi (434 -> 336 karakter)
+    → 29.04 sn
+
+[72] Soruluyor: X(jω)=1/(a+jω) ifadesinin genlik-faz (magnitude-phase) formu nasıl elde edilir?
+    → 26.73 sn
+
+[73] Soruluyor: Nedensel üstel işaretin Fourier dönüşümünün faz açısı ∠X(jω) hangi ifade ile hesaplanır?
+    → 23.79 sn
+
+[74] Soruluyor: Fourier dönüşümünün "memoryless", "causal" ve "linear" sistem özellikleriyle ilişkisi nasıl açıklanmıştır?
+    → 21.56 sn
+
+[75] Soruluyor: Fourier dönüşümünün bir işaret hakkında ne söylediği ve ne söylemediği (frekans içeriği vs. zaman bilgisi) nasıl özetlenmiştir?
+    → 18.33 sn
+
+[76] Soruluyor: Duallik (duality) özelliği ileri ve ters dönüşümlerin benzerliğinden nasıl yararlanmaktadır?
+    → 25.29 sn
+
+[77] Soruluyor: rect(t/τ)↔τsinc(ωτ/2) dönüşüm çiftine duallik uygulandığında hangi yeni dönüşüm çifti elde edilir?
+    → 20.4 sn
+
+[78] Soruluyor: Ölçekleme (scaling) özelliğine göre |a|>1 olduğunda zaman ve frekans eksenlerinde ne tür bir değişim meydana gelir?
+    → 20.7 sn
+
+[79] Soruluyor: Zaman ekseninde genişleme ile frekans ekseninde daralma (bant genişliği) arasındaki ters orantı nasıl açıklanmıştır?
+    → 29.88 sn
+
+[80] Soruluyor: Zamanda kaydırma (shifting in time) özelliğine göre bir işaretin gecikmesi Fourier dönüşümünün genliğini mi yoksa fazını mı etkiler?
+    → 18.79 sn
+
+[81] Soruluyor: Zamanda kaydırma özelliğinin ispatında u=t-t0 değişken dönüşümü nasıl kullanılmıştır?
+    → 20.69 sn
+
+[82] Soruluyor: Zamanda çarpımın frekansta konvolüsyona karşılık geldiği özellik hangi türetme ile gösterilmiştir?
+    → 19.35 sn
+
+[83] Soruluyor: Sinüzoidal genlik modülasyonunda (y(t)=f(t)cos(ω0t)) elde edilen Y(ω) ifadesi F(ω) cinsinden nasıl yazılır?
+    → 21.18 sn
+
+[84] Soruluyor: Sinüzoidal genlik modülasyonunda demodülasyon (f(t)'nin geri kazanılması) hangi iki adımdan oluşur?
+    → 20.5 sn
+
+[85] Soruluyor: Frekans-kaydırma özelliğine göre e^{jω0t}f(t) işaretinin Fourier dönüşümü F(ω) cinsinden nasıl ifade edilir?
+    → 20.61 sn
+
+[86] Soruluyor: cos(ω0t)f(t) işaretinin frekans-kaydırma özelliği kullanılarak elde edilen Fourier dönüşümü hangi iki terimin toplamı şeklindedir?
+    → 22.34 sn
+
+[87] Soruluyor: Nedensel üstel işaretin genlik yanıtı |X(jω)|=1/√(Re{a}²+(ω+Im{a})²) ifadesinde Re{a} ve Im{a} terimleri fiziksel olarak neyi temsil eder ve a=1 için genlik-faz grafiklerinin şekli nasıl yorumlanır?
+    → 28.23 sn
+
+[88] Soruluyor: F{1}=2πδ(ω) sonucunun elde edilme sürecinde ters Fourier dönüşümü tanımı ile sifting property arasındaki matematiksel bağlantı adım adım nasıl kurulmuştur?
+    → 26.66 sn
+
+[89] Soruluyor: Sinüzoidal genlik modülasyonu örneğinde ω1<<ω0 varsayımının demodülasyon sürecinde alçak geçiren filtreleme adımı için neden gerekli olduğunu, Y(ω) spektrumundaki F(ω-ω0) ve F(ω+ω0) bileşenlerinin konumu üzerinden açıklayınız.
+    → 33.56 sn
+
+[90] Soruluyor: Zamanda kaydırma özelliğinin türetmesinde elde edilen e^{-jωt0}F(ω) ifadesi ile frekans-kaydırma özelliğindeki e^{jω0t}f(t)↔F(ω-ω0) ifadesi arasındaki dualite ilişkisini, her iki türetmenin matematiksel adımlarını karşılaştırarak açıklayınız.
+    → 20.72 sn
+
+
+Tamamlandı. 30 soru test edildi.
+Sonuçlar: C:\Users\merve\Desktop\rag_project\experiments\madde39_tam_kosu\head_test_3\sonuclari.csv
+
+=== C:\Users\merve\Desktop\rag_project\experiments\madde39_tam_kosu\head_test_3\sorular_hata.csv -> C:\Users\merve\Desktop\rag_project\experiments\madde39_tam_kosu\head_test_3\hata_tekrar.csv
+Model yükleniyor...
+[Foundry] Model yüklendi: qwen2.5-7b-instruct-cuda-gpu:4 | execution provider: CUDAExecutionProvider | cihaz: GPU
+[Foundry] Servis adresi: http://127.0.0.1:49303
+[Foundry] Serviste yüklü modeller: ['qwen2.5-7b-instruct-cuda-gpu:4']
+Model hazır.
+
+Soru seti: C:\Users\merve\Desktop\rag_project\experiments\madde39_tam_kosu\head_test_3\sorular_hata.csv
+[62] Soruluyor: Ters Fourier dönüşümü (inverse direction) formülünde 1/2π çarpanı nerede yer alır?
+[retrieval] Cache yuklendi: 898 chunk, embedding matrisi (898, 1024)
+    → 57.79 sn
+
+
+Tamamlandı. 1 soru test edildi.
+Sonuçlar: C:\Users\merve\Desktop\rag_project\experiments\madde39_tam_kosu\head_test_3\hata_tekrar.csv

@@ -1,0 +1,165 @@
+id,zorluk,kategori,soru,beklenen_kaynak,dokumanda_var_mi,referans_cevap,cevap,bulunan_kaynaklar,sure_sn,context,dogrulama_durumu
+202,Negatif,Kapsam Disi,Kuantum dolanıklığının kübit hata oranlarına etkisi nedir?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,Bu bilgi dokümanlarda bulunamadı.,lsarSist-H8_FourierTransform.pdf (sayfa 7); 728_profiles.json ($.profiles[388]); 728_profiles.json ($.profiles[578]); 728_profiles.json ($.profiles[580]),75.04,"[1] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 7
+Nedensel Üstel İşaret
+(Causal Exponential Signal)
+w = -8 : 0.01 : 8;
+• Formula: at
+x(t)  e u(t) H = 1 ./ (1 + j*w);
+(aj)t ù  Hmag = abs(H);
+  e
+ at jt  (aj)t
+X( j)  e u(t)e dt  e dt  Hphase = phase(H);
+ú
+ 0 a jû0 figure;
+plot(w, Hmag);
+ (aj)t    title('Magnitude Response');
+e 1 1 at jt 1
+ lim    lime e  ylim( [-0.0 1.1] );
+ t® a j a j  a jt®  a j figure;
+plot(w, Hphase);
+title('Phase Response');
+1
+ if Re{a} > 0
+Decays if Oscillates
+a j
+Re{a} > 0
+Magnitude-Phase form
+1 1 1
+X(j)   
+a j a j Re{a}2 (Im{a})2
+ 
+Im{a} a = 1
+ÐX(j)  Ð1Ð(a j)  tan1  
+ Re{a} 
+7
+
+[2] Kaynak: 728_profiles.json, $.profiles[388]
+profileCode: DB-6MSBN3VW
+synthetic: True
+profileType: individual
+displayName: Aylin Duman
+professionalName: Aylin Duman
+sector: Teknoloji ve Yazılım
+occupation: Siber Güvenlik Danışmanı
+headline: Kurumsal siber güvenlik farkındalığı ve teknik değerlendirme
+location.country: Türkiye
+location.city: İzmir
+location.district: Karşıyaka
+location.serviceArea: Türkiye geneli (online)
+location.exactAddressPublic: False
+serviceModes[0]: Online
+services[0].name: Teknik danışmanlık
+services[0].durationMinutes: 60
+services[0].description: Teknik danışmanlık için önceden planlanan birebir randevu.
+services[0].appointmentMode: Online
+services[1].name: Güvenlik ön görüşmesi
+services[1].durationMinutes: 45
+services[1].appointmentMode: Online
+services[2].name: Risk değerlendirme toplantısı
+services[2].durationMinutes: 90
+services[2].appointmentMode: Online
+experience.years: 18
+experience.credentialSummary: Siber güvenlik alanında eğitim ve deneyim
+languages[0]: Türkçe
+appointmentSettings.defaultDurationMinutes: 45
+appointmentSettings.minimumNoticeHours: 12
+appointmentSettings.cancellationNoticeHours: 6
+appointmentSettings.autoApproveRequests: True
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 09:30
+weeklyAvailability[0].end: 18:00
+weeklyAvailability[1].day: Salı
+weeklyAvailability[1].active: True
+weeklyAvailability[1].start: 09:30
+weeklyAvailability[1].end: 18:00
+weeklyAvailability[2].day: Çarşamba
+weeklyAvailability[2].active: […kısaltıldı]
+
+[3] Kaynak: 728_profiles.json, $.profiles[578]
+profileCode: DB-RUDA6Q48
+synthetic: True
+profileType: individual
+displayName: Aslı Avcı
+professionalName: Aslı Avcı
+sector: Otomotiv
+occupation: Oto Ekspertiz Uzmanı
+headline: İkinci el araç ekspertiz randevusu
+location.country: Türkiye
+location.city: Konya
+location.district: Selçuklu
+location.serviceArea: Selçuklu, Konya
+location.exactAddressPublic: False
+serviceModes[0]: Yüz yüze
+services[0].name: Detaylı ekspertiz
+services[0].durationMinutes: 45
+services[0].description: Detaylı ekspertiz için önceden planlanan birebir randevu.
+services[0].appointmentMode: Yüz yüze
+services[1].name: Standart ekspertiz
+services[1].durationMinutes: 60
+services[1].description: Standart ekspertiz için önceden planlanan birebir randevu.
+services[1].appointmentMode: Yüz yüze
+services[2].name: Kaporta-boya kontrolü
+services[2].durationMinutes: 90
+services[2].appointmentMode: Yüz yüze
+experience.years: 11
+experience.credentialSummary: Otomotiv ekspertiz deneyimi
+languages[0]: Türkçe
+languages[1]: İngilizce
+appointmentSettings.defaultDurationMinutes: 45
+appointmentSettings.minimumNoticeHours: 6
+appointmentSettings.cancellationNoticeHours: 24
+appointmentSettings.autoApproveRequests: False
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 10:00
+weeklyAvailability[0].end: 18:30
+weeklyAvailability[1].day: Salı
+weeklyAvailability[1].active: True
+weeklyAvailability[1].start: 10:00
+weeklyAvailability[1].end: 18:30
+weeklyAvailability[2].day: […kısaltıldı]
+
+[4] Kaynak: 728_profiles.json, $.profiles[580]
+profileCode: DB-EBXKBAGM
+synthetic: True
+profileType: business
+displayName: Kent Oto Ekspertiz House
+professionalName: Nisa Erdem
+sector: Otomotiv
+occupation: Oto Ekspertiz Uzmanı
+headline: İkinci el araç ekspertiz randevusu
+location.country: Türkiye
+location.city: İstanbul
+location.district: Beşiktaş
+location.serviceArea: Beşiktaş, İstanbul
+location.exactAddressPublic: False
+serviceModes[0]: Yüz yüze
+services[0].name: Detaylı ekspertiz
+services[0].durationMinutes: 45
+services[0].description: Detaylı ekspertiz için önceden planlanan birebir randevu.
+services[0].appointmentMode: Yüz yüze
+services[1].name: Kaporta-boya kontrolü
+services[1].durationMinutes: 45
+services[1].appointmentMode: Yüz yüze
+experience.years: 13
+experience.credentialSummary: Otomotiv ekspertiz deneyimi
+languages[0]: Türkçe
+appointmentSettings.defaultDurationMinutes: 45
+appointmentSettings.minimumNoticeHours: 12
+appointmentSettings.cancellationNoticeHours: 12
+appointmentSettings.autoApproveRequests: False
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 09:30
+weeklyAvailability[0].end: 18:00
+weeklyAvailability[1].day: Salı
+weeklyAvailability[1].active: True
+weeklyAvailability[1].start: 09:30
+weeklyAvailability[1].end: 18:00
+weeklyAvailability[2].day: Çarşamba
+weeklyAvailability[2].active: True
+weeklyAvailability[2].start: 09:30
+weeklyAvailability[2].end: 18:00
+weeklyAvailability[3].day: Perşembe
+weeklyAvailability[3].active: […kısaltıldı]",
