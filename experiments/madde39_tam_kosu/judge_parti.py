@@ -15,6 +15,7 @@ Kullanım (kökten):
 import csv
 import json
 import os
+import re
 import sys
 import time
 from pathlib import Path
@@ -66,7 +67,8 @@ def calistir(etiket, spec):
             self.cagri = []
 
         def on_llm_error(self, error, **kw):
-            kaydet(hata=type(error).__name__, mesaj=str(error)[:500])
+            # Groq 429 mesajları kuruluş kimliğini (org_...) içerir: repoya girmesin diye maskelenir.
+            kaydet(hata=type(error).__name__, mesaj=re.sub(r"org_[A-Za-z0-9]+", "org_<maskeli>", str(error))[:500])
 
         def on_llm_end(self, response, **kw):
             u = (response.llm_output or {}).get("token_usage") or {}
