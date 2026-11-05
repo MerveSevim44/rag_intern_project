@@ -1,0 +1,170 @@
+Sonuç dosyası: C:\Users\merve\Desktop\rag_project\experiments\madde39_tam_kosu\head_test_2\birlesik.csv
+Judge model: openai/gpt-oss-120b (Groq)
+Context: sonuç CSV'sinde kayıtlı (cevabın üretildiği context).
+Hazır.
+
+[1/1] Soru #48: defaultDurationMinutes alanı ile services dizisindeki bireys...
+  → F: 1 | AR: 1 | TP: 1 | AL: 5
+
+============================================================
+Judge değerlendirmesi tamamlandı: 1 soru değerlendirildi, çıktıda 1 soru
+Sonuçlar: C:\Users\merve\Desktop\rag_project\experiments\madde39_tam_kosu\head_test_2\judge_parti1.csv
+
+────────────────────────────────────────────────────────────────────
+LLM-as-a-Judge Özet Rapor
+────────────────────────────────────────────────────────────────────
+Metrik                      Ort    Min    Max  Geçerli  FN hariç
+────────────────────────────────────────────────────────────────────
+faithfulness_score         1.00      1      1     1/1       N/A
+answer_relevance_score     1.00      1      1     1/1       N/A
+task_performance_score     1.00      1      1     1/1       N/A
+alignment_score            5.00      5      5     1/1       N/A
+────────────────────────────────────────────────────────────────────
+Pozitif soruda ret (FN): 1 — judge'ın ödüllendirdiği (AR>=4 ve TP>=4): 0
+
+Puan Dağılımı:
+Metrik                      1    2    3    4    5
+faithfulness_score          1    0    0    0    0
+answer_relevance_score      1    0    0    0    0
+task_performance_score      1    0    0    0    0
+alignment_score             0    0    0    0    1
+
+Sonuç dosyası: C:\Users\merve\Desktop\rag_project\experiments\madde39_tam_kosu\head_test_3\birlesik.csv
+Judge model: openai/gpt-oss-120b (Groq)
+Context: sonuç CSV'sinde kayıtlı (cevabın üretildiği context).
+Hazır.
+
+[1/1] Soru #90: Zamanda kaydırma özelliğinin türetmesinde elde edilen e^{-jω...
+  → F: 1 | AR: 1 | TP: 1 | AL: 5
+
+============================================================
+Judge değerlendirmesi tamamlandı: 1 soru değerlendirildi, çıktıda 1 soru
+Sonuçlar: C:\Users\merve\Desktop\rag_project\experiments\madde39_tam_kosu\head_test_3\judge_parti1.csv
+
+────────────────────────────────────────────────────────────────────
+LLM-as-a-Judge Özet Rapor
+────────────────────────────────────────────────────────────────────
+Metrik                      Ort    Min    Max  Geçerli  FN hariç
+────────────────────────────────────────────────────────────────────
+faithfulness_score         1.00      1      1     1/1       N/A
+answer_relevance_score     1.00      1      1     1/1       N/A
+task_performance_score     1.00      1      1     1/1       N/A
+alignment_score            5.00      5      5     1/1       N/A
+────────────────────────────────────────────────────────────────────
+Pozitif soruda ret (FN): 1 — judge'ın ödüllendirdiği (AR>=4 ve TP>=4): 0
+
+Puan Dağılımı:
+Metrik                      1    2    3    4    5
+faithfulness_score          1    0    0    0    0
+answer_relevance_score      1    0    0    0    0
+task_performance_score      1    0    0    0    0
+alignment_score             0    0    0    0    1
+
+Sonuç dosyası: C:\Users\merve\Desktop\rag_project\experiments\madde39_tam_kosu\head_test_4\birlesik.csv
+Judge model: openai/gpt-oss-120b (Groq)
+Context: sonuç CSV'sinde kayıtlı (cevabın üretildiği context).
+Hazır.
+
+[1/1] Soru #100: Günlükteki koparılmış yirmi sayfa ile arka kapaktaki kroki/k...
+  ! Kısa süreli rate limit — 11.0 sn bekleniyor (1/5)…
+  → F: 1 | AR: 1 | TP: 1 | AL: 5
+
+============================================================
+Judge değerlendirmesi tamamlandı: 1 soru değerlendirildi, çıktıda 1 soru
+Sonuçlar: C:\Users\merve\Desktop\rag_project\experiments\madde39_tam_kosu\head_test_4\judge_parti1.csv
+
+────────────────────────────────────────────────────────────────────
+LLM-as-a-Judge Özet Rapor
+────────────────────────────────────────────────────────────────────
+Metrik                      Ort    Min    Max  Geçerli  FN hariç
+────────────────────────────────────────────────────────────────────
+faithfulness_score         1.00      1      1     1/1       N/A
+answer_relevance_score     1.00      1      1     1/1       N/A
+task_performance_score     1.00      1      1     1/1       N/A
+alignment_score            5.00      5      5     1/1       N/A
+────────────────────────────────────────────────────────────────────
+Pozitif soruda ret (FN): 1 — judge'ın ödüllendirdiği (AR>=4 ve TP>=4): 0
+
+Puan Dağılımı:
+Metrik                      1    2    3    4    5
+faithfulness_score          1    0    0    0    0
+answer_relevance_score      1    0    0    0    0
+task_performance_score      1    0    0    0    0
+alignment_score             0    0    0    0    1
+
+Sonuç dosyası: C:\Users\merve\Desktop\rag_project\experiments\madde39_tam_kosu\head_test_5\birlesik.csv
+Judge model: openai/gpt-oss-120b (Groq)
+Context: sonuç CSV'sinde kayıtlı (cevabın üretildiği context).
+Hazır.
+
+[1/2] Soru #101: Bağlamdan bağımsız dilbilgisini Chomsky normal formuna dönüş...
+  ! Kısa süreli rate limit — 24.5 sn bekleniyor (1/5)…
+  → F: 2 | AR: 2 | TP: 2 | AL: 3
+[2/2] Soru #107: 728_profiles.json veri setinde profillerin ortalama randevu ...
+  ! Kısa süreli rate limit — 16.3 sn bekleniyor (1/5)…
+  → F: 5 | AR: 5 | TP: 5 | AL: 5
+
+============================================================
+Judge değerlendirmesi tamamlandı: 2 soru değerlendirildi, çıktıda 2 soru
+Sonuçlar: C:\Users\merve\Desktop\rag_project\experiments\madde39_tam_kosu\head_test_5\judge_parti1.csv
+[UYARI] Referans yok (2 soru — ne ground truth dosyalarında ne CSV'nin referans_cevap sütununda): 101, 107
+
+────────────────────────────────────────────────────────────────────
+LLM-as-a-Judge Özet Rapor
+────────────────────────────────────────────────────────────────────
+Metrik                      Ort    Min    Max  Geçerli  FN hariç
+────────────────────────────────────────────────────────────────────
+faithfulness_score         3.50      2      5     2/2      3.50
+answer_relevance_score     3.50      2      5     2/2      3.50
+task_performance_score     3.50      2      5     2/2      3.50
+alignment_score            4.00      3      5     2/2      4.00
+────────────────────────────────────────────────────────────────────
+Pozitif soruda ret (FN): 0 — judge'ın ödüllendirdiği (AR>=4 ve TP>=4): 0
+
+Puan Dağılımı:
+Metrik                      1    2    3    4    5
+faithfulness_score          0    1    0    0    1
+answer_relevance_score      0    1    0    0    1
+task_performance_score      0    1    0    0    1
+alignment_score             0    0    1    0    1
+
+Sonuç dosyası: C:\Users\merve\Desktop\rag_project\experiments\madde39_tam_kosu\head_test_negative\birlesik.csv
+Judge model: openai/gpt-oss-120b (Groq)
+Context: sonuç CSV'sinde kayıtlı (cevabın üretildiği context).
+Hazır.
+
+[1/3] Soru #214: airports.json veri setindeki Türkiye'ye ait havaalanlarının ...
+  ! Kısa süreli rate limit — 19.9 sn bekleniyor (1/5)…
+  → F: 5 | AR: 4 | TP: 4 | AL: 5
+[2/3] Soru #224: Bağlamdan bağımsız dilbilgisi dokümanında anlatılan Chomsky ...
+  ! Kısa süreli rate limit — 23.4 sn bekleniyor (1/5)…
+  → F: 2 | AR: 3 | TP: 3 | AL: 5
+[3/3] Soru #232: us-states veri setinde en son hangi tarihte eyalet sınırı de...
+  ! Kısa süreli rate limit — 12.1 sn bekleniyor (1/5)…
+  → F: 5 | AR: 1 | TP: 1 | AL: 5
+
+============================================================
+Judge değerlendirmesi tamamlandı: 3 soru değerlendirildi, çıktıda 3 soru
+Sonuçlar: C:\Users\merve\Desktop\rag_project\experiments\madde39_tam_kosu\head_test_negative\judge_parti1.csv
+
+────────────────────────────────────────────────────────────────────
+LLM-as-a-Judge Özet Rapor
+────────────────────────────────────────────────────────────────────
+Metrik                      Ort    Min    Max  Geçerli  FN hariç
+────────────────────────────────────────────────────────────────────
+faithfulness_score         4.00      2      5     3/3      3.50
+answer_relevance_score     2.67      1      4     3/3      2.00
+task_performance_score     2.67      1      4     3/3      2.00
+alignment_score            5.00      5      5     3/3      5.00
+────────────────────────────────────────────────────────────────────
+Pozitif soruda ret (FN): 1 — judge'ın ödüllendirdiği (AR>=4 ve TP>=4): 1 [214]
+
+Puan Dağılımı:
+Metrik                      1    2    3    4    5
+faithfulness_score          0    1    0    0    2
+answer_relevance_score      1    0    1    1    0
+task_performance_score      1    0    1    1    0
+alignment_score             0    0    0    0    3
+
+
+TOKEN ÖLÇÜMÜ: {"etiket": "parti1", "spec": "test_2:48;test_3:90;test_4:100;test_5:101,107;test_negative:214,224,232", "satir": 8, "groq_cagri": 8, "prompt_tokens": 20201, "completion_tokens": 6000, "total_tokens": 26201, "sure_sn": 143, "kullanim_olmayan_cagri": 0}

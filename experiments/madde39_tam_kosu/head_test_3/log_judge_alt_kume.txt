@@ -1,0 +1,35 @@
+Sonuç dosyası: experiments\madde39_tam_kosu\head_test_3\sonuclari.csv
+Judge model: openai/gpt-oss-120b (Groq)
+Context: sonuç CSV'sinde kayıtlı (cevabın üretildiği context).
+Hazır.
+
+[1/2] Soru #79: Zaman ekseninde genişleme ile frekans ekseninde daralma (ban...
+  ! Kısa süreli rate limit — 7.3 sn bekleniyor (1/5)…
+  → F: 5 | AR: 4 | TP: 4 | AL: 5
+[2/2] Soru #82: Zamanda çarpımın frekansta konvolüsyona karşılık geldiği öze...
+  ! Kısa süreli rate limit — 23.3 sn bekleniyor (1/5)…
+  → F: 5 | AR: 4 | TP: 4 | AL: 5
+
+============================================================
+Judge değerlendirmesi tamamlandı: 2 soru değerlendirildi, çıktıda 2 soru
+Sonuçlar: experiments/madde39_tam_kosu/head_test_3/judge_alt_kume.csv
+
+────────────────────────────────────────────────────────────────────
+LLM-as-a-Judge Özet Rapor
+────────────────────────────────────────────────────────────────────
+Metrik                      Ort    Min    Max  Geçerli  FN hariç
+────────────────────────────────────────────────────────────────────
+faithfulness_score         5.00      5      5     2/2       N/A
+answer_relevance_score     4.00      4      4     2/2       N/A
+task_performance_score     4.00      4      4     2/2       N/A
+alignment_score            5.00      5      5     2/2       N/A
+────────────────────────────────────────────────────────────────────
+Pozitif soruda ret (FN): 2 — judge'ın ödüllendirdiği (AR>=4 ve TP>=4): 2 [79, 82]
+
+Puan Dağılımı:
+Metrik                      1    2    3    4    5
+faithfulness_score          0    0    0    0    2
+answer_relevance_score      0    0    0    2    0
+task_performance_score      0    0    0    2    0
+alignment_score             0    0    0    0    2
+
