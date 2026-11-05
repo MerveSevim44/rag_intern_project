@@ -1,0 +1,105 @@
+Sonuç dosyası: C:\Users\merve\Desktop\rag_project\experiments\madde39_tam_kosu\head_test_1\birlesik.csv
+Önceki çıktı: C:\Users\merve\Desktop\rag_project\experiments\madde39_tam_kosu\head_test_1\judge_parti2.csv (29 satır) — 20 satır korunuyor, 10 satır değerlendirilecek.
+Judge model: openai/gpt-oss-120b (Groq)
+Context: sonuç CSV'sinde kayıtlı (cevabın üretildiği context).
+Hazır.
+
+[1/10] Soru #15: Yararsız simge (useless symbol) kavramı nasıl tanımlanmıştır...
+  → F: 5 | AR: 5 | TP: 5 | AL: 5
+[2/10] Soru #16: Yararsız kural (useless rule) ne demektir?...
+  → F: 5 | AR: 5 | TP: 5 | AL: 5
+[3/10] Soru #17: Algoritma 4.5 hangi amaçla kullanılır ve sonucunda hangi küm...
+  ! Kısa süreli rate limit — 6.3 sn bekleniyor (1/5)…
+  → F: 5 | AR: 5 | TP: 5 | AL: 5
+[4/10] Soru #18: Algoritma 4.6 hangi amaçla kullanılır ve sonucunda hangi küm...
+  ! Kısa süreli rate limit — 21.6 sn bekleniyor (1/5)…
+  → F: 2 | AR: 3 | TP: 2 | AL: 5
+[5/10] Soru #19: G4.7 dilbilgisinde uç simge dizgisi türeten değişkenler küme...
+  ! Kısa süreli rate limit — 23.3 sn bekleniyor (1/5)…
+  → F: 1 | AR: 3 | TP: 2 | AL: 5
+[6/10] Soru #20: G'4.7 dilbilgisinde başlangıç değişkeninden ulaşılabilen değ...
+  ! Kısa süreli rate limit — 22.0 sn bekleniyor (1/5)…
+  → F: 1 | AR: 3 | TP: 2 | AL: 5
+[7/10] Soru #21: G4.7'nin yalınlaştırılmış son hali olan G''4.7 dilbilgisinin...
+  ! Kısa süreli rate limit — 28.4 sn bekleniyor (1/5)…
+  → F: 3 | AR: 3 | TP: 3 | AL: 5
+[8/10] Soru #22: Dilbilgisinin yalınlaştırılması (yararsız öğelerin atılması)...
+  ! Kısa süreli rate limit — 26.8 sn bekleniyor (1/5)…
+  → F: 5 | AR: 5 | TP: 5 | AL: 5
+[9/10] Soru #23: w1=(v+c)*(v-c) tümcesinin soldan türetilmesindeki ilk üç adı...
+  ! Kısa süreli rate limit — 16.8 sn bekleniyor (1/5)…
+  ! Kısa süreli rate limit — 2.0 sn bekleniyor (2/5)…
+  → F: 2 | AR: 3 | TP: 2 | AL: 5
+[10/10] Soru #30: G4.3 dilbilgisinde X=>aXbb|aZbb|abb ve Z=>Zb|Xb kuralları bi...
+  ! Kısa süreli rate limit — 22.1 sn bekleniyor (1/5)…
+  → F: 1 | AR: 2 | TP: 1 | AL: 5
+
+============================================================
+Judge değerlendirmesi tamamlandı: 10 soru değerlendirildi, çıktıda 30 soru
+Sonuçlar: C:\Users\merve\Desktop\rag_project\experiments\madde39_tam_kosu\head_test_1\judge_parti2.csv
+
+────────────────────────────────────────────────────────────────────
+LLM-as-a-Judge Özet Rapor
+────────────────────────────────────────────────────────────────────
+Metrik                      Ort    Min    Max  Geçerli  FN hariç
+────────────────────────────────────────────────────────────────────
+faithfulness_score         3.87      1      5    30/30      3.87
+answer_relevance_score     4.27      2      5    30/30      4.27
+task_performance_score     3.93      1      5    30/30      3.93
+alignment_score            4.93      4      5    30/30      4.93
+────────────────────────────────────────────────────────────────────
+Pozitif soruda ret (FN): 0 — judge'ın ödüllendirdiği (AR>=4 ve TP>=4): 0
+
+Puan Dağılımı:
+Metrik                      1    2    3    4    5
+faithfulness_score          4    4    2    2   18
+answer_relevance_score      0    3    6    1   20
+task_performance_score      2    5    3    3   17
+alignment_score             0    0    0    2   28
+
+Sonuç dosyası: C:\Users\merve\Desktop\rag_project\experiments\madde39_tam_kosu\head_test_2\birlesik.csv
+Judge model: openai/gpt-oss-120b (Groq)
+Context: sonuç CSV'sinde kayıtlı (cevabın üretildiği context).
+Hazır.
+
+[1/5] Soru #31: 728_profiles.json dosyasındaki schemaVersion değeri nedir ve...
+  ! Kısa süreli rate limit — 22.0 sn bekleniyor (1/5)…
+  → F: 5 | AR: 5 | TP: 5 | AL: 5
+[2/5] Soru #32: statistics bölümüne göre veri setinde toplam kaç profil (pro...
+  ! Kısa süreli rate limit — 12.3 sn bekleniyor (1/5)…
+  → F: 5 | AR: 5 | TP: 5 | AL: 5
+[3/5] Soru #33: safetyAndDataQuality bölümünde realPhoneNumbersIncluded ve r...
+  ! Kısa süreli rate limit — 21.2 sn bekleniyor (1/5)…
+  → F: 5 | AR: 5 | TP: 5 | AL: 5
+[4/5] Soru #34: Örnek profil olan Özge Taş'ın sector ve occupation alanları ...
+  ! Kısa süreli rate limit — 23.1 sn bekleniyor (1/5)…
+  → F: 5 | AR: 5 | TP: 5 | AL: 5
+[5/5] Soru #35: publicContact alanı altında phoneVisible ve emailVisible değ...
+  ! Kısa süreli rate limit — 11.4 sn bekleniyor (1/5)…
+  → F: 5 | AR: 5 | TP: 5 | AL: 5
+
+============================================================
+Judge değerlendirmesi tamamlandı: 5 soru değerlendirildi, çıktıda 5 soru
+Sonuçlar: C:\Users\merve\Desktop\rag_project\experiments\madde39_tam_kosu\head_test_2\judge_parti2.csv
+
+────────────────────────────────────────────────────────────────────
+LLM-as-a-Judge Özet Rapor
+────────────────────────────────────────────────────────────────────
+Metrik                      Ort    Min    Max  Geçerli  FN hariç
+────────────────────────────────────────────────────────────────────
+faithfulness_score         5.00      5      5     5/5      5.00
+answer_relevance_score     5.00      5      5     5/5      5.00
+task_performance_score     5.00      5      5     5/5      5.00
+alignment_score            5.00      5      5     5/5      5.00
+────────────────────────────────────────────────────────────────────
+Pozitif soruda ret (FN): 0 — judge'ın ödüllendirdiği (AR>=4 ve TP>=4): 0
+
+Puan Dağılımı:
+Metrik                      1    2    3    4    5
+faithfulness_score          0    0    0    0    5
+answer_relevance_score      0    0    0    0    5
+task_performance_score      0    0    0    0    5
+alignment_score             0    0    0    0    5
+
+
+TOKEN ÖLÇÜMÜ: {"etiket": "parti2", "spec": "test_1:15,16,17,18,19,20,21,22,23,30;test_2:31,32,33,34,35", "satir": 15, "groq_cagri": 15, "prompt_tokens": 39374, "completion_tokens": 10731, "total_tokens": 50105, "sure_sn": 321, "kullanim_olmayan_cagri": 0}

@@ -55,9 +55,18 @@ def calistir(etiket, spec):
     import llm_as_judge as J
     from langchain_core.callbacks import BaseCallbackHandler
 
+    kullanim_log = HERE / f"judge_kullanim_{etiket}.jsonl"   # her çağrıda eklenir: süreç öldürülse bile ölçüm kalır
+
+    def kaydet(**k):
+        with open(kullanim_log, "a", encoding="utf-8") as f:
+            f.write(json.dumps({"t": time.strftime("%H:%M:%S"), **k}, ensure_ascii=False) + "\n")
+
     class Kullanim(BaseCallbackHandler):
         def __init__(self):
             self.cagri = []
+
+        def on_llm_error(self, error, **kw):
+            kaydet(hata=type(error).__name__, mesaj=str(error)[:500])
 
         def on_llm_end(self, response, **kw):
             u = (response.llm_output or {}).get("token_usage") or {}
@@ -68,8 +77,21 @@ def calistir(etiket, spec):
                         u = {"prompt_tokens": m.get("input_tokens"), "completion_tokens": m.get("output_tokens"),
                              "total_tokens": m.get("total_tokens")}
             self.cagri.append(u)
+            kaydet(**{a: u.get(a) for a in ("prompt_tokens", "completion_tokens", "total_tokens")})
 
     k = Kullanim()
+
+    class UzunBekleme:
+        """judge'ın kendi _DAILY_LIMIT_PATTERN'i bu 429'u yakalamadı ve 31500 sn (8,75 saat) beklemeye
+        girdi. 15 dakikadan uzun retry-after'ı günlük limit say: judge DailyLimitError ile durur."""
+        def __init__(self, orijinal):
+            self.orijinal = orijinal
+
+        def search(self, mesaj):
+            bekle = J._retry_after_seconds(mesaj)
+            return self.orijinal.search(mesaj) or (bekle is not None and bekle > 900)
+
+    J._DAILY_LIMIT_PATTERN = UzunBekleme(J._DAILY_LIMIT_PATTERN)
     orj = J.load_judge_model
     J.load_judge_model = lambda *a, **kw: orj(*a, **kw).with_config(callbacks=[k])
     J.REBUILD_CONTEXT = False

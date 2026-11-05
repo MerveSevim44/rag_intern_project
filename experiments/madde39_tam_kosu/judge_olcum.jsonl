@@ -1,1 +1,2 @@
 {"etiket": "parti1", "spec": "test_2:48;test_3:90;test_4:100;test_5:101,107;test_negative:214,224,232", "satir": 8, "groq_cagri": 8, "prompt_tokens": 20201, "completion_tokens": 6000, "total_tokens": 26201, "sure_sn": 143, "kullanim_olmayan_cagri": 0}
+{"etiket": "parti2", "spec": "test_1:15,16,17,18,19,20,21,22,23,30;test_2:31,32,33,34,35", "satir": 15, "groq_cagri": 15, "prompt_tokens": 39374, "completion_tokens": 10731, "total_tokens": 50105, "sure_sn": 321, "kullanim_olmayan_cagri": 0}

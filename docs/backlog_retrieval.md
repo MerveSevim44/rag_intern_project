@@ -2194,6 +2194,31 @@ kurgulanmıştır?" — madde 34 Adım 2'de dikkat dağıtıcı adayı olarak te
   çıkarım talimatıyla.
 - TP cevaplar kısmen doğru (X[4355]'te test1.txt'ten karışma var).
 
+### Not (2026-11-05): üç FN'de bağlamda cevap kaynağı var, model reddediyor — kök neden TEŞHİS EDİLMEDİ (test_2 #48, test_3 #90, test_4 #100)
+Madde 21 judge parti 1 ölçümü sırasında ayrıldı (`experiments/madde39_tam_kosu/head_*/judge_parti1.csv`).
+Judge üçüne de F/AR/TP/AL = 1/1/1/5 verdi ("bağlamda cevap var, ret çelişiyor"); bu, madde 21'in
+tarif ettiği ödüllendirme körlüğünün TERSİ (judge bu üçünü cezalandırıyor). Judge'ın "bağlamda var"
+iddiası yalnız bir ifade olduğu için bağlamlar kayıtlardan elle denetlendi:
+- **#100 → bu madde (37) kapsıyor, ama kök neden yok.** Cevap chunk'ı (test2.txt paragraf 5-10)
+  bağlamda; model reddediyor. Madde 37 "yorum sınırı" şüphesini taşıyor, ölçülmedi; madde 34
+  Adım 2'de dikkat dağıtıcı adayı olarak denendi, **doğrulanmadı** (kırılgan).
+- **#48 — hiçbir maddede ele alınmıyor.** Soru "defaultDurationMinutes ile services[].durationMinutes
+  her zaman eşleşir mi?"; bağlam 4 profil taşıyor ve içinde karşı örnek var (profiles[84]:
+  defaultDurationMinutes=50, hizmet süreleri 60/60/50). GT: "Hayır, her zaman eşleşmez". Sorunun
+  doğrusu bir toplulaştırma/karşı örnek sorusu, retrieval rotası semantik.
+- **#90 — hiçbir maddede ele alınmıyor.** Bağlam dört sayfa taşıyor: p14 "Frekans-Kaydırma
+  Özelliği", p11 "Zamanda Kaydırma", p9 "Duallik", p10 "Ölçekleme" (formüller PDF çıkarımında
+  bozuk). Madde 34'ün sembol/dil adayları #82'de ret açıklamadı; #90 için ölçülmedi.
+- **Geçmiş:** madde 39, #48 ve #90'ı "TP→FN — açıklanamadı, ama gerçek ve kararlı" (aynı
+  bağlamla 3/3 FN) diye bıraktı ve ayrı maddeye ÇIKARMADI; madde 34'ün FN taraması (v8 ∪ madde 32
+  n0 ∪ madde 33 prod, 6 soru) bu ikisini içermiyor (o dönemde TP idiler). Yani "madde 39 listesinde
+  geçiyor" bir FN listesidir, teşhis değildir.
+- **Madde 26/28/31/35/20/21/23 kapsamıyor:** başlıkları ve madde 21 gövdesi (judge) başka
+  mekanizmaları anlatıyor (ret biçimi/tespiti, OCR, runner çökmesi, router, stemmer); bu üç soruyla
+  eşleşen kök neden anlatımı bulunamadı. (26/28 yalnız başlıktan değerlendirildi, gövdeleri bu
+  kontrol için tam okunmadı.)
+Öncelik verilmedi; madde açılmadı. Üç soru da HEAD tam koşusunda kararlı FN.
+
 ## Madde 38 — Ret kalksa da içerik hatalı (genel başlık; test_2 #56, test_3 #82)
 
 **Desen:** bir müdahale reti kaldırıyor (sınıf FN → TP), ama gelen cevap GT'yi
