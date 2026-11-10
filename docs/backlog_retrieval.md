@@ -1295,6 +1295,29 @@ ayrı bir FN sayacıyla raporlanmalı.
   #79/#82/#91'de doğru dosya geldi ama doğru chunk gelmedi, `benchmark_eval`
   bunları "doğru kaynak geldi ama cevap yok" (üretim sorunu) sayıyor.
 
+### Not (2026-11-10): `_retry_after_seconds` Groq'un "ms" birimini "m" (dakika) sanıyor — DÜZELTİLMEDİ, düşük öncelik
+`evaluation/llm_as_judge.py::_retry_after_seconds` Groq 429 mesajındaki "Please try
+again in 420ms" gibi bir süreyi **420 dakika** olarak hesaplıyor (doğrusu 0,42
+saniye). Kök neden: `re.findall(r"([\d.]+)([hms])", ...)` düzenli ifadesi "420ms"
+üzerinde "420" + "m" (dakika birimi) olarak eşleşiyor, sondaki tek "s" harfi ayrı
+bir sayı olmadığı için atılıyor — "ms" bir birim olarak hiç tanınmıyor.
+
+Bulunma yeri: madde 11/33 LLM-judge turunda (`experiments/madde39_tam_kosu/judge_parti.py`),
+kendi sarmalayıcımdaki ayrı bir sezgiyle (15 dk'dan uzun bekleme = günlük limit)
+birleşince gerçek bir TPM (dakikalık) 429'u günlük kota sandı ve bir koşuyu (parti4b,
+test_5) 9 satır eksik bıraktı — bkz. ilgili commit (`fb23c6e`). Sarmalayıcıdaki
+sezgi kaldırıldı, ama **bu dosyadaki asıl ayrıştırma hatası düzeltilmedi.**
+
+Etki: `judge_single`'ın kendi retry döngüsü de aynı hatayı taşıyor (`judge_single`
+içinde `wait = _retry_after_seconds(message)` ile hesaplanan süre kadar
+`time.sleep` ediyor) — "ms" mesajı gelirse gereksiz yere dakikalarca bekleyebilir
+ya da (büyük ms değerlerinde) `_DAILY_LIMIT_PATTERN` tetiklenmeden DailyLimitError
+fırlatmayabilir de. Gerçek "per day (TPD|RPD)" metni içeren mesajlar bu hatadan
+etkilenmiyor (ayrıca eşleşiyor), yalnız "ms" içeren TPM/RPM mesajları etkileniyor.
+Düzeltme adayı: regex'e `ms` birimini (1000'e bölerek saniyeye çevrilecek şekilde)
+eklemek; `h`/`m`/`s` taramasından ÖNCE `ms` ayrıca yakalanmalı (yoksa "ms" yine
+"m"+"s" olarak bölünür). Öncelik verilmedi, kaybolmasın diye kaydedildi.
+
 ## Madde 22 — OCR'lı "Cevap N" sayfaları retrieval'a gelmiyor
 
 OCR sonrası (plan Adım 6) test_1 #24–#29'da soru sayfası ("Örnek N") artık
@@ -2277,6 +2300,46 @@ hatası; burada sayılar doğru, bozuk olan metin sentezi) ve ona bağlanmadı.
 
 **Ölçülmedi:** desenin kapsamı (reti kaldıran diğer müdahalelerde içerik ne kadar
 sık hatalı) ve ortak neden (bağlam eksikliği / bozuk metin / model çıkarımı).
+
+### Not (2026-11-10): LLM-judge taraması — Fourier formül ailesinde katsayı kaybı (test_3 #83/#85/#89), madde 38 Örnek 2 ile aynı aile; #78/#87 EŞLEŞMİYOR
+147 satırlık LLM-judge turunda (`experiments/madde39_tam_kosu/head_test_3/judge_parti4*.csv`)
+düşük puan alan 5 test_3 sorusu madde 38 Örnek 2'nin (#82, `Y(ω) = F(ω+ω0) * F(ω−ω0)`,
+doğrusu `½F(ω+ω0) + ½F(ω−ω0)`) kapsamıyla karşılaştırıldı:
+
+- **Aynı aile, EŞLEŞTİ (katsayı/çarpan kaybı, aynı Fourier PDF):** #83 ("Sinüzoidal genlik
+  modülasyonu", #82 ile AYNI konu/sayfa — `lsarSist-H8_FourierTransform.pdf` sayfa 12-13)
+  cevabı `Y(ω) = F(ω+ω0) + F(ω−ω0)` yazıyor, doğrusu `½F(ω+ω0) + ½F(ω−ω0)` — #82'den farklı
+  (çarpım değil toplama doğru), ama **aynı ½ katsayısı kaybı**. #89 (aynı modülasyon konusu)
+  `F(ω-ω0)`/`F(ω+ω0)` bileşenlerinin konumunu kavramsal olarak yanlış yerleştiriyor (ω0 yerine
+  ω1 civarında diyor). #85 (frekans-kaydırma, farklı özellik ama aynı PDF) `2π` çarpanını
+  atlıyor. Üçü de madde 34 Adım 1'in tespit ettiği bozuk formül gösterimiyle (PUA sembolleri,
+  parçalı satırlar) aynı sayfa ailesinden geliyor; **kök nedenin bu olduğu ÖLÇÜLMEDİ** (madde
+  38 Örnek 2'de de aynı çekince var), yalnız aynı yüzeysel desen (katsayı/çarpan kaybı,
+  aynı PDF) doğrulandı.
+- **EŞLEŞMİYOR:** #78 (ölçekleme özelliği) kendi içinde çelişen bir cümle üretiyor
+  ("sıkıştırır" derken hemen ardından "uzunluk artarken" diyor) — katsayı kaybı değil,
+  kendiyle tutarsızlık. #87 (nedensel üstel işaret, Re{a}/Im{a}) kavramsal tanım hatası
+  yapıyor; bağlamında Z-dönüşümü ve dilbilgisi PDF'inden dikkat dağıtıcı chunk'lar var
+  (madde 34'ün dikkat dağıtıcı chunk mekanizmasını andırıyor, ama madde 34 RETle ilgili,
+  burada ret yok, içerik hatası var — mekanizma aynı sayılamaz). Öncelik verilmedi, madde
+  açılmadı; kaybolmasın diye kaydedildi.
+
+### Not (2026-11-10): madde 37'nin KAPSAMI DIŞINDA — anlatı sorularında ret OLMADAN confabülasyon (test_4 #95/#97/#99)
+Aynı judge turunda test_4'ün üç sorusu (#95, #97, #99 — "Örnek 3"teki Ertelenen
+gözlemin kanıtı) düşük puan aldı. Madde 37 özellikle **ret** mekanizmasını ele
+alıyor (#100: bağlamda cevap var, model reddediyor). Bu üçü **TP** (model
+reddetmiyor, cevap veriyor) ama anlatı/çıkarım sorularında bağlamda OLMAYAN
+somut ayrıntılar uyduruyor:
+- #95: "anahtarın içinde bir kod veya mesaj olduğu" — bağlamda yok.
+- #97: 28 Mart kaydına "antikacı, anahtar, harita" gibi bağlamda olmayan
+  ayrıntılar ekliyor, şöminenin işaretiyle ilgili uydurma detay.
+- #99: Usta Magnus'un "kütüphaneci olmadığı ve kontrolcü olduğu" — bağlamda yok.
+Üçü de aynı mekanizma: model, günlük/anlatı tarzı bağlamdan çıkarım isteyen
+sorularda somut ama bağlamda olmayan "hikaye ayrıntısı" ekliyor. Bu, madde 37'nin
+(ret) DEĞİL, Örnek 3'teki (#42) "sentezleyici confabülasyonu" ertelenen notunun
+normal yolda (D5 dışında) da gözlendiğinin kanıtı — oradaki not güncellenmeli:
+"normal semantik RAG yolunda da olup olmadığı ölçülmedi" artık kısmen ölçüldü,
+anlatı/yorum soruları bu zafiyeti taşıyor. Öncelik verilmedi, madde açılmadı.
 
 ## Madde 39 — Güncel sistemle tam benchmark + negatif set koşusu yok
 
