@@ -2641,3 +2641,58 @@ gruplarının kendi İÇİNDE paylaştığı "çok adımlı türetme/çıkarım 
 confabülasyon" yüzeysel deseni ileride araştırılabilir bir aday, ama kanıtlanmış
 bir madde değil ve A/B birbirine de bağlanmadı (farklı veri seti, farklı konu).
 Öncelik verilmedi, madde açılmadı.
+
+## Not (2026-11-10) — Grup B (test_2 profil şema #41/#45/#47) ön inceleme: GT doğru, kök neden dağınık (2 model hatası + 1 kod-üretim hatası)
+
+Önceki "Grup B" notunun ("kök nedenleri teşhis edilmedi") devamı. Yöntem: üç sorunun
+`evaluation/ground_truth/test_2.json` referansı `data/728_profiles.json` üzerinde 728 profilin
+tamamında yeniden hesaplandı; sonra her satırın `context` sütunu ve (#45 için) `head_test_2/log.txt`
+okundu. Kod/üretim değişikliği yok.
+
+**GT doğrulaması — üçü de doğru, benchmark hatası YOK:**
+- #41: `searchKeywords` = {sector, occupation, services[].name, city, district} kümesi, 728/728 profilde
+  birebir ve alfabetik sıralı.
+- #45: slug = ASCII-leştirilmiş `displayName` + `-` + `profileCode` son 6 karakteri (küçük harf), 728/728
+  (Özge Taş / DB-ZD5HGKSC → `ozge-tas-zd5hgksc`).
+- #47: 728/728 profilde `publicContact` = {phone: null, email: null, phoneVisible: false, emailVisible:
+  false}; fieldGuide "intentionally no real phone/email" ile TUTARLI (referans "tutarlı" doğru).
+
+**Satır başına kök neden:**
+- **#41 — model hatası (retrieval yeterli).** Bağlamda 4 profilin `searchKeywords` dizisi var ve içinde
+  sektör ("Teknoloji ve Yazılım") ile şehir/ilçe ("İstanbul", "Beylikdüzü", ...) değerleri açıkça duruyor.
+  Cevap "Location ve sector anahtar kelimelerde yer almamaktadır" diyor — kendi bağlamıyla çelişiyor.
+- **#47 — model hatası (retrieval yeterli).** Bağlamda fieldGuide satırı ve 3 profilin
+  `phoneVisible/emailVisible: False` değerleri var. Cevap "Tutarsızdır" diyor ve açıklaması kendi içinde de
+  anlamsız (false'u "kontrol etme özelliği" ile karşılaştırıyor). Doğru çıkarım bağlamdan çıkıyordu.
+- **#45 — kod-üretim hatası (sandbox yolu).** Şemada `slug` sütunu mevcut (`schema_cols=[..., 'displayName',
+  'slug', ...]`), ama üretilen kod gerçek sütunu okumak yerine kendi `create_slug` fonksiyonunu yazıp (ad +
+  `profile_code[:6]`) çıktısını "doğrulanmış" gibi `expected_slug` olarak döndürüyor; bu özet
+  `[KESİN HESAPLAMA SONUCU]` olarak ask()'e gidiyor ve cevap bu uydurma türetmeyi tekrarlıyor.
+  `dogrulama_durumu=ok`: doğrulayıcı kendi kendini doğrulayan çıktıyı geçirdi.
+
+**Sonuç: tek mekanizma yok, ama tamamen dağınık da değil.** #41/#47 aynı sınıfta (bağlam yeterli, model yanlış
+çıkarım yapıyor → model kapasitesi); #45 ayrı (kod-üretim + doğrulayıcı). GT hatası ve retrieval hatası elendi.
+
+**Kod akışı doğrulaması (2026-11-10, bağlantıyı belirlemek için):** `router.classify_query` #41 için
+`semantic_rag (fallback_semantic)`, #47 için `semantic_rag (schema_or_doc_conceptual)` döndürüyor; `log.txt`'de
+ikisi için `[data_engine] route=` satırı yok, `bulunan_kaynaklar` yalnız `$.profiles[...]`/`$.fieldGuide`
+chunk'ları. Yani **`result_to_natural_language` → `ask()` iki aşamalı zincirinden GEÇMİYORLAR**: ham chunk
+metni doğrudan `ask()`'e gidiyor, araya bulanıklaştırıcı adım girmiyor. (#53'ün zinciri: sandbox →
+`result_to_natural_language` → `ask()`; madde 38/41 notları o zincirle ilgili.)
+
+**Bağlantı (yeni madde açılmadı):**
+- **#41/#47 → KENDİ BAŞLARINA not, madde 38'e EKLENMEDİ.** Mekanizma: **context'te bilgi açık ve net olsa
+  bile model ters/yanlış çıkarım yapabiliyor** (#41: bağlamdaki sektör/şehir/ilçe değerlerini "yok" diyor;
+  #47: false bayraklarını "tutarsızlık" sayıyor). Bu, madde 38'in iki aşamalı confabülasyon zincirinden
+  (sandbox özeti bulanıklaşıyor → `ask()` bulanık cümleden somut ama yanlış değer uyduruyor) FARKLI bir
+  mekanizma: burada bulanıklaşma yok, girdi net. Madde 38'e yalnız çapraz referans: ikisinin ortak yanı
+  "sınıf TP ama içerik yanlış" semptomu (madde 36 ailesi), mekanizmaları ortak değil — birleştirilmedi.
+  Madde 37 (bağlamda cevap var, model REDDEDİYOR) ile de yakın ama ayrı: orada ret var, burada yanlış
+  içerikle cevap veriliyor. Kök neden (prompt'un çıkarım dalı mı, model kapasitesi mi) teşhis edilmedi.
+- **#45 → madde 18'e çapraz referans, "farklı mekanizma, benzer semptom".** Madde 18'in mekanizması
+  model kapasitesi / yanıt biçimi (tek kelimelik TAMAM/SORUN formatı, #51'de kapasite). #45'te ise ayrı bir
+  **doğrulayıcı boşluğu** var: doğrulayıcı çıktının biçimini kontrol ediyor ("expected_slug" sözlüğü
+  makul görünüyor), ama **doğru kaynak sütunun kullanılıp kullanılmadığını kontrol etmiyor** (şemada `slug`
+  sütunu vardı, kod onu hiç okumadı). Semptom benzer (kendi kendine tutarlı yanlış çıktı `ok` alıyor),
+  mekanizma farklı. Madde 18 kapalı (kabul edilmiş sınırlama) olduğundan yalnız çapraz referans.
+- Düzeltme gerektiren bir müdahale önerilmiyor; Grup A/C ön incelemesine kadar önceliklendirme yok.
