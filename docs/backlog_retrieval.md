@@ -2879,3 +2879,45 @@ bütçeli geçmiş kırpma) başka bir çağrıyı (`code_interpreter` düzeltme
 (~10 KB) kapsar; burada prompt ≈ 3 KB. Çapraz referans: ikisi de "prompt içeriği/boyutu → anormal üretim" ailesine
 girebilir, ama ortak mekanizma kanıtlanmadı; BİRLEŞTİRİLMEDİ. Öncelik verilmedi, madde açılmadı; E1 kararından
 (PUA eşlemesi uygulanmıyor) bağımsız olarak, üretimde bu davranışın başka bağlamlarda çıkıp çıkmadığı izlenebilir.
+
+## Kapanış notu (2026-11-10) — LLM-judge düşük puanlı satırların A/B/C incelemesi: sınıflandırma ve durum
+
+"15 düşük puanlı satırdan 13'ü bağlanamadı" notunun ve Grup A/B/C ön incelemelerinin (+ düzen testi, PUA eşlemesi E1)
+özeti. Hepsi `semantic_rag`/`code_interpreter` yolunda gerçek okuma + küçük deneylerle yapıldı; hiçbirinde `src/` değişmedi.
+Retrieval hatası hiçbir satırda kök neden çıkmadı (cevabı taşıyan sayfa/chunk 12 satırın hepsinde bağlamdaydı;
+#82 ayrı: bu koşuda cevap chunk'ı bağlamda yok, madde 32-34 konusu).
+
+| Satır(lar) | Kök neden sınıfı | Durum |
+|---|---|---|
+| #28, #30 (A2) | Model kapasitesi (kurallardan dil/ilişki türetme) | **Kabul edilmiş sınırlama** |
+| #87 (C2), #74 (C3) | Model kapasitesi (#74'te ayrıca GT slaytı aşıyor) | **Kabul edilmiş sınırlama** |
+| #41, #47 (B) | Net bağlama rağmen yanlış çıkarım (ham chunk → `ask()`, madde 38 zincirinden AYRI) | **Kabul edilmiş sınırlama**; mekanizma (prompt çıkarım dalı mı, kapasite mi) teşhis edilmedi |
+| #19, #20 (A1) | Bağlam metin düzeni (sütun iç içe geçmesi); elle temizlemeyle 3/3 düzeldi (n=2) | **"Otomatik çözüm denenmedi"** kategorisi: otomatik düzen düzeltmesi (ör. sütun-farkında okuma) DENENMEDİ — açık soru |
+| #73, #83 (C1, PUA yetersiz + düzen karışık) | PUA kodlu semboller + yığılı kesir düzeni. E1'de #73 hâlâ yanlış (`ω+` bağlamda okunur olduğu hâlde düşüyor), #83'ün iyileşmesi şüpheli (yığılı döküm, judge 5'i tartışmalı) | **A1 ile aynı "otomatik çözüm denenmedi" kategorisi:** PUA eşlemesi tek başına yetmiyor, düzen de karışmış; düzen ayağı denenmedi |
+| **#62, #69 (C1, mekanizma teşhis edildi, nokta-düzeltme işe yarıyor)** | PUA kodlu semboller. E1'de eşleme bu iki soruyu düzeltti (judge 1/2/1/5 → 5/5/5/5 ve 1/3/2/5 → 5/5/5/5) → mekanizma doğrulandı | **Bilinen bir düzeltme yolu VAR, ama güvenle devreye alınamıyor:** genel eşleme başka sorularda regresyon yarattı (#85, #74, #71, #61, #88 kötüleşti) ve gerçek ingest uygulaması re-ingest + tam benchmark ister, retrieval etkisi ölçülmedi. **A2/C2/C3/#41/#47/#89 ile aynı kategori DEĞİL** (onlarda bilinen hiçbir düzeltme yolu yok). Olası ileri adım: eşlemeyi yalnız etkilenen bağlamlarda/koşullu uygulamak veya regresyonların nedenini ayrıştırmak — denenmedi |
+| #89 | Bilginin kendisi bir şekilde (sayfa 13: ±ω0 bantları); metin katmanında yalnız etiket parçaları | Çıkarıcı sınırı (metin çıkarımıyla çözülmez); kabul edilmiş sınırlama |
+| **#45** | **Kod-üretim + doğrulayıcı boşluğu:** şemada `slug` sütunu varken kod onu okumuyor, kendi türetmesini yazıp kendini doğruluyor; doğrulayıcı "doğru kaynak sütunun kullanılıp kullanılmadığını" kontrol etmiyor (madde 18'den FARKLI mekanizma, benzer semptom) | **Hâlâ düzeltilebilir bir kod kusuru** (tek vaka; benzer #54 doğru çıkıyor, genelleşmesi bilinmiyor) |
+| **#85** | **GT sorunu:** slayt 14 `e^{jω0t}f(t) ↔ 2π F(ω−ω0)` yazıyor, GT ve cevap `2π`'siz (standart sonuç); judge slayta sadık kalıp puan kırdı; E1 öncesi cevap GT'ye uyuyordu | **GT düzeltmesi/notu gerekir** (model hatası değil) |
+| #71 | E1'de görülen context-sızıntısı (ayrı not) | **Teşhis edilmedi**; PUA'nın yan etkisi değil |
+| #82 | Bu koşuda cevap chunk'ı bağlamda yok (ret) | Madde 32-34 kapsamında, bu incelemenin dışında |
+
+**Kategoriler:** (1) *Bilinen düzeltme yolu yok, kabul edilmiş sınırlama:* A2, C2, C3, #41/#47, #89. (2) *Mekanizma teşhis edildi, nokta-düzeltme
+işe yarıyor ama genel uygulama regresyon yaratıyor:* #62, #69. (3) *Otomatik çözüm denenmedi:* A1 (#19/#20), #73, #83. (4) *Düzeltilebilir kod
+kusuru:* #45. (5) *GT sorunu:* #85. (6) *Teşhis edilmedi:* #71.
+
+**Önceki "13/15 teşhis edilmedi" notunun güncel hâli:** A (4), B (3), C (5) + #83/#85/#89 satırlarının hepsi artık bir
+sınıfa bağlandı; yeni madde açılmadı. İki satır (#57 → madde 18, #48/#90 → madde 37) önceden bağlıydı.
+
+**Hâlâ açık / eyleme dönük olanlar (öncelik verilmedi):**
+1. **#45 — kod kusuru:** üretilen kodun, sorunun adını verdiği ve şemada var olan sütunu kullanmasını kontrol eden bir
+   doğrulama; tek vakaya dayanıyor, kapsam ölçülmeli.
+2. **#85 — GT düzeltmesi:** `test_3.json` #85 referansı slayt 14'le çelişiyor (slayt `2π F(ω−ω0)`; standart matematik `F(ω−ω0)`);
+   GT'yi slayta göre mi, standarda göre mi tutacağımız ayrı karar. Ayrıca #74'ün nedensellik gerekçesi slaytta yok.
+3. **#71 sızıntısı:** teşhis edilmedi, yalnız E1 eşlemeli koşulunda 1/24 koşuda görüldü; üretimde (147 cevap) 0.
+4. **Otomatik düzen düzeltmesi (A1, #73, #83):** denenmedi; A1'de yalnız elle temizleme kanıtı var.
+5. **#62/#69 için koşullu PUA eşlemesi:** nokta-düzeltmenin regresyonsuz uygulanıp uygulanamayacağı denenmedi.
+
+**Metodoloji notları (bu turdan):** (a) bozukluk "gözle" tespiti yanıltıcı olabiliyor — PUA karakterleri terminalde boş
+göründüğü için "kayıp sembol" sanıldı, sonra düzeltildi (d4b00ed); sayısal/kod noktası denetimi gerekir. (b) Judge
+skorları bu turda da tutarsız: #83'ün (yığılı döküm) 5'i ve #88'in orijinal 5'i şüpheli (madde 18/21 ile aynı kör nokta).
+(c) Otomatik "değer var mı" taraması işe yaramadı (`experiments/madde_tutarlilik_taramasi/`).
