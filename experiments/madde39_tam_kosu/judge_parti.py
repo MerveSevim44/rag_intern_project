@@ -83,17 +83,13 @@ def calistir(etiket, spec):
 
     k = Kullanim()
 
-    class UzunBekleme:
-        """judge'ın kendi _DAILY_LIMIT_PATTERN'i bu 429'u yakalamadı ve 31500 sn (8,75 saat) beklemeye
-        girdi. 15 dakikadan uzun retry-after'ı günlük limit say: judge DailyLimitError ile durur."""
-        def __init__(self, orijinal):
-            self.orijinal = orijinal
-
-        def search(self, mesaj):
-            bekle = J._retry_after_seconds(mesaj)
-            return self.orijinal.search(mesaj) or (bekle is not None and bekle > 900)
-
-    J._DAILY_LIMIT_PATTERN = UzunBekleme(J._DAILY_LIMIT_PATTERN)
+    # NOT (2026-11-10): "15 dk'dan uzun retry-after = günlük limit" sezgisi buradan KALDIRILDI.
+    # evaluation/llm_as_judge.py._retry_after_seconds, Groq'un "420ms" gibi milisaniyelik
+    # bekleme değerlerini "420m" (420 DAKİKA) olarak yanlış ayrıştırıyor (regex ([\d.]+)([hms])
+    # "ms" sonekini "m" + artık "s" olarak eşliyor) — gerçek bir hata, evaluation/ bu ölçüm
+    # turunda değişmiyor. Sezgi bu hatayla birleşip gerçek bir TPM (dakikalık) 429'u günlük
+    # limit sanıp parti4b'de test_5'i 9 satır eksik bırakarak erken durdurdu. Artık yalnız
+    # judge'ın kendi "per day (TPD|RPD)" metin eşleşmesine güveniliyor.
     orj = J.load_judge_model
     J.load_judge_model = lambda *a, **kw: orj(*a, **kw).with_config(callbacks=[k])
     J.REBUILD_CONTEXT = False

@@ -1,0 +1,169 @@
+Sonuç dosyası: C:\Users\merve\Desktop\rag_project\experiments\madde39_tam_kosu\head_test_3\birlesik.csv
+Judge model: openai/gpt-oss-120b (Groq)
+Context: sonuç CSV'sinde kayıtlı (cevabın üretildiği context).
+Hazır.
+
+[1/13] Soru #75: Fourier dönüşümünün bir işaret hakkında ne söylediği ve ne s...
+  → F: 5 | AR: 5 | TP: 5 | AL: 5
+[2/13] Soru #76: Duallik (duality) özelliği ileri ve ters dönüşümlerin benzer...
+  → F: 5 | AR: 5 | TP: 5 | AL: 5
+[3/13] Soru #77: rect(t/τ)↔τsinc(ωτ/2) dönüşüm çiftine duallik uygulandığında...
+  ! Kısa süreli rate limit — 6.9 sn bekleniyor (1/5)…
+  → F: 5 | AR: 5 | TP: 5 | AL: 5
+[4/13] Soru #78: Ölçekleme (scaling) özelliğine göre |a|>1 olduğunda zaman ve...
+  ! Kısa süreli rate limit — 22.3 sn bekleniyor (1/5)…
+  → F: 3 | AR: 4 | TP: 3 | AL: 5
+[5/13] Soru #80: Zamanda kaydırma (shifting in time) özelliğine göre bir işar...
+  ! Kısa süreli rate limit — 15.5 sn bekleniyor (1/5)…
+  ! Kısa süreli rate limit — 1.6 sn bekleniyor (2/5)…
+  → F: 5 | AR: 5 | TP: 5 | AL: 5
+[6/13] Soru #81: Zamanda kaydırma özelliğinin ispatında u=t-t0 değişken dönüş...
+  ! Kısa süreli rate limit — 18.3 sn bekleniyor (1/5)…
+  → F: 5 | AR: 5 | TP: 5 | AL: 5
+[7/13] Soru #83: Sinüzoidal genlik modülasyonunda (y(t)=f(t)cos(ω0t)) elde ed...
+  ! Kısa süreli rate limit — 21.6 sn bekleniyor (1/5)…
+  → F: 2 | AR: 3 | TP: 2 | AL: 5
+[8/13] Soru #84: Sinüzoidal genlik modülasyonunda demodülasyon (f(t)'nin geri...
+  ! Kısa süreli rate limit — 21.4 sn bekleniyor (1/5)…
+  → F: 5 | AR: 5 | TP: 5 | AL: 5
+[9/13] Soru #85: Frekans-kaydırma özelliğine göre e^{jω0t}f(t) işaretinin Fou...
+  ! Kısa süreli rate limit — 18.2 sn bekleniyor (1/5)…
+  ! Kısa süreli rate limit — 1.8 sn bekleniyor (2/5)…
+  → F: 2 | AR: 5 | TP: 3 | AL: 5
+[10/13] Soru #86: cos(ω0t)f(t) işaretinin frekans-kaydırma özelliği kullanılar...
+  ! Kısa süreli rate limit — 24.8 sn bekleniyor (1/5)…
+  → F: 5 | AR: 5 | TP: 5 | AL: 5
+[11/13] Soru #87: Nedensel üstel işaretin genlik yanıtı |X(jω)|=1/√(Re{a}²+(ω+...
+
+[DURDU] Groq günlük limiti doldu — 22.9 dk sonra tekrar deneyin.
+        10/13 soru değerlendirildi; aynı komut kalanları tamamlar.
+        Mesaj: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_<maskeli>` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199202, Requested 3978. Please try again in 22m53.76s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+
+============================================================
+Judge değerlendirmesi tamamlandı: 13 soru değerlendirildi, çıktıda 10 soru
+Sonuçlar: C:\Users\merve\Desktop\rag_project\experiments\madde39_tam_kosu\head_test_3\judge_parti4.csv
+
+────────────────────────────────────────────────────────────────────
+LLM-as-a-Judge Özet Rapor
+────────────────────────────────────────────────────────────────────
+Metrik                      Ort    Min    Max  Geçerli  FN hariç
+────────────────────────────────────────────────────────────────────
+faithfulness_score         4.20      2      5    10/10      4.20
+answer_relevance_score     4.70      3      5    10/10      4.70
+task_performance_score     4.30      2      5    10/10      4.30
+alignment_score            5.00      5      5    10/10      5.00
+────────────────────────────────────────────────────────────────────
+Pozitif soruda ret (FN): 0 — judge'ın ödüllendirdiği (AR>=4 ve TP>=4): 0
+
+Puan Dağılımı:
+Metrik                      1    2    3    4    5
+faithfulness_score          0    2    1    0    7
+answer_relevance_score      0    0    1    1    8
+task_performance_score      0    1    2    0    7
+alignment_score             0    0    0    0   10
+
+Sonuç dosyası: C:\Users\merve\Desktop\rag_project\experiments\madde39_tam_kosu\head_test_4\birlesik.csv
+Judge model: openai/gpt-oss-120b (Groq)
+Context: sonuç CSV'sinde kayıtlı (cevabın üretildiği context).
+Hazır.
+
+[1/8] Soru #92: Anlatıcının Oda No: 304'ü kiraladığı şehir ve mevsim hangisi...
+
+[DURDU] Groq günlük limiti doldu — 19.7 dk sonra tekrar deneyin.
+        0/8 soru değerlendirildi; aynı komut kalanları tamamlar.
+        Mesaj: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_<maskeli>` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199201, Requested 3540. Please try again in 19m44.112s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+
+============================================================
+Judge değerlendirmesi tamamlandı: 8 soru değerlendirildi, çıktıda 0 soru
+Sonuçlar: C:\Users\merve\Desktop\rag_project\experiments\madde39_tam_kosu\head_test_4\judge_parti4.csv
+
+────────────────────────────────────────────────────────────────────
+LLM-as-a-Judge Özet Rapor
+────────────────────────────────────────────────────────────────────
+Metrik                      Ort    Min    Max  Geçerli  FN hariç
+────────────────────────────────────────────────────────────────────
+faithfulness_score          N/A    N/A    N/A     0/0       N/A
+answer_relevance_score      N/A    N/A    N/A     0/0       N/A
+task_performance_score      N/A    N/A    N/A     0/0       N/A
+alignment_score             N/A    N/A    N/A     0/0       N/A
+────────────────────────────────────────────────────────────────────
+Pozitif soruda ret (FN): 0 — judge'ın ödüllendirdiği (AR>=4 ve TP>=4): 0
+
+Puan Dağılımı:
+Metrik                      1    2    3    4    5
+faithfulness_score          0    0    0    0    0
+answer_relevance_score      0    0    0    0    0
+task_performance_score      0    0    0    0    0
+alignment_score             0    0    0    0    0
+
+Sonuç dosyası: C:\Users\merve\Desktop\rag_project\experiments\madde39_tam_kosu\head_test_5\birlesik.csv
+Judge model: openai/gpt-oss-120b (Groq)
+Context: sonuç CSV'sinde kayıtlı (cevabın üretildiği context).
+Hazır.
+
+[1/13] Soru #102: Bağlamdan bağımsız dilleri tanıyan yığın otomatı (pushdown a...
+
+[DURDU] Groq günlük limiti doldu — 17.8 dk sonra tekrar deneyin.
+        0/13 soru değerlendirildi; aynı komut kalanları tamamlar.
+        Mesaj: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_<maskeli>` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199201, Requested 3272. Please try again in 17m48.336s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+
+============================================================
+Judge değerlendirmesi tamamlandı: 13 soru değerlendirildi, çıktıda 0 soru
+Sonuçlar: C:\Users\merve\Desktop\rag_project\experiments\madde39_tam_kosu\head_test_5\judge_parti4.csv
+[UYARI] Referans yok (1 soru — ne ground truth dosyalarında ne CSV'nin referans_cevap sütununda): 102
+
+────────────────────────────────────────────────────────────────────
+LLM-as-a-Judge Özet Rapor
+────────────────────────────────────────────────────────────────────
+Metrik                      Ort    Min    Max  Geçerli  FN hariç
+────────────────────────────────────────────────────────────────────
+faithfulness_score          N/A    N/A    N/A     0/0       N/A
+answer_relevance_score      N/A    N/A    N/A     0/0       N/A
+task_performance_score      N/A    N/A    N/A     0/0       N/A
+alignment_score             N/A    N/A    N/A     0/0       N/A
+────────────────────────────────────────────────────────────────────
+Pozitif soruda ret (FN): 0 — judge'ın ödüllendirdiği (AR>=4 ve TP>=4): 0
+
+Puan Dağılımı:
+Metrik                      1    2    3    4    5
+faithfulness_score          0    0    0    0    0
+answer_relevance_score      0    0    0    0    0
+task_performance_score      0    0    0    0    0
+alignment_score             0    0    0    0    0
+
+Sonuç dosyası: C:\Users\merve\Desktop\rag_project\experiments\madde39_tam_kosu\head_test_negative\birlesik.csv
+Judge model: openai/gpt-oss-120b (Groq)
+Context: sonuç CSV'sinde kayıtlı (cevabın üretildiği context).
+Hazır.
+
+[1/1] Soru #201: Blockchain tabanlı akıllı sözleşmelerde gaz (gas) ücreti nas...
+
+[DURDU] Groq günlük limiti doldu — 21.3 dk sonra tekrar deneyin.
+        0/1 soru değerlendirildi; aynı komut kalanları tamamlar.
+        Mesaj: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_<maskeli>` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199201, Requested 3764. Please try again in 21m20.88s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+
+============================================================
+Judge değerlendirmesi tamamlandı: 1 soru değerlendirildi, çıktıda 0 soru
+Sonuçlar: C:\Users\merve\Desktop\rag_project\experiments\madde39_tam_kosu\head_test_negative\judge_parti4.csv
+
+────────────────────────────────────────────────────────────────────
+LLM-as-a-Judge Özet Rapor
+────────────────────────────────────────────────────────────────────
+Metrik                      Ort    Min    Max  Geçerli  FN hariç
+────────────────────────────────────────────────────────────────────
+faithfulness_score          N/A    N/A    N/A     0/0       N/A
+answer_relevance_score      N/A    N/A    N/A     0/0       N/A
+task_performance_score      N/A    N/A    N/A     0/0       N/A
+alignment_score             N/A    N/A    N/A     0/0       N/A
+────────────────────────────────────────────────────────────────────
+Pozitif soruda ret (FN): 0 — judge'ın ödüllendirdiği (AR>=4 ve TP>=4): 0
+
+Puan Dağılımı:
+Metrik                      1    2    3    4    5
+faithfulness_score          0    0    0    0    0
+answer_relevance_score      0    0    0    0    0
+task_performance_score      0    0    0    0    0
+alignment_score             0    0    0    0    0
+
+
+TOKEN ÖLÇÜMÜ: {"etiket": "parti4", "spec": "test_3:75,76,77,78,80,81,83,84,85,86,87,88,89;test_4:92,93,94,95,96,97,98,99;test_5:102,103,104,105,106,108,109,110,111,112,113,114,115;test_negative:201", "satir": 35, "groq_cagri": 10, "prompt_tokens": 26560, "completion_tokens": 6870, "total_tokens": 33430, "sure_sn": 197, "kullanim_olmayan_cagri": 0}

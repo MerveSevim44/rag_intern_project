@@ -1,0 +1,58 @@
+Sonuç dosyası: C:\Users\merve\Desktop\rag_project\experiments\madde39_tam_kosu\head_test_5\birlesik.csv
+Judge model: openai/gpt-oss-120b (Groq)
+Context: sonuç CSV'sinde kayıtlı (cevabın üretildiği context).
+Hazır.
+
+[1/9] Soru #106: Hızlı Fourier Dönüşümü (FFT) algoritmasının hesaplama karmaş...
+  → F: 5 | AR: 4 | TP: 4 | AL: 5
+[2/9] Soru #108: 728_profiles.json veri setinde profillerin cinsiyet dağılımı...
+  → F: 5 | AR: 4 | TP: 4 | AL: 5
+[3/9] Soru #109: 728_profiles.json veri setindeki profillerin müşteri memnuni...
+  → F: 5 | AR: 4 | TP: 4 | AL: 5
+[4/9] Soru #110: mock-transactions.json dosyasında işlemlerin kredi kartı num...
+  ! Kısa süreli rate limit — 20.2 sn bekleniyor (1/5)…
+  → F: 5 | AR: 4 | TP: 4 | AL: 5
+[5/9] Soru #111: 728_profiles.json veri setinde profillerin IBAN bilgileri ha...
+  ! Kısa süreli rate limit — 23.0 sn bekleniyor (1/5)…
+  → F: 5 | AR: 4 | TP: 4 | AL: 5
+[6/9] Soru #112: Summer School Foundry Local planında Kubernetes kurulumu han...
+  ! Kısa süreli rate limit — 16.1 sn bekleniyor (1/5)…
+  ! Kısa süreli rate limit — 3.4 sn bekleniyor (2/5)…
+  → F: 5 | AR: 4 | TP: 4 | AL: 5
+[7/9] Soru #113: Summer School Foundry Local planında projenin Kanban panosu ...
+  ! Kısa süreli rate limit — 19.0 sn bekleniyor (1/5)…
+  → F: 5 | AR: 4 | TP: 4 | AL: 5
+[8/9] Soru #114: Unutulmuş Parşömen hikayesinde Alis'in ailesi hangi şehirde ...
+  ! Kısa süreli rate limit — 14.4 sn bekleniyor (1/5)…
+  ! Kısa süreli rate limit — 2.2 sn bekleniyor (2/5)…
+  → F: 5 | AR: 4 | TP: 4 | AL: 5
+[9/9] Soru #115: Oda No: 304 hikayesinde anlatıcının mesleği nedir?...
+  ! Kısa süreli rate limit — 19.6 sn bekleniyor (1/5)…
+  → F: 5 | AR: 4 | TP: 4 | AL: 5
+
+============================================================
+Judge değerlendirmesi tamamlandı: 9 soru değerlendirildi, çıktıda 9 soru
+Sonuçlar: C:\Users\merve\Desktop\rag_project\experiments\madde39_tam_kosu\head_test_5\judge_parti4c.csv
+[UYARI] Referans yok (9 soru — ne ground truth dosyalarında ne CSV'nin referans_cevap sütununda): 106, 108, 109, 110, 111, 112, 113, 114, 115
+
+────────────────────────────────────────────────────────────────────
+LLM-as-a-Judge Özet Rapor
+────────────────────────────────────────────────────────────────────
+Metrik                      Ort    Min    Max  Geçerli  FN hariç
+────────────────────────────────────────────────────────────────────
+faithfulness_score         5.00      5      5     9/9      5.00
+answer_relevance_score     4.00      4      4     9/9      4.00
+task_performance_score     4.00      4      4     9/9      4.00
+alignment_score            5.00      5      5     9/9      5.00
+────────────────────────────────────────────────────────────────────
+Pozitif soruda ret (FN): 0 — judge'ın ödüllendirdiği (AR>=4 ve TP>=4): 0
+
+Puan Dağılımı:
+Metrik                      1    2    3    4    5
+faithfulness_score          0    0    0    0    9
+answer_relevance_score      0    0    0    9    0
+task_performance_score      0    0    0    9    0
+alignment_score             0    0    0    0    9
+
+
+TOKEN ÖLÇÜMÜ: {"etiket": "parti4c", "spec": "test_5:106,108,109,110,111,112,113,114,115", "satir": 9, "groq_cagri": 9, "prompt_tokens": 22641, "completion_tokens": 4617, "total_tokens": 27258, "sure_sn": 148, "kullanim_olmayan_cagri": 0}
