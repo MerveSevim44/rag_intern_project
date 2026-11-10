@@ -2762,3 +2762,42 @@ düzenin HANGİ öğesinin (sütun iç içe geçmesi / alt simge `U` kaybı / sa
 ayrıştırılmadı; (c) yalnız #19/#20 test edildi, #28 (OCR) ve A2 için bu test yapılmadı. Düzen sorununun
 üretimde nasıl çözüleceği (PDF çıkarma/chunk'lama tarafı) bu notun kapsamı dışında; madde 22/31 (OCR/metin
 kalitesi) ile ilişkisi olası ama bağlanmadı.
+
+## Not (2026-11-10) — Grup C (test_3 Fourier #62/#69/#73/#74/#87) ön inceleme: retrieval doğru; 4/5'inde sembol kaybı var, hata konumuyla örtüşme soruya göre değişiyor; tek mekanizmaya İNDİRGENMEDİ
+
+Önceki "Grup C" notunun ("tek bir mekanizmaya indirgenmedi") devamı. Yöntem: beş sorunun
+`head_test_3/birlesik.csv` `context` sütunu, `evaluation/ground_truth/test_3.json` referansı ve cevapla yan yana
+okundu; (1) cevabı taşıyan sayfa bağlamda mı, (2) cevap o sayfadan sapıyor mu, (3) bağlam metninde bozuk
+düzen/kayıp sembol var mı ve cevaptaki hata tam o yerde mi, bakıldı. LLM çağrısı / temizlenmiş metinle yeniden
+sorma YAPILMADI (istenmedi); (3) yalnız bozukluğun var/yok ve konum örtüşmesi tespitidir, nedensellik
+kanıtlanmadı. Bozukluk tespiti gözle okumadır, otomatik ölçüm değil.
+
+**Retrieval beş soruda da doğru:** cevabı taşıyan sayfa bağlamda — #62 sayfa 3, #69 sayfa 5 (+9), #73 sayfa 7,
+#74 sayfa 8, #87 sayfa 7. Retrieval hatası elendi. (#87'de ek olarak Z-dönüşümü sayfa 19 ve dilbilgisi sayfa
+24-25 dolgu chunk'ları var — önceki notlarda bilinen çapraz-doküman dolgusu; hatanın nedeni gibi görünmüyor.)
+
+**Bozuk metin (Fourier PDF'inin metin katmanında ω, π, τ, ∫, ∞ gibi semboller düşmüş; madde 34 notunda #82 için
+zaten anılıyor):**
+| Soru | Bağlamda kayıp sembol/düzen | Hata bozuk yerle örtüşüyor mu |
+|---|---|---|
+| #73 | **Var.** Sayfa 7 genlik ve faz satırlarında `ω+` kayıp: `tan1 Im{a} / Re{a}`, `Re{a}2 (Im{a})2` (doğrusu `(ω+Im{a})`). | **Evet, tam örtüşme.** Cevap `-atan2(Im{a}, Re{a})` yazıyor = bozuk metnin gösterdiği `-tan⁻¹(Im{a}/Re{a})`; GT'deki `ω+` bu metinden okunamıyor (MATLAB satırı `1./(1+j*w)` dolaylı ipucu veriyor). Ayrıca `a = -a - jω` uydurması bozuklukla ilgisiz. |
+| #62 | **Var.** Sayfa 3 ters formülde `π`, `ω`, `∫` ve üs kayıp: `1 / 2 ... X( j)e d`. | **Evet, örtüşüyor.** Soru tam olarak kaybolan `π`'li çarpanın yerini soruyor; cevap sayfa 4'teki `x(t) = 1` ile karıştırıp "x(t)=1 için yer alır" diyor. Nedensellik kanıtlanmadı. |
+| #69 | **Var.** Sayfa 5 integral satırlarında `τ`, `ω`, `∫` kayıp; sayfa 9 dualite örneğinde `τ`, `ω` kayıp (`sinc(t /2)`). | **Kısmen / belirsiz.** Cevap sayfa 5'teki doğrudan integral yerine sayfa 9'un dualite örneğini ana yol seçiyor ve dualite yönünü karıştırıyor ("rect(t/τ) dönüşümü sinc(tτ/2)"). Hata türü yöntem seçimi + akıl yürütme; kayıp sembollerin payı ayrıştırılmadı. |
+| #87 | **Var** (sayfa 7, #73 ile aynı kayıp). | **Çoğunlukla HAYIR.** Soru formülü `(ω+Im{a})` ile kendisi veriyor; cevabın ana hataları (`a = -a-jω` tanımı, Re/Im yorumu) bozuk yerde değil, sayfa 7'deki "Decays if Re{a}>0" okunaklı. Yalnız faz alt-hatası (`-tan⁻¹(-ω)`, işaret) bozuk faz satırıyla ilişkili olabilir. |
+| #74 | **Yok.** Sayfa 8 düz İngilizce madde listesi (`Memoryless (in fact requires infinite memory)`, `Causal`, `Linear`, `Time-invariant (doesn't apply)`). | **Uygulanamaz — bozukluk yok.** Cevap "memoryless özelliği de dahil olduğu belirtilmiştir" gibi kaynağın söylediğiyle çelişiyor; saf model hatası. Not: GT'nin nedensellik gerekçesi ("sadece geçmiş ve şimdiki zaman…") slaytta YOK, GT bağlamı aşıyor — cevabın hatası bundan bağımsız. |
+
+**Sonuç: tek mekanizma yok, üç ayrı durum.**
+- **C1 — sembol kaybı hatanın bulunduğu yerde (#73 güçlü, #62 olası, #69 belirsiz).** Cevabın doğruluğu için gereken sembol bağlamda yok / belirsiz.
+- **C2 — bozukluk var ama hata orada değil (#87).** Model kapasitesi / kavramsal tanım uydurma.
+- **C3 — bozukluk yok, bağlam net (#74).** Saf model hatası (+ GT fazlalığı notu).
+
+**Diğer notlarla ilişki — kontrol edildi, hiçbirine eklenmedi:**
+- **Grup A / A1 (düzen testi):** A1'de bozukluk sütun iç içe geçmesi (düzen) idi ve temiz metinle 3/3 düzeldi (ölçüldü).
+  C1'deki bozukluk farklı tür (kayıp sembol, içeriğin kendisi eksik) ve burada yeniden-sorma deneyi YOK;
+  "ortak mekanizma" kanıtlanmadı. Yalnızca ortak başlık adayı: "bağlam metin kalitesi".
+- **Madde 34 / 31 B:** Madde 34 bu PDF'te sembol kaybını #82 için belirtmiş ve "bozuk sembol payı ölçülmedi" demişti;
+  C1 satırları o payın ADAY vakaları, ama ölçülmedi — çapraz referans.
+- **Madde 38 Örnek 2 ve #83/#85/#89 notu:** Bu aile katsayı/çarpan kaybı; #62/#69/#73/#74/#87 ondan farklı hata
+  şekilleri (önceki Grup C notu). Bu turda #82/#83/#85/#89'un bağlamındaki sembol kaybıyla örtüşmesine BAKILMADI,
+  bu yüzden C1'in o aileyle ilişkisi bilinmiyor.
+- Yeni madde açılmadı, öncelik verilmedi.
