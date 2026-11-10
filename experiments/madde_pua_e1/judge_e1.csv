@@ -1,0 +1,65 @@
+id,soru,cevap,siniflandirma,judge_model,context_kaynagi,faithfulness_score,answer_relevance_score,task_performance_score,alignment_score,reasoning
+62,Ters Fourier dönüşümü (inverse direction) formülünde 1/2π çarpanı nerede yer alır?,Ters Fourier dönüşümü formülünde 1/2π çarpanı x(t) = 1/(2π) ∫ X(jω)e^jωt dω'de yer alır. Bu formülde 1/(2π) çarpanı yer alıyor.,TP,openai/gpt-oss-120b,kayitli,5,5,5,5,"Cevap, bağlamda yer alan ters Fourier dönüşüm formülündeki 1/2π çarpanını doğru şekilde belirtir ve ek bilgi üretmez. Sorunun ""nerede yer alır"" kısmına doğrudan yanıt veriyor. Kısa, öz ve gereksiz tekrar içermiyor, pratikte kullanılabilir. Kapsam dışı hiçbir varsayım ya da ek bilgi bulunmuyor."
+69,rect(t/τ) işaretinin Fourier dönüşümünün sinc fonksiyonu ile ifade edilme süreci nasıl gerçekleşir?,"rect(t/τ) işaretinin Fourier dönüşümü sinc fonksiyonu ile ifade edilirken duality özelliği kullanılır. Dualite özelliği, rect(t/τ) → τ sinc(ωτ/2) ilişkisini verir ve bunu tersine döndürerek τ sinc(tτ/2) → 2π rect(-ω/τ) şeklinde yazılabilir. Dolayısıyla, rect(t/τ) işaretinin Fourier dönüşümü τ sinc(ωτ/2) olarak ifade edilir. Kaynak: [2], sayfa 9",TP,openai/gpt-oss-120b,kayitli,5,5,5,5,"Cevap, bağlamda verilen rect(t/τ) ↔ τ·sinc(ωτ/2) eşleşmesini ve dualite örneğini doğru şekilde aktarıyor, bu yüzden sadakat yüksek. Sorunun 'süreç nasıl gerçekleşir' kısmına doğrudan dualite kullanımıyla yanıt veriyor, alaka tam. Bilgi eksikliği ya da gereksiz tekrar yok, pratikte kullanılabilir bir özet sunuyor, bu yüzden görev performansı da yüksek. Cevap konu dışına çıkmıyor, ek varsayım ya da alakasız bilgi içermiyor; tamamen kapsam içinde kalıyor."
+73,Nedensel üstel işaretin Fourier dönüşümünün faz açısı ∠X(jω) hangi ifade ile hesaplanır?,"∠X(jω) faz açısını hesaplamak için following ifade kullanılır: ∠X(jω) = -tan⁻¹(Im{a}/Re{a}) Bu ifade, bağlamda verilen matematiksel ifadeden çıkarımla elde edilmiştir.",TP,openai/gpt-oss-120b,kayitli,2,3,2,5,"Cevap, soruya bir formül vererek ilgili görünüyor, ancak bağlamda verilen doğru ifade ω terimini içerirken cevap sadece Im{a}/Re{a} oranını kullanıyor, bu yüzden bağlamla tam uyumlu değil (faithfulness düşük). Sorunun isteği doğrudan yanıtlanmış gibi görünüyor, fakat yanlış formül nedeniyle alaka tam değil (answer relevance orta). Kullanıcı için pratikte hatalı bir sonuç üreteceği için görev performansı düşük. Cevap konu dışına çıkmıyor, ek varsayım ya da alakasız bilgi eklemiyor, bu yüzden alignment yüksek."
+83,Sinüzoidal genlik modülasyonunda (y(t)=f(t)cos(ω0t)) elde edilen Y(ω) ifadesi F(ω) cinsinden nasıl yazılır?,"1 1
+Y(ω) = F(ω+ω0) + F(ω−ω0)
+2 2",TP,openai/gpt-oss-120b,kayitli,5,5,5,5,"Cevap, bağlamda verilen Y(ω)=F(ω+ω0)+F(ω-ω0) ifadesiyle birebir aynı olduğu için sadakat yüksek. Soru doğrudan bu ifadeyi istemekte ve cevap tam olarak bu ifadeyi veriyor, bu yüzden alaka tam. Cevap kısa, gereksiz ek bilgi içermiyor ve pratikte kullanılabilir, bu yüzden görev performansı da en üst seviyede. Yanıt sorunun kapsamı dışına çıkmıyor, ekstra varsayım ya da alakasız içerik yok; dolayısıyla uyum puanı da 5."
+85,Frekans-kaydırma özelliğine göre e^{jω0t}f(t) işaretinin Fourier dönüşümü F(ω) cinsinden nasıl ifade edilir?,"( ) ( )
+e jω0t f t ↔ e−jω0 F ω Bu ifade, frekans-kaydırma özelliği gereğince F(ω) fonksiyonunun ω0 frekans shiftini göstermektedir.",TP,openai/gpt-oss-120b,kayitli,1,3,1,5,"Cevap bağlamdaki frekans‑kaydırma özelliğiyle çelişiyor; bağlamda e^{jω0t}f(t) ↔ 2πF(ω‑ω0) (veya F(ω‑ω0)) denirken cevap e^{-jω0}F(ω) diyor, bu bir halüsinasyon. Soruya bir dönüşüm ifadesi vermeye çalışıyor, ancak yanlış olduğu için alaka kısmen sağlanıyor. Yanlış ve yanıltıcı olduğu için görev performansı düşük. İçerik konu dışına çıkmıyor, sadece hatalı bir formül veriyor, bu yüzden uyum yüksek."
+74,"Fourier dönüşümünün ""memoryless"", ""causal"" ve ""linear"" sistem özellikleriyle ilişkisi nasıl açıklanmıştır?","Fourier dönüşümünün ""memoryless"", ""causal"" ve ""linear"" sistem özellikleri ile ilgili bilgi doğrudan belirtilmemiş.",FN,openai/gpt-oss-120b,kayitli,1,1,1,5,"Cevap, bağlamda Fourier dönüşümünün memoryless, causal ve linear özelliklerinin açıkça listelendiği bilgiyi görmezden gelerek, bu bilgilerin bulunmadığını iddia ediyor; bu bağlamla çelişen bir halüsinasyondur, bu yüzden sadakat düşük (1). Soruyu doğrudan yanıtlamıyor, bu yüzden alaka da düşük (1). Kullanıcıya yanlış bilgi veriyor ve sorunun ihtiyacını karşılamıyor, bu yüzden görev performansı da düşük (1). Ancak cevap konu dışı ek bilgi veya gereksiz varsayım içermediği için kapsam içinde kalıyor, bu yüzden uyum yüksek (5)."
+71,Nedensel üstel işaretin Fourier dönüşümü türetilirken lim(t→∞) e^{-at}e^{-jωt} teriminin sıfıra gitmesi neden Re{a}>0 koşuluna bağlıdır?,"Re{a} > 0 koşuluna bağlı olarak lim(t→∞) e^{-(a+jω)t} teriminin sıfıra gittiği çünkü a'nın reel kısmı pozitif olduğunda, e^{-at} terimi t
+user
+Bağlam
+[1] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 7
+Nedensel Üstel İşaret
+(Causal Exponential Signal)
+w = -8: 0.01: 8
+• Formula: −at
+x(t) = e u(t) H = 1./ (1 + j*w)
+(−a−jω)t ù ∞ Hmag = abs(H)
+∞ ∞ e
+∫ −at −jωt ∫ (−a−jω)t
+X( jω) = e u(t)e dt = e dt = Hphase = phase(H)
+ú
+−∞ 0 −a− jωû0 figure
+plot(w, Hmag); (−a−jω)t title('Magnitude Response')
+e 1 −1 −at −jωt 1
+= lim + = lime e + ylim( [-0.0 1.1] ); t®∞ −a− jω a+ jω a+ jωt®∞ a+ jω figure
+plot(w, Hphase)
+title('Phase Response')
+1
+= if Re{a} > 0
+Decays if Oscillates
+a+ jω
+Re{a} > 0
+Magnitude-Phase form
+1 1 1
+X(jω) = = =
+a+ jω a+ jω Re{a}2 +(ω+Im{a})2 ω+Im{a} a = 1
+ÐX(jω) = Ð1−Ð(a+ jω) = −tan−1 Re{a} 7 [2] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 6
+Fourier Dönüşüm Çiftleri
+(Fourier Transform Pairs)
+1 ∞ 1
+{ ( )} ( ) jωt
+F −1 δω−ω0 = ∫ δω−ω0 e jωtdω= e 0
+2π −∞ 2π
+1
+jωt ( ) jωt ( )
+e 0 ⇔δω−ω0 or e 0 ⇔ 2π δω−ω0
+2π
+1 ( )
+( ) jωt − jωt
+Since cos ω0t = e 0 + e 0
+2
+( ) [ ( ) ( )]
+cos ω0t",TP,openai/gpt-oss-120b,kayitli,3,3,2,5,"Cevap, Re{a}>0 olduğunda e^{-at} teriminin azalacağı yönünde doğru bir iddia içeriyor ve bağlamla uyumlu, ancak açıklama yarım kalmış ve sorunun tam nedenini vermiyor. Bu yüzden sadakat ve alaka orta seviyede (3) değerlendirilirken, eksik ve yarım kalan açıklama görev performansını düşük (2) yapıyor. Cevap konu dışına çıkmıyor, gereksiz ek bilgi eklemiyor, bu yüzden uyum puanı yüksek (5)."
+61,Fourier dönüşümünün ileri yöndeki (forward) tanımı X(jω) hangi integral ile verilir?,"Sürekli Zamanlı Fourier Dönüşümü'nün ileri yöndeki tanımı X(jω) following integral ile verilir: ∞
+X( jω) = ∫ x(t)e^(-jωt) dt - Bu tanımın ilk satırında verildiği gibi.
+- X( jω) = ∫ −jωt x(t)e dt formunda verilmiştir.",TP,openai/gpt-oss-120b,kayitli,3,5,3,5,"Cevap, soruya doğrudan doğru integral (∫_{-∞}^{∞} x(t)e^{-jωt}dt) vererek ilgili ve doğru bir yanıt sunuyor, bu yüzden alaka yüksek. Ancak ikinci satırdaki ""∫ −jωt x(t)e dt"" ifadesi bağlamda yer almıyor ve hatalı, bu da sadakat puanını düşürüyor. Görev performansı temel ihtiyacı karşılıyor fakat gereksiz ve hatalı ek bilgi içerdiği için orta seviyede. Cevap konu dışına çıkmıyor, sadece Fourier tanımına odaklanıyor, bu yüzden uyum puanı yüksek."
+76,Duallik (duality) özelliği ileri ve ters dönüşümlerin benzerliğinden nasıl yararlanmaktadır?,"Duality özelliği, ileri ve ters dönüşümlerin benzerliği sayesinde yeni fonksiyonların Fourier dönüşümünü daha kolay hesaplamada kullanabiliriz. Örneğin, rect(t/τ) fonksiyonunun Fourier dönüşümü τ*sinc(ω*τ/2) olarak bilinen bir sonuçta yer alıyor. Bu bilgiyi duality özelliğine uygulayarak, τ*sinc(t*τ/2) fonksiyonunun Fourier dönüşümü 2π*rect(-ω/τ) olarak bulunabilir. Bu şekilde, zaten bilinen bir dönüşümün benzer formülden başka bir fonksiyonun dönüşümünü kolayca hesaplayabiliriz.",TP,openai/gpt-oss-120b,kayitli,5,5,5,5,"Cevapta verilen tüm iddialar bağlamdaki bilgilerle birebir örtüşüyor, hiçbir hayali bilgi yok. Soru, dualite özelliğinin nasıl kullanıldığını soruyor ve cevap bu mekanizmayı örnekle açıklayarak doğrudan yanıt veriyor. Açıklama kısa ve gereksiz tekrar içermiyor, pratikte kullanılabilir bir bilgi sunuyor. İçerik tamamen sorunun kapsamı içinde, dışarıya yönlendiren ya da alakasız ekleme bulunmuyor."
+80,Zamanda kaydırma (shifting in time) özelliğine göre bir işaretin gecikmesi Fourier dönüşümünün genliğini mi yoksa fazını mı etkiler?,"Zamanda kaydırma özelliği, bir işaretin gecikmesi Fourier dönüşümünün genliğini etkilemez, fazını etkiler. Bu, zamanda kaydırma formülünden clear olarak görülür: f(t - t0) → e^(-jωt0) F(ω) Buradan",TP,openai/gpt-oss-120b,kayitli,5,5,5,5,"Cevap, bağlamda verilen zaman kaydırma özelliğinin genliği değiştirmediği ve fazı kaydırdığı bilgisini eksiksiz yansıtıyor, bu yüzden sadakat 5. Soru doğrudan bu iki olasıyı soruyor ve cevap net bir şekilde fazın etkilendiğini, genliğin etkilenmediğini belirttiği için alaka 5. Cevap kısa ve gereksiz tekrar içermediğinden görev performansı 5. Ayrıca kapsam dışı ek bilgi ya da varsayım bulunmadığından uyum 5."
+81,Zamanda kaydırma özelliğinin ispatında u=t-t0 değişken dönüşümü nasıl kullanılmıştır?,"Zamanda kaydırma özelliğinin ispatında, u = t - t0 değişken dönüşümü kullanılarak integralin sınırları korunmuş, ancak integraldeki ω terimi -t0 ile çarpılmıştır. Bu sayede Fourier dönüşümünün faz kısmının -ωt0 kadar değiştiğini gösterilmiştir.",TP,openai/gpt-oss-120b,kayitli,5,5,5,5,"Cevap, bağlamdaki türevi doğru şekilde özetliyor; u = t - t0 dönüşümünün integral sınırlarını koruduğunu ve e^{-jωt0} çarpanı ortaya çıkardığını belirtiyor. Bu, sorunun ""nasıl kullanıldı"" sorusuna doğrudan yanıt veriyor. Bilgi eksikliği, gereksiz tekrar ya da alakasız ek yok; dolayısıyla tüm ölçütlerde en yüksek puan verildi."
+86,cos(ω0t)f(t) işaretinin frekans-kaydırma özelliği kullanılarak elde edilen Fourier dönüşümü hangi iki terimin toplamı şeklindedir?,"(πF(ω+ω0) + πF(ω−ω0)) şeklindeki iki terimin toplamı şeklindedir. Bu, cos(ω0t)f(t) işaretinin Fourier dönüşümünün frekans-kaydırma özelliği kullanılarak elde edilen formudur. Kaynak: [1].",TP,openai/gpt-oss-120b,kayitli,5,5,5,5,"Cevap, bağlamda verilen frekans‑kaydırma özelliği formülüne tam olarak uymaktadır, dolayısıyla iddiaları bağlamda desteklenmiştir. Soru iki terimin toplamını istemiş, cevap bu iki terimi (πF(ω+ω0) ve πF(ω‑ω0)) açıkça vermiştir. Bilgi eksikliği, gereksiz tekrar ya da alakasız ek yok; kısa ve doğrudan kullanılabilir bir yanıt sunulmuştur. Kapsam dışı bir varsayım ya da ek bilgi bulunmadığından tüm ölçütlerde en yüksek puan verilir."
+88,F{1}=2πδ(ω) sonucunun elde edilme sürecinde ters Fourier dönüşümü tanımı ile sifting property arasındaki matematiksel bağlantı adım adım nasıl kurulmuştur?,"Ters Fourier dönüşümü tanımı ve sifting özelliği kullanarak F{1}=2πδ(ω) sonuçının elde edilme süreci şu şekilde yapılmıştır: 1. Ters Fourier dönüşüm tanımları kullanılmıştır: X(ω) = F⁻¹{x(t)} = (1/(2π)) ∫ x(t) e^(jωt) dt 2. x(t) = 1 fonksiyonu için: X(ω) = (1/(2π)) ∫ e^(jωt) dt 3. Sifting özelliği kullanılmıştır: ∫ δ(t) g(t) dt = g(0) 4. g(t) = e^(jωt) fonksiyonu için: ∫ δ(t) e^(jωt) dt = e^(jω*0) = 1 5. Sonuç olarak: X(ω) = (1/(2π)) * 2π * δ(ω) = δ(ω) Ancak orijinal formda 2π faktörü var, bu nedenle:
+F{1} = 2πδ(ω) Bu adımlar, ters Fourier dönüşüm tanımları ve sifting özelliği arasındaki bağlantıyı göstermektedir.",TP,openai/gpt-oss-120b,kayitli,2,3,2,5,"Cevap, bağlamda verilen Fourier dönüşüm çiftleri ve sifting özelliğiyle tutarlı olmayan ifadeler içeriyor; özellikle ters Fourier tanımında delta fonksiyonu kullanılmaz ve faktörler hatalı. Sorunun adım adım bağlantısını tam olarak açıklamıyor, bu yüzden alaka orta seviyede (3) ama doğruluk ve kullanılabilirlik düşük (2). Ancak cevap konu dışına çıkmıyor, gereksiz varsayım ya da alakasız ek bilgi eklemiyor, bu yüzden uyum puanı yüksek (5)."

@@ -2811,3 +2811,71 @@ notunda #82 için zaten anılıyor):**
   şekilleri (önceki Grup C notu). Bu turda #82/#83/#85/#89'un bağlamındaki PUA sembollerle örtüşmesine BAKILMADI (sonradan bakıldı: aşağıdaki sentez/E1 notuna bkz.),
   bu yüzden C1'in o aileyle ilişkisi bilinmiyor.
 - Yeni madde açılmadı, öncelik verilmedi.
+
+## Not (2026-11-10) — E1: PUA→Unicode eşlemesi test edildi ("bağlam metin kalitesi" hipotezinin PUA ayağı): net kazanç yok; üretim ingest hattına UYGULANMIYOR, kabul edilmiş sınırlama
+
+Hipotez (Grup A/A1 + Grup C/C1 incelemelerinden): Fourier PDF'inin bağlamındaki Symbol-font PUA karakterleri
+(U+F0xx) modele okunamaz gittiği için içerik hataları çıkıyor. Test: [experiments/madde_pua_e1/](../experiments/madde_pua_e1/)
+(`e1.py`, `e1_judge.py`, `sonuc.jsonl`, `judge_e1.csv`). `src/` ve `evaluation/` DEĞİŞMEDİ.
+
+**Yöntem (tek değişken):** `head_test_3/birlesik.csv`'de SAKLANAN context'e yalnız U+F0xx → Unicode eşlemesi
+uygulandı (tablo: madde 34 `varyant.SYMBOL` + bu PDF'te görülen ve tabloda olmayan kodlar için standart Symbol
+karşılıkları — rakamlar, `{}`, `[]`, `<`, `>`, `/`, `↔`; test_3 context'lerinde kapsam dışı kod kalmadı; büyük parantez
+parçaları madde 34'teki gibi SİLİNİYOR). Düzen, retrieval, chunk seçimi, elle temizleme yok. Aynı model
+(`qwen2.5-7b-instruct-cuda-gpu:4`), üretimle aynı `ask()`. Kontrol koşulu (eşlemesiz) 8 hedef satırda üretim
+cevaplarını birebir yeniden üretti → farklar eşlemeden geliyor. Hedef 7 soru + #74; kontrol: test_3'ün "iyi" 17
+satırından #82 (FN) hariç 16'sı. 13 satırlık judge alt kümesi (yeni cevaplar ESLENMİŞ context'e göre puanlandı).
+
+**Judge (Groq `openai/gpt-oss-120b`, 13 çağrı, 42.060 token ≈ 3.235/satır, 264 sn; 13 TPM-429 yeniden denemeyle aşıldı):**
+| Soru | Orijinal F/AR/TP/AL | Eşlemeli F/AR/TP/AL | Yorum |
+|---|---|---|---|
+| #62 | 1/2/1/5 | **5/5/5/5** | İyileşti: çarpan integralin önünde, `x(t) = 1/(2π) ∫ X(jω)e^{jωt} dω` |
+| #69 | 1/3/2/5 | **5/5/5/5** | İyileşti: sonuç `τ sinc(ωτ/2)` (yol dualite, GT doğrudan integral) |
+| #83 | 2/3/2/5 | **5/5/5/5** | İyileşti, ama şüpheli: cevap `1 1 / Y(ω)=F(ω+ω0)+F(ω−ω0) / 2 2` yığılı döküm; judge "bağlamla birebir aynı" dedi, ½'yi açıkça yazmıyor |
+| #73 | 1/2/1/5 | 2/3/2/5 | Marjinal: `atan2` ve `a=-a-jω` çöpü gitti ama `ω+` hâlâ düşüyor — eşlenmiş bağlamda `ω+Im{a}` OKUNUR durumda, model yine düşürüyor (yığılı kesir) |
+| #85 | 2/5/3/5 | 1/3/1/5 | **Kötüleşti:** GT'ye uyan `F(ω−ω0)` yerine `e^{−jω0}F(ω)` |
+| #74 | 1/3/2/5 | 1/1/1/5 | **Kötüleşti:** düz İngilizce madde listesi olan sayfa 8'e rağmen "doğrudan belirtilmemiş" (ret) |
+| #71 | 5/5/5/5 | 3/3/2/5 | **Kötüleşti — yeni hata sınıfı:** cevap bağlam metnini sızdırıyor (ayrı nota bkz.) |
+| #61 | 5/5/5/5 | 3/5/3/5 | Kötüleşti: ek bozuk formül satırı |
+| #88 | 5/5/5/5 | 2/3/2/5 | Kötüleşti (ters/ileri tanımı karışıyor); orijinal cevabın 5/5/5/5'i de şüpheli |
+| #76, #80, #81, #86 | 5/5/5/5 | 5/5/5/5 | Değişmedi |
+Ortalama (13 satır): F 3,31 → 3,62; AR 4,08 → 4,08; TP 3,54 → 3,54; AL 5 → 5. **Net etki ≈ 0.**
+Özet: 3 belirgin iyileşme (#62, #69, #83) + 1 marjinal (#73); 5 kötüleşme (#85, #74, #71, #61, #88); 4 değişmeyen.
+Kontrol 16 satırdan yalnız 1'inin metni birebir aynı kaldı (15'i değişti); çoğu eşdeğer, bir kısmı biraz yakınlaştı
+(#76/#80/#81), bir kısmı bozuldu (yukarıdaki tablo).
+
+**Kısıtlar:** n=13, model fiilen deterministik (tekrar bağımsız örnek değil); judge bağlama göre puanlıyor ve bilinen
+kör noktaları var (madde 18/21: #83'ün 5'i ve #88 orijinalinin 5'i şüpheli); eşleme yalnız SAKLANAN context üzerinde
+yerinde ikame — gerçek bir ingest değişikliği embedding/BM25 girdisini de değiştirir (retrieval etkisi ÖLÇÜLMEDİ);
+büyük parantez parçalarının silinmesi bir tasarım tercihi.
+
+**Karar: üretim ingest hattına UYGULANMIYOR; kabul edilmiş sınırlama olarak kapatılıyor.** Gerekçe: net kazanç yok
+(TP ortalaması aynı), 5 kötüleşme (biri yeni hata sınıfı), kazanımlar yığılı kesir düzenini çözmüyor (#73/#83),
+ve gerçek uygulama re-ingest + tam benchmark gerektirir (`rag.db` git'te izlenmiyor — madde 33 açık riski).
+**A1 ayağı hakkında dürüst not:** E1 yalnız PUA'yı (C1) test etti. A grubunun (test_1 CFG) context'lerinde PUA YOK;
+A1'in düzen etkisi ayrı kanıta dayanıyor (elle temizlemeyle 3/3 düzeldi, n=2; `experiments/madde_grupA_duzen/`).
+Düzeni otomatik düzelten bir çıkarıcı (ör. sütun-farkında okuma) çalıştırılmadı; bu ayak "test edildi, kazanç yok"
+DEĞİL, "otomatik çözüm denenmedi" durumunda ve aynı kabul edilmiş sınırlama kararı kapsamına alındı.
+
+## Not (2026-11-10) — #71 "context sızıntısı": E1'in PUA'sının yan etkisi DEĞİL, kendi başına, teşhis edilmemiş bir sentezleyici davranışı
+
+E1'in eşlemeli koşulunda test_3 #71'in cevabı cümlenin ortasında kesilip ardından şu biçimde bağlam metnini yankılıyor:
+`... e^{-at} terimi t` ⏎ `user` ⏎ `Bağlam` ⏎ `[1] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 7 ...` (cevap 336 → 1095
+karakter, süre ≈ 17-19 sn; normal ≈ 3-5 sn; `llm_client` yabancı-alfabe temizliği 1122→1095 yaptı). Judge 5/5/5/5 → 3/3/2/5.
+
+**Doğrulananlar:**
+- **Tekrar üretiliyor:** `ask()` 3 ayrı çağrıda (ana koşu + `tekrar71.jsonl` 2 tekrar) aynı 1095 karakterlik cevap (deterministik).
+- **PUA'nın genel yan etkisi değil:** eşlemeli 15 diğer satırın hiçbirinde bu davranış yok; 147 satırlık üretim
+  koşusunda (`head_*/birlesik.csv`) cevaplarda `user` satırı sızıntısı 0. #71'in eşlemesiz cevabı temiz (336 karakter).
+- **Context boyutu/bütçeleme hipotezi DESTEKLENMİYOR:** #71'in context'i 2.206 (orijinal) / 2.188 (eşlemeli) karakter,
+  `MAX_CONTEXT_CHARS` = 6000'in çok altında ve boyutlar neredeyse aynı; budanma tetiklenmiyor. Sızıntı eşlemeyle
+  değişen İÇERİK (okunur semboller + silinen parantez parçaları) ile tetikleniyor görünüyor, boyutla değil.
+- **Biçim:** cevap bir "user" tur işaretiyle devam edip bağlamı yankılıyor — üretimin tur sonunda durmaması
+  (sohbet şablonu sınırı) gibi görünüyor; `MAX_ANSWER_TOKENS`=600 tavanına dayanıp dayanmadığı ÖLÇÜLMEDİ.
+**Teşhis edilmedi:** neden bu bağlamda durmadığı, tek soruya özgü mü olduğu (yalnız #71'de görüldü; E1'de 24 koşuda 1 olay).
+
+**İlişki:** madde 11'in C'sindeki bütçe mantığı (`MAX_CORRECTION_PROMPT_CHARS`=10.500, düzeltme prompt'u için
+bütçeli geçmiş kırpma) başka bir çağrıyı (`code_interpreter` düzeltme prompt'u) ve çok daha büyük bir prompt rejimini
+(~10 KB) kapsar; burada prompt ≈ 3 KB. Çapraz referans: ikisi de "prompt içeriği/boyutu → anormal üretim" ailesine
+girebilir, ama ortak mekanizma kanıtlanmadı; BİRLEŞTİRİLMEDİ. Öncelik verilmedi, madde açılmadı; E1 kararından
+(PUA eşlemesi uygulanmıyor) bağımsız olarak, üretimde bu davranışın başka bağlamlarda çıkıp çıkmadığı izlenebilir.

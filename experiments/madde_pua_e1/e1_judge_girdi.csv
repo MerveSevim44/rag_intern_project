@@ -1,0 +1,1189 @@
+﻿id,zorluk,soru,beklenen_kaynak,dokumanda_var_mi,cevap,bulunan_kaynaklar,sure_sn,context,dogrulama_durumu
+62,Kolay,Ters Fourier dönüşümü (inverse direction) formülünde 1/2π çarpanı nerede yer alır?,lsarSist-H8_FourierTransform.pdf,Evet,Ters Fourier dönüşümü formülünde 1/2π çarpanı x(t) = 1/(2π) ∫ X(jω)e^jωt dω'de yer alır. Bu formülde 1/(2π) çarpanı yer alıyor.,lsarSist-H8_FourierTransform.pdf (sayfa 3); lsarSist-H8_FourierTransform.pdf (sayfa 4); lsarSist-H8_FourierTransform.pdf (sayfa 5); lsarSist-H8_FourierTransform.pdf (sayfa 6),57.79,"[1] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 3
+Sürekli Zamanlı Fourier Dönüşümü
+(Continuous-Time Fourier Transform)
+∞
+• Forward direction ∫ −jωt
+X( jω) = −∞ x(t)e dt
+Analysis: extracts spectrum information from the signal x(t)
+1 ∞
+∫ jωt
+• Ters Yönde (Inverse x(t) = X( jω)e dω
+direction) 2π −∞
+Synthesis: creates time-domain signal x(t) from its spectral info
+3
+
+[2] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 4
+Fourier Dönüşüm Çiftleri
+(Fourier Transform Pairs)
+• From the sifting property of the Dirac delta,
+∞
+{ ( )} ( )
+F δ t = ∫ δ t e− j ω tdt = e− jω0 =1
+−∞
+• Consider a Dirac delta in the Fourier domain
+1 ∞ 1 1
+{ ( )} ( )
+F −1 δω = ∫ δω e j ω tdω= e j0t =
+2π −∞ 2π 2π
+Using linearity property, F{ 1 } = 2π δ(ω)
+x(t) = 1
+X(ω) = 2 π δ(ω)
+1 F (2π)
+t ω
+0 0
+(2π) means that the area under the Dirac delta is (2π) 4
+
+[3] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 5
+Fourier Dönüşüm Çiftleri
+(Fourier Transform Pairs)
+∞  t  τ/2
+( )
+F ω = ∫ rect e−jωtdt = ∫ e−jωtdt
+−∞ τ −τ/2
+ωτ  ωτ
+sin  sinπ 
+1 ( −jωτ/2 jωτ/2)  2   2π ωτ
+= − e − e = 2 =τ =τ sinc 
+jω ω ωτ  2π
+π 
+ 2π
+F(ω)
+f(t)
+τ
+F
+1
+ω
+t
+-τ/2 0 τ/2 −6τπ −4τπ −2τπ 0 2τπ 4τπ 6τπ
+5
+
+[4] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 6
+Fourier Dönüşüm Çiftleri
+(Fourier Transform Pairs)
+1 ∞ 1
+{ ( )} ( ) jωt
+F −1 δω−ω0 = ∫ δω−ω0 e jωtdω= e 0
+2π −∞ 2π
+1
+jωt ( ) jωt ( )
+e 0 ⇔δω−ω0 or e 0 ⇔ 2π δω−ω0
+2π
+1 ( )
+( ) jωt − jωt
+Since cos ω0t = e 0 + e 0
+2
+( ) [ ( ) ( )]
+cos ω0t ⇔πδω+ω0 +δω−ω0
+F(ω)
+f(t)
+(π) (π)
+F
+t
+ω
+0 −ω 0 ω
+0 0
+6",
+69,Orta,rect(t/τ) işaretinin Fourier dönüşümünün sinc fonksiyonu ile ifade edilme süreci nasıl gerçekleşir?,lsarSist-H8_FourierTransform.pdf,Evet,"rect(t/τ) işaretinin Fourier dönüşümü sinc fonksiyonu ile ifade edilirken duality özelliği kullanılır. Dualite özelliği, rect(t/τ) → τ sinc(ωτ/2) ilişkisini verir ve bunu tersine döndürerek τ sinc(tτ/2) → 2π rect(-ω/τ) şeklinde yazılabilir. Dolayısıyla, rect(t/τ) işaretinin Fourier dönüşümü τ sinc(ωτ/2) olarak ifade edilir. Kaynak: [2], sayfa 9",lsarSist-H8_FourierTransform.pdf (sayfa 5); lsarSist-H8_FourierTransform.pdf (sayfa 9); lsarSist-H8_FourierTransform.pdf (sayfa 2); lsarSist-H8_FourierTransform.pdf (sayfa 11),22.73,"[1] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 5
+Fourier Dönüşüm Çiftleri
+(Fourier Transform Pairs)
+∞  t  τ/2
+( )
+F ω = ∫ rect e−jωtdt = ∫ e−jωtdt
+−∞ τ −τ/2
+ωτ  ωτ
+sin  sinπ 
+1 ( −jωτ/2 jωτ/2)  2   2π ωτ
+= − e − e = 2 =τ =τ sinc 
+jω ω ωτ  2π
+π 
+ 2π
+F(ω)
+f(t)
+τ
+F
+1
+ω
+t
+-τ/2 0 τ/2 −6τπ −4τπ −2τπ 0 2τπ 4τπ 6τπ
+5
+
+[2] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 9
+Duallik
+(Duality)
+• Forward/inverse transforms are similar
+∞ 1 ∞
+( ) ( ) ( ) ( ) j t
+F ω = ∫ f t e− j ω tdt f t = ∫ F ω e ω dω
+−∞ 2π −∞
+( ) ( )
+f t ↔ F ω ( ) ( )
+F t ↔ 2π f −ω
+• Example: rect(t/τ) ↔ τ sinc(ω τ / 2)
+Apply duality τ sinc(t τ/2) ↔ 2 π rect(-ω/τ)
+rect(·) is even τ sinc(t τ /2) ↔ 2 π rect(ω/τ)
+f(t) τ
+F(ω)
+1
+ω
+t
+-τ/2 0 τ/2 −6π −4π −2π 0 2π 4π 6π
+τ τ τ τ τ τ
+9
+
+[3] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 2
+Fourier Integral
+∞ ∞
+( ) ( ) ( ) ( )
+G f = ∫ g t e− j2π f t dt X ω = ∫ x t e− j ω t dt
+−∞ −∞
+∞ 1 ∞
+( ) ( ) ( ) ( )
+g t = ∫ G f e j2π f t df x t = ∫ X ω e j ω t dω
+−∞ 2π −∞
+Communication Systems Signal Processing
+• Conditions for Fourier transform of x(t) to exist
+x(t) is single-valued with finite maxima and minima in
+any finite time interval
+x(t) is piecewise continuous; i.e., it has a finite number of
+discontinuities in any finite time interval
+x(t) is absolutely integrable ∞
+( )
+∫ g t dt < ∞
+• Conditions not obeyed fo−∞r cos(t), sin(t) and u(t)
+We’ll find ways to define Fourier transforms for them
+2
+
+[4] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 11
+Zamanda Kaydırma
+(Shifting in Time)
+• Shift in time
+( ) − j ω t ( )
+f t − t0 ↔ e 0 F ω
+Does not change magnitude of the Fourier transform
+Shifts phase of Fourier transform by -ωt0
+(so −t0 is the slope of the linear phase)
+• Derivation ∞
+{ }
+F f (t − t0) = ∫ f (t − t0)e− j ω tdt
+−∞
+Let u = t – t0, so du = dt and integration limits stay same
+∞ ∞
+{ }
+F f (t − t0) = ∫ f (u)e−j ω (u+t0)du = e− j ω t0 ∫ f (u)e− j ω udu = e−j ω t0 F(ω)
+−∞ −∞
+11",
+73,Orta,Nedensel üstel işaretin Fourier dönüşümünün faz açısı ∠X(jω) hangi ifade ile hesaplanır?,lsarSist-H8_FourierTransform.pdf,Evet,"∠X(jω) faz açısını hesaplamak için following ifade kullanılır: ∠X(jω) = -tan⁻¹(Im{a}/Re{a}) Bu ifade, bağlamda verilen matematiksel ifadeden çıkarımla elde edilmiştir.",lsarSist-H8_FourierTransform.pdf (sayfa 7); lsarSist-H8_FourierTransform.pdf (sayfa 4); lsarSist-H8_FourierTransform.pdf (sayfa 6); lsarSist-H8_FourierTransform.pdf (sayfa 3),23.79,"[1] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 7
+Nedensel Üstel İşaret
+(Causal Exponential Signal)
+w = -8 : 0.01 : 8;
+• Formula: −at
+x(t) = e u(t) H = 1 ./ (1 + j*w);
+(−a−jω)t ù ∞ Hmag = abs(H);
+∞ ∞ e
+∫ −at −jωt ∫ (−a−jω)t
+X( jω) = e u(t)e dt = e dt = Hphase = phase(H);
+ú
+−∞ 0 −a− jωû0 figure;
+plot(w, Hmag);
+ (−a−jω)t    title('Magnitude Response');
+e 1 −1 −at −jωt 1
+= lim + =  lime e + ylim( [-0.0 1.1] );
+ t®∞ −a− jω a+ jω  a+ jωt®∞  a+ jω figure;
+plot(w, Hphase);
+title('Phase Response');
+1
+= if Re{a} > 0
+Decays if Oscillates
+a+ jω
+Re{a} > 0
+Magnitude-Phase form
+1 1 1
+X(jω) = = =
+a+ jω a+ jω Re{a}2 +(ω+Im{a})2
+ 
+ω+Im{a} a = 1
+ÐX(jω) = Ð1−Ð(a+ jω) = −tan−1  
+ Re{a} 
+7
+
+[2] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 4
+Fourier Dönüşüm Çiftleri
+(Fourier Transform Pairs)
+• From the sifting property of the Dirac delta,
+∞
+{ ( )} ( )
+F δ t = ∫ δ t e− j ω tdt = e− jω0 =1
+−∞
+• Consider a Dirac delta in the Fourier domain
+1 ∞ 1 1
+{ ( )} ( )
+F −1 δω = ∫ δω e j ω tdω= e j0t =
+2π −∞ 2π 2π
+Using linearity property, F{ 1 } = 2π δ(ω)
+x(t) = 1
+X(ω) = 2 π δ(ω)
+1 F (2π)
+t ω
+0 0
+(2π) means that the area under the Dirac delta is (2π) 4
+
+[3] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 6
+Fourier Dönüşüm Çiftleri
+(Fourier Transform Pairs)
+1 ∞ 1
+{ ( )} ( ) jωt
+F −1 δω−ω0 = ∫ δω−ω0 e jωtdω= e 0
+2π −∞ 2π
+1
+jωt ( ) jωt ( )
+e 0 ⇔δω−ω0 or e 0 ⇔ 2π δω−ω0
+2π
+1 ( )
+( ) jωt − jωt
+Since cos ω0t = e 0 + e 0
+2
+( ) [ ( ) ( )]
+cos ω0t ⇔πδω+ω0 +δω−ω0
+F(ω)
+f(t)
+(π) (π)
+F
+t
+ω
+0 −ω 0 ω
+0 0
+6
+
+[4] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 3
+Sürekli Zamanlı Fourier Dönüşümü
+(Continuous-Time Fourier Transform)
+∞
+• Forward direction ∫ −jωt
+X( jω) = −∞ x(t)e dt
+Analysis: extracts spectrum information from the signal x(t)
+1 ∞
+∫ jωt
+• Ters Yönde (Inverse x(t) = X( jω)e dω
+direction) 2π −∞
+Synthesis: creates time-domain signal x(t) from its spectral info
+3",
+83,Orta,Sinüzoidal genlik modülasyonunda (y(t)=f(t)cos(ω0t)) elde edilen Y(ω) ifadesi F(ω) cinsinden nasıl yazılır?,lsarSist-H8_FourierTransform.pdf,Evet,"1 1
+Y(ω) = F(ω+ω0) + F(ω−ω0)
+2 2",lsarSist-H8_FourierTransform.pdf (sayfa 12); lsarSist-H8_FourierTransform.pdf (sayfa 13); lsarSist-H8_FourierTransform.pdf (sayfa 9); lsarSist-H8_FourierTransform.pdf (sayfa 6),21.18,"[1] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 12
+Sinuzoidal Genlik Modülasyonu
+(Sinusoidal Amplitude Modulation)
+( ) ( ) ( )
+y t = f t cos ω0t
+Multiplication in the time domain is
+convolution in the frequency domain :
+1
+( ) ( ) ( ( ) ( ))
+Y ω = F ω ∗ πδω+ω0 +πδω−ω0
+2π
+Recall that
+∞
+( ) ( ) ( ) ( ) ( )
+x t ∗δ t = ∫ δτ x t −τ dτ= x t
+−∞
+∞
+( ) ( ) ( ) ( ) ( )
+x t ∗δ t − t0 = ∫ δτ− t0 x t −τ dτ= x t − t0
+−∞
+So,
+1 1
+( ) ( ) ( )
+Y ω = F ω+ω0 + F ω−ω0
+2 2
+12
+
+[2] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 13
+Sinuzoidal Genlik Modülasyonu
+(Sinusoidal Amplitude Modulation)
+• Example: y(t) = f(t) cos(ω0 t) F(ω)
+1
+f(t) is an ideal lowpass signal
+Assume ω1 << ω0 ω
+1/2 F(ω+ω) Y(ω) 1/2 F(ω−ω) -ω1 0 ω1
+0 0
+1/2
+ω
+-ω - ω -ω + ω ω - ω ω + ω
+0
+0 1 0 1 0 1 0 1
+−ω ω
+0 0
+• Demodulation (i.e. recovery of f(t) from y(t)) is
+modulation followed by lowpass filtering
+• Similar derivation for modulation with sin(ω0 t)
+13
+
+[3] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 9
+Duallik
+(Duality)
+• Forward/inverse transforms are similar
+∞ 1 ∞
+( ) ( ) ( ) ( ) j t
+F ω = ∫ f t e− j ω tdt f t = ∫ F ω e ω dω
+−∞ 2π −∞
+( ) ( )
+f t ↔ F ω ( ) ( )
+F t ↔ 2π f −ω
+• Example: rect(t/τ) ↔ τ sinc(ω τ / 2)
+Apply duality τ sinc(t τ/2) ↔ 2 π rect(-ω/τ)
+rect(·) is even τ sinc(t τ /2) ↔ 2 π rect(ω/τ)
+f(t) τ
+F(ω)
+1
+ω
+t
+-τ/2 0 τ/2 −6π −4π −2π 0 2π 4π 6π
+τ τ τ τ τ τ
+9
+
+[4] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 6
+Fourier Dönüşüm Çiftleri
+(Fourier Transform Pairs)
+1 ∞ 1
+{ ( )} ( ) jωt
+F −1 δω−ω0 = ∫ δω−ω0 e jωtdω= e 0
+2π −∞ 2π
+1
+jωt ( ) jωt ( )
+e 0 ⇔δω−ω0 or e 0 ⇔ 2π δω−ω0
+2π
+1 ( )
+( ) jωt − jωt
+Since cos ω0t = e 0 + e 0
+2
+( ) [ ( ) ( )]
+cos ω0t ⇔πδω+ω0 +δω−ω0
+F(ω)
+f(t)
+(π) (π)
+F
+t
+ω
+0 −ω 0 ω
+0 0
+6",
+85,Orta,Frekans-kaydırma özelliğine göre e^{jω0t}f(t) işaretinin Fourier dönüşümü F(ω) cinsinden nasıl ifade edilir?,lsarSist-H8_FourierTransform.pdf,Evet,"( ) ( )
+e jω0t f t ↔ e−jω0 F ω Bu ifade, frekans-kaydırma özelliği gereğince F(ω) fonksiyonunun ω0 frekans shiftini göstermektedir.",lsarSist-H8_FourierTransform.pdf (sayfa 14); lsarSist-H8_FourierTransform.pdf (sayfa 11); lsarSist-H8_FourierTransform.pdf (sayfa 6); lsarSist-H8_FourierTransform.pdf (sayfa 4),20.61,"[1] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 14
+Frekans-Kaydırma Özelliği
+(Frequency-shifting Property)
+j ω t ( ) ( )
+e 0 f t ↔ 2π F ω−ω0
+− j ω t ( ) ( )
+e 0 f t ↔ 2π F ω+ω0
+1
+( ) ( ) ( ( ) ( ))
+cos ω0t f t ↔ πF ω+ω0 +πF ω−ω0
+2π
+1 1
+( ) ( ) ( ) ( )
+cos ω0t f t ↔ F ω+ω0 + F ω−ω0
+2 2
+1
+( ) ( ) ( ( ) ( ))
+sin ω0t f t ↔ jπF ω+ω0 − jπF ω−ω0
+2π
+j j
+( ) ( ) ( ) ( )
+sin ω0t f t ↔ F ω+ω0 − F ω−ω0
+2 2
+14
+
+[2] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 11
+Zamanda Kaydırma
+(Shifting in Time)
+• Shift in time
+( ) − j ω t ( )
+f t − t0 ↔ e 0 F ω
+Does not change magnitude of the Fourier transform
+Shifts phase of Fourier transform by -ωt0
+(so −t0 is the slope of the linear phase)
+• Derivation ∞
+{ }
+F f (t − t0) = ∫ f (t − t0)e− j ω tdt
+−∞
+Let u = t – t0, so du = dt and integration limits stay same
+∞ ∞
+{ }
+F f (t − t0) = ∫ f (u)e−j ω (u+t0)du = e− j ω t0 ∫ f (u)e− j ω udu = e−j ω t0 F(ω)
+−∞ −∞
+11
+
+[3] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 6
+Fourier Dönüşüm Çiftleri
+(Fourier Transform Pairs)
+1 ∞ 1
+{ ( )} ( ) jωt
+F −1 δω−ω0 = ∫ δω−ω0 e jωtdω= e 0
+2π −∞ 2π
+1
+jωt ( ) jωt ( )
+e 0 ⇔δω−ω0 or e 0 ⇔ 2π δω−ω0
+2π
+1 ( )
+( ) jωt − jωt
+Since cos ω0t = e 0 + e 0
+2
+( ) [ ( ) ( )]
+cos ω0t ⇔πδω+ω0 +δω−ω0
+F(ω)
+f(t)
+(π) (π)
+F
+t
+ω
+0 −ω 0 ω
+0 0
+6
+
+[4] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 4
+Fourier Dönüşüm Çiftleri
+(Fourier Transform Pairs)
+• From the sifting property of the Dirac delta,
+∞
+{ ( )} ( )
+F δ t = ∫ δ t e− j ω tdt = e− jω0 =1
+−∞
+• Consider a Dirac delta in the Fourier domain
+1 ∞ 1 1
+{ ( )} ( )
+F −1 δω = ∫ δω e j ω tdω= e j0t =
+2π −∞ 2π 2π
+Using linearity property, F{ 1 } = 2π δ(ω)
+x(t) = 1
+X(ω) = 2 π δ(ω)
+1 F (2π)
+t ω
+0 0
+(2π) means that the area under the Dirac delta is (2π) 4",
+74,Orta,"Fourier dönüşümünün ""memoryless"", ""causal"" ve ""linear"" sistem özellikleriyle ilişkisi nasıl açıklanmıştır?",lsarSist-H8_FourierTransform.pdf,Evet,"Fourier dönüşümünün ""memoryless"", ""causal"" ve ""linear"" sistem özellikleri ile ilgili bilgi doğrudan belirtilmemiş.",lsarSist-H8_FourierTransform.pdf (sayfa 8); lsarSist-H8_FourierTransform.pdf (sayfa 4); lsarSist-H8_FourierTransform.pdf (sayfa 1); lsarSist-H8_FourierTransform.pdf (sayfa 11),21.56,"[1] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 8
+Fourier Dönüşümü Özellikleri
+(Fourier Transform Properties)
+• What system properties does it possess?
+ Memoryless (in fact requires infinite memory)
+ Causal
+ Linear
+ Time-invariant (doesn’t apply)
+• What does it tell you about a signal?
+Answer: Measures frequency content
+• What doesn’t it tell you about a signal?
+Answer: When those frequencies occurred in time
+8
+
+[2] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 4
+Fourier Dönüşüm Çiftleri
+(Fourier Transform Pairs)
+• From the sifting property of the Dirac delta,
+∞
+{ ( )} ( )
+F δ t = ∫ δ t e− j ω tdt = e− jω0 =1
+−∞
+• Consider a Dirac delta in the Fourier domain
+1 ∞ 1 1
+{ ( )} ( )
+F −1 δω = ∫ δω e j ω tdω= e j0t =
+2π −∞ 2π 2π
+Using linearity property, F{ 1 } = 2π δ(ω)
+x(t) = 1
+X(ω) = 2 π δ(ω)
+1 F (2π)
+t ω
+0 0
+(2π) means that the area under the Dirac delta is (2π) 4
+
+[3] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 1
+İşaret ve Sistemler- (BLM303) Güz 2025
+Sürekli-Zamanlı Fourier Dönüşümü
+(Continuous-Time Fourier Transform)
+Hafta8
+Yaşar BECERİKLİ, Prof.Dr.
+4 Kasım 2025
+Textbook: Linear Systems and Signals, B.P. Lathi
+This slides are modified from Linear Systems and Signals (EE313) course at the
+University of Texas at Austin, with Courtesy of Prof. Brian L. Evans
+04.11.2025
+KOÜ-Bilgisayar Müh. 1
+
+[4] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 11
+Zamanda Kaydırma
+(Shifting in Time)
+• Shift in time
+( ) − j ω t ( )
+f t − t0 ↔ e 0 F ω
+Does not change magnitude of the Fourier transform
+Shifts phase of Fourier transform by -ωt0
+(so −t0 is the slope of the linear phase)
+• Derivation ∞
+{ }
+F f (t − t0) = ∫ f (t − t0)e− j ω tdt
+−∞
+Let u = t – t0, so du = dt and integration limits stay same
+∞ ∞
+{ }
+F f (t − t0) = ∫ f (u)e−j ω (u+t0)du = e− j ω t0 ∫ f (u)e− j ω udu = e−j ω t0 F(ω)
+−∞ −∞
+11",
+71,Orta,Nedensel üstel işaretin Fourier dönüşümü türetilirken lim(t→∞) e^{-at}e^{-jωt} teriminin sıfıra gitmesi neden Re{a}>0 koşuluna bağlıdır?,lsarSist-H8_FourierTransform.pdf,Evet,"Re{a} > 0 koşuluna bağlı olarak lim(t→∞) e^{-(a+jω)t} teriminin sıfıra gittiği çünkü a'nın reel kısmı pozitif olduğunda, e^{-at} terimi t
+user
+Bağlam
+[1] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 7
+Nedensel Üstel İşaret
+(Causal Exponential Signal)
+w = -8: 0.01: 8
+• Formula: −at
+x(t) = e u(t) H = 1./ (1 + j*w)
+(−a−jω)t ù ∞ Hmag = abs(H)
+∞ ∞ e
+∫ −at −jωt ∫ (−a−jω)t
+X( jω) = e u(t)e dt = e dt = Hphase = phase(H)
+ú
+−∞ 0 −a− jωû0 figure
+plot(w, Hmag); (−a−jω)t title('Magnitude Response')
+e 1 −1 −at −jωt 1
+= lim + = lime e + ylim( [-0.0 1.1] ); t®∞ −a− jω a+ jω a+ jωt®∞ a+ jω figure
+plot(w, Hphase)
+title('Phase Response')
+1
+= if Re{a} > 0
+Decays if Oscillates
+a+ jω
+Re{a} > 0
+Magnitude-Phase form
+1 1 1
+X(jω) = = =
+a+ jω a+ jω Re{a}2 +(ω+Im{a})2 ω+Im{a} a = 1
+ÐX(jω) = Ð1−Ð(a+ jω) = −tan−1 Re{a} 7 [2] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 6
+Fourier Dönüşüm Çiftleri
+(Fourier Transform Pairs)
+1 ∞ 1
+{ ( )} ( ) jωt
+F −1 δω−ω0 = ∫ δω−ω0 e jωtdω= e 0
+2π −∞ 2π
+1
+jωt ( ) jωt ( )
+e 0 ⇔δω−ω0 or e 0 ⇔ 2π δω−ω0
+2π
+1 ( )
+( ) jωt − jωt
+Since cos ω0t = e 0 + e 0
+2
+( ) [ ( ) ( )]
+cos ω0t",lsarSist-H8_FourierTransform.pdf (sayfa 7); lsarSist-H8_FourierTransform.pdf (sayfa 6); lsarSist-H8_FourierTransform.pdf (sayfa 2); lsarSist-H8_FourierTransform.pdf (sayfa 11),29.04,"[1] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 7
+Nedensel Üstel İşaret
+(Causal Exponential Signal)
+w = -8 : 0.01 : 8;
+• Formula: −at
+x(t) = e u(t) H = 1 ./ (1 + j*w);
+(−a−jω)t ù ∞ Hmag = abs(H);
+∞ ∞ e
+∫ −at −jωt ∫ (−a−jω)t
+X( jω) = e u(t)e dt = e dt = Hphase = phase(H);
+ú
+−∞ 0 −a− jωû0 figure;
+plot(w, Hmag);
+ (−a−jω)t    title('Magnitude Response');
+e 1 −1 −at −jωt 1
+= lim + =  lime e + ylim( [-0.0 1.1] );
+ t®∞ −a− jω a+ jω  a+ jωt®∞  a+ jω figure;
+plot(w, Hphase);
+title('Phase Response');
+1
+= if Re{a} > 0
+Decays if Oscillates
+a+ jω
+Re{a} > 0
+Magnitude-Phase form
+1 1 1
+X(jω) = = =
+a+ jω a+ jω Re{a}2 +(ω+Im{a})2
+ 
+ω+Im{a} a = 1
+ÐX(jω) = Ð1−Ð(a+ jω) = −tan−1  
+ Re{a} 
+7
+
+[2] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 6
+Fourier Dönüşüm Çiftleri
+(Fourier Transform Pairs)
+1 ∞ 1
+{ ( )} ( ) jωt
+F −1 δω−ω0 = ∫ δω−ω0 e jωtdω= e 0
+2π −∞ 2π
+1
+jωt ( ) jωt ( )
+e 0 ⇔δω−ω0 or e 0 ⇔ 2π δω−ω0
+2π
+1 ( )
+( ) jωt − jωt
+Since cos ω0t = e 0 + e 0
+2
+( ) [ ( ) ( )]
+cos ω0t ⇔πδω+ω0 +δω−ω0
+F(ω)
+f(t)
+(π) (π)
+F
+t
+ω
+0 −ω 0 ω
+0 0
+6
+
+[3] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 2
+Fourier Integral
+∞ ∞
+( ) ( ) ( ) ( )
+G f = ∫ g t e− j2π f t dt X ω = ∫ x t e− j ω t dt
+−∞ −∞
+∞ 1 ∞
+( ) ( ) ( ) ( )
+g t = ∫ G f e j2π f t df x t = ∫ X ω e j ω t dω
+−∞ 2π −∞
+Communication Systems Signal Processing
+• Conditions for Fourier transform of x(t) to exist
+x(t) is single-valued with finite maxima and minima in
+any finite time interval
+x(t) is piecewise continuous; i.e., it has a finite number of
+discontinuities in any finite time interval
+x(t) is absolutely integrable ∞
+( )
+∫ g t dt < ∞
+• Conditions not obeyed fo−∞r cos(t), sin(t) and u(t)
+We’ll find ways to define Fourier transforms for them
+2
+
+[4] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 11
+Zamanda Kaydırma
+(Shifting in Time)
+• Shift in time
+( ) − j ω t ( )
+f t − t0 ↔ e 0 F ω
+Does not change magnitude of the Fourier transform
+Shifts phase of Fourier transform by -ωt0
+(so −t0 is the slope of the linear phase)
+• Derivation ∞
+{ }
+F f (t − t0) = ∫ f (t − t0)e− j ω tdt
+−∞
+Let u = t – t0, so du = dt and integration limits stay same
+∞ ∞
+{ }
+F f (t − t0) = ∫ f (u)e−j ω (u+t0)du = e− j ω t0 ∫ f (u)e− j ω udu = e−j ω t0 F(ω)
+−∞ −∞
+11",
+61,Kolay,Fourier dönüşümünün ileri yöndeki (forward) tanımı X(jω) hangi integral ile verilir?,lsarSist-H8_FourierTransform.pdf,Evet,"Sürekli Zamanlı Fourier Dönüşümü'nün ileri yöndeki tanımı X(jω) following integral ile verilir: ∞
+X( jω) = ∫ x(t)e^(-jωt) dt - Bu tanımın ilk satırında verildiği gibi.
+- X( jω) = ∫ −jωt x(t)e dt formunda verilmiştir.",lsarSist-H8_FourierTransform.pdf (sayfa 3); lsarSist-H8_FourierTransform.pdf (sayfa 4); lsarSist-H8_FourierTransform.pdf (sayfa 2); lsarSist-H8_FourierTransform.pdf (sayfa 6),119.9,"[1] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 3
+Sürekli Zamanlı Fourier Dönüşümü
+(Continuous-Time Fourier Transform)
+∞
+• Forward direction ∫ −jωt
+X( jω) = −∞ x(t)e dt
+Analysis: extracts spectrum information from the signal x(t)
+1 ∞
+∫ jωt
+• Ters Yönde (Inverse x(t) = X( jω)e dω
+direction) 2π −∞
+Synthesis: creates time-domain signal x(t) from its spectral info
+3
+
+[2] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 4
+Fourier Dönüşüm Çiftleri
+(Fourier Transform Pairs)
+• From the sifting property of the Dirac delta,
+∞
+{ ( )} ( )
+F δ t = ∫ δ t e− j ω tdt = e− jω0 =1
+−∞
+• Consider a Dirac delta in the Fourier domain
+1 ∞ 1 1
+{ ( )} ( )
+F −1 δω = ∫ δω e j ω tdω= e j0t =
+2π −∞ 2π 2π
+Using linearity property, F{ 1 } = 2π δ(ω)
+x(t) = 1
+X(ω) = 2 π δ(ω)
+1 F (2π)
+t ω
+0 0
+(2π) means that the area under the Dirac delta is (2π) 4
+
+[3] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 2
+Fourier Integral
+∞ ∞
+( ) ( ) ( ) ( )
+G f = ∫ g t e− j2π f t dt X ω = ∫ x t e− j ω t dt
+−∞ −∞
+∞ 1 ∞
+( ) ( ) ( ) ( )
+g t = ∫ G f e j2π f t df x t = ∫ X ω e j ω t dω
+−∞ 2π −∞
+Communication Systems Signal Processing
+• Conditions for Fourier transform of x(t) to exist
+x(t) is single-valued with finite maxima and minima in
+any finite time interval
+x(t) is piecewise continuous; i.e., it has a finite number of
+discontinuities in any finite time interval
+x(t) is absolutely integrable ∞
+( )
+∫ g t dt < ∞
+• Conditions not obeyed fo−∞r cos(t), sin(t) and u(t)
+We’ll find ways to define Fourier transforms for them
+2
+
+[4] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 6
+Fourier Dönüşüm Çiftleri
+(Fourier Transform Pairs)
+1 ∞ 1
+{ ( )} ( ) jωt
+F −1 δω−ω0 = ∫ δω−ω0 e jωtdω= e 0
+2π −∞ 2π
+1
+jωt ( ) jωt ( )
+e 0 ⇔δω−ω0 or e 0 ⇔ 2π δω−ω0
+2π
+1 ( )
+( ) jωt − jωt
+Since cos ω0t = e 0 + e 0
+2
+( ) [ ( ) ( )]
+cos ω0t ⇔πδω+ω0 +δω−ω0
+F(ω)
+f(t)
+(π) (π)
+F
+t
+ω
+0 −ω 0 ω
+0 0
+6",
+76,Orta,Duallik (duality) özelliği ileri ve ters dönüşümlerin benzerliğinden nasıl yararlanmaktadır?,lsarSist-H8_FourierTransform.pdf,Evet,"Duality özelliği, ileri ve ters dönüşümlerin benzerliği sayesinde yeni fonksiyonların Fourier dönüşümünü daha kolay hesaplamada kullanabiliriz. Örneğin, rect(t/τ) fonksiyonunun Fourier dönüşümü τ*sinc(ω*τ/2) olarak bilinen bir sonuçta yer alıyor. Bu bilgiyi duality özelliğine uygulayarak, τ*sinc(t*τ/2) fonksiyonunun Fourier dönüşümü 2π*rect(-ω/τ) olarak bulunabilir. Bu şekilde, zaten bilinen bir dönüşümün benzer formülden başka bir fonksiyonun dönüşümünü kolayca hesaplayabiliriz.",lsarSist-H8_FourierTransform.pdf (sayfa 9); lsarSist-H8_FourierTransform.pdf (sayfa 3); lsarSist-H8_FourierTransform.pdf (sayfa 4); lsarSist-H8_FourierTransform.pdf (sayfa 5),25.29,"[1] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 9
+Duallik
+(Duality)
+• Forward/inverse transforms are similar
+∞ 1 ∞
+( ) ( ) ( ) ( ) j t
+F ω = ∫ f t e− j ω tdt f t = ∫ F ω e ω dω
+−∞ 2π −∞
+( ) ( )
+f t ↔ F ω ( ) ( )
+F t ↔ 2π f −ω
+• Example: rect(t/τ) ↔ τ sinc(ω τ / 2)
+Apply duality τ sinc(t τ/2) ↔ 2 π rect(-ω/τ)
+rect(·) is even τ sinc(t τ /2) ↔ 2 π rect(ω/τ)
+f(t) τ
+F(ω)
+1
+ω
+t
+-τ/2 0 τ/2 −6π −4π −2π 0 2π 4π 6π
+τ τ τ τ τ τ
+9
+
+[2] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 3
+Sürekli Zamanlı Fourier Dönüşümü
+(Continuous-Time Fourier Transform)
+∞
+• Forward direction ∫ −jωt
+X( jω) = −∞ x(t)e dt
+Analysis: extracts spectrum information from the signal x(t)
+1 ∞
+∫ jωt
+• Ters Yönde (Inverse x(t) = X( jω)e dω
+direction) 2π −∞
+Synthesis: creates time-domain signal x(t) from its spectral info
+3
+
+[3] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 4
+Fourier Dönüşüm Çiftleri
+(Fourier Transform Pairs)
+• From the sifting property of the Dirac delta,
+∞
+{ ( )} ( )
+F δ t = ∫ δ t e− j ω tdt = e− jω0 =1
+−∞
+• Consider a Dirac delta in the Fourier domain
+1 ∞ 1 1
+{ ( )} ( )
+F −1 δω = ∫ δω e j ω tdω= e j0t =
+2π −∞ 2π 2π
+Using linearity property, F{ 1 } = 2π δ(ω)
+x(t) = 1
+X(ω) = 2 π δ(ω)
+1 F (2π)
+t ω
+0 0
+(2π) means that the area under the Dirac delta is (2π) 4
+
+[4] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 5
+Fourier Dönüşüm Çiftleri
+(Fourier Transform Pairs)
+∞  t  τ/2
+( )
+F ω = ∫ rect e−jωtdt = ∫ e−jωtdt
+−∞ τ −τ/2
+ωτ  ωτ
+sin  sinπ 
+1 ( −jωτ/2 jωτ/2)  2   2π ωτ
+= − e − e = 2 =τ =τ sinc 
+jω ω ωτ  2π
+π 
+ 2π
+F(ω)
+f(t)
+τ
+F
+1
+ω
+t
+-τ/2 0 τ/2 −6τπ −4τπ −2τπ 0 2τπ 4τπ 6τπ
+5",
+80,Orta,Zamanda kaydırma (shifting in time) özelliğine göre bir işaretin gecikmesi Fourier dönüşümünün genliğini mi yoksa fazını mı etkiler?,lsarSist-H8_FourierTransform.pdf,Evet,"Zamanda kaydırma özelliği, bir işaretin gecikmesi Fourier dönüşümünün genliğini etkilemez, fazını etkiler. Bu, zamanda kaydırma formülünden clear olarak görülür: f(t - t0) → e^(-jωt0) F(ω) Buradan",lsarSist-H8_FourierTransform.pdf (sayfa 11); lsarSist-H8_FourierTransform.pdf (sayfa 8); lsarSist-H8_FourierTransform.pdf (sayfa 1); lsarSist-H8_FourierTransform.pdf (sayfa 2),18.79,"[1] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 11
+Zamanda Kaydırma
+(Shifting in Time)
+• Shift in time
+( ) − j ω t ( )
+f t − t0 ↔ e 0 F ω
+Does not change magnitude of the Fourier transform
+Shifts phase of Fourier transform by -ωt0
+(so −t0 is the slope of the linear phase)
+• Derivation ∞
+{ }
+F f (t − t0) = ∫ f (t − t0)e− j ω tdt
+−∞
+Let u = t – t0, so du = dt and integration limits stay same
+∞ ∞
+{ }
+F f (t − t0) = ∫ f (u)e−j ω (u+t0)du = e− j ω t0 ∫ f (u)e− j ω udu = e−j ω t0 F(ω)
+−∞ −∞
+11
+
+[2] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 8
+Fourier Dönüşümü Özellikleri
+(Fourier Transform Properties)
+• What system properties does it possess?
+ Memoryless (in fact requires infinite memory)
+ Causal
+ Linear
+ Time-invariant (doesn’t apply)
+• What does it tell you about a signal?
+Answer: Measures frequency content
+• What doesn’t it tell you about a signal?
+Answer: When those frequencies occurred in time
+8
+
+[3] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 1
+İşaret ve Sistemler- (BLM303) Güz 2025
+Sürekli-Zamanlı Fourier Dönüşümü
+(Continuous-Time Fourier Transform)
+Hafta8
+Yaşar BECERİKLİ, Prof.Dr.
+4 Kasım 2025
+Textbook: Linear Systems and Signals, B.P. Lathi
+This slides are modified from Linear Systems and Signals (EE313) course at the
+University of Texas at Austin, with Courtesy of Prof. Brian L. Evans
+04.11.2025
+KOÜ-Bilgisayar Müh. 1
+
+[4] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 2
+Fourier Integral
+∞ ∞
+( ) ( ) ( ) ( )
+G f = ∫ g t e− j2π f t dt X ω = ∫ x t e− j ω t dt
+−∞ −∞
+∞ 1 ∞
+( ) ( ) ( ) ( )
+g t = ∫ G f e j2π f t df x t = ∫ X ω e j ω t dω
+−∞ 2π −∞
+Communication Systems Signal Processing
+• Conditions for Fourier transform of x(t) to exist
+x(t) is single-valued with finite maxima and minima in
+any finite time interval
+x(t) is piecewise continuous; i.e., it has a finite number of
+discontinuities in any finite time interval
+x(t) is absolutely integrable ∞
+( )
+∫ g t dt < ∞
+• Conditions not obeyed fo−∞r cos(t), sin(t) and u(t)
+We’ll find ways to define Fourier transforms for them
+2",
+81,Orta,Zamanda kaydırma özelliğinin ispatında u=t-t0 değişken dönüşümü nasıl kullanılmıştır?,lsarSist-H8_FourierTransform.pdf,Evet,"Zamanda kaydırma özelliğinin ispatında, u = t - t0 değişken dönüşümü kullanılarak integralin sınırları korunmuş, ancak integraldeki ω terimi -t0 ile çarpılmıştır. Bu sayede Fourier dönüşümünün faz kısmının -ωt0 kadar değiştiğini gösterilmiştir.",lsarSist-H8_FourierTransform.pdf (sayfa 11); lsarSist-H8_FourierTransform.pdf (sayfa 14); lsarSist-H8_FourierTransform.pdf (sayfa 3); lsarSist-H8_FourierTransform.pdf (sayfa 4),20.69,"[1] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 11
+Zamanda Kaydırma
+(Shifting in Time)
+• Shift in time
+( ) − j ω t ( )
+f t − t0 ↔ e 0 F ω
+Does not change magnitude of the Fourier transform
+Shifts phase of Fourier transform by -ωt0
+(so −t0 is the slope of the linear phase)
+• Derivation ∞
+{ }
+F f (t − t0) = ∫ f (t − t0)e− j ω tdt
+−∞
+Let u = t – t0, so du = dt and integration limits stay same
+∞ ∞
+{ }
+F f (t − t0) = ∫ f (u)e−j ω (u+t0)du = e− j ω t0 ∫ f (u)e− j ω udu = e−j ω t0 F(ω)
+−∞ −∞
+11
+
+[2] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 14
+Frekans-Kaydırma Özelliği
+(Frequency-shifting Property)
+j ω t ( ) ( )
+e 0 f t ↔ 2π F ω−ω0
+− j ω t ( ) ( )
+e 0 f t ↔ 2π F ω+ω0
+1
+( ) ( ) ( ( ) ( ))
+cos ω0t f t ↔ πF ω+ω0 +πF ω−ω0
+2π
+1 1
+( ) ( ) ( ) ( )
+cos ω0t f t ↔ F ω+ω0 + F ω−ω0
+2 2
+1
+( ) ( ) ( ( ) ( ))
+sin ω0t f t ↔ jπF ω+ω0 − jπF ω−ω0
+2π
+j j
+( ) ( ) ( ) ( )
+sin ω0t f t ↔ F ω+ω0 − F ω−ω0
+2 2
+14
+
+[3] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 3
+Sürekli Zamanlı Fourier Dönüşümü
+(Continuous-Time Fourier Transform)
+∞
+• Forward direction ∫ −jωt
+X( jω) = −∞ x(t)e dt
+Analysis: extracts spectrum information from the signal x(t)
+1 ∞
+∫ jωt
+• Ters Yönde (Inverse x(t) = X( jω)e dω
+direction) 2π −∞
+Synthesis: creates time-domain signal x(t) from its spectral info
+3
+
+[4] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 4
+Fourier Dönüşüm Çiftleri
+(Fourier Transform Pairs)
+• From the sifting property of the Dirac delta,
+∞
+{ ( )} ( )
+F δ t = ∫ δ t e− j ω tdt = e− jω0 =1
+−∞
+• Consider a Dirac delta in the Fourier domain
+1 ∞ 1 1
+{ ( )} ( )
+F −1 δω = ∫ δω e j ω tdω= e j0t =
+2π −∞ 2π 2π
+Using linearity property, F{ 1 } = 2π δ(ω)
+x(t) = 1
+X(ω) = 2 π δ(ω)
+1 F (2π)
+t ω
+0 0
+(2π) means that the area under the Dirac delta is (2π) 4",
+86,Orta,cos(ω0t)f(t) işaretinin frekans-kaydırma özelliği kullanılarak elde edilen Fourier dönüşümü hangi iki terimin toplamı şeklindedir?,lsarSist-H8_FourierTransform.pdf,Evet,"(πF(ω+ω0) + πF(ω−ω0)) şeklindeki iki terimin toplamı şeklindedir. Bu, cos(ω0t)f(t) işaretinin Fourier dönüşümünün frekans-kaydırma özelliği kullanılarak elde edilen formudur. Kaynak: [1].",lsarSist-H8_FourierTransform.pdf (sayfa 14); lsarSist-H8_FourierTransform.pdf (sayfa 6); lsarSist-H8_FourierTransform.pdf (sayfa 2); lsarSist-H8_FourierTransform.pdf (sayfa 5),22.34,"[1] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 14
+Frekans-Kaydırma Özelliği
+(Frequency-shifting Property)
+j ω t ( ) ( )
+e 0 f t ↔ 2π F ω−ω0
+− j ω t ( ) ( )
+e 0 f t ↔ 2π F ω+ω0
+1
+( ) ( ) ( ( ) ( ))
+cos ω0t f t ↔ πF ω+ω0 +πF ω−ω0
+2π
+1 1
+( ) ( ) ( ) ( )
+cos ω0t f t ↔ F ω+ω0 + F ω−ω0
+2 2
+1
+( ) ( ) ( ( ) ( ))
+sin ω0t f t ↔ jπF ω+ω0 − jπF ω−ω0
+2π
+j j
+( ) ( ) ( ) ( )
+sin ω0t f t ↔ F ω+ω0 − F ω−ω0
+2 2
+14
+
+[2] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 6
+Fourier Dönüşüm Çiftleri
+(Fourier Transform Pairs)
+1 ∞ 1
+{ ( )} ( ) jωt
+F −1 δω−ω0 = ∫ δω−ω0 e jωtdω= e 0
+2π −∞ 2π
+1
+jωt ( ) jωt ( )
+e 0 ⇔δω−ω0 or e 0 ⇔ 2π δω−ω0
+2π
+1 ( )
+( ) jωt − jωt
+Since cos ω0t = e 0 + e 0
+2
+( ) [ ( ) ( )]
+cos ω0t ⇔πδω+ω0 +δω−ω0
+F(ω)
+f(t)
+(π) (π)
+F
+t
+ω
+0 −ω 0 ω
+0 0
+6
+
+[3] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 2
+Fourier Integral
+∞ ∞
+( ) ( ) ( ) ( )
+G f = ∫ g t e− j2π f t dt X ω = ∫ x t e− j ω t dt
+−∞ −∞
+∞ 1 ∞
+( ) ( ) ( ) ( )
+g t = ∫ G f e j2π f t df x t = ∫ X ω e j ω t dω
+−∞ 2π −∞
+Communication Systems Signal Processing
+• Conditions for Fourier transform of x(t) to exist
+x(t) is single-valued with finite maxima and minima in
+any finite time interval
+x(t) is piecewise continuous; i.e., it has a finite number of
+discontinuities in any finite time interval
+x(t) is absolutely integrable ∞
+( )
+∫ g t dt < ∞
+• Conditions not obeyed fo−∞r cos(t), sin(t) and u(t)
+We’ll find ways to define Fourier transforms for them
+2
+
+[4] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 5
+Fourier Dönüşüm Çiftleri
+(Fourier Transform Pairs)
+∞  t  τ/2
+( )
+F ω = ∫ rect e−jωtdt = ∫ e−jωtdt
+−∞ τ −τ/2
+ωτ  ωτ
+sin  sinπ 
+1 ( −jωτ/2 jωτ/2)  2   2π ωτ
+= − e − e = 2 =τ =τ sinc 
+jω ω ωτ  2π
+π 
+ 2π
+F(ω)
+f(t)
+τ
+F
+1
+ω
+t
+-τ/2 0 τ/2 −6τπ −4τπ −2τπ 0 2τπ 4τπ 6τπ
+5",
+88,Zor,F{1}=2πδ(ω) sonucunun elde edilme sürecinde ters Fourier dönüşümü tanımı ile sifting property arasındaki matematiksel bağlantı adım adım nasıl kurulmuştur?,lsarSist-H8_FourierTransform.pdf,Evet,"Ters Fourier dönüşümü tanımı ve sifting özelliği kullanarak F{1}=2πδ(ω) sonuçının elde edilme süreci şu şekilde yapılmıştır: 1. Ters Fourier dönüşüm tanımları kullanılmıştır: X(ω) = F⁻¹{x(t)} = (1/(2π)) ∫ x(t) e^(jωt) dt 2. x(t) = 1 fonksiyonu için: X(ω) = (1/(2π)) ∫ e^(jωt) dt 3. Sifting özelliği kullanılmıştır: ∫ δ(t) g(t) dt = g(0) 4. g(t) = e^(jωt) fonksiyonu için: ∫ δ(t) e^(jωt) dt = e^(jω*0) = 1 5. Sonuç olarak: X(ω) = (1/(2π)) * 2π * δ(ω) = δ(ω) Ancak orijinal formda 2π faktörü var, bu nedenle:
+F{1} = 2πδ(ω) Bu adımlar, ters Fourier dönüşüm tanımları ve sifting özelliği arasındaki bağlantıyı göstermektedir.",lsarSist-H8_FourierTransform.pdf (sayfa 4); lsarSist-H9_ZTransform.pdf (sayfa 17); lsarSist-H8_FourierTransform.pdf (sayfa 14); lsarSist-H8_FourierTransform.pdf (sayfa 5),26.66,"[1] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 4
+Fourier Dönüşüm Çiftleri
+(Fourier Transform Pairs)
+• From the sifting property of the Dirac delta,
+∞
+{ ( )} ( )
+F δ t = ∫ δ t e− j ω tdt = e− jω0 =1
+−∞
+• Consider a Dirac delta in the Fourier domain
+1 ∞ 1 1
+{ ( )} ( )
+F −1 δω = ∫ δω e j ω tdω= e j0t =
+2π −∞ 2π 2π
+Using linearity property, F{ 1 } = 2π δ(ω)
+x(t) = 1
+X(ω) = 2 π δ(ω)
+1 F (2π)
+t ω
+0 0
+(2π) means that the area under the Dirac delta is (2π) 4
+
+[2] Kaynak: lsarSist-H9_ZTransform.pdf, sayfa 17
+Z-transform Properties
+(Proof of Convolution Property)
+∞
+f [n]∗ f [n]= Σ f [m]f [n − m]
+1 2 1 2 • Convolution definition
+m=−∞
+ ∞ 
+Z{f [n]∗ f [n]}= Z Σ f [m]f [n − m]
+1 2  1 2  • Take z-transform
+m=−∞
+∞  ∞ 
+Σ Σ [ ] [ ] −n
+=  f1 m f2 n − m z • Z-transform definition
+n=−∞ m=−∞
+∞ ∞
+= Σ f1[m]Σ f2[n − m]z−n • Interchange summation
+m=−∞ n=−∞
+∞ ∞
+= Σ f1[m]Σ f2[r]z−(r+m) • Substitute r = n - m
+m=−∞ r=−∞
+ ∞  ∞  • Z-transform definition
+=  Σ f1[m]z−m  Σ f2[r]z−r 
+  
+m=−∞ r=−∞
+= F (z)F (z)
+1 2
+11.11.2025 KOÜ-Bilgisayar Müh. 17
+
+[3] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 14
+Frekans-Kaydırma Özelliği
+(Frequency-shifting Property)
+j ω t ( ) ( )
+e 0 f t ↔ 2π F ω−ω0
+− j ω t ( ) ( )
+e 0 f t ↔ 2π F ω+ω0
+1
+( ) ( ) ( ( ) ( ))
+cos ω0t f t ↔ πF ω+ω0 +πF ω−ω0
+2π
+1 1
+( ) ( ) ( ) ( )
+cos ω0t f t ↔ F ω+ω0 + F ω−ω0
+2 2
+1
+( ) ( ) ( ( ) ( ))
+sin ω0t f t ↔ jπF ω+ω0 − jπF ω−ω0
+2π
+j j
+( ) ( ) ( ) ( )
+sin ω0t f t ↔ F ω+ω0 − F ω−ω0
+2 2
+14
+
+[4] Kaynak: lsarSist-H8_FourierTransform.pdf, sayfa 5
+Fourier Dönüşüm Çiftleri
+(Fourier Transform Pairs)
+∞  t  τ/2
+( )
+F ω = ∫ rect e−jωtdt = ∫ e−jωtdt
+−∞ τ −τ/2
+ωτ  ωτ
+sin  sinπ 
+1 ( −jωτ/2 jωτ/2)  2   2π ωτ
+= − e − e = 2 =τ =τ sinc 
+jω ω ωτ  2π
+π 
+ 2π
+F(ω)
+f(t)
+τ
+F
+1
+ω
+t
+-τ/2 0 τ/2 −6τπ −4τπ −2τπ 0 2τπ 4τπ 6τπ
+5",
