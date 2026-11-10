@@ -2584,3 +2584,60 @@ konuldu (temiz sete eklenmedi, HATA da sayılmadı).
 **Çözüm adayı (UYGULANMADI, öncelik yok):** sentezleyiciye sandbox'ın ham sonucunu da vermek ya da
 `result_to_natural_language` çıktısında girdideki sayıların korunduğunu denetlemek. Ölçülmedi.
 Ölçüm betikleri `experiments/` altına taşınmadı (scratchpad'de kaldı).
+
+## Not (2026-11-10) — LLM-judge 15 en düşük puanlı satırdan 13'ü gerçek okumayla incelendi; hiçbiri mevcut maddeyle eşleşmedi, 2 grup kendi içinde ortak yüzeysel desen taşıyor
+İlgili: madde 18 (sandbox doğrulayıcı — #57 buraya bağlı, bu notun kapsamı dışında),
+madde 36 (`classify_answer`'ın TP'si doğruluk değil), madde 38 (Fourier formül ailesi
+notu, yukarıda). Bu not **madde açmaz**, yalnız kök nedeni teşhis edilmemiş satırları
+kaybolmadan kaydeder.
+
+**Yöntem:** her sorunun ilgili backlog maddesinin GÖVDESİ (yalnız soru numarası grep'i
+değil) okundu; madde 8, 22, 24, 30, 31, 32, 34 gözden geçirildi.
+
+**Hiçbir maddeye bağlanamadı (13/15):**
+
+- **Grup A — test_1 CFG soruları (#19, #20, #28, #30), ortak yüzeysel desen var:**
+  dördü de `8-Baglamdan_bagimsiz_dilbilgisi.pdf`'in biçimsel dilbilgisi algoritma
+  sayfalarından (TD/TU kümesi, yararsız değişken, türetme kuralı) ÇOK ADIMLI bir
+  küme/ilişki TÜRETMESİ istiyor; model her dördünde de bağlamda OLMAYAN bir küme veya
+  ilişki uyduruyor (#19: TD'ye E/F'yi yanlış dahil/hariç ediyor; #20: TU={S,B} iken
+  {S,B,A,F} veriyor; #28: `k=2n+m` iken `m=2n+1` üretiyor; #30: `X=>abb` kuralına
+  bağlamda olmayan bir "n=1" yorumu ekliyor). Kontrol edildi: madde 22/31'in OCR
+  bozulması (#28 farklı bir zamanda "düzeldi" diye kayıtlı) burada GÖRÜLMÜYOR —
+  metin temiz okunuyor, yalnız türetilen sonuç yanlış; madde 30/32'nin "#101/#224
+  FP" bulgusu (sayfa 18 chunk'ı, "VN/VT/yararsız-öğe soruları 10/13 TP") bu dördünü
+  TP olarak sayıyor ama İÇERİK doğruluğunu hiç ölçmüyor (madde 36'nın tam örneği).
+  **Aday ortak mekanizma (KANITLANMADI):** çok adımlı sembolik türetme sorusu →
+  confabülasyon. Yalnızca 4 örnek, tek PDF; genel bir desen mi yoksa bu belgeye özgü
+  mü ayrılmadı.
+- **Grup B — test_2 profil şema soruları (#41, #45, #47), ortak yüzeysel desen var:**
+  üçü de `728_profiles.json`'da birden fazla örnek profil arasından bir ALAN TÜRETME
+  KURALI çıkarmayı istiyor (searchKeywords hangi alanlardan türüyor, slug nasıl
+  oluşuyor, publicContact açıklamasıyla örnekler tutarlı mı); model somut ama
+  bağlamda olmayan adımlar/ilişkiler uyduruyor (#41: location/sector'ü yok sayıyor;
+  #45: "harfler küçültülüp profileCode eklendi" gibi bağlamda olmayan adımlar; #47:
+  fieldGuide açıklamasını yanlış özetliyor). #45 backlog'da yalnız RETRIEVAL
+  sıralaması bağlamında geçiyor (satır ~139, fieldGuide boost'u), İÇERİK doğruluğu
+  ile ilgisiz — yanlış eşleşme olmasın diye ayrıca not edildi. **Aday ortak
+  mekanizma (KANITLANMADI):** çok-örnekli şema/kural çıkarımı → confabülasyon.
+  #41/#47 semantik RAG yoluyla, #45 `code_interpreter_sandbox` yoluyla geliyor —
+  yol farklı ama desen aynı; bu da tek bir retrieval/sandbox mekanizmasına
+  indirgenemeyeceğini gösteriyor.
+- **Grup C — test_3 Fourier soruları, #82/#38 ailesine EŞLEŞMEYEN 5'i (#62, #69,
+  #73, #74, #87):** hepsi aynı PDF'ten (`lsarSist-H8_FourierTransform.pdf`) ama
+  madde 38 notundaki "katsayı/çarpan kaybı" deseninden FARKLI hata şekilleri
+  taşıyor (#62: bağlamda olmayan bir koşul uyduruyor; #69: faktör eksik + dualite
+  hatalı; #73: dairesel/tutarsız bir karmaşık sayı tanımı icat ediyor; #74: kaynağın
+  söylediğinin TERSİNİ iddia ediyor; #87: tanım hatası + dikkat dağıtıcı chunk).
+  Aynı belge, aynı yüzeysel semptom ailesi (formül/özellik halüsinasyonu) ama tek
+  bir mekanizmaya indirgenmedi; madde 38'in dar kapsamına (katsayı kaybı) sokulmadı.
+
+**Bağlandı (2/15, rapor amacıyla tekrar burada):** #57 → madde 18 (sandbox
+doğrulayıcı, bilinen yanlış-hesap tablosunda). #48, #90 → ayrı not (madde 37
+bölümü, 2026-11-05).
+
+**Sonuç:** 15 satırdan **13'ü kök nedeni teşhis edilmeden** kalıyor. A ve B
+gruplarının kendi İÇİNDE paylaştığı "çok adımlı türetme/çıkarım sorusu →
+confabülasyon" yüzeysel deseni ileride araştırılabilir bir aday, ama kanıtlanmış
+bir madde değil ve A/B birbirine de bağlanmadı (farklı veri seti, farklı konu).
+Öncelik verilmedi, madde açılmadı.
