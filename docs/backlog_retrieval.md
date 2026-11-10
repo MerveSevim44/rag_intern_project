@@ -2696,3 +2696,69 @@ metni doğrudan `ask()`'e gidiyor, araya bulanıklaştırıcı adım girmiyor. (
   sütunu vardı, kod onu hiç okumadı). Semptom benzer (kendi kendine tutarlı yanlış çıktı `ok` alıyor),
   mekanizma farklı. Madde 18 kapalı (kabul edilmiş sınırlama) olduğundan yalnız çapraz referans.
 - Düzeltme gerektiren bir müdahale önerilmiyor; Grup A/C ön incelemesine kadar önceliklendirme yok.
+
+## Not (2026-11-10) — Grup A (test_1 CFG #19/#20/#28/#30) ön inceleme: retrieval doğru, kök neden model hatası; iki alt tür, tek mekanizmaya İNDİRGENMEDİ
+
+Önceki "Grup A" notunun ("teşhis edilmedi") devamı. Yöntem: dört sorunun `head_test_1/birlesik.csv`
+`context` sütunundaki sayfa metni, `evaluation/ground_truth/test_1.json` referansıyla yan yana okundu ve
+modelin yazdığı küme/ilişkinin bağlamdan elle türetilebilir olup olmadığı kontrol edildi. Kod/üretim
+değişikliği yok; LLM çağrısı yapılmadı (aşağıdaki "test edilmedi" maddeleri bu yüzden var).
+
+**Retrieval dört soruda da doğru:** #19 sayfa 20 (+18/21/16), #20 sayfa 19/21/20/18, #28 sayfa 28-29,
+#30 sayfa 5 — cevabı taşıyan sayfa bağlamda mevcut. Retrieval hatası elendi.
+
+**Satır başına durum (bağlamdan türetilebilir mi?):**
+- **#19 — bağlamda DOĞRUDAN yazıyor.** Sayfa 20: `TD = { S, A, B, E, F }`, "C ve D değişkenleri yararsız".
+  Cevap `TD = {S, A, B}` yazıp ardından E ve F'yi yararsız sayıyor (C, D, E, F) — hem bağlamla hem GT ile
+  çelişiyor, kendi içinde de tutarsız (aynı cevap "yararsız: C, D" ve "yararsız: C, D, E, F" diyor).
+- **#20 — bağlamda DOĞRUDAN yazıyor + kurallardan da türetilebilir.** Sayfa 21: `T = { S, B }`. G'4.7
+  kuralları (S=>B|BS, B=>b) S'den yalnız S ve B'ye ulaşıyor. Cevap `TU = { S, B, A, F }`: A ve F, S'den
+  ulaşılamayan değişkenler.
+- **#28 — bağlamdan türetilebilir, "kopyalama" değil akıl yürütme gerekiyor.** Sayfa 28-29'da `S => aAcc`,
+  `A => aAcc | bBc`, `B => bBc | λ` kuralları var; her a için 2 c, her b için 1 c → k=2n+m çıkıyor. Cevap
+  "m=2n+1 koşulu", "n adet a'dan sonra 2n+1 adet c" yazıyor: dil tanımındaki m ve k'yı karıştırıp kural
+  etkisini yanlış anlatıyor. Ağırlaştırıcı (kanıtlanmış neden DEĞİL): bu chunk OCR bozuk — `A ==>aAccbBc`
+  (`|` ayracı düşmüş), `B ==>bBc17` (`λ` kaybolmuş, sayfa numarası yapışmış), dil koşulu satırı eksik.
+- **#30 — bağlamda kurallar ve dil tanımı BİREBİR var, türetme akıl yürütmesi yanlış.** Sayfa 5:
+  `X=>aXbb|aZbb|abb`, `Z=>Zb|Xb`, `L(G4.3)={a^n b^m c^k | n≥1,k≥1,m≥2n}`. Cevap "`X=>abb` a ve b sayısının eşit
+  olmasını sağlar (n=n)" diyor — `abb` bir a ve İKİ b üretir; ayrıca "c sayısı 1" diyor (doğrusu k≥1).
+
+**Kök neden: dördü de model hatası (bağlam yeterli, retrieval yerinde), ama iki alt tür:**
+- **A1 — #19/#20: bağlamda açıkça yazılı bir kümeyi doğru aktaramıyor; düzen bozukluğu GERÇEK katkı faktörü
+  (ölçüldü, aşağıdaki "A1 düzen testi").** Bağlam sayfa düzeni (iki sütun iç içe geçmiş PDF metni) bozuk:
+  küme değeri, kuralların ve açıklama cümlelerinin arasına karışmış.
+- **A2 — #28/#30: bağlamdaki kurallardan dil/ilişki türetirken yanlış akıl yürütme** (arama/aktarma değil,
+  üretim kuralı → dil koşulu çıkarımı). #28'deki OCR bozulması ağırlaştırıcı olabilir, #30'da yok (sayfa 5 temiz).
+
+**Madde 38 / #41-#47 notuyla ilişki — kontrol edildi, BİRLEŞTİRİLMEDİ:**
+- Yol aynı: dördü de `semantic_rag`, `result_to_natural_language` yok (ham chunk → `ask()`); bu yüzden
+  madde 38'in iki aşamalı bulanıklaştırma zincirine girmiyorlar.
+- Grup B #41/#47 notundaki "context net ama model yanlış çıkarım yapıyor" semptomuyla yüzeysel benzerlik var.
+  Mekanizmanın aynı olduğu **doğrulanmadı**: #41/#47 temiz anahtar:değer metninden olumsuzlama/tutarlılık
+  yargısı; #19/#20 düzeni bozuk PDF metninden açık küme aktarımı; #28/#30 biçimsel dilbilgisi türetmesi.
+  Girdi biçimi ve istenen çıkarım türü farklı. Yalnızca çapraz referans: "semantic_rag yolunda net/yeterli
+  bağlama rağmen yanlış içerik" ortak semptomu — ortak kök nedene ait kanıt yok.
+- Madde 22/31 (OCR bozulması) #28 için ağırlaştırıcı olarak anılır; #19/#20/#30 için OCR nedeni yok.
+
+**Bağlantı:** yeni madde açılmadı, mevcut maddeye eklenmedi. A grubu tek mekanizmaya indirgenmiyor (A1 ≠ A2).
+Önceliklendirme yok.
+
+**A1 düzen testi (2026-11-10, `experiments/madde_grupA_duzen/`):** aynı model
+(`qwen2.5-7b-instruct-cuda-gpu:4`), üretimle aynı `ask()` çağrısı, her koşul × soru 3 tekrar.
+Kontrol = `head_test_1/birlesik.csv` context'i BİREBİR; temiz = yalnız cevabı taşıyan chunk (#19 sayfa 20,
+#20 sayfa 21) elle düzeltilmiş (sütunlar doğru sıraya konmuş, sözcük/kural eklenmemiş/çıkarılmamış),
+diğer chunk'lar birebir.
+| Soru | Kontrol (orijinal düzen) | Temiz düzen | GT |
+|---|---|---|---|
+| #19 | `TD = {S, A, B}`, E/F yararsız (3/3, üretim cevabıyla aynı) | `TD = { S, A, B, E, F }`, C ve D yararsız (3/3) | `{S,A,B,E,F}` |
+| #20 | `TU = { S, B, A, F }` (3/3, üretim cevabıyla aynı) | `TU = { S, B }` (3/3) | `{S, B}` |
+**Sonuç: iki soruda da düzen düzeltilince doğru küme çıkıyor** → A1'in kök nedeni "model + bozuk PDF düzeni";
+düzen bozukluğu gerçek bir katkı faktörü (salt model kapasitesi değil). Kontrol, üretim hatasını 3/3 yeniden
+üretti, yani fark tekrar gürültüsü değil.
+Sınırlar: (a) tekrarlar birebir aynı çıktı verdi (model fiilen deterministik) → bağımsız örnek sayısı 2
+soru, n küçük; (b) temizlemeyi elle ben yaptım — sütun sırasının düzeltilmesinden başka biçim sadeleşmesi
+(kuralların satır satır dizilmesi, `TD`/`TU` etiketlerinin ayrı madde imine alınması) de içeriyor, yani
+düzenin HANGİ öğesinin (sütun iç içe geçmesi / alt simge `U` kaybı / satır birleşmesi) etkili olduğu
+ayrıştırılmadı; (c) yalnız #19/#20 test edildi, #28 (OCR) ve A2 için bu test yapılmadı. Düzen sorununun
+üretimde nasıl çözüleceği (PDF çıkarma/chunk'lama tarafı) bu notun kapsamı dışında; madde 22/31 (OCR/metin
+kalitesi) ile ilişkisi olası ama bağlanmadı.
