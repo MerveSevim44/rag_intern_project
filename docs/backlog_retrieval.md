@@ -2954,3 +2954,86 @@ bakıyordu) #45'in kök nedenini açıklayan 2 ayrı boşluk doğrulandı (dosya
 göründüğü için "kayıp sembol" sanıldı, sonra düzeltildi (d4b00ed); sayısal/kod noktası denetimi gerekir. (b) Judge
 skorları bu turda da tutarsız: #83'ün (yığılı döküm) 5'i ve #88'in orijinal 5'i şüpheli (madde 18/21 ile aynı kör nokta).
 (c) Otomatik "değer var mı" taraması işe yaramadı (`experiments/madde_tutarlilik_taramasi/`).
+
+
+---
+
+## Not (2026-11-11) — #62/#69: sayfa-koşullu PUA eşlemesi ölçüldü; ÖRTÜŞME VAR ve kural çalışmıyor — yol tıkalı (src/ DEĞİŞMEDİ)
+
+Soru: E1'de #62/#69'u düzelten eşleme, yalnız Fourier PDF'inin (H8) sayfa 3/5/9 chunk'larına uygulanırsa diğerlerini
+bozmadan üretime alınabilir mi? Yöntem: E1'deki 24 satırın saklanan context'inin hangi chunk'lardan oluştuğu
+(`head_test_3/birlesik.csv`, `Kaynak: ... sayfa N` başlıkları) çıkarıldı; ardından E1'in aynı yöntemiyle (saklanan context,
+aynı `ask()`, tek değişken) eşleme YALNIZ H8 sayfa 3/5/9 chunk'larına uygulanarak örtüşen satırlar yeniden koşuldu:
+[experiments/madde_pua_e1/e2_sayfa_kosullu.py](../experiments/madde_pua_e1/e2_sayfa_kosullu.py), `sonuc_e2.jsonl`,
+`judge_e2_parti*.csv`. `src/` ve `evaluation/` değişmedi.
+
+**Adım 1 — chunk/sayfa örtüşmesi** (F=Fourier H8, Z=Z-dönüşümü H9, D=dilbilgisi PDF'i; "ana chunk" = bağlamdaki ilk chunk):
+
+| Soru | Ana chunk | Diğer (dolgu) chunk'lar | F3/F5/F9 ile örtüşme |
+|---|---|---|---|
+| #61 | F3 | F4, F2, F6 | **VAR (F3)** |
+| #62 | F3 | F4, F5, F6 | **VAR (F3, F5)** |
+| #63 | F7 | F2, F4, F11 | yok |
+| #64 | F3 | F2, F5, F6 | **VAR (F3, F5)** |
+| #66 | F2 | F11, F4, F3 | **VAR (F3)** |
+| #69 | F5 | F9, F2, F11 | **VAR (F5, F9)** |
+| #70 | F6 | F2, F5, F14 | **VAR (F5)** |
+| #71 | F7 | F6, F2, F11 | yok |
+| #72 | F7 | F11, F12, Z11 | yok |
+| #73 | F7 | F4, F6, F3 | **VAR (F3)** |
+| #74 | F8 | F4, F1, F11 | yok |
+| #75 | F8 | F11, F3, F2 | **VAR (F3)** |
+| #76 | F9 | F3, F4, F5 | **VAR (F9, F3, F5)** |
+| #77 | F9 | F5, F6, F4 | **VAR (F9, F5)** |
+| #79 | F3 | F14, F11, JSON | **VAR (F3)** |
+| #80 | F11 | F8, F1, F2 | yok |
+| #81 | F11 | F14, F3, F4 | **VAR (F3)** |
+| #83 | F12 | F13, F9, F6 | **VAR (F9)** |
+| #84 | F13 | F12, F9, F5 | **VAR (F9, F5)** |
+| #85 | F14 | F11, F6, F4 | yok |
+| #86 | F14 | F6, F2, F5 | **VAR (F5)** |
+| #87 | F7 | F12, Z19, D24-25 | yok |
+| #88 | F4 | Z17, F14, F5 | **VAR (F5)** |
+| #89 | F13 | F12, Z17, F6 | yok |
+
+Özet: 24 satırın **16'sı** F3/F5/F9'dan en az bir chunk alıyor; yani kural yalnız #62/#69'u değil, satırların 2/3'ünü etkiler.
+E1'de kötüleşen 5 sorudan **#85, #74, #71'in bağlamında F3/F5/F9 YOK** (kural onlara dokunmazdı); **#61 (ana chunk F3) ve
+#88 (F5) çakışıyor**. (Sayfa numaraları PDF'ler arasında çakışır: H9 "sayfa 11/17/19" ve dilbilgisi "24-25" sayılmadı; kural
+dosya-bazlı olmak zorunda.)
+
+**Adım 2 — sayfa-koşullu eşleme gerçekten ölçüldü** (orijinal = üretim; E1 = tüm chunk'lar eşlenmiş; E2 = yalnız F3/F5/F9):
+
+| Soru | Orijinal F/AR/TP/AL | E1 (tam eşleme) | E2 (sayfa-koşullu) |
+|---|---|---|---|
+| #62 | 1/2/1/5 | 5/5/5/5 | **5/5/5/5** |
+| #69 | 1/3/2/5 | 5/5/5/5 | **5/5/5/5** |
+| #73 | 1/2/1/5 | 2/3/2/5 | **5/5/5/5** |
+| #83 | 2/3/2/5 | 5/5/5/5 (şüpheli) | 2/3/3/5 |
+| #61 | 5/5/5/5 | 3/5/3/5 | 4/5/4/5 (kötüleşti) |
+| #88 | 5/5/5/5 | 2/3/2/5 | 1/3/2/5 (kötüleşti) |
+| #76 | 5/5/5/5 | 5/5/5/5 | **2/5/4/5 (kötüleşti — E1'de sorun yoktu)** |
+| #84 | 5/5/5/5 | — | **3/3/2/5 (kötüleşti)** |
+| #86 | 5/5/5/5 | 5/5/5/5 | **2/3/3/5 (kötüleşti — E1'de sorun yoktu)** |
+| #64, #70, #75, #77, #81 | 5/5/5/5 | (#81: 5/5/5/5) | 5/5/5/5 |
+| #66 | 5/5/5/5 | — | **judge ölçülemedi** (Groq çağrısı iki denemede de bu satırda takıldı; cevap metni değişti) |
+| #79 | 5/4/4/5 | — | cevap metni orijinalle aynı (judge'a girmedi) |
+
+Sonuç: kural #62/#69'u düzeltiyor (ve #73'ü E1'den bile iyi düzeltiyor), AMA örtüşen satırlarda **5 kötüleşme** üretiyor
+(#61, #88, #76, #84, #86; #66 bilinmiyor). E1'in 3 kötüleşmesi (#85/#74/#71) örtüşme olmadığı için kalkıyor, fakat yerine
+E1'de görülmeyen #76/#84/#86 geliyor — **net kazanç yok, regresyon sayısı aynı büyüklükte.**
+
+**(b) Daha dar kural (chunk_id) mümkün mü? Hayır — yol tıkalı.** Çakışma aynı chunk üzerinde: #62'yi düzelten F3 chunk'ı
+(17 PUA) aynı zamanda #61'in ana chunk'ı; #69'u düzelten F5 chunk'ı (104 PUA) #88/#86/#70/#76/#77/#84'te de var. Zarar,
+eşlenen chunk'ın kendisinden geliyor (E2'de başka chunk eşlenmediği hâlde kötüleşme sürdü), yani chunk-bazlı bir allowlist
+aynı chunk'ı bir soruda iyi, ötekinde kötü yapar; ayrımı chunk değil, soru + modelin o metne tepkisi belirliyor.
+Üretimde "bu soru #62 mi" bilinemeyeceği için ince ayar mümkün değil.
+
+**Kısıtlar:** n=15 judge'lı satır, model fiilen deterministik (tekrar bağımsız örnek değil); judge'ın bilinen kör noktaları
+(madde 18/21); #66 judge'sız; E2 yalnız saklanan context'te yerinde ikame (gerçek ingest embedding/BM25'i de değiştirir,
+retrieval etkisi hâlâ ölçülmedi); judge koşusu Groq TPM/takılma yüzünden üç parçada alındı (`parti1/2/3`).
+
+**Adım 3 — tasarım maliyeti (karar sizin):** Bu tek PDF'in sayfa 3/5/9'unu sabit allowlist olarak koda gömmek, kod
+tabanının dataset-agnostik felsefesine (`_build_signed_sum_fewshot`, `_build_currency_rule`, `_build_geo_recipe`: hepsi
+kavram/sütun-imzası bazlı, dosya adı/sayfa numarası hardcode etmez) aykırıdır; üstelik yukarıdaki ölçüm bu yolun zaten
+işe yaramadığını gösteriyor. Öneri değişmedi: #62/#69 "mekanizma teşhis edildi, güvenle devreye alınamıyor" kategorisinde
+kalır; koşullu eşleme bu veriyle kapandı.

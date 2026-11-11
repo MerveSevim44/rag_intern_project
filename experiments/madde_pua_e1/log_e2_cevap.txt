@@ -1,0 +1,23 @@
+[Foundry] Model yüklendi: qwen2.5-7b-instruct-cuda-gpu:4 | execution provider: CUDAExecutionProvider | cihaz: GPU
+[Foundry] Servis adresi: http://127.0.0.1:55508
+[Foundry] Serviste yüklü modeller: ['qwen2.5-7b-instruct-cuda-gpu:4']
+#61 map=['3'] (6.1 sn) -> Sürekli Zamanlı Fourier Dönüşümü'nün ileri yöndeki tanımı X(jω) following integral ile verilir: ∞
+X( jω) = ∫ x(t)e^(-jωt) dt Bu tanım, bağlamda verilen forwar direction denklemi temel alarak elde edil
+#62 map=['3', '5'] (4.5 sn) -> Ters Fourier dönüşümü formülünde 1/2π çarpanı x(t) = 1/2π ∫ X(jω)e^jωt dω'de yer alır. Bu çarpan, sayfa 3'deki ters yönde dönüşüm formülünde yazılır.
+#64 map=['3', '5'] (6.3 sn) -> Analiz işlemi, sinyal x(t)'in spektral bilgilerini çıkarır ve bu bilgiler X(jω) olarak yazılır. Sentez işlemi ise spektral bilgilerden x(t) sinyali oluşturur. Bu işlemler aşağıdaki formüllerle ifade e
+#66 map=['3'] (6.8 sn) -> "Bir x(t) işaretinin Fourier dönüşümünün var olabilmesi için mutlak integrallenebilirlik" koşulu, x(t) işaretinin integralinin mutlak değeri sınırlıdır anlamına gelir. Yani, \[
+\int_{-\infty}^{\infty}
+#69 map=['5', '9'] (6.9 sn) -> rect(t/τ) işaretinin Fourier dönüşümü sinc fonksiyonu ile ifade edilirken duality özelliği kullanılır. Dualite özelliği, rect(t/τ) → τ sinc(ωτ/2) ilişkisini verir ve bunu uygulayarak τ sinc(tτ/2) → 2π
+#70 map=['5'] (17.6 sn) -> cos(ω0t) işaretinin Fourier dönüşümünün π[δ(ω-ω0)+δ(ω+ω0)] biçiminde elde edilmesi için aşağıdaki adımlar izlenmelidir: 1. cos(ω0t) ifadesini kompleks formuna dönüştürülür: cos(ω0t) = (e^jω0t + e^-jω0
+#73 map=['3'] (14.7 sn) -> ∠X(jω) faz açısını hesaplamak için following ifade kullanılır: \(\angle X(j\omega) = -\tan^{-1}\left(\frac{\omega}{\text{Re}\{a\}}\right)\) Bu ifade, \(X(j\omega) = \frac{1}{a+j\omega}\) ifadesinin fa
+#75 map=['3'] (3.7 sn) -> Fourier dönüşümü bir işaretin frekans içeriğini ölçer ancak o zaman içindeki frekansların hangi anlarda gerçekleştiği bilgilere sahip değildir.
+#76 map=['9', '3', '5'] (5.7 sn) -> Duality özelliği, ileri ve ters dönüşümlerin benzerliği sayesinde yeni dönüşüm çiftleri oluşturmak için eski dönüşüm çiftlerini kullanabiliriz. Örneğin, verilen bir dönüşüm çifti rect(t/τ) ↔ τ sinc(ωτ
+#77 map=['9', '5'] (3.3 sn) -> τ sinc(t τ/2) ↔ 2π rect(ω/τ)
+#79 map=['3'] (10.6 sn) -> Bu bilgi dokümanlarda bulunamadı.
+#81 map=['3'] (9.7 sn) -> Zamanda kaydırma özelliği ispatında, u = t - t0 değişken dönüşümü kullanılarak orijinal integral ifadesi aşağıdaki gibi değiştirildi: \[
+\mathcal{F}\{f(t - t_0)\} = \int_{-\infty}^{\infty} f(t - t_0) 
+#83 map=['9'] (11.6 sn) -> 1 1
+Y(ω) = F(ω+ω0) + F(ω-ω0)
+#84 map=['9', '5'] (3.7 sn) -> Demodülasyon, modülasyonun takibinden sonra düşük geçiş filtreleme adımlarından oluşur.
+#86 map=['5'] (12.2 sn) -> cos(ω0t)f(t) işaretinin frekans-kaydırma özelliği kullanılarak elde edilen Fourier dönüşümü F(ω+ω0) + F(ω-ω0) şeklindeki iki terimin toplamı şeklindedir.
+#88 map=['5'] (19.9 sn) -> Ters Fourier dönüşümü tanımı ve sifting özelliği kullanarak F{1}=2πδ(ω) sonuçının elde edilme süreci şu şekilde yapılmıştır: 1) Ters Fourier dönüşüm tanımları kullanılarak: X(ω) = 2πδ(ω) = (1/(2π)) ∫ 
