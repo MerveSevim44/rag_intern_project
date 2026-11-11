@@ -2909,13 +2909,46 @@ kusuru:* #45. (5) *GT sorunu:* #85. (6) *Teşhis edilmedi:* #71.
 sınıfa bağlandı; yeni madde açılmadı. İki satır (#57 → madde 18, #48/#90 → madde 37) önceden bağlıydı.
 
 **Hâlâ açık / eyleme dönük olanlar (öncelik verilmedi):**
-1. **#45 — kod kusuru:** üretilen kodun, sorunun adını verdiği ve şemada var olan sütunu kullanmasını kontrol eden bir
-   doğrulama; tek vakaya dayanıyor, kapsam ölçülmeli.
+1. ~~**#45 — kod kusuru**~~ **DÜZELTİLDİ** (bkz. aşağıdaki "#45 düzeltmesi" notu).
 2. **#85 — GT düzeltmesi:** `test_3.json` #85 referansı slayt 14'le çelişiyor (slayt `2π F(ω−ω0)`; standart matematik `F(ω−ω0)`);
    GT'yi slayta göre mi, standarda göre mi tutacağımız ayrı karar. Ayrıca #74'ün nedensellik gerekçesi slaytta yok.
 3. **#71 sızıntısı:** teşhis edilmedi, yalnız E1 eşlemeli koşulunda 1/24 koşuda görüldü; üretimde (147 cevap) 0.
 4. **Otomatik düzen düzeltmesi (A1, #73, #83):** denenmedi; A1'de yalnız elle temizleme kanıtı var.
 5. **#62/#69 için koşullu PUA eşlemesi:** nokta-düzeltmenin regresyonsuz uygulanıp uygulanamayacağı denenmedi.
+
+---
+
+### #45 düzeltmesi: kod-üretim promptuna kural + doğrulayıcıya şema farkındalığı (A+B)
+
+Teşhis: `src/code_interpreter.py`'deki kod-üretim promptunda ("hazır sütun varken kendi türetme mantığını yazma" kuralı
+yoktu) ve doğrulayıcıda (`_semantic_check`, df/şema hiç geçmiyordu, 4 kontrol maddesi yalnızca "mantık" tutarlılığına
+bakıyordu) #45'in kök nedenini açıklayan 2 ayrı boşluk doğrulandı (dosya/satır: `code_interpreter.py:167-191`
+`UNIVERSAL_CODE_RULES`, `:733-783` `_semantic_check`). Düzeltme olarak 2 değişiklik yapıldı:
+
+- **A:** `UNIVERSAL_CODE_RULES`'a satır eklendi: "İstenen değer şemada ZATEN bir sütun olarak mevcutsa ..., kendi
+  türetme mantığını yazma, doğrudan o sütunu oku."
+- **B:** `_semantic_check`'e `df` parametresi eklendi (çağıran: `code_interpreter_with_retry`), prompt'a şema sütun
+  listesi ve 5. kontrol maddesi eklendi ("sonuçtaki anahtar adı şemadaki bir sütuna karşılık geliyorsa VE kod o
+  sütunu hiç okumamışsa SORUN say").
+
+**Regresyon sonucu (commit ÖNCESİ ölçüldü):**
+- **#45 end-to-end 3/3 düzeldi:** yeni kod artık `slug = example_profile['slug']` ile şemadaki sütunu doğrudan okuyor
+  ve doğru GT değerini (`ozge-tas-zd5hgksc`) üretiyor — kök neden A'nın kod-üretim kuralıyla çözüldü (B'nin ayrıca
+  tetiklenmesine gerek kalmadan, çünkü üretilen kod artık eski hatalı deseni hiç içermiyor).
+- **B'nin kendi başına gücü sınırlı bulundu:** #45'in ESKİ (loglanmış) hatalı kodu izole olarak yeni `_semantic_check`'e
+  5 kez beslendiğinde 5/5 "TAMAM" (itiraz YOK) döndü — yani B, onaylanan haliyle, bu adversaryal deseni kendi başına
+  yakalayamıyor; pratikte sorun olmuyor çünkü A o deseni zaten üretilmeden önlüyor. Daha agresif bir chain-of-thought
+  varyantı denendi (kodun okuduğu sütunları adım adım çıkarıp karşılaştırma) — #45'i bazen yakaladı ama STABIL değildi
+  ve 20 bilinen-doğru vakadan 3'ünde (#35, #44, #108) yeni false-positive ürettiği için TERK EDİLDİ, koda alınmadı.
+- **Sıfır false-positive (gerçek kod_interpreter sorularında):** code_interpreter rotasına giden TÜM mevcut 23 soru
+  (test_2: 32,35,37,39,42,43,44,45,51,52,53,57,60; test_5: 107,108,109; test_negative: 211,212,218,225,228,231,232)
+  yeni kod/promptla yeniden çalıştırıldı (gerçek LLM, Foundry Local). 20/23'ü `dogrulama_durumu` eskiyle aynı kaldı
+  (ok→ok veya not_run→not_run); 1'i iyileşti (#60: not_run→ok, daha az deneme gerekti); 2'si (`#43`, `#231`) yerel
+  Ollama servisi kapalı olduğu için embedding fallback'inde HATA verdi — A/B değişikliğiyle ilgisiz, ortam sorunu,
+  gerçek `dogrulama_durumu` ölçülemedi. Hiçbir soruda ok→objection dönüşü (gerçek false-positive) YOK.
+- Yöntem notu: izole doğrulayıcı testi (B tek değişken) loglardaki gerçek (soru, kod, sonuç) üçlüleriyle yapıldı
+  (madde 18/E1 ile aynı mantık); tam-hat (A+B birlikte) testi gerçek kod üretimiyle tekrar koşuldu. İkisi birlikte
+  A'nın kök nedeni çözdüğünü, B'nin zararsız ama şu an bağımsız olarak etkisiz bir savunma katmanı olduğunu gösteriyor.
 
 **Metodoloji notları (bu turdan):** (a) bozukluk "gözle" tespiti yanıltıcı olabiliyor — PUA karakterleri terminalde boş
 göründüğü için "kayıp sembol" sanıldı, sonra düzeltildi (d4b00ed); sayısal/kod noktası denetimi gerekir. (b) Judge

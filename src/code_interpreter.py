@@ -188,6 +188,8 @@ UNIVERSAL_CODE_RULES = """
   değeri AYNI satırdan al (df.loc[idx]) ki eşleşme kaymasın.
 - Bir varlığı ararken kod/kısaltma kolonunu tercih et; eşleşme boş çıkarsa .iloc[0]
   IndexError verir — önce eşleşmenin boş olmadığından emin ol.
+- İstenen değer şemada ZATEN bir sütun olarak mevcutsa (şema listesinde veya örnek
+  satırlarda görünüyorsa), kendi türetme mantığını yazma, doğrudan o sütunu oku.
 """
 
 
@@ -658,7 +660,7 @@ def code_interpreter_with_retry(
         validation_error = None
         if self_check and attempt < max_retries:
             check_meta: Dict[str, Any] = {}
-            issue = _semantic_check(question, code, exec_result, llm, verbose=verbose,
+            issue = _semantic_check(question, code, exec_result, llm, df=df, verbose=verbose,
                                     info=check_meta)
             if check_meta.get("error"):
                 validation_status = "failed"
@@ -731,6 +733,7 @@ def code_interpreter_with_retry(
 
 
 def _semantic_check(question: str, code: str, result: Any, llm: Any,
+                    df: Optional[pd.DataFrame] = None,
                     verbose: bool = True,
                     info: Optional[Dict[str, Any]] = None) -> Optional[str]:
     """
@@ -743,16 +746,25 @@ def _semantic_check(question: str, code: str, result: Any, llm: Any,
     `info` verilirse (safe_execute'taki gibi) LLM cagrisi patladiginda
     info["error"] doldurulur. Donus yine None'dir; cagiran taraf "itiraz yok"
     ile "denetlenemedi"yi bu alandan ayirt eder.
+
+    `df` verilirse sema sutun listesi 5. kontrol maddesinde kullanilir (backlog
+    #45: sema'da hazir duran bir sutun varken kodun kendi turetme mantigini
+    yazip kendini dogrulamasi -- onceki 4 madde bunu hic yakalayamiyordu
+    cunku df/sema bu fonksiyona gitmiyordu).
     """
     preview = str(result)
     if len(preview) > 1200:
         preview = preview[:1200] + " ..."
 
+    schema_note = ""
+    if df is not None:
+        schema_note = f"\nSemadaki Sutunlar: {list(df.columns)}\n"
+
     prompt = f"""Bir veri analisti asagidaki soruyu pandas kodu ile cevapladi. Kod hatasiz calisti.
 Gorevin SADECE mantik denetimi yapmak.
 
 Soru: {question}
-
+{schema_note}
 Kod:
 {code}
 
@@ -763,6 +775,11 @@ Sunlari kontrol et:
 2. Uc deger etiketleri dogru yonde mi (en buyuk -> idxmax, en kucuk -> idxmin)?
 3. Sonuc, sorunun istedigi TUM bilgileri iceriyor mu?
 4. Kullanilan formul soruda istenen formul mu?
+5. Sonuctaki deger(ler)in anahtar adi/kavrami semada BIREBIR veya COK YAKIN bir
+   sutun adina karsilik geliyorsa VE kod o sutunu HIC okumamissa (kendi turetme
+   mantigini yazmissa), SORUN say. Yalnizca bu durumda; isim benzerligi yuzeysel
+   ama kavramsal olarak FARKLI bir hesaplama isteniyorsa (ayni ad, farkli anlam)
+   TAMAM say.
 
 Kod soruyu dogru cevapliyorsa SADECE "TAMAM" yaz.
 Somut ve kesin bir hata varsa "SORUN: <tek cumle>" yaz. Emin degilsen "TAMAM" yaz.
