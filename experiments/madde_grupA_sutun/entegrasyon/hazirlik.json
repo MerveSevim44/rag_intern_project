@@ -1,0 +1,39 @@
+{
+ "rag_db_ozet": "757e97059abb",
+ "bos_ram_gb": 5.44,
+ "pdf": {
+  "8-Baglamdan_bagimsiz_dilbilgisi.pdf": {
+   "rag_db_chunk": 26,
+   "yeniden_ingest_chunk": 26,
+   "rag_db_HEAD_ingest_ile_tutarli": true,
+   "metni_degisen_chunk_sayfalari": [
+    "sayfa 13",
+    "sayfa 20",
+    "sayfa 21"
+   ],
+   "metni_ayni_chunklarin_embedding_kosinus_min": 1.0
+  },
+  "lsarSist-H8_FourierTransform.pdf": {
+   "rag_db_chunk": 14,
+   "yeniden_ingest_chunk": 14,
+   "rag_db_HEAD_ingest_ile_tutarli": true,
+   "metni_degisen_chunk_sayfalari": [],
+   "metni_ayni_chunklarin_embedding_kosinus_min": 1.0
+  },
+  "lsarSist-H9_ZTransform.pdf": {
+   "rag_db_chunk": 19,
+   "yeniden_ingest_chunk": 19,
+   "rag_db_HEAD_ingest_ile_tutarli": true,
+   "metni_degisen_chunk_sayfalari": [],
+   "metni_ayni_chunklarin_embedding_kosinus_min": 1.0
+  }
+ },
+ "tedavi_db_cfg_chunk": 26,
+ "tedavi_db_ozet": "2eb2d68359e5",
+ "tedavi_vs_uretim_CFG_degisen_sayfalar": [
+  "sayfa 13",
+  "sayfa 20",
+  "sayfa 21"
+ ],
+ "tedavi_CFG_disi_satirlar_birebir_ayni": true
+}

@@ -1,0 +1,103 @@
+Model yükleniyor...
+[Foundry] Model yüklendi: qwen2.5-7b-instruct-cuda-gpu:4 | execution provider: CUDAExecutionProvider | cihaz: GPU
+[Foundry] Servis adresi: http://127.0.0.1:49375
+[Foundry] Serviste yüklü modeller: ['qwen2.5-7b-instruct-cuda-gpu:4']
+Model hazır.
+
+Soru seti: C:\Users\merve\Desktop\rag_project\evaluation\datasets\test_1.csv
+[1] Soruluyor: G4.1 dilbilgisinde VT kümesinin elemanları nelerdir?
+[retrieval] Cache yuklendi: 898 chunk, embedding matrisi (898, 1024)
+    → 80.64 sn
+
+[2] Soruluyor: Bağlamdan bağımsız dilbilgisinde P harfi neyi temsil eder?
+    → 31.16 sn
+
+[3] Soruluyor: Başlangıç değişkeni hangi sembolle gösterilir ve hangi kümenin elemanıdır?
+    → 20.65 sn
+
+[4] Soruluyor: VN ve VT kümeleri arasındaki ilişki nedir (ayrık mıdır kesişir mi)?
+    → 28.84 sn
+
+[5] Soruluyor: Bir türetme ağacının kökünün etiketi ne olmalıdır?
+    → 24.23 sn
+
+[6] Soruluyor: G4.2 dilbilgisinin uç simgeler (VT) kümesi nelerdir?
+    → 26.89 sn
+
+[7] Soruluyor: G4.1 dilbilgisinde S=>S*S=>S*(S)=>S*(S-S)=>v*(S-S)=>v*(v-S)=>v*(v-c) türetmesi sonunda hangi tümce elde edilmiştir?
+[llm_client] Yabanci alfabe parcasi temizlendi (48 -> 44 karakter)
+    → 28.03 sn
+
+[8] Soruluyor: L(G4.2) dili nasıl tanımlanmıştır; n, m, p, k parametreleri arasındaki koşullar nelerdir?
+[llm_client] Yabanci alfabe parcasi temizlendi (98 -> 83 karakter)
+    → 26.73 sn
+
+[9] Soruluyor: G4.3 dilbilgisi tarafından türetilen L(G4.3) dilinin küme tanımını yazınız.
+    → 26.3 sn
+
+[10] Soruluyor: Soldan türetme ile sağdan türetme arasındaki temel fark nedir?
+    → 27.29 sn
+
+[11] Soruluyor: Bir dilin belirgin (unambiguous) olması ne anlama gelir?
+    → 29.12 sn
+
+[12] Soruluyor: Belirgin olmayan (ambiguous) dillerin uygulamada neden değeri olmadığı belirtilmiştir?
+    → 30.5 sn
+
+[13] Soruluyor: Türetme ağacında bir düğümün etiketi λ ise bu düğümle ilgili hangi koşullar sağlanmalıdır?
+    → 24.45 sn
+
+[14] Soruluyor: Bir A değişkeninin yararlı (useful) bir değişken olabilmesi için sağlaması gereken iki koşul nedir?
+    → 26.23 sn
+
+[15] Soruluyor: Yararsız simge (useless symbol) kavramı nasıl tanımlanmıştır?
+    → 21.9 sn
+
+[16] Soruluyor: Yararsız kural (useless rule) ne demektir?
+    → 18.46 sn
+
+[17] Soruluyor: Algoritma 4.5 hangi amaçla kullanılır ve sonucunda hangi küme elde edilir?
+    → 24.88 sn
+
+[18] Soruluyor: Algoritma 4.6 hangi amaçla kullanılır ve sonucunda hangi küme elde edilir?
+    → 18.96 sn
+
+[19] Soruluyor: G4.7 dilbilgisinde uç simge dizgisi türeten değişkenler kümesi (TD) nedir ve hangi değişkenler yararsız bulunur?
+    → 21.74 sn
+
+[20] Soruluyor: G'4.7 dilbilgisinde başlangıç değişkeninden ulaşılabilen değişkenler kümesi (TU) nedir?
+    → 17.98 sn
+
+[21] Soruluyor: G4.7'nin yalınlaştırılmış son hali olan G''4.7 dilbilgisinin kuralları nelerdir?
+    → 20.87 sn
+
+[22] Soruluyor: Dilbilgisinin yalınlaştırılması (yararsız öğelerin atılması) kaç adımda gerçekleştirilir ve bu adımlarda ne yapılır?
+    → 26.18 sn
+
+[23] Soruluyor: w1=(v+c)*(v-c) tümcesinin soldan türetilmesindeki ilk üç adımı yazınız.
+    → 26.74 sn
+
+[24] Soruluyor: G_S.4.2 dilbilgisinde L_S.4.2 dilinin küme tanımı nedir?
+    → 22.41 sn
+
+[25] Soruluyor: Örnek 6'daki G_S.4.6.1 dilbilgisinin türettiği dilin (L_S.4.6.1) küme tanımı nedir?
+    → 17.08 sn
+
+[26] Soruluyor: Örnek 5'teki G_4.5.1 dilbilgisinin kuralları, L_4.5.1={a^2k b^n c^2n d^k | k≥1, n≥1} dilini nasıl üretir?
+    → 26.38 sn
+
+[27] Soruluyor: G4.4 dilbilgisi tarafından türetilen L(G4.4) dili uv(v')^R u^R biçiminde tanımlanmıştır; u ve v üzerindeki kısıtlar nelerdir ve bu gösterim ne anlama gelir?
+    → 26.89 sn
+
+[28] Soruluyor: G_S.4.7.2 dilbilgisi L_S.4.7.2={a^n b^m c^k | n>0, m>0, k=2n+m} dilini nasıl üretir; S=>aAcc kuralının bu eşitlikteki rolü nedir?
+    → 25.16 sn
+
+[29] Soruluyor: Örnek 8'deki G_S.4.8.1 dilbilgisinin türettiği L_S.4.8.1 dilinde üs olarak neden 2k+1 kullanılmıştır; B=>bbBdd|C kuralı bunu nasıl sağlar?
+    → 26.16 sn
+
+[30] Soruluyor: G4.3 dilbilgisinde X=>aXbb|aZbb|abb ve Z=>Zb|Xb kuralları birlikte çalışarak L(G4.3)={a^n b^m c^k | n≥1, k≥1, m≥2n} koşulunu nasıl sağlar?
+    → 29.76 sn
+
+
+Tamamlandı. 30 soru test edildi.
+Sonuçlar: C:\Users\merve\Desktop\rag_project\experiments\madde_grupA_sutun\entegrasyon\kontrol\sonuclari.csv
