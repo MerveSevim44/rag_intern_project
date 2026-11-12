@@ -2892,8 +2892,8 @@ Retrieval hatası hiçbir satırda kök neden çıkmadı (cevabı taşıyan sayf
 | #28, #30 (A2) | Model kapasitesi (kurallardan dil/ilişki türetme) | **Kabul edilmiş sınırlama** |
 | #87 (C2), #74 (C3) | Model kapasitesi (#74'te ayrıca GT slaytı aşıyor) | **Kabul edilmiş sınırlama** |
 | #41, #47 (B) | Net bağlama rağmen yanlış çıkarım (ham chunk → `ask()`, madde 38 zincirinden AYRI) | **Kabul edilmiş sınırlama**; mekanizma (prompt çıkarım dalı mı, kapasite mi) teşhis edilmedi |
-| #19, #20 (A1) | Bağlam metin düzeni (sütun iç içe geçmesi); elle temizlemeyle 3/3 düzeldi (n=2) | **"Otomatik çözüm denenmedi"** kategorisi: otomatik düzen düzeltmesi (ör. sütun-farkında okuma) DENENMEDİ — açık soru |
-| #73, #83 (C1, PUA yetersiz + düzen karışık) | PUA kodlu semboller + yığılı kesir düzeni. E1'de #73 hâlâ yanlış (`ω+` bağlamda okunur olduğu hâlde düşüyor), #83'ün iyileşmesi şüpheli (yığılı döküm, judge 5'i tartışmalı) | **A1 ile aynı "otomatik çözüm denenmedi" kategorisi:** PUA eşlemesi tek başına yetmiyor, düzen de karışmış; düzen ayağı denenmedi |
+| #19, #20 (A1) | Bağlam metin düzeni (sütun iç içe geçmesi); elle temizlemeyle 3/3 düzeldi (n=2) | **DENENDİ, #19/#20'de İŞE YARADI (2026-11-12), UYGULANMADI:** metin-katmanı char bbox'ına uyarlanmış sütun bölme + 4 kapı, `_page_text_with_subscripts` çıktısını otomatik düzeltiyor; #19 ve #20 3/3 doğru küme (GT). Kapısız hâli yanlış-pozitif üretiyor; entegrasyon kararı/tasarımı yukarıdan sonraki nota bkz. (`experiments/madde_grupA_sutun/`) |
+| #73, #83 (C1, PUA yetersiz + düzen karışık) | PUA kodlu semboller + yığılı kesir düzeni. E1'de #73 hâlâ yanlış (`ω+` bağlamda okunur olduğu hâlde düşüyor), #83'ün iyileşmesi şüpheli (yığılı döküm, judge 5'i tartışmalı) | **"Otomatik çözüm denenmedi" kategorisi (A1'den AYRILDI, 2026-11-12):** PUA eşlemesi tek başına yetmiyor, düzen de karışmış; düzen ayağı denenmedi. A1'in sütun-bölme denemesi bu sayfaları BİLEREK dışarıda bırakıyor (PUA kapısı) — #73/#83 için çözüm değil |
 | **#62, #69 (C1, mekanizma teşhis edildi, nokta-düzeltme işe yarıyor)** | PUA kodlu semboller. E1'de eşleme bu iki soruyu düzeltti (judge 1/2/1/5 → 5/5/5/5 ve 1/3/2/5 → 5/5/5/5) → mekanizma doğrulandı | **KABUL EDİLMİŞ SINIRLAMA (2026-11-11 güncellemesi).** Nokta-düzeltme mekanizması doğrulandı, ama güvenle devreye alınamıyor: genel eşleme (E1) 5 regresyon yarattı (#85, #74, #71, #61, #88), sayfa-koşullu eşleme (E2) de 5 farklı regresyon yarattı (#61, #88, #76, #84, #86; #66 ölçülemedi) — aynı chunk bir soruda iyi, ötekinde kötü, chunk-bazlı allowlist ile ayrılamıyor ve sayfa allowlist'i dataset-agnostik felsefeye aykırı. **"Olası ileri adım: koşullu uygulama" denendi, işe yaramadı** (bkz. 2026-11-11 notu). Ayrıca gerçek ingest uygulaması re-ingest + tam benchmark ister, retrieval etkisi hâlâ ölçülmedi |
 | #89 | Bilginin kendisi bir şekilde (sayfa 13: ±ω0 bantları); metin katmanında yalnız etiket parçaları | Çıkarıcı sınırı (metin çıkarımıyla çözülmez); kabul edilmiş sınırlama |
 | **#45** | **Kod-üretim + doğrulayıcı boşluğu:** şemada `slug` sütunu varken kod onu okumuyor, kendi türetmesini yazıp kendini doğruluyor; doğrulayıcı "doğru kaynak sütunun kullanılıp kullanılmadığını" kontrol etmiyor (madde 18'den FARKLI mekanizma, benzer semptom) | **DÜZELTİLDİ** (commit `69674ae`; bkz. aşağıdaki "#45 düzeltmesi" ve "Judge doğrulaması" notları — tek vaka üzerinde doğrulandı, genelleşme ölçülmedi) |
@@ -2902,7 +2902,7 @@ Retrieval hatası hiçbir satırda kök neden çıkmadı (cevabı taşıyan sayf
 | #82 | Bu koşuda cevap chunk'ı bağlamda yok (ret) | Madde 32-34 kapsamında, bu incelemenin dışında |
 
 **Kategoriler:** (1) *Bilinen düzeltme yolu yok, kabul edilmiş sınırlama:* A2, C2, C3, #41/#47, #89. (2) *Mekanizma teşhis edildi, nokta-düzeltme
-işe yarıyor ama genel VE sayfa-koşullu uygulama regresyon yaratıyor → kabul edilmiş sınırlama (2026-11-11):* #62, #69. (3) *Otomatik çözüm denenmedi:* A1 (#19/#20), #73, #83. (4) ~~*Düzeltilebilir kod
+işe yarıyor ama genel VE sayfa-koşullu uygulama regresyon yaratıyor → kabul edilmiş sınırlama (2026-11-11):* #62, #69. (3) *Otomatik çözüm denenmedi:* #73, #83 (düzen ayağı); A1 (#19/#20) → denendi, işe yaradı (2026-11-12), uygulama kararı bekliyor. (4) ~~*Düzeltilebilir kod
 kusuru:* #45~~ → düzeltildi (`69674ae`). (5) *GT sorunu:* #85. (6) *Teşhis edilmedi:* #71.
 
 **Önceki "13/15 teşhis edilmedi" notunun güncel hâli:** A (4), B (3), C (5) + #83/#85/#89 satırlarının hepsi artık bir
@@ -2913,7 +2913,7 @@ sınıfa bağlandı; yeni madde açılmadı. İki satır (#57 → madde 18, #48/
 2. **#85 — GT düzeltmesi:** `test_3.json` #85 referansı slayt 14'le çelişiyor (slayt `2π F(ω−ω0)`; standart matematik `F(ω−ω0)`);
    GT'yi slayta göre mi, standarda göre mi tutacağımız ayrı karar. Ayrıca #74'ün nedensellik gerekçesi slaytta yok.
 3. **#71 sızıntısı:** teşhis edilmedi, yalnız E1 eşlemeli koşulunda 1/24 koşuda görüldü; üretimde (147 cevap) 0.
-4. **Otomatik düzen düzeltmesi (A1, #73, #83):** denenmedi; A1'de yalnız elle temizleme kanıtı var.
+4. **Otomatik düzen düzeltmesi:** A1 (#19/#20) için **denendi, işe yaradı, uygulama kararı bekliyor** (2026-11-12 notu); #73/#83'ün düzen ayağı (PUA'lı Fourier sayfaları) hâlâ denenmedi.
 5. ~~**#62/#69 için koşullu PUA eşlemesi**~~ **DENENDİ, işe yaramadı → kabul edilmiş sınırlama** (2026-11-11 E2 notu; listeden çıktı).
 
 ---
@@ -3059,3 +3059,62 @@ tabanının dataset-agnostik felsefesine (`_build_signed_sum_fewshot`, `_build_c
 kavram/sütun-imzası bazlı, dosya adı/sayfa numarası hardcode etmez) aykırıdır; üstelik yukarıdaki ölçüm bu yolun zaten
 işe yaramadığını gösteriyor. Öneri değişmedi: #62/#69 "mekanizma teşhis edildi, güvenle devreye alınamıyor" kategorisinde
 kalır; koşullu eşleme bu veriyle kapandı.
+
+---
+
+## Not (2026-11-12) — A1 (#19/#20): otomatik sütun-farkında metin çıkarma DENENDİ, #19/#20'de işe yaradı; uygulama kararı bekliyor (src/ DEĞİŞMEDİ)
+
+Soru: `ingest._order_ocr_lines`'ın (iki-sütun bölme) mantığı, OCR'a girmeyen metin-katmanlı sayfalara uyarlanırsa A1'in
+düzen bozukluğu (#19/#20) otomatik düzelir mi? Deney kodu: [experiments/madde_grupA_sutun/](../experiments/madde_grupA_sutun/)
+(`sutun_bol.py`, `degerlendir.py`, `otomatik_test.py`, `sonuc.jsonl`); `src/` ve `evaluation/` değişmedi.
+
+**Adım 1 — doğrulama:** `8-Baglamdan_bagimsiz_dilbilgisi.pdf` sayfa 18/19/20/21'de resim nesnesi YOK, metin katmanı dolu →
+`was_ocrd=False`, yani `_order_ocr_lines` yolundan geçmiyorlar (`ingest.py:361-373`: OCR yalnız metin <50 krk + resim varsa).
+#19'un sayfa 20'si ve #20'nin sayfa 21'i gerçekten iki sütunlu: `_order_ocr_lines`'ın split aramasıyla (30-70%) p20'de %34'te
+1 kesen, p21'de %37'de 0 kesen satır (sol: dilbilgisi kuralları; sağ: açıklama maddeleri). Mevcut ingest çıktısında iki sütun
+satır satır iç içe geçiyor (p20: `G4.7=<...> • (G4.7)'ye eşdeğer; yararsız` gibi).
+
+**Adım 2 — uyarlama ve ölçüm.** `_order_ocr_lines`'ın düz uyarlaması işlemedi: OCR kutusu tek parça olduğu için `x0<x<x1`
+kesişimi yetiyordu; metin katmanında tam genişlikli bir satır çok sayıda küçük char'dır. Bu yüzden karar SATIR düzeyine
+(char'ların `top` kümesi) taşındı: bir satırın her iki yanında char var ve aradaki boşluk <12 pt ise "kesen/tam genişlikli".
+Alt-indis yapıştırması aynen korundu (`_page_text_with_subscripts`'in pdfplumber'a verdiği char listesi yakalanıp bölündü).
+- **#19/#20 sayfaları:** elle temizlenmiş referansa token-sırası benzerliği p20: 0.587 → **0.923**, p21: 0.659 → **0.792**
+  (p21'de sol sütun [G'4.7 + G"4.7] önce, sağ madde işaretleri sonra çıkıyor; elle temiz referans mantıksal sıraya göre araya
+  serpiştirmişti — görsel sütun sırası meşru, birebir aynı değil).
+- **LLM testi (A1 düzen testiyle aynı yöntem: aynı model, aynı `ask()`, 3 tekrar, ELLE TEMİZLEME YOK):** otomatik çıkarılan
+  p20/p21 metniyle **#19 → `TD = { S, A, B, E, F }`, C ve D yararsız (3/3 = GT)**, **#20 → `TU = { S, B }` (3/3 = GT)**; kontrol
+  (orijinal ingest metni) üretim hatasını yine 3/3 yeniden üretti (`TD = {S, A, B}` / `TU = { S, B, A, F }`). Yani otomatik
+  çıkarma, elle temizlemeyle aynı sonucu veriyor.
+- **Tek sütunlu ve diğer sayfalar (yanlış-pozitif taraması) — KAPISIZ ham uyarlama GÜVENLİ DEĞİL:** CFG PDF'inin 31 sayfasından 8'i
+  tetiklendi, içerik kaybı/çoğalması yok ama: **sayfa 11 gerçek tek sütunlu paragraf, yanlışlıkla %55'ten bölündü ve cümleler
+  parçalandı** (`değişkene bir türetme / her adımda en soldaki…`); sayfa 16 (kesen satır oranı 0.56) benzeri; sayfa 8/12/14
+  türetme-ağacı çizimleri (59-83 resim nesnesi), etiketler karıştı ve p12'de başlık ilk satırdan çıktı. Fourier/Z PDF'lerinde
+  29/33 sayfa tetiklendi.
+- **Dört kapı eklendi** (`kapili_metin`): (1) geçerli sütun (her yanda ≥3 satır, ≥2 yan yana satır), (2) kesen satır oranı ≤0,10
+  (p11=0,46, p16=0,56 elenir), (3) sayfada resim nesnesi yok (p8/12/14 elenir), (4) sayfada PUA (U+F0xx, Symbol-font) karakteri
+  yok. (4) olmadan Fourier/Z'de dört formül sayfası hâlâ geçiyordu (H8 s5/s9, H9 s5/s12) ve orada bölme madde imini formülünden
+  koparıyordu (ör. H8 s9: `• Example:` ile `rect(t/τ) ↔ …` ayrı düştü). **Son kural sonucu:** CFG PDF'inde YALNIZ sayfa 13, 20, 21
+  değişiyor (üçü de gerçek iki sütun; p13: a/b türetmeleri artık ayrı ayrı okunuyor), Fourier (14) ve Z (19) PDF'lerinde HİÇBİR
+  sayfa değişmiyor; üç PDF'te de karakter çoklu-kümesi aynı (içerik kaybı/çoğalması YOK).
+
+**Adım 3 — tasarım önerisi (uygulanmadı; karar sizin):**
+- **Nereye:** `_page_text_with_subscripts` içinde, alt-indis yapıştırmasından sonra, son `pdfplumber_extract_text(chars)` çağrısı
+  yerine `_split_columns(chars, page)`. **Her sayfada çalışır, ama ucuz kapılar önce:** resim nesnesi/PUA var mı (O(char)),
+  sonra satır kümeleme + split arama (30-70% × satır sayısı; ihmal edilebilir maliyet). Kapılardan biri reddederse mevcut
+  davranış birebir kalır (doğrulandı: 3 PDF'te değişmeyen sayfalar metin olarak ÖZDEŞ). Kapılar sayfa numarası/dosya adı değil,
+  sayfa imzası (resim, PUA, kesen oran) bazlı → dataset-agnostik felsefeyle uyumlu.
+- **OCR yoluyla ilişki:** mantık aynı (dikey split + sol/sağ), girdi tipi farklı (satır kümesi vs OCR kutusu). İki fonksiyonu
+  birleştirmeye değmez; OCR yoluna aynı "kesen oran" kapısını eklemek ayrı bir iş (OCR sayfalarında yanlış-pozitif ölçülmedi).
+- **Maliyet:** gerçek uygulama re-ingest ister (`rag.db` git'te izlenmiyor — madde 33 açık riski); değişen yalnız 3 sayfa
+  (p13/20/21) ama bunların chunk'ları/embedding'i/BM25'i değişir → test_1 (ve bu sayfaları bağlam olarak alan diğer setler) için
+  tam benchmark gerekir. Retrieval etkisi ÖLÇÜLMEDİ.
+
+**Kısıtlar / dürüst notlar:** (a) n=2 soru, model fiilen deterministik (tekrarlar bağımsız örnek değil); (b) eşikler (0,10; 12 pt;
+≥3/≥2 satır) ve PUA kapısı bu üç PDF'e bakılarak seçildi — başka korpusta yeniden doğrulanmalı (aşırı uyum riski); (c) PUA kapısı,
+Symbol-font'lu formül sayfalarında sütun düzeltmesini bilerek kapatıyor → bu çözüm #73/#83 gibi PUA'lı Fourier sayfalarının
+düzen sorununa ÇÖZÜM DEĞİL; (d) p13'te başlık satırının taşan kelimesi (`türetme`) sütunun arkasına kayıyor (küçük, kayıpsız);
+(e) p20'deki alt-indis ayrışması (`V ={a, b}` / `T` ayrı satır) ve dar sütunda satır kaydırmaları (`|BS`) bu çözümle DÜZELMİYOR
+(mevcut, ayrı kusur); (f) 3+ sütun / tablo sayfaları test edilmedi (korpusta yok); (g) A2 (#28/#30) bu testin kapsamı dışında.
+
+**Durum güncellemesi:** A1 "otomatik çözüm denenmedi" → **"denendi, #19/#20'de işe yaradı (n=2), kapılı hâliyle bu korpusta
+yan etkisiz; uygulama kararı + re-ingest/benchmark maliyeti bekliyor"**.
