@@ -13,7 +13,7 @@ except ImportError:
     from embedder import get_embeddings, EMBED_MODEL, EMBED_NUM_GPU
 # pyrefly: ignore [missing-import]
 import pdfplumber
-from pdfplumber.utils import extract_text as pdfplumber_extract_text
+from pdfplumber.utils import cluster_objects, extract_text as pdfplumber_extract_text
 import docx
 
 ROOT_DIR = Path(__file__).resolve().parent.parent
@@ -170,6 +170,83 @@ def extract_chunks_from_txt(file_path: Path, min_chars: int = TXT_MERGE_MIN_CHAR
         content = f.read()
     return _merge_txt_paragraphs(_txt_paragraphs(content), min_chars)
 
+# Two-column text-layer pages (backlog A1, test_1 #19/#20): pdfplumber merges
+# the columns line by line. A split is applied only when ALL gates pass.
+COLUMN_GAP = 12.0                # pt of whitespace that separates two columns
+COLUMN_MIN_SIDE_ROWS = 3         # rows needed on each side of the split
+COLUMN_MIN_SIDE_BY_SIDE = 2      # rows that really sit side by side
+COLUMN_MAX_CROSSING_RATIO = 0.10 # full-width rows / all rows
+
+
+def _column_row_state(row, x) -> str:
+    """'cross' | 'left' | 'right' | 'both' (two columns side by side) | 'empty'."""
+    glyphs = [c for c in row if c["text"].strip()]
+    if not glyphs:
+        return "empty"
+    if any(c["x0"] < x < c["x1"] for c in glyphs):
+        return "cross"
+    left = [c for c in glyphs if c["x1"] <= x]
+    right = [c for c in glyphs if c["x0"] >= x]
+    if left and right:
+        gap = min(c["x0"] for c in right) - max(c["x1"] for c in left)
+        return "both" if gap >= COLUMN_GAP else "cross"
+    return "left" if left else "right"
+
+
+def _find_column_split(rows, width):
+    """Vertical split (30-70% of the width) crossing the fewest rows, or None."""
+    candidates = {}
+    for pct in range(30, 71):
+        states = [_column_row_state(r, width * pct / 100) for r in rows]
+        both = states.count("both")
+        if (states.count("left") + both >= COLUMN_MIN_SIDE_ROWS
+                and states.count("right") + both >= COLUMN_MIN_SIDE_ROWS
+                and both >= COLUMN_MIN_SIDE_BY_SIDE):
+            candidates[pct] = states.count("cross")
+    if not candidates:
+        return None
+    fewest = min(candidates.values())
+    best = sorted(p for p, v in candidates.items() if v == fewest)
+    return width * best[len(best) // 2] / 100, fewest
+
+
+def _columns_text(chars, page) -> str:
+    """
+    Reading-order text for a page whose (subscript-fixed) chars may form two
+    columns: left column before right, full-width rows act as section breaks.
+    Falls back to the plain pdfplumber text unless every gate passes: no image
+    objects (figures/diagrams), no Symbol-font PUA glyphs (formula slides),
+    a valid split, and at most COLUMN_MAX_CROSSING_RATIO full-width rows.
+    """
+    if page.images or any(0xF000 <= ord(c["text"][0]) <= 0xF0FF for c in chars if c["text"]):
+        return pdfplumber_extract_text(chars) or ""
+    rows = sorted(cluster_objects(chars, lambda c: c["top"], 3),
+                  key=lambda r: min(c["top"] for c in r))
+    found = _find_column_split(rows, page.width)
+    if found is None or found[1] / len(rows) > COLUMN_MAX_CROSSING_RATIO:
+        return pdfplumber_extract_text(chars) or ""
+
+    x = found[0]
+    out, left, right = [], [], []
+
+    def flush():
+        for group in (left, right):
+            if group:
+                out.append(pdfplumber_extract_text(group) or "")
+        left.clear()
+        right.clear()
+
+    for row in rows:
+        if _column_row_state(row, x) == "cross":
+            flush()
+            out.append(pdfplumber_extract_text(row) or "")
+        else:
+            for c in row:
+                (left if (c["x0"] + c["x1"]) / 2 < x else right).append(c)
+    flush()
+    return "\n".join(t for t in out if t)
+
+
 def _page_text_with_subscripts(page) -> str:
     """
     Extracts page text with sub/superscripts reattached to their own line.
@@ -207,7 +284,7 @@ def _page_text_with_subscripts(page) -> str:
         c["bottom"] += shift
         c["doctop"] += shift
 
-    return pdfplumber_extract_text(chars) or ""
+    return _columns_text(chars, page)
 
 
 # A page whose text layer is shorter than this but which carries images is

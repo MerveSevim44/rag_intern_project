@@ -3118,3 +3118,68 @@ düzen sorununa ÇÖZÜM DEĞİL; (d) p13'te başlık satırının taşan kelime
 
 **Durum güncellemesi:** A1 "otomatik çözüm denenmedi" → **"denendi, #19/#20'de işe yaradı (n=2), kapılı hâliyle bu korpusta
 yan etkisiz; uygulama kararı + re-ingest/benchmark maliyeti bekliyor"**.
+
+---
+
+## Not (2026-11-12) — A1 entegrasyonu: `src/ingest.py`'ye sütun-bölme yazıldı ve gerçek pipeline'da (re-ingest edilmiş DB) test_1'in TAMAMIYLA ölçüldü — 14 cevap değişti, hiç regresyon yok; **commit bekliyor, rag.db re-ingest gerektiriyor**
+
+**Değişiklik (commit EDİLMEDİ):** `src/ingest.py` — `_page_text_with_subscripts`'in son satırı `pdfplumber_extract_text(chars)` yerine
+`_columns_text(chars, page)`; yeni yardımcılar `_column_row_state`, `_find_column_split`, `_columns_text` + 4 sabit
+(`COLUMN_GAP=12`, `COLUMN_MIN_SIDE_ROWS=3`, `COLUMN_MIN_SIDE_BY_SIDE=2`, `COLUMN_MAX_CROSSING_RATIO=0.10`). Tasarım önceki nottaki gibi:
+alt-indis yapıştırmasından SONRA, ucuz kapılar önce (sayfada resim nesnesi / PUA karakteri varsa mevcut davranış), sonra satır
+kümeleme + split arama; kapılardan biri reddederse çıktı mevcut metinle özdeş. Mevcut ingest testleri (OCR sıralama, sayfa
+birleştirme, txt) 20/20 geçti. **Kapı mantığı için odaklı birim testleri eklendi** (`tests/test_ocr_ordering.py`, 5 test / 6 durum):
+tüm kapılardan geçen sentetik iki sütunlu sayfada beklenen sıra (başlık → sol sütun → sağ sütun); resim nesnesi, PUA karakteri,
+kesen oran > 0,10 (1/9 ve 2/10) ve yetersiz satır (2+2 satır; 3+3 ama yan yana satır yok) senaryolarının HER BİRİNDE çıktı eski düz
+`pdfplumber` metniyle BİREBİR aynı. Her ret senaryosu tek bir şeyi değiştirilmiş "yakın-ıska" olarak kuruldu. **Mutasyon kontrolü:** bellekte
+kapılar tek tek gevşetildiğinde (oran eşiği 0,12 ve 0,25; resim kapısı kaldırıldı; PUA kapısı kaldırıldı; min sütun satırı 3→2; min yan yana
+satır 2→0) her seferinde yalnız ilgili test kırıldı, mutasyonsuz kontrol geçti; yani eşik/kapı yanlışlıkla gevşetilirse mevcut 20 testin
+yakalamadığı durumu bu testler yakalar. Tam paket: 209 geçti, 2 başarısız (`test_code_interpreter`, `test_full_pipeline`: canlı Foundry
+servisi isteyen `live` testleri, "Foundry servisi bulunamadı" — değişiklikle ilgisiz).
+
+**Adım 2 — gerçek kodla yeniden ingest, deneyle birebir:** (`experiments/madde_grupA_sutun/entegrasyon_kosu.py hazirla`,
+`entegrasyon/hazirlik.json`) Üç PDF gerçek `ingest_single_file` ile temiz bir geçici DB'ye yeniden ingest edildi, üretim `rag.db`
+satırlarıyla karşılaştırıldı. **CFG: 26/26 chunk, yalnız sayfa 13, 20, 21'in metni değişti; Fourier (14 chunk) ve Z-dönüşümü
+(19 chunk): 0 chunk farkı.** Sapma yok (fonksiyon imzası/çağrı sırası farkı çıkmadı). Üretim `rag.db` (özet `757e97059abb`)
+HEAD ingest çıktısıyla zaten tutarlıydı (3 PDF için); metni değişmeyen chunk'ların embedding kosinüsü min 1.0 (kayma yok).
+Tedavi DB'si = üretim DB kopyasında YALNIZ CFG PDF'i yeniden ingest (CFG dışındaki tüm satırlar byte-byte aynı); üretim DB'ye
+dokunulmadı.
+
+**Adım 3 — test_1'in TÜM 30 sorusu, gerçek pipeline, kontrol vs tedavi** (aynı ortam; `kosu.py` sabitleri: `RAG_EMBED_NUM_GPU=99`,
+`RAG_DENSE_FORCE_TOP_N=0`; her iki koşuda da Ollama embedding CPU'ya düştü (`0/25`, nöbet `5b827b2a…` her ikisinde aynı, madde 29
+kayması) — kontrol ve tedavi aynı kaymayı taşıdığı için karşılaştırma geçerli; kontrol, eski tam koşu `head_test_1` ile 16 etkilenen
+soruda cevap VE bağlam olarak BİREBİR aynı çıktı):
+- **16 soru** sayfa 13/20/21'den bağlam çekiyor (yalnız #19/#20 değil): #1, #3, #4, #6, #7, #10, #14, #15, #16, #17, #18, #19, #20, #21,
+  #23, #29. Bunların **14'ünün cevabı değişti** (#3, #4, #6, #7, #10, #14, #15, #17, #18, #19, #20, #21, #23, #29); #1 ve #16'nın bağlamı
+  değişti ama cevabı aynı. **Kalan 14 sorunun bağlamı ve cevabı birebir aynı** (CPU-kayması gürültüsü yok).
+- Retrieval de etkilendi (değişen chunk'ların embedding/BM25'i değişti): #3, #6, #14 artık sayfa 21'i, #7 sayfa 13'ü bağlamına alıyor
+  (kontrolde yoklar); #1, #17 sayfa 20/21 ekledi.
+
+**Adım 4 — judge (yalnız cevabı değişen 14 soru; Groq `openai/gpt-oss-120b`, kayıtlı context'e göre):** kontrol puanı, cevap+bağlam kontrolle
+birebir aynı olan 8 soruda (#10, 14, 15, 18, 19, 20, 21, 23) eski kampanya judge'ından yeniden kullanıldı, kalan 6'sı (#3, 4, 6, 7, 17, 29)
+taze puanlandı; tedavi 14'ü de taze. F/AR/TP/AL:
+| Soru | Kontrol | Tedavi | Not |
+|---|---|---|---|
+| **#19** | 1/3/2/5 | **5/5/5/5** | hedef (sayfa 20) |
+| **#20** | 1/3/1/5 | **5/5/5/5** | hedef (sayfa 21) |
+| **#23** | 1/3/2/5 | **5/5/5/5** | PLANLANMAMIŞ kazanım (sayfa 13: a/b türetmeleri artık ayrı okunuyor) |
+| #29 | 2/3/2/5 | 4/5/3/5 | planlanmamış iyileşme (sayfa 21) |
+| #21 | 2/3/3/5 | 3/3/3/5 | küçük iyileşme |
+| #10 | 4/5/5/5 | 5/5/5/5 | küçük (judge gürültüsü olabilir) |
+| #18 | 2/2/2/5 | 2/3/2/5 | küçük (judge gürültüsü olabilir) |
+| #3, #4, #6, #7, #14, #15, #17 | 5/5/5/5 | 5/5/5/5 | cevap metni değişti, puan aynı |
+Ortalama (14 soru): F 3,43 → **4,57**; AR 4,07 → **4,71**; TP 3,71 → **4,50**; AL 5 → 5. **Kötüleşen soru: 0.**
+
+**Yorum / dürüst notlar:** (a) hedef (#19/#20) ve beklenmeyen kazanımlar (#23, #29) gerçek pipeline'da doğrulandı; hiç regresyon
+görülmedi, ama bu **tek bir veri kümesi (test_1, 30 soru), model fiilen deterministik, judge'ın bilinen kör noktaları var** (madde 18/21).
+(b) Değişen yalnız test_1; test_2-5 (aynı PDF'leri bağlam olarak kullanan sorular — örn. test_3/4 Fourier/Z) bu turda koşulmadı: Fourier ve
+Z chunk'ları BİREBİR aynı olduğu için beklenen değişim 0, ama CFG sayfalarını bağlama alan başka setlerdeki sorular (örn. test_negative'in
+CFG soruları) ölçülmedi. (c) #18 (F 2) ve #21 (F 3) hâlâ düşük: bunlar bu değişiklikten bağımsız (A2/madde 22-31 türü sorunlar), düzelmediler.
+(d) Eşikler/kapılar bu üç PDF'e bakılarak seçildi; başka bir korpusta yeniden doğrulanmalı.
+
+**⚠ DEPLOYMENT NOTU — `rag.db`'nin yeniden ingest edilmesi GEREKİYOR:** bu değişiklik yalnız kod değildir; chunk METİNLERİNİ (CFG sayfa
+13/20/21) ve dolayısıyla embedding/BM25'ini değiştirir. `rag.db` git'te izlenmiyor (madde 33 açık riski), yani kodu commit/deploy etmek tek
+başına etkisizdir: üretim DB'si el ile yeniden ingest edilmelidir. **Önerilen minimal yol (bu turda kullanılan):** DB'yi yedekle, sonra
+`ingest_single_file('data/8-Baglamdan_bagimsiz_dilbilgisi.pdf', num_gpu=99)` (eski chunk'ları değiştirir; Fourier/Z chunk'ları aynı
+olduğu için yeniden ingest şart değil, istenirse zararsız). Embedding'in tam GPU ile üretilmesi (madde 29) ve sonrasında
+`RAG_DENSE_FORCE_TOP_N`/reranker ortamının aynı kalması gerekir. Bu adım deployment sürecinde manuel/ayrı bir iş olarak hatırlatılmalı.
