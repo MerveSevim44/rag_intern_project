@@ -1,0 +1,20 @@
+{
+ "yedek": "rag.db.bak_a1_2026-11-12",
+ "eski_ozet": "757e97059abb",
+ "yeni_ozet": "2eb2d68359e5",
+ "cfg_chunk_eski_yeni": [
+  26,
+  26
+ ],
+ "cfg_metni_degisen_sayfalar": [
+  "sayfa 13",
+  "sayfa 20",
+  "sayfa 21"
+ ],
+ "cfg_disi_satirlar_yedekle_birebir_ayni": true,
+ "toplam_chunk_yedek_yeni": [
+  898,
+  898
+ ],
+ "ollama_cpu_yuklemeleri": []
+}

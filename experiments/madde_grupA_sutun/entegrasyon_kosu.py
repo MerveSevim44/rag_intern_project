@@ -133,4 +133,22 @@ def kos():
         print(json.dumps(info, ensure_ascii=False), flush=True)
 
 
-{"hazirla": hazirla, "kos": kos}[sys.argv[1]]()
+def gercek():
+    """Re-ingest sonrasi: test_1'in TUM sorulari GERCEK (canli) rag.db uzerinden; islem kosusuyla karsilastirilir."""
+    OUT.mkdir(exist_ok=True)
+    servisleri_hazirla(foundry_dursun=True)
+    env = {**os.environ, **kosu.ORTAM, "FOUNDRY_LOCAL_ENDPOINT": kosu.uc_nokta()}
+    d = OUT / "gercek_db"
+    d.mkdir(exist_ok=True)
+    sonuc, log = d / "sonuclari.csv", d / "log.txt"
+    bas = time.time()
+    with open(log, "a", encoding="utf-8") as f:
+        rc = subprocess.run([sys.executable, "-u", "evaluation/run_tests.py", str(ROOT / "evaluation/datasets/test_1.csv"), str(sonuc)],
+                            cwd=ROOT, stdout=f, stderr=subprocess.STDOUT, env=env).returncode
+    info = {"kosul": "gercek_db", "cikis": rc, "sure_sn": round(time.time() - bas), "rag_db_ozet": kosu.hashlib.sha256((ROOT / "rag.db").read_bytes()).hexdigest()[:12],
+            "nobet": kosu.nobet(env), "ollama_cpu_yukleme": kosu.ollama_cpu_yuklemeleri(bas)}
+    (d / "ortam.json").write_text(json.dumps(info, ensure_ascii=False, indent=1), encoding="utf-8")
+    print(json.dumps(info, ensure_ascii=False), flush=True)
+
+
+{"hazirla": hazirla, "kos": kos, "gercek": gercek}[sys.argv[1]]()
