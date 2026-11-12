@@ -2897,21 +2897,20 @@ Retrieval hatası hiçbir satırda kök neden çıkmadı (cevabı taşıyan sayf
 | **#62, #69 (C1, mekanizma teşhis edildi, nokta-düzeltme işe yarıyor)** | PUA kodlu semboller. E1'de eşleme bu iki soruyu düzeltti (judge 1/2/1/5 → 5/5/5/5 ve 1/3/2/5 → 5/5/5/5) → mekanizma doğrulandı | **KABUL EDİLMİŞ SINIRLAMA (2026-11-11 güncellemesi).** Nokta-düzeltme mekanizması doğrulandı, ama güvenle devreye alınamıyor: genel eşleme (E1) 5 regresyon yarattı (#85, #74, #71, #61, #88), sayfa-koşullu eşleme (E2) de 5 farklı regresyon yarattı (#61, #88, #76, #84, #86; #66 ölçülemedi) — aynı chunk bir soruda iyi, ötekinde kötü, chunk-bazlı allowlist ile ayrılamıyor ve sayfa allowlist'i dataset-agnostik felsefeye aykırı. **"Olası ileri adım: koşullu uygulama" denendi, işe yaramadı** (bkz. 2026-11-11 notu). Ayrıca gerçek ingest uygulaması re-ingest + tam benchmark ister, retrieval etkisi hâlâ ölçülmedi |
 | #89 | Bilginin kendisi bir şekilde (sayfa 13: ±ω0 bantları); metin katmanında yalnız etiket parçaları | Çıkarıcı sınırı (metin çıkarımıyla çözülmez); kabul edilmiş sınırlama |
 | **#45** | **Kod-üretim + doğrulayıcı boşluğu:** şemada `slug` sütunu varken kod onu okumuyor, kendi türetmesini yazıp kendini doğruluyor; doğrulayıcı "doğru kaynak sütunun kullanılıp kullanılmadığını" kontrol etmiyor (madde 18'den FARKLI mekanizma, benzer semptom) | **DÜZELTİLDİ** (commit `69674ae`; bkz. aşağıdaki "#45 düzeltmesi" ve "Judge doğrulaması" notları — tek vaka üzerinde doğrulandı, genelleşme ölçülmedi) |
-| **#85** | **GT sorunu:** slayt 14 `e^{jω0t}f(t) ↔ 2π F(ω−ω0)` yazıyor, GT ve cevap `2π`'siz (standart sonuç); judge slayta sadık kalıp puan kırdı; E1 öncesi cevap GT'ye uyuyordu | **GT düzeltmesi/notu gerekir** (model hatası değil) |
+| **#85** | **GT sorunu:** slayt 14 `e^{jω0t}f(t) ↔ 2π F(ω−ω0)` yazıyor, GT ve cevap `2π`'siz (standart sonuç); judge slayta sadık kalıp puan kırdı; E1 öncesi cevap GT'ye uyuyordu | **KAPANDI — GT doğru/korunuyor (karar 2026-11-12):** slayt 14'teki `2π` faktörü muhtemel kaynak yazım hatası olarak belgelendi, GT'ye yansıtılmadı (karar: standart matematik önceliklendirildi). Kod/veri değişikliği yok. Model hatası değil; judge slayta sadık kalıp puan kırdığı için #85'in düşük skoru slayt-GT çelişkisinden gelir |
 | #71 | E1'de görülen context-sızıntısı (ayrı not) | **Teşhis edilmedi**; PUA'nın yan etkisi değil |
 | #82 | Bu koşuda cevap chunk'ı bağlamda yok (ret) | Madde 32-34 kapsamında, bu incelemenin dışında |
 
 **Kategoriler:** (1) *Bilinen düzeltme yolu yok, kabul edilmiş sınırlama:* A2, C2, C3, #41/#47, #89. (2) *Mekanizma teşhis edildi, nokta-düzeltme
 işe yarıyor ama genel VE sayfa-koşullu uygulama regresyon yaratıyor → kabul edilmiş sınırlama (2026-11-11):* #62, #69. (3) *Otomatik çözüm denenmedi:* #73, #83 (düzen ayağı). (3b) *Düzeltildi:* A1 (#19/#20) — `496df25` + canlı DB re-ingest (2026-11-12). (4) ~~*Düzeltilebilir kod
-kusuru:* #45~~ → düzeltildi (`69674ae`). (5) *GT sorunu:* #85. (6) *Teşhis edilmedi:* #71.
+kusuru:* #45~~ → düzeltildi (`69674ae`). (5) *GT sorunu:* #85 → kapandı, GT korunuyor (karar 2026-11-12). (6) *Teşhis edilmedi:* #71.
 
 **Önceki "13/15 teşhis edilmedi" notunun güncel hâli:** A (4), B (3), C (5) + #83/#85/#89 satırlarının hepsi artık bir
 sınıfa bağlandı; yeni madde açılmadı. İki satır (#57 → madde 18, #48/#90 → madde 37) önceden bağlıydı.
 
 **Hâlâ açık / eyleme dönük olanlar (öncelik verilmedi):**
 1. ~~**#45 — kod kusuru**~~ **DÜZELTİLDİ** (bkz. aşağıdaki "#45 düzeltmesi" notu).
-2. **#85 — GT düzeltmesi:** `test_3.json` #85 referansı slayt 14'le çelişiyor (slayt `2π F(ω−ω0)`; standart matematik `F(ω−ω0)`);
-   GT'yi slayta göre mi, standarda göre mi tutacağımız ayrı karar. Ayrıca #74'ün nedensellik gerekçesi slaytta yok.
+2. ~~**#85 — GT düzeltmesi**~~ **KAPANDI** — GT standart matematiğe göre (`F(ω−ω0)`, 2π'siz) KORUNUYOR; slayt 14'teki 2π muhtemel kaynak yazım hatası, belgelendi, GT'ye yansıtılmadı (kapanış tablosuna taşındı). Kod/veri değişikliği yok. (#74'ün nedensellik gerekçesinin slaytta olmaması ayrı bir gözlemdi, GT kararını etkilemiyor.)
 3. **#71 sızıntısı:** teşhis edilmedi, yalnız E1 eşlemeli koşulunda 1/24 koşuda görüldü; üretimde (147 cevap) 0.
 4. ~~**A1 (#19/#20) otomatik düzen düzeltmesi**~~ **DÜZELTİLDİ** (2026-11-12; kapanış tablosuna taşındı). **#73/#83'ün düzen ayağı (PUA'lı Fourier sayfaları) HÂLÂ AÇIK / denenmedi** — A1 çözümü bu sayfaları bilerek kapsamıyor.
 5. ~~**#62/#69 için koşullu PUA eşlemesi**~~ **DENENDİ, işe yaramadı → kabul edilmiş sınırlama** (2026-11-11 E2 notu; listeden çıktı).
@@ -3206,3 +3205,35 @@ cevap olarak BİREBİR aynı** (hata 0). Kontrole (eski DB) göre: 16 sorunun ba
 **Geri yükleme (gerekirse; uygulanmadı):** Streamlit/diğer süreçleri kapat, `copy rag.db.bak_a1_2026-11-12 rag.db` (ya da
 `cp -p`), sonra `kosu.py::DB_OZET`'i `757e97059abb`'ye geri al; `python -c "import hashlib;print(hashlib.sha256(open('rag.db','rb').read()).hexdigest()[:12])"`
 ile özetin `757e97059abb` olduğunu doğrula.
+
+---
+
+## Not (2026-11-12) — Küçük madde: pytest/README tutarsızlığı (KOD DEĞİŞTİRİLMEDİ, düzeltme ayrı iş olarak bekliyor)
+
+`pytest.ini` / `pyproject.toml` / `setup.cfg` / `tox.ini` repoda YOK; `README.md` iki iddiası güncel değil:
+(1) README `live` marker'lı 2 testin (`test_code_interpreter`, `test_full_pipeline`) varsayılan koşudan hariç tutulduğunu söylüyor, ama marker
+yapılandırması yok → `python -m pytest tests` bu ikisini de koşturuyor ve Foundry servisi kapalıyken "Foundry servisi bulunamadı" ile
+başarısız oluyor (2026-11-12'de gözlendi: 209 geçti, 2 başarısız); (2) README "29 offline test" diyor, gerçek sayı 211 (209 offline + 2 live).
+Düzeltme (pytest ayar dosyası + `live` marker'ının `-m "not live"` varsayılanı, README sayıları) ayrı bir iş olarak bekliyor.
+
+---
+
+## DÜZELTME (2026-11-12) — #45 regresyon taramasındaki "#43/#231: Ollama kapalı, ortam hatası, ilgisiz" ifadesi YANLIŞTI; gerçek sebep kural A'ydı
+
+**Eski ifade (yukarıdaki "#45 düzeltmesi" notunda ve `69674ae` commit mesajında; SİLİNMEDİ):** "2'si (`#43`, `#231`) yerel Ollama servisi kapalı olduğu için
+embedding fallback'inde HATA verdi — A/B değişikliğiyle ilgisiz, ortam sorunu"; commit mesajı: "2'si ortam sorunuyla (Ollama kapali) ilgisiz sekilde basarisiz oldu".
+
+**Doğrusu:** Ollama hatası gerçekti ama SONUÇTU, sebep değildi: #43 ve #231'de sandbox 3/3 denemede sonuç üretemedi (`success=False`) ve sistem
+semantik RAG yedeğine düştü; yedek yol embedding için Ollama'ya gittiği için (o an kapalıydı) HATA çıktı. Asıl kayıp, sandbox yolunun kaybıydı.
+Kanıt (2026-11-12, Foundry/Ollama ayakta, temiz koşu; kirli ilk koşu — Foundry düşmüştü, `OpenAIConnectionError` — veri sayılmadı):
+| Koşul (aynı soru, aynı DB, 2'şer tekrar) | #43 | #231 |
+|---|---|---|
+| Kural A AÇIK (`69674ae`) | 0/2 başarılı, 3 denemede de hata (`KeyError: 0`) | 0/2 başarılı (`'result' atanmadı` ×2, `InvalidIndexError`) |
+| Kural A KAPALI (eski prompt) | 2/2 başarılı, `validation=ok` (2 deneme) | 2/2 başarılı, `validation=ok` (1 deneme) |
+**Mekanizma (gözlem):** #231'de kural A açıkken model kod yazmak yerine "tarih sütunu yok, sütun oluşturabiliriz…" cümlelerini yüzlerce satır
+tekrarlıyor, çıktı kesilip `result` atanmıyor; kuralın "şemada mevcutsa…" koşullu dili, istenen bilginin şemada OLMADIĞI sorularda 7B modeli
+sütun-var-mı muhakeme döngüsüne sokuyor gibi (kanıtlanmış neden değil, gözlenen davranış).
+**Neden kaçırıldı:** o taramanın metriği yalnız `dogrulama_durumu` idi (`ok→objection` arıyordu); sandbox `success=True→False` düşüşü bu metrikte
+görünmez (satır yalnız "boş durum" olur) ve ben onu ortam hatasına bağladım. "Sıfır false-positive" cümlesi `validation_status` için doğru kalır,
+ama "regresyon yok" anlamına gelmiyordu: 23 sorunun en az 2'sinde (~%9) sandbox kaybı vardı. **Yeni ölçüm metriği üç boyutlu:** (a) `success`,
+(b) `validation_status`, (c) cevap içeriği/yolu (sandbox mı, semantik RAG yedeği mi). Kural A yeniden yazılıyor; sonuç bu notun altına eklenecek.
