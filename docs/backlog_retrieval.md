@@ -2894,7 +2894,7 @@ Retrieval hatası hiçbir satırda kök neden çıkmadı (cevabı taşıyan sayf
 | #41, #47 (B) | Net bağlama rağmen yanlış çıkarım (ham chunk → `ask()`, madde 38 zincirinden AYRI) | **Kabul edilmiş sınırlama**; mekanizma (prompt çıkarım dalı mı, kapasite mi) teşhis edilmedi |
 | #19, #20 (A1) | Bağlam metin düzeni (sütun iç içe geçmesi); elle temizlemeyle 3/3 düzeldi (n=2) | **"Otomatik çözüm denenmedi"** kategorisi: otomatik düzen düzeltmesi (ör. sütun-farkında okuma) DENENMEDİ — açık soru |
 | #73, #83 (C1, PUA yetersiz + düzen karışık) | PUA kodlu semboller + yığılı kesir düzeni. E1'de #73 hâlâ yanlış (`ω+` bağlamda okunur olduğu hâlde düşüyor), #83'ün iyileşmesi şüpheli (yığılı döküm, judge 5'i tartışmalı) | **A1 ile aynı "otomatik çözüm denenmedi" kategorisi:** PUA eşlemesi tek başına yetmiyor, düzen de karışmış; düzen ayağı denenmedi |
-| **#62, #69 (C1, mekanizma teşhis edildi, nokta-düzeltme işe yarıyor)** | PUA kodlu semboller. E1'de eşleme bu iki soruyu düzeltti (judge 1/2/1/5 → 5/5/5/5 ve 1/3/2/5 → 5/5/5/5) → mekanizma doğrulandı | **Bilinen bir düzeltme yolu VAR, ama güvenle devreye alınamıyor:** genel eşleme başka sorularda regresyon yarattı (#85, #74, #71, #61, #88 kötüleşti) ve gerçek ingest uygulaması re-ingest + tam benchmark ister, retrieval etkisi ölçülmedi. **A2/C2/C3/#41/#47/#89 ile aynı kategori DEĞİL** (onlarda bilinen hiçbir düzeltme yolu yok). Olası ileri adım: eşlemeyi yalnız etkilenen bağlamlarda/koşullu uygulamak veya regresyonların nedenini ayrıştırmak — denenmedi |
+| **#62, #69 (C1, mekanizma teşhis edildi, nokta-düzeltme işe yarıyor)** | PUA kodlu semboller. E1'de eşleme bu iki soruyu düzeltti (judge 1/2/1/5 → 5/5/5/5 ve 1/3/2/5 → 5/5/5/5) → mekanizma doğrulandı | **KABUL EDİLMİŞ SINIRLAMA (2026-11-11 güncellemesi).** Nokta-düzeltme mekanizması doğrulandı, ama güvenle devreye alınamıyor: genel eşleme (E1) 5 regresyon yarattı (#85, #74, #71, #61, #88), sayfa-koşullu eşleme (E2) de 5 farklı regresyon yarattı (#61, #88, #76, #84, #86; #66 ölçülemedi) — aynı chunk bir soruda iyi, ötekinde kötü, chunk-bazlı allowlist ile ayrılamıyor ve sayfa allowlist'i dataset-agnostik felsefeye aykırı. **"Olası ileri adım: koşullu uygulama" denendi, işe yaramadı** (bkz. 2026-11-11 notu). Ayrıca gerçek ingest uygulaması re-ingest + tam benchmark ister, retrieval etkisi hâlâ ölçülmedi |
 | #89 | Bilginin kendisi bir şekilde (sayfa 13: ±ω0 bantları); metin katmanında yalnız etiket parçaları | Çıkarıcı sınırı (metin çıkarımıyla çözülmez); kabul edilmiş sınırlama |
 | **#45** | **Kod-üretim + doğrulayıcı boşluğu:** şemada `slug` sütunu varken kod onu okumuyor, kendi türetmesini yazıp kendini doğruluyor; doğrulayıcı "doğru kaynak sütunun kullanılıp kullanılmadığını" kontrol etmiyor (madde 18'den FARKLI mekanizma, benzer semptom) | **DÜZELTİLDİ** (commit `69674ae`; bkz. aşağıdaki "#45 düzeltmesi" ve "Judge doğrulaması" notları — tek vaka üzerinde doğrulandı, genelleşme ölçülmedi) |
 | **#85** | **GT sorunu:** slayt 14 `e^{jω0t}f(t) ↔ 2π F(ω−ω0)` yazıyor, GT ve cevap `2π`'siz (standart sonuç); judge slayta sadık kalıp puan kırdı; E1 öncesi cevap GT'ye uyuyordu | **GT düzeltmesi/notu gerekir** (model hatası değil) |
@@ -2902,8 +2902,8 @@ Retrieval hatası hiçbir satırda kök neden çıkmadı (cevabı taşıyan sayf
 | #82 | Bu koşuda cevap chunk'ı bağlamda yok (ret) | Madde 32-34 kapsamında, bu incelemenin dışında |
 
 **Kategoriler:** (1) *Bilinen düzeltme yolu yok, kabul edilmiş sınırlama:* A2, C2, C3, #41/#47, #89. (2) *Mekanizma teşhis edildi, nokta-düzeltme
-işe yarıyor ama genel uygulama regresyon yaratıyor:* #62, #69. (3) *Otomatik çözüm denenmedi:* A1 (#19/#20), #73, #83. (4) *Düzeltilebilir kod
-kusuru:* #45. (5) *GT sorunu:* #85. (6) *Teşhis edilmedi:* #71.
+işe yarıyor ama genel VE sayfa-koşullu uygulama regresyon yaratıyor → kabul edilmiş sınırlama (2026-11-11):* #62, #69. (3) *Otomatik çözüm denenmedi:* A1 (#19/#20), #73, #83. (4) ~~*Düzeltilebilir kod
+kusuru:* #45~~ → düzeltildi (`69674ae`). (5) *GT sorunu:* #85. (6) *Teşhis edilmedi:* #71.
 
 **Önceki "13/15 teşhis edilmedi" notunun güncel hâli:** A (4), B (3), C (5) + #83/#85/#89 satırlarının hepsi artık bir
 sınıfa bağlandı; yeni madde açılmadı. İki satır (#57 → madde 18, #48/#90 → madde 37) önceden bağlıydı.
@@ -2914,7 +2914,7 @@ sınıfa bağlandı; yeni madde açılmadı. İki satır (#57 → madde 18, #48/
    GT'yi slayta göre mi, standarda göre mi tutacağımız ayrı karar. Ayrıca #74'ün nedensellik gerekçesi slaytta yok.
 3. **#71 sızıntısı:** teşhis edilmedi, yalnız E1 eşlemeli koşulunda 1/24 koşuda görüldü; üretimde (147 cevap) 0.
 4. **Otomatik düzen düzeltmesi (A1, #73, #83):** denenmedi; A1'de yalnız elle temizleme kanıtı var.
-5. **#62/#69 için koşullu PUA eşlemesi:** nokta-düzeltmenin regresyonsuz uygulanıp uygulanamayacağı denenmedi.
+5. ~~**#62/#69 için koşullu PUA eşlemesi**~~ **DENENDİ, işe yaramadı → kabul edilmiş sınırlama** (2026-11-11 E2 notu; listeden çıktı).
 
 ---
 
