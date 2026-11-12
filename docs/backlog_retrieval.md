@@ -2896,7 +2896,7 @@ Retrieval hatası hiçbir satırda kök neden çıkmadı (cevabı taşıyan sayf
 | #73, #83 (C1, PUA yetersiz + düzen karışık) | PUA kodlu semboller + yığılı kesir düzeni. E1'de #73 hâlâ yanlış (`ω+` bağlamda okunur olduğu hâlde düşüyor), #83'ün iyileşmesi şüpheli (yığılı döküm, judge 5'i tartışmalı) | **A1 ile aynı "otomatik çözüm denenmedi" kategorisi:** PUA eşlemesi tek başına yetmiyor, düzen de karışmış; düzen ayağı denenmedi |
 | **#62, #69 (C1, mekanizma teşhis edildi, nokta-düzeltme işe yarıyor)** | PUA kodlu semboller. E1'de eşleme bu iki soruyu düzeltti (judge 1/2/1/5 → 5/5/5/5 ve 1/3/2/5 → 5/5/5/5) → mekanizma doğrulandı | **Bilinen bir düzeltme yolu VAR, ama güvenle devreye alınamıyor:** genel eşleme başka sorularda regresyon yarattı (#85, #74, #71, #61, #88 kötüleşti) ve gerçek ingest uygulaması re-ingest + tam benchmark ister, retrieval etkisi ölçülmedi. **A2/C2/C3/#41/#47/#89 ile aynı kategori DEĞİL** (onlarda bilinen hiçbir düzeltme yolu yok). Olası ileri adım: eşlemeyi yalnız etkilenen bağlamlarda/koşullu uygulamak veya regresyonların nedenini ayrıştırmak — denenmedi |
 | #89 | Bilginin kendisi bir şekilde (sayfa 13: ±ω0 bantları); metin katmanında yalnız etiket parçaları | Çıkarıcı sınırı (metin çıkarımıyla çözülmez); kabul edilmiş sınırlama |
-| **#45** | **Kod-üretim + doğrulayıcı boşluğu:** şemada `slug` sütunu varken kod onu okumuyor, kendi türetmesini yazıp kendini doğruluyor; doğrulayıcı "doğru kaynak sütunun kullanılıp kullanılmadığını" kontrol etmiyor (madde 18'den FARKLI mekanizma, benzer semptom) | **Hâlâ düzeltilebilir bir kod kusuru** (tek vaka; benzer #54 doğru çıkıyor, genelleşmesi bilinmiyor) |
+| **#45** | **Kod-üretim + doğrulayıcı boşluğu:** şemada `slug` sütunu varken kod onu okumuyor, kendi türetmesini yazıp kendini doğruluyor; doğrulayıcı "doğru kaynak sütunun kullanılıp kullanılmadığını" kontrol etmiyor (madde 18'den FARKLI mekanizma, benzer semptom) | **DÜZELTİLDİ** (commit `69674ae`; bkz. aşağıdaki "#45 düzeltmesi" ve "Judge doğrulaması" notları — tek vaka üzerinde doğrulandı, genelleşme ölçülmedi) |
 | **#85** | **GT sorunu:** slayt 14 `e^{jω0t}f(t) ↔ 2π F(ω−ω0)` yazıyor, GT ve cevap `2π`'siz (standart sonuç); judge slayta sadık kalıp puan kırdı; E1 öncesi cevap GT'ye uyuyordu | **GT düzeltmesi/notu gerekir** (model hatası değil) |
 | #71 | E1'de görülen context-sızıntısı (ayrı not) | **Teşhis edilmedi**; PUA'nın yan etkisi değil |
 | #82 | Bu koşuda cevap chunk'ı bağlamda yok (ret) | Madde 32-34 kapsamında, bu incelemenin dışında |
@@ -2949,6 +2949,28 @@ bakıyordu) #45'in kök nedenini açıklayan 2 ayrı boşluk doğrulandı (dosya
 - Yöntem notu: izole doğrulayıcı testi (B tek değişken) loglardaki gerçek (soru, kod, sonuç) üçlüleriyle yapıldı
   (madde 18/E1 ile aynı mantık); tam-hat (A+B birlikte) testi gerçek kod üretimiyle tekrar koşuldu. İkisi birlikte
   A'nın kök nedeni çözdüğünü, B'nin zararsız ama şu an bağımsız olarak etkisiz bir savunma katmanı olduğunu gösteriyor.
+- Commit: `69674ae` (main'e push edildi).
+
+**Judge doğrulaması (dar kapsam, 2026-11-11):** Yukarıdaki 23 sorudan, cevap METNİ (yalnız etiket değil) gerçekten
+değişen sorular arandı. Doğru kıyas kaynağı `evaluation/datasets/test_2_sonuclari.csv` + `test_2_sonuclari_judge.csv`
+oldu — bunlar asıl puanlanmış 147-satır kampanyanın dosyaları; `experiments/madde39_tam_kosu/head_test_2/` ayrı
+(deneysel) bir koşu, bu yüzden önceki not'taki #60 "not_run→ok" karşılaştırması bu resmi kampanyaya göre değil, o
+deneysel koşuya göreydi — düzeltiyorum:
+- **#45:** eski kampanya cevabı hatalıydı ("özge-taş-db-zd5" — `profileCode`'un ilk 6 karakteri + yanlış karakter
+  değişimi iddiası, uydurma). Yeni cevap: "...slug alanı 'ozge-tas-zd5hgksc' şeklinde görünür" — GT'yle (`ozge-tas-zd5hgksc`)
+  birebir örtüşüyor. Judge skoru **1/2/2/5 → 5/5/5/5** (F/AR/TP/AL); gerekçe GT değerini doğrudan referans alıyor.
+- **#60:** eski kampanya cevabı da gerçekte HATALIYDI (zirveyi "9-10 yıl" olarak göstermiş; gerçek dağılımda maksimum
+  19 yılda, 42 profil). Bu soru A/B'nin kapsamına girmiyor (şemada hazır sütun/türetme deseni yok), değişim saf LLM
+  örneklem farkı; ama metin değiştiği için kapsama alındı. Yeni cevap zirveyi doğru (19 yıl) veriyor. Judge skoru
+  **5/5/5/5 → 5/5/5/5** (zaten tavandaydı, içerik daha doğru hale geldi ama puan aynı kaldı — judge bu düzeltmeyi
+  ayırt edemedi, kampanya puanı zaten tavanda olduğu için görünmüyor).
+- Diğer 21 soru judge'a tekrar sokulmadı (cevap metinleri değişmedi veya değişim yalnızca ortam hatasıydı — #43/#231).
+- Judge CSV ve geçici filtre dosyaları kalıcı tutulmadı (tek seferlik doğrulama), sonuçlar burada özetlendi.
+
+**#45 durumu — "Hâlâ açık" listesinden çıkarılıyor, DÜZELTİLDİ sayılıyor.** Kapsam notu: bu tek vaka üzerinde doğrulandı
+(uçtan uca 3/3 + resmi kampanya sorusu 1/2 üzerinde judge ile); A kuralının (`UNIVERSAL_CODE_RULES`) genel kod-üretim
+davranışına etkisi yalnızca mevcut 23 code_interpreter sorusuyla ölçüldü, "hazır sütun var ama kullanılmıyor" deseninin
+başka/gelecek sorularda da önlendiği iddia edilmiyor — yeni bir vaka çıkarsa yeniden değerlendirilmeli.
 
 **Metodoloji notları (bu turdan):** (a) bozukluk "gözle" tespiti yanıltıcı olabiliyor — PUA karakterleri terminalde boş
 göründüğü için "kayıp sembol" sanıldı, sonra düzeltildi (d4b00ed); sayısal/kod noktası denetimi gerekir. (b) Judge
