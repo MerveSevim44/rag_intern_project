@@ -29,7 +29,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 ORTAM = {"RAG_EMBED_NUM_GPU": "99", "RAG_DENSE_FORCE_TOP_N": "0", "PYTHONIOENCODING": "utf-8"}
-DB_OZET = "757e97059abb"
+DB_OZET = "2eb2d68359e5"  # 2026-11-12: A1 re-ingest (CFG s13/20/21); eski 757e97059abb = rag.db.bak_a1_2026-11-12
 NOBET_METIN = "Bağlamdan bağımsız dilbilgisi için türetme ağacı nedir?"
 NOBET = ("import sys,json,hashlib;sys.path.insert(0,'src');from embedder import get_embedding;"
          f"print(hashlib.sha256(json.dumps(get_embedding({NOBET_METIN!r})).encode()).hexdigest()[:16])")

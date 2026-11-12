@@ -2892,7 +2892,7 @@ Retrieval hatası hiçbir satırda kök neden çıkmadı (cevabı taşıyan sayf
 | #28, #30 (A2) | Model kapasitesi (kurallardan dil/ilişki türetme) | **Kabul edilmiş sınırlama** |
 | #87 (C2), #74 (C3) | Model kapasitesi (#74'te ayrıca GT slaytı aşıyor) | **Kabul edilmiş sınırlama** |
 | #41, #47 (B) | Net bağlama rağmen yanlış çıkarım (ham chunk → `ask()`, madde 38 zincirinden AYRI) | **Kabul edilmiş sınırlama**; mekanizma (prompt çıkarım dalı mı, kapasite mi) teşhis edilmedi |
-| #19, #20 (A1) | Bağlam metin düzeni (sütun iç içe geçmesi); elle temizlemeyle 3/3 düzeldi (n=2) | **DENENDİ, #19/#20'de İŞE YARADI (2026-11-12), UYGULANMADI:** metin-katmanı char bbox'ına uyarlanmış sütun bölme + 4 kapı, `_page_text_with_subscripts` çıktısını otomatik düzeltiyor; #19 ve #20 3/3 doğru küme (GT). Kapısız hâli yanlış-pozitif üretiyor; entegrasyon kararı/tasarımı yukarıdan sonraki nota bkz. (`experiments/madde_grupA_sutun/`) |
+| **#19, #20 (A1)** | **Metin-katmanlı iki sütunlu sayfada düzen bozukluğu:** pdfplumber iki sütunu satır satır iç içe geçiriyordu; küme değeri (`TD = {…}`) kuralların/açıklamaların arasına karışıyor, model yanlış aktarıyordu (elle temizlemeyle 3/3 düzelmişti, n=2) | **DÜZELTİLDİ** (kod `496df25`, canlı `rag.db` yeniden ingest 2026-11-12, yeni özet `2eb2d68359e5`, yedek `rag.db.bak_a1_2026-11-12`; bkz. 2026-11-12 A1 notları). **Kapsam:** test_1, 30 soru, gerçek pipeline — 16 soru etkilendi, 14 cevap değişti, judge F 3,43→4,57 / AR 4,07→4,71 / TP 3,71→4,50, kötüleşen 0; #19, #20 ve planlanmamış #23 → 5/5/5/5. **Sınırlar:** kapı eşikleri (0,10; 12 pt; ≥3/≥2 satır; resim/PUA kapıları) 3 PDF'e bakılarak seçildi; test_negative ve diğer setlerdeki CFG soruları KOŞULMADI; #73/#83 (PUA'lı Fourier sayfaları) kapsam DIŞI (PUA kapısı bilerek dışarıda bırakıyor); #18/#21 hâlâ düşük (bu değişiklikten bağımsız); n küçük, model fiilen deterministik |
 | #73, #83 (C1, PUA yetersiz + düzen karışık) | PUA kodlu semboller + yığılı kesir düzeni. E1'de #73 hâlâ yanlış (`ω+` bağlamda okunur olduğu hâlde düşüyor), #83'ün iyileşmesi şüpheli (yığılı döküm, judge 5'i tartışmalı) | **"Otomatik çözüm denenmedi" kategorisi (A1'den AYRILDI, 2026-11-12):** PUA eşlemesi tek başına yetmiyor, düzen de karışmış; düzen ayağı denenmedi. A1'in sütun-bölme denemesi bu sayfaları BİLEREK dışarıda bırakıyor (PUA kapısı) — #73/#83 için çözüm değil |
 | **#62, #69 (C1, mekanizma teşhis edildi, nokta-düzeltme işe yarıyor)** | PUA kodlu semboller. E1'de eşleme bu iki soruyu düzeltti (judge 1/2/1/5 → 5/5/5/5 ve 1/3/2/5 → 5/5/5/5) → mekanizma doğrulandı | **KABUL EDİLMİŞ SINIRLAMA (2026-11-11 güncellemesi).** Nokta-düzeltme mekanizması doğrulandı, ama güvenle devreye alınamıyor: genel eşleme (E1) 5 regresyon yarattı (#85, #74, #71, #61, #88), sayfa-koşullu eşleme (E2) de 5 farklı regresyon yarattı (#61, #88, #76, #84, #86; #66 ölçülemedi) — aynı chunk bir soruda iyi, ötekinde kötü, chunk-bazlı allowlist ile ayrılamıyor ve sayfa allowlist'i dataset-agnostik felsefeye aykırı. **"Olası ileri adım: koşullu uygulama" denendi, işe yaramadı** (bkz. 2026-11-11 notu). Ayrıca gerçek ingest uygulaması re-ingest + tam benchmark ister, retrieval etkisi hâlâ ölçülmedi |
 | #89 | Bilginin kendisi bir şekilde (sayfa 13: ±ω0 bantları); metin katmanında yalnız etiket parçaları | Çıkarıcı sınırı (metin çıkarımıyla çözülmez); kabul edilmiş sınırlama |
@@ -2902,7 +2902,7 @@ Retrieval hatası hiçbir satırda kök neden çıkmadı (cevabı taşıyan sayf
 | #82 | Bu koşuda cevap chunk'ı bağlamda yok (ret) | Madde 32-34 kapsamında, bu incelemenin dışında |
 
 **Kategoriler:** (1) *Bilinen düzeltme yolu yok, kabul edilmiş sınırlama:* A2, C2, C3, #41/#47, #89. (2) *Mekanizma teşhis edildi, nokta-düzeltme
-işe yarıyor ama genel VE sayfa-koşullu uygulama regresyon yaratıyor → kabul edilmiş sınırlama (2026-11-11):* #62, #69. (3) *Otomatik çözüm denenmedi:* #73, #83 (düzen ayağı); A1 (#19/#20) → denendi, işe yaradı (2026-11-12), uygulama kararı bekliyor. (4) ~~*Düzeltilebilir kod
+işe yarıyor ama genel VE sayfa-koşullu uygulama regresyon yaratıyor → kabul edilmiş sınırlama (2026-11-11):* #62, #69. (3) *Otomatik çözüm denenmedi:* #73, #83 (düzen ayağı). (3b) *Düzeltildi:* A1 (#19/#20) — `496df25` + canlı DB re-ingest (2026-11-12). (4) ~~*Düzeltilebilir kod
 kusuru:* #45~~ → düzeltildi (`69674ae`). (5) *GT sorunu:* #85. (6) *Teşhis edilmedi:* #71.
 
 **Önceki "13/15 teşhis edilmedi" notunun güncel hâli:** A (4), B (3), C (5) + #83/#85/#89 satırlarının hepsi artık bir
@@ -2913,7 +2913,7 @@ sınıfa bağlandı; yeni madde açılmadı. İki satır (#57 → madde 18, #48/
 2. **#85 — GT düzeltmesi:** `test_3.json` #85 referansı slayt 14'le çelişiyor (slayt `2π F(ω−ω0)`; standart matematik `F(ω−ω0)`);
    GT'yi slayta göre mi, standarda göre mi tutacağımız ayrı karar. Ayrıca #74'ün nedensellik gerekçesi slaytta yok.
 3. **#71 sızıntısı:** teşhis edilmedi, yalnız E1 eşlemeli koşulunda 1/24 koşuda görüldü; üretimde (147 cevap) 0.
-4. **Otomatik düzen düzeltmesi:** A1 (#19/#20) için **denendi, işe yaradı, uygulama kararı bekliyor** (2026-11-12 notu); #73/#83'ün düzen ayağı (PUA'lı Fourier sayfaları) hâlâ denenmedi.
+4. ~~**A1 (#19/#20) otomatik düzen düzeltmesi**~~ **DÜZELTİLDİ** (2026-11-12; kapanış tablosuna taşındı). **#73/#83'ün düzen ayağı (PUA'lı Fourier sayfaları) HÂLÂ AÇIK / denenmedi** — A1 çözümü bu sayfaları bilerek kapsamıyor.
 5. ~~**#62/#69 için koşullu PUA eşlemesi**~~ **DENENDİ, işe yaramadı → kabul edilmiş sınırlama** (2026-11-11 E2 notu; listeden çıktı).
 
 ---
@@ -3183,3 +3183,26 @@ başına etkisizdir: üretim DB'si el ile yeniden ingest edilmelidir. **Önerile
 `ingest_single_file('data/8-Baglamdan_bagimsiz_dilbilgisi.pdf', num_gpu=99)` (eski chunk'ları değiştirir; Fourier/Z chunk'ları aynı
 olduğu için yeniden ingest şart değil, istenirse zararsız). Embedding'in tam GPU ile üretilmesi (madde 29) ve sonrasında
 `RAG_DENSE_FORCE_TOP_N`/reranker ortamının aynı kalması gerekir. Bu adım deployment sürecinde manuel/ayrı bir iş olarak hatırlatılmalı.
+
+---
+
+## Not (2026-11-12) — A1: gerçek `rag.db` yedekli yerinde yeniden ingest edildi; doğrulama tuttu
+
+**Yapılan (onaylı, Seçenek 1):** (a) kilit kontrolü temiz: `rag.db-wal/-shm/-journal` yok, çalışan Python/Streamlit süreci yok, dosya özel
+erişimle (`FileShare.None`) açılabildi. (b) **Yedek: `rag.db.bak_a1_2026-11-12`** (özet `757e97059abb`, `.gitignore` `rag.db.bak*` kapsamında).
+(c) Yalnız `data/8-Baglamdan_bagimsiz_dilbilgisi.pdf` `ingest_single_file(num_gpu=99)` ile yeniden ingest edildi (26 chunk, 33 sn, Ollama tam
+GPU — CPU'ya düşme YOK; `experiments/madde_grupA_sutun/reingest.py`, `entegrasyon/reingest.json`). Toplam chunk 898 → 898; CFG dışındaki
+TÜM satırlar yedekle birebir aynı; CFG'de yalnız sayfa 13/20/21 metni değişti. **(d) Yeni `rag.db` özeti: `2eb2d68359e5`** (eski
+`757e97059abb`); `experiments/madde39_tam_kosu/kosu.py::DB_OZET` buna güncellendi (yoksa sonraki tam koşular reddedilirdi).
+Bu özet, önceki turda DB KOPYASI üzerinde hazırlanan "tedavi" DB'sinin özetiyle (`2eb2d68359e5`) BİREBİR aynı → gerçek DB, doğrulanmış
+tedavi kopyasıyla byte-byte özdeş.
+
+**(e) Doğrulama:** test_1'in 30 sorusu gerçek (canlı) `rag.db` üzerinden yeniden koşuldu (`entegrasyon/gercek_db/`, aynı ortam, nöbet
+`5b827b2a…`, her iki koşuda Ollama embedding CPU kayması aynı): gerçek-DB koşusu, DB-kopyası tedavi koşusuyla **30/30 soruda bağlam VE
+cevap olarak BİREBİR aynı** (hata 0). Kontrole (eski DB) göre: 16 sorunun bağlamı, 14 sorunun cevabı değişti (#3, 4, 6, 7, 10, 14, 15, 17, 18,
+19, 20, 21, 23, 29 — önceki nottaki liste aynen). Cevaplar ve bağlamlar tedavi koşusuyla özdeş olduğundan judge puanları da aynıdır
+(14 soru: F 3,43 → 4,57; AR 4,07 → 4,71; TP 3,71 → 4,50; kötüleşen 0; #19/#20/#23 → 5/5/5/5) — yeniden puanlanmadı (kota).
+
+**Geri yükleme (gerekirse; uygulanmadı):** Streamlit/diğer süreçleri kapat, `copy rag.db.bak_a1_2026-11-12 rag.db` (ya da
+`cp -p`), sonra `kosu.py::DB_OZET`'i `757e97059abb`'ye geri al; `python -c "import hashlib;print(hashlib.sha256(open('rag.db','rb').read()).hexdigest()[:12])"`
+ile özetin `757e97059abb` olduğunu doğrula.
