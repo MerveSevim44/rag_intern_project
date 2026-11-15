@@ -1,0 +1,10 @@
+id,zorluk,soru,beklenen_kaynak,dokumanda_var_mi,cevap,bulunan_kaynaklar,sure_sn,context,dogrulama_durumu
+107,Kolay,728_profiles.json veri setinde profillerin ortalama randevu ücreti kaç TL'dir?,-,Hayır,728_profiles.json veri setinde profillerin ortalama randevu ücreti 45.12'dir.,728_profiles.json (code_interpreter (code_interpreter_sandbox)),17.66,"[1] Kaynak: 728_profiles.json, code_interpreter (code_interpreter_sandbox)
+[KESİN HESAPLAMA SONUCU]
+728_profiles.json veri setinde profillerin ortalama randevu ücreti 45.12'dir.",ok
+108,Kolay,728_profiles.json veri setinde profillerin cinsiyet dağılımı nedir?,-,Hayır,Veri setindeki profillerin cinsiyet dağılımı konusunda bilgi bulunamadı.,728_profiles.json (code_interpreter (code_interpreter_sandbox)),12.79,"[1] Kaynak: 728_profiles.json, code_interpreter (code_interpreter_sandbox)
+[KESİN HESAPLAMA SONUCU]
+Individual profil sayısı 599'dur, Business profil sayısı 129'tür.",ok
+109,Orta,728_profiles.json veri setindeki profillerin müşteri memnuniyet puanı ortalaması kaçtır?,-,Hayır,Bu bilgi dokümanlarda bulunamadı; sonuç doğrulanamadığı için aktarılmadı.,728_profiles.json (code_interpreter (code_interpreter_sandbox)),38.18,"[1] Kaynak: 728_profiles.json, code_interpreter (code_interpreter_sandbox)
+[DOĞRULANAMAYAN SONUÇ]
+Sorgu veri seti uzerinde calistirildi ancak uretilen kodun soruyu dogru yorumladigi DOGRULANAMADI: semantik dogrulayici itiraz etti ve izleyen duzeltme denemeleri de basarisiz oldu. Elde kalan sonuc guvenilir degil; sorulan buyukluk veri setinde mevcut olmayabilir.",objection

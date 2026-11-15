@@ -1,0 +1,38 @@
+"""
+Hedefli türetme-kuralı ipucu (backlog #45): _build_named_column_recipe YALNIZ iki koşul birlikte
+sağlanınca tetiklenir — (a) soru şemadaki bir sütunu ADIYLA anıyor VE (b) türetme/oluşturma niyeti var.
+Aksi halde prompt değişmez (boş string). Genel prompt kuralı (kural A) 7B modeli bozduğu için geri alındı;
+bu reçete yalnız dar tetikleyiciyle çalışır.
+"""
+import pandas as pd
+
+from src.code_interpreter import _build_named_column_recipe, _named_columns, build_code_gen_prompt
+
+DF = pd.DataFrame({"profileCode": ["DB-ZD5HGKSC"], "displayName": ["Özge Taş"],
+                   "slug": ["ozge-tas-zd5hgksc"], "sector": ["Sağlık"]})
+SORU_45 = ("slug alanı displayName ve profileCode alanlarından nasıl bir kurala göre oluşturulmuş "
+           "görünmektedir? Örnek profil üzerinden gösterin.")
+IZ = "TÜRETME KURALI SORUSU"
+
+
+def test_iki_kosul_birlikte_tetikler_ve_sutunlari_listeler():
+    assert _named_columns(SORU_45, DF) == ["profileCode", "displayName", "slug"]
+    r = _build_named_column_recipe(SORU_45, DF)
+    assert IZ in r and "'slug'" in r and "'displayName'" in r and "'profileCode'" in r
+    assert IZ in build_code_gen_prompt(SORU_45, DF)
+
+
+def test_yalniz_sutun_anilirsa_tetiklemez():
+    assert _build_named_column_recipe("slug alanı kaç farklı değer içerir?", DF) == ""
+    assert IZ not in build_code_gen_prompt("slug alanı kaç farklı değer içerir?", DF)
+
+
+def test_yalniz_niyet_varsa_tetiklemez():
+    assert _build_named_column_recipe("Bu kural nasıl oluşturulmuş?", DF) == ""
+    assert _build_named_column_recipe("Hangi kurala göre sıralanmış?", DF) == ""
+
+
+def test_sutun_adi_tam_sozcuk_degilse_eslesmez():
+    # 'sector' sütunu 'sectorCount' sözcüğünün içinde geçiyor ama tam sözcük değil
+    assert _named_columns("sectorCount nasıl oluşturulmuş?", DF) == []
+    assert _build_named_column_recipe("sectorCount nasıl oluşturulmuş?", DF) == ""

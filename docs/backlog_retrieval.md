@@ -2896,20 +2896,20 @@ Retrieval hatası hiçbir satırda kök neden çıkmadı (cevabı taşıyan sayf
 | #73, #83 (C1, PUA yetersiz + düzen karışık) | PUA kodlu semboller + yığılı kesir düzeni. E1'de #73 hâlâ yanlış (`ω+` bağlamda okunur olduğu hâlde düşüyor), #83'ün iyileşmesi şüpheli (yığılı döküm, judge 5'i tartışmalı) | **"Otomatik çözüm denenmedi" kategorisi (A1'den AYRILDI, 2026-11-12):** PUA eşlemesi tek başına yetmiyor, düzen de karışmış; düzen ayağı denenmedi. A1'in sütun-bölme denemesi bu sayfaları BİLEREK dışarıda bırakıyor (PUA kapısı) — #73/#83 için çözüm değil |
 | **#62, #69 (C1, mekanizma teşhis edildi, nokta-düzeltme işe yarıyor)** | PUA kodlu semboller. E1'de eşleme bu iki soruyu düzeltti (judge 1/2/1/5 → 5/5/5/5 ve 1/3/2/5 → 5/5/5/5) → mekanizma doğrulandı | **KABUL EDİLMİŞ SINIRLAMA (2026-11-11 güncellemesi).** Nokta-düzeltme mekanizması doğrulandı, ama güvenle devreye alınamıyor: genel eşleme (E1) 5 regresyon yarattı (#85, #74, #71, #61, #88), sayfa-koşullu eşleme (E2) de 5 farklı regresyon yarattı (#61, #88, #76, #84, #86; #66 ölçülemedi) — aynı chunk bir soruda iyi, ötekinde kötü, chunk-bazlı allowlist ile ayrılamıyor ve sayfa allowlist'i dataset-agnostik felsefeye aykırı. **"Olası ileri adım: koşullu uygulama" denendi, işe yaramadı** (bkz. 2026-11-11 notu). Ayrıca gerçek ingest uygulaması re-ingest + tam benchmark ister, retrieval etkisi hâlâ ölçülmedi |
 | #89 | Bilginin kendisi bir şekilde (sayfa 13: ±ω0 bantları); metin katmanında yalnız etiket parçaları | Çıkarıcı sınırı (metin çıkarımıyla çözülmez); kabul edilmiş sınırlama |
-| **#45** | **Kod-üretim + doğrulayıcı boşluğu:** şemada `slug` sütunu varken kod onu okumuyor, kendi türetmesini yazıp kendini doğruluyor; doğrulayıcı "doğru kaynak sütunun kullanılıp kullanılmadığını" kontrol etmiyor (madde 18'den FARKLI mekanizma, benzer semptom) | **DÜZELTİLDİ** (commit `69674ae`; bkz. aşağıdaki "#45 düzeltmesi" ve "Judge doğrulaması" notları — tek vaka üzerinde doğrulandı, genelleşme ölçülmedi) **→ YENİDEN AÇIK (DÜZELTME 2026-11-15: düzeltmeyi taşıyan kural A geri alındı, bkz. en alttaki DÜZELTME notu)** |
+| **#45** | **Kod-üretim + doğrulayıcı boşluğu:** şemada `slug` sütunu varken kod onu okumuyor, kendi türetmesini yazıp kendini doğruluyor; doğrulayıcı "doğru kaynak sütunun kullanılıp kullanılmadığını" kontrol etmiyor (madde 18'den FARKLI mekanizma, benzer semptom) | **DÜZELTİLDİ** (commit `69674ae`; bkz. aşağıdaki "#45 düzeltmesi" ve "Judge doğrulaması" notları — tek vaka üzerinde doğrulandı, genelleşme ölçülmedi) **→ YENİDEN AÇIK (DÜZELTME 2026-11-15: düzeltmeyi taşıyan kural A geri alındı)** **→ KABUL EDİLMİŞ SINIRLAMA (2026-11-15):** model, şemada hazır duran sütunu (`slug`) okumak yerine kendi türetmesini yazabiliyor ve doğrulayıcı yakalamıyor. Üç prompt-düzeyi deneme: A v1 #45'i düzeltti ama #43/#231'de sandbox kaybı yarattı; A v2 #45'i düzeltmedi (#53/#218 kaybı, içerik kötüleşmesi); dar-tetikleyicili enjeksiyon regresyonsuz ama #45'i düzeltmedi. Gözlem: 7B model talimatı yalnız GENEL kural olarak izledi ve bedeli başka sorularda sandbox kaybıydı. Kapsam: 23 soru + #45 + #109, üç boyutlu ölçüm. Dördüncü deneme yapılmayacak; bkz. 2026-11-15 #45 notu |
 | **#85** | **GT sorunu:** slayt 14 `e^{jω0t}f(t) ↔ 2π F(ω−ω0)` yazıyor, GT ve cevap `2π`'siz (standart sonuç); judge slayta sadık kalıp puan kırdı; E1 öncesi cevap GT'ye uyuyordu | **KAPANDI — GT doğru/korunuyor (karar 2026-11-12):** slayt 14'teki `2π` faktörü muhtemel kaynak yazım hatası olarak belgelendi, GT'ye yansıtılmadı (karar: standart matematik önceliklendirildi). Kod/veri değişikliği yok. Model hatası değil; judge slayta sadık kalıp puan kırdığı için #85'in düşük skoru slayt-GT çelişkisinden gelir |
 | #71 | E1'de görülen context-sızıntısı (ayrı not) | **Teşhis edilmedi**; PUA'nın yan etkisi değil |
 | #82 | Bu koşuda cevap chunk'ı bağlamda yok (ret) | Madde 32-34 kapsamında, bu incelemenin dışında |
 
 **Kategoriler:** (1) *Bilinen düzeltme yolu yok, kabul edilmiş sınırlama:* A2, C2, C3, #41/#47, #89. (2) *Mekanizma teşhis edildi, nokta-düzeltme
 işe yarıyor ama genel VE sayfa-koşullu uygulama regresyon yaratıyor → kabul edilmiş sınırlama (2026-11-11):* #62, #69. (3) *Otomatik çözüm denenmedi:* #73, #83 (düzen ayağı). (3b) *Düzeltildi:* A1 (#19/#20) — `496df25` + canlı DB re-ingest (2026-11-12). (4) ~~*Düzeltilebilir kod
-kusuru:* #45~~ → düzeltildi (`69674ae`). **[2026-11-15: yeniden açık]** (5) *GT sorunu:* #85 → kapandı, GT korunuyor (karar 2026-11-12). (6) *Teşhis edilmedi:* #71.
+kusuru:* #45~~ → düzeltildi (`69674ae`). **[2026-11-15: yeniden açık → kabul edilmiş sınırlama]** (5) *GT sorunu:* #85 → kapandı, GT korunuyor (karar 2026-11-12). (6) *Teşhis edilmedi:* #71.
 
 **Önceki "13/15 teşhis edilmedi" notunun güncel hâli:** A (4), B (3), C (5) + #83/#85/#89 satırlarının hepsi artık bir
 sınıfa bağlandı; yeni madde açılmadı. İki satır (#57 → madde 18, #48/#90 → madde 37) önceden bağlıydı.
 
 **Hâlâ açık / eyleme dönük olanlar (öncelik verilmedi):**
-1. ~~**#45 — kod kusuru**~~ **DÜZELTİLDİ** (bkz. aşağıdaki "#45 düzeltmesi" notu). **→ YENİDEN AÇIK (2026-11-15): kural A geri alındı, #45 tekrar düzeltilmemiş; bkz. DÜZELTME notu.**
+1. ~~**#45 — kod kusuru**~~ **DÜZELTİLDİ** (bkz. aşağıdaki "#45 düzeltmesi" notu). **→ YENİDEN AÇIK (2026-11-15) → KABUL EDİLMİŞ SINIRLAMA (2026-11-15, "Hâlâ açık" listesinden ÇIKTI; kapanış tablosunda).**
 2. ~~**#85 — GT düzeltmesi**~~ **KAPANDI** — GT standart matematiğe göre (`F(ω−ω0)`, 2π'siz) KORUNUYOR; slayt 14'teki 2π muhtemel kaynak yazım hatası, belgelendi, GT'ye yansıtılmadı (kapanış tablosuna taşındı). Kod/veri değişikliği yok. (#74'ün nedensellik gerekçesinin slaytta olmaması ayrı bir gözlemdi, GT kararını etkilemiyor.)
 3. **#71 sızıntısı:** teşhis edilmedi, yalnız E1 eşlemeli koşulunda 1/24 koşuda görüldü; üretimde (147 cevap) 0.
 4. ~~**A1 (#19/#20) otomatik düzen düzeltmesi**~~ **DÜZELTİLDİ** (2026-11-12; kapanış tablosuna taşındı). **#73/#83'ün düzen ayağı (PUA'lı Fourier sayfaları) HÂLÂ AÇIK / denenmedi** — A1 çözümü bu sayfaları bilerek kapsamıyor.
@@ -3265,3 +3265,25 @@ kuralıyla çözüldü", "20/23'ü aynı kaldı ... hiçbir soruda ok→objectio
 - **Metodoloji dersi:** yalnız `validation_status` ölçmek bu iki regresyonu (A: sandbox kaybı; B: güvenli objection'ın kaybolması) ve "kötü cevap" değişimlerini göremedi. Ölçüm artık üç boyutlu
   (`experiments/madde45_kural_a/olc.py`: success + validation_status + cevap/yol) ve prompt/doğrulayıcı değişikliklerinde zorunlu; "zararsız" iddiası için A/B açık-kapalı doğrudan karşılaştırma gerekli.
 
+
+---
+
+## Not (2026-11-15) — #45: dar-tetikleyicili hedefli enjeksiyon (3. ve SON deneme) İŞE YARAMADI; "kabul edilmiş sınırlama" olarak kapatılması KAPATILDI (onaylandı 2026-11-15)
+
+**Deneme:** `_build_geo_recipe` desenini izleyen `_build_named_column_recipe` (patch: `experiments/madde45_kural_a/hedefli_enjeksiyon_v1.patch`, testleri
+`test_named_column_recipe.py.txt`; kod `src/`'de TUTULMADI, `f024ed3` blob'una geri alındı). Tetikleyici İKİ koşul birlikte: (a) soru şemadaki bir sütunu ADIYLA anıyor,
+(b) türetme/oluşturma niyeti ("nasıl oluşturulmuş", "hangi kurala göre", "kuralını göster"). Aksi halde prompt DEĞİŞMEZ. **Tetikleyici dar çıktı:** 159 soru × 4 tablo veri
+kümesinde YALNIZ #45'te ateşledi.
+
+**Ölçüm (üç boyutlu, 23 soru + #45 + #109, temiz koşu):**
+- **Regresyon YOK:** 22/23 soruda success, doğrulama, yol ve cevap `f024ed3` ile birebir aynı; **#109 `objection` kaldı** (B artık yok); #43/#231/#218 sandbox'ta; `success True→False` yok.
+- **#45 DÜZELMEDİ:** ipucu kodu değiştirdi (artık örnek satırı okuyor) ama model `slug` anahtarını yine kendi formülüyle üretti (`'db-zd5hgksc-özge-taş'`), `row['slug']`'ı okumadı; cevap
+  yanlış (GT `ozge-tas-zd5hgksc`), doğrulayıcı `ok` dedi. Doğrudan 3/3 aynı sonuç (model bu prompt'ta deterministik), pipeline 1/1 aynı. Ön-kayıtlı kriter (≥2/3'te gerçek slug) KARŞILANMADI.
+
+**Üç denemenin özeti (#45 için prompt-düzeyi çözümler):** (1) kural A v1: #45'i düzeltti (3/3) ama #43/#231'i bozdu (sandbox kaybı) → geri alındı; (2) kural A v2 (direktif): #45 düzelmedi,
+#53/#218 kaybı, içerik kötüleşmesi → geri alındı; (3) dar tetikleyicili enjeksiyon: regresyonsuz ama #45 düzelmedi. Gözlem: 7B model, "gerçek sütunu oku" talimatı yalnızca genel kural olarak (v1)
+işe yaradı ve bunun bedeli başka sorularda sandbox kaybıydı; sorgu-özel ipucu etkisiz kaldı.
+
+**KARAR (2026-11-15): onaylandı — #45 kapanış tablosunda "kabul edilmiş sınırlama", "Hâlâ açık" listesinden çıktı.** **Öneri (onaylanan):** #45 **"kabul edilmiş sınırlama"**: model, şemada hazır duran bir sütunu (`slug`) okumak yerine kendi türetmesini yazabiliyor ve doğrulayıcı bunu yakalamıyor; prompt-düzeyi hiçbir
+müdahale regresyonsuz çalışmadı. Dördüncü deneme yapılmayacak (kararlaştırıldı). Olası ileri adım (denenmedi, öncelik verilmedi): kod-üretimden bağımsız, yapısal bir son-işlem (ör. sonuç anahtarı bir
+sütun adıyla eşleşiyor ama kod o sütunu okumamışsa sonucu o sütunun gerçek değeriyle değiştirme / işaretleme) — bu, önceki "C seçeneği"dir; yan etki riski yüksek, çalışma maliyeti büyük.

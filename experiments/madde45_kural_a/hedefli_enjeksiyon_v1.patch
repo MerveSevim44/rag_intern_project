@@ -1,0 +1,67 @@
+diff --git a/src/code_interpreter.py b/src/code_interpreter.py
+index 3bd65c7..ff5a940 100644
+--- a/src/code_interpreter.py
++++ b/src/code_interpreter.py
+@@ -294,6 +294,45 @@ Bir referans satira olan TUM mesafeler icin referansin KENDISINI disla
+     result = others.nsmallest(3, 'distance_km')[['<ad_kolonu>', 'distance_km']].to_dict('records')"""
+ 
+ 
++# Türetme/oluşturma NİYETİ: "nasıl oluşturulmuş", "hangi kurala göre", "kuralını göster" gibi.
++_DERIVATION_INTENT = [
++    r"(nas[ıi]l|hangi)\s+(bir\s+)?kural",
++    r"kural(a|ı|ını|ini)?\s+(g[öo]re|g[öo]ster)",
++    r"nas[ıi]l\s+(olu[şs]turul|t[üu]retil|[üu]retil|olu[şs]mu[şs])",
++]
++
++
++def _named_columns(question: str, df: pd.DataFrame) -> list:
++    """Sorunun ADIYLA andığı df sütunları (tam sözcük eşleşmesi, büyük/küçük harf duyarsız)."""
++    q = question.strip().lower()
++    return [str(c) for c in df.columns
++            if re.search(rf"(?<![\w.]){re.escape(str(c).lower())}(?![\w])", q)]
++
++
++def _build_named_column_recipe(question: str, df: pd.DataFrame) -> str:
++    """
++    İKİ koşul birlikte sağlanınca ipucu enjekte eder, aksi hâlde boş string döner
++    (prompt değişmez): (a) soru şemadaki en az bir sütunu adıyla anıyor VE (b) soru bir
++    türetme/oluşturma kuralı soruyor (backlog #45: model `slug` sütunu hazır dururken
++    kendi uydurma türetme fonksiyonunu yazıp yanlış değer üretiyordu).
++    """
++    q = question.strip().lower()
++    if not any(re.search(p, q) for p in _DERIVATION_INTENT):
++        return ""
++    cols = _named_columns(question, df)
++    if not cols:
++        return ""
++    listed = ", ".join(f"'{c}'" for c in cols)
++    return f"""
++
++ZORUNLU YÖNTEM - TÜRETME KURALI SORUSU:
++Soru {listed} sütun(lar)ını adıyla anıyor ve bunların nasıl oluşturulduğunu soruyor. Bu sütunların
++değerleri veride HAZIR duruyor. Kendi türetme fonksiyonunu YAZMA; gerçek değerleri bir örnek satırdan oku:
++    row = df[<soruda adı geçen kişi/kod koşulu varsa o koşul, yoksa df.index == df.index[0]>].iloc[0]
++    result = row[[{listed}]].to_dict()   # sorudaki diğer ilgili sütunları da ekle
++Sonuç, GERÇEK sütun değerlerini içermeli; kod 'result = ...' atamasıyla bitmeli."""
++
++
+ def build_code_gen_prompt(question: str, df: pd.DataFrame) -> str:
+     """
+     DataFrame'in gerçek şemasına ve örnek satırlarına dayalı, kolon uydurmayı
+@@ -341,6 +380,7 @@ def build_code_gen_prompt(question: str, df: pd.DataFrame) -> str:
+ 
+     # ── (C) Kavram tabanlı formül reçeteleri (dataset-agnostik) ────────────
+     geo_recipe = _build_geo_recipe(question, df)
++    named_recipe = _build_named_column_recipe(question, df)
+ 
+     schema_info = f"""Mevcut DataFrame (df) Bilgisi:
+ - Toplam Satır Sayısı: {len(df)}
+@@ -361,7 +401,7 @@ Kurallar:
+ 6. Sütun isimlerini şemada verildiği gibi tam ve birebir kullan.
+ 7. Eğer soru karşılaştırma, sıralama veya liste gerektiriyorsa sonucu açıklayıcı bir sözlük (dict), liste veya Series olarak 'result'a ata.
+ 8. Soruda "net", "fark" veya "değişim" geçiyorsa ilgili grupları AYRI AYRI hesaplayıp çıkarma işlemini açıkça yaz; hepsini tek bir toplamda birleştirme.{currency_rule}
+-{UNIVERSAL_CODE_RULES}{geo_recipe}{signed_shot}
++{UNIVERSAL_CODE_RULES}{geo_recipe}{named_recipe}{signed_shot}
+ 
+ Soru: {question}
+ 
