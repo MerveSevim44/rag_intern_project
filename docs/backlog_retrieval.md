@@ -2896,20 +2896,20 @@ Retrieval hatası hiçbir satırda kök neden çıkmadı (cevabı taşıyan sayf
 | #73, #83 (C1, PUA yetersiz + düzen karışık) | PUA kodlu semboller + yığılı kesir düzeni. E1'de #73 hâlâ yanlış (`ω+` bağlamda okunur olduğu hâlde düşüyor), #83'ün iyileşmesi şüpheli (yığılı döküm, judge 5'i tartışmalı) | **"Otomatik çözüm denenmedi" kategorisi (A1'den AYRILDI, 2026-11-12):** PUA eşlemesi tek başına yetmiyor, düzen de karışmış; düzen ayağı denenmedi. A1'in sütun-bölme denemesi bu sayfaları BİLEREK dışarıda bırakıyor (PUA kapısı) — #73/#83 için çözüm değil |
 | **#62, #69 (C1, mekanizma teşhis edildi, nokta-düzeltme işe yarıyor)** | PUA kodlu semboller. E1'de eşleme bu iki soruyu düzeltti (judge 1/2/1/5 → 5/5/5/5 ve 1/3/2/5 → 5/5/5/5) → mekanizma doğrulandı | **KABUL EDİLMİŞ SINIRLAMA (2026-11-11 güncellemesi).** Nokta-düzeltme mekanizması doğrulandı, ama güvenle devreye alınamıyor: genel eşleme (E1) 5 regresyon yarattı (#85, #74, #71, #61, #88), sayfa-koşullu eşleme (E2) de 5 farklı regresyon yarattı (#61, #88, #76, #84, #86; #66 ölçülemedi) — aynı chunk bir soruda iyi, ötekinde kötü, chunk-bazlı allowlist ile ayrılamıyor ve sayfa allowlist'i dataset-agnostik felsefeye aykırı. **"Olası ileri adım: koşullu uygulama" denendi, işe yaramadı** (bkz. 2026-11-11 notu). Ayrıca gerçek ingest uygulaması re-ingest + tam benchmark ister, retrieval etkisi hâlâ ölçülmedi |
 | #89 | Bilginin kendisi bir şekilde (sayfa 13: ±ω0 bantları); metin katmanında yalnız etiket parçaları | Çıkarıcı sınırı (metin çıkarımıyla çözülmez); kabul edilmiş sınırlama |
-| **#45** | **Kod-üretim + doğrulayıcı boşluğu:** şemada `slug` sütunu varken kod onu okumuyor, kendi türetmesini yazıp kendini doğruluyor; doğrulayıcı "doğru kaynak sütunun kullanılıp kullanılmadığını" kontrol etmiyor (madde 18'den FARKLI mekanizma, benzer semptom) | **DÜZELTİLDİ** (commit `69674ae`; bkz. aşağıdaki "#45 düzeltmesi" ve "Judge doğrulaması" notları — tek vaka üzerinde doğrulandı, genelleşme ölçülmedi) |
+| **#45** | **Kod-üretim + doğrulayıcı boşluğu:** şemada `slug` sütunu varken kod onu okumuyor, kendi türetmesini yazıp kendini doğruluyor; doğrulayıcı "doğru kaynak sütunun kullanılıp kullanılmadığını" kontrol etmiyor (madde 18'den FARKLI mekanizma, benzer semptom) | **DÜZELTİLDİ** (commit `69674ae`; bkz. aşağıdaki "#45 düzeltmesi" ve "Judge doğrulaması" notları — tek vaka üzerinde doğrulandı, genelleşme ölçülmedi) **→ YENİDEN AÇIK (DÜZELTME 2026-11-15: düzeltmeyi taşıyan kural A geri alındı, bkz. en alttaki DÜZELTME notu)** |
 | **#85** | **GT sorunu:** slayt 14 `e^{jω0t}f(t) ↔ 2π F(ω−ω0)` yazıyor, GT ve cevap `2π`'siz (standart sonuç); judge slayta sadık kalıp puan kırdı; E1 öncesi cevap GT'ye uyuyordu | **KAPANDI — GT doğru/korunuyor (karar 2026-11-12):** slayt 14'teki `2π` faktörü muhtemel kaynak yazım hatası olarak belgelendi, GT'ye yansıtılmadı (karar: standart matematik önceliklendirildi). Kod/veri değişikliği yok. Model hatası değil; judge slayta sadık kalıp puan kırdığı için #85'in düşük skoru slayt-GT çelişkisinden gelir |
 | #71 | E1'de görülen context-sızıntısı (ayrı not) | **Teşhis edilmedi**; PUA'nın yan etkisi değil |
 | #82 | Bu koşuda cevap chunk'ı bağlamda yok (ret) | Madde 32-34 kapsamında, bu incelemenin dışında |
 
 **Kategoriler:** (1) *Bilinen düzeltme yolu yok, kabul edilmiş sınırlama:* A2, C2, C3, #41/#47, #89. (2) *Mekanizma teşhis edildi, nokta-düzeltme
 işe yarıyor ama genel VE sayfa-koşullu uygulama regresyon yaratıyor → kabul edilmiş sınırlama (2026-11-11):* #62, #69. (3) *Otomatik çözüm denenmedi:* #73, #83 (düzen ayağı). (3b) *Düzeltildi:* A1 (#19/#20) — `496df25` + canlı DB re-ingest (2026-11-12). (4) ~~*Düzeltilebilir kod
-kusuru:* #45~~ → düzeltildi (`69674ae`). (5) *GT sorunu:* #85 → kapandı, GT korunuyor (karar 2026-11-12). (6) *Teşhis edilmedi:* #71.
+kusuru:* #45~~ → düzeltildi (`69674ae`). **[2026-11-15: yeniden açık]** (5) *GT sorunu:* #85 → kapandı, GT korunuyor (karar 2026-11-12). (6) *Teşhis edilmedi:* #71.
 
 **Önceki "13/15 teşhis edilmedi" notunun güncel hâli:** A (4), B (3), C (5) + #83/#85/#89 satırlarının hepsi artık bir
 sınıfa bağlandı; yeni madde açılmadı. İki satır (#57 → madde 18, #48/#90 → madde 37) önceden bağlıydı.
 
 **Hâlâ açık / eyleme dönük olanlar (öncelik verilmedi):**
-1. ~~**#45 — kod kusuru**~~ **DÜZELTİLDİ** (bkz. aşağıdaki "#45 düzeltmesi" notu).
+1. ~~**#45 — kod kusuru**~~ **DÜZELTİLDİ** (bkz. aşağıdaki "#45 düzeltmesi" notu). **→ YENİDEN AÇIK (2026-11-15): kural A geri alındı, #45 tekrar düzeltilmemiş; bkz. DÜZELTME notu.**
 2. ~~**#85 — GT düzeltmesi**~~ **KAPANDI** — GT standart matematiğe göre (`F(ω−ω0)`, 2π'siz) KORUNUYOR; slayt 14'teki 2π muhtemel kaynak yazım hatası, belgelendi, GT'ye yansıtılmadı (kapanış tablosuna taşındı). Kod/veri değişikliği yok. (#74'ün nedensellik gerekçesinin slaytta olmaması ayrı bir gözlemdi, GT kararını etkilemiyor.)
 3. **#71 sızıntısı:** teşhis edilmedi, yalnız E1 eşlemeli koşulunda 1/24 koşuda görüldü; üretimde (147 cevap) 0.
 4. ~~**A1 (#19/#20) otomatik düzen düzeltmesi**~~ **DÜZELTİLDİ** (2026-11-12; kapanış tablosuna taşındı). **#73/#83'ün düzen ayağı (PUA'lı Fourier sayfaları) HÂLÂ AÇIK / denenmedi** — A1 çözümü bu sayfaları bilerek kapsamıyor.
@@ -3237,3 +3237,31 @@ sütun-var-mı muhakeme döngüsüne sokuyor gibi (kanıtlanmış neden değil, 
 görünmez (satır yalnız "boş durum" olur) ve ben onu ortam hatasına bağladım. "Sıfır false-positive" cümlesi `validation_status` için doğru kalır,
 ama "regresyon yok" anlamına gelmiyordu: 23 sorunun en az 2'sinde (~%9) sandbox kaybı vardı. **Yeni ölçüm metriği üç boyutlu:** (a) `success`,
 (b) `validation_status`, (c) cevap içeriği/yolu (sandbox mı, semantik RAG yedeği mi). Kural A yeniden yazılıyor; sonuç bu notun altına eklenecek.
+
+---
+
+## DÜZELTME (2026-11-15) — Kural A ve B GERİ ALINDI; "B zararsız ama etkisiz" ve "#45 DÜZELTİLDİ" değerlendirmeleri YANLIŞ/ geçersizdi
+
+**Eski ifadeler (yukarıda, SİLİNMEDİ):** "#45 DÜZELTİLDİ (`69674ae`)", "B ... zararsız ama şu an bağımsız olarak etkisiz bir savunma katmanı", "kök neden A'nın kod-üretim
+kuralıyla çözüldü", "20/23'ü aynı kaldı ... hiçbir soruda ok→objection yok".
+
+**Ne oldu:**
+- **Kural A (`UNIVERSAL_CODE_RULES` satırı) üretimde regresyon yarattı** (`69674ae` ile push'lanmıştı): #43/#231'de sandbox 0/2 (kural kapalı 2/2), yani sandbox yolu kayboluyor
+  ve sistem yedek RAG'e düşüyor (önceki "Ollama kapalı, ilgisiz" yorumu yanlıştı; ayrıntı bir önceki DÜZELTME notunda). Yeniden yazılan v2 (direktif dili, commit EDİLMEDİ)
+  #45'i DÜZELTMEDİ (model yine kendi slug'ını türetti), #53 ve #218'de `success True→False`, #51/#108/#109'da içerik kötüleşmesi yarattı. v1 VE v2 denendi; net kazanç yok.
+  **Geri alındı: `542d1ba`.**
+- **B (`_semantic_check`'e `df` parametresi + 5. kontrol maddesi) "zararsız" DEĞİLDİ.** Ölçülen tek somut etkisi #109'da güvenli `objection`'ı güvenle yanlış `ok`'a çevirmekti:
+  B kapalı 3/3 `objection` (`result=1.0`, "DOĞRULANAMAYAN SONUÇ"); B açık 5/5 `ok` (`result = 728`, "KESİN HESAPLAMA SONUCU" etiketli yanlış cevap). Mekanizma: şema notu
+  itiraz metnini değiştiriyor → bu metin düzeltme prompt'una giriyor → 2. denemede `result = 728` çıkıyor → doğrulayıcı geçiriyor. B hiçbir şeyi yakalamadı (#45'in eski hatalı
+  kodu izole testte 5/5 TAMAM aldı). **Geri alındı: `f90c5e7`; `src/code_interpreter.py` artık `f024ed3` ile BAYT BAYT aynı** (`git hash-object` = `3bd65c7f…`).
+- **Doğrulama (A ve B geri, 23 soru: test_2 13 + test_5 3 + test_negative 7; üç boyut):** (a) success, (b) validation_status, (c) cevap + yol (sandbox/yedek) — **23/23 soruda
+  `f024ed3` davranışıyla birebir aynı** (#109 `objection`; #43/#231/#218/#45 dahil; `success True→False` yok). Temiz koşu kuralı: test_2'nin ilk denemesi kirliydi (#52/#53/#57'de Foundry
+  bağlantı hatası) ve sürücü tarafından yeniden koşuldu; sayılan veri ikinci (temiz) denemedir. (Ara adım: yalnız A geri, B açıkken 22/23 aynıydı, tek fark #109.)
+- **#45 durumu: YENİDEN AÇIK.** Çözen kural geri alındı; kapanış tablosundaki "DÜZELTİLDİ" işareti geçersiz (üstüne etiket eklendi). Sonraki adım: dar tetikleyicili hedefli enjeksiyon
+  (`_build_geo_recipe` deseni; yalnız soru şemadaki bir sütunu açıkça anıyor VE türetme/oluşturma niyeti taşıyorsa). 23 soruyu bozmazsa ve #45'i düzeltirse alınır; yoksa #45
+  "kabul edilmiş sınırlama" olarak kapatılması önerilecek (dördüncü deneme yapılmayacak).
+- **#218 tutarsızlığı: teşhis edilmedi.** v1 ile doğrudan çağrı harness'ında 0/3 (kural kapalı 3/3, v2 0/3), ama tek bir pipeline (run_tests yolu) koşusunda v1 ile `ok` çıkmıştı. Pipeline-vs-doğrudan
+  ayrıştırması 17 dk'da çıktı üretmeden durduruldu (pipeline yolu her çağrıda yedek RAG'e düşüp yavaşlıyor); kural kaldırıldığı için takip edilmiyor.
+- **Metodoloji dersi:** yalnız `validation_status` ölçmek bu iki regresyonu (A: sandbox kaybı; B: güvenli objection'ın kaybolması) ve "kötü cevap" değişimlerini göremedi. Ölçüm artık üç boyutlu
+  (`experiments/madde45_kural_a/olc.py`: success + validation_status + cevap/yol) ve prompt/doğrulayıcı değişikliklerinde zorunlu; "zararsız" iddiası için A/B açık-kapalı doğrudan karşılaştırma gerekli.
+
