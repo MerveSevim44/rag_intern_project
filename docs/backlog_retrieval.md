@@ -3287,3 +3287,17 @@ işe yaradı ve bunun bedeli başka sorularda sandbox kaybıydı; sorgu-özel ip
 **KARAR (2026-11-15): onaylandı — #45 kapanış tablosunda "kabul edilmiş sınırlama", "Hâlâ açık" listesinden çıktı.** **Öneri (onaylanan):** #45 **"kabul edilmiş sınırlama"**: model, şemada hazır duran bir sütunu (`slug`) okumak yerine kendi türetmesini yazabiliyor ve doğrulayıcı bunu yakalamıyor; prompt-düzeyi hiçbir
 müdahale regresyonsuz çalışmadı. Dördüncü deneme yapılmayacak (kararlaştırıldı). Olası ileri adım (denenmedi, öncelik verilmedi): kod-üretimden bağımsız, yapısal bir son-işlem (ör. sonuç anahtarı bir
 sütun adıyla eşleşiyor ama kod o sütunu okumamışsa sonucu o sütunun gerçek değeriyle değiştirme / işaretleme) — bu, önceki "C seçeneği"dir; yan etki riski yüksek, çalışma maliyeti büyük.
+
+## Not (2026-11-15) — qwen3-8b pilotu SONUÇSUZ kaldı (bağlayıcı sonuç değil, ayrı küçük not)
+
+qwen3-8b pilotu denendi, **SONUÇSUZ** kaldı — thinking modu kapatılamadı (Foundry'de
+`enable_thinking: False` etkisiz) ve 8 GB VRAM bu modeli kararlı çalıştıramadı (servis 2 kez
+çöktü, madde 15 deseni). "Daha iyi model yardımcı olur mu" sorusu bu pilotla **YANITLANAMADI,
+reddedilmedi**. Gerçek bir test için daha fazla VRAM (bulut/farklı donanım) ve thinking modunu
+gerçekten kontrol eden bir kurulum gerekir — bu oturumun kapsamı dışında.
+
+Kayıt (yalnız gözlem, skorlanmadı): qwen3-8b yalnız 3 soruyu (test_1 #28, #30; test_2 #41)
+cevaplayabildi; üçünde de cevap "Okay, let's tackle this question…" diye başlayan İngilizce
+düşünme metni olarak geldi (`<think>` etiketi yok, ~2000 krk'ta 600 token sınırında kesildi,
+süre ~3–4 kat). Kalan 7 soru servis çöküşü yüzünden HATA verdi (qwen3'ün sonucu değil).
+Ham çıktılar repoda DEĞİL, yerel scratchpad'de tutuluyor.
