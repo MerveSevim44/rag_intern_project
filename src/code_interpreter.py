@@ -188,8 +188,6 @@ UNIVERSAL_CODE_RULES = """
   değeri AYNI satırdan al (df.loc[idx]) ki eşleşme kaymasın.
 - Bir varlığı ararken kod/kısaltma kolonunu tercih et; eşleşme boş çıkarsa .iloc[0]
   IndexError verir — önce eşleşmenin boş olmadığından emin ol.
-- İstenen değer şemada ZATEN bir sütun olarak mevcutsa (şema listesinde veya örnek
-  satırlarda görünüyorsa), kendi türetme mantığını yazma, doğrudan o sütunu oku.
 """
 
 
