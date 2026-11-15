@@ -1,0 +1,10 @@
+id,zorluk,soru,beklenen_kaynak,dokumanda_var_mi,cevap,bulunan_kaynaklar,sure_sn,context,dogrulama_durumu
+107,Kolay,728_profiles.json veri setinde profillerin ortalama randevu ücreti kaç TL'dir?,-,Hayır,728_profiles.json veri setinde profillerin ortalama randevu ücreti 45.12'dir.,728_profiles.json (code_interpreter (code_interpreter_sandbox)),65.76,"[1] Kaynak: 728_profiles.json, code_interpreter (code_interpreter_sandbox)
+[KESİN HESAPLAMA SONUCU]
+728_profiles.json veri setinde profillerin ortalama randevu ücreti 45.12'dir.",ok
+108,Kolay,728_profiles.json veri setinde profillerin cinsiyet dağılımı nedir?,-,Hayır,Veri setindeki profillerin cinsiyet dağılımı konusunda bilgi bulunamadı.,728_profiles.json (code_interpreter (code_interpreter_sandbox)),65.1,"[1] Kaynak: 728_profiles.json, code_interpreter (code_interpreter_sandbox)
+[KESİN HESAPLAMA SONUCU]
+Individual profil sayısı 599'dur, Business profil sayısı 129'tür.",ok
+109,Orta,728_profiles.json veri setindeki profillerin müşteri memnuniyet puanı ortalaması kaçtır?,-,Hayır,Müşteri memnuniyet puanı ortalaması 728'tir.,728_profiles.json (code_interpreter (code_interpreter_sandbox)),103.94,"[1] Kaynak: 728_profiles.json, code_interpreter (code_interpreter_sandbox)
+[KESİN HESAPLAMA SONUCU]
+Müşteri memnuniyet puanı ortalaması 728'dir.",ok

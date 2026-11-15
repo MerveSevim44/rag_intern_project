@@ -1,0 +1,22 @@
+id,zorluk,kategori,soru,beklenen_kaynak,dokumanda_var_mi,referans_cevap,cevap,bulunan_kaynaklar,sure_sn,context,dogrulama_durumu
+211,Negatif,Yakin-Gurultulu,"""Havacılık ve Uzay"" sektöründeki profillerin ortalama deneyim yılı kaçtır?",-,Hayır,Bu bilgi dokümanlarda bulunamadı.,Bu bilgi dokümanlarda bulunamadı; belirtilen koşullara uyan kayıt yok.,728_profiles.json (code_interpreter (code_interpreter_sandbox)),58.75,"[1] Kaynak: 728_profiles.json, code_interpreter (code_interpreter_sandbox)
+[KAYIT BULUNAMADI]
+Sorgu veri seti uzerinde calistirildi ancak belirtilen filtreye uyan HICBIR KAYIT (0 satir) bulunamadi. Sorulan varlik (hesap, sehir, tarih vb.) veri setinde mevcut degil.",ok
+212,Negatif,Yakin-Gurultulu,Erzurum şehrinde hizmet veren kaç profil bulunmaktadır?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,Bu bilgi dokümanlarda bulunamadı; belirtilen koşullara uyan kayıt yok.,728_profiles.json (code_interpreter (code_interpreter_sandbox)),43.48,"[1] Kaynak: 728_profiles.json, code_interpreter (code_interpreter_sandbox)
+[KAYIT BULUNAMADI]
+Sorgu veri seti uzerinde calistirildi ancak belirtilen filtreye uyan HICBIR KAYIT (0 satir) bulunamadi. Sorulan varlik (hesap, sehir, tarih vb.) veri setinde mevcut degil.",ok
+218,Negatif,Yanlis On Kabul,mock-transactions veri setindeki ikinci hesabın (ACC-124) kapanış bakiyesi nedir?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,Bu bilgi dokümanlarda bulunamadı; belirtilen koşullara uyan kayıt yok.,mock-transactions.json (code_interpreter (code_interpreter_sandbox)),149.36,"[1] Kaynak: mock-transactions.json, code_interpreter (code_interpreter_sandbox)
+[KAYIT BULUNAMADI]
+Sorgu veri seti uzerinde calistirildi ancak belirtilen filtreye uyan HICBIR KAYIT (0 satir) bulunamadi. Sorulan varlik (hesap, sehir, tarih vb.) veri setinde mevcut degil.",ok
+225,Negatif,Zamansal Uyumsuzluk,mock-transactions veri setinde Şubat 2024 ayına ait işlemlerin toplam tutarı nedir?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,Bu bilgi dokümanlarda bulunamadı; belirtilen koşullara uyan kayıt yok.,mock-transactions.json (code_interpreter (code_interpreter_sandbox)),56.49,"[1] Kaynak: mock-transactions.json, code_interpreter (code_interpreter_sandbox)
+[KAYIT BULUNAMADI]
+Sorgu veri seti uzerinde calistirildi ancak belirtilen filtreye uyan HICBIR KAYIT (0 satir) bulunamadi. Sorulan varlik (hesap, sehir, tarih vb.) veri setinde mevcut degil.",ok
+228,Negatif,Zamansal Uyumsuzluk,728_profiles veri setine bu ay eklenen yeni profil sayısı kaçtır?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,Bu bilgi dokümanlarda bulunamadı; belirtilen koşullara uyan kayıt yok.,728_profiles.json (code_interpreter (code_interpreter_sandbox)),55.51,"[1] Kaynak: 728_profiles.json, code_interpreter (code_interpreter_sandbox)
+[KAYIT BULUNAMADI]
+Sorgu veri seti uzerinde calistirildi ancak belirtilen filtreye uyan HICBIR KAYIT (0 satir) bulunamadi. Sorulan varlik (hesap, sehir, tarih vb.) veri setinde mevcut degil.",ok
+231,Negatif,Zamansal Uyumsuzluk,airports.json veri setinin 2026 güncellemesinde eklenen havaalanları hangileridir?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,Bu bilgi dokümanlarda bulunamadı; belirtilen koşullara uyan kayıt yok.,airports.json (code_interpreter (code_interpreter_sandbox)),78.02,"[1] Kaynak: airports.json, code_interpreter (code_interpreter_sandbox)
+[KAYIT BULUNAMADI]
+Sorgu veri seti uzerinde calistirildi ancak belirtilen filtreye uyan HICBIR KAYIT (0 satir) bulunamadi. Sorulan varlik (hesap, sehir, tarih vb.) veri setinde mevcut degil.",ok
+232,Negatif,Zamansal Uyumsuzluk,us-states veri setinde en son hangi tarihte eyalet sınırı değişikliği kaydedilmiştir?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,"Hawaii, veri setinde en son eyalet sınırı değişikliği kaydedilen eyalettedir.",us-states-with-detail.json (code_interpreter (code_interpreter_sandbox)),49.04,"[1] Kaynak: us-states-with-detail.json, code_interpreter (code_interpreter_sandbox)
+[KESİN HESAPLAMA SONUCU]
+Hawaii, veri setinde en son eyalet sınırı değişikliği kaydedilen eyalettedır.",ok

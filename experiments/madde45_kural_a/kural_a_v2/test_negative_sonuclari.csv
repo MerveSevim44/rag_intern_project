@@ -1,0 +1,98 @@
+id,zorluk,kategori,soru,beklenen_kaynak,dokumanda_var_mi,referans_cevap,cevap,bulunan_kaynaklar,sure_sn,context,dogrulama_durumu
+211,Negatif,Yakin-Gurultulu,"""Havacılık ve Uzay"" sektöründeki profillerin ortalama deneyim yılı kaçtır?",-,Hayır,Bu bilgi dokümanlarda bulunamadı.,Bu bilgi dokümanlarda bulunamadı; belirtilen koşullara uyan kayıt yok.,728_profiles.json (code_interpreter (code_interpreter_sandbox)),8.67,"[1] Kaynak: 728_profiles.json, code_interpreter (code_interpreter_sandbox)
+[KAYIT BULUNAMADI]
+Sorgu veri seti uzerinde calistirildi ancak belirtilen filtreye uyan HICBIR KAYIT (0 satir) bulunamadi. Sorulan varlik (hesap, sehir, tarih vb.) veri setinde mevcut degil.",ok
+212,Negatif,Yakin-Gurultulu,Erzurum şehrinde hizmet veren kaç profil bulunmaktadır?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,Bu bilgi dokümanlarda bulunamadı; belirtilen koşullara uyan kayıt yok.,728_profiles.json (code_interpreter (code_interpreter_sandbox)),7.83,"[1] Kaynak: 728_profiles.json, code_interpreter (code_interpreter_sandbox)
+[KAYIT BULUNAMADI]
+Sorgu veri seti uzerinde calistirildi ancak belirtilen filtreye uyan HICBIR KAYIT (0 satir) bulunamadi. Sorulan varlik (hesap, sehir, tarih vb.) veri setinde mevcut degil.",ok
+218,Negatif,Yanlis On Kabul,mock-transactions veri setindeki ikinci hesabın (ACC-124) kapanış bakiyesi nedir?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,Bu bilgi dokümanlarda bulunamadı.,mock-transactions.json ($.transactions[8]); mock-transactions.json ($.transactions[0]); mock-transactions.json ($.transactions[1]); mock-transactions.json ($.transactions[4]),83.23,"[1] Kaynak: mock-transactions.json, $.transactions[8]
+id: TXN-009
+account_id: ACC-123
+type: debit
+amount: 67.8
+currency: USD
+description: Restaurant
+category: food
+date: 2024-01-12
+status: completed
+id: TXN-009
+account_id: ACC-123
+type: debit
+amount: 67.8
+currency: USD
+description: Restaurant
+category: food
+date: 2024-01-12
+status: completed
+
+[2] Kaynak: mock-transactions.json, $.transactions[0]
+id: TXN-001
+account_id: ACC-123
+type: credit
+amount: 2500.0
+currency: USD
+description: Salary deposit
+category: income
+date: 2024-01-01
+status: completed
+id: TXN-001
+account_id: ACC-123
+type: credit
+amount: 2500.0
+currency: USD
+description: Salary deposit
+category: income
+date: 2024-01-01
+status: completed
+
+[3] Kaynak: mock-transactions.json, $.transactions[1]
+id: TXN-002
+account_id: ACC-123
+type: debit
+amount: 85.5
+currency: USD
+description: Grocery store
+category: food
+date: 2024-01-02
+status: completed
+id: TXN-002
+account_id: ACC-123
+type: debit
+amount: 85.5
+currency: USD
+description: Grocery store
+category: food
+date: 2024-01-02
+status: completed
+
+[4] Kaynak: mock-transactions.json, $.transactions[4]
+id: TXN-005
+account_id: ACC-123
+type: debit
+amount: 125.0
+currency: USD
+description: Electric bill
+category: utilities
+date: 2024-01-07
+status: completed
+id: TXN-005
+account_id: ACC-123
+type: debit
+amount: 125.0
+currency: USD
+description: Electric bill
+category: utilities
+date: 2024-01-07
+status: completed",
+225,Negatif,Zamansal Uyumsuzluk,mock-transactions veri setinde Şubat 2024 ayına ait işlemlerin toplam tutarı nedir?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,Bu bilgi dokümanlarda bulunamadı; belirtilen koşullara uyan kayıt yok.,mock-transactions.json (code_interpreter (code_interpreter_sandbox)),5.87,"[1] Kaynak: mock-transactions.json, code_interpreter (code_interpreter_sandbox)
+[KAYIT BULUNAMADI]
+Sorgu veri seti uzerinde calistirildi ancak belirtilen filtreye uyan HICBIR KAYIT (0 satir) bulunamadi. Sorulan varlik (hesap, sehir, tarih vb.) veri setinde mevcut degil.",ok
+228,Negatif,Zamansal Uyumsuzluk,728_profiles veri setine bu ay eklenen yeni profil sayısı kaçtır?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,Bu bilgi dokümanlarda bulunamadı; belirtilen koşullara uyan kayıt yok.,728_profiles.json (code_interpreter (code_interpreter_sandbox)),7.65,"[1] Kaynak: 728_profiles.json, code_interpreter (code_interpreter_sandbox)
+[KAYIT BULUNAMADI]
+Sorgu veri seti uzerinde calistirildi ancak belirtilen filtreye uyan HICBIR KAYIT (0 satir) bulunamadi. Sorulan varlik (hesap, sehir, tarih vb.) veri setinde mevcut degil.",ok
+231,Negatif,Zamansal Uyumsuzluk,airports.json veri setinin 2026 güncellemesinde eklenen havaalanları hangileridir?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,Bu bilgi dokümanlarda bulunamadı; belirtilen koşullara uyan kayıt yok.,airports.json (code_interpreter (code_interpreter_sandbox)),13.08,"[1] Kaynak: airports.json, code_interpreter (code_interpreter_sandbox)
+[KAYIT BULUNAMADI]
+Sorgu veri seti uzerinde calistirildi ancak belirtilen filtreye uyan HICBIR KAYIT (0 satir) bulunamadi. Sorulan varlik (hesap, sehir, tarih vb.) veri setinde mevcut degil.",ok
+232,Negatif,Zamansal Uyumsuzluk,us-states veri setinde en son hangi tarihte eyalet sınırı değişikliği kaydedilmiştir?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,Havaa adlı eyalette 1959-08-21 tarihinde en son eyalet sınırı değişikliği kaydedilmiştir.,us-states-with-detail.json (code_interpreter (code_interpreter_sandbox)),6.54,"[1] Kaynak: us-states-with-detail.json, code_interpreter (code_interpreter_sandbox)
+[KESİN HESAPLAMA SONUCU]
+Havaa adlı eyalette 1959-08-21 tarihinde sınır değişikliği kaydedilmiştir.",ok

@@ -1,0 +1,189 @@
+id,zorluk,soru,beklenen_kaynak,dokumanda_var_mi,cevap,bulunan_kaynaklar,sure_sn,context,dogrulama_durumu
+32,Kolay,"statistics bölümüne göre veri setinde toplam kaç profil (profileCount), kaç sektör (sectorCount) ve kaç meslek (occupationCount) bulunmaktadır?",728_profiles.json,Evet,"Veri setinde toplam 728 profil, 22 sektör ve 91 meslek bulunmaktadır.",728_profiles.json (code_interpreter (code_interpreter_sandbox)),12.54,"[1] Kaynak: 728_profiles.json, code_interpreter (code_interpreter_sandbox)
+[KESİN HESAPLAMA SONUCU]
+Toplam 728 profil, 22 sektör ve 91 meslek bulunmaktadır.",ok
+35,Kolay,publicContact alanı altında phoneVisible ve emailVisible değerleri örnek profillerde genellikle nasıl ayarlanmıştır?,728_profiles.json,Evet,"PublicContact alanındaki (phoneVisible, emailVisible) değerleri, örnek profillerde genellikle (False, False) olarak ayarlanmıştır ve bu durum %72,8'lük oranla gözlemlenebilir.",728_profiles.json (code_interpreter (code_interpreter_sandbox)),10.52,"[1] Kaynak: 728_profiles.json, code_interpreter (code_interpreter_sandbox)
+[KESİN HESAPLAMA SONUCU]
+(PhoneVisible, EmailVisible) değerlerinin (False, False) olduğu durumun %72,8'si gözlemlendi.",ok
+37,Orta,sectorDistribution içindeki 22 sektörün profil sayılarını bir çubuk grafikle karşılaştırdığınızda hangi üç sektör diğerlerinden (32 profil) daha fazla temsil edilmektedir?,728_profiles.json,Evet,"Sağlık, Spor ve Fitness, Eğitim ve Özel Ders sektörleri diğerlerinden (32 profil) daha fazla temsil edilmektedir.",728_profiles.json (code_interpreter (code_interpreter_sandbox)),12.67,"[1] Kaynak: 728_profiles.json, code_interpreter (code_interpreter_sandbox)
+[KESİN HESAPLAMA SONUCU]
+Sağlık, Spor ve Fitness, Eğitim ve Özel Ders sektörleri diğer sektörlerden daha fazla temsil edilmiş olup, her birinde 40 profil bulunmaktadır.",ok
+39,Orta,"Umut Aslan profilinde services dizisindeki hizmetlerden hangileri Online, hangileri Yüz yüze modda sunulmaktadır?",728_profiles.json,Evet,"Umut Aslan profilinde online hizmetler arasında Gelişim görüşmesi ve Yetkinlik değerlendirme bulunurken, Yüz yüze hizmetler arasında Kariyer görüşmesi sunulmaktadır.",728_profiles.json (code_interpreter (code_interpreter_sandbox)),17.47,"[1] Kaynak: 728_profiles.json, code_interpreter (code_interpreter_sandbox)
+[KESİN HESAPLAMA SONUCU]
+Online hizmetler: Gelişim görüşmesi ve Yetkinlik değerlendirme, Yüz yüze hizmetler: Kariyer görüşmesi sunulmaktadır.",ok
+42,Orta,Emre Korkmaz ve Umut Aslan profillerinin minimumNoticeHours ve cancellationNoticeHours değerlerini bir çubuk grafikle karşılaştırdığınızda nasıl bir fark ortaya çıkar?,728_profiles.json,Evet,"Emre Korkmaz'ın en az uyarı saatleri 6 saat, Umut Aslan'ın ise 4 saat; ikisinin de iptal uyarı saatleri 24 saat olduğuna göre, çubuk grafikte Emre Korkmaz'ın en az uyarı saatları Umut Aslan'ın en az uyarı saatlarına kıyasla 2 saat fazladır.",728_profiles.json (code_interpreter (code_interpreter_sandbox)),19.68,"[1] Kaynak: 728_profiles.json, code_interpreter (code_interpreter_sandbox)
+[KESİN HESAPLAMA SONUCU]
+Emre Korkmaz'ın en az uyarı saatleri 6 saat, Umut Aslan'ın ise 4 saat; ikisinin de iptal uyarı saatleri 24 saat. Bu da Emre Korkmaz'ın en az uyarı saatlarında 2 saat fazla olduğunu gösterir.",ok
+43,Orta,experience.credentialSummary alanı occupation türüne göre nasıl değişmektedir; Aile Hekimliği Uzmanı ile Yetenek Yönetimi Uzmanı örnekleri üzerinden karşılaştırın.,728_profiles.json,Evet,"'Aile Hekimliği Uzmanı'larınoccupation türüne görecredentialSummary alanında, hepiste 'Tıp eğitimiveuzmanlık'tir; 'YetenekYönetimiUzmanı'larınoccupation türüne görecredentialSummary alanında, hepiste 'Yetenekyönetimideneyimi'tir.",728_profiles.json (code_interpreter (code_interpreter_sandbox)),33.58,"[1] Kaynak: 728_profiles.json, code_interpreter (code_interpreter_sandbox)
+[KESİN HESAPLAMA SONUCU]
+'Aile Hekimliği Uzmanı'larınoccupationalanlarında,hepiste'Tıpeğitimiveuzmanlık'turken,'YetenekYönetimiUzmanı'larınoccupationalanlarında,hepiste'Yetenekyönetimideneyimi'tur.",ok
+44,Orta,appointmentSettings içindeki minimumNoticeHours ile cancellationNoticeHours kavramsal olarak birbirinden nasıl ayrılmaktadır?,728_profiles.json,Evet,"appointmentSettings içindeki minimumNoticeHours, bir randevu için müşteriye en az kaç saat öncesinde uyarı yapılması gerektiğini belirten bir değerdir. Öte yandan, cancellationNoticeHours, bir randevu iptal edildiğinde müşteriye geri ödeme veya iptal ücreti olarak en az kaç saat içinde bildirileceğini gösteren bir değerdir. Bu iki değerin arasındaki fark, randevu konusunda müşteriye sunulan beklentilerin ve politikaların farklılıklarını yansıtmaktadır.",728_profiles.json (code_interpreter (code_interpreter_sandbox)),40.15,"[1] Kaynak: 728_profiles.json, code_interpreter (code_interpreter_sandbox)
+[KESİN HESAPLAMA SONUCU] […kısaltıldı]",ok
+45,Orta,slug alanı displayName ve profileCode alanlarından nasıl bir kurala göre oluşturulmuş görünmektedir? Örnek profil üzerinden gösterin.,728_profiles.json,Evet,"slug alanı `displayName` ve `profileCode` alanlarından oluşturulur. Örneğin, `Özge Taş` adlı profilin `profileCode` alanı `DB-ZD5HGKSC` olduğuna göre, oluşturulan slug `DB-ZD5HGKSC_özge-taş` şekline gelmiştir.",728_profiles.json (code_interpreter (code_interpreter_sandbox)),30.21,"[1] Kaynak: 728_profiles.json, code_interpreter (code_interpreter_sandbox)
+[KESİN HESAPLAMA SONUCU]
+'Özge Taş'ın profili ve kodu 'DB-ZD5HGKSC' olduğuna göre, oluşturulan slug 'DB-ZD5HGKSC_özge-taş' şekline gelmiştir.",ok
+51,Zor,sectorDistribution içindeki 22 sektörün profil sayılarını gösteren bir grafik oluşturduğunuzda toplamın statistics.profileCount değeri olan 728'e eşit olup olmadığı nasıl doğrulanır?,728_profiles.json,Evet,"sectorDistribution içindeki 22 sektörün profil sayılarını gösteren bir grafik oluşturduğunuzda, toplamın 728'e eşit olup olmadığı doğrulandığında, her sektörün profil sayısının toplamının 728'e eşit olduğundan emin olmalısınız. Grafikte her sektörün profil sayısını göstererek ve toplamın 728'e eşit olduğundan emin olun.",728_profiles.json (code_interpreter (code_interpreter_sandbox)),23.24,"[1] Kaynak: 728_profiles.json, code_interpreter (code_interpreter_sandbox)
+[KESİN HESAPLAMA SONUCU]
+Toplam profil sayısı 728'a eşit değildir.",ok
+52,Zor,"22 sektörden 3 tanesinin (Sağlık, Spor ve Fitness, Eğitim ve Özel Ders) 40 profille diğerlerinden fazla temsil edilmesini bir dağılım grafiğinde görselleştirdiğinizde, bu dengesizliğin veri setinin sektörel analizine olası etkisi nedir?",728_profiles.json,Evet,"Bu dengesizlik, veri setinin sektörel analizine olası etkileri şunlar olabilir: - Sağlık, Spor ve Fitness sektörlerindeki daha fazla temsil, bu sektörlerin genel özelliklerini daha iyi yansıtmayı sağlayabilir.
+- Diğer sektörlerin az temsil edilmesi, onların özelliklerini daha az doğru bir şekilde yansıtabilir.
+- Dengeyi sağlamak için diğer sektörlerde daha fazla veri toplamanın gerekliliği ortaya çıkabilir.",728_profiles.json (code_interpreter (code_interpreter_sandbox)),16.35,"[1] Kaynak: 728_profiles.json, code_interpreter (code_interpreter_sandbox)
+[KESİN HESAPLAMA SONUCU]
+Eğitim ve Özel Ders, Sağlık ve Spor ve Fitness sektörlerinde toplam 120 profilin, diğer sektörlerden daha fazla temsil edildiği görülmektedir.",ok
+53,Zor,"Aynı occupation'a (Yetenek Yönetimi Uzmanı) sahip Sinem Arslan, Umut Aslan ve Emre Korkmaz profillerinin appointmentSettings değerlerini (minimumNoticeHours, cancellationNoticeHours, autoApproveRequests) gruplu bir çubuk grafikle karşılaştırdığınızda ortaya çıkan varyasyon veri setinin gerçekçilik tasarımına nasıl katkı sağlamaktadır?",728_profiles.json,Evet,Bu bilgi dokümanlarda bulunamadı.,728_profiles.json ($.profiles[727]); 728_profiles.json ($.profiles[725]); 728_profiles.json ($.profiles[726]); 728_profiles.json ($.profiles[458]),121.36,"[1] Kaynak: 728_profiles.json, $.profiles[727]
+profileCode: DB-7GQFV5JF
+synthetic: True
+profileType: individual
+displayName: Emre Korkmaz
+professionalName: Emre Korkmaz
+sector: İşe Alım ve Görüşme
+occupation: Yetenek Yönetimi Uzmanı
+headline: Çalışan gelişimi ve kariyer görüşmeleri
+location.country: Türkiye
+location.city: İzmir
+location.district: Narlıdere
+location.serviceArea: Narlıdere / online
+location.exactAddressPublic: False
+serviceModes[0]: Yüz yüze
+serviceModes[1]: Online
+services[0].name: Kariyer görüşmesi
+services[0].durationMinutes: 30
+services[0].description: Kariyer görüşmesi için önceden planlanan birebir randevu.
+services[0].appointmentMode: Yüz yüze
+services[1].name: Yetkinlik değerlendirme
+services[1].durationMinutes: 60
+services[1].appointmentMode: Yüz yüze
+experience.years: 3
+experience.credentialSummary: Yetenek yönetimi deneyimi
+languages[0]: Türkçe
+languages[1]: İngilizce
+appointmentSettings.defaultDurationMinutes: 30
+appointmentSettings.minimumNoticeHours: 6
+appointmentSettings.cancellationNoticeHours: 24
+appointmentSettings.autoApproveRequests: True
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 09:30
+weeklyAvailability[0].end: 18:00
+searchKeywords[2]: Yetenek Yönetimi Uzmanı
+slug: emre-korkmaz-7gqfv5jf
+about: Yetenek Yönetimi Uzmanı olarak 3 yıllık mesleki deneyimle Narlıdere, İzmir bölgesinde randevulu hizmet veriyorum. Görüşmelerde ihtiyacı netleştirip uygulanabilir bir plan oluşturmaya önem veriyorum. […kısaltıldı]
+
+[2] Kaynak: 728_profiles.json, $.profiles[725]
+profileCode: DB-QW9B3GJ3
+synthetic: True
+profileType: individual
+displayName: Sinem Arslan
+professionalName: Sinem Arslan
+sector: İşe Alım ve Görüşme
+occupation: Yetenek Yönetimi Uzmanı
+headline: Çalışan gelişimi ve kariyer görüşmeleri
+location.country: Türkiye
+location.city: İstanbul
+location.district: Ataşehir
+location.serviceArea: Ataşehir / online
+location.exactAddressPublic: False
+serviceModes[0]: Yüz yüze
+serviceModes[1]: Online
+services[0].name: Yetkinlik değerlendirme
+services[0].durationMinutes: 30
+services[0].appointmentMode: Yüz yüze
+services[1].name: Kariyer görüşmesi
+services[1].durationMinutes: 60
+services[1].description: Kariyer görüşmesi için önceden planlanan birebir randevu.
+services[1].appointmentMode: Online
+services[2].name: Gelişim görüşmesi
+services[2].durationMinutes: 45
+services[2].description: Gelişim görüşmesi için önceden planlanan birebir randevu.
+services[2].appointmentMode: Yüz yüze
+experience.years: 9
+experience.credentialSummary: Yetenek yönetimi deneyimi
+languages[0]: Türkçe
+languages[1]: İngilizce
+appointmentSettings.defaultDurationMinutes: 30
+appointmentSettings.minimumNoticeHours: 12
+appointmentSettings.cancellationNoticeHours: 12
+appointmentSettings.autoApproveRequests: False
+searchKeywords[3]: Yetenek Yönetimi Uzmanı
+slug: sinem-arslan-qw9b3gj3
+about: 9 yıllık deneyimimle yetenek yönetimi uzmanı alanında bireysel hizmet sunuyorum. İlk görüşmede ihtiyacı değerlendiriyor, sonraki adımları açık ve planlı biçimde belirliyorum. […kısaltıldı]
+
+[3] Kaynak: 728_profiles.json, $.profiles[726]
+profileCode: DB-6L8Q8KLY
+synthetic: True
+profileType: individual
+displayName: Umut Aslan
+professionalName: Umut Aslan
+sector: İşe Alım ve Görüşme
+occupation: Yetenek Yönetimi Uzmanı
+headline: Çalışan gelişimi ve kariyer görüşmeleri
+location.country: Türkiye
+location.city: Kocaeli
+location.district: İzmit
+location.serviceArea: İzmit / online
+location.exactAddressPublic: False
+serviceModes[0]: Yüz yüze
+serviceModes[1]: Online
+services[0].name: Gelişim görüşmesi
+services[0].durationMinutes: 60
+services[0].description: Gelişim görüşmesi için önceden planlanan birebir randevu.
+services[0].appointmentMode: Online
+services[1].name: Yetkinlik değerlendirme
+services[1].durationMinutes: 30
+services[1].appointmentMode: Online
+services[2].name: Kariyer görüşmesi
+services[2].durationMinutes: 30
+services[2].description: Kariyer görüşmesi için önceden planlanan birebir randevu.
+services[2].appointmentMode: Yüz yüze
+experience.years: 8
+experience.credentialSummary: Yetenek yönetimi deneyimi
+languages[0]: Türkçe
+appointmentSettings.defaultDurationMinutes: 30
+appointmentSettings.minimumNoticeHours: 4
+appointmentSettings.cancellationNoticeHours: 24
+appointmentSettings.autoApproveRequests: True
+searchKeywords[3]: Yetenek Yönetimi Uzmanı
+slug: umut-aslan-6l8q8kly
+about: Yetenek Yönetimi Uzmanı olarak 8 yıllık mesleki deneyimle İzmit, Kocaeli bölgesinde randevulu hizmet veriyorum. Görüşmelerde ihtiyacı netleştirip uygulanabilir bir plan oluşturmaya önem veriyorum. […kısaltıldı]
+
+[4] Kaynak: 728_profiles.json, $.profiles[458]
+profileCode: DB-CR39SDQP
+synthetic: True
+profileType: individual
+displayName: Emre Işık
+professionalName: Emre Işık
+sector: İş ve Kariyer
+occupation: Yönetim Danışmanı
+headline: KOBİ ve girişimler için yönetim danışmanlığı
+location.country: Türkiye
+location.city: İstanbul
+location.district: Beylikdüzü
+location.serviceArea: Beylikdüzü / online
+location.exactAddressPublic: False
+serviceModes[0]: Yüz yüze
+serviceModes[1]: Online
+services[0].name: Süreç iyileştirme
+services[0].durationMinutes: 90
+services[0].description: Süreç iyileştirme için önceden planlanan birebir randevu.
+services[0].appointmentMode: Yüz yüze
+services[1].name: Strateji görüşmesi
+services[1].durationMinutes: 90
+services[1].description: Strateji görüşmesi için önceden planlanan birebir randevu.
+services[1].appointmentMode: Online
+services[2].name: İş analizi görüşmesi
+services[2].durationMinutes: 45
+services[2].description: İş analizi görüşmesi için önceden planlanan birebir randevu.
+experience.credentialSummary: Yönetim ve danışmanlık deneyimi
+appointmentSettings.defaultDurationMinutes: 45
+appointmentSettings.minimumNoticeHours: 4
+appointmentSettings.cancellationNoticeHours: 4
+appointmentSettings.autoApproveRequests: False
+searchKeywords[3]: Yönetim Danışmanı
+slug: emre-isik-cr39sdqp
+about: Beylikdüzü, İstanbul merkezli olarak yönetim danışmanı alanında 20 yıldır ç […kısaltıldı]",
+57,Zor,"728 profil içinde her sektördeki ortalama meslek (occupation) sayısını bir grafikle gösterdiğinizde, occupationCount/sectorCount oranı sektörler arasında nasıl bir dağılım gösterir?",728_profiles.json,Evet,"728 profil içinde her sektördeki ortalama meslek sayısının 33.09 olduğu ve toplam sektör sayısının 22 olduğu gözlemlendi.occupationCount/sectorCount oranı 1.50 olduğuna göre, bu oranı yansıtmak için bir grafik oluşturabiliriz. Bu grafikte, her sektörün ortalama meslek sayısının 33.09 olduğunu ve bu sayının toplam sektör sayısına (22) göre 1.50 oranında olduğunu gösterecektir.",728_profiles.json (code_interpreter (code_interpreter_sandbox)),16.16,"[1] Kaynak: 728_profiles.json, code_interpreter (code_interpreter_sandbox)
+[KESİN HESAPLAMA SONUCU]
+Ortalama meslek sayısı 33.09, toplam sektör sayısı 22 ve occupationCount/sectorCount oranı 1.50 olarak bulunmuştur.",ok
+60,Zor,Profillerin deneyim yıllarını (experience.years) bir histogramla görselleştirdiğinizde veri setindeki deneyim dağılımı nasıl bir eğilim göstermektedir?,728_profiles.json,Evet,"Profillerin deneyim yıllarını görselleştirdiğinizde, deneyim dağılımı 3-4 yıl deneyimli kişilerin sayısının en yüksek olduğu bir zirveye sahip ve 26-30 yıl deneyimli kişilerin sayısı azalmaya devam ettiği bir eğilim göstermektedir. Deneyim aralıkları 0-1 yıl arasında 0 kişi, 1-2 yıl arasında 0 kişi, 2-3 yıl arası 36 kişi gibi dağılmaktadır. Deneyim aralığı 29-30 yıl deneyimli kişilerin sayısı da 0 olarak görünmektedir.",728_profiles.json (code_interpreter (code_interpreter_sandbox)),23.95,"[1] Kaynak: 728_profiles.json, code_interpreter (code_interpreter_sandbox)
+[KESİN HESAPLAMA SONUCU]
+Deneyim dağılım histogramında, 3-4 yıl deneyimli kişilerin sayısı en yüksek olup, 26-30 yıl deneyimli kişilerin sayısı azalmaya devam ediyor. Deneyim aralıkları 0-1 yıl arasında 0 kişi, 1-2 yıl arasında 0 kişi, 2-3 yıl arası 36 kişi gibi dağılmaktadır. Deneyim aralığı 29-30 yıl deneyimli kişilerin sayısı da 0 olarak görünmektedir.",ok

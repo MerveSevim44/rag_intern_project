@@ -1,0 +1,379 @@
+Model yükleniyor...
+[Foundry] Model yüklendi: qwen2.5-7b-instruct-cuda-gpu:4 | execution provider: CUDAExecutionProvider | cihaz: GPU
+[Foundry] Servis adresi: http://127.0.0.1:56862
+[Foundry] Serviste yüklü modeller: ['qwen2.5-7b-instruct-cuda-gpu:4']
+Model hazır.
+
+Soru seti: C:\Users\merve\Desktop\rag_project\experiments\madde45_kural_a\kural_a_v2\test_2_girdi.csv
+[32] Soruluyor: statistics bölümüne göre veri setinde toplam kaç profil (profileCount), kaç sektör (sectorCount) ve kaç meslek (occupationCount) bulunmaktadır?
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode~profile', 'profileType~profile', 'sector', 'occupation', 'profileMedia.avatarUrl~profile', 'profileMedia.coverImageUrl~profile']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = {
+    'profileCount': df.shape[0],
+    'sectorCount': df['sector'].nunique(),
+    'occupationCount': df['occupation'].nunique()
+}
+[CodeInterpreter] Basarili! Cikti: {'profileCount': 728, 'sectorCount': 22, 'occupationCount': 91}
+[llm_client] Para birimi duzeltildi: 'TL' -> '(kaldirildi)'
+    → 12.54 sn
+
+[35] Soruluyor: publicContact alanı altında phoneVisible ve emailVisible değerleri örnek profillerde genellikle nasıl ayarlanmıştır?
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=10.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'location.exactAddressPublic~Public', 'publicContact.phoneVisible~phone', 'publicContact.emailVisible~publicContact', 'publicContact.phone~phone']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df[['publicContact.phoneVisible', 'publicContact.emailVisible']].value_counts().to_dict()
+[CodeInterpreter] Basarili! Cikti: {(False, False): 728}
+    → 10.52 sn
+
+[37] Soruluyor: sectorDistribution içindeki 22 sektörün profil sayılarını bir çubuk grafikle karşılaştırdığınızda hangi üç sektör diğerlerinden (32 profil) daha fazla temsil edilmektedir?
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=5.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'sector', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+# Sektorlerin profil sayısını hesapla
+sector_counts = df['sector'].value_counts()
+
+# En çok temsil edilen 3 sektörü bul
+top_sectors = sector_counts.nlargest(3).index.tolist()
+
+# Top 3 sektörün profil sayısını getir
+result = {
+    "Top 3 Sektorler": top_sectors,
+    "Profil Sayıları": sector_counts.loc[top_sectors].to_dict()
+}
+[CodeInterpreter] Basarili! Cikti: {'Top 3 Sektorler': ['Sağlık', 'Spor ve Fitness', 'Eğitim ve Özel Ders'], 'Profil Sayıları': {'Sağlık': 40, 'Spor ve Fitness': 40, 'Eğitim ve Özel Ders': 40}}
+    → 12.67 sn
+
+[39] Soruluyor: Umut Aslan profilinde services dizisindeki hizmetlerden hangileri Online, hangileri Yüz yüze modda sunulmaktadır?
+[data_engine] route=code_interpreter (dataset_signal+interrogative) | dataset=728_profiles.json (score=7.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'serviceModes~service', 'services', 'location.serviceArea~service', 'profileMedia.avatarUrl~profil']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+# Umut Aslan profilini filtrele
+mutum_aslan_profile = df[df['displayName'] == 'Umut Aslan']
+
+# services sütununu al ve boş olması durumunda hata vermemesi için kontrol et
+if not mutum_aslan_profile.empty:
+    services = mutum_aslan_profile.iloc[0]['services']
+    
+    # Hizmetlerin türünü belirlemek için bir yardımcı fonksiyon tanımla
+    def get_service_mode(service):
+        return service.get('appointmentMode', 'Unknown')
+    
+    # Hizmetlerin modunu belirle ve Online ve Yüz yüze hizmetlerini ayırt et
+    online_services = [service['name'] for service in services if get_service_mode(service) == 'Online']
+    face_to_face_services = [service['name'] for service in services if get_service_mode(service) == 'Yüz yüze']
+    
+    # Sonuçları bir sözlük olarak döndür
+    result = {
+        'Online Services': online_services,
+        'Face-to-Face Services': face_to_face_services
+    }
+else:
+    result = None
+[CodeInterpreter] Basarili! Cikti: {'Online Services': ['Gelişim görüşmesi', 'Yetkinlik değerlendirme'], 'Face-to-Face Services': ['Kariyer görüşmesi']}
+    → 17.47 sn
+
+[42] Soruluyor: Emre Korkmaz ve Umut Aslan profillerinin minimumNoticeHours ve cancellationNoticeHours değerlerini bir çubuk grafikle karşılaştırdığınızda nasıl bir fark ortaya çıkar?
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'appointmentSettings.minimumNoticeHours~minimum', 'appointmentSettings.cancellationNoticeHours~cancellationNoticeHours', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+# Emre Korkmaz ve Umut Aslan profillerini filtreleyelim
+emre_profile = df[df['displayName'] == 'Emre Korkmaz']
+umut_profile = df[df['displayName'] == 'Umut Aslan']
+
+# Minimum Notice Hours ve Cancellation Notice Hours değerlerini alalım
+emre_values = {
+    'Minimum Notice Hours': emre_profile['appointmentSettings.minimumNoticeHours'].values[0],
+    'Cancellation Notice Hours': emre_profile['appointmentSettings.cancellationNoticeHours'].values[0]
+}
+
+umut_values = {
+    'Minimum Notice Hours': umut_profile['appointmentSettings.minimumNoticeHours'].values[0],
+    'Cancellation Notice Hours': umut_profile['appointmentSettings.cancellationNoticeHours'].values[0]
+}
+
+# Farkları hesaplayalım
+result = {
+    'Emre Korkmaz': emre_values,
+    'Umut Aslan': umut_values,
+    'Fark Minimum Notice Hours': emre_values['Minimum Notice Hours'] - umut_values['Minimum Notice Hours'],
+    'Fark Cancellation Notice Hours': emre_values['Cancellation Notice Hours'] - umut_values['Cancellation Notice Hours']
+}
+[CodeInterpreter] Basarili! Cikti: {'Emre Korkmaz': {'Minimum Notice Hours': np.int64(6), 'Cancellation Notice Hours': np.int64(24)}, 'Umut Aslan': {'Minimum Notice Hours': np.int64(4), 'Cancellation Notice Hours': np.int64(24)}, 'Fark Minimum Notice Hours': np.int64(2), 'Fark Cancellation Notice Hours': np.int64(0)}
+    → 19.68 sn
+
+[43] Soruluyor: experience.credentialSummary alanı occupation türüne göre nasıl değişmektedir; Aile Hekimliği Uzmanı ile Yetenek Yönetimi Uzmanı örnekleri üzerinden karşılaştırın.
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['occupation', 'experience.years~experience', 'experience.credentialSummary', 'profileType~tür', 'type~tür']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+# Aile Hekimliği Uzmanı ve Yetenek Yönetimi Uzmanı olan kişileri filtrele
+doctors = df[df['occupation'] == 'Aile Hekimliği Uzmanı']
+hr_experts = df[df['occupation'] == 'Yetenek Yönetimi Uzmanı']
+
+# Credential Summary bilgilerini al
+doctor_credential_summaries = doctors['experience.credentialSummary'].values
+hr_expert_credential_summaries = hr_experts['experience.credentialSummary'].values
+
+# Credential Summary bilgilerini ayıkla ve percent_change fonksiyonunu kullanarak değişimleri hesapla
+doctor_changes = [percent_change(old, new) for old, new in zip(doctor_credential_summaries[:-1], doctor_credential_summaries[1:])]
+hr_expert_changes = [percent_change(old, new) for old, new in zip(hr_expert_credential_summaries[:-1], hr_expert_credential_summaries[1:])]
+
+# Sonucu bir sözlükte döndür
+result = {
+    'Aile Hekimliği Uzmanı Credential Summary Değişimi Ortalaması': np.mean(doctor_changes),
+    'Yetenek Yönetimi Uzmanı Credential Summary Değişimi Ortalaması': np.mean(hr_expert_changes)
+}
+[CodeInterpreter] Hata alindi (1. deneme): ValueError: could not convert string to float: 'Tıp eğitimi ve uzmanlık'
+[CodeInterpreter] Deneme 2/3...
+[CodeInterpreter] Uretilen Kod:
+# Aile Hekimliği Uzmanı ve Yetenek Yönetimi Uzmanı olan kişileri filtrele
+doctors = df[df['occupation'] == 'Aile Hekimliği Uzmanı']
+hr_experts = df[df['occupation'] == 'Yetenek Yönetimi Uzmanı']
+
+# Credential Summary bilgilerini al
+doctor_credential_summaries = doctors['experience.credentialSummary'].values
+hr_credential_summaries = hr_experts['experience.credentialSummary'].values
+
+# Credential Summary bilgilerini bir sözlüğe atayalım
+result = {
+    'Aile Hekimliği Uzmanı': doctor_credential_summaries.tolist(),
+    'Yetenek Yönetimi Uzmanı': hr_credential_summaries.tolist()
+}
+[CodeInterpreter] Basarili! Cikti: {'Aile Hekimliği Uzmanı': ['Tıp eğitimi ve uzmanlık', 'Tıp eğitimi ve uzmanlık', 'Tıp eğitimi ve uzmanlık', 'Tıp eğitimi ve uzmanlık', 'Tıp eğitimi ve uzmanlık', 'Tıp eğitimi ve uzmanlık', 'Tıp eğitimi ve uzmanlık', 'Tıp eğitimi ve uzmanlık'], 'Yetenek Yönetimi Uzmanı': ['Yetenek yönetimi deneyimi', 'Yetenek yönetimi deneyimi', 'Yetenek yönetimi deneyimi', 'Yetenek yönetimi deneyimi', 'Yetenek yönetimi deneyimi', 'Yetenek yönetimi deneyimi', 'Yetenek yönetimi deneyimi', 'Yetenek yönetimi deneyimi']}
+    → 33.58 sn
+
+[44] Soruluyor: appointmentSettings içindeki minimumNoticeHours ile cancellationNoticeHours kavramsal olarak birbirinden nasıl ayrılmaktadır?
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['appointmentSettings.defaultDurationMinutes~appointmentSettings', 'appointmentSettings.minimumNoticeHours~minimum', 'appointmentSettings.cancellationNoticeHours~cancellationNoticeHours', 'appointmentSettings.autoApproveRequests~appointmentSettings']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+# minimumNoticeHours ve cancellationNoticeHours arasındaki farkı hesaplayalım
+result = df.apply(lambda row: {
+    'profileCode': row['profileCode'],
+    'minimumNoticeHours': row['appointmentSettings.minimumNoticeHours'],
+    'cancellationNoticeHours': row['appointmentSettings.cancellationNoticeHours'],
+    'difference': row['appointmentSettings.cancellationNoticeHours'] - row['appointmentSettings.minimumNoticeHours']
+}, axis=1)
+[CodeInterpreter] Basarili! Cikti: 0      {'profileCode': 'DB-ZD5HGKSC', 'minimumNoticeH...
+1      {'profileCode': 'DB-DCHHGGBB', 'minimumNoticeH...
+2      {'profileCode': 'DB-VM3WBTQY', 'minimumNoticeH...
+3      {'profileCode': 'DB-2JTBJ7HJ', 'minimumNoticeH...
+4      {'profileCode': 'DB-KJBQXSJN', 'minimumNoticeH...
+                             ...                        
+723    {'profileCode': 'DB-MY365FYS', 'minimumNoticeH...
+724    {'profileCode': 'DB-9BUNM5VF', 'minimumNoticeH...
+725    {'profileCode': 'DB-QW9B3GJ3', 'minimumNoticeH...
+726    {'profileCode': 'DB-6L8Q8KLY', 'minimumNoticeH...
+727    {'profileCode': 'DB-7GQFV5JF', 'minimumNoticeH...
+Length: 728, dtype: object
+    → 40.15 sn
+
+[45] Soruluyor: slug alanı displayName ve profileCode alanlarından nasıl bir kurala göre oluşturulmuş görünmektedir? Örnek profil üzerinden gösterin.
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode', 'profileType~profile', 'displayName', 'slug', 'profileMedia.avatarUrl~profile', 'profileMedia.coverImageUrl~profile']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+# Slug alanı displayName ve profileCode alanlarından oluşturulmuş olduğunu gösterecek bir örnek oluşturmak için
+# örnek bir profil seçelim ve slug alanını displayname ve profilecode ile ilişkilendirelim.
+
+# Örnek profil seçimi
+example_profile = df.iloc[0]
+
+# DisplayName ve ProfileCode'u alalım
+display_name = example_profile['displayName']
+profile_code = example_profile['profileCode']
+
+# Slug'un nasıl oluşturulduğunu göstermek için bir formül oluşturalım
+# Örneğin: slug = profile_code + "_" + displayName.lower().replace(" ", "-")
+# Bu formül, profileCode ve displayName'i birleştirerek slug oluşturur.
+
+# Slug'u oluşturmak için formülü uygulayalım
+slug = f"{profile_code}_{display_name.lower().replace(' ', '-')}"
+
+# Sonuçları bir sözlük olarak döndürelim
+result = {
+    "DisplayName": display_name,
+    "ProfileCode": profile_code,
+    "Generated_Slug": slug
+}
+[CodeInterpreter] Basarili! Cikti: {'DisplayName': 'Özge Taş', 'ProfileCode': 'DB-ZD5HGKSC', 'Generated_Slug': 'DB-ZD5HGKSC_özge-taş'}
+    → 30.21 sn
+
+[51] Soruluyor: sectorDistribution içindeki 22 sektörün profil sayılarını gösteren bir grafik oluşturduğunuzda toplamın statistics.profileCount değeri olan 728'e eşit olup olmadığı nasıl doğrulanır?
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=5.0, best_score, ambiguous=False) | schema_cols=['profileCode~profile', 'profileType~profile', 'sector', 'profileMedia.avatarUrl~profile', 'profileMedia.coverImageUrl~profile']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+# Sektorlerin sayısını hesapla
+sector_counts = df['sector'].value_counts()
+
+# Sektor sayısını toplam profildeki sayıyla karşılaştır
+total_profiles = df.shape[0]
+
+# Eşitlik kontrolü
+result = {
+    "Toplam Profil Sayısı": total_profiles,
+    "Sektör Sayısı": len(sector_counts),
+    "Eşitlik Durumu": "Eşittir" if total_profiles == len(sector_counts) else "Eşit değildir"
+}
+[CodeInterpreter] Basarili! Cikti: {'Toplam Profil Sayısı': 728, 'Sektör Sayısı': 22, 'Eşitlik Durumu': 'Eşit değildir'}
+    → 23.24 sn
+
+[52] Soruluyor: 22 sektörden 3 tanesinin (Sağlık, Spor ve Fitness, Eğitim ve Özel Ders) 40 profille diğerlerinden fazla temsil edilmesini bir dağılım grafiğinde görselleştirdiğinizde, bu dengesizliğin veri setinin sektörel analizine olası etkisi nedir?
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=11.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'sector~sektör', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+# Sektorleri ve ilgili profilleri ayırt et
+sectors = ['Sağlık', 'Spor ve Fitness', 'Eğitim ve Özel Ders']
+filtered_df = df[df['sector'].isin(sectors)]
+
+# Sektorlara göre profiller sayısını say
+sector_counts = filtered_df.groupby('sector').size()
+
+# Sektorlara göre profiller sayısını bir sözlükte sakla
+result = sector_counts.to_dict()
+
+# Grafik çizmek için gerekli kütüphanelerden faydalanmayalım, sadece sözlüğü dönelim
+[CodeInterpreter] Basarili! Cikti: {'Eğitim ve Özel Ders': 40, 'Sağlık': 40, 'Spor ve Fitness': 40}
+[llm_client] Para birimi duzeltildi: 'TL' -> '(kaldirildi)'
+    → 16.35 sn
+
+[53] Soruluyor: Aynı occupation'a (Yetenek Yönetimi Uzmanı) sahip Sinem Arslan, Umut Aslan ve Emre Korkmaz profillerinin appointmentSettings değerlerini (minimumNoticeHours, cancellationNoticeHours, autoApproveRequests) gruplu bir çubuk grafikle karşılaştırdığınızda ortaya çıkan varyasyon veri setinin gerçekçilik tasarımına nasıl katkı sağlamaktadır?
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=8.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'occupation', 'appointmentSettings.defaultDurationMinutes~appointmentSettings', 'appointmentSettings.minimumNoticeHours~minimum', 'appointmentSettings.cancellationNoticeHours~cancellationNoticeHours']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+# Yetenek Yönetimi Uzmanı olan ve isimlerinin Sinem Arslan, Umut Aslan ve Emre Korkmaz olduğu profilleri filtrele
+filtered_df = df[(df['displayName'] == 'Sinem Arslan') | 
+                 (df['displayName'] == 'Umut Aslan') | 
+                 (df['displayName'] == 'Emre Korkmaz')].reset_index(drop=True)
+
+# Seçilen sütunları grupla
+grouped = filtered_df.groupby('displayName')[['appointmentSettings.minimumNoticeHours', 
+                                             'appointmentSettings.cancellationNoticeHours', 
+                                             'appointmentSettings.autoApproveRequests']].agg(['mean', 'std'])
+
+# Sonuçları 'result' değişkenine at
+result = grouped.to_dict()
+
+# Çıktıyı daha anlaşılır hale getir
+result = {
+    'Sinem Arslan': {
+        'Minimum Notiş Saatleri Ortalama': result['appointmentSettings.minimumNoticeHours']['mean'][0],
+        'Minimum Notiş Saatleri Standart Sapması': result['appointmentSettings.minimumNoticeHours']['std'][0],
+        'Vergili İptal Saatleri Ortalama': result['appointmentSettings.cancellationNoticeHours']['mean'][0],
+        'Vergili İptal Saatleri Standart Sapması': result['appointmentSettings.cancellationNoticeHours']['std'][0],
+        'Otomatik Talepler Onaylama Durumu Ortalama': result['appointmentSettings.autoApproveRequests']['mean'][0],
+        'Otomatik Talepler Onaylama Durumu Standart Sapması': result['appointmentSettings.autoApproveRequests']['std'][0]
+    },
+    'Umut Aslan': {
+        'Minimum Notiş Saatleri Ortalama': result['appointmentSettings.minimumNoticeHours']['mean'][1],
+        'Minimum Notiş Saatleri Standart Sapması': result['appointmentSettings.minimumNoticeHours']['std'][1],
+        'Vergili İptal Saatleri Ortalama': result['appointmentSettings.cancellationNoticeHours']['mean'][1],
+        'Vergili İptal Saatleri Standart Sapması': result['appointmentSettings.cancellationNoticeHours']['std'][1],
+        'Otomatik Talepler Onaylama Durumu Ortalama': result['appointmentSettings.autoApproveRequests']['mean'][1],
+        'Otomatik Talepler Onaylama Durumu Standart Sapması': result['appointmentSettings.autoApproveRequests']['std'][1]
+    },
+    'Emre Korkmaz': {
+        'Minimum Notiş Saatleri Ortalama': result['appointmentSettings.minimumNoticeHours']['mean'][2],
+        'Minimum Notiş Saatleri Standart Sapması': result['appointmentSettings.minimumNoticeHours']['std'][
+[CodeInterpreter] Hata alindi (1. deneme): SyntaxError (Sözdizimi Hatası): '[' was never closed (Satır 34)
+[CodeInterpreter] Deneme 2/3...
+[CodeInterpreter] Uretilen Kod:
+# Yetenek Yönetimi Uzmanı olan ve isimlerinin Sinem Arslan, Umut Aslan ve Emre Korkmaz olan profilleri filtrele
+filtrelenmis_df = df[(df['occupation'] == 'Yetenek Yönetimi Uzmanı') & 
+                     ((df['displayName'] == 'Sinem Arslan') | 
+                      (df['displayName'] == 'Umut Aslan') | 
+                      (df['displayName'] == 'Emre Korkmaz'))]
+
+# Gereksiz sütunları çıkar
+filtrelenmis_df = filtrelenmis_df[['displayName', 'appointmentSettings.minimumNoticeHours', 
+                                   'appointmentSettings.cancellationNoticeHours', 
+                                   'appointmentSettings.autoApproveRequests']]
+
+# minimumNoticeHours, cancellationNoticeHours ve autoApproveRequests sütunlarını ayırt edelim
+appointment_settings = filtrelenmis_df.melt(id_vars='displayName', 
+                                            value_vars=['appointmentSettings.minimumNoticeHours', 
+                                                        'appointmentSettings.cancellationNoticeHours', 
+                                                        'appointmentSettings.autoApproveRequests'], 
+                                            var_name='Setting', value_name='Value')
+
+# Setting sütununu ayırt etmek için Setting sütununu Split
+appointment_settings[['Setting', 'Setting_Type']] = appointment_settings['Setting'].str.split('.', expand=True)
+
+# displayName ve Setting_Type sütunlarını birleştirerek gruba ayır
+grouped = appointment_settings.groupby(['displayName', 'Setting_Type']).mean().reset_index()
+
+# Gruplanmış verileri pivot table olarak dönüştür
+pivot_table = grouped.pivot_table(index='displayName', columns='Setting_Type', values='Value')
+
+# pivot table'i result değişkenine atayalım
+result = pivot_table.to_dict()
+[CodeInterpreter] Hata alindi (2. deneme): TypeError: agg function failed [how->mean,dtype->object]
+[CodeInterpreter] Deneme 3/3...
+[CodeInterpreter] Uretilen Kod:
+# Yetenek Yönetimi Uzmanı olan ve isimlerinin Sinem Arslan, Umut Aslan ve Emre Korkmaz olan profilleri filtrele
+filtered_df = df[(df['occupation'] == 'Yetenek Yönetimi Uzmanı') & 
+                 ((df['displayName'] == 'Sinem Arslan') | 
+                  (df['displayName'] == 'Umut Aslan') | 
+                  (df['displayName'] == 'Emre Korkmaz'))]
+
+# Seçilen sütunları grupla ve mean değerleri hesapla
+grouped = filtered_df.groupby('displayName')['appointmentSettings.minimumNoticeHours', 
+                                             'appointmentSettings.cancellationNoticeHours', 
+                                             'appointmentSettings.autoApproveRequests'].mean()
+
+# Sonuçları 'result' değişkenine ata
+result = grouped.to_dict()
+[CodeInterpreter] Hata alindi (3. deneme): ValueError: Cannot subset columns with a tuple with more than one element. Use a list instead.
+[CodeInterpreter] 3 deneme basarisiz oldu. Son hata: ValueError: Cannot subset columns with a tuple with more than one element. Use a list instead.
+[retrieval] Cache yuklendi: 898 chunk, embedding matrisi (898, 1024)
+    → 121.36 sn
+
+[57] Soruluyor: 728 profil içinde her sektördeki ortalama meslek (occupation) sayısını bir grafikle gösterdiğinizde, occupationCount/sectorCount oranı sektörler arasında nasıl bir dağılım gösterir?
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'sector', 'occupation', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+# Occupation sayısını sector bazında gruplandır ve ortalama hesapla
+occupation_count_by_sector = df.groupby('sector')['occupation'].count().mean()
+
+# Sector count'ları toplam olarak hesapla
+total_sectors = df['sector'].nunique()
+
+# occupationCount/sectorCount oranı hesapla
+occupation_to_sector_ratio = occupation_count_by_sector / total_sectors
+
+# Sonuçları bir sözlüğe atayalım
+result = {
+    'Ortalama Meslek Sayısı': occupation_count_by_sector,
+    'Toplam Sektor Sayısı': total_sectors,
+    'occupationCount/sectorCount Oranı': occupation_to_sector_ratio
+}
+[CodeInterpreter] Basarili! Cikti: {'Ortalama Meslek Sayısı': np.float64(33.09090909090909), 'Toplam Sektor Sayısı': 22, 'occupationCount/sectorCount Oranı': np.float64(1.5041322314049588)}
+[llm_client] Para birimi duzeltildi: 'TL' -> '(kaldirildi)'
+    → 16.16 sn
+
+[60] Soruluyor: Profillerin deneyim yıllarını (experience.years) bir histogramla görselleştirdiğinizde veri setindeki deneyim dağılımı nasıl bir eğilim göstermektedir?
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=6.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'experience.years', 'experience.credentialSummary~experience', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+# Deneyim yıllarını histogramla görselleştirerek deneyim dağılımını analiz edelim
+
+# Deneyim yıllarını getir
+years = df['experience.years']
+
+# Histogram için verileri ayarla
+bins = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]
+labels = [f'{i}-{i+1}' for i in range(0, 30, 1)]
+
+# Deneyim dağılımını hesapla
+hist, _ = np.histogram(years, bins=bins)
+
+# Deneyim dağılımını görselleştir
+result = {
+    'Deneyim Dağılımı': hist.tolist(),
+    'Deneyim Aralıkları': labels
+}
+[CodeInterpreter] Basarili! Cikti: {'Deneyim Dağılımı': [0, 0, 36, 28, 40, 31, 37, 39, 35, 32, 40, 26, 35, 40, 31, 39, 26, 36, 39, 42, 27, 30, 39, 0, 0, 0, 0, 0, 0, 0], 'Deneyim Aralıkları': ['0-1', '1-2', '2-3', '3-4', '4-5', '5-6', '6-7', '7-8', '8-9', '9-10', '10-11', '11-12', '12-13', '13-14', '14-15', '15-16', '16-17', '17-18', '18-19', '19-20', '20-21', '21-22', '22-23', '23-24', '24-25', '25-26', '26-27', '27-28', '28-29', '29-30']}
+    → 23.95 sn
+
+
+Tamamlandı. 13 soru test edildi.
+Sonuçlar: C:\Users\merve\Desktop\rag_project\experiments\madde45_kural_a\kural_a_v2\test_2_sonuclari.csv
+Semantik doğrulama (12 sandbox sorusu): ok=12 objection=0 failed=0 not_run=0

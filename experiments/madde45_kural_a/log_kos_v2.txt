@@ -1,0 +1,3 @@
+test_2 deneme 1: kirli sorular=[]
+test_5 deneme 1: kirli sorular=[]
+test_negative deneme 1: kirli sorular=[]

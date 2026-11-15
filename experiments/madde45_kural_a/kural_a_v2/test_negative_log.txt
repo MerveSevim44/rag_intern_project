@@ -1,0 +1,145 @@
+Model yükleniyor...
+[Foundry] Model yüklendi: qwen2.5-7b-instruct-cuda-gpu:4 | execution provider: CUDAExecutionProvider | cihaz: GPU
+[Foundry] Servis adresi: http://127.0.0.1:56862
+[Foundry] Serviste yüklü modeller: ['qwen2.5-7b-instruct-cuda-gpu:4']
+Model hazır.
+
+Soru seti: C:\Users\merve\Desktop\rag_project\experiments\madde45_kural_a\kural_a_v2\test_negative_girdi.csv
+[211] Soruluyor: "Havacılık ve Uzay" sektöründeki profillerin ortalama deneyim yılı kaçtır?
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=7.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'sector~sektör', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil', 'experience.years~deneyim']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df[df['sector'] == 'Havacılık ve Uzay']['experience.years'].mean()
+[CodeInterpreter] Basarili ama KAYIT BULUNAMADI (bos filtre=True). Cikti: nan
+    → 8.67 sn
+
+[212] Soruluyor: Erzurum şehrinde hizmet veren kaç profil bulunmaktadır?
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df[(df['location.city'] == 'Erzurum')].shape[0]
+[CodeInterpreter] Basarili ama KAYIT BULUNAMADI (bos filtre=True). Cikti: 0
+    → 7.83 sn
+
+[218] Soruluyor: mock-transactions veri setindeki ikinci hesabın (ACC-124) kapanış bakiyesi nedir?
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=mock-transactions.json (score=3.0, best_score, ambiguous=False) | schema_cols=[]
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+# Hesap ID'sini filtrele
+account_id = 'ACC-124'
+filtered_df = df[df['account_id'] == account_id]
+
+# Hesapta yapılan işlemlerden net miktar hesapla
+transactions = filtered_df.groupby('type')['amount'].sum().to_dict()
+
+# Kapanış bakiyesi hesapla: krediler - debetler
+closing_balance = transactions.get('credit', 0) - transactions.get('debit', 0)
+
+# Sonucu 'result' değişkenine ata
+result = {
+    'account_id': account_id,
+    'closing_balance': closing_balance,
+    'currency': filtered_df['currency'].unique()[0]  # Hesapta en az bir işlem olduğundan emin ol
+}
+[CodeInterpreter] Hata alindi (1. deneme): IndexError: index 0 is out of bounds for axis 0 with size 0
+[CodeInterpreter] Deneme 2/3...
+[CodeInterpreter] Uretilen Kod:
+# Hesap ID'sini filtrele
+account_id = 'ACC-124'
+filtered_df = df[df['account_id'] == account_id]
+
+# Hesapta yapılan işlemlerden net miktar hesapla
+# Kredilerin toplamını ve debetlerin toplamını hesapla
+credit_sum = filtered_df[filtered_df['type'] == 'credit']['amount'].sum()
+debit_sum = filtered_df[filtered_df['type'] == 'debit']['amount'].sum()
+
+# Kapanış bakiyesi hesapla: krediler - debetler
+closing_balance = credit_sum - debit_sum
+
+# Sonucu 'result' değişkenine ata
+result = {
+    'account_id': account_id,
+    'closing_balance': closing_balance,
+    'currency': filtered_df['currency'].unique()[0]  # Hesapta en az bir işlem olduğundan emin ol
+}
+[CodeInterpreter] Hata alindi (2. deneme): IndexError: index 0 is out of bounds for axis 0 with size 0
+[CodeInterpreter] Deneme 3/3...
+[CodeInterpreter] Uretilen Kod:
+# Hesap ID'sini filtrele
+account_id = 'ACC-124'
+filtered_df = df[df['account_id'] == account_id]
+
+# Hesapta yapılan işlemlerden net miktar hesapla
+# Kredilerin toplamını ve debetlerin toplamını hesapla
+credit_sum = filtered_df[filtered_df['type'] == 'credit']['amount'].sum()
+debit_sum = filtered_df[filtered_df['type'] == 'debit']['amount'].sum()
+
+# Kapanış bakiyesi hesapla: krediler - debetler
+closing_balance = credit_sum - debit_sum
+
+# Sonucu 'result' değişkenine ata
+result = {
+    'account_id': account_id,
+    'closing_balance': closing_balance,
+    'currency': filtered_df['currency'].unique()[0]  # Hesapta en az bir işlem olduğundan emin ol
+}
+[CodeInterpreter] Hata alindi (3. deneme): IndexError: index 0 is out of bounds for axis 0 with size 0
+[CodeInterpreter] 3 deneme basarisiz oldu. Son hata: IndexError: index 0 is out of bounds for axis 0 with size 0
+[retrieval] Cache yuklendi: 898 chunk, embedding matrisi (898, 1024)
+    → 83.23 sn
+
+[225] Soruluyor: mock-transactions veri setinde Şubat 2024 ayına ait işlemlerin toplam tutarı nedir?
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=mock-transactions.json (score=4.0, best_score, ambiguous=False) | schema_cols=['amount~tutar']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df[df['date'].str.contains('2024-02')]['amount'].sum()
+[CodeInterpreter] Basarili ama KAYIT BULUNAMADI (bos filtre=True). Cikti: 0.0
+    → 5.87 sn
+
+[228] Soruluyor: 728_profiles veri setine bu ay eklenen yeni profil sayısı kaçtır?
+[data_engine] route=code_interpreter (complexity_signal+dataset_signal) | dataset=728_profiles.json (score=4.0, best_score, ambiguous=False) | schema_cols=['profileCode~profil', 'profileType~profil', 'profileMedia.avatarUrl~profil', 'profileMedia.coverImageUrl~profil', 'date~ay']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df[df['profileCode'].str.contains('2023')].shape[0]
+[CodeInterpreter] Basarili ama KAYIT BULUNAMADI (bos filtre=True). Cikti: 0
+    → 7.65 sn
+
+[231] Soruluyor: airports.json veri setinin 2026 güncellemesinde eklenen havaalanları hangileridir?
+[data_engine] route=code_interpreter (dataset_signal+interrogative) | dataset=airports.json (score=3.0, best_score, ambiguous=False) | schema_cols=[]
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+# Havaalanlarının 2026 güncellemesinde eklenen havaalanları bulmak için
+# mevcut veri setindeki havaalanlarının listesini alalım
+current_airports = set(df['code'])
+
+# 2026 güncellemesinde eklenen havaalanları bulmak için
+# 2026 güncellemesini temsil eden yeni bir DataFrame oluşturmalıyız.
+# Ancak veri setinde 2026 güncellemesine ait ayrı bir DataFrame bulunmadığından,
+# 2026 güncellemesinde eklenen havaalanları mevcut veri setinde bulunmayanları temsil edeceğiz.
+# Bu nedenle, 2026 güncellemesinde eklenen havaalanları mevcut veri setinde bulunmayanları temsil edeceğiz.
+# Mevcut veri setindeki havaalanların dışındaki havaalanları bulmak için
+# mevcut veri setindeki havaalanların dışındaki havaalanları bulmalıyız.
+new_airports = df[df['code'].apply(lambda x: x not in current_airports)]
+
+# Eklenen havaalanlarının kodlarını ve isimlerini bir sözlükte döndür
+result = new_airports[['code', 'name']].to_dict('records')
+[CodeInterpreter] Basarili ama KAYIT BULUNAMADI (bos filtre=True). Cikti: []
+    → 13.08 sn
+
+[232] Soruluyor: us-states veri setinde en son hangi tarihte eyalet sınırı değişikliği kaydedilmiştir?
+[data_engine] route=code_interpreter (dataset_signal+interrogative) | dataset=us-states-with-detail.json (score=3.0, best_score, ambiguous=False) | schema_cols=['date~tarih']
+[CodeInterpreter] Deneme 1/3...
+[CodeInterpreter] Uretilen Kod:
+result = df.loc[df['founded'].idxmax()]
+[CodeInterpreter] Basarili! Cikti: name                Hawaii
+abbreviation            HI
+capital           Honolulu
+founded         1959-08-21
+borders                 []
+Name: 10, dtype: object
+    → 6.54 sn
+
+
+Tamamlandı. 7 soru test edildi.
+Sonuçlar: C:\Users\merve\Desktop\rag_project\experiments\madde45_kural_a\kural_a_v2\test_negative_sonuclari.csv
+Semantik doğrulama (6 sandbox sorusu): ok=6 objection=0 failed=0 not_run=0
