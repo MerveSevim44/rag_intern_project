@@ -3301,3 +3301,60 @@ cevaplayabildi; üçünde de cevap "Okay, let's tackle this question…" diye ba
 düşünme metni olarak geldi (`<think>` etiketi yok, ~2000 krk'ta 600 token sınırında kesildi,
 süre ~3–4 kat). Kalan 7 soru servis çöküşü yüzünden HATA verdi (qwen3'ün sonucu değil).
 Ham çıktılar repoda DEĞİL, yerel scratchpad'de tutuluyor.
+
+## Deney notu (2026-11-16) — qwen3-8b / qwen2.5-7b, Ollama vs Foundry, 10 soruluk pilot ÖLÇÜMÜ (kapanış / karar notu DEĞİL)
+
+Yalnızca ölçüm; karar yok. Önceki "qwen3-8b pilotu SONUÇSUZ" notunun iki engelini yeniden denedi.
+
+**Kurulum.** Aynı 10 soru (test_1 #28 #30; test_2 #41 #43 #45 #47; test_3 #62 #69 #73; test_negative #231),
+üretimdeki `run_tests.main` / `ask()` / retrieval AYNI; yalnızca `load_model` yerine Ollama `/v1`
+(ChatOpenAI) verildi. `src/` ve `rag.db`'ye dokunulmadı. temperature=0, max_tokens=600.
+Ollama modelleri `num_ctx 8192` türevleri (`qwen3-8b-pilot`, `qwen25-7b-pilot`; Ollama varsayılanı 4096,
+pipeline bağlamı onu aşabilir). Judge: Groq `openai/gpt-oss-120b`, `llm_as_judge.py`, cevabın üretildiği
+kayıtlı context'e göre (F=faithfulness, AR=answer relevance, TP=task performance, AL=alignment).
+
+**Thinking engeli (qwen3 / Ollama).** Ollama `/v1` üzerinde `reasoning_effort:"none"` thinking'i kapatıyor
+(düşünme metni yok, kısa Türkçe cevap). Yerel `/api/chat`'te `think:false` de çalışıyor. `/v1`'de
+`think:false` ve `enable_thinking:false` ETKİSİZ (150 token düşünme). qwen3:8b %100 GPU, ~5,4 GB, çökme yok.
+
+**Sonuç (F/AR/TP/AL, 1-5).**
+
+| # | qwen2.5 Foundry | qwen2.5 Ollama | qwen3 Ollama |
+|---|---|---|---|
+| 28 | 1/3/1/5 | 2/3/2/5 | 2/2/2/4 |
+| 30 | 1/2/2/3 | 1/2/1/4 | 2/3/3/5 |
+| 41 | 1/2/2/5 | 5/5/5/5 | 5/5/5/5 |
+| 43 | 5/5/5/5 | 3/4/3/5 | 1/3/2/5 |
+| 45 | 1/3/2/5 | 5/5/5/5 | 5/3/3/5 |
+| 47 | atlandı (HATA, os error 1455) | 1/5/2/5 | 2/5/3/5 |
+| 62 | 1/1/1/3 | 1/3/2/5 | 5/5/5/5 |
+| 69 | 1/2/1/5 | 3/4/3/5 | 3/5/5/5 |
+| 73 | 1/2/2/4 | 5/5/5/5 | 5/5/5/5 |
+| 231 | 5/4/4/5 | 5/4/4/5 | 5/4/4/5 |
+
+Ortalama (#47 hariç, n=9, her koşulda skorlu): 
+
+| Koşul | F | AR | TP | AL |
+|---|---|---|---|---|
+| qwen2.5 Foundry | 1,89 | 2,67 | 2,22 | 4,44 |
+| qwen2.5 Ollama | 3,33 | 3,89 | 3,33 | 4,89 |
+| qwen3 Ollama | 3,67 | 3,89 | 3,78 | 4,89 |
+
+(#47 dahil, n=10: qwen2.5 Ollama 3,10/4,00/3,20/4,90; qwen3 Ollama 3,50/4,00/3,70/4,90; Foundry n=9.)
+
+**Gözlemler (yorum değil, ölçüm).**
+- Aynı model (qwen2.5-7b) Foundry'den Ollama'ya geçince judge ortalaması belirgin değişti (F 1,89 → 3,33,
+  TP 2,22 → 3,33). Bu runtime/niceleme farkı, aynı runtime'daki modeller arası farktan (qwen3 − qwen2.5:
+  F +0,34, TP +0,45) BÜYÜK. Foundry ONNX int4 ile Ollama GGUF (Q4_K_M) aynı ağırlık değil; farkın hangi
+  parçası runtime, hangisi niceleme, ayrılmadı.
+- Aynı runtime'da qwen3 − qwen2.5 farkı küçük ve soru bazında tutarsız (qwen3 #62 #69 #30'da yüksek,
+  #43'te düşük, #28'de eşit düşük). n=9, tek tekrar, judge gürültüsü bilinmiyor: bu fark kanıt değil.
+- #231 (ret) üç koşulda da aynı doğru cevap.
+- Süreler karşılaştırılamaz (Foundry koşusunda bellek baskısı, #47'de sayfalama dosyası hatası).
+
+**Sınırlamalar.** n=10 (9 ortak), tek koşu, judge tek model ve skorları yumuşak. Foundry koşusu
+önceki oturumdan ayrı ve bellek baskılıydı. Eski Foundry qwen2.5 tabanı bu pilotla YENİDEN koşuldu
+(önceki pilot tabanı repoda yok).
+
+Ham çıktılar ve judge CSV'leri repoda DEĞİL, yerel scratchpad'de:
+`...\scratchpad\sonuc_{qwen25,qwen25_ollama,qwen3_ollama}.csv`, `judge_*.csv`.
