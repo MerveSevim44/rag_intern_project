@@ -3450,3 +3450,66 @@ Fourier ailesini yeniden açmak için dayanak vermiyor. Ayrıca iki runtime'ın 
 yetersiz: tekrarlı (en az 3) koşu ve gürültü tabanı gerekir. n=11, tek judge.
 
 Ham çıktılar repoda DEĞİL: `...\scratchpad\d\sonuc_{foundry,ollama}.csv`, `judge_{foundry,ollama}.csv`.
+
+## Deney notu (2026-11-17) — qwen2.5-7b vs qwen3-8b, ikisi de Ollama, 15 soru × 3 tam tekrar (üretim + judge ayrı), judge-gürültü kontrolüyle (KARAR DEĞİL, yalnızca ölçüm)
+
+**Kurulum.** 15 soru: kapasite ailesi #28 #30 #41 #47 #87 #74; PUA/Fourier #62 #69 #73 #83; code_interpreter
+#43 #45 #231; kontrol #76 #80. Her model 3 tam üretim koşusu (90 üretim, hepsi geçerli, 0 HATA), her biri
+Groq `gpt-oss-120b` ile ayrı judge'landı (90/90 skorlu). Ollama `qwen25-7b-pilot` / `qwen3-8b-pilot`
+(`num_ctx 8192`, temperature=0; qwen3'te `reasoning_effort:"none"`), kod/context orijinal, PUA eşlemesi ve
+kural A YOK. Tekrarlar aynı oturumda ardışık koşuldu (model her geçişte boşaltılıp yeniden yüklendi).
+
+**Gürültü kaynağı ayrımı.**
+- *Üretim:* aynı soruda 3 tekrarın cevabı qwen2.5'te 14/15, qwen3'te 15/15 soruda BİREBİR aynı (temperature=0,
+  aynı oturum). Yani bu kurulumda üretim neredeyse deterministik.
+- *Judge:* dondurulmuş tek cevap judge'a 3 kez (#73, #69, #43; ilk judge çağrısı dahil #73 F=3,5,4,5;
+  #69 F=2,2,2,2 / AR=4,3,3,3; #43 5/5/5/5). Judge gürültüsü küçük ama sıfır değil (en çok 1-2 puan, tek soruda).
+
+**Sonuç — soru başına ortalama [min-max] (F ve TP; AL tüm hücrelerde ≈5, AR özet satırında).**
+
+| # | F qwen2.5 | F qwen3 | TP qwen2.5 | TP qwen3 |
+|---|---|---|---|---|
+| 28 | 2,0 [2-2] | 1,7 [1-2] | 2,3 [2-3] | 1,7 [1-2] |
+| 30 | 1,0 [1-1] | 2,3 [2-3] | 1,0 [1-1] | 2,3 [2-3] |
+| 41 | 5,0 | 5,0 | 5,0 | 5,0 |
+| 47 | 1,7 [1-2] | 2,0 [2-2] | 2,0 [2-2] | 3,0 [3-3] |
+| 87 | 2,0 [2-2] | 4,0 [4-4] | 2,0 [2-2] | 4,7 [4-5] |
+| 74 | 1,7 [1-2] | 5,0 [5-5] | 2,0 [2-2] | 4,7 [4-5] |
+| 62 | 1,0 [1-1] | 4,7 [4-5] | 1,7 [1-2] | 5,0 [5-5] |
+| 69 | 3,0 [2-4] | 4,0 [3-5] | 3,0 [2-4] | 4,7 [4-5] |
+| 73 | 2,0 [2-2] | 5,0 [5-5] | 2,7 [2-3] | 5,0 [5-5] |
+| 83 | 2,0 [2-2] | 5,0 [5-5] | 3,0 [3-3] | 5,0 [5-5] |
+| 43 | 1,0 [1-1] | 1,3 [1-2] | 2,0 [2-2] | 2,0 [2-2] |
+| 45 | 5,0 | 5,0 | 5,0 | 4,7 [4-5] |
+| 231 | 5,0 | 5,0 | 4,3 [4-5] | 4,0 [4-4] |
+| 76 | 5,0 | 5,0 | 5,0 | 5,0 |
+| 80 | 5,0 | 5,0 | 5,0 | 5,0 |
+
+Özet (15 soru, soru ortalamalarının ortalaması): F qwen2.5 2,82 — qwen3 4,00 (fark +1,18); AR 3,69 — 4,38 (+0,69);
+TP 3,07 — 4,11 (+1,04). Tekrar-bazlı genel F: qwen2.5 [2,87; 2,80; 2,80], qwen3 [4,00; 4,13; 3,87].
+
+**Fark gürültüden büyük mü?** Soru içi tekrar aralığı ortalaması 0,07–0,73 puan; modeller arası soru başına
+ortalama |fark| ≈ 0,9–1,2 puan, yani gözlenen gürültünün ~2-4 katı. min-max aralıkları AYRIŞAN soru sayısı:
+F'de 6/15, TP'de 7/15, AR'de 4/15 — hepsinde qwen3 üstte; qwen2.5'in aralığının qwen3'ün üstüne çıktığı soru YOK.
+Fark bu üç alt kümede toplanıyor: PUA/Fourier (#62 #73 #83: F +3-4; #69 +1) ve kapasite ailesinden #74, #87
+(+3,3 / +2). code_interpreter (#43 #45 #231), kontrol (#76 #80) ve #41, #28 ayırt edilemiyor (eşit ya da
+gürültü içinde).
+
+**Sınırlamalar (bu sonucu zayıflatan noktalar).**
+- n=15 soru, tek judge modeli, tek oturum: tekrarlar bağımsız oturum değil. Önceki iki notta aynı Ollama
+  kurulumu farklı oturumlarda daha büyük skor oynaması gösterdi (#73 F 5→3, #43 3→5, #231 TN→FP); burada
+  oturum-içi gürültü küçük, oturumlar-arası gürültü ölçülmedi, bu yüzden gerçek gürültü burada ölçülenden
+  büyük olabilir.
+- Judge sınırlı ama sıfır olmayan gürültü taşıyor (özellikle F, #73).
+- Soru seti kapasite/PUA ağırlıklı (6+4 / 15); kontrol ve code_interpreter soruları az.
+- Bu notun veri toplama sürecinde iki hata yaşandı ve düzeltildi: Ollama kapalıyken alınan ilk 90 üretim
+  (hepsi HATA) atıldı; Groq günlük kotası dolunca judge saatlerce uyudu (kısa süreli limit gibi
+  sınıflanıyor), kalan 7 satır ayrı sarmalayıcıyla tamamlandı.
+
+**Çıkarım sınırı.** Bu veri, qwen3-8b'nin (Ollama, thinking kapalı) bu 15 soruda qwen2.5-7b'den, özellikle
+PUA/Fourier ve #74/#87'de, oturum-içi gürültünün ~3 katı kadar daha yüksek skor aldığını gösteriyor. Bu bir
+model kapasitesi iddiası DEĞİL: oturumlar-arası gürültü ölçülmedi, tek judge, n=15. Karar/yol değişikliği
+yok; üretim runtime'ı ve modeli bu notla değiştirilmiyor.
+
+Ham çıktılar repoda DEĞİL: `...\scratchpad\e\sonuc_{q25,q3}_r{1,2,3}.csv`, `judge_*`, `judge_w_*`,
+`judge_donmus_*`, `ozet.json`. Geçersiz ilk koşu: `...\scratchpad\e_gecersiz\`.
