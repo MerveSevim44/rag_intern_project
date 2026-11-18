@@ -3513,3 +3513,71 @@ yok; üretim runtime'ı ve modeli bu notla değiştirilmiyor.
 
 Ham çıktılar repoda DEĞİL: `...\scratchpad\e\sonuc_{q25,q3}_r{1,2,3}.csv`, `judge_*`, `judge_w_*`,
 `judge_donmus_*`, `ozet.json`. Geçersiz ilk koşu: `...\scratchpad\e_gecersiz\`.
+
+## Deney notu (2026-11-18) — VRAM birlikte sığma (qwen3-8b + bge-m3, Ollama) ve rastgele 10 soruluk temsili örneklem kontrolü (KARAR DEĞİL, yalnızca ölçüm)
+
+### 1. VRAM birlikte sığma — kesin ölçüm (nvidia-smi, toplam 7956 MiB kullanılabilir)
+
+| Kurulum | Kullanılan | Boş |
+|---|--:|--:|
+| Ollama: qwen3-8b-pilot (`num_ctx 8192`, 4438-token prompt) | 6031 MiB | 1926 MiB |
+| Ollama: qwen3-8b-pilot + bge-m3 (ikisi de `100% GPU`), 4438 token | 6924 MiB | 1033 MiB |
+| Aynı, 8038-token prompt (bağlam sınırına yakın), 3 ölçüm | 6924 MiB (sabit) | 1033 MiB |
+| (önceki ölçüm) Foundry qwen2.5 + bge-m3 | 7800–7929 MiB | 28–157 MiB |
+
+Ollama KV-cache'i yükleme anında tam `num_ctx` için ayırdığından değer prompt uzunluğuyla büyümüyor (tepe değer
+bu). qwen3+bge-m3 Ollama'da ~1 GB boşlukla sığıyor; Foundry+qwen2.5'teki kıl payı durum yok. Sınırlama: tek
+oturum, reranker CPU'da (VRAM'e dahil değil), bge-m3 `keep_alive` bu ölçümde 10 dk (üretim kodunda `0`).
+
+### 2. Temsili örneklem (test_4 + test_5, rastgele 10 soru, tohum 20261117)
+
+Seçim: test_4/test_5 toplam 25 soru; "backlog'da hiç anılmayan" kıstası uygulanamadı (test_4'te 0, test_5'te 5
+soru) ve zaten yanlı olurdu. Seçilen 10 soru backlog'da ort. 6,5 kez anılıyor (15'lik zor sette 27,9). Soru
+kümesi: #91 #95 #97 #98 #100 #101 #102 #105 #111 #112. DİKKAT: 10 sorunun 5'i (#101 #102 #105 #111 #112)
+dokümanda OLMAYAN sorular; yani "sıradan pozitif soru" yalnız 5 tane (#91 #95 #97 #98 #100).
+Kurulum önceki notlarla aynı (`run_tests.main`, Ollama `qwen25-7b-pilot` / `qwen3-8b-pilot`, `num_ctx 8192`,
+temperature=0, qwen3'te `reasoning_effort:"none"`, tek koşu). İki model de 10/10 geçerli cevap üretti (0 HATA).
+
+Judge-bağımsız sınıflandırma (`classify_answer`, LLM'siz) ve judge skorları (F/AR/TP; 20/20 skorlu):
+
+| # | zorluk | dokümanda var | sınıf qwen2.5 / qwen3 | F/AR/TP qwen2.5 | F/AR/TP qwen3 |
+|---|---|---|---|---|---|
+| 91 | Kolay | Evet | TP / TP | 5/5/5 | 5/5/5 |
+| 95 | Orta | Evet | TP / TP | 3/4/3 | 5/5/4 |
+| 97 | Orta | Evet | TP / TP | 5/5/5 | 5/5/5 |
+| 98 | Orta | Evet | TP / TP | 4/3/3 | 4/5/5 |
+| 100 | Zor | Evet | **FN** / TP | 1/1/1 (ret) | 5/5/5 |
+| 101 | Kolay | Hayır | FP / FP | 2/3/2 | 3/3/3 |
+| 102 | Kolay | Hayır | TN / TN | 5/4/4 | 5/4/4 |
+| 105 | Orta | Hayır | TN / TN | 5/4/4 | 5/4/4 |
+| 111 | Zor | Hayır | TN / TN | 5/4/4 | 5/4/4 |
+| 112 | Kolay | Hayır | TN / TN | 5/4/4 | 5/4/4 |
+
+Sınıf sayıları: qwen2.5 TP 4, FN 1, FP 1, TN 4; qwen3 TP 5, FP 1, TN 4.
+
+Ortalamalar (qwen2.5 → qwen3): tüm 10 soru F 4,00→4,70, AR 3,70→4,40, TP 3,50→4,30 (+0,7/+0,7/+0,8).
+Yalnız 5 pozitif soru (#91 #95 #97 #98 #100): F 3,60→4,80, AR 3,60→5,00, TP 3,40→4,80 (+1,2/+1,4/+1,4).
+Yalnız 5 dokümanda-olmayan soru: F 4,40→4,60, AR 3,80→3,80, TP 3,60→3,80 (+0,2/0,0/+0,2).
+
+**Judge notu.** İlk judge turu Groq günlük kotasına çarpıp qwen3'te 2/10'da durdu; kalan 8 satır aynı gün
+(~13:53) sarmalayıcıyla tamamlandı ("990 dk bekleme" mesajı gerçekte çok daha kısa sürdü). Tüm skorlar aynı
+judge modelinden (`gpt-oss-120b`).
+
+**Gözlemler (ölçüm).**
+- qwen3, 10 sorunun HİÇBİRİNDE qwen2.5'ten düşük skor almadı (F/AR/TP'nin hiçbirinde). 6 soruda iki model eşit
+  (#91 #97 #102 #105 #111 #112), 4 soruda qwen3 yüksek (#95 #98 #100 #101).
+- Fark pozitif sorularda toplanıyor (özellikle #100: qwen2.5 yanlışlıkla ret = FN, F/AR/TP 1/1/1; qwen3
+  doğru cevap 5/5/5). Dokümanda olmayan soruların 4'ünde ikisi de aynı doğru reti veriyor (TN).
+- #101'de (dokümanda yok) ikisi de cevap uydurdu (FP); qwen3'ün cevabı çok daha uzun (1208 vs 151 karakter) ve
+  judge'dan biraz daha yüksek skor aldı (3/3/3 vs 2/3/2); bu, FP'yi "daha iyi" yapmaz: ret kuralını ihlal eden
+  bir cevap iki modelde de var.
+- Örnek küçük (n=10, yalnız 5 pozitif soru), tek koşu, tek judge, tek oturum; önceki 15×3 deneyindeki oturum-içi
+  gürültü (ort. tekrar aralığı 0,07–0,73 puan) bu farkların çoğundan küçük, ama oturumlar-arası gürültü
+  ölçülmedi.
+
+**Çıkarım sınırı.** Bu 10 rastgele soruda qwen3'ün qwen2.5'ten KÖTÜLEŞTİĞİNE dair işaret yok (hiçbir soruda düşük
+skor, sınıflandırmada FN→TP iyileşmesi, FP sayısı eşit). Bu, "qwen3 sıradan sorularda en az qwen2.5 kadar iyi"
+hipotezini destekliyor, kanıtlamıyor: n=10, yarısı dokümanda-olmayan soru, tek koşu. VRAM ölçümü de olumlu.
+Production model/runtime değişikliği için karar/öneri bu notla verilmiyor.
+
+Ham çıktılar repoda DEĞİL: `...\scratchpad\r\sonuc_{q25,q3}.csv`, `judge_{q25,q3}.csv`, `girdi.csv`.
