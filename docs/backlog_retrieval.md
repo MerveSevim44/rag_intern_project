@@ -3400,3 +3400,53 @@ yeterli kanıt değil. n=6, tek koşu, tek judge.
 
 Ham çıktılar repoda DEĞİL, scratchpad'de: `...\scratchpad\c\sonuc_c_q25_ollama.csv`, `...\scratchpad\c\judge_c_q25_ollama.csv`
 (+ bir önceki notun dosyaları).
+
+## Deney notu (2026-11-17) — Fourier ailesi (#62/#69/#73/#83), code_interpreter çifti (#43/#231) ve E1 kontrolleri, AYNI GÜN Foundry vs Ollama (qwen2.5-7b): runtime farkı DOĞRULANMADI, koşudan koşuya gürültü büyük (KARAR DEĞİL, yalnızca ölçüm)
+
+**Kurulum.** 11 soru (test_3 #62 #69 #73 #83 #85 #74 #71 #61 #88; test_2 #43; test_negative #231), orijinal
+kod/context, PUA eşlemesi YOK, kural A YOK (`git status`: `src/` ve `evaluation/` değişmedi). Foundry
+(`qwen2.5-7b-instruct-cuda-gpu:4`) ve Ollama (`qwen25-7b-pilot`, `num_ctx 8192`, temperature=0) AYNI GÜN,
+sırayla koşuldu; judge Groq `gpt-oss-120b`, kayıtlı context'e göre. Bu not, bir önceki notun "zayıf referans"
+eleştirisini gidermek için taze Foundry tabanıyla yapıldı.
+
+**Sonuç (F/AR/TP/AL, 1-5).**
+
+| # | Foundry (bugün) | Ollama (bugün) | Ollama (önceki koşu, aynı gün) |
+|---|---|---|---|
+| 62 | 1/1/1/5 | 1/3/2/5 | 1/3/2/5 |
+| 69 | 2/3/2/5 | 2/4/3/5 | 3/4/3/5 |
+| 73 | 1/3/2/5 | 3/5/4/5 | 5/5/5/5 |
+| 83 | 3/4/3/5 | 2/4/3/5 | — |
+| 43 | 5/5/5/5 | 5/5/5/5 | 3/4/3/5 |
+| 231 | 5/4/4/5 (TN, doğru ret) | 5/5/5/5 (**FP**: uydurma "AMS Amsterdam") | 5/4/4/5 (TN) |
+| 85 | 3/5/3/5 | 3/5/3/5 | — |
+| 74 | 1/3/2/5 | 1/3/2/5 | 2/3/2/5 |
+| 71 | 5/5/5/5 | **1/1/1/5** | — |
+| 61 | 5/5/5/5 | 5/5/5/5 | — |
+| 88 | 5/5/5/5 | **2/3/2/5** | — |
+
+Ortalama (F/AR/TP/AL): Fourier #62/69/73/83: Foundry 1,75/2,75/2,0/5,0 — Ollama 2,0/4,0/3,0/5,0.
+E1 kontrolleri #85/74/71/61/88: Foundry 3,8/4,6/4,0/5,0 — Ollama 2,4/3,4/2,6/5,0. Tüm 11: Foundry
+3,27/3,91/3,36/5,0 — Ollama 2,73/3,91/3,18/5,0.
+
+**Gözlemler (ölçüm, yorum değil).**
+- **#62/#69/#73/#83 (PUA ailesi): faithfulness Ollama'da DÜZELMEDİ.** #62 F=1 (iki runtime), #69 F=2 (iki
+  runtime), #73 F 1→3, #83 F 3→2. Yalnız AR/TP biraz yüksek (özellikle #73, #69). Madde "yeniden açıldı"
+  denecek kanıt yok.
+- **#43 iki runtime'da da 5/5/5/5**: "#45 sagasının runtime sorunu" tezini destekleyen bir fark yok. Üstelik
+  aynı Ollama'nın önceki koşusunda #43 3/4/3/5 idi.
+- **Gürültü büyük.** Aynı Ollama kurulumu, aynı gün, iki koşu: #73 F 5→3, #43 F 3→5, #69 F 3→2, #74 F 2→1,
+  #231 TN→FP. Yani soru bazında 1-2 puanlık oynama bu pilotlarda normal ve runtime farkını
+  taklit edebiliyor. Bir önceki notun "Foundry→Ollama sıçraması" bu bugünkü taze Foundry'de görünmedi
+  (tüm 11'de Ollama F 2,73 < Foundry 3,27).
+- **#231 Ollama'da yanlış-pozitif.** code_interpreter yolu bu koşuda "AMS / Amsterdam Schiphol" döndürdü
+  (önceki Ollama koşularında ve Foundry'de doğru ret). Judge bunu bağlama sadık sayıp 5 verdi (bağlam
+  code_interpreter çıktısı): bu bir judge körlüğü, ayrı konu. Tek örnek, nedeni araştırılmadı.
+- **E1 kontrolleri Ollama'da kötüleşti**: #71 5→1, #88 5→2 (PUA eşlemesi OLMADAN). "Ollama onları
+  etkiledi mi" sorusunun yanıtı: bu örnekte evet, ters yönde (daha kötü).
+
+**Çıkarım sınırı.** Bu veri, production runtime'ının Foundry'den Ollama'ya taşınmasını DESTEKLEMİYOR ve
+Fourier ailesini yeniden açmak için dayanak vermiyor. Ayrıca iki runtime'ın farkını ölçmek için tek koşu
+yetersiz: tekrarlı (en az 3) koşu ve gürültü tabanı gerekir. n=11, tek judge.
+
+Ham çıktılar repoda DEĞİL: `...\scratchpad\d\sonuc_{foundry,ollama}.csv`, `judge_{foundry,ollama}.csv`.
