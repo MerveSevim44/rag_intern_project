@@ -3358,3 +3358,45 @@ Ortalama (#47 hariç, n=9, her koşulda skorlu):
 
 Ham çıktılar ve judge CSV'leri repoda DEĞİL, yerel scratchpad'de:
 `...\scratchpad\sonuc_{qwen25,qwen25_ollama,qwen3_ollama}.csv`, `judge_*.csv`.
+
+## Deney notu (2026-11-16) — "model kapasitesi" diye kapatılan 6 soru qwen2.5-7b ile Ollama'da tekrar soruldu: yalnız #41 düzeldi (KARAR DEĞİL, yalnızca ölçüm)
+
+**Soru.** "Model kapasitesi, kabul edilmiş sınırlama" diye kapatılan maddeler (A2 #28/#30, Grup B #41/#47,
+C2 #87, C3 #74) aslında Foundry servis katmanı kaynaklı olabilir mi? Model aynı (qwen2.5-7b), runtime
+Ollama'ya sabitlendi. Kurulum bir önceki deney notuyla aynı (`run_tests`/`ask()`/retrieval aynı, yalnız LLM
+nesnesi Ollama `/v1`; `qwen25-7b-pilot`, `num_ctx 8192`, temperature=0; judge Groq `gpt-oss-120b`).
+#28/#30/#41/#47 önceki notun Ollama koşusundan alındı (temperature=0), yalnız #74/#87 yeni koşuldu.
+
+**Sonuç (F/AR/TP/AL).** "Eski tam-set" = `evaluation/datasets/test_*_sonuclari_judge.csv` (ayrı, daha
+eski kod durumu/koşu); "pilot Foundry" = bir önceki notun bugünkü Foundry koşusu.
+
+| # | Kapanış gerekçesi | eski tam-set Foundry | pilot Foundry | **Ollama** | Değişim |
+|---|---|---|---|---|---|
+| 28 | A2 | 1/3/2/5 | 1/3/1/5 | 2/3/2/5 | **Düzelmedi** (F=2, hâlâ yanlış kural yorumu) |
+| 30 | A2 | 2/3/2/4 | 1/2/2/3 | 1/2/1/4 | **Düzelmedi** (Y/Z üretimi yanlış) |
+| 41 | B | 1/3/2/5 | 1/2/2/5 | **5/5/5/5** | **DÜZELDİ** |
+| 47 | B | 1/5/2/5 | atlandı (sayfalama hatası) | 1/5/2/5 | **Birebir aynı** ("tutarsız" iddiası, fieldGuide'ı yok sayıyor) |
+| 87 | C2 | 2/4/3/5 | yok | 2/3/2/5 | **Düzelmedi** (Re/Im yorumu yanlış; biraz daha kötü) |
+| 74 | C3 | 5/5/5/5 | yok | 2/3/2/5 | **Kötüleşti** (bağlam "memoryless/causal" için açıkken yine çelişkili cevap) |
+
+**Gözlemler.**
+- 6 sorunun 1'i (#41) Ollama'da düzeldi; 4'ü aynı kaldı (#28, #30, #47, #87), 1'i kötüleşti (#74). Judge
+  hepsinde aynı tür hatayı yazıyor (yanlış yorum / bağlamı yok sayma): bu 4 madde için "model kapasitesi"
+  açıklaması Ollama'da bozulmadı.
+- #41'in düzelmesi tek örnek. Önceki notta aynı soru Foundry'de F=1 iken Ollama'da F=5; sebebi (runtime,
+  niceleme ya da örnekleme) ayrılmadı.
+- #74'ün "eski tam-set" 5/5/5/5'i bu karşılaştırmada zayıf bir referans: o dosya farklı bir kod durumundan
+  (backlog'daki kural A/B deneyleri öncesi/sonrası farklar var) ve aynı gün koşulmadı. #74 için "Ollama
+  kötüleştirdi" demek, Foundry'yi bugün yeniden koşmadan, kesin değil. Aynısı #28/#30/#87 için "eski
+  tam-set"in kıyas değerini sınırlıyor; bugünkü Foundry koşusu yalnız #28/#30/#41 için var.
+- Bir önceki notun 9 soruluk ortak ortalamasındaki Foundry→Ollama sıçraması (F 1,89→3,33) bu 6
+  "kapasite" sorusuna **yayılmıyor**: sıçramanın büyük kısmı #43/#45/#62/#69/#73 gibi bu 6'nın dışındaki
+  sorulardan geliyor.
+
+**Çıkarım sınırı (genelleme yok).** "Production runtime'ı Ollama'ya taşıma" önerisi bu veriyle KANITLANMIYOR:
+kapasite maddelerinin çoğu (4/6) Ollama'da da aynı hatayı veriyor. Ayrı, daha sağlam bir ölçüm olmadan
+(aynı gün Foundry+Ollama, tam set, tekrarlı koşu) runtime değişikliği gündeme alınmamalı; #41 tek başına
+yeterli kanıt değil. n=6, tek koşu, tek judge.
+
+Ham çıktılar repoda DEĞİL, scratchpad'de: `...\scratchpad\c\sonuc_c_q25_ollama.csv`, `...\scratchpad\c\judge_c_q25_ollama.csv`
+(+ bir önceki notun dosyaları).
