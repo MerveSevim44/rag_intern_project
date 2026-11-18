@@ -21,6 +21,18 @@ DEFAULT_MODEL_ID = "qwen2.5-7b-instruct-cuda-gpu:4"
 # Alternatif (indirilmiş ve çalıştığı doğrulanmış) model.
 PHI4_MINI_MODEL_ID = "Phi-4-mini-instruct-cuda-gpu:5"
 
+# ─── Runtime seçimi (geri alınabilir) ─────────────────────────────────
+# RAG_LLM_RUNTIME=foundry (VARSAYILAN) → Foundry Local, qwen2.5-7b ONNX.
+# RAG_LLM_RUNTIME=ollama               → Ollama /v1, qwen3-8b-pilot.
+# Geri almak için ortam değişkenini kaldırmak yeterli; başka kod değişmez.
+LLM_RUNTIME_ENV_VAR = "RAG_LLM_RUNTIME"
+
+# Ollama tarafı. qwen3-8b-pilot = `ollama/Modelfile.qwen3-8b-pilot` ile
+# `qwen3:8b`'den türetilir (num_ctx 8192; Ollama varsayılanı 4096, pipeline
+# bağlamı onu aşabiliyor). Adres/model ortam değişkeniyle ezilebilir.
+OLLAMA_BASE_URL = os.environ.get("RAG_OLLAMA_URL", "http://127.0.0.1:11434")
+OLLAMA_MODEL_ID = os.environ.get("RAG_OLLAMA_MODEL", "qwen3-8b-pilot")
+
 # Cevap uzunluğu üst sınırı. Detaylı cevapların tamamlanmasına yetecek kadar
 # yüksek, tekrar döngüsünü sınırlayacak kadar düşük.
 MAX_ANSWER_TOKENS = 600
@@ -300,7 +312,68 @@ def _resolve_model_id(base_url, requested):
     )
 
 
+def _load_ollama_model(alias=None):
+    """
+    Ollama /v1 üzerinden ChatOpenAI nesnesi döndürür (qwen3-8b-pilot).
+
+    THINKING: qwen3 varsayılan olarak düşünür; 600 token sınırında düşünme
+    metni cevabı yer ve `content` BOŞ döner. 2026-11-18'de doğrudan
+    ölçüldü (qwen3:8b ve qwen3-8b-pilot, Ollama 0.21.2):
+      - /v1 + reasoning_effort:"none"  → thinking KAPALI (14 token, cevap dolu)
+      - /v1 + think:false              → ETKİSİZ (600 token düşünme, content boş)
+      - /v1 + enable_thinking:false    → ETKİSİZ (Foundry'deki parametre)
+      - /api/chat + think:false        → kapalı (ChatOpenAI bu uç noktayı kullanmaz)
+    Pilot türevi (yalnız num_ctx/temperature) thinking'i KAPATMAZ; kapatan tek
+    şey bu istek parametresi. Bu yüzden parametre kod içinde sabit.
+    """
+    model_id = alias if alias and alias != DEFAULT_MODEL_ID else OLLAMA_MODEL_ID
+    base = OLLAMA_BASE_URL.rstrip("/")
+
+    # Sunucu kapalıysa 90 üretim tek tek HATA vermesin: başta net hata ver.
+    try:
+        tags = _http_get(f"{base}/api/tags", timeout=10)
+    except (urllib.error.URLError, OSError, TimeoutError) as e:
+        raise RuntimeError(
+            f"Ollama servisi {base} adresinde yanıt vermiyor: {e}. "
+            "'ollama app.exe' ile başlatın."
+        ) from e
+    names = {m.get("name") for m in (tags.get("models") or [])} if isinstance(tags, dict) else set()
+    if model_id not in names and f"{model_id}:latest" not in names:
+        raise RuntimeError(
+            f"Ollama'da '{model_id}' modeli yok. Mevcut: {sorted(n for n in names if n)}. "
+            "qwen3-8b-pilot için: ollama create qwen3-8b-pilot -f ollama/Modelfile.qwen3-8b-pilot"
+        )
+
+    print(f"[Ollama] Model: {model_id} | servis: {base} | thinking: kapalı (reasoning_effort=none)")
+    return ChatOpenAI(
+        model=model_id,
+        base_url=f"{base}/v1",
+        api_key="not-needed",
+        temperature=0,
+        streaming=False,
+        max_tokens=MAX_ANSWER_TOKENS,
+        extra_body={"reasoning_effort": "none"},
+    )
+
+
 def load_model(alias=DEFAULT_MODEL_ID, unload_previous=True):
+    """
+    LLM'i yükler ve LangChain ChatOpenAI nesnesini döndürür.
+
+    RAG_LLM_RUNTIME=ollama ise Ollama (qwen3-8b-pilot), aksi halde (varsayılan)
+    Foundry Local — bkz. LLM_RUNTIME_ENV_VAR.
+    """
+    runtime = os.environ.get(LLM_RUNTIME_ENV_VAR, "foundry").strip().lower()
+    if runtime == "ollama":
+        return _load_ollama_model(alias)
+    if runtime != "foundry":
+        raise ValueError(
+            f"{LLM_RUNTIME_ENV_VAR}='{runtime}' geçersiz; 'foundry' veya 'ollama' olmalı."
+        )
+    return _load_foundry_model(alias, unload_previous)
+
+
+def _load_foundry_model(alias=DEFAULT_MODEL_ID, unload_previous=True):
     """
     Modeli çalışan Foundry Local servisinde yükler ve LangChain ChatOpenAI
     nesnesini (llm) döndürür.
