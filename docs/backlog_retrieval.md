@@ -3706,6 +3706,107 @@ soruyla kesişmiyor; yalnız #43, #45 code_interpreter nedeniyle bağlam değiş
   qwen3'ün cevap sentezinde net bir kazanç gösteriyor; ama aynı kanıt CFG türetmede (Grup B, #7/#21/#29) aynı DB'de
   qwen2.5'ten kötü olduğunu da gösteriyor — "qwen3 her yönüyle daha iyi" sonucu DOĞRU DEĞİL.**
 
-Ham çıktılar repoda DEĞİL: `...\scratchpad\camp\run1`, `run2`, `judge1`, `judge2`, `analiz.out`, `analiz.py`;
+Ham çıktılar repoda: `experiments/madde39_tam_kosu/qwen3_ollama_2026-11-18/` (run1, run2, judge1, judge2, drv.py,
+judge_loop.py, analiz.py/.out, cnt.py, reg.py — commit `a77218e`, henüz push edilmedi).
 A1 kontrol/tedavi verileri `experiments/madde_grupA_sutun/entegrasyon/` altında (repoda, bu deney notundan önce
 commit'lenmişti).
+
+**Devamı — CFG regresyonunun kök nedeni teşhis edildi:** bkz. [[Madde 42 — CFG regresyonu]] aşağıda. O not,
+buradaki "Grup B'de 3 aynı-DB regresyonu (#7, #21, #29)" ifadesini DÜZELTİYOR: #29 incelenince GT'ye göre
+qwen3'ün cevabı qwen2.5'ten DAHA DOĞRU çıktı; judge'ın tersini vermesi muhtemelen judge artefaktı, gerçek
+regresyon değil. Gerçek, tekrarlanabilir regresyon yalnızca #7 ve #21.
+
+## Madde 42 — CFG regresyonu: qwen3-8b (Ollama) yakın-özdeş sembol karıştırması (migrasyon PROVİZYONEL onaylı; bu madde yalnız TEŞHİS, düzeltme YOK)
+
+**Durum.** 2026-11-18 tam kampanya notundaki (147 soru) Grup B (A1 ile karışık, test_1 CFG, 16 soru) analizinde
+qwen3'ün aynı DB'de qwen2.5'ten kötü olduğu 3 soru bulunmuştu (#7, #21, #29). Kullanıcı qwen3 migrasyonuna
+PROVİZYONEL olarak devam onayı verdi, bu maddenin "bilinen/kabul edilmiş regresyon, ayrı izleniyor" notuyla
+işaretlenmesi şartıyla. Bu madde o teşhisi yapıyor; düzeltme UYGULANMADI, yalnız öneri taslağı sunuluyor.
+
+**Düzeltme: #29 gerçek bir regresyon DEĞİL.** GT'ye (`evaluation/ground_truth/test_1.json`, id 29) göre doğru
+mekanizma şu: B=>bbBdd|C kuralı her uygulandığında 2 b + 2 d ekler (2k, çift); C=>bd ile bir b+d daha eklenip
+2k+1 (tek) olur. qwen3'ün tam cevabı bunu birebir doğru anlatıyor (B çift sayıda b/d ekliyor, C=>bd kuralı tek
+sayıda olmasını sağlıyor, B kuralı k'ye, C kuralı n'e karşılık geliyor). qwen2.5'in cevabı ise bozuk; içinde bir
+makine-çevirisi artefaktı var ve B/C kuralının mekanizmasını hiç açıklamıyor, yalnız dairesel biçimde "2k
+çifttir, +1 = 2k+1" diyor. Judge qwen2.5'e 4/5/3/5, qwen3'e 2/3/3/5 vermiş; bu içeriğin tam tersini gösteriyor
+— judge artefaktı olarak işaretlendi (kanıtlanmış değil ama GT karşılaştırması güçlü işaret). Gerçek, GT'yle
+doğrulanmış regresyon yalnızca #7 ve #21.
+
+**#7 — tam teşhis.** Soru, G4.1 dilbilgisinde verilen bir türetme zincirinin ("...=>v*(v-c)") sonunda hangi
+tümcenin elde edildiğini soruyor; doğru cevap sorunun kendisinde zaten yazılı, türetmenin son adımını kopyalamak
+yeterli. GT: "v*(v-c)". Retrieval'in getirdiği context (sayfa 3), aynı G4.1 için üç ayrı türetme içeriyor:
+birisi soruyla birebir aynı ve "v*(v-c)" ile bitiyor; ikincisi farklı bir sonuçla bitiyor; üçüncüsü ara
+adımlarında "v/(v-c)" alt dizesini (bölme işaretiyle) defalarca içeriyor. Ayrıca aynı context'teki sayfa 15
+örneği de "v/(v-c)" alt dizesini dokuz kez daha içeriyor — tamamen ilgisiz bir örnek ama aynı context bloğuna
+girmiş. qwen2.5 (hem eski hem yeni DB'de): "v*(v-c)" — doğru, 5/5/5/5. qwen3 (yeni DB, run1): "v/(v-c)" —
+yanlış (çarpma yerine bölme), 1/3/2/5. **Bugün aynı pipeline ile 3 kez tekrarlandı: 3/3'ünde de birebir aynı
+yanlış cevap "v/(v-c)".** Tek seferlik sapma değil; temperature=0 ve reasoning_effort=none ile tamamen
+deterministik bir hata.
+
+**#21 — tam teşhis.** Soru, G4.7'nin yalınlaştırılmış son hali olan G''4.7 dilbilgisinin kurallarını soruyor.
+Context (sayfa 21, OCR'lı/alt simge bölünmüş metin) doğru kuralları veriyor: S => B | BS (büyük B, değişken) ve
+B => b (küçük b, uç simge). GT bunu doğruluyor. qwen2.5 (yeni DB): "S => B, B => b" — doğru (BS/|BS kısmını
+atlamış ama B/b ayrımını doğru yapmış), 3/3/3/5. qwen3 (yeni DB, run1): "S => b, B => b" — yanlış: ilk kuralın
+sağındaki büyük B'yi küçük b'ye çevirmiş, iki kuralı birbirine benzetmiş, 1/2/1/5. **3 kez tekrar: 3/3'ünde
+"S => b, B => b"** (kaynak referansı denemeler arası değişti ama yanlış cevap metni birebir aynı kaldı) — yine
+tamamen deterministik.
+
+**Diğer 14 Grup B sorusu (mekanizma taraması).** 12 soru kavramsal tanım/küme sorusu (VT/VN kümesi, yararlı/
+yararsız değişken tanımı, algoritma amacı gibi); qwen2.5 ve qwen3 farklı cümlelerle ama anlamca özdeş cevap
+veriyor, ikisi de doğru (berabere). Bir soru yalnızca biçimlendirme farkı taşıyor (qwen3 numaralı liste
+yapmış, içerik birebir aynı) — berabere. Yani regresyon mekanizması bu 14 soruda YOK; yalnız #7 ve #21'de var,
+ikisi de aynı mekanizmayı paylaşıyor.
+
+**Sağlık kontrolü (aynı dokümanın başka sorularında mekanizma genel mi?):** aynı test_1/CFG dokümanındaki, ama
+Grup A'nın (A1'den etkilenmeyen) kötüleşenler listesindeki iki soru da kontrol edildi — farklı, önceden bilinen
+bir mekanizma bulundu: küme tanımındaki üst simge (n, m, k) OCR'da bozulmuş (madde 22/31/33'teki bilinen OCR/
+alt-üst-simge sorunu); hem qwen2.5 hem qwen3 yanlış cevap veriyor, yalnız farklı biçimde yanlış. Yani bu iki
+soru qwen3'e özgü değil, migrasyondan önce de bozuktu — "CFG dokümanı artık genel olarak bozuk" hipotezini
+doğrulamıyor; sembol-karıştırma sorunu dar ve spesifik (#7, #21).
+
+**Mekanizma (teşhis, kök neden).** qwen3-8b-pilot, bağlamda (veya sorunun kendisinde) birebir kopyalanması
+gereken kısa, biçimsel/sembolik bir ifadeyi kopyalarken, görsel/yazımsal olarak neredeyse özdeş ama farklı bir
+simgeyle karıştırıyor: #7'de işlem simgesi (çarpma → bölme), #21'de harf büyüklüğü (büyük B → küçük b). Her iki
+vakada da: (a) bağlamda doğru ifadeyle birlikte en az bir yakın-benzer ama farklı ifade de var (ya aynı chunk
+içinde başka bir türetme, ya da OCR'ın bölüp farklı satırlara dağıttığı bir metin); (b) hata tamamen
+deterministik (3/3, temperature=0); (c) qwen2.5-7b aynı bağlamda bu hatayı yapmıyor; (d) hata "thinking"
+kalıntısı ya da format bozulması değil — cevap kısa, düzgün biçimli, yalnız bir karakter/sembol yanlış. Bu,
+retrieval veya bağlam eksikliği değil, qwen3-8b-pilot'un karakter düzeyinde kesin kopyalama hassasiyetinde
+qwen2.5-7b'ye göre bir zayıflık olduğuna işaret ediyor; özellikle bağlamda birden fazla benzer sembolik ifade
+varken.
+
+**Önerilen çözüm taslakları (UYGULANMADI, yalnız öneri).**
+
+1. Dar regex kısayolu (yalnız #7-tipi sorular için, risksiz). Soru metninin kendisi bir türetme zinciri
+   içeriyorsa ve "...sonunda/sonucunda hangi tümce/ifade elde edilmiştir" kalıbı varsa, zincirin son terimini
+   regex ile sorudan çıkarıp sentezleyiciye "doğru cevap birebir şudur, bunu koruyarak yaz" biçiminde bir ipucu
+   olarak enjekte etmek (ya da LLM'i hiç çağırmadan doğrudan döndürmek). Kapsam çok dar (bu veri setinde yalnız
+   #7 bu kalıba uyuyor), risk neredeyse sıfır (genel prompt'a dokunmuyor), genellemesi düşük.
+2. Genel "sembol sadakati" reçetesi (`_build_geo_recipe` desenindeki gibi, kavram-tetiklemeli, veri setinden
+   bağımsız). `src/llm_client.py::ask()`'e, `_build_geo_recipe`'in `code_interpreter.py`'deki örneğine benzer
+   şekilde, soru veya bağlamda biçimsel dilbilgisi/türetme göstergeleri (türetme oku zincirleri + "dilbilgisi",
+   "türetme", "tümce", "kural", "VN", "VT", "P:" gibi anahtar kelimeler) tespit edilince devreye giren dar bir
+   ek talimat eklemek: bağlamdaki sembolleri harf harf ve işaret işaret kopyala, büyük/küçük harf ve işlem
+   işaretlerini (çarpma/bölme gibi) birbirine karıştırma, birden fazla benzer ifade varsa yalnız soruda
+   belirtileni kullan. Bu, #7 ve #21'i birlikte hedefler ve benzer gelecek sorulara genelleşir, ama paylaşılan
+   `ask()` prompt'una dokunduğu için tam 32 soruluk negatif set + TP/FN tekrar ölçümü gerektirir (bkz. madde
+   11'in uyarısı: bu prompt'a dokunan her değişiklik negatif sette doğrulanmalı; Kural A/B'nin iki kez geri
+   alınma geçmişi — dar görünen prompt müdahaleleri bu projede tekrar tekrar başka yerde regresyon yaratmıştı).
+3. Hiçbir şey yapma, kabul edilmiş sınırlama olarak izle. n=2/147 (%1,4), yalnız CFG/biçimsel-dilbilgisi türü
+   sorularda, yalnız qwen3-8b-pilot'ta. Mevcut korpusta CFG dokümanı tek kaynak; production'da bu belge/soru
+   tipi ne kadar sık sorulacak bilinmiyor.
+
+**Değerlendirme (öneri, karar DEĞİL).** Seçenek 3 (kabul et, izle) şu an en düşük riskli: n küçük, kapsam dar,
+ve bu projede paylaşılan prompt'a yapılan dar müdahaleler tekrar tekrar geri alınmak zorunda kalmış (madde 11,
+Kural A/B). Seçenek 1 neredeyse risksiz ama kapsamı tek soru kalıbıyla sınırlı; küçük bir ek güvence olarak
+uygulanabilir. Seçenek 2 en genel çözüm ama doğrulama maliyeti yüksek (tam negatif set + TP/FN tekrarı); yalnız
+bu regresyon production'da gerçekten tekrar ederse (CFG/biçimsel-dilbilgisi soruları production trafiğinde
+önemli bir pay alırsa) önceliklendirilmeli.
+
+**Sınırlar.** Mekanizma yalnız 2 örnekle (n=2) karakterize edildi; genellenebilirliği (başka CFG/matematik
+dokümanlarında, başka sembol çiftlerinde tekrar eder mi) test edilmedi. 3 kez tekrar yalnız qwen3 tarafında
+yapıldı (qwen2.5'in de 3 kez tutarlı doğru cevap verip vermediği varsayıldı, ayrıca ölçülmedi). #29'un "judge
+artefaktı" olduğu iddiası GT karşılaştırmasına dayanıyor; judge'ın neden tersini verdiği (muhtemelen qwen3'ün
+cevabının referans cevaplardaki anahtar kelimelerle daha az örtüşmesi) ayrıca incelenmedi.
+
+İlgili: [[qwen3-ollama-deney-durumu]]
