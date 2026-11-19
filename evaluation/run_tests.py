@@ -295,7 +295,8 @@ def main(argv=None):
         sys.exit(f"Soru dosyası bulunamadı: {args.sorular}")
 
     print("Model yükleniyor...")
-    llm = load_model()  # varsayılan: qwen2.5-7b-instruct-cuda-gpu:4 (GPU/CUDA)
+    # Varsayılan: Ollama / qwen3-8b-pilot. Foundry/qwen2.5 için RAG_LLM_RUNTIME=foundry
+    llm = load_model()
     print("Model hazır.\n")
 
     # Soruları CSV'den oku

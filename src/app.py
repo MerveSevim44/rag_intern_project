@@ -25,7 +25,10 @@ for _p in [str(_src_dir), str(_root_dir)]:
 import streamlit as st
 
 try:
-    from src.llm_client import load_model, ask, truncate_chunk_text, truncate_context
+    from src.llm_client import (
+        load_model, ask, truncate_chunk_text, truncate_context,
+        get_llm_runtime, OLLAMA_MODEL_ID,
+    )
     from src.retrieval import get_top_chunks, RERANK_TOP_N, TOP_K
     from src.ingest import ingest_single_file, list_ingested_sources, delete_source, DATA_DIR, init_db
     from src.visualizer import extract_chart_data, render_chart_block
@@ -36,7 +39,10 @@ try:
         file_icon,
     )
 except ImportError:
-    from llm_client import load_model, ask, truncate_chunk_text, truncate_context
+    from llm_client import (
+        load_model, ask, truncate_chunk_text, truncate_context,
+        get_llm_runtime, OLLAMA_MODEL_ID,
+    )
     from retrieval import get_top_chunks, RERANK_TOP_N, TOP_K
     from ingest import ingest_single_file, list_ingested_sources, delete_source, DATA_DIR, init_db
     from visualizer import extract_chart_data, render_chart_block
@@ -47,16 +53,28 @@ except ImportError:
         file_icon,
     )
 
-# Kullanıcıya gösterilen ad -> Foundry Local'in tam model ID'si.
-# Kısa alias ("phi-4-mini") KULLANILMIYOR: katalog onu CPU varyantına çözüyor
-# ve GPU hiç devreye girmiyor. Tam ID ile CUDA varyantı garanti altına alınır.
+# Kullanıcıya gösterilen ad -> model ID'si. Liste, etkin runtime'a göre kurulur
+# (RAG_LLM_RUNTIME, bkz. llm_client.get_llm_runtime): seçicide gösterilen ad ile
+# cevabı gerçekten üreten model AYNI olmalı; sohbet geçmişindeki "model" alanı da
+# buradan beslenir.
 #
-# Listede yalnızca indirilmiş ve çalıştığı doğrulanmış modeller var.
-# Varsayılan (ilk sıra): qwen2.5-7b — Türkçe cevap kalitesi daha iyi.
-MODEL_OPTIONS = {
-    "qwen2.5-7b (GPU)": "qwen2.5-7b-instruct-cuda-gpu:4",
-    "phi-4-mini (GPU)": "Phi-4-mini-instruct-cuda-gpu:5",
-}
+# Ollama (VARSAYILAN): qwen3-8b-pilot. Ollama yolunda Foundry'ye özgü modeller
+#   (Phi-4-mini) yüklenemez, bu yüzden listede yok.
+# Foundry (RAG_LLM_RUNTIME=foundry, geri alma yolu): tam Foundry model ID'leri.
+#   Kısa alias ("phi-4-mini") KULLANILMIYOR: katalog onu CPU varyantına çözüyor
+#   ve GPU hiç devreye girmiyor. Tam ID ile CUDA varyantı garanti altına alınır.
+#   Varsayılan (ilk sıra): qwen2.5-7b — Türkçe cevap kalitesi daha iyi.
+if get_llm_runtime() == "ollama":
+    MODEL_OPTIONS = {
+        "qwen3-8b-pilot (Ollama)": OLLAMA_MODEL_ID,
+    }
+    MODEL_HELP = "Ollama'da çalışan model (varsayılan runtime). Foundry'ye dönmek için RAG_LLM_RUNTIME=foundry"
+else:
+    MODEL_OPTIONS = {
+        "qwen2.5-7b (GPU)": "qwen2.5-7b-instruct-cuda-gpu:4",
+        "phi-4-mini (GPU)": "Phi-4-mini-instruct-cuda-gpu:5",
+    }
+    MODEL_HELP = "Foundry Local'de indirilmiş, GPU (CUDA) üzerinde çalışan model"
 
 # ─── Sayfa Yapılandırması ────────────────────────────────────────────────────
 st.set_page_config(
@@ -201,7 +219,7 @@ with st.sidebar:
             "Model",
             list(MODEL_OPTIONS.keys()),
             index=0,
-            help="Foundry Local'de indirilmiş, GPU (CUDA) üzerinde çalışan model",
+            help=MODEL_HELP,
         )
         model_alias = MODEL_OPTIONS[model_label]
         st.caption(f"Model ID: `{model_alias}`")

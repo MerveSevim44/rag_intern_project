@@ -5,8 +5,10 @@
 Kendi dokümanlarınız ve veri setleriniz üzerinde Türkçe soru-cevap yapan, **tamamen yerelde**
 çalışan bir RAG (Retrieval-Augmented Generation) uygulaması.
 
-Hiçbir veri dışarı çıkmaz: embedding **Ollama** ile, cevap üretimi **Foundry Local** ile
-makinenizde yapılır; indeks tek dosyalık bir SQLite veritabanında (`rag.db`) tutulur.
+Hiçbir veri dışarı çıkmaz: embedding (`bge-m3`) ve cevap üretimi (**`qwen3-8b-pilot`**, varsayılan)
+**Ollama** ile makinenizde yapılır; indeks tek dosyalık bir SQLite veritabanında (`rag.db`)
+tutulur. Eski cevap-üretim yolu (**Foundry Local / qwen2.5-7b**) geri alma için kodda duruyor:
+`RAG_LLM_RUNTIME=foundry` ([Ayarlar](#ayarlar) bölümüne bakın).
 
 - **Desteklenen formatlar:** `.txt`, `.pdf`, `.docx`, `.json`, `.jsonl`
 - **Hibrit arama:** BM25 (anahtar kelime) + BGE-M3 (vektör) + Cross-Encoder reranker
@@ -25,8 +27,10 @@ python -m venv rag_project
 rag_project\Scripts\activate        # Linux/macOS: source rag_project/bin/activate
 pip install -r requirements.txt
 
-# 2. Embedding modeli
+# 2. Modeller (Ollama): embedding + cevap üreten LLM
 ollama pull bge-m3
+ollama pull qwen3:8b
+ollama create qwen3-8b-pilot -f ollama/Modelfile.qwen3-8b-pilot   # num_ctx 8192, temperature 0
 
 # 3. Dokümanları data/ klasörüne koyup indeksleyin
 python ingest.py
@@ -35,7 +39,8 @@ python ingest.py
 streamlit run app.py
 ```
 
-Foundry Local servisinin çalışıyor olması gerekir (aşağıya bakın).
+Ollama servisinin çalışıyor olması gerekir. Varsayılan LLM runtime'ı **Ollama / `qwen3-8b-pilot`**'tur;
+elle bayrak vermeniz gerekmez. Foundry Local / qwen2.5'e dönmek için bkz. [Ayarlar](#ayarlar).
 
 ---
 
@@ -89,8 +94,8 @@ bakarak yakalar ve sonucu olgu gibi sunmak yerine "kayıt bulunamadı" der. Meş
 | Bileşen | Not |
 |---|---|
 | Python 3.10+ | — |
-| [Ollama](https://ollama.com) | Embedding için. `ollama pull bge-m3` |
-| [Foundry Local](https://learn.microsoft.com/azure/ai-foundry/foundry-local/) | Cevap üreten LLM. Varsayılan model `qwen2.5-7b-instruct-cuda-gpu:4` (alternatif: `Phi-4-mini-instruct-cuda-gpu:5`). Servis çalışır durumda olmalı; portu uygulama otomatik bulur. |
+| [Ollama](https://ollama.com) | Embedding (`ollama pull bge-m3`) **ve varsayılan cevap üreten LLM**: `qwen3-8b-pilot` (`qwen3:8b`'den `ollama/Modelfile.qwen3-8b-pilot` ile türetilir). Thinking kodda `reasoning_effort=none` ile kapatılır. |
+| [Foundry Local](https://learn.microsoft.com/azure/ai-foundry/foundry-local/) | **İsteğe bağlı, geri alma yolu** (`RAG_LLM_RUNTIME=foundry`): `qwen2.5-7b-instruct-cuda-gpu:4` (alternatif: `Phi-4-mini-instruct-cuda-gpu:5`). Yalnız bu yolu kullanacaksanız gerekir; servis çalışır durumda olmalı, portu uygulama otomatik bulur. |
 | `BAAI/bge-reranker-v2-m3` | Reranker; ilk çalıştırmada Hugging Face'ten otomatik iner. |
 
 Referans donanım: 8 GB VRAM. Varsayılan bağlam sınırları bu bütçeye göre seçilmiştir.
@@ -222,7 +227,8 @@ python -m pytest tests
 
 Bu komut **29 offline testi** koşar; Ollama, Foundry Local, GPU veya `torch` gerektirmez.
 Canlı LLM isteyen 2 test (`test_code_interpreter`, `test_full_pipeline`) `live` marker'ıyla
-varsayılan koşudan hariç tutulur — çalıştırmak için Foundry servisi açıkken:
+varsayılan koşudan hariç tutulur — çalıştırmak için Ollama servisi ve `qwen3-8b-pilot` hazırken
+(Foundry yolunu denemek için `RAG_LLM_RUNTIME=foundry` ve Foundry servisi açıkken):
 
 ```bash
 python -m pytest tests -m live
@@ -245,7 +251,7 @@ rag_project/
 │   ├── embedder.py                      # Ollama bge-m3 vektörleştirme & reranker
 │   ├── retrieval.py                     # Hibrit arama (Vektör + BM25 + Cross-Encoder rerank)
 │   ├── router.py                        # 4 kademeli soru yönlendirici
-│   ├── llm_client.py                    # Foundry Local LLM istemcisi & prompt şablonları
+│   ├── llm_client.py                    # LLM istemcisi (Ollama varsayılan, Foundry Local geri alma) & prompt şablonları
 │   ├── data_engine.py                   # Yapısal veri analitiği & Pandas motoru
 │   ├── sandbox.py                       # Güvenli Python çalışma alanı (AST denetimi)
 │   ├── code_interpreter.py              # LLM kod üretici & otomatik retry döngüsü
@@ -296,9 +302,27 @@ Sık değiştirilen sabitler ilgili dosyaların başında yer alır:
 | `src/retrieval.py` | `BM25_WEIGHT` — hibrit skorda BM25 ağırlığı (0.0 = saf vektör) | `0.35` |
 | `src/ingest.py` | `EMBED_MODEL` / `BATCH_SIZE` | `bge-m3` / `64` |
 | `src/ingest.py` | `DB_PATH` / `DATA_DIR` | `rag.db` / `data` |
-| `src/llm_client.py` | `DEFAULT_MODEL_ID` | `qwen2.5-7b-instruct-cuda-gpu:4` |
+| `src/llm_client.py` | `DEFAULT_LLM_RUNTIME` (ortam değişkeni: `RAG_LLM_RUNTIME`) | `ollama` (`foundry` = geri alma) |
+| `src/llm_client.py` | `OLLAMA_MODEL_ID` (ortam değişkeni: `RAG_OLLAMA_MODEL`) | `qwen3-8b-pilot` |
+| `src/llm_client.py` | `DEFAULT_MODEL_ID` — yalnız Foundry yolunda | `qwen2.5-7b-instruct-cuda-gpu:4` |
 | `src/llm_client.py` | `MAX_ANSWER_TOKENS` | `600` |
 | `src/llm_client.py` | `MAX_CHUNK_CHARS` / `MAX_CONTEXT_CHARS` | `1500` / `6000` |
+
+**Model / runtime nasıl seçilir?** Hem Streamlit (`streamlit run app.py`) hem de
+`python run_tests.py` varsayılan olarak **Ollama / `qwen3-8b-pilot`** kullanır. Eski yola dönmek
+(rollback) için ortam değişkeni yeterlidir, koddan bir şey silinmedi:
+
+```bash
+set RAG_LLM_RUNTIME=foundry          # PowerShell: $env:RAG_LLM_RUNTIME="foundry"
+```
+
+Geçersiz bir değer (ör. yazım hatası) sessizce varsayılana düşmez, hata verir. Arayüzdeki model
+seçici etkin runtime'a göre kurulur: Ollama'da yalnız `qwen3-8b-pilot`, Foundry'de `qwen2.5-7b`
+ve `phi-4-mini`.
+
+> **Bilinen regresyon (qwen3, provizyonel migrasyon):** CFG/biçimsel-dilbilgisi sorularında
+> qwen3 birbirine çok benzeyen sembolleri karıştırabiliyor (`*`↔`/`, `B`↔`b`; 147 sorudan 2'si).
+> Ayrıntı ve ölçümler: [docs/backlog_retrieval.md](docs/backlog_retrieval.md), Madde 42.
 
 `MAX_CHUNK_CHARS` / `MAX_CONTEXT_CHARS` değerlerini yükseltmeden önce
 [EXPERIMENTS.md](docs/EXPERIMENTS.md) içindeki v3 deneyine bakın: bağlam ~8700 karaktere
@@ -311,8 +335,12 @@ Sık değiştirilen sabitler ilgili dosyaların başında yer alır:
 **"Embedding oluşturulamadı"** — Ollama çalışmıyor ya da `bge-m3` yüklü değil;
 `ollama list` ile kontrol edin.
 
-**Foundry Local endpoint bulunamıyor** — servis çalışıyor olmalı. Port otomatik
-bulunamazsa elle sabitleyin:
+**"Ollama servisi ... yanıt vermiyor" / "Ollama'da 'qwen3-8b-pilot' modeli yok"** — Ollama
+çalışmıyor ya da model oluşturulmamış: `ollama create qwen3-8b-pilot -f
+ollama/Modelfile.qwen3-8b-pilot` (önce `ollama pull qwen3:8b`).
+
+**Foundry Local endpoint bulunamıyor** — yalnız `RAG_LLM_RUNTIME=foundry` ile ilgili; servis
+çalışıyor olmalı. Port otomatik bulunamazsa elle sabitleyin:
 
 ```bash
 set FOUNDRY_LOCAL_ENDPOINT=http://localhost:PORT     # PowerShell: $env:FOUNDRY_LOCAL_ENDPOINT="..."
@@ -322,7 +350,8 @@ set FOUNDRY_LOCAL_ENDPOINT=http://localhost:PORT     # PowerShell: $env:FOUNDRY_
 uzun. `llm_client.py` içindeki `MAX_CHUNK_CHARS` / `MAX_CONTEXT_CHARS` değerlerini ya da
 `TOP_K`'yı düşürün. 8 GB VRAM'de mevcut varsayılanlar çalışır durumdadır.
 
-**Benchmark sırasında "Connection error"** — Foundry Local koşu ortasında çökmüş olabilir.
+**Benchmark sırasında "Connection error"** — LLM servisi (Ollama; Foundry yolunda Foundry Local)
+koşu ortasında çökmüş olabilir.
 Bu satırlar skorlamayı bozar (hata satırları ret sayılmazsa metrikler yapay olarak iyi
 görünür); koşuyu geçersiz sayıp tekrarlayın — örnek olarak v4 deneyi bu yüzden iptal edildi.
 

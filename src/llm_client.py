@@ -22,10 +22,31 @@ DEFAULT_MODEL_ID = "qwen2.5-7b-instruct-cuda-gpu:4"
 PHI4_MINI_MODEL_ID = "Phi-4-mini-instruct-cuda-gpu:5"
 
 # ─── Runtime seçimi (geri alınabilir) ─────────────────────────────────
-# RAG_LLM_RUNTIME=foundry (VARSAYILAN) → Foundry Local, qwen2.5-7b ONNX.
-# RAG_LLM_RUNTIME=ollama               → Ollama /v1, qwen3-8b-pilot.
-# Geri almak için ortam değişkenini kaldırmak yeterli; başka kod değişmez.
+# RAG_LLM_RUNTIME=ollama  (VARSAYILAN) → Ollama /v1, qwen3-8b-pilot.
+# RAG_LLM_RUNTIME=foundry              → Foundry Local, qwen2.5-7b ONNX (eski yol).
+# Geri almak için RAG_LLM_RUNTIME=foundry vermek yeterli; Foundry yolu koddan
+# SİLİNMEDİ, yalnız varsayılan olmaktan çıktı (2026-11-19, provizyonel migrasyon;
+# bkz. docs/backlog_retrieval.md Madde 42: CFG sembol karıştırması bilinen regresyon).
 LLM_RUNTIME_ENV_VAR = "RAG_LLM_RUNTIME"
+DEFAULT_LLM_RUNTIME = "ollama"
+VALID_LLM_RUNTIMES = ("ollama", "foundry")
+
+
+def get_llm_runtime() -> str:
+    """
+    Etkin LLM runtime'ını döndürür ("ollama" | "foundry").
+
+    Ortam değişkeni yoksa ya da boşsa DEFAULT_LLM_RUNTIME. Geçersiz değerde
+    sessizce varsayılana düşmek yerine hata verir: yanlış yazılmış bir değer
+    (ör. "ollma") yüzünden yanlış modelle ölçüm/cevap üretilmesin.
+    """
+    runtime = os.environ.get(LLM_RUNTIME_ENV_VAR, "").strip().lower() or DEFAULT_LLM_RUNTIME
+    if runtime not in VALID_LLM_RUNTIMES:
+        raise ValueError(
+            f"{LLM_RUNTIME_ENV_VAR}='{runtime}' geçersiz; "
+            f"{' veya '.join(repr(r) for r in VALID_LLM_RUNTIMES)} olmalı."
+        )
+    return runtime
 
 # Ollama tarafı. qwen3-8b-pilot = `ollama/Modelfile.qwen3-8b-pilot` ile
 # `qwen3:8b`'den türetilir (num_ctx 8192; Ollama varsayılanı 4096, pipeline
@@ -360,16 +381,11 @@ def load_model(alias=DEFAULT_MODEL_ID, unload_previous=True):
     """
     LLM'i yükler ve LangChain ChatOpenAI nesnesini döndürür.
 
-    RAG_LLM_RUNTIME=ollama ise Ollama (qwen3-8b-pilot), aksi halde (varsayılan)
-    Foundry Local — bkz. LLM_RUNTIME_ENV_VAR.
+    Varsayılan: Ollama (qwen3-8b-pilot). RAG_LLM_RUNTIME=foundry ise Foundry
+    Local (qwen2.5-7b) — bkz. get_llm_runtime / LLM_RUNTIME_ENV_VAR.
     """
-    runtime = os.environ.get(LLM_RUNTIME_ENV_VAR, "foundry").strip().lower()
-    if runtime == "ollama":
+    if get_llm_runtime() == "ollama":
         return _load_ollama_model(alias)
-    if runtime != "foundry":
-        raise ValueError(
-            f"{LLM_RUNTIME_ENV_VAR}='{runtime}' geçersiz; 'foundry' veya 'ollama' olmalı."
-        )
     return _load_foundry_model(alias, unload_previous)
 
 
