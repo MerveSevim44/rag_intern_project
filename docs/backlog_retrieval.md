@@ -3810,3 +3810,25 @@ artefaktı" olduğu iddiası GT karşılaştırmasına dayanıyor; judge'ın ned
 cevabının referans cevaplardaki anahtar kelimelerle daha az örtüşmesi) ayrıca incelenmedi.
 
 İlgili: [[qwen3-ollama-deney-durumu]]
+
+## Not (2026-11-19) — Varsayılan LLM runtime değişti: eski deney betikleri yeniden koşulursa Ollama/qwen3 kullanır (yalnızca not, DÜZELTME YAPILMADI)
+
+`RAG_LLM_RUNTIME` varsayılanı kodda `foundry`'den `ollama`'ya çevrildi (commit `8fcad5c`). Bunun yeniden
+üretilebilirlik açısından bir yan etkisi var:
+
+- `experiments/madde30_sikilastirma/kosu.py`, `experiments/madde39_tam_kosu/kosu.py`,
+  `experiments/madde41_simulasyon/kosu_sim.py` ve `experiments/madde_grupA_sutun/` altındaki betikler
+  (`entegrasyon_kosu.py`, madde 39 `kosu.py`'sini kullanıyor) **`RAG_LLM_RUNTIME` set etmiyor**. Bu betikler
+  Foundry servisini kendileri başlatıp durduruyor ve alt süreçlere yalnız `RAG_EMBED_NUM_GPU`,
+  `RAG_DENSE_FORCE_TOP_N` gibi değişkenleri geçiriyor.
+- Varsayılan değiştiği için bu betikler **yeniden çalıştırılırsa artık Ollama/qwen3-8b-pilot kullanır**
+  (Foundry'yi boşuna başlatıp durdurarak); sessizce, hata vermeden. Orijinal Foundry/qwen2.5 sonuçlarını
+  yeniden üretmek isteyen biri ortamda `RAG_LLM_RUNTIME=foundry` pinlemeli
+  (cmd: `set RAG_LLM_RUNTIME=foundry`, PowerShell: `$env:RAG_LLM_RUNTIME="foundry"`).
+- **Kapsam bu dört klasörden geniş.** `experiments/` altında `run_tests.py` veya `load_model()` çağıran
+  43 betik dosyası var (madde11, 14, 18, 20–22, 24, 27, 30, 32–34, 38/42, 39, 41, 45, grupA, pua_e1, v8 vb.;
+  `grep` ile sayıldı, hangilerinin gerçekten LLM ürettiği tek tek doğrulanmadı). Yalnız
+  `experiments/madde39_tam_kosu/qwen3_ollama_2026-11-18/drv.py` `RAG_LLM_RUNTIME`'ı açıkça `ollama` yapıyor;
+  başka hiçbir deney betiği bu değişkeni set etmiyor. Yani bu klasörlerdeki **mevcut çıktılar Foundry/qwen2.5
+  ile üretilmiş sonuçlardır** (varsayılan o zaman `foundry`ydi); yeniden koşulduklarında aynı değildir.
+- Düzeltme (betiklere `RAG_LLM_RUNTIME=foundry` pinleme) yapılmadı; yalnızca kayıt altına alındı.
