@@ -1,0 +1,5 @@
+﻿id,zorluk,soru,beklenen_kaynak,dokumanda_var_mi
+41,Orta,"searchKeywords dizisi bir profildeki hangi diğer alanlardan (sector, occupation, services, location) türetilmiş görünmektedir?",728_profiles.json,Evet
+43,Orta,experience.credentialSummary alanı occupation türüne göre nasıl değişmektedir; Aile Hekimliği Uzmanı ile Yetenek Yönetimi Uzmanı örnekleri üzerinden karşılaştırın.,728_profiles.json,Evet
+45,Orta,slug alanı displayName ve profileCode alanlarından nasıl bir kurala göre oluşturulmuş görünmektedir? Örnek profil üzerinden gösterin.,728_profiles.json,Evet
+47,Orta,"fieldGuide bölümündeki 'publicContact' açıklaması ile örnek profillerdeki publicContact nesnesinin (phone:null, email:null) içeriği birbiriyle tutarlı mıdır?",728_profiles.json,Evet

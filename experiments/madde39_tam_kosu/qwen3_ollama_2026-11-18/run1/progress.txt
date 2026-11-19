@@ -1,0 +1,11 @@
+14:56:48 basla run=run1 kritik=False
+15:09:42 test_1: kod=0 satir=30/30 hata=[] sure=763s
+15:54:59 oturum kesildi, test_2'den yeniden baslatildi
+15:54:59 basla run=run1 kritik=False
+15:54:59 test_1 var, atlandi
+16:06:43 test_2: kod=0 satir=30/30 hata=[] sure=693s
+16:16:41 test_3: kod=0 satir=30/30 hata=[] sure=586s
+16:21:23 test_4: kod=0 satir=10/10 hata=[] sure=274s
+16:28:03 test_5: kod=0 satir=15/15 hata=[] sure=391s
+16:39:21 test_negative: kod=0 satir=32/32 hata=[] sure=669s
+16:39:27 BITTI

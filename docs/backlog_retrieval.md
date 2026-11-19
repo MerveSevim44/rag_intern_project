@@ -3581,3 +3581,131 @@ hipotezini destekliyor, kanıtlamıyor: n=10, yarısı dokümanda-olmayan soru, 
 Production model/runtime değişikliği için karar/öneri bu notla verilmiyor.
 
 Ham çıktılar repoda DEĞİL: `...\scratchpad\r\sonuc_{q25,q3}.csv`, `judge_{q25,q3}.csv`, `girdi.csv`.
+
+## Deney notu (2026-11-18) — qwen3-8b (Ollama) ile 147 soruluk TAM kampanya + kritik 20'de ikinci koşu; eski qwen2.5-Foundry kampanyasıyla karşılaştırma, **A1 re-ingest karışıklığı ayrıştırıldı** (KARAR DEĞİL, yalnızca ölçüm)
+
+**⚠ ÖNEMLİ DÜZELTME (bu notun ilk taslağını geçersiz kılar):** Karşılaştırma tabanı olan `experiments/madde39_tam_kosu/head_*`
+kampanyası, **A1 re-ingest'ten ÖNCEKİ** `rag.db` (özet `757e97059abb`) ile koşulmuş; bu PR'daki yeni koşu (run1) ise
+**canlı, A1 sonrası** `rag.db` (özet `2eb2d68359e5`, CFG sayfa 13/20/21 metni değişmiş, bkz. 2026-11-12 notları) ile
+koşuldu. Yani "eski → yeni" farkı yalnızca model/runtime değil, aynı zamanda **zaten production'da olan, qwen3'le
+ilgisi olmayan bir ingest düzeltmesini** de içeriyor. Ayrıca `code_interpreter` kendi içinde LLM çağırıyor (kod
+üretimi + semantik doğrulama, `src/code_interpreter.py::call_llm_text`), yani model değişince test_2/5/negative'deki
+bazı sorularda **bağlam da** (kod farklı veri döndürdüğü için) değişiyor — bu da "cevap sentezi" dışında ayrı bir
+mekanizma. Aşağıda 147 soru üç gruba ayrıldı ve her grubun etkisi ayrı raporlanıyor; `src/code_interpreter.py`
+eski kampanya commit'i (`dcf754b`) ile HEAD arasında BAYT BAYT aynı olduğu doğrulandı (yalnız `ingest.py` ve
+`llm_client.py` değişti), yani C grubundaki bağlam farkı kod değişikliğinden değil, modelin ürettiği koddan geliyor.
+
+**Ne yapıldı.** Madde 39'un resmi 147 soruluk kampanyası (test_1…5 + test_negative) qwen3-8b-pilot + Ollama ile bir
+kez tam koşuldu (run1; `RAG_LLM_RUNTIME=ollama`, bge-m3 GPU, `run_tests.py`, HATA alan sorular bir kez
+tekrarlandı, canlı `rag.db`). Kritik 20 soru (#28 #30 #41 #43 #45 #47 #61 #62 #69 #71 #73 #74 #76 #83 #84 #85 #86
+#87 #88 #231) ikinci kez koşuldu (run2). Karşılaştırma tabanı: `experiments/madde39_tam_kosu/head_*` (qwen2.5-7b,
+Foundry, A1-öncesi DB). Judge her iki tarafta `gpt-oss-120b` (Groq); 147/147 ve 20/20 satır skorlandı. Judge
+sırasında Groq key'i iki kez değişti (401 ve günlük kota); skorlar boş satırlardan yeniden alındı, dolu satırlara
+dokunulmadı.
+
+**Üç gruba ayrıştırma (eski vs yeni `context` sütunu karşılaştırılarak; A1'in kontrol/tedavi koşusuyla çapraz
+doğrulandı — bkz. 2026-11-12 notları):**
+
+| Grup | n | Tanım | Ne ölçüyor |
+|---|---|---|---|
+| **A — bağlam birebir aynı** | 108 | Retrieval'in getirdiği context hem eski hem yeni koşuda karakter karakter özdeş | **Saf model+runtime etkisi** (synthesizer tarafı) |
+| **B — A1 etkisi** | 16 | test_1 CFG soruları (#1 #3 #4 #6 #7 #10 #14 #15 #16 #17 #18 #19 #20 #21 #23 #29); A1'in kontrol/tedavi context karşılaştırmasıyla BİREBİR örtüşüyor | DB re-ingest + model karışık |
+| **C — diğer bağlam farkı** | 23 | test_2 (14), test_5 (4), test_negative (4), test_1 #11 (1); çoğu `code_interpreter` sorusu | Modelin ürettiği kodun farklı veri döndürmesi + 1 açıklanamamış retrieval sırası farkı (#11) |
+
+**Grup A (n=108, saf model/runtime etkisi) — F/AR/TP/AL:**
+
+| | eski (qwen2.5/Foundry) | yeni (qwen3/Ollama) | fark |
+|---|---|---|---|
+| **A (108)** | 4,10 / 4,06 / 3,85 / 4,94 | 4,41 / 4,31 / 4,15 / 4,96 | **+0,31 / +0,25 / +0,30 / +0,02** |
+
+Soru bazında (bileşik ±0,5): **22 düzeldi, 7 kötüleşti, 79 aynı**. Sınıf geçişleri: FN→TP 4 (#48 #56 #90 #100),
+TP→FN 2 (#74 #75), TN→FP 1 (#115), gerisi aynı. Düzelenler: #26 #28 #30 #40 #41 #48 #55 #62 #68 #69 #73 #74 #78
+#83 #87 #89 #90 #95 #97 #99 #100 #101 (Fourier #62 #69 #73 #83 #87 ve FN→TP #48 #90 #100 en büyük sıçramalar).
+Kötüleşenler: #24 #25 #54 #59 #67 #88 #115.
+
+**Grup B (n=16, A1 ile karışık) — asıl kritik bulgu burada.** Ham "eski→yeni" farkı F +0,50/AR +0,37/TP +0,50
+görünüyor (5 düzeldi: #18 #19 #20 #23 #29, 2 kötüleşti: #7 #21), ama A1'in kendi kontrol/tedavi deneyi (aynı
+qwen2.5 modeli, yalnız DB değişti — 2026-11-12 notu) bu 14 sorunun çoğunu zaten A1 ile açıklıyor. **Aynı (yeni)
+DB üzerinde qwen2.5 ile qwen3'ü doğrudan karşılaştırınca** (A1'in `tedavi` koşusu vs run1, 14 ortak judge'li soru):
+
+| | qwen2.5+DB_yeni (A1 tedavi) | qwen3+DB_yeni (run1) | fark |
+|---|---|---|---|
+| **n=14** | 4,57 / 4,71 / 4,50 / 5,00 | 4,14 / 4,50 / 4,36 / 5,00 | **−0,43 / −0,21 / −0,14 / 0,00** |
+
+Yani **aynı DB'de qwen3, qwen2.5'ten DAHA KÖTÜ.** Soru soru (qwen2.5+DB_yeni → qwen3+DB_yeni):
+- **#19, #20, #23: ikisi de 5/5/5/5.** Bu üç sorudaki "iyileşme" tamamen A1'in DB değişikliğinden geliyor
+  (qwen2.5 bile aynı DB'de 5/5/5/5 alıyor); qwen3'ün bu üçteki katkısı SIFIR.
+  - 6 soruda (#3 #4 #6 #10 #14 #15 #17) ikisi de 5/5/5/5, fark yok.
+- **#18: 2/3/2/5 → 4/5/5/5.** Burada gerçek bir qwen3 kazancı var (A1'in üstüne ek iyileşme).
+- **#29: 4/5/3/5 → 2/3/3/5 (qwen3 daha kötü).**
+- **#21: 3/3/3/5 → 1/2/1/5 (qwen3 daha kötü).**
+- **#7: 5/5/5/5 → 1/3/2/5 (qwen3 çok daha kötü)** — CFG türetmesinde sembolü yanlış okuyor ("v/(v-c)" yerine
+  "v*(v-c)" demesi gerekirken tersini yapıyor); hem qwen2.5-DB_eski hem qwen2.5-DB_yeni bunu doğru alıyordu.
+
+**Grup C (n=23, code_interpreter'ın ürettiği farklı kod) — F/AR/TP/AL:**
+
+| | eski (qwen2.5/Foundry) | yeni (qwen3/Ollama) | fark |
+|---|---|---|---|
+| **C (23)** | 4,35 / 4,17 / 3,91 / 4,87 | 4,70 / 4,39 / 4,39 / 5,00 | +0,35 / +0,22 / +0,48 / +0,13 |
+
+9 düzeldi (#37 #44 #45 #46 #53 #57 #108 #228 #232), 3 kötüleşti (#39 #43 #215). Sınıf geçişleri: TN→FP 3 (#108
+#215 #228), gerisi aynı sınıfta. Bu grupta cevap kalitesi farkı var ama hangi payın "qwen3 daha iyi pandas/SQL
+kodu yazıyor" hangi payın "farklı kod farklı (yanlış) sonuç üretiyor" olduğu soru soru incelenmedi (n=23, zaman
+kısıtı); örnekler: #215 eski bağlam 6013 karakter (tüm profil JSON'u), yeni 995 karakter (kod daha az satır
+döndürmüş) — cevap da buna göre "bulunamadı"dan uydurma sıra-numarası listesine döndü.
+
+**TOPLAM (147, ham, düzeltilmemiş) hâlâ şu şekilde** (yalnız referans için, yukarıdaki ayrıştırma olmadan
+okunmamalı): sınıf dağılımı eski TP94/TN42/FN7/FP4 → yeni TP96/TN38/FN5/FP8; judge TÜMÜ eski 4,10/4,10/3,87/4,93 →
+yeni 4,44/4,35/4,22/4,97; soru bazında 36 düzeldi/12 kötüleşti/99 aynı. **Bu 36/12 sayısının en az 3'ü (#19 #20
+#23) tamamen A1'in payı, qwen3'ün değil; gerçek "qwen3 kazandı" sayısı daha düşüktür.**
+
+**TN→FP (4 soru) — kaynağına göre:** #115 (Grup A, saf model hatası: "Oda No: 304" öyküsünün anlatıcısı için
+"bulunamadı" yerine "yazar" uydurdu) tek **temiz** hallüsinasyon kanıtı. #108, #215, #228 (Grup C) code_interpreter
+kaynaklı — yeni kod eskiden "[KAYIT BULUNAMADI]" dönen sorguda gerçek bir sayı/liste üretmiş; bunun "daha iyi kod"
+mu yoksa "uydurma" mı olduğu (örn. veri setinde gerçekten yok olan bir alanı hesaplamış olabilir) doğrulanmadı.
+
+**Kritik 20: iki koşu arası fark, gürültü payına göre — A1'den ETKİLENMİYOR** (kritik 20 id'leri A1'in 16 etkilediği
+soruyla kesişmiyor; yalnız #43, #45 code_interpreter nedeniyle bağlam değiştiriyor, kalan 18/20 bağlamı birebir aynı).
+- 20 sorunun 17'sinde iki koşunun cevabı karakter karakter aynı (yalnız #28, #47, #83 farklı); temperature=0
+  olduğu için fark ağırlıkla judge gürültüsü. Soru başına |run1−run2| ortalaması: F 0,25, AR 0,25, TP 0,20, AL 0,05;
+  işaretli ortalama fark (run2−run1) −0,05/+0,05/0,00/−0,05, sistematik kayma yok.
+- **Bağlamı birebir aynı olan 18/20'de** eski→yeni fark: F +1,61, AR +0,78, TP +1,23, AL +0,06 (9 düzeldi: #28 #30
+  #41 #62 #69 #73 #74 #83 #87; 1 kötüleşti: #88; 8 aynı). Bu, A1'den ARINDIRILMIŞ en temiz "qwen3 kazandı" kanıtı.
+- **#88 iki koşuda da kötüleşti** (5/5/5/5 → 5/3/3/5 run1 VE run2'de): gürültü değil, tekrarlanan gerileme, bağlamı
+  aynı (Grup A'da), yani gerçek bir qwen3 zafiyeti.
+- #43, #45 (bağlam farklı, Grup C'ye denk) kötüleşti/düzeldi ayrımı code_interpreter'a karışık, ayrıca yorumlanmadı.
+
+**Gözlemler (ölçüm, düzeltilmiş okuma).**
+- Grup A ve kritik-20-temiz'in ikisi de aynı yönü gösteriyor: qwen3, **cevap sentezinde** qwen2.5'ten gerçekten
+  daha iyi (F ~+0,3 ila +1,6 arası, soruya göre), özellikle Fourier/PUA ve ret-yerine-doğru-cevap (FN→TP 4 soru,
+  tamamı Grup A) sorularında.
+- Ama CFG türetme sorularında (Grup B: #7, #21, #29) **aynı DB'de qwen2.5'ten belirgin biçimde kötü** — üç soru da
+  tekrarlanabilir (DB sabit tutularak doğrudan ölçüldü, run2 ile tekrarlanmadı ama A1 kontrol/tedavi/run1 üçlüsü
+  tutarlı).
+- **Yeni ret kalıbı sınıflandırıcıda görünmüyor:** #54 ve #59'da (Grup A) cevap "Bağlamda soruyla ilgili HERHANGİ
+  bir bilgi **yoktur**." Eski kampanyada bu kalıp hiç yok, run1'de 2 kez var. `classify_answer` bunu ret olarak
+  tanımıyor, iki soru TP→TP görünüyor; gerçekte yanlış ret (FN). Madde 25/28 (ret tespiti) ile ilişkili.
+- **Prompt sızıntısı:** #67'nin (Grup A) cevabı sentezleyici prompt metnini aynen basıyor. Eski kampanyada 0,
+  run1'de 1. Madde 30 ile aynı yüzey; teşhis edilmedi, tek örnek.
+
+**Sınırlar.**
+- Grup A/B/C ayrımı `context` sütununun karakter-karakter eşitliğine dayanıyor; A1'in kendi kontrol/tedavi deneyiyle
+  çapraz doğrulandı (test_1 için %100 örtüşme), ama Grup C'nin code_interpreter kaynaklı olduğu doğrudan
+  gözlemle (context içindeki farklı veri satırları) teyit edildi, kod diff'i ile değil (code_interpreter.py zaten
+  değişmediği teyit edildi, yani kalan açıklama LLM'in ürettiği kod).
+- Eski ve yeni judge skorları aynı judge modelinden ama ayrı günlerde alındı; judge'ın oturumlar-arası gürültüsü
+  ölçülmedi (yalnız oturum-içi 0,2–0,25 puan).
+- Grup B'nin model-etkisi tahmini (−0,43 F) yalnızca 14 soruya, Grup C'nin (+0,35 F) yalnızca 23 soruya dayanıyor;
+  her ikisi de tek koşu.
+- Embedding drift (madde 29, Ollama bge-m3 CPU'ya düşmesi) Grup C'deki bazı bağlam farklarına da katkıda bulunmuş
+  olabilir (eski kampanyanın kendi nöbet özeti her sette GPU'dan CPU'ya kaymıştı); code_interpreter'dan ayrı olarak
+  ölçülmedi.
+- 147 sorunun yalnızca 20'si iki kez koşuldu (ve kritik 20, Grup B'yi hiç içermiyor); Grup B'deki #7/#21/#29
+  regresyonları run2 ile tekrarlanmadı — yalnız A1'in kontrol/tedavi/run1 üçlü karşılaştırmasıyla desteklendi.
+- Bu not production model/runtime geçişi için karar veya öneri vermiyor. **Temiz kanıt (Grup A + kritik-20-temiz)
+  qwen3'ün cevap sentezinde net bir kazanç gösteriyor; ama aynı kanıt CFG türetmede (Grup B, #7/#21/#29) aynı DB'de
+  qwen2.5'ten kötü olduğunu da gösteriyor — "qwen3 her yönüyle daha iyi" sonucu DOĞRU DEĞİL.**
+
+Ham çıktılar repoda DEĞİL: `...\scratchpad\camp\run1`, `run2`, `judge1`, `judge2`, `analiz.out`, `analiz.py`;
+A1 kontrol/tedavi verileri `experiments/madde_grupA_sutun/entegrasyon/` altında (repoda, bu deney notundan önce
+commit'lenmişti).

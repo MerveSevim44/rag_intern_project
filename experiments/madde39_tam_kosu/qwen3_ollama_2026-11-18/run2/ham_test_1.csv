@@ -1,0 +1,160 @@
+id,zorluk,soru,beklenen_kaynak,dokumanda_var_mi,cevap,bulunan_kaynaklar,sure_sn,context,dogrulama_durumu
+28,Zor,"G_S.4.7.2 dilbilgisi L_S.4.7.2={a^n b^m c^k | n>0, m>0, k=2n+m} dilini nasıl üretir; S=>aAcc kuralının bu eşitlikteki rolü nedir?",8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet,"Cevap: G_S.4.7.2 dilbilgisi, S=>aAcc kuralı ile başlayarak a harfiyle başlayan ve c harfiyle biten ifadeler üretir. Bu kural, a harfinin sayısı (n) ile c harfinin sayısı (k) arasındaki ilişkiyi belirler. Kuralda aAcc ifadesi, n=1 ve k=2n+m (m=1) durumunda k=3 olur. Bu kural, n ve k arasındaki ilişkiyi kurarak L_S.4.7.2 dilinin tanımını sağlar.",8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 28-29); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 4); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 22-23); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 26-27),67.25,"[1] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 28-29
+4.5.7. Örnek 7
+Omek7
+Asagida tanimlanan baglamdan-bagimsiz dillerin her birini tureten baglamdan
+bagimsiz bir dilbilgisi tanimlayiniz.
+m>0,k>0,n>m+k}
+a) Ls.4.7.1 = { an bm ck
+b) Ls.4.7.2 = { an bm ck
+4.5.7. Cevap 7
+a) Gs.4.7.1 = <Vn,Vt, P S >
+VN = { S,A, B }
+VT = { a, b, c }
+P : S ==> aaAc
+A ==> aAc|aA| aBb
+B ==>aBb|aB|1
+b) Gs4.7.2 = <Vn, Vt, P, S >
+Vn = { S,A, B }
+Vr = {a. b, c }
+P : S ==> aAcc
+A ==>aAccbBc
+B ==>bBc17
+
+[2] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 4
+Örnek 4.2
+G4.2=<VN, VT, P, S>
+VN= { S, A, B }
+VT={a, b, c, d}
+P: S=> aAdd
+A=> aAd |Ad |bBcc
+B=>bBc |Bc |λ
+G4.2 tarafından türetilen tümcelerden biri bulunmak istendiğinde:
+S=> aAdd =>abBccdd =>abccdd
+S=> aAdd =>aaAddd => aabBccddd =>aabccddd
+S=>aAdd =>aaAddd => aaAdddd => aaaAddddd=> aaabBccddddd =>
+aaabBccccdddddd = > aaabbccccddddd
+Yukarıdaki örneklerden bu bağlamdan bağımsız dilbilgisi tarafından L(G4.2) dili
+aşağıdaki gibi tanımlanabilir:
+L(G4.2) ={anbmckdp | n,m,p,k ≥1, p>n , k>m}
+
+[3] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 22-23
+4.5.2. Örnek 2
+Omek 2
+Baglamdan-bagimsiz Gs.4.2 dilbilgisi asagidaki gibi tanimlaniyor.
+Gs.4.2 = VN,VT,P, S >
+V = { S, D, E}
+Vt = { a, b, c }
+P:S ==>aaSIaaD
+D==>bEbccD
+E ==> bEbI c
+a) Gs.4.2 tarafindan taninan baglamdan-bagimsiz dilin (Ls.4.2) kume tanimini
+olusturunuz.
+b) Gs.42'yi Chomsky normal bicimine (CNF) donusturunuz. Donusturme
+sirasinda kullanacaginiz yeni degiskenleri A, B, C, ve X, Xz, X3, ... diye
+adlandiriniz. Olusturdugunuz CNF dilbilgisinin tanimini eksiksiz ve duzenli
+bicimde yaziniz.
+4.5.2. Cevap 2
+a) Ls.42 = { (aa) (cc)m b c b|  
+m20. k211
+n21,
+
+[4] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 26-27
+4.5.6. Örnek 6
+Omek 6
+Asagidaki baglamdan-bagimsiz her dilbilgisinin turettigi dilin kume tanimini
+veriniz.
+a) Gs.4.6.1 = ≤VN,VT,P, S >
+VN = {S,A, B, C}
+Vt = {a, b }
+P:S ==> aS|aA
+A==>aA|bB
+B ==>aBbC
+C ==> aC|a
+b)Gs.4.6.2 = <VN,VT,P. S >
+V= {S,X,Y}
+V = {a, b, c, d, e }
+P:S ==>aSeXY
+X==> aXc|b
+Y ==> cYe| d
+4.5.6. Cevap 6
+a) Ls.4.6.1 = { an b am b a* 
+k>1}
+m>0.
+n21
+b) Ls.4.6.2 = { am+m
+n b cm+k d ek+n
+1 n, m, k>0 }",
+30,Zor,"G4.3 dilbilgisinde X=>aXbb|aZbb|abb ve Z=>Zb|Xb kuralları birlikte çalışarak L(G4.3)={a^n b^m c^k | n≥1, k≥1, m≥2n} koşulunu nasıl sağlar?",8-Baglamdan_bagimsiz_dilbilgisi.pdf,Evet,"G4.3 dilbilgisinde X=>aXbb | aZbb | abb ve Z=>Zb | Xb kuralları birlikte çalışarak L(G4.3)={a^n b^m c^k | n≥1, k≥1, m≥2n} koşulunu şu şekilde sağlar: - **X=>aXbb | aZbb | abb** kuralı, a harfiyle başlayan ve b harfiyle biten bir yapı oluşturur. Bu kural, a harfiyle başlayan ve b harfiyle biten bir dizi oluştururken, her a harfi için en az iki b harfi ekler. Bu nedenle, a sayısı (n) arttıkça b sayısı (m) en az 2n olur.
+- **Z=>Zb | Xb** kuralı, Z ve X gibi non-terminal sembollerin b harfiyle biten yapılar oluşturmasını sağlar. Bu kural, b harfiyle biten yapıları artırarak m sayısı (b sayısı) daha da artırır.
+- Bu kuralların birlikte çalışması, a sayısı (n) arttıkça b sayısı (m) en az 2n olurken, c sayısı (k) ise Z ve X kuralı üzerinden artırılarak en az 1 olur. Bu da L(G4.3) = {a^n b^m c^k | n≥1, k≥1, m≥2n} koşulunu sağlar.",8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 5); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 6); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 4); 8-Baglamdan_bagimsiz_dilbilgisi.pdf (sayfa 24-25),24.49,"[1] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 5
+Örnek 4.3
+G4.3=<VN, VT, P, S>
+VN= { S, X, Y, Z}
+VT={a, b, c}
+P: S=> XY
+X=> aXbb |aZbb |abb
+Y=>cY |c
+Z=>Zb |Xb
+G4.3 tarafından türetilen tümcelerden biri bulunmak istendiğinde:
+S=> XY => abbY => abbcY =>abbcc
+S=>XY => aXbbY=> aaZbbbbY => aaZbbbbbY=> aaXbbbbbbY => aaabbbbbbbbY
+=>aaabbbbbbbbc
+Yukarıdaki örneklerden bu bağlamdan bağımsız dilbilgisi tarafından L(G4.2) dili
+aşağıdaki gibi tanımlanabilir:
+L(G4.3) ={anbmck | n≥1 , k≥1 m≥2n}
+
+[2] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 6
+Örnek 4.4
+G4.4=<VN, VT, P, S>
+VN= { S, A}
+VT={0, 1}
+P: S=> 0S0 | 1S1 |0A0 |1A1
+A=> 0A1 | 1A0 |01 |10
+G4.4 tarafından türetilen tümcelerden biri bulunmak istendiğinde:
+S=> 0S0 => 01A10 => 010A110 => 01010110
+S=> 0S0 => 01S10 => 011S110 => 0110A1110 => 01100A11110 => 011001011110
+S=> 0S0 => 00S00 => 000S000 => 0001A1000 => 00010A11000 => 000100A111000 =>
+0001000A1111000 => 00010001011111000
+Yukarıdaki örneklerden bu bağlamdan bağımsız dilbilgisi tarafından L(G4.2) dili aşağıdaki gibi
+tanımlanabilir:
+L(G4.3) ={uv(v’)RuR | u,v ε(0+1)*, |u|≥1, |v|≥1}
+uR u’nun tersi(reverse)
+(v’)R V’nin tümlerinin tersi
+
+[3] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 4
+Örnek 4.2
+G4.2=<VN, VT, P, S>
+VN= { S, A, B }
+VT={a, b, c, d}
+P: S=> aAdd
+A=> aAd |Ad |bBcc
+B=>bBc |Bc |λ
+G4.2 tarafından türetilen tümcelerden biri bulunmak istendiğinde:
+S=> aAdd =>abBccdd =>abccdd
+S=> aAdd =>aaAddd => aabBccddd =>aabccddd
+S=>aAdd =>aaAddd => aaAdddd => aaaAddddd=> aaabBccddddd =>
+aaabBccccdddddd = > aaabbccccddddd
+Yukarıdaki örneklerden bu bağlamdan bağımsız dilbilgisi tarafından L(G4.2) dili
+aşağıdaki gibi tanımlanabilir:
+L(G4.2) ={anbmckdp | n,m,p,k ≥1, p>n , k>m}
+
+[4] Kaynak: 8-Baglamdan_bagimsiz_dilbilgisi.pdf, sayfa 24-25
+4.5.5. Örnek 5
+Omek5
+Asagida tanimlanan baglamdan-bagimsiz dillerin her birini tureten baglamdan
+bagimsiz bir dilbilgisi tanimlayiniz.
+a)L 4.5.1 = { a2k bn c2n dk1k ≥ 1 , n ≥ 1 }
+b)L 4.52 = {an+m bk cm+k d2n I n , m , k ≥ 0 }
+4.5.5. Cevap 5
+a) G 4.5.1 = < VN, VT, P, S >
+VN={S,A}
+VT = {a, b, c, d }
+P :S  aaSdIaaAd
+A=bAcc|bcc
+b) G 4.5.2 = < Vn, Vt, P, S >
+VN ={S,A,B }
+V = { a, b, c, d }
+P:S aSdd|A
+A=aAc|B
+B=bBc|1",

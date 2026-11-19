@@ -1,0 +1,14 @@
+﻿id,zorluk,soru,beklenen_kaynak,dokumanda_var_mi
+61,Kolay,Fourier dönüşümünün ileri yöndeki (forward) tanımı X(jω) hangi integral ile verilir?,lsarSist-H8_FourierTransform.pdf,Evet
+62,Kolay,Ters Fourier dönüşümü (inverse direction) formülünde 1/2π çarpanı nerede yer alır?,lsarSist-H8_FourierTransform.pdf,Evet
+69,Orta,rect(t/τ) işaretinin Fourier dönüşümünün sinc fonksiyonu ile ifade edilme süreci nasıl gerçekleşir?,lsarSist-H8_FourierTransform.pdf,Evet
+71,Orta,Nedensel üstel işaretin Fourier dönüşümü türetilirken lim(t→∞) e^{-at}e^{-jωt} teriminin sıfıra gitmesi neden Re{a}>0 koşuluna bağlıdır?,lsarSist-H8_FourierTransform.pdf,Evet
+73,Orta,Nedensel üstel işaretin Fourier dönüşümünün faz açısı ∠X(jω) hangi ifade ile hesaplanır?,lsarSist-H8_FourierTransform.pdf,Evet
+74,Orta,"Fourier dönüşümünün ""memoryless"", ""causal"" ve ""linear"" sistem özellikleriyle ilişkisi nasıl açıklanmıştır?",lsarSist-H8_FourierTransform.pdf,Evet
+76,Orta,Duallik (duality) özelliği ileri ve ters dönüşümlerin benzerliğinden nasıl yararlanmaktadır?,lsarSist-H8_FourierTransform.pdf,Evet
+83,Orta,Sinüzoidal genlik modülasyonunda (y(t)=f(t)cos(ω0t)) elde edilen Y(ω) ifadesi F(ω) cinsinden nasıl yazılır?,lsarSist-H8_FourierTransform.pdf,Evet
+84,Orta,Sinüzoidal genlik modülasyonunda demodülasyon (f(t)'nin geri kazanılması) hangi iki adımdan oluşur?,lsarSist-H8_FourierTransform.pdf,Evet
+85,Orta,Frekans-kaydırma özelliğine göre e^{jω0t}f(t) işaretinin Fourier dönüşümü F(ω) cinsinden nasıl ifade edilir?,lsarSist-H8_FourierTransform.pdf,Evet
+86,Orta,cos(ω0t)f(t) işaretinin frekans-kaydırma özelliği kullanılarak elde edilen Fourier dönüşümü hangi iki terimin toplamı şeklindedir?,lsarSist-H8_FourierTransform.pdf,Evet
+87,Zor,Nedensel üstel işaretin genlik yanıtı |X(jω)|=1/√(Re{a}²+(ω+Im{a})²) ifadesinde Re{a} ve Im{a} terimleri fiziksel olarak neyi temsil eder ve a=1 için genlik-faz grafiklerinin şekli nasıl yorumlanır?,lsarSist-H8_FourierTransform.pdf,Evet
+88,Zor,F{1}=2πδ(ω) sonucunun elde edilme sürecinde ters Fourier dönüşümü tanımı ile sifting property arasındaki matematiksel bağlantı adım adım nasıl kurulmuştur?,lsarSist-H8_FourierTransform.pdf,Evet

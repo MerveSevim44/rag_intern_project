@@ -1,0 +1,4 @@
+id,zorluk,kategori,soru,beklenen_kaynak,dokumanda_var_mi,referans_cevap,cevap,bulunan_kaynaklar,sure_sn,context,dogrulama_durumu
+231,Negatif,Zamansal Uyumsuzluk,airports.json veri setinin 2026 güncellemesinde eklenen havaalanları hangileridir?,-,Hayır,Bu bilgi dokümanlarda bulunamadı.,Bu bilgi dokümanlarda bulunamadı; belirtilen koşullara uyan kayıt yok.,airports.json (code_interpreter (code_interpreter_sandbox)),9.72,"[1] Kaynak: airports.json, code_interpreter (code_interpreter_sandbox)
+[KAYIT BULUNAMADI]
+Sorgu veri seti uzerinde calistirildi ancak belirtilen filtreye uyan HICBIR KAYIT (0 satir) bulunamadi. Sorulan varlik (hesap, sehir, tarih vb.) veri setinde mevcut degil.",ok

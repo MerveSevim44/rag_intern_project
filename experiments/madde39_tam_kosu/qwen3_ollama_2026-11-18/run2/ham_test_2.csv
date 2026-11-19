@@ -1,0 +1,303 @@
+id,zorluk,soru,beklenen_kaynak,dokumanda_var_mi,cevap,bulunan_kaynaklar,sure_sn,context,dogrulama_durumu
+41,Orta,"searchKeywords dizisi bir profildeki hangi diğer alanlardan (sector, occupation, services, location) türetilmiş görünmektedir?",728_profiles.json,Evet,"`searchKeywords` dizisi, profildeki **sector**, **occupation**, **services** ve **location** alanlarından türetilmiştir. Bu kelimeler, ilgili profilde belirtilen alanlara göre oluşturulmuş arama anahtar kelimeleridir. Örneğin, ""Teknoloji ve Yazılım"" (`sector`), ""Veri Bilimi Danışmanı"" (`occupation`), ""Proje keşif görüşmesi"" ve ""Veri stratejisi görüşmesi"" (`services`), ""İstanbul"", ""Mersin"", ""Kayseri"" ve ""Kocaeli"" gibi yer bilgileri (`location`) kullanılarak oluşturulmuştur.",728_profiles.json ($.profiles[396]); 728_profiles.json ($.profiles[397]); 728_profiles.json ($.profiles[393]); 728_profiles.json ($.profiles[395]),62.2,"[1] Kaynak: 728_profiles.json, $.profiles[396]
+profileCode: DB-2MA65X8Z
+synthetic: True
+profileType: individual
+displayName: Beyza Aslan
+professionalName: Beyza Aslan
+sector: Teknoloji ve Yazılım
+occupation: Veri Bilimi Danışmanı
+headline: Veri analitiği ve makine öğrenmesi proje danışmanlığı
+location.country: Türkiye
+location.city: İstanbul
+location.district: Beylikdüzü
+location.serviceArea: Türkiye geneli (online)
+location.exactAddressPublic: False
+serviceModes[0]: Online
+services[0].name: Proje keşif görüşmesi
+services[0].durationMinutes: 60
+services[0].appointmentMode: Online
+services[1].name: Veri stratejisi görüşmesi
+services[1].durationMinutes: 45
+services[1].appointmentMode: Online
+experience.years: 13
+experience.credentialSummary: Veri bilimi alanında eğitim ve deneyim
+languages[0]: Türkçe
+appointmentSettings.defaultDurationMinutes: 45
+appointmentSettings.minimumNoticeHours: 6
+appointmentSettings.cancellationNoticeHours: 24
+searchKeywords[0]: Beylikdüzü
+searchKeywords[1]: Proje keşif görüşmesi
+searchKeywords[2]: Teknoloji ve Yazılım
+searchKeywords[3]: Veri Bilimi Danışmanı
+searchKeywords[4]: Veri stratejisi görüşmesi
+searchKeywords[5]: İstanbul
+about: 13 yıllık deneyimimle veri bilimi danışmanı alanında bireysel hizmet sunuyorum. İlk görüşmede ihtiyacı değerlendiriyor, sonraki adımları açık ve planlı biçimde belirliyorum.
+services[0].description: Proje keşif görüşmesi için önceden planlanan birebir randevu.
+services[1].description: Veri stratejisi görüşmesi için önceden planlanan birebir randevu. […kısaltıldı]
+
+[2] Kaynak: 728_profiles.json, $.profiles[397]
+profileCode: DB-MR88GBNQ
+synthetic: True
+profileType: individual
+displayName: Gökçe Efe
+professionalName: Gökçe Efe
+sector: Teknoloji ve Yazılım
+occupation: Veri Bilimi Danışmanı
+location.country: Türkiye
+location.city: Mersin
+location.district: Yenişehir
+location.serviceArea: Türkiye geneli (online)
+location.exactAddressPublic: False
+services[0].name: Proje keşif görüşmesi
+services[0].durationMinutes: 45
+services[0].appointmentMode: Online
+services[1].name: Model değerlendirme
+services[1].durationMinutes: 45
+services[1].description: Model değerlendirme için önceden planlanan birebir randevu.
+services[1].appointmentMode: Online
+services[2].name: Veri stratejisi görüşmesi
+services[2].durationMinutes: 60
+services[2].appointmentMode: Online
+experience.credentialSummary: Veri bilimi alanında eğitim ve deneyim
+searchKeywords[0]: Mersin
+searchKeywords[1]: Model değerlendirme
+searchKeywords[2]: Proje keşif görüşmesi
+searchKeywords[3]: Teknoloji ve Yazılım
+searchKeywords[4]: Veri Bilimi Danışmanı
+searchKeywords[5]: Veri stratejisi görüşmesi
+searchKeywords[6]: Yenişehir
+about: Yenişehir, Mersin merkezli olarak veri bilimi danışmanı alanında 19 yıldır çalışıyorum. Randevularımı düzenli, zamanında ve ihtiyaca göre yapılandırılmış şekilde yürütüyorum.
+services[0].description: Proje keşif görüşmesi için önceden planlanan birebir randevu.
+services[2].description: Veri stratejisi görüşmesi için önceden planlanan birebir randevu. […kısaltıldı]
+
+[3] Kaynak: 728_profiles.json, $.profiles[393]
+profileCode: DB-GEUFBB5C
+synthetic: True
+profileType: individual
+displayName: Derya Karaca
+professionalName: Derya Karaca
+sector: Teknoloji ve Yazılım
+occupation: Veri Bilimi Danışmanı
+location.country: Türkiye
+location.city: Kayseri
+location.district: Talas
+location.serviceArea: Türkiye geneli (online)
+location.exactAddressPublic: False
+services[0].name: Proje keşif görüşmesi
+services[0].durationMinutes: 90
+services[0].appointmentMode: Online
+services[1].name: Veri stratejisi görüşmesi
+services[1].durationMinutes: 60
+services[1].appointmentMode: Online
+services[2].name: Model değerlendirme
+services[2].durationMinutes: 45
+services[2].description: Model değerlendirme için önceden planlanan birebir randevu.
+services[2].appointmentMode: Online
+experience.credentialSummary: Veri bilimi alanında eğitim ve deneyim
+searchKeywords[0]: Kayseri
+searchKeywords[1]: Model değerlendirme
+searchKeywords[2]: Proje keşif görüşmesi
+searchKeywords[3]: Talas
+searchKeywords[4]: Teknoloji ve Yazılım
+searchKeywords[5]: Veri Bilimi Danışmanı
+searchKeywords[6]: Veri stratejisi görüşmesi
+about: 15 yıllık deneyimimle veri bilimi danışmanı alanında bireysel hizmet sunuyorum. İlk görüşmede ihtiyacı değerlendiriyor, sonraki adımları açık ve planlı biçimde belirliyorum.
+services[0].description: Proje keşif görüşmesi için önceden planlanan birebir randevu.
+services[1].description: Veri stratejisi görüşmesi için önceden planlanan birebir randevu. […kısaltıldı]
+
+[4] Kaynak: 728_profiles.json, $.profiles[395]
+profileCode: DB-D44RAXGA
+synthetic: True
+profileType: individual
+displayName: İlayda Aksoy
+professionalName: İlayda Aksoy
+sector: Teknoloji ve Yazılım
+occupation: Veri Bilimi Danışmanı
+location.country: Türkiye
+location.city: Kocaeli
+location.district: Kartepe
+location.serviceArea: Türkiye geneli (online)
+location.exactAddressPublic: False
+services[0].name: Proje keşif görüşmesi
+services[0].durationMinutes: 60
+services[0].appointmentMode: Online
+services[1].name: Veri stratejisi görüşmesi
+services[1].durationMinutes: 90
+services[1].appointmentMode: Online
+services[2].name: Model değerlendirme
+services[2].durationMinutes: 90
+services[2].description: Model değerlendirme için önceden planlanan birebir randevu.
+services[2].appointmentMode: Online
+experience.credentialSummary: Veri bilimi alanında eğitim ve deneyim
+searchKeywords[0]: Kartepe
+searchKeywords[1]: Kocaeli
+searchKeywords[2]: Model değerlendirme
+searchKeywords[3]: Proje keşif görüşmesi
+searchKeywords[4]: Teknoloji ve Yazılım
+searchKeywords[5]: Veri Bilimi Danışmanı
+searchKeywords[6]: Veri stratejisi görüşmesi
+about: Kartepe, Kocaeli merkezli olarak veri bilimi danışmanı alanında 8 yıldır çalışıyorum. Randevularımı düzenli, zamanında ve ihtiyaca göre yapılandırılmış şekilde yürütüyorum.
+services[0].description: Proje keşif görüşmesi için önceden planlanan birebir randevu.
+services[1].description: Veri stratejisi görüşmesi için önc […kısaltıldı]",
+43,Orta,experience.credentialSummary alanı occupation türüne göre nasıl değişmektedir; Aile Hekimliği Uzmanı ile Yetenek Yönetimi Uzmanı örnekleri üzerinden karşılaştırın.,728_profiles.json,Evet,"Aile Hekimliği Uzmanı ve Yetenek Yönetimi Uzmanı örnekleri için ""experience.credentialSummary"" alanı, occupation türüne göre farklılık göstermektedir. Ancak, veri setinde ""Tıp eğitimi ve uzmanlık"" ile ""Yetenek yönetimi deneyimi"" alanlarında eşit puanlama yapılmıştır (her ikisi de 8). Bu durum, iki farklı alanın da benzer şekilde değerlendirildiğini göstermektedir.",728_profiles.json (code_interpreter (code_interpreter_sandbox)),7.15,"[1] Kaynak: 728_profiles.json, code_interpreter (code_interpreter_sandbox)
+[KESİN HESAPLAMA SONUCU]
+""Tıp eğitimi ve uzmanlık"" ile ""Yetenek yönetimi deneyimi"" alanlarında eşit puanlama yapılmıştır (her ikisi de 8).",ok
+45,Orta,slug alanı displayName ve profileCode alanlarından nasıl bir kurala göre oluşturulmuş görünmektedir? Örnek profil üzerinden gösterin.,728_profiles.json,Evet,"örnek_1 ve örnek_2'de slug, displayName'dan boşluk yerine alt tire kullanılarak oluşturulmuş ve profileCode ile birleştirilmiştir.",728_profiles.json (code_interpreter (code_interpreter_sandbox)),19.85,"[1] Kaynak: 728_profiles.json, code_interpreter (code_interpreter_sandbox)
+[KESİN HESAPLAMA SONUCU]
+örnek_1 ve örnek_2'de slug, displayName'dan boşluk yerine alt tire kullanılarak oluşturulmuş ve profileCode ile birleştirilmiştir.",ok
+47,Orta,"fieldGuide bölümündeki 'publicContact' açıklaması ile örnek profillerdeki publicContact nesnesinin (phone:null, email:null) içeriği birbiriyle tutarlı mıdır?",728_profiles.json,Evet,"Evet, fieldGuide bölümündeki 'publicContact' açıklaması ile örnek profillerdeki publicContact nesnesinin içeriği birbiriyle tutarlıdır. fieldGuide bölümünde belirtildiği gibi, ""publicContact: Public contact visibility; intentionally no real phone/email"" ifadesi, profillerdeki publicContact nesnesinin (phone:null, email:null) içeriğini doğrular. Bu, gerçek telefon ve e-posta bilgilerinin gizli tutulması gerektiğini gösterir.",728_profiles.json ($.fieldGuide); 728_profiles.json ($.profiles[469]); 728_profiles.json ($.profiles[314]); 728_profiles.json ($.profiles[717]),25.23,"[1] Kaynak: 728_profiles.json, $.fieldGuide
+displayName: Public-facing profile/business name.
+professionalName: Synthetic responsible professional name.
+sector: Primary appointment sector.
+occupation: Service provider role.
+headline: Short public profile headline.
+about: Short realistic profile description.
+location: Country/city/district and service area; no exact address.
+serviceModes: Face-to-face, online or on-site mode.
+services: Appointment services with duration and short description.
+appointmentSettings: Duration, notice, cancellation and auto-approval settings.
+weeklyAvailability: Representative weekly working hours.
+displayName: Public-facing profile/business name.
+professionalName: Synthetic responsible professional name.
+sector: Primary appointment sector.
+occupation: Service provider role.
+headline: Short public profile headline.
+about: Short realistic profile description.
+location: Country/city/district and service area; no exact address.
+serviceModes: Face-to-face, online or on-site mode.
+services: Appointment services with duration and short description.
+appointmentSettings: Duration, notice, cancellation and auto-approval settings.
+weeklyAvailability: Representative weekly working hours.
+profileCode: Synthetic DateBind-style identifier; does not imply a live account.
+publicContact: Public contact visibility; intentionally no real phone/email.
+
+[2] Kaynak: 728_profiles.json, $.profiles[469]
+profileCode: DB-H23AAHY7
+synthetic: True
+profileType: individual
+displayName: Oğuz Taş
+professionalName: Oğuz Taş
+sector: İş ve Kariyer
+occupation: Girişim Mentoru
+headline: Erken aşama girişimler için birebir mentorluk
+location.country: Türkiye
+location.city: İstanbul
+location.district: Başakşehir
+location.serviceArea: Türkiye geneli (online)
+location.exactAddressPublic: False
+serviceModes[0]: Online
+services[0].name: Pazar doğrulama
+services[0].durationMinutes: 60
+services[0].description: Pazar doğrulama için önceden planlanan birebir randevu.
+services[0].appointmentMode: Online
+services[1].name: Yol haritası görüşmesi
+services[1].durationMinutes: 45
+services[1].appointmentMode: Online
+experience.years: 10
+experience.credentialSummary: Girişimcilik ve iş geliştirme deneyimi
+languages[0]: Türkçe
+appointmentSettings.defaultDurationMinutes: 45
+appointmentSettings.minimumNoticeHours: 24
+appointmentSettings.cancellationNoticeHours: 6
+appointmentSettings.autoApproveRequests: False
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 09:00
+weeklyAvailability[0].end: 17:00
+weeklyAvailability[1].day: Salı
+weeklyAvailability[1].active: True
+weeklyAvailability[1].start: 09:00
+weeklyAvailability[1].end: 17:00
+weeklyAvailability[2].day: Çarşamba
+weeklyAvailability[2].active: True
+weeklyAvailability[2].start: 09:00
+weeklyAvailability[2].end: 17:00
+publicContact.phoneVisible: False
+publicContact.emailVisible: False […kısaltıldı]
+
+[3] Kaynak: 728_profiles.json, $.profiles[314]
+profileCode: DB-TEGJDSPB
+synthetic: True
+profileType: individual
+displayName: Pınar Yıldız
+professionalName: Pınar Yıldız
+sector: Dil Eğitimi
+occupation: İngilizce Öğretmeni
+headline: Birebir İngilizce konuşma ve akademik destek
+location.country: Türkiye
+location.city: Ankara
+location.district: Yenimahalle
+location.serviceArea: Türkiye geneli (online)
+location.exactAddressPublic: False
+serviceModes[0]: Online
+services[0].name: Konuşma dersi
+services[0].durationMinutes: 45
+services[0].description: Konuşma dersi için önceden planlanan birebir randevu.
+services[0].appointmentMode: Online
+services[1].name: Okul destek dersi
+services[1].durationMinutes: 45
+services[1].description: Okul destek dersi için önceden planlanan birebir randevu.
+services[1].appointmentMode: Online
+experience.years: 5
+experience.credentialSummary: İngilizce öğretmenliği veya dil eğitimi
+languages[0]: Türkçe
+appointmentSettings.defaultDurationMinutes: 45
+appointmentSettings.minimumNoticeHours: 4
+appointmentSettings.cancellationNoticeHours: 24
+appointmentSettings.autoApproveRequests: False
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 17:00
+weeklyAvailability[0].end: 21:00
+weeklyAvailability[1].day: Salı
+weeklyAvailability[1].active: True
+weeklyAvailability[1].start: 17:00
+weeklyAvailability[1].end: 21:00
+weeklyAvailability[2].day: Çarşamba
+publicContact.phoneVisible: False
+publicContact.emailVisible: False […kısaltıldı]
+
+[4] Kaynak: 728_profiles.json, $.profiles[717]
+profileCode: DB-GLATFT7V
+synthetic: True
+profileType: individual
+displayName: Derya Tunç
+professionalName: Derya Tunç
+sector: İşe Alım ve Görüşme
+occupation: Staj Programı Koordinatörü
+headline: Stajyer adaylarıyla birebir görüşmeler
+location.country: Türkiye
+location.city: Denizli
+location.district: Pamukkale
+location.serviceArea: Türkiye geneli (online)
+location.exactAddressPublic: False
+serviceModes[0]: Online
+services[0].name: Program bilgilendirme
+services[0].durationMinutes: 45
+services[0].appointmentMode: Online
+services[1].name: Değerlendirme görüşmesi
+services[1].durationMinutes: 30
+services[1].appointmentMode: Online
+experience.years: 18
+experience.credentialSummary: İşe alım ve genç yetenek programı deneyimi
+languages[0]: Türkçe
+appointmentSettings.defaultDurationMinutes: 30
+appointmentSettings.minimumNoticeHours: 24
+appointmentSettings.cancellationNoticeHours: 12
+appointmentSettings.autoApproveRequests: True
+weeklyAvailability[0].day: Pazartesi
+weeklyAvailability[0].active: True
+weeklyAvailability[0].start: 09:00
+weeklyAvailability[0].end: 17:00
+weeklyAvailability[1].day: Salı
+weeklyAvailability[1].active: True
+weeklyAvailability[1].start: 09:00
+weeklyAvailability[1].end: 17:00
+weeklyAvailability[2].day: Çarşamba
+weeklyAvailability[2].active: True
+weeklyAvailability[2].start: 09:00
+weeklyAvailability[2].end: 17:00
+weeklyAvailability[3].day: Perşembe
+publicContact.phoneVisible: False
+publicContact.emailVisible: False […kısaltıldı]",

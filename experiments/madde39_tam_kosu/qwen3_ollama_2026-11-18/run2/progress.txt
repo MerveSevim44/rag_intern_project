@@ -1,0 +1,6 @@
+16:39:45 basla run=run2 kritik=True
+16:41:37 test_1: kod=0 satir=2/2 hata=[] sure=102s
+16:43:54 test_2: kod=0 satir=4/4 hata=[] sure=128s
+16:48:27 test_3: kod=0 satir=13/13 hata=[] sure=264s
+16:48:57 test_negative: kod=0 satir=1/1 hata=[] sure=21s
+16:49:04 BITTI
